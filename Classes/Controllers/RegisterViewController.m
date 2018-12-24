@@ -9,13 +9,12 @@
 #import <DIMCore/DIMCore.h>
 
 #import "Facebook.h"
-#import "RegisterInfo.h"
 
 #import "RegisterViewController.h"
 
 @interface RegisterViewController () {
     
-    NSMutableArray<RegisterInfo *> *_registerInfos;
+    NSMutableArray<DIMRegisterInfo *> *_registerInfos;
 }
 
 @end
@@ -29,7 +28,7 @@
     _registerInfos = [[NSMutableArray alloc] init];
 }
 
-- (void)_addRegisterInfo:(RegisterInfo *)info {
+- (void)_addRegisterInfo:(DIMRegisterInfo *)info {
     [_registerInfos addObject:info];
     [self.accountsTableView reloadData];
 }
@@ -43,20 +42,12 @@
         cnt = 10;
     }
     
-    RegisterInfo *info;
+    DIMRegisterInfo *info;
+    DIMPrivateKey *SK;
     
     for (NSInteger index = 0; index < cnt; ++index) {
-        info = [[RegisterInfo alloc] init];
-        info.nickname = nickname;
-        info.username = username;
-        
-        info.SK = [[DIMPrivateKey alloc] init];
-        info.PK = info.SK.publicKey;
-        info.meta = [[DIMMeta alloc] initWithSeed:username
-                                       privateKey:info.SK
-                                        publicKey:info.PK];
-        info.ID = [info.meta buildIDWithNetworkID:MKMNetwork_Main];
-        info.user = [[DIMUser alloc] initWithID:info.ID publicKey:info.PK];
+        SK = [[DIMPrivateKey alloc] init];
+        info = [DIMUser registerWithName:username privateKey:SK publicKey:nil];
         info.user.name = nickname;
         
         NSLog(@"generated register info: %@", info);
@@ -117,7 +108,7 @@
     NSInteger row = indexPath.row;
     
     // Configure the cell...
-    RegisterInfo *info = [_registerInfos objectAtIndex:row];
+    DIMRegisterInfo *info = [_registerInfos objectAtIndex:row];
     DIMUser *user = info.user;
     
     cell.textLabel.text = account_title(user);

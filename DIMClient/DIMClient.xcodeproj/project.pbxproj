@@ -28,7 +28,6 @@
 		E9F3AB8621CFF69B009690F6 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3AB8521CFF69B009690F6 /* ChatViewController.m */; };
 		E9F3ABB121D07907009690F6 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3ABAE21D078F7009690F6 /* DIMCore.framework */; };
 		E9F3ABC221D0877A009690F6 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3ABC121D0877A009690F6 /* RegisterViewController.m */; };
-		E9F3ABC521D0F99F009690F6 /* RegisterInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3ABC421D0F99F009690F6 /* RegisterInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,8 +98,6 @@
 		E9F3ABA621D078F7009690F6 /* DIMCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMCore.xcodeproj; path = "../../core-objc/DIMCore/DIMCore.xcodeproj"; sourceTree = "<group>"; };
 		E9F3ABC021D0877A009690F6 /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		E9F3ABC121D0877A009690F6 /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		E9F3ABC321D0F99F009690F6 /* RegisterInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterInfo.h; sourceTree = "<group>"; };
-		E9F3ABC421D0F99F009690F6 /* RegisterInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterInfo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,8 +208,6 @@
 			children = (
 				E9F3AAF221CC120D009690F6 /* Facebook.h */,
 				E9F3AAF421CC120D009690F6 /* Facebook.m */,
-				E9F3ABC321D0F99F009690F6 /* RegisterInfo.h */,
-				E9F3ABC421D0F99F009690F6 /* RegisterInfo.m */,
 				E9F3AAF121CC120D009690F6 /* MessageProcessor.h */,
 				E9F3AAF321CC120D009690F6 /* MessageProcessor.m */,
 			);
@@ -420,7 +415,6 @@
 				E9F3AB7321CFC6C8009690F6 /* ContactsTableViewController.m in Sources */,
 				E9F3AB7621CFCCDF009690F6 /* ProfileTableViewController.m in Sources */,
 				E9F3ABC221D0877A009690F6 /* RegisterViewController.m in Sources */,
-				E9F3ABC521D0F99F009690F6 /* RegisterInfo.m in Sources */,
 				E9F3AAAB21CC0ED3009690F6 /* AppDelegate.m in Sources */,
 				E9F3AB7D21CFDAFC009690F6 /* AccountTableViewController.m in Sources */,
 				E9F3AABC21CC0ED4009690F6 /* main.m in Sources */,
