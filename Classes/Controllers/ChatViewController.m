@@ -75,15 +75,24 @@
     }];
 }
 
+- (void)_hideKeyboard {
+    [self.view endEditing:YES];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    
+    [self _hideKeyboard];
+}
+
 - (IBAction)send:(id)senderObject {
     NSString *text = _inputTextField.text;
     if (text.length == 0) {
         NSLog(@"empty");
         return;
     }
-    // hide keyboard
-    [self.view endEditing:YES];
     
+    [self _hideKeyboard];
+
     NSLog(@"send text: %@", text);
     
     DIMUser *user = [DIMClient sharedInstance].currentUser;

@@ -65,8 +65,8 @@
         NSLog(@"nickname & username cannot be empty");
         return;
     }
-    // hide keyboard
-    [self.view endEditing:YES];
+    
+    [self _hideKeyboard];
     
     NSLog(@"generate with %@(%@)", username, nickname);
     
@@ -86,6 +86,15 @@
     [self dismissViewControllerAnimated:YES completion:^{
         //
     }];
+}
+
+- (void)_hideKeyboard {
+    [self.view endEditing:YES];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    
+    [self _hideKeyboard];
 }
 
 #pragma mark - Table view data source
