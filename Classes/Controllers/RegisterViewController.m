@@ -58,7 +58,6 @@
 }
 
 - (IBAction)generateAccounts:(id)senderObject {
-    
     NSString *nickname = _nicknameTextField.text;
     NSString *username = _usernameTextField.text;
     
@@ -66,6 +65,8 @@
         NSLog(@"nickname & username cannot be empty");
         return;
     }
+    // hide keyboard
+    [self.view endEditing:YES];
     
     NSLog(@"generate with %@(%@)", username, nickname);
     

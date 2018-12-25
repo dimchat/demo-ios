@@ -81,6 +81,8 @@
         NSLog(@"empty");
         return;
     }
+    // hide keyboard
+    [self.view endEditing:YES];
     
     NSLog(@"send text: %@", text);
     

@@ -27,6 +27,18 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    [dc addObserver:self
+           selector:@selector(reloadData)
+               name:@"MessageUpdate"
+             object:nil];
+}
+
+- (void)reloadData {
+    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+    [msgDB reloadData];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -40,19 +52,23 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //#warning Incomplete implementation, return the number of rows
     
-    MessageProcessor *mp = [MessageProcessor sharedInstance];
-    return [mp numberOfConversations];
+    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+    return [msgDB numberOfConversations];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // fix a bug with UISearchBar
+    tableView = self.tableView;
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ConversationCell" forIndexPath:indexPath];
     
     //NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
     // Configure the cell...
-    MessageProcessor *mp = [MessageProcessor sharedInstance];
-    DIMConversation *chat = [mp conversationAtIndex:row];
+    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+    DIMConversation *chat = [msgDB conversationAtIndex:row];
     
     DIMEntity *entity;
     if (MKMNetwork_IsPerson(chat.ID.type)) {

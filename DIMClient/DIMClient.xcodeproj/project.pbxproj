@@ -26,8 +26,13 @@
 		E9F3AB7D21CFDAFC009690F6 /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3AB7C21CFDAFC009690F6 /* AccountTableViewController.m */; };
 		E9F3AB8321CFF3AE009690F6 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3AB8221CFF3AE009690F6 /* ConversationsTableViewController.m */; };
 		E9F3AB8621CFF69B009690F6 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3AB8521CFF69B009690F6 /* ChatViewController.m */; };
-		E9F3ABB121D07907009690F6 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3ABAE21D078F7009690F6 /* DIMCore.framework */; };
 		E9F3ABC221D0877A009690F6 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3ABC121D0877A009690F6 /* RegisterViewController.m */; };
+		E9F3ABD721D1B9EB009690F6 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3ABAE21D078F7009690F6 /* DIMCore.framework */; };
+		E9F3ABD821D1B9EB009690F6 /* DIMCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3ABAE21D078F7009690F6 /* DIMCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9F3ABDD21D1BA7C009690F6 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3ABDC21D1BA7C009690F6 /* DaoKeDao.framework */; };
+		E9F3ABDE21D1BA7C009690F6 /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3ABDC21D1BA7C009690F6 /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9F3ABE021D1BA9F009690F6 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3ABDF21D1BA9F009690F6 /* MingKeMing.framework */; };
+		E9F3ABE121D1BA9F009690F6 /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9F3ABDF21D1BA9F009690F6 /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +65,22 @@
 			remoteInfo = DIMCoreTests;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E9F3ABDB21D1B9EB009690F6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E9F3ABDE21D1BA7C009690F6 /* DaoKeDao.framework in Embed Frameworks */,
+				E9F3ABD821D1B9EB009690F6 /* DIMCore.framework in Embed Frameworks */,
+				E9F3ABE121D1BA9F009690F6 /* MingKeMing.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E9F3AAA621CC0ED2009690F6 /* DIMClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIMClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +119,8 @@
 		E9F3ABA621D078F7009690F6 /* DIMCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMCore.xcodeproj; path = "../../core-objc/DIMCore/DIMCore.xcodeproj"; sourceTree = "<group>"; };
 		E9F3ABC021D0877A009690F6 /* RegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		E9F3ABC121D0877A009690F6 /* RegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		E9F3ABDC21D1BA7C009690F6 /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9F3ABDF21D1BA9F009690F6 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +128,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9F3ABB121D07907009690F6 /* DIMCore.framework in Frameworks */,
+				E9F3ABE021D1BA9F009690F6 /* MingKeMing.framework in Frameworks */,
+				E9F3ABDD21D1BA7C009690F6 /* DaoKeDao.framework in Frameworks */,
+				E9F3ABD721D1B9EB009690F6 /* DIMCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +154,8 @@
 		E9F3AA9D21CC0ED2009690F6 = {
 			isa = PBXGroup;
 			children = (
+				E9F3ABDF21D1BA9F009690F6 /* MingKeMing.framework */,
+				E9F3ABDC21D1BA7C009690F6 /* DaoKeDao.framework */,
 				E9F3ABA621D078F7009690F6 /* DIMCore.xcodeproj */,
 				E9F3AAEF21CC120D009690F6 /* Classes */,
 				E9F3AAF521CC120D009690F6 /* Resources */,
@@ -261,6 +288,7 @@
 				E9F3AAA221CC0ED2009690F6 /* Sources */,
 				E9F3AAA321CC0ED2009690F6 /* Frameworks */,
 				E9F3AAA421CC0ED2009690F6 /* Resources */,
+				E9F3ABDB21D1B9EB009690F6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -626,6 +654,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4N8627W97S;
 				INFOPLIST_FILE = DIMClient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -643,6 +672,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4N8627W97S;
 				INFOPLIST_FILE = DIMClient/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -50,7 +50,7 @@
             
         case 1:
             // Starred Friends
-            return 0;
+            return 2;
             break;
             
         case 2:
@@ -88,6 +88,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // fix a bug with UISearchBar
+    tableView = self.tableView;
+    
     UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     NSString *identifier = nil;
     
@@ -130,6 +134,17 @@
             
         case 1:
             // Starred Friends
+            if (row == 0) {
+                ID = [DIMID IDWithID:MKM_MONKEY_KING_ID];
+            } else {
+                ID = [DIMID IDWithID:MKM_IMMORTAL_HULK_ID];
+            }
+            contact = [fb contactWithID:ID];
+            
+            identifier = @"ContactCell";
+            cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+            cell.textLabel.text = contact.name;
+            cell.detailTextLabel.text = contact.ID;
             break;
             
         case 2:
