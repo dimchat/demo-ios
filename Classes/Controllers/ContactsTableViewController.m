@@ -104,7 +104,7 @@
     Facebook *fb = [Facebook sharedInstance];
     
     DIMID *ID = nil;
-    DIMContact *contact = nil;
+    DIMAccount *contact = nil;
     
     switch (section) {
         case 0:
@@ -139,7 +139,7 @@
             } else {
                 ID = [DIMID IDWithID:MKM_IMMORTAL_HULK_ID];
             }
-            contact = [fb contactWithID:ID];
+            contact = [fb accountWithID:ID];
             
             identifier = @"ContactCell";
             cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
@@ -150,7 +150,7 @@
         case 2:
             // Contacts
             ID = [fb user:user contactAtIndex:row];
-            contact = [fb contactWithID:ID];
+            contact = [fb accountWithID:ID];
             
             identifier = @"ContactCell";
             cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
@@ -211,7 +211,7 @@
         DIMID *ID = [DIMID IDWithID:cell.detailTextLabel.text];
         
         ProfileTableViewController *profileTVC = segue.destinationViewController;
-        profileTVC.contact = MKMContactWithID(ID);
+        profileTVC.account = MKMAccountWithID(ID);
     }
     
 }

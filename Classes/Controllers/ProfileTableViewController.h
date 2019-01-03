@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ProfileTableViewController : UITableViewController
 
-@property (strong, nonatomic) DIMContact *contact;
+@property (strong, nonatomic) DIMAccount *account;
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descLabel;

@@ -72,7 +72,7 @@
     
     DIMEntity *entity;
     if (MKMNetwork_IsPerson(chat.ID.type)) {
-        entity = MKMContactWithID(chat.ID);
+        entity = MKMAccountWithID(chat.ID);
     } else if (MKMNetwork_IsGroup(chat.ID.type)) {
         entity = MKMGroupWithID(chat.ID);
     }

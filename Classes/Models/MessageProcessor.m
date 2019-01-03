@@ -230,7 +230,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (DIMConversation *)conversationWithID:(const MKMID *)ID {
     MKMEntity *entity = nil;
     if (MKMNetwork_IsPerson(ID.type)) {
-        entity = MKMContactWithID(ID);
+        entity = MKMAccountWithID(ID);
     } else if (MKMNetwork_IsGroup(ID.type)) {
         entity = MKMGroupWithID(ID);
     }

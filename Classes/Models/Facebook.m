@@ -116,9 +116,9 @@ SingletonImplementations(Facebook, sharedInstance)
         
         // delegates
         MKMBarrack *barrack = [MKMBarrack sharedInstance];
+        barrack.accountDelegate    = self;
         barrack.userDataSource     = self;
         barrack.userDelegate       = self;
-        barrack.contactDelegate    = self;
         barrack.groupDataSource    = self;
         barrack.groupDelegate      = self;
         barrack.memberDelegate     = self;
@@ -157,9 +157,28 @@ SingletonImplementations(Facebook, sharedInstance)
     return ID;
 }
 
+#pragma mark - MKMAccountDelegate
+
+- (MKMAccount *)accountWithID:(const MKMID *)ID {
+    MKMAccount *contact = [_immortals accountWithID:ID];
+    if (contact) {
+        return contact;
+    }
+    
+    // create with ID and public key
+    MKMPublicKey *PK = MKMPublicKeyForID(ID);
+    if (PK) {
+        contact = [[MKMAccount alloc] initWithID:ID publicKey:PK];
+    } else {
+        NSAssert(false, @"failed to get PK for user: %@", ID);
+    }
+    
+    return contact;
+}
+
 #pragma mark - MKMUserDataSource
 
-- (NSInteger)numberOfContactsInUser:(const MKMUser *)usr {
+- (NSInteger)numberOfContactsInUser:(const MKMUser *)user {
     NSInteger count = 0;
     
     count = _contacts.count;
@@ -167,7 +186,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return count;
 }
 
-- (MKMID *)user:(const MKMUser *)usr contactAtIndex:(NSInteger)index {
+- (MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index {
     MKMID *ID = nil;
     
     ID = [_contacts objectAtIndex:index];
@@ -199,25 +218,6 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     return user;
-}
-
-#pragma mark MKMContactDelegate
-
-- (MKMContact *)contactWithID:(const MKMID *)ID {
-    MKMContact *contact = [_immortals contactWithID:ID];
-    if (contact) {
-        return contact;
-    }
-    
-    // create with ID and public key
-    MKMPublicKey *PK = MKMPublicKeyForID(ID);
-    if (PK) {
-        contact = [[MKMContact alloc] initWithID:ID publicKey:PK];
-    } else {
-        NSAssert(false, @"failed to get PK for user: %@", ID);
-    }
-    
-    return contact;
 }
 
 #pragma mark - MKMGroupDataSource

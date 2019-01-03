@@ -34,9 +34,9 @@ NSString *account_title(const MKMAccount *account);
  */
 NSString *group_title(const MKMGroup *group);
 
-@interface Facebook : NSObject <MKMUserDataSource,
+@interface Facebook : NSObject <MKMAccountDelegate,
+                                MKMUserDataSource,
                                 MKMUserDelegate,
-                                MKMContactDelegate,
                                 //-
                                 MKMGroupDataSource,
                                 MKMGroupDelegate,

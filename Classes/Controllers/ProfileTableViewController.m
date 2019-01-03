@@ -27,8 +27,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    _nameLabel.text = account_title(_contact);
-    _descLabel.text = _contact.ID;
+    _nameLabel.text = account_title(_account);
+    _descLabel.text = _account.ID;
     
 }
 
@@ -97,7 +97,7 @@
     
     if ([segue.identifier isEqualToString:@"startChat"]) {
         
-        DIMID *ID = _contact.ID;
+        DIMID *ID = _account.ID;
         NSLog(@"contact: %@", ID);
         DIMConversation *convers = DIMConversationWithID(ID);
         
