@@ -8,7 +8,10 @@
 
 #import <DIMCore/DIMCore.h>
 
+#import "NSObject+JsON.h"
+
 #import "Facebook.h"
+#import "Station.h"
 
 #import "AppDelegate.h"
 
@@ -25,6 +28,8 @@
     [Facebook sharedInstance];
     
     DIMClient *client = [DIMClient sharedInstance];
+    DIMBarrack *barrack = [DIMBarrack sharedInstance];
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
     
     DIMID *ID;
     DIMUser *user;
@@ -39,7 +44,32 @@
     user = MKMUserWithID(ID);
     [client addUser:user];
     
+    // GSP station
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp-moky" ofType:@"plist"];
+    NSDictionary *gsp = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSArray *stations = [gsp objectForKey:@"stations"];
+    NSDictionary *station = stations.firstObject;
+    
+    // save meta for server ID
+    ID = [station objectForKey:@"ID"];
+    ID = [DIMID IDWithID:ID];
+    DIMMeta *meta = [station objectForKey:@"meta"];
+    meta = [DIMMeta metaWithMeta:meta];
+    [barrack setMeta:meta forID:ID];
+    
+    // connect server
+    Station *server = [[Station alloc] initWithDictionary:station];
+    client.currentStation = server;
+    trans.delegate = server;
+    
+    [self performSelector:@selector(delayAction) withObject:nil afterDelay:3.0];
+    
     return YES;
+}
+
+- (void)delayAction {
+    DIMClient *client = [DIMClient sharedInstance];
+    [(Station *)client.currentStation handshake];
 }
 
 

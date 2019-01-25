@@ -40,6 +40,17 @@
            selector:@selector(keyboardWillHide:)
                name:UIKeyboardWillHideNotification
              object:nil];
+    
+    [dc addObserver:self
+           selector:@selector(reloadData)
+               name:@"MessageUpdate"
+             object:nil];
+}
+
+- (void)reloadData {
+    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+    [msgDB reloadData];
+    [self.messagesTableView reloadData];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -107,6 +118,15 @@
                                                                     time:nil];
     NSLog(@"iMsg: %@", iMsg);
     
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+    [trans sendMessage:iMsg callback:^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"error: %@", error);
+        } else {
+            NSLog(@"message sent: %@ -> %@", iMsg, rMsg);
+        }
+    }];
+    
     [_conversation insertMessage:iMsg];
     
     _inputTextField.text = @"";
@@ -139,7 +159,6 @@
     DIMUser *user = client.currentUser;
     
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
-    NSLog(@"iMsg: %@", iMsg);
     DIMEnvelope *env = iMsg.envelope;
     DIMMessageContent *content = iMsg.content;
     

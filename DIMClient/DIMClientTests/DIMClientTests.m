@@ -8,6 +8,10 @@
 
 #import <XCTest/XCTest.h>
 
+#import <DIMCore/DIMCore.h>
+
+#import "NSObject+JsON.h""
+
 @interface DIMClientTests : XCTestCase
 
 @end
@@ -25,6 +29,26 @@
 - (void)testExample {
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
+}
+
+- (void)testRSA {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp-moky" ofType:@"plist"];
+    NSDictionary *gsp = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSArray *stations = [gsp objectForKey:@"stations"];
+    NSDictionary *station = stations.firstObject;
+    NSDictionary *private = [station objectForKey:@"privateKey"];
+    NSLog(@"SK: %@", private);
+    
+    DIMPrivateKey *SK = [[DIMPrivateKey alloc] initWithDictionary:private];
+    DIMPublicKey *PK = SK.publicKey;
+    NSLog(@"PK: %@", PK);
+}
+
+- (void)testJsON {
+    NSString *jsonString = @"{\"type\": 136, \"sn\": 3351670147, \"command\": \"handshake\", \"message\": \"DIM?\", \"session\": \"c04112b5ebaac8fd973ac7662df4a9dacbac164e4152a67c035f029982151503\"}";
+    NSData *data = [jsonString data];
+    NSDictionary *dict = [data jsonDictionary];
+    NSLog(@"%@ -> %@", jsonString, dict);
 }
 
 - (void)testPerformanceExample {

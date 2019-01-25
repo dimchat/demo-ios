@@ -229,7 +229,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 // Conversation factory
 - (DIMConversation *)conversationWithID:(const MKMID *)ID {
     MKMEntity *entity = nil;
-    if (MKMNetwork_IsPerson(ID.type)) {
+    if (MKMNetwork_IsCommunicator(ID.type)) {
         entity = MKMAccountWithID(ID);
     } else if (MKMNetwork_IsGroup(ID.type)) {
         entity = MKMGroupWithID(ID);
@@ -272,14 +272,17 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     [list addObject:iMsg];
     
     if (save_message(list, ID)) {
-        if (newConvers) {
-            NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-            [dc postNotificationName:@"MessageUpdate" object:nil];
-        }
+//        [self performSelectorOnMainThread:@selector(noticeMessageUpdate) withObject:nil waitUntilDone:NO];
+        [self noticeMessageUpdate];
         return YES;
     } else {
         return NO;
     }
+}
+
+- (void)noticeMessageUpdate {
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    [dc postNotificationName:@"MessageUpdate" object:nil];
 }
 
 @end
