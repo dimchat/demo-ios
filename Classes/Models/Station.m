@@ -37,6 +37,8 @@
 }
 
 - (void)connectToHost:(const NSString *)host port:(UInt32)port {
+    NSLog(@"connecting to %@:%d", host, port);
+    
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
     CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)host, port, &readStream, &writeStream);
@@ -80,19 +82,26 @@
         [content setObject:_session forKey:@"session"];
     }
     
+    // make instant message
+    DKDInstantMessage *iMsg;
+    iMsg = [[DKDInstantMessage alloc] initWithContent:content
+                                               sender:user.ID
+                                             receiver:self.ID
+                                                 time:nil];
+    
     // send
     DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    [trans sendMessageContent:content
-                         from:user.ID
-                           to:_ID
-                         time:nil
-                     callback:^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
-                         if (error) {
-                             NSLog(@"error: %@", error);
-                         } else {
-                             NSLog(@"send %@ -> %@", content, rMsg);
-                         }
-                     }];
+    DKDReliableMessage *rMsg = [trans encryptAndSignMessage:iMsg];
+    rMsg.meta = MKMMetaForID(user.ID);
+    
+    NSData *data = [rMsg jsonData];
+    [self sendPackage:data completionHandler:^(const NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"error: %@", error);
+        } else {
+            NSLog(@"send %@ -> %@", content, rMsg);
+        }
+    }];
 }
 
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
