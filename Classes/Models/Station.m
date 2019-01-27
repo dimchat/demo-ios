@@ -190,7 +190,8 @@
             if ([message isEqualToString:@"DIM!"] ||
                 [message isEqualToString:@"OK!"]) {
                 // handshake OK
-                NSLog(@"handshake accepted");
+                NSLog(@"handshake accepted: %@", user);
+                NSLog(@"current station: %@", server);
             } else if ([message isEqualToString:@"DIM?"]) {
                 // update session and handshake again
                 NSString *session = [content objectForKey:@"session"];

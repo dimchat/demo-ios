@@ -44,8 +44,33 @@
     user = MKMUserWithID(ID);
     [client addUser:user];
     
+    if (YES) {
+        // moky
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-moky" ofType:@"plist"];
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+        
+        DIMID *ID = [DIMID IDWithID:[dict objectForKey:@"ID"]];
+        DIMMeta *meta = [DIMMeta metaWithMeta:[dict objectForKey:@"meta"]];
+        [barrack saveMeta:meta forEntityID:ID];
+        
+        DIMPrivateKey *SK = [DIMPrivateKey keyWithKey:[dict objectForKey:@"privateKey"]];
+        DIMPublicKey *PK = [SK publicKey];
+        [SK saveKeyWithIdentifier:ID.address];
+        
+        DIMUser *user = [[DIMUser alloc] initWithID:ID publicKey:PK];
+        user.privateKey = SK;
+        client.currentUser = user;
+        
+        // profile
+        MKMAccountProfile *profile = [dict objectForKey:@"profile"];
+        profile = [MKMAccountProfile profileWithProfile:profile];
+        if (profile) {
+            user.name = profile.name;
+        }
+    }
+    
     // GSP station
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp-moky" ofType:@"plist"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp" ofType:@"plist"];
     NSDictionary *gsp = [NSDictionary dictionaryWithContentsOfFile:path];
     NSArray *stations = [gsp objectForKey:@"stations"];
     NSDictionary *station = stations.firstObject;

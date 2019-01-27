@@ -165,6 +165,13 @@ SingletonImplementations(Facebook, sharedInstance)
         return contact;
     }
     
+    NSArray *users = [DIMClient sharedInstance].users;
+    for (contact in users) {
+        if ([contact.ID isEqual:ID]) {
+            return contact;
+        }
+    }
+    
     // create with ID and public key
     MKMPublicKey *PK = MKMPublicKeyForID(ID);
     if (PK) {
@@ -321,7 +328,11 @@ SingletonImplementations(Facebook, sharedInstance)
 
 - (MKMProfile *)profileForID:(const MKMID *)ID {
     // TODO:
-    return [_immortals profileForID:ID];
+    if (MKMNetwork_IsPerson(ID.type)) {
+        return [_immortals profileForID:ID];
+    }
+    // Not Found
+    return nil;
 }
 
 @end

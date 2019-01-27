@@ -9,6 +9,7 @@
 #import <DIMCore/DIMCore.h>
 
 #import "Facebook.h"
+#import "Station.h"
 
 #import "AccountTableViewController.h"
 
@@ -153,6 +154,7 @@
         // Users
         DIMUser *user = [client.users objectAtIndex:row];
         client.currentUser = user;
+        [(Station *)client.currentStation handshake];
         
         _nameLabel.text = account_title(user);
         _descLabel.text = user.ID;

@@ -32,7 +32,7 @@
 }
 
 - (void)testRSA {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp-moky" ofType:@"plist"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp" ofType:@"plist"];
     NSDictionary *gsp = [NSDictionary dictionaryWithContentsOfFile:path];
     NSArray *stations = [gsp objectForKey:@"stations"];
     NSDictionary *station = stations.firstObject;
