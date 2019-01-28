@@ -7,6 +7,7 @@
 //
 
 #import "Facebook.h"
+#import "Client+Ext.h"
 
 #import "ChatViewController.h"
 

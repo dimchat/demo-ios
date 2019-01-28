@@ -9,6 +9,8 @@
 #import <DIMCore/DIMCore.h>
 
 #import "Facebook.h"
+#import "Facebook+Register.h"
+#import "Client+Ext.h"
 
 #import "RegisterViewController.h"
 
@@ -39,7 +41,7 @@
     NSNumber *count = [parameters objectForKey:@"count"];
     NSInteger cnt = count.integerValue;
     if (cnt < 1) {
-        cnt = 10;
+        cnt = 20;
     }
     
     DIMRegisterInfo *info;
@@ -125,6 +127,48 @@
     cell.detailTextLabel.text = user.ID;
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger row = indexPath.row;
+    DIMRegisterInfo *regInfo = [_registerInfos objectAtIndex:row];
+    
+    NSLog(@"row: %ld, saving info: %@", row, regInfo);
+    
+    DIMID *ID = regInfo.ID;
+    NSString *message = [NSString stringWithFormat:@"Save user: %@ ?", ID];
+    
+    UIAlertController * alert;
+    alert = [UIAlertController alertControllerWithTitle:@"Register"
+                                                message:message
+                                         preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancel;
+    cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                      style:UIAlertActionStyleCancel
+                                    handler:nil];
+    
+    void (^handler)(UIAlertAction *);
+    handler = ^(UIAlertAction *action) {
+        Facebook *facebook = [Facebook sharedInstance];
+        if ([facebook saveRegisterInfo:regInfo]) {
+            DIMClient *client = [DIMClient sharedInstance];
+            client.currentUser = regInfo.user;
+        }
+        // post notice
+        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+        [dc postNotificationName:@"UsersUpdated" object:nil];
+        NSLog(@"post notification: UsersUpdated");
+    };
+    
+    UIAlertAction *OK;
+    OK = [UIAlertAction actionWithTitle:@"OK"
+                                  style:UIAlertActionStyleDefault
+                                handler:handler];
+    
+    [alert addAction:cancel];
+    [alert addAction:OK];
+    [self presentViewController:alert animated:YES completion:nil];
+    
 }
 
 /*

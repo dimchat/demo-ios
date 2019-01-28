@@ -10,6 +10,7 @@
 
 #import "Facebook.h"
 #import "Station.h"
+#import "Client+Ext.h"
 
 #import "AccountTableViewController.h"
 
@@ -32,6 +33,18 @@
     DIMUser *user = client.currentUser;
     _nameLabel.text = account_title(user);
     _descLabel.text = user.ID;
+    
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    [dc addObserver:self
+           selector:@selector(reloadData)
+               name:@"UsersUpdated"
+             object:nil];
+}
+
+- (void)reloadData {
+    // TODO: update client.users
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -153,8 +166,7 @@
     } else if (section == 1) {
         // Users
         DIMUser *user = [client.users objectAtIndex:row];
-        client.currentUser = user;
-        [(Station *)client.currentStation handshake];
+        [client login:user];
         
         _nameLabel.text = account_title(user);
         _descLabel.text = user.ID;

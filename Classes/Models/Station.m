@@ -70,40 +70,6 @@
     [_outputStream open];
 }
 
-- (void)handshake {
-    // current user
-    DIMUser *user = [DIMClient sharedInstance].currentUser;
-    
-    // command 'handshake'
-    DIMMessageContent *content;
-    content = [[DIMMessageContent alloc] initWithCommand:@"handshake"];
-    [content setObject:@"Hello world!" forKey:@"message"];
-    if (_session) {
-        [content setObject:_session forKey:@"session"];
-    }
-    
-    // make instant message
-    DKDInstantMessage *iMsg;
-    iMsg = [[DKDInstantMessage alloc] initWithContent:content
-                                               sender:user.ID
-                                             receiver:self.ID
-                                                 time:nil];
-    
-    // send
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    DKDReliableMessage *rMsg = [trans encryptAndSignMessage:iMsg];
-    rMsg.meta = MKMMetaForID(user.ID);
-    
-    NSData *data = [rMsg jsonData];
-    [self sendPackage:data completionHandler:^(const NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"error: %@", error);
-        } else {
-            NSLog(@"send %@ -> %@", content, rMsg);
-        }
-    }];
-}
-
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
     switch (eventCode) {
         case NSStreamEventOpenCompleted:
@@ -168,49 +134,140 @@
     }
 }
 
+#pragma mark -
+
+- (void)handshake {
+    // current user
+    DIMUser *user = [DIMClient sharedInstance].currentUser;
+    
+    // 1. create command 'handshake'
+    DIMHandshakeCommand *command;
+    command = [[DIMHandshakeCommand alloc] initWithSessionKey:_session];
+    
+    // 2. make instant message
+    DKDInstantMessage *iMsg;
+    iMsg = [[DKDInstantMessage alloc] initWithContent:command
+                                               sender:user.ID
+                                             receiver:self.ID
+                                                 time:nil];
+    
+    // 3. pack and attach meta info
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+    DKDReliableMessage *rMsg = [trans encryptAndSignMessage:iMsg];
+    rMsg.meta = MKMMetaForID(user.ID);
+    
+    // 4. send out
+    NSData *data = [rMsg jsonData];
+    [self sendPackage:data completionHandler:^(const NSError *error) {
+        if (error) {
+            NSLog(@"error: %@", error);
+        } else {
+            NSLog(@"send %@ -> %@", command, rMsg);
+        }
+    }];
+}
+
+- (void)processHandshakeMessageContent:(DIMMessageContent *)content {
+    DIMClient *client = [DIMClient sharedInstance];
+    DIMUser *user = client.currentUser;
+    
+    DIMHandshakeCommand *cmd;
+    cmd = [[DIMHandshakeCommand alloc] initWithDictionary:content];
+    DIMHandshakeState state = cmd.state;
+    if (state == DIMHandshake_Success) {
+        // handshake OK
+        NSLog(@"handshake accepted: %@", user);
+        NSLog(@"current station: %@", self);
+    } else if (state == DIMHandshake_Again) {
+        // update session and handshake again
+        NSString *session = cmd.sessionKey;
+        NSLog(@"session %@ -> %@", self.session, session);
+        self.session = session;
+        [self handshake];
+    } else {
+        NSLog(@"handshake rejected: %@", content);
+    }
+}
+
+- (void)queryMetaForID:(DIMID *)ID {
+    DIMClient *client = [DIMClient sharedInstance];
+    DIMUser *user = client.currentUser;
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+    
+    DIMMetaCommand *command;
+    command = [[DIMMetaCommand alloc] initWithID:ID meta:nil];
+    // pack and send
+    [trans sendMessageContent:command
+                         from:user.ID
+                           to:self.ID
+                         time:nil
+                     callback:^(const DKDReliableMessage *rMsg,
+                                const NSError *error) {
+                         if (error) {
+                             NSLog(@"error: %@", error);
+                         } else {
+                             NSLog(@"send %@ -> %@", command, rMsg);
+                         }
+                     }];
+}
+
+- (void)processMetaMessageContent:(DIMMessageContent *)content {
+    DIMMetaCommand *cmd;
+    cmd = [[DIMMetaCommand alloc] initWithDictionary:content];
+    if ([cmd.meta matchID:cmd.ID]) {
+        NSLog(@"got new meta for %@", cmd.ID);
+        DIMBarrack *facebook = [DIMBarrack sharedInstance];
+        [facebook saveMeta:cmd.meta forEntityID:cmd.ID];
+    }
+}
+
 #pragma mark DIMStationDelegate
 
 - (void)station:(const DIMStation *)station didReceiveData:(const NSData *)data {
     DIMClient *client = [DIMClient sharedInstance];
-    Station *server = (Station *)client.currentStation;
     DIMUser *user = client.currentUser;
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+    
+    // decode
+    NSString *json = [data UTF8String];
+    DIMReliableMessage *rMsg;
+    rMsg = [[DKDReliableMessage alloc] initWithJSONString:json];
+    
+    // check sender
+    DIMID *sender = rMsg.envelope.sender;
+    DIMMeta *meta = MKMMetaForID(sender);
+    if (!meta) {
+        meta = rMsg.meta;
+        if (!meta) {
+            NSLog(@"meta for %@ not found, query from the network...", sender);
+            return [self queryMetaForID:sender];
+        }
+    }
     
     // trans to instant message
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
     DKDInstantMessage *iMsg;
-    iMsg = [trans messageFromReceivedPackage:data forUser:user];
+    iMsg = [trans verifyAndDecryptMessage:rMsg forUser:user];
     
     // process commands
     DIMMessageContent *content = iMsg.content;
     if (content.type == DIMMessageType_Command) {
         NSString *command = content.command;
-        // handshake
         if ([command isEqualToString:@"handshake"]) {
-            NSString *message = [content objectForKey:@"message"];
-            if ([message isEqualToString:@"DIM!"] ||
-                [message isEqualToString:@"OK!"]) {
-                // handshake OK
-                NSLog(@"handshake accepted: %@", user);
-                NSLog(@"current station: %@", server);
-            } else if ([message isEqualToString:@"DIM?"]) {
-                // update session and handshake again
-                NSString *session = [content objectForKey:@"session"];
-                NSLog(@"session %@ -> %@", server.session, session);
-                server.session = session;
-                [server handshake];
-            } else {
-                NSLog(@"handshake rejected: %@", content);
-            }
-            return;
+            // handshake
+            return [self processHandshakeMessageContent:content];
+        } else if ([command isEqualToString:@"meta"]) {
+            // query meta response
+            return [self processMetaMessageContent:content];
         }
     }
     
+    // normal message, let the clerk to deliver it
     DIMAmanuensis *clerk = [DIMAmanuensis sharedInstance];
     [clerk saveMessage:iMsg];
     
 }
 
-#pragma mark DKDTransceiverDelegate
+#pragma mark - DKDTransceiverDelegate
 
 - (BOOL)sendPackage:(const NSData *)data completionHandler:(DKDTransceiverCompletionHandler)handler {
     if (![_outputStream hasSpaceAvailable]) {

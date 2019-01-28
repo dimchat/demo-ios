@@ -11,6 +11,8 @@
 		E9CF97EE21FB29540092DD8B /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97EC21FB29540092DD8B /* gsp.plist */; };
 		E9CF97F021FC09680092DD8B /* usr-moky.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97EF21FC09680092DD8B /* usr-moky.plist */; };
 		E9CF97F221FC0E8B0092DD8B /* gsp-selvn.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97F121FC0E8B0092DD8B /* gsp-selvn.plist */; };
+		E9CF97FD21FEDBBF0092DD8B /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */; };
+		E9CF980321FF37160092DD8B /* Client+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF980221FF37160092DD8B /* Client+Ext.m */; };
 		E9F3AAAB21CC0ED3009690F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3AAAA21CC0ED3009690F6 /* AppDelegate.m */; };
 		E9F3AAB421CC0ED3009690F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9F3AAB221CC0ED3009690F6 /* Main.storyboard */; };
 		E9F3AAB621CC0ED4009690F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9F3AAB521CC0ED4009690F6 /* Assets.xcassets */; };
@@ -99,6 +101,10 @@
 		E9CF97EC21FB29540092DD8B /* gsp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gsp.plist; sourceTree = "<group>"; };
 		E9CF97EF21FC09680092DD8B /* usr-moky.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "usr-moky.plist"; sourceTree = "<group>"; };
 		E9CF97F121FC0E8B0092DD8B /* gsp-selvn.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "gsp-selvn.plist"; sourceTree = "<group>"; };
+		E9CF97FB21FEDBBF0092DD8B /* Facebook+Register.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
+		E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
+		E9CF980121FF37160092DD8B /* Client+Ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Client+Ext.h"; sourceTree = "<group>"; };
+		E9CF980221FF37160092DD8B /* Client+Ext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Client+Ext.m"; sourceTree = "<group>"; };
 		E9F3AAA621CC0ED2009690F6 /* DIMClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIMClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3AAA921CC0ED2009690F6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E9F3AAAA21CC0ED3009690F6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -249,8 +255,12 @@
 		E9F3AAF021CC120D009690F6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E9CF980121FF37160092DD8B /* Client+Ext.h */,
+				E9CF980221FF37160092DD8B /* Client+Ext.m */,
 				E9F3AAF221CC120D009690F6 /* Facebook.h */,
 				E9F3AAF421CC120D009690F6 /* Facebook.m */,
+				E9CF97FB21FEDBBF0092DD8B /* Facebook+Register.h */,
+				E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */,
 				E9F3AAF121CC120D009690F6 /* MessageProcessor.h */,
 				E9F3AAF321CC120D009690F6 /* MessageProcessor.m */,
 				E912ADB621E89CC500F56BBE /* Station.h */,
@@ -462,11 +472,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9CF97FD21FEDBBF0092DD8B /* Facebook+Register.m in Sources */,
 				E9F3AAF821CC120D009690F6 /* Facebook.m in Sources */,
 				E9F3AAF721CC120D009690F6 /* MessageProcessor.m in Sources */,
 				E912ADB821E89CC500F56BBE /* Station.m in Sources */,
 				E9F3AB8321CFF3AE009690F6 /* ConversationsTableViewController.m in Sources */,
 				E9F3AB7321CFC6C8009690F6 /* ContactsTableViewController.m in Sources */,
+				E9CF980321FF37160092DD8B /* Client+Ext.m in Sources */,
 				E9F3AB7621CFCCDF009690F6 /* ProfileTableViewController.m in Sources */,
 				E9F3ABC221D0877A009690F6 /* RegisterViewController.m in Sources */,
 				E9F3AAAB21CC0ED3009690F6 /* AppDelegate.m in Sources */,

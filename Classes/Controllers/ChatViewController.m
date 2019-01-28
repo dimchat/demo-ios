@@ -43,7 +43,7 @@
     
     [dc addObserver:self
            selector:@selector(reloadData)
-               name:@"MessageUpdate"
+               name:@"MessageUpdated"
              object:nil];
 }
 

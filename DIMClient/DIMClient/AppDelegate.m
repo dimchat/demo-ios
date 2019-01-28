@@ -11,6 +11,8 @@
 #import "NSObject+JsON.h"
 
 #import "Facebook.h"
+#import "Facebook+Register.h"
+
 #import "Station.h"
 
 #import "AppDelegate.h"
@@ -44,10 +46,15 @@
     user = MKMUserWithID(ID);
     [client addUser:user];
     
-    if (YES) {
+    while (YES) {
         // moky
         NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-moky" ofType:@"plist"];
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+        
+        if (!dict) {
+            NSLog(@"failed to load: %@", path);
+            break;
+        }
         
         DIMID *ID = [DIMID IDWithID:[dict objectForKey:@"ID"]];
         DIMMeta *meta = [DIMMeta metaWithMeta:[dict objectForKey:@"meta"]];
@@ -67,6 +74,15 @@
         if (profile) {
             user.name = profile.name;
         }
+        
+        break;
+    }
+    
+    Facebook *facebook = [Facebook sharedInstance];
+    NSArray *array = [facebook scanUserIDList];
+    for (ID in array) {
+        user = MKMUserWithID(ID);
+        [client addUser:user];
     }
     
     // GSP station

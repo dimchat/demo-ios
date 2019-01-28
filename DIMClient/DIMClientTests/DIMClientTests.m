@@ -10,7 +10,7 @@
 
 #import <DIMCore/DIMCore.h>
 
-#import "NSObject+JsON.h""
+#import "NSObject+JsON.h"
 
 @interface DIMClientTests : XCTestCase
 

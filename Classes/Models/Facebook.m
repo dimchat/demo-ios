@@ -10,38 +10,9 @@
 
 #import "MKMImmortals.h"
 
+#import "Client+Ext.h"
+
 #import "Facebook.h"
-
-NSString *search_number(UInt32 code) {
-    NSMutableString *number;
-    number = [[NSMutableString alloc] initWithFormat:@"%010u", (unsigned int)code];;
-    if ([number length] == 10) {
-        [number insertString:@"-" atIndex:6];
-        [number insertString:@"-" atIndex:3];
-    }
-    return number;
-}
-
-NSString *account_title(const MKMAccount *account) {
-    NSString *name = account.name;
-    NSString *number = search_number(account.number);
-    return [NSString stringWithFormat:@"%@ (%@)", name, number];
-}
-
-NSString *group_title(const MKMGroup *group) {
-    NSString *name = group.name;
-    NSUInteger count = group.members.count;
-    return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];
-}
-
-#pragma mark -
-
-static inline NSString *document_directory(void) {
-    NSArray *paths;
-    paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                NSUserDomainMask, YES);
-    return paths.firstObject;
-}
 
 static inline NSArray *scan_barrack(void) {
     NSMutableArray *mArray = [[NSMutableArray alloc] init];
@@ -327,12 +298,27 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - MKMProfileDataSource
 
 - (MKMProfile *)profileForID:(const MKMID *)ID {
+    MKMProfile *profile = nil;
+    
     // TODO:
-    if (MKMNetwork_IsPerson(ID.type)) {
-        return [_immortals profileForID:ID];
+    
+    // load from "Documents/.mkm/{address}/profile.plist"
+    NSString *dir = document_directory();
+    dir = [dir stringByAppendingPathComponent:ID.address];
+    NSString *path = [dir stringByAppendingPathComponent:@"profile.plist"];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+    if (dict) {
+        profile = [MKMProfile profileWithProfile:dict];
+        if (profile) {
+            NSLog(@"loaded profile from %@", path);
+            return profile;
+        }
     }
-    // Not Found
-    return nil;
+    
+    if (MKMNetwork_IsPerson(ID.type)) {
+        profile = [_immortals profileForID:ID];
+    }
+    return profile;
 }
 
 @end

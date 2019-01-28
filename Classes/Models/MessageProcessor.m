@@ -9,6 +9,7 @@
 #import "NSObject+Singleton.h"
 
 #import "Facebook.h"
+#import "Client+Ext.h"
 
 #import "MessageProcessor.h"
 
@@ -43,13 +44,6 @@ NSString *NSStringFromDate(const NSDate *date) {
     return [dateFormatter stringFromDate:(id)date];
 }
 
-static inline NSString *document_directory(void) {
-    NSArray *paths;
-    paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                NSUserDomainMask, YES);
-    return paths.firstObject;
-}
-
 /**
  Get full filepath to Documents Directory
  
@@ -81,11 +75,6 @@ static inline NSString *full_filepath(const MKMID *ID, NSString *filename) {
     return [dir stringByAppendingPathComponent:filename];
 }
 
-static inline BOOL file_exists(NSString *path) {
-    NSFileManager *fm = [NSFileManager defaultManager];
-    return [fm fileExistsAtPath:path];
-}
-
 static inline NSArray *load_message(const MKMID *ID) {
     NSArray *array = nil;
     NSString *path = full_filepath(ID, @"messages.plist");
@@ -97,6 +86,7 @@ static inline NSArray *load_message(const MKMID *ID) {
 
 static inline BOOL save_message(NSArray *messages, const MKMID *ID) {
     NSString *path = full_filepath(ID, @"messages.plist");
+    NSLog(@"save path: %@", path);
     return [messages writeToFile:path atomically:YES];
 }
 
@@ -107,8 +97,7 @@ static inline NSMutableDictionary *scan_messages(void) {
     dir = [dir stringByAppendingPathComponent:@".dim"];
     
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *de;
-    de = [fm enumeratorAtPath:dir];
+    NSDirectoryEnumerator *de = [fm enumeratorAtPath:dir];
     
     Facebook *fb = [Facebook sharedInstance];
     
@@ -119,7 +108,7 @@ static inline NSMutableDictionary *scan_messages(void) {
     
     NSString *path;
     while (path = [de nextObject]) {
-        //NSLog(@"path: %@", path);
+        NSLog(@"read path: %@", path);
         if ([path hasSuffix:@"/messages.plist"]) {
             addr = [path substringToIndex:(path.length - 15)];
             path = [dir stringByAppendingPathComponent:path];
@@ -282,7 +271,8 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 - (void)noticeMessageUpdate {
     NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-    [dc postNotificationName:@"MessageUpdate" object:nil];
+    [dc postNotificationName:@"MessageUpdated" object:nil];
+    NSLog(@"post notification: MessageUpdated");
 }
 
 @end
