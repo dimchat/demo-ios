@@ -10,11 +10,34 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Station : DIMStation <NSStreamDelegate, DIMStationDelegate, DIMTransceiverDelegate>
+typedef NS_ENUM(UInt8, StationState) {
+    StationState_Init,
+    StationState_Running,
+    StationState_Paused,  // client.currentUser is empty
+    StationState_Stopped,
+};
 
-@property (strong, nonatomic) NSString *session;
+@interface Station : DIMStation <NSStreamDelegate, DIMStationDelegate, DIMTransceiverDelegate> {
+    
+    StationState _state;
+    
+    NSInputStream *_inputStream;
+    NSOutputStream *_outputStream;
+    
+    NSMutableArray *_tasks;
+    
+    NSString *_session;
+}
 
-- (void)handshake;
+- (instancetype)initWithID:(const MKMID *)ID
+                 publicKey:(const MKMPublicKey *)PK
+                      host:(const NSString *)IP
+                      port:(UInt32)port;
+
+- (void)start;
+- (void)stop;
+
+- (void)switchUser;
 
 @end
 

@@ -102,15 +102,9 @@
     Station *server = [[Station alloc] initWithDictionary:station];
     client.currentStation = server;
     trans.delegate = server;
-    
-    [self performSelector:@selector(delayAction) withObject:nil afterDelay:3.0];
+    [server start];
     
     return YES;
-}
-
-- (void)delayAction {
-    DIMClient *client = [DIMClient sharedInstance];
-    [(Station *)client.currentStation handshake];
 }
 
 

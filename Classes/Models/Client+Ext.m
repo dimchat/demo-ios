@@ -15,7 +15,7 @@
 - (void)login:(DIMUser *)user {
     self.currentUser = user;
     Station *station = (Station *)self.currentStation;
-    [station handshake];
+    [station switchUser];
 }
 
 @end
