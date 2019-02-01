@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "Client+Ext.h"
+
 #import "Facebook.h"
 
 #import "ProfileTableViewController.h"
@@ -143,7 +145,7 @@
             
             identifier = @"ContactCell";
             cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-            cell.textLabel.text = contact.name;
+            cell.textLabel.text = account_title(contact);
             cell.detailTextLabel.text = contact.ID;
             break;
             
@@ -154,7 +156,7 @@
             
             identifier = @"ContactCell";
             cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-            cell.textLabel.text = contact.name;
+            cell.textLabel.text = account_title(contact);
             cell.detailTextLabel.text = contact.ID;
             break;
             

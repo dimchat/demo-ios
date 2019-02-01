@@ -8,6 +8,8 @@
 
 #import <DIMCore/DIMCore.h>
 
+#import "Client+Ext.h"
+
 #import "Facebook.h"
 #import "Station.h"
 
@@ -130,7 +132,7 @@
     DIMID *ID = [DIMID IDWithID:item];
     
     DIMAccount *contact = MKMAccountWithID(ID);
-    cell.textLabel.text = contact.name;
+    cell.textLabel.text = account_title(contact);
     cell.detailTextLabel.text = contact.ID;
     
     return cell;

@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "Client+Ext.h"
+
 #import "Facebook.h"
 #import "MessageProcessor.h"
 
@@ -70,14 +72,20 @@
     MessageProcessor *msgDB = [MessageProcessor sharedInstance];
     DIMConversation *chat = [msgDB conversationAtIndex:row];
     
+    NSString *title = nil;
+    
     DIMEntity *entity;
     if (MKMNetwork_IsPerson(chat.ID.type)) {
         entity = MKMAccountWithID(chat.ID);
+        title = account_title((DIMAccount *)entity);
     } else if (MKMNetwork_IsGroup(chat.ID.type)) {
         entity = MKMGroupWithID(chat.ID);
+        title = group_title((DIMGroup *)entity);
+    } else {
+        title = entity.name;
     }
     
-    cell.textLabel.text = entity.name;
+    cell.textLabel.text = title;
     cell.detailTextLabel.text = chat.ID;
     
     return cell;
