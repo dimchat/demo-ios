@@ -42,6 +42,7 @@ typedef NS_ENUM(UInt8, StationState) {
 
 - (void)switchUser;
 - (void)handshakeWithUser:(DIMUser *)user;
+- (void)queryMetaForID:(DIMID *)ID;
 
 @end
 

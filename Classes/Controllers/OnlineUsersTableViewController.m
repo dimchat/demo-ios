@@ -17,7 +17,7 @@
 
 @interface OnlineUsersTableViewController () {
     
-    NSArray *_users;
+    NSMutableArray *_users;
 }
 
 @end
@@ -60,18 +60,49 @@
 }
 
 - (void)loadCacheFile {
+    DIMClient *client = [DIMClient sharedInstance];
+    Station *station = (Station *)client.currentStation;
+    
     NSString *dir = NSTemporaryDirectory();
     NSString *path = [dir stringByAppendingPathComponent:@"online_users.plist"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        _users = [NSArray arrayWithContentsOfFile:path];
+        NSArray *users = [NSArray arrayWithContentsOfFile:path];
+        _users = [[NSMutableArray alloc] initWithCapacity:users.count];
+        DIMID *ID;
+        DIMPublicKey *PK;
+        for (NSString *item in users) {
+            ID = [DIMID IDWithID:item];
+            PK = MKMPublicKeyForID(ID);
+            if (PK) {
+                [_users addObject:ID];
+            } else {
+                [station queryMetaForID:ID];
+            }
+        }
+    } else {
+        _users = nil;
     }
 }
 
 - (void)reloadData:(NSNotification *)notification {
+    DIMClient *client = [DIMClient sharedInstance];
+    Station *station = (Station *)client.currentStation;
+    
     NSArray *users = [notification object];
     NSLog(@"online users: %@", users);
     if ([users count] > 0) {
-        _users = users;
+        _users = [[NSMutableArray alloc] initWithCapacity:users.count];
+        DIMID *ID;
+        DIMPublicKey *PK;
+        for (NSString *item in users) {
+            ID = [DIMID IDWithID:item];
+            PK = MKMPublicKeyForID(ID);
+            if (PK) {
+                [_users addObject:ID];
+            } else {
+                [station queryMetaForID:ID];
+            }
+        }
     } else {
         [self loadCacheFile];
     }
@@ -98,8 +129,7 @@
     NSString *item = [_users objectAtIndex:row];
     DIMID *ID = [DIMID IDWithID:item];
     
-    Facebook *fb = [Facebook sharedInstance];
-    DIMAccount *contact = [fb accountWithID:ID];
+    DIMAccount *contact = MKMAccountWithID(ID);
     cell.textLabel.text = contact.name;
     cell.detailTextLabel.text = contact.ID;
     
