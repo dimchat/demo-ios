@@ -28,15 +28,32 @@
     CGFloat maxWidth = contentBounds.size.width * 0.8;
     
     CGFloat space = 5.0;
-    CGSize avatarSize = CGSizeMake(64, 64);
     CGFloat nameHeight = 20;
     
     // avatar
-    CGRect avatarFrame;
+    CGRect avatarFrame = self.avatarImageView.frame;
     avatarFrame = CGRectMake(margins.left + contentBounds.origin.x,
                              margins.top + contentBounds.origin.y,
-                             avatarSize.width,
-                             avatarSize.height);
+                             avatarFrame.size.width,
+                             avatarFrame.size.height);
+    {
+        UIImage *image = nil;
+        DIMAccountProfile *profile = (DIMAccountProfile *)MKMProfileForID(env.sender);
+        if (profile) {
+            NSString *avatar = profile.avatar;
+            if (avatar) {
+                NSURL *url = [NSURL URLWithString:avatar];
+                NSData *data = [NSData dataWithContentsOfURL:url];
+                if (data) {
+                    image = [UIImage imageWithData:data];
+                }
+            }
+        }
+        if (!image) {
+            image = [UIImage imageNamed:@"AppIcon"];
+        }
+        [self.avatarImageView setImage:image];
+    }
     self.avatarImageView.frame = avatarFrame;
     
     // name
@@ -83,8 +100,18 @@
     self.layoutMargins = UIEdgeInsetsMake(10, 10, 10, 10);
     
     // avatar
-    UIImage *image = [UIImage imageNamed:@"[可爱]"];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+    CGRect frame = CGRectMake(0, 0, 64, 64);
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+    {
+        UIBezierPath *maskPath;
+        maskPath = [UIBezierPath bezierPathWithRoundedRect:frame
+                                         byRoundingCorners:UIRectCornerAllCorners
+                                               cornerRadii:CGSizeMake(10, 10)];
+        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+        maskLayer.frame = imageView.bounds;
+        maskLayer.path = maskPath.CGPath;
+        imageView.layer.mask = maskLayer;
+    }
     [self.contentView addSubview:imageView];
     self.avatarImageView = imageView;
     
@@ -95,7 +122,7 @@
     self.nameLabel = label;
     
     // message
-    image = [UIImage imageNamed:@"message_receiver_background_normal"];
+    UIImage *image = [UIImage imageNamed:@"message_receiver_background_normal"];
     imageView = [[UIImageView alloc] initWithImage:[image resizableImage]];
     //view.backgroundColor = [UIColor yellowColor];
     [self.contentView addSubview:imageView];

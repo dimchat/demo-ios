@@ -200,6 +200,18 @@
     }
 }
 
+- (void)processOnlineUsersMessageContent:(DIMMessageContent *)content {
+    NSArray *users = [content objectForKey:@"users"];
+    if ([users count] > 0) {
+        NSString *dir = NSTemporaryDirectory();
+        NSString *path = [dir stringByAppendingPathComponent:@"online_users.plist"];
+        [users writeToFile:path atomically:YES];
+        // notice
+        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+        [dc postNotificationName:@"OnlineUsersUpdated" object:users];
+    }
+}
+
 #pragma mark DIMStationDelegate
 
 - (void)station:(const DIMStation *)station didReceiveData:(const NSData *)data {
@@ -237,6 +249,9 @@
         } else if ([command isEqualToString:@"meta"]) {
             // query meta response
             return [self processMetaMessageContent:content];
+        } else if ([command isEqualToString:@"users"]) {
+            // query online users response
+            return [self processOnlineUsersMessageContent:content];
         }
     }
     
