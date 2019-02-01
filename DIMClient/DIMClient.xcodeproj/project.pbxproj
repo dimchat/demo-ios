@@ -13,10 +13,14 @@
 		E9CF97F221FC0E8B0092DD8B /* gsp-selvn.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97F121FC0E8B0092DD8B /* gsp-selvn.plist */; };
 		E9CF97FD21FEDBBF0092DD8B /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */; };
 		E9CF980321FF37160092DD8B /* Client+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF980221FF37160092DD8B /* Client+Ext.m */; };
+		E9E0525322041DB0005D1CF3 /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9E0525222041DB0005D1CF3 /* ChatViewImages.xcassets */; };
+		E9E0525722041EF4005D1CF3 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525622041EF4005D1CF3 /* NSString+Extension.m */; };
+		E9E0525A22042077005D1CF3 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525922042077005D1CF3 /* UIImage+Extension.m */; };
+		E9E0525D220421F2005D1CF3 /* MsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525C220421F2005D1CF3 /* MsgCell.m */; };
+		E9E052602204221B005D1CF3 /* MyMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525F2204221B005D1CF3 /* MyMsgCell.m */; };
 		E9E9419E2204151C00E82FAD /* Station+Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9419D2204151C00E82FAD /* Station+Connection.m */; };
 		E9F3AAAB21CC0ED3009690F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3AAAA21CC0ED3009690F6 /* AppDelegate.m */; };
 		E9F3AAB421CC0ED3009690F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9F3AAB221CC0ED3009690F6 /* Main.storyboard */; };
-		E9F3AAB621CC0ED4009690F6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9F3AAB521CC0ED4009690F6 /* Assets.xcassets */; };
 		E9F3AAB921CC0ED4009690F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9F3AAB721CC0ED4009690F6 /* LaunchScreen.storyboard */; };
 		E9F3AABC21CC0ED4009690F6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3AABB21CC0ED4009690F6 /* main.m */; };
 		E9F3AAC621CC0ED4009690F6 /* DIMClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3AAC521CC0ED4009690F6 /* DIMClientTests.m */; };
@@ -106,13 +110,21 @@
 		E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
 		E9CF980121FF37160092DD8B /* Client+Ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Client+Ext.h"; sourceTree = "<group>"; };
 		E9CF980221FF37160092DD8B /* Client+Ext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Client+Ext.m"; sourceTree = "<group>"; };
+		E9E0525222041DB0005D1CF3 /* ChatViewImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatViewImages.xcassets; sourceTree = "<group>"; };
+		E9E0525522041EF4005D1CF3 /* NSString+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
+		E9E0525622041EF4005D1CF3 /* NSString+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
+		E9E0525822042077005D1CF3 /* UIImage+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
+		E9E0525922042077005D1CF3 /* UIImage+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
+		E9E0525B220421F2005D1CF3 /* MsgCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MsgCell.h; sourceTree = "<group>"; };
+		E9E0525C220421F2005D1CF3 /* MsgCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MsgCell.m; sourceTree = "<group>"; };
+		E9E0525E2204221B005D1CF3 /* MyMsgCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyMsgCell.h; sourceTree = "<group>"; };
+		E9E0525F2204221B005D1CF3 /* MyMsgCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyMsgCell.m; sourceTree = "<group>"; };
 		E9E9419C2204151C00E82FAD /* Station+Connection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Station+Connection.h"; sourceTree = "<group>"; };
 		E9E9419D2204151C00E82FAD /* Station+Connection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Station+Connection.m"; sourceTree = "<group>"; };
 		E9F3AAA621CC0ED2009690F6 /* DIMClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIMClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3AAA921CC0ED2009690F6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E9F3AAAA21CC0ED3009690F6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E9F3AAB321CC0ED3009690F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E9F3AAB521CC0ED4009690F6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E9F3AAB821CC0ED4009690F6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E9F3AABA21CC0ED4009690F6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9F3AABB21CC0ED4009690F6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -176,6 +188,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E9E0525422041ECB005D1CF3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E9E0525522041EF4005D1CF3 /* NSString+Extension.h */,
+				E9E0525622041EF4005D1CF3 /* NSString+Extension.m */,
+				E9E0525822042077005D1CF3 /* UIImage+Extension.h */,
+				E9E0525922042077005D1CF3 /* UIImage+Extension.m */,
+				E9E0525B220421F2005D1CF3 /* MsgCell.h */,
+				E9E0525C220421F2005D1CF3 /* MsgCell.m */,
+				E9E0525E2204221B005D1CF3 /* MyMsgCell.h */,
+				E9E0525F2204221B005D1CF3 /* MyMsgCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		E9F3AA9D21CC0ED2009690F6 = {
 			isa = PBXGroup;
 			children = (
@@ -210,7 +237,6 @@
 				E9F3AB0821CC1D65009690F6 /* Contacts.storyboard */,
 				E9F3AB7821CFDA08009690F6 /* Profile.storyboard */,
 				E9F3AB0D21CC1F35009690F6 /* Account.storyboard */,
-				E9F3AAB521CC0ED4009690F6 /* Assets.xcassets */,
 				E9F3AAB721CC0ED4009690F6 /* LaunchScreen.storyboard */,
 				E9F3AABA21CC0ED4009690F6 /* Info.plist */,
 				E9F3AABB21CC0ED4009690F6 /* main.m */,
@@ -248,6 +274,7 @@
 		E9F3AAEF21CC120D009690F6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E9E0525422041ECB005D1CF3 /* Views */,
 				E9F3AAF021CC120D009690F6 /* Models */,
 				E9F3AAFA21CC16C9009690F6 /* Controllers */,
 			);
@@ -278,6 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				E9F3AAF621CC120D009690F6 /* Assets.xcassets */,
+				E9E0525222041DB0005D1CF3 /* ChatViewImages.xcassets */,
 				E9CF97EC21FB29540092DD8B /* gsp.plist */,
 				E9CF97F121FC0E8B0092DD8B /* gsp-selvn.plist */,
 				E9CF97EF21FC09680092DD8B /* usr-moky.plist */,
@@ -443,7 +471,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9F3AAB921CC0ED4009690F6 /* LaunchScreen.storyboard in Resources */,
-				E9F3AAB621CC0ED4009690F6 /* Assets.xcassets in Resources */,
 				E9F3AB7A21CFDA08009690F6 /* Profile.storyboard in Resources */,
 				E9F3AAF921CC120D009690F6 /* Assets.xcassets in Resources */,
 				E9CF97EE21FB29540092DD8B /* gsp.plist in Resources */,
@@ -452,6 +479,7 @@
 				E9CF97F021FC09680092DD8B /* usr-moky.plist in Resources */,
 				E9F3AB0F21CC1F36009690F6 /* Account.storyboard in Resources */,
 				E9F3AB0721CC1D19009690F6 /* Conversations.storyboard in Resources */,
+				E9E0525322041DB0005D1CF3 /* ChatViewImages.xcassets in Resources */,
 				E9CF97F221FC0E8B0092DD8B /* gsp-selvn.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,13 +508,17 @@
 				E9E9419E2204151C00E82FAD /* Station+Connection.m in Sources */,
 				E9CF97FD21FEDBBF0092DD8B /* Facebook+Register.m in Sources */,
 				E9F3AAF821CC120D009690F6 /* Facebook.m in Sources */,
+				E9E052602204221B005D1CF3 /* MyMsgCell.m in Sources */,
 				E9F3AAF721CC120D009690F6 /* MessageProcessor.m in Sources */,
 				E912ADB821E89CC500F56BBE /* Station.m in Sources */,
+				E9E0525D220421F2005D1CF3 /* MsgCell.m in Sources */,
 				E9F3AB8321CFF3AE009690F6 /* ConversationsTableViewController.m in Sources */,
 				E9F3AB7321CFC6C8009690F6 /* ContactsTableViewController.m in Sources */,
+				E9E0525A22042077005D1CF3 /* UIImage+Extension.m in Sources */,
 				E9CF980321FF37160092DD8B /* Client+Ext.m in Sources */,
 				E9F3AB7621CFCCDF009690F6 /* ProfileTableViewController.m in Sources */,
 				E9F3ABC221D0877A009690F6 /* RegisterViewController.m in Sources */,
+				E9E0525722041EF4005D1CF3 /* NSString+Extension.m in Sources */,
 				E9F3AAAB21CC0ED3009690F6 /* AppDelegate.m in Sources */,
 				E9F3AB7D21CFDAFC009690F6 /* AccountTableViewController.m in Sources */,
 				E9F3AABC21CC0ED4009690F6 /* main.m in Sources */,

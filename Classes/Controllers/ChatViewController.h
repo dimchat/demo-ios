@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) DIMConversation *conversation;
 
+- (IBAction)beginEditing:(id)sender;
+
 - (IBAction)send:(id)senderObject;
 
 - (IBAction)unwindForSegue:(UIStoryboardSegue *)unwindSegue towardsViewController:(UIViewController *)subsequentVC;

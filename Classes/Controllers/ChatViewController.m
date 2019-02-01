@@ -6,7 +6,10 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSString+Extension.h"
+
 #import "MessageProcessor.h"
+#import "MsgCell.h"
 
 #import "ChatViewController.h"
 
@@ -53,6 +56,14 @@
     [self.messagesTableView reloadData];
 }
 
+- (void)scrollToBottom {
+    NSInteger row = [_conversation numberOfMessage];
+    if (row > 0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(row - 1) inSection:0];
+        [self.messagesTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    }
+}
+
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     
@@ -68,6 +79,9 @@
         self->_messagesTableView.frame = tableRect;
         self->_trayView.frame = trayRect;
     }];
+    
+    // scroll to bottom
+    [self scrollToBottom];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -93,6 +107,10 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     
     [self _hideKeyboard];
+}
+
+- (IBAction)beginEditing:(id)sender {
+    [self scrollToBottom];
 }
 
 - (IBAction)send:(id)senderObject {
@@ -149,7 +167,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell;
+    MsgCell *cell;
     
     // Configure the cell...
     //    NSInteger section = indexPath.section;
@@ -160,22 +178,30 @@
     
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
     DIMEnvelope *env = iMsg.envelope;
-    DIMMessageContent *content = iMsg.content;
     
-    if ([env.sender isEqual:user.ID]) {
+    if ([env.sender isEqual:_conversation.ID]) {
+        // message from conversation target
+        cell = [tableView dequeueReusableCellWithIdentifier:@"MsgCell" forIndexPath:indexPath];
+    } else if ([env.sender isEqual:user.ID]) {
+        // message from current user
         cell = [tableView dequeueReusableCellWithIdentifier:@"MyMsgCell" forIndexPath:indexPath];
     } else {
         cell = [tableView dequeueReusableCellWithIdentifier:@"MsgCell" forIndexPath:indexPath];
     }
-    
-    NSDate *time = env.time;
-    
-    NSString *detail = [NSString stringWithFormat:@"%@ [%@]", iMsg.envelope.sender.name, NSStringFromDate(time)];
-    
-    cell.textLabel.text = content.text;
-    cell.detailTextLabel.text = detail;
+    cell.msg = iMsg;
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger row = indexPath.row;
+    DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
+    CGRect frame = tableView.bounds;
+    MsgCell *cell = [[MsgCell alloc] initWithFrame:frame];
+    cell.msg = iMsg;
+    [cell awakeFromNib];
+    [cell layoutSubviews];
+    return cell.frame.size.height;
 }
 
 /*
