@@ -11,9 +11,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(UInt8, StationState) {
-    StationState_Init,
-    StationState_Running,
-    StationState_Paused,  // client.currentUser is empty
+    StationState_Init,         // (re)set user, (re)connect
+    StationState_Connecting,   // connecting to server
+    StationState_Connected,    // success to connect server
+    StationState_Error,        // failed to connect
+    StationState_ShakingHands, // user not login
+    StationState_Running,      // user login, sending msg
     StationState_Stopped,
 };
 
@@ -38,6 +41,19 @@ typedef NS_ENUM(UInt8, StationState) {
 - (void)stop;
 
 - (void)switchUser;
+- (void)handshakeWithUser:(DIMUser *)user;
+
+@end
+
+#pragma mark -
+
+@interface Task : NSObject
+
+@property (strong, nonatomic) const NSData *data;
+@property (nonatomic) DKDTransceiverCompletionHandler completionHandler;
+
+- (instancetype)initWithData:(const NSData *)data
+           completionHandler:(DKDTransceiverCompletionHandler)handler;
 
 @end
 

@@ -108,7 +108,6 @@ static inline NSMutableDictionary *scan_messages(void) {
     
     NSString *path;
     while (path = [de nextObject]) {
-        NSLog(@"read path: %@", path);
         if ([path hasSuffix:@"/messages.plist"]) {
             addr = [path substringToIndex:(path.length - 15)];
             path = [dir stringByAppendingPathComponent:path];
