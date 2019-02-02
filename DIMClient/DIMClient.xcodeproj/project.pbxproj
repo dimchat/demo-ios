@@ -10,6 +10,9 @@
 		E912ADB821E89CC500F56BBE /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = E912ADB721E89CC500F56BBE /* Station.m */; };
 		E94855CD2204646E004C6FB5 /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94855CC2204646E004C6FB5 /* AccountEditViewController.m */; };
 		E94855D02204841B004C6FB5 /* OnlineUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94855CF2204841B004C6FB5 /* OnlineUsersTableViewController.m */; };
+		E94855D22205D42E004C6FB5 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94855D12205D42D004C6FB5 /* WebKit.framework */; };
+		E94855D52205D5BC004C6FB5 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94855D42205D5BC004C6FB5 /* AboutViewController.m */; };
+		E95A80C22205F66B007EA611 /* SearchUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E95A80C12205F66B007EA611 /* SearchUsersTableViewController.m */; };
 		E9CF97EE21FB29540092DD8B /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97EC21FB29540092DD8B /* gsp.plist */; };
 		E9CF97F021FC09680092DD8B /* usr-moky.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97EF21FC09680092DD8B /* usr-moky.plist */; };
 		E9CF97F221FC0E8B0092DD8B /* gsp-selvn.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97F121FC0E8B0092DD8B /* gsp-selvn.plist */; };
@@ -109,6 +112,11 @@
 		E94855CC2204646E004C6FB5 /* AccountEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccountEditViewController.m; sourceTree = "<group>"; };
 		E94855CE2204841B004C6FB5 /* OnlineUsersTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OnlineUsersTableViewController.h; sourceTree = "<group>"; };
 		E94855CF2204841B004C6FB5 /* OnlineUsersTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OnlineUsersTableViewController.m; sourceTree = "<group>"; };
+		E94855D12205D42D004C6FB5 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		E94855D32205D5BC004C6FB5 /* AboutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		E94855D42205D5BC004C6FB5 /* AboutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		E95A80C02205F66B007EA611 /* SearchUsersTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchUsersTableViewController.h; sourceTree = "<group>"; };
+		E95A80C12205F66B007EA611 /* SearchUsersTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchUsersTableViewController.m; sourceTree = "<group>"; };
 		E9CF97EC21FB29540092DD8B /* gsp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gsp.plist; sourceTree = "<group>"; };
 		E9CF97EF21FC09680092DD8B /* usr-moky.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "usr-moky.plist"; sourceTree = "<group>"; };
 		E9CF97F121FC0E8B0092DD8B /* gsp-selvn.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "gsp-selvn.plist"; sourceTree = "<group>"; };
@@ -171,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E94855D22205D42E004C6FB5 /* WebKit.framework in Frameworks */,
 				E9F3AC5221D23C62009690F6 /* MingKeMing.framework in Frameworks */,
 				E9F3AC5021D23C5D009690F6 /* DaoKeDao.framework in Frameworks */,
 				E9F3AC4B21D23C58009690F6 /* DIMCore.framework in Frameworks */,
@@ -271,6 +280,7 @@
 		E9F3AAE821CC0FD2009690F6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E94855D12205D42D004C6FB5 /* WebKit.framework */,
 				E9F3AC4221D23C19009690F6 /* MingKeMing.framework */,
 				E9F3AC4021D23C14009690F6 /* DaoKeDao.framework */,
 			);
@@ -329,6 +339,8 @@
 				E9F3AB8521CFF69B009690F6 /* ChatViewController.m */,
 				E9F3AB7121CFC6C8009690F6 /* ContactsTableViewController.h */,
 				E9F3AB7221CFC6C8009690F6 /* ContactsTableViewController.m */,
+				E95A80C02205F66B007EA611 /* SearchUsersTableViewController.h */,
+				E95A80C12205F66B007EA611 /* SearchUsersTableViewController.m */,
 				E94855CE2204841B004C6FB5 /* OnlineUsersTableViewController.h */,
 				E94855CF2204841B004C6FB5 /* OnlineUsersTableViewController.m */,
 				E9F3AB7421CFCCDF009690F6 /* ProfileTableViewController.h */,
@@ -339,6 +351,8 @@
 				E94855CC2204646E004C6FB5 /* AccountEditViewController.m */,
 				E9F3ABC021D0877A009690F6 /* RegisterViewController.h */,
 				E9F3ABC121D0877A009690F6 /* RegisterViewController.m */,
+				E94855D32205D5BC004C6FB5 /* AboutViewController.h */,
+				E94855D42205D5BC004C6FB5 /* AboutViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -518,6 +532,7 @@
 				E9E9419E2204151C00E82FAD /* Station+Connection.m in Sources */,
 				E9CF97FD21FEDBBF0092DD8B /* Facebook+Register.m in Sources */,
 				E94855D02204841B004C6FB5 /* OnlineUsersTableViewController.m in Sources */,
+				E94855D52205D5BC004C6FB5 /* AboutViewController.m in Sources */,
 				E9F3AAF821CC120D009690F6 /* Facebook.m in Sources */,
 				E9E052602204221B005D1CF3 /* MyMsgCell.m in Sources */,
 				E94855CD2204646E004C6FB5 /* AccountEditViewController.m in Sources */,
@@ -526,6 +541,7 @@
 				E9E0525D220421F2005D1CF3 /* MsgCell.m in Sources */,
 				E9F3AB8321CFF3AE009690F6 /* ConversationsTableViewController.m in Sources */,
 				E9F3AB7321CFC6C8009690F6 /* ContactsTableViewController.m in Sources */,
+				E95A80C22205F66B007EA611 /* SearchUsersTableViewController.m in Sources */,
 				E9E0525A22042077005D1CF3 /* UIImage+Extension.m in Sources */,
 				E9CF980321FF37160092DD8B /* Client+Ext.m in Sources */,
 				E9F3AB7621CFCCDF009690F6 /* ProfileTableViewController.m in Sources */,

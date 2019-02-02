@@ -173,10 +173,10 @@
     DIMUser *user = client.currentUser;
     DIMTransceiver *trans = [DIMTransceiver sharedInstance];
     
-    DIMMetaCommand *command;
-    command = [[DIMMetaCommand alloc] initWithID:ID meta:nil];
+    DIMMetaCommand *cmd;
+    cmd = [[DIMMetaCommand alloc] initWithID:ID meta:nil];
     // pack and send
-    [trans sendMessageContent:command
+    [trans sendMessageContent:cmd
                          from:user.ID
                            to:self.ID
                          time:nil
@@ -185,7 +185,7 @@
                          if (error) {
                              NSLog(@"error: %@", error);
                          } else {
-                             NSLog(@"send %@ -> %@", command, rMsg);
+                             NSLog(@"send %@ -> %@", cmd, rMsg);
                          }
                      }];
 }
@@ -210,6 +210,42 @@
         NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
         [dc postNotificationName:@"OnlineUsersUpdated" object:users];
     }
+}
+
+- (void)searchUsersWithKeywords:(NSString *)keywords {
+    DIMClient *client = [DIMClient sharedInstance];
+    DIMUser *user = client.currentUser;
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+    
+    DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"search"];
+    [cmd setObject:keywords forKey:@"keywords"];
+    // pack and send
+    [trans sendMessageContent:cmd
+                         from:user.ID
+                           to:self.ID
+                         time:nil
+                     callback:^(const DKDReliableMessage *rMsg,
+                                const NSError *error) {
+                         if (error) {
+                             NSLog(@"error: %@", error);
+                         } else {
+                             NSLog(@"send %@ -> %@", cmd, rMsg);
+                         }
+                     }];
+}
+
+- (void)processSearchUsersMessageContent:(DIMMessageContent *)content {
+    NSArray *users = [content objectForKey:@"users"];
+    NSDictionary *results = [content objectForKey:@"results"];
+    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithCapacity:2];
+    if (users) {
+        [mDict setObject:users forKey:@"users"];
+    }
+    if (results) {
+        [mDict setObject:results forKey:@"results"];
+    }
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    [dc postNotificationName:@"SearchUsersUpdated" object:mDict];
 }
 
 #pragma mark DIMStationDelegate
@@ -252,6 +288,9 @@
         } else if ([command isEqualToString:@"users"]) {
             // query online users response
             return [self processOnlineUsersMessageContent:content];
+        } else if ([command isEqualToString:@"search"]) {
+            // search users response
+            return [self processSearchUsersMessageContent:content];
         }
     }
     

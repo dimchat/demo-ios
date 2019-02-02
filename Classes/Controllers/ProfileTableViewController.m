@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSData+Crypto.h"
+
 #import "Facebook.h"
 #import "Client+Ext.h"
 
@@ -31,17 +33,35 @@
     _nameLabel.text = account_title(_account);
     _descLabel.text = _account.ID;
     
+    DIMID *ID = _account.ID;
+    DIMMeta *meta = MKMMetaForID(ID);
+    
+    _seedLabel.text = ID.name;
+    _addressLabel.text = ID.address;
+    _numberLabel.text = search_number(ID.number);
+    _fingerprintLabel.text = [meta.fingerprint base64Encode];
+    
+    DIMAccountProfile *profile = (DIMAccountProfile *)MKMProfileForID(ID);
+    
+    _localityLabel.text = [profile objectForKey:@"locality"];
+    _nicknameLabel.text = profile.name;
+    _avatarLabel.text = profile.avatar;
 }
 
-//#pragma mark - Table view data source
-//
+#pragma mark - Table view data source
+
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Incomplete implementation, return the number of sections
-//    return 0;
+//    return 4;
 //}
-//
+
 //- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete implementation, return the number of rows
+//    
+//    if (section == 0) {
+//        return 1;
+//    }
+//    if (section == 3) {
+//        return 1;
+//    }
 //    return 0;
 //}
 

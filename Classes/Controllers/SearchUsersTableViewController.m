@@ -1,24 +1,29 @@
 //
-//  ContactsTableViewController.m
+//  SearchUsersTableViewController.m
 //  DIMClient
 //
-//  Created by Albert Moky on 2018/12/23.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2019/2/3.
+//  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "Client+Ext.h"
+#import <DIMCore/DIMCore.h>
 
+#import "Client+Ext.h"
 #import "Facebook.h"
+#import "Station.h"
 
 #import "ProfileTableViewController.h"
 
-#import "ContactsTableViewController.h"
+#import "SearchUsersTableViewController.h"
 
-@interface ContactsTableViewController ()
+@interface SearchUsersTableViewController () {
+    
+    NSMutableArray *_users;
+}
 
 @end
 
-@implementation ContactsTableViewController
+@implementation SearchUsersTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,84 +33,67 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    [dc addObserver:self
+           selector:@selector(reloadData:)
+               name:@"SearchUsersUpdated"
+             object:nil];
+}
+
+- (void)reloadData:(NSNotification *)notification {
+    NSDictionary *info = [notification object];
+    _users = [info objectForKey:@"users"];
+    NSDictionary *results = [info objectForKey:@"results"];
+    
+    DIMBarrack *barrack = [DIMBarrack sharedInstance];
+    DIMID *ID;
+    DIMMeta *meta;
+    for (NSString *key in results) {
+        ID = [DIMID IDWithID:key];
+        meta = [DIMMeta metaWithMeta:[results objectForKey:key]];
+        [barrack saveMeta:meta forEntityID:ID];
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSString *keywords = searchBar.text;
+    NSLog(@"****************** searching %@", keywords);
+    
+    DIMClient *client = [DIMClient sharedInstance];
+    Station *station = (Station *)client.currentStation;
+    [station searchUsersWithKeywords:keywords];
+    
+    [searchBar resignFirstResponder];
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
-    return 2;
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 1) {
-        return @"Contacts";
-    }
-    return [super tableView:tableView titleForHeaderInSection:section];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMUser *user = client.currentUser;
-    Facebook *fb = [Facebook sharedInstance];
-    
-    if (section == 0) {
-        return 1;
-    } else if (section == 1) {
-        // Contacts
-        return [fb numberOfContactsInUser:user];
-    }
-    return [super tableView:tableView numberOfRowsInSection:section];
+    return _users.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    tableView = self.tableView;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
+    
     // Configure the cell...
-    NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
-
-    UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    NSString *identifier = nil;
-
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMUser *user = client.currentUser;
-    Facebook *fb = [Facebook sharedInstance];
-
-    DIMID *ID = nil;
-    DIMAccount *contact = nil;
-
-    if (section == 0) {
-        identifier = @"OnlineUsersCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-        return cell;
-    } else if (section == 1) {
-        ID = [fb user:user contactAtIndex:row];
-        contact = [fb accountWithID:ID];
-        identifier = @"ContactCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-        cell.textLabel.text = account_title(contact);
-        cell.detailTextLabel.text = contact.ID;
-        return cell;
-    }
-    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    NSString *item = [_users objectAtIndex:row];
+    DIMID *ID = [DIMID IDWithID:item];
+    
+    DIMAccount *contact = MKMAccountWithID(ID);
+    cell.textLabel.text = account_title(contact);
+    cell.detailTextLabel.text = contact.ID;
+    
+    return cell;
 }
-
-//- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSInteger section = indexPath.section;
-//    if (section == 1) {
-//        indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-//    }
-//    return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSInteger section = indexPath.section;
-//    if (section == 1) {
-//        indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-//    }
-//    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-//}
 
 /*
 // Override to support conditional editing of the table view.
@@ -155,7 +143,6 @@
         ProfileTableViewController *profileTVC = segue.destinationViewController;
         profileTVC.account = MKMAccountWithID(ID);
     }
-    
 }
 
 @end
