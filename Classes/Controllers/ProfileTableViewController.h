@@ -16,19 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) DIMAccount *account;
 
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *descLabel;
-
-@property (weak, nonatomic) IBOutlet UILabel *seedLabel;
-@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *numberLabel;
-@property (weak, nonatomic) IBOutlet UILabel *fingerprintLabel;
-
-@property (weak, nonatomic) IBOutlet UILabel *localityLabel;
-@property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *avatarLabel;
-
-
 @end
 
 NS_ASSUME_NONNULL_END

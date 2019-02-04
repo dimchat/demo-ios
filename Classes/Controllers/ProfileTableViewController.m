@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 
 #import "Facebook.h"
@@ -15,7 +16,10 @@
 
 #import "ProfileTableViewController.h"
 
-@interface ProfileTableViewController ()
+@interface ProfileTableViewController () {
+    
+    DIMAccountProfile *_profile;
+}
 
 @end
 
@@ -30,50 +34,78 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    _nameLabel.text = account_title(_account);
-    _descLabel.text = _account.ID;
+    self.title = account_title(_account);
     
-    DIMID *ID = _account.ID;
-    DIMMeta *meta = MKMMetaForID(ID);
-    
-    _seedLabel.text = ID.name;
-    _addressLabel.text = ID.address;
-    _numberLabel.text = search_number(ID.number);
-    _fingerprintLabel.text = [meta.fingerprint base64Encode];
-    
-    DIMAccountProfile *profile = (DIMAccountProfile *)MKMProfileForID(ID);
-    
-    _localityLabel.text = [profile objectForKey:@"locality"];
-    _nicknameLabel.text = profile.name;
-    _avatarLabel.text = profile.avatar;
+    _profile = (DIMAccountProfile *)MKMProfileForID(_account.ID);
 }
 
 #pragma mark - Table view data source
 
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return 4;
-//}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
 
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    
-//    if (section == 0) {
-//        return 1;
-//    }
-//    if (section == 3) {
-//        return 1;
-//    }
-//    return 0;
-//}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    if (section == 0) {
+        return 3;
+    }
+    if (section == 1) {
+        return [_profile.allKeys count];
+    }
+    if (section == 2) {
+        return 1;
+    }
+    return [super tableView:tableView numberOfRowsInSection:section];
+}
 
-/*
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return @"ID";
+    }
+    if (section == 1) {
+        return @"Profiles";
+    }
+    return [super tableView:tableView titleForHeaderInSection:section];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
     
     // Configure the cell...
+    if (section == 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"IDCell" forIndexPath:indexPath];
+        if (row == 0) {
+            cell.textLabel.text = @"Username";
+            cell.detailTextLabel.text = _account.ID.name;
+        } else if (row == 1) {
+            cell.textLabel.text = @"Address";
+            cell.detailTextLabel.text = _account.ID.address;
+        } else if (row == 2) {
+            cell.textLabel.text = @"Number";
+            cell.detailTextLabel.text = search_number(_account.ID.number);
+        }
+        return cell;
+    }
+    if (section == 1) {
+        NSString *key = [_profile.allKeys objectAtIndex:row];
+        id value = [_profile objectForKey:key];
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath:indexPath];
+        cell.textLabel.text = key;
+        cell.detailTextLabel.text = [value jsonString];
+        return cell;
+    }
+    if (section == 2) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
+        return cell;
+    }
     
-    return cell;
+    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
-*/
 
 /*
 // Override to support conditional editing of the table view.
