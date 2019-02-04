@@ -6,13 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <DIMCore/DIMCore.h>
-
-#import "NSObject+JsON.h"
-
-#import "Facebook.h"
-#import "Facebook+Register.h"
-
+#import "User.h"
 #import "Station.h"
 
 #import "AppDelegate.h"
@@ -27,81 +21,18 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [Facebook sharedInstance];
-    
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMBarrack *barrack = [DIMBarrack sharedInstance];
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    
-    DIMID *ID;
-    DIMUser *user;
-    
-    // Monkey King
-    ID = [DIMID IDWithID:MKM_MONKEY_KING_ID];
-    user = MKMUserWithID(ID);
-    [client addUser:user];
-    
-    // Immortal Hulk
-    ID = [DIMID IDWithID:MKM_IMMORTAL_HULK_ID];
-    user = MKMUserWithID(ID);
-    [client addUser:user];
-    
-    while (YES) {
+#if DEBUG && 0
+    {
         // moky
         NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-moky" ofType:@"plist"];
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        
-        if (!dict) {
-            NSLog(@"failed to load: %@", path);
-            break;
-        }
-        
-        DIMID *ID = [DIMID IDWithID:[dict objectForKey:@"ID"]];
-        DIMMeta *meta = [DIMMeta metaWithMeta:[dict objectForKey:@"meta"]];
-        [barrack saveMeta:meta forEntityID:ID];
-        
-        DIMPrivateKey *SK = [DIMPrivateKey keyWithKey:[dict objectForKey:@"privateKey"]];
-        DIMPublicKey *PK = [SK publicKey];
-        [SK saveKeyWithIdentifier:ID.address];
-        
-        DIMUser *user = [[DIMUser alloc] initWithID:ID publicKey:PK];
-        user.privateKey = SK;
-        client.currentUser = user;
-        
-        // profile
-        MKMAccountProfile *profile = [dict objectForKey:@"profile"];
-        profile = [MKMAccountProfile profileWithProfile:profile];
-        if (profile) {
-            user.name = profile.name;
-        }
-        
-        break;
+        User *user = [User userWithConfigFile:path];
+        [DIMClient sharedInstance].currentUser = user;
     }
-    
-    Facebook *facebook = [Facebook sharedInstance];
-    NSArray *array = [facebook scanUserIDList];
-    for (ID in array) {
-        user = MKMUserWithID(ID);
-        [client addUser:user];
-    }
+#endif
     
     // GSP station
     NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp" ofType:@"plist"];
-    NSDictionary *gsp = [NSDictionary dictionaryWithContentsOfFile:path];
-    NSArray *stations = [gsp objectForKey:@"stations"];
-    NSDictionary *station = stations.firstObject;
-    
-    // save meta for server ID
-    ID = [station objectForKey:@"ID"];
-    ID = [DIMID IDWithID:ID];
-    DIMMeta *meta = [station objectForKey:@"meta"];
-    meta = [DIMMeta metaWithMeta:meta];
-    [barrack setMeta:meta forID:ID];
-    
-    // connect server
-    Station *server = [[Station alloc] initWithDictionary:station];
-    client.currentStation = server;
-    trans.delegate = server;
+    Station *server = [Station stationWithConfigFile:path];
     [server start];
     
     return YES;

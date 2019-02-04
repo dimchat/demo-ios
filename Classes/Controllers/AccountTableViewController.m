@@ -43,6 +43,9 @@
 
 - (void)reloadData {
     // TODO: update client.users
+    DIMUser *user = [DIMClient sharedInstance].currentUser;
+    _nameLabel.text = account_title(user);
+    _descLabel.text = user.ID;
     
     [self.tableView reloadData];
 }
@@ -167,11 +170,7 @@
         // Users
         DIMUser *user = [client.users objectAtIndex:row];
         [client login:user];
-        
-        _nameLabel.text = account_title(user);
-        _descLabel.text = user.ID;
-        
-        [tableView reloadData];
+        [self reloadData];
     } else if (section == 2) {
         // Functions
     } else if (section == 3) {

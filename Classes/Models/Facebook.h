@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (MKMID *)IDWithAddress:(const MKMAddress *)address;
 
+- (void)switchUser;
+
 @end
 
 NS_ASSUME_NONNULL_END

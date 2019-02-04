@@ -37,6 +37,8 @@ typedef NS_ENUM(UInt8, StationState) {
                       host:(const NSString *)IP
                       port:(UInt32)port;
 
++ (instancetype)stationWithConfigFile:(NSString *)spConfig;
+
 - (void)start;
 - (void)stop;
 

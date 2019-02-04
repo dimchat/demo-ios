@@ -18,6 +18,7 @@
 		E9CF97F221FC0E8B0092DD8B /* gsp-selvn.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97F121FC0E8B0092DD8B /* gsp-selvn.plist */; };
 		E9CF97FD21FEDBBF0092DD8B /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */; };
 		E9CF980321FF37160092DD8B /* Client+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF980221FF37160092DD8B /* Client+Ext.m */; };
+		E9DC2EEE22087FCB005EE45F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DC2EED22087FCB005EE45F /* User.m */; };
 		E9E0525322041DB0005D1CF3 /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9E0525222041DB0005D1CF3 /* ChatViewImages.xcassets */; };
 		E9E0525722041EF4005D1CF3 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525622041EF4005D1CF3 /* NSString+Extension.m */; };
 		E9E0525A22042077005D1CF3 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525922042077005D1CF3 /* UIImage+Extension.m */; };
@@ -124,6 +125,8 @@
 		E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
 		E9CF980121FF37160092DD8B /* Client+Ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Client+Ext.h"; sourceTree = "<group>"; };
 		E9CF980221FF37160092DD8B /* Client+Ext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Client+Ext.m"; sourceTree = "<group>"; };
+		E9DC2EEC22087FCB005EE45F /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		E9DC2EED22087FCB005EE45F /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		E9E0525222041DB0005D1CF3 /* ChatViewImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatViewImages.xcassets; sourceTree = "<group>"; };
 		E9E0525522041EF4005D1CF3 /* NSString+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
 		E9E0525622041EF4005D1CF3 /* NSString+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
@@ -309,6 +312,8 @@
 				E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */,
 				E9F3AAF121CC120D009690F6 /* MessageProcessor.h */,
 				E9F3AAF321CC120D009690F6 /* MessageProcessor.m */,
+				E9DC2EEC22087FCB005EE45F /* User.h */,
+				E9DC2EED22087FCB005EE45F /* User.m */,
 				E912ADB621E89CC500F56BBE /* Station.h */,
 				E912ADB721E89CC500F56BBE /* Station.m */,
 				E9E9419C2204151C00E82FAD /* Station+Connection.h */,
@@ -541,6 +546,7 @@
 				E9E0525D220421F2005D1CF3 /* MsgCell.m in Sources */,
 				E9F3AB8321CFF3AE009690F6 /* ConversationsTableViewController.m in Sources */,
 				E9F3AB7321CFC6C8009690F6 /* ContactsTableViewController.m in Sources */,
+				E9DC2EEE22087FCB005EE45F /* User.m in Sources */,
 				E95A80C22205F66B007EA611 /* SearchUsersTableViewController.m in Sources */,
 				E9E0525A22042077005D1CF3 /* UIImage+Extension.m in Sources */,
 				E9CF980321FF37160092DD8B /* Client+Ext.m in Sources */,

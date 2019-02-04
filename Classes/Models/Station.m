@@ -42,6 +42,28 @@
     }
     return self;
 }
+
++ (instancetype)stationWithConfigFile:(NSString *)spConfig {
+    NSDictionary *gsp = [NSDictionary dictionaryWithContentsOfFile:spConfig];
+    NSArray *stations = [gsp objectForKey:@"stations"];
+    
+    // choose the fast station
+    NSDictionary *station = stations.firstObject;
+    
+    // save meta for server ID
+    DIMID *ID = [station objectForKey:@"ID"];
+    ID = [DIMID IDWithID:ID];
+    DIMMeta *meta = [station objectForKey:@"meta"];
+    meta = [DIMMeta metaWithMeta:meta];
+    [[DIMBarrack sharedInstance] setMeta:meta forID:ID];
+    
+    // connect server
+    Station *server = [[Station alloc] initWithDictionary:station];
+    [DIMClient sharedInstance].currentStation = server;
+    [DIMTransceiver sharedInstance].delegate = server;
+    return server;
+}
+
 - (void)start {
     _state = StationState_Init;
     [self performSelectorInBackground:@selector(run) withObject:nil];

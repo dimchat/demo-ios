@@ -100,7 +100,13 @@
         return cell;
     }
     if (section == 2) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
+        DIMUser *user = [DIMClient sharedInstance].currentUser;
+        if ([user.contacts containsObject:_account.ID]) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"AddFriendCell" forIndexPath:indexPath];
+        }
+        
         return cell;
     }
     
@@ -159,6 +165,22 @@
             chatVC = (ChatViewController *)[(UINavigationController *)chatVC visibleViewController];
         }
         chatVC.conversation = convers;
+        
+    } else if ([segue.identifier isEqualToString:@"addContact"]) {
+        
+        // TODO: add to contacts
+        NSLog(@"adding contact: %@", _account);
+        
+        DIMID *ID = _account.ID;
+        NSLog(@"contact: %@", ID);
+        DIMConversation *convers = DIMConversationWithID(ID);
+        
+        ChatViewController *chatVC = segue.destinationViewController;
+        if (![chatVC isKindOfClass:[ChatViewController class]]) {
+            chatVC = (ChatViewController *)[(UINavigationController *)chatVC visibleViewController];
+        }
+        chatVC.conversation = convers;
+        
     }
 }
 

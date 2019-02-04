@@ -14,37 +14,37 @@
 
 #import "Facebook.h"
 
-static inline NSArray *scan_barrack(void) {
-    NSMutableArray *mArray = [[NSMutableArray alloc] init];
-    
-    NSString *dir = document_directory();
-    dir = [dir stringByAppendingPathComponent:@".mkm"];
-    
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *de;
-    de = [fm enumeratorAtPath:dir];
-    
-    NSString *seed;
-    NSString *addr;
-    NSString *idstr;
-    NSDictionary *dict;
-    
-    NSString *path;
-    while (path = [de nextObject]) {
-        //NSLog(@"path: %@", path);
-        if ([path hasSuffix:@"/meta.plist"]) {
-            addr = [path substringToIndex:(path.length - 11)];
-            path = [dir stringByAppendingPathComponent:path];
-            dict = [NSDictionary dictionaryWithContentsOfFile:path];
-            seed = [dict objectForKey:@"seed"];
-            idstr = [NSString stringWithFormat:@"%@@%@", seed, addr];
-            NSLog(@"scan barrack -> number: %@, ID: %@", search_number([MKMID IDWithID:idstr].number), idstr);
-            [mArray addObject:idstr];
-        }
-    }
-    
-    return mArray;
-}
+//static inline NSArray *scan_barrack(void) {
+//    NSMutableArray *mArray = [[NSMutableArray alloc] init];
+//
+//    NSString *dir = document_directory();
+//    dir = [dir stringByAppendingPathComponent:@".mkm"];
+//
+//    NSFileManager *fm = [NSFileManager defaultManager];
+//    NSDirectoryEnumerator *de;
+//    de = [fm enumeratorAtPath:dir];
+//
+//    NSString *seed;
+//    NSString *addr;
+//    NSString *idstr;
+//    NSDictionary *dict;
+//
+//    NSString *path;
+//    while (path = [de nextObject]) {
+//        //NSLog(@"path: %@", path);
+//        if ([path hasSuffix:@"/meta.plist"]) {
+//            addr = [path substringToIndex:(path.length - 11)];
+//            path = [dir stringByAppendingPathComponent:path];
+//            dict = [NSDictionary dictionaryWithContentsOfFile:path];
+//            seed = [dict objectForKey:@"seed"];
+//            idstr = [NSString stringWithFormat:@"%@@%@", seed, addr];
+//            NSLog(@"scan barrack -> number: %@, ID: %@", search_number([MKMID IDWithID:idstr].number), idstr);
+//            [mArray addObject:idstr];
+//        }
+//    }
+//
+//    return mArray;
+//}
 
 @interface Facebook () {
     
@@ -63,7 +63,7 @@ SingletonImplementations(Facebook, sharedInstance)
     if (self = [super init]) {
         // immortal accounts
         _immortals = [[MKMImmortals alloc] init];
-#if DEBUG
+#if DEBUG && 1
         MKMUser *user;
         user = [_immortals userWithID:[MKMID IDWithID:MKM_MONKEY_KING_ID]];
         [[DIMClient sharedInstance] addUser:user];
@@ -73,18 +73,18 @@ SingletonImplementations(Facebook, sharedInstance)
         
         // contacts
         _contacts = [[NSMutableArray alloc] init];
-#if DEBUG
+#if DEBUG && 0
         [_contacts addObject:MKM_MONKEY_KING_ID];
         [_contacts addObject:MKM_IMMORTAL_HULK_ID];
+        
+//        NSArray *arr = scan_barrack();
+//        for (id item in arr) {
+//            if (![_contacts containsObject:item]) {
+//                [_contacts addObject:item];
+//            }
+//        }
 #endif
-        
-        NSArray *arr = scan_barrack();
-        for (id item in arr) {
-            if (![_contacts containsObject:item]) {
-                [_contacts addObject:item];
-            }
-        }
-        
+
         // delegates
         MKMBarrack *barrack = [MKMBarrack sharedInstance];
         barrack.accountDelegate    = self;
@@ -126,6 +126,12 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     return ID;
+}
+
+- (void)switchUser {
+    [_contacts removeAllObjects];
+    
+    // TODO: reload contacts of the current user
 }
 
 #pragma mark - MKMAccountDelegate

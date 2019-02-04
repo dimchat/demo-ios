@@ -23,7 +23,7 @@
     DIMClient *client = [DIMClient sharedInstance];
     self.webView.customUserAgent = client.userAgent;
     
-    NSURL *url = [NSURL URLWithString:@"https://dim.chat/about"];
+    NSURL *url = [NSURL URLWithString:@"https://dim.chat/"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:request];
 }

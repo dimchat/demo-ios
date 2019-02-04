@@ -37,13 +37,6 @@
     return 1;
 }
 
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-//    if (section == 1) {
-//        return @"Contacts";
-//    }
-//    return [super tableView:tableView titleForHeaderInSection:section];
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     DIMClient *client = [DIMClient sharedInstance];
@@ -51,9 +44,6 @@
     Facebook *fb = [Facebook sharedInstance];
     
     if (section == 0) {
-//        return 1;
-//    } else if (section == 1) {
-        // Contacts
         return [fb numberOfContactsInUser:user];
     }
     return [super tableView:tableView numberOfRowsInSection:section];
@@ -76,10 +66,6 @@
     DIMAccount *contact = nil;
 
     if (section == 0) {
-//        identifier = @"OnlineUsersCell";
-//        cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-//        return cell;
-//    } else if (section == 1) {
         ID = [fb user:user contactAtIndex:row];
         contact = [fb accountWithID:ID];
         identifier = @"ContactCell";
@@ -90,22 +76,6 @@
     }
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
-
-//- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSInteger section = indexPath.section;
-//    if (section == 1) {
-//        indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-//    }
-//    return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSInteger section = indexPath.section;
-//    if (section == 1) {
-//        indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-//    }
-//    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-//}
 
 /*
 // Override to support conditional editing of the table view.

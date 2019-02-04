@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
-                            <tableViewSection headerTitle="Current User" id="gYp-EN-BaU">
+                            <tableViewSection headerTitle="Current Account" id="gYp-EN-BaU">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" textLabel="dwU-z0-ak4" detailTextLabel="394-l4-LSw" rowHeight="100" style="IBUITableViewCellStyleSubtitle" id="EJa-uY-sbS">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="100"/>
@@ -50,7 +50,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Accounts" id="f4a-cR-G8g">
+                            <tableViewSection headerTitle="All Account(s)" id="f4a-cR-G8g">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AccountCell" textLabel="Ndg-2v-qf6" style="IBUITableViewCellStyleDefault" id="1US-YY-Q2j">
                                         <rect key="frame" x="0.0" y="211.5" width="375" height="44"/>
@@ -301,7 +301,6 @@
         <!--Setting-->
         <scene sceneID="YGB-jE-9nr">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JOC-Rh-yV7" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController title="Setting" id="nmM-UV-xb4" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="fOA-Oy-9rU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -367,6 +366,7 @@
                         </connections>
                     </tableView>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JOC-Rh-yV7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1561" y="515"/>
         </scene>
