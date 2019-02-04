@@ -12,6 +12,13 @@
 
 #import "Station.h"
 
+@interface Station () {
+    
+    NSMutableData *_inputData;
+}
+
+@end
+
 @implementation Station
 
 - (instancetype)initWithID:(const MKMID *)ID
@@ -24,6 +31,8 @@
         
         _inputStream = nil;
         _outputStream = nil;
+        
+        _inputData = nil;
         
         _tasks = [[NSMutableArray alloc] init];
         
@@ -58,23 +67,41 @@
         case NSStreamEventHasBytesAvailable: {
             NSLog(@"NSStreamEventHasBytesAvailable: %@", aStream);
             
-            NSMutableData *mData = [[NSMutableData alloc] initWithCapacity:1024];
+            if (_inputData) {
+                NSLog(@"last not finished data: %@", [_inputData UTF8String]);
+            } else {
+                _inputData = [[NSMutableData alloc] initWithCapacity:1024];
+            }
             uint8_t buf[1024];
             NSInteger len;
             while ([_inputStream hasBytesAvailable]) {
                 len = [_inputStream read:buf maxLength:sizeof(buf)];
                 if (len > 0) {
-                    [mData appendBytes:(const void *)buf length:len];
+                    [_inputData appendBytes:(const void *)buf length:len];
                 }
             }
             
-            if (mData.length > 0) {
+            if (_inputData.length > 0) {
                 NSAssert(_delegate, @"delegate not set");
-                NSString *string = [mData UTF8String];
+                NSString *string = [_inputData UTF8String];
+                _inputData = nil;
                 NSArray *array = [string componentsSeparatedByString:@"\n"];
-                for (string in array) {
-                    if (string.length > 0) {
+                NSUInteger count = [array count];
+                for (NSUInteger index = 0; index < count; ++index) {
+                    string = [array objectAtIndex:index];
+                    if (string.length == 0) {
+                        continue;
+                    }
+                    @try {
                         [_delegate station:self didReceiveData:[string data]];
+                    } @catch (NSException *exception) {
+                        NSLog(@"**** JsON error!");
+                        if (index == count - 1) {
+                            // not finished data, push back for next input
+                            _inputData = [[NSMutableData alloc] initWithData:[string data]];
+                            NSLog(@"not finished data: %@", [_inputData UTF8String]);
+                            break;
+                        }
                     }
                 }
             }

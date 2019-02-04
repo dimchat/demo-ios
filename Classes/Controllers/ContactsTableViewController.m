@@ -34,15 +34,15 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 2;
+    return 1;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 1) {
-        return @"Contacts";
-    }
-    return [super tableView:tableView titleForHeaderInSection:section];
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+//    if (section == 1) {
+//        return @"Contacts";
+//    }
+//    return [super tableView:tableView titleForHeaderInSection:section];
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
@@ -51,8 +51,8 @@
     Facebook *fb = [Facebook sharedInstance];
     
     if (section == 0) {
-        return 1;
-    } else if (section == 1) {
+//        return 1;
+//    } else if (section == 1) {
         // Contacts
         return [fb numberOfContactsInUser:user];
     }
@@ -76,10 +76,10 @@
     DIMAccount *contact = nil;
 
     if (section == 0) {
-        identifier = @"OnlineUsersCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-        return cell;
-    } else if (section == 1) {
+//        identifier = @"OnlineUsersCell";
+//        cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+//        return cell;
+//    } else if (section == 1) {
         ID = [fb user:user contactAtIndex:row];
         contact = [fb accountWithID:ID];
         identifier = @"ContactCell";

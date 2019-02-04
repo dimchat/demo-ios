@@ -19,7 +19,7 @@
 
 @interface OnlineUsersTableViewController () {
     
-    NSMutableArray *_users;
+    NSMutableArray *_onlineUsers;
 }
 
 @end
@@ -69,20 +69,20 @@
     NSString *path = [dir stringByAppendingPathComponent:@"online_users.plist"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSArray *users = [NSArray arrayWithContentsOfFile:path];
-        _users = [[NSMutableArray alloc] initWithCapacity:users.count];
+        _onlineUsers = [[NSMutableArray alloc] initWithCapacity:users.count];
         DIMID *ID;
         DIMPublicKey *PK;
         for (NSString *item in users) {
             ID = [DIMID IDWithID:item];
             PK = MKMPublicKeyForID(ID);
             if (PK) {
-                [_users addObject:ID];
+                [_onlineUsers addObject:ID];
             } else {
                 [station queryMetaForID:ID];
             }
         }
     } else {
-        _users = nil;
+        _onlineUsers = nil;
     }
 }
 
@@ -93,14 +93,14 @@
     NSArray *users = [notification object];
     NSLog(@"online users: %@", users);
     if ([users count] > 0) {
-        _users = [[NSMutableArray alloc] initWithCapacity:users.count];
+        _onlineUsers = [[NSMutableArray alloc] initWithCapacity:users.count];
         DIMID *ID;
         DIMPublicKey *PK;
         for (NSString *item in users) {
             ID = [DIMID IDWithID:item];
             PK = MKMPublicKeyForID(ID);
             if (PK) {
-                [_users addObject:ID];
+                [_onlineUsers addObject:ID];
             } else {
                 [station queryMetaForID:ID];
             }
@@ -120,7 +120,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //#warning Incomplete implementation, return the number of rows
-    return _users.count;
+    return _onlineUsers.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -128,7 +128,7 @@
     
     // Configure the cell...
     NSInteger row = indexPath.row;
-    NSString *item = [_users objectAtIndex:row];
+    NSString *item = [_onlineUsers objectAtIndex:row];
     DIMID *ID = [DIMID IDWithID:item];
     
     DIMAccount *contact = MKMAccountWithID(ID);

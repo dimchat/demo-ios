@@ -19,6 +19,7 @@
 @interface SearchUsersTableViewController () {
     
     NSMutableArray *_users;
+    NSMutableArray *_onlineUsers;
 }
 
 @end
@@ -39,9 +40,66 @@
            selector:@selector(reloadData:)
                name:@"SearchUsersUpdated"
              object:nil];
+    
+    { // online users
+        // 1. load from local cache
+        [self loadCacheFile];
+        
+        // 2. query from the station
+        DIMCommand *content = [[DIMCommand alloc] initWithCommand:@"users"];
+        DIMClient *client = [DIMClient sharedInstance];
+        DIMUser *user = client.currentUser;
+        Station *station = (Station *)client.currentStation;
+        DKDTransceiverCallback callback = ^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
+            assert(!error);
+        };
+        DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+        [trans sendMessageContent:content
+                             from:user.ID
+                               to:station.ID
+                             time:nil
+                         callback:callback];
+        
+        // 3. waiting for update
+        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+        [dc addObserver:self
+               selector:@selector(reloadData:)
+                   name:@"OnlineUsersUpdated"
+                 object:nil];
+    }
 }
 
 - (void)reloadData:(NSNotification *)notification {
+    
+    if ([notification.name isEqualToString:@"OnlineUsersUpdated"]) {
+        // online users
+        { // online users
+            DIMClient *client = [DIMClient sharedInstance];
+            Station *station = (Station *)client.currentStation;
+            
+            NSArray *users = [notification object];
+            NSLog(@"online users: %@", users);
+            if ([users count] > 0) {
+                _onlineUsers = [[NSMutableArray alloc] initWithCapacity:users.count];
+                DIMID *ID;
+                DIMPublicKey *PK;
+                for (NSString *item in users) {
+                    ID = [DIMID IDWithID:item];
+                    PK = MKMPublicKeyForID(ID);
+                    if (PK) {
+                        [_onlineUsers addObject:ID];
+                    } else {
+                        [station queryMetaForID:ID];
+                    }
+                }
+            } else {
+                [self loadCacheFile];
+            }
+            [self.tableView reloadData];
+        }
+        return;
+    }
+    
     NSDictionary *info = [notification object];
     _users = [info objectForKey:@"users"];
     NSDictionary *results = [info objectForKey:@"results"];
@@ -58,6 +116,31 @@
     [self.tableView reloadData];
 }
 
+- (void)loadCacheFile {
+    DIMClient *client = [DIMClient sharedInstance];
+    Station *station = (Station *)client.currentStation;
+    
+    NSString *dir = NSTemporaryDirectory();
+    NSString *path = [dir stringByAppendingPathComponent:@"online_users.plist"];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSArray *users = [NSArray arrayWithContentsOfFile:path];
+        _onlineUsers = [[NSMutableArray alloc] initWithCapacity:users.count];
+        DIMID *ID;
+        DIMPublicKey *PK;
+        for (NSString *item in users) {
+            ID = [DIMID IDWithID:item];
+            PK = MKMPublicKeyForID(ID);
+            if (PK) {
+                [_onlineUsers addObject:ID];
+            } else {
+                [station queryMetaForID:ID];
+            }
+        }
+    } else {
+        _onlineUsers = nil;
+    }
+}
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSString *keywords = searchBar.text;
     NSLog(@"****************** searching %@", keywords);
@@ -72,14 +155,46 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _users.count;
+    
+    if (section == 0) {
+        return _users.count;
+    } else if (section == 1) {
+        return _onlineUsers.count;
+    }
+    return [super tableView:tableView numberOfRowsInSection:section];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    if (section == 1) {
+        return @"Online Users";
+    }
+    return [super tableView:tableView titleForHeaderInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSInteger section = indexPath.section;
+    if (section == 1) {
+        // online users
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
+        
+        // Configure the cell...
+        NSInteger row = indexPath.row;
+        NSString *item = [_onlineUsers objectAtIndex:row];
+        DIMID *ID = [DIMID IDWithID:item];
+        
+        DIMAccount *contact = MKMAccountWithID(ID);
+        cell.textLabel.text = account_title(contact);
+        cell.detailTextLabel.text = contact.ID;
+        
+        return cell;
+    }
+    
     tableView = self.tableView;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
     
