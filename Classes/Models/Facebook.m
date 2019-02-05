@@ -37,7 +37,7 @@ SingletonImplementations(Facebook, sharedInstance)
     if (self = [super init]) {
         // immortal accounts
         _immortals = [[MKMImmortals alloc] init];
-#if DEBUG && 1
+#if DEBUG && 0
         DIMUser *user;
         user = [_immortals userWithID:[DIMID IDWithID:MKM_MONKEY_KING_ID]];
         [[DIMClient sharedInstance] addUser:user];

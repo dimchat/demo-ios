@@ -31,8 +31,13 @@
     
     DIMClient *client = [DIMClient sharedInstance];
     DIMUser *user = client.currentUser;
-    _nameLabel.text = account_title(user);
-    _descLabel.text = user.ID;
+    if (user) {
+        _nameLabel.text = account_title(user);
+        _descLabel.text = user.ID;
+    } else {
+        _nameLabel.text = @"USER NOT FOUND";
+        _descLabel.text = @"Please register/login first.";
+    }
     
     NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
     [dc addObserver:self
