@@ -41,11 +41,13 @@
                name:@"SearchUsersUpdated"
              object:nil];
     
-    { // online users
+    DIMClient *client = [DIMClient sharedInstance];
+    DIMUser *user = client.currentUser;
+    if (user) {
+        // online users
+        
         // 1. query from the station
         DIMCommand *content = [[DIMCommand alloc] initWithCommand:@"users"];
-        DIMClient *client = [DIMClient sharedInstance];
-        DIMUser *user = client.currentUser;
         Station *station = (Station *)client.currentStation;
         DKDTransceiverCallback callback = ^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
             assert(!error);

@@ -52,8 +52,12 @@
 
     DIMClient *client = [DIMClient sharedInstance];
     DIMUser *user = client.currentUser;
-    Facebook *facebook = [Facebook sharedInstance];
-    return [facebook numberOfContactsInUser:user];
+    if (user) {
+        Facebook *facebook = [Facebook sharedInstance];
+        return [facebook numberOfContactsInUser:user];
+    } else {
+        return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

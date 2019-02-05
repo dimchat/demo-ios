@@ -127,7 +127,7 @@
                 } else {
                     // waiting for new user login
                     NSLog(@"[Station] No user login, paused");
-                    sleep(1);
+                    sleep(3);
                 }
             }
                 break;

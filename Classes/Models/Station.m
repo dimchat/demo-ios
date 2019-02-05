@@ -258,11 +258,15 @@
 - (void)searchUsersWithKeywords:(NSString *)keywords {
     DIMClient *client = [DIMClient sharedInstance];
     DIMUser *user = client.currentUser;
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+    if (!user) {
+        NSLog(@"not login yet");
+        return ;
+    }
     
     DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"search"];
     [cmd setObject:keywords forKey:@"keywords"];
     // pack and send
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
     [trans sendMessageContent:cmd
                          from:user.ID
                            to:self.ID
