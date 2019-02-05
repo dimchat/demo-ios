@@ -10,23 +10,28 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Facebook : NSObject <MKMAccountDelegate,
-                                MKMUserDataSource,
-                                MKMUserDelegate,
+typedef NSArray<DIMID *> ContactTable;
+
+@interface Facebook : NSObject <DIMAccountDelegate,
+                                DIMUserDataSource,
+                                DIMUserDelegate,
                                 //-
-                                MKMGroupDataSource,
-                                MKMGroupDelegate,
-                                MKMMemberDelegate,
-                                MKMChatroomDataSource,
+                                DIMGroupDataSource,
+                                DIMGroupDelegate,
+                                DIMMemberDelegate,
+                                DIMChatroomDataSource,
                                 //-
-                                MKMEntityDataSource,
-                                MKMProfileDataSource>
+                                DIMEntityDataSource,
+                                DIMProfileDataSource>
 
 + (instancetype)sharedInstance;
 
-- (MKMID *)IDWithAddress:(const MKMAddress *)address;
+- (DIMID *)IDWithAddress:(const DIMAddress *)address;
 
-- (void)switchUser;
+- (void)addContact:(const DIMID *)contactID user:(const DIMUser *)user;
+- (void)removeContact:(const DIMID *)contactID user:(const DIMUser *)user;
+
+- (ContactTable *)reloadContactsWithUser:(const DIMUser *)user;
 
 @end
 

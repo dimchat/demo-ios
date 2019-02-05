@@ -168,8 +168,12 @@
         
     } else if ([segue.identifier isEqualToString:@"addContact"]) {
         
-        // TODO: add to contacts
-        NSLog(@"adding contact: %@", _account);
+        // add to contacts
+        DIMClient *client = [DIMClient sharedInstance];
+        DIMUser *user = client.currentUser;
+        Facebook *facebook = [Facebook sharedInstance];
+        [facebook addContact:_account.ID user:user];
+        NSLog(@"contact %@ added to user %@", _account, user);
         
         DIMID *ID = _account.ID;
         NSLog(@"contact: %@", ID);

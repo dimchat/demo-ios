@@ -28,6 +28,17 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    [dc addObserver:self
+           selector:@selector(reloadData)
+               name:@"ContactsUpdated"
+             object:nil];
+}
+
+- (void)reloadData {
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -39,12 +50,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMUser *user = client.currentUser;
-    Facebook *fb = [Facebook sharedInstance];
-    
     if (section == 0) {
-        return [fb numberOfContactsInUser:user];
+        DIMClient *client = [DIMClient sharedInstance];
+        DIMUser *user = client.currentUser;
+        Facebook *facebook = [Facebook sharedInstance];
+        return [facebook numberOfContactsInUser:user];
     }
     return [super tableView:tableView numberOfRowsInSection:section];
 }
@@ -58,16 +68,16 @@
     UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     NSString *identifier = nil;
 
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMUser *user = client.currentUser;
-    Facebook *fb = [Facebook sharedInstance];
-
     DIMID *ID = nil;
     DIMAccount *contact = nil;
 
     if (section == 0) {
-        ID = [fb user:user contactAtIndex:row];
-        contact = [fb accountWithID:ID];
+        DIMClient *client = [DIMClient sharedInstance];
+        DIMUser *user = client.currentUser;
+        Facebook *facebook = [Facebook sharedInstance];
+        ID = [facebook user:user contactAtIndex:row];
+        
+        contact = [facebook accountWithID:ID];
         identifier = @"ContactCell";
         cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         cell.textLabel.text = account_title(contact);

@@ -7,6 +7,7 @@
 //
 
 #import "Station.h"
+#import "Facebook.h"
 
 #import "Client+Ext.h"
 
@@ -14,8 +15,15 @@
 
 - (void)login:(DIMUser *)user {
     self.currentUser = user;
+    
     Station *station = (Station *)self.currentStation;
     [station switchUser];
+    
+    Facebook *facebook = [Facebook sharedInstance];
+    [facebook reloadContactsWithUser:user];
+    
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    [dc postNotificationName:@"ContactsUpdated" object:nil];
 }
 
 @end

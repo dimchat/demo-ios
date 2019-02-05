@@ -14,43 +14,17 @@
 
 #import "Facebook.h"
 
-//static inline NSArray *scan_barrack(void) {
-//    NSMutableArray *mArray = [[NSMutableArray alloc] init];
-//
-//    NSString *dir = document_directory();
-//    dir = [dir stringByAppendingPathComponent:@".mkm"];
-//
-//    NSFileManager *fm = [NSFileManager defaultManager];
-//    NSDirectoryEnumerator *de;
-//    de = [fm enumeratorAtPath:dir];
-//
-//    NSString *seed;
-//    NSString *addr;
-//    NSString *idstr;
-//    NSDictionary *dict;
-//
-//    NSString *path;
-//    while (path = [de nextObject]) {
-//        //NSLog(@"path: %@", path);
-//        if ([path hasSuffix:@"/meta.plist"]) {
-//            addr = [path substringToIndex:(path.length - 11)];
-//            path = [dir stringByAppendingPathComponent:path];
-//            dict = [NSDictionary dictionaryWithContentsOfFile:path];
-//            seed = [dict objectForKey:@"seed"];
-//            idstr = [NSString stringWithFormat:@"%@@%@", seed, addr];
-//            NSLog(@"scan barrack -> number: %@, ID: %@", search_number([MKMID IDWithID:idstr].number), idstr);
-//            [mArray addObject:idstr];
-//        }
-//    }
-//
-//    return mArray;
-//}
+@interface MKMUser (Hacking)
+
+@property (strong, nonatomic) MKMContactListM *contacts;
+
+@end
 
 @interface Facebook () {
     
     MKMImmortals *_immortals;
     
-    NSMutableArray *_contacts;
+    NSMutableDictionary<DIMAddress *, MKMContactListM *> *_contactsTable;
 }
 
 @end
@@ -64,29 +38,17 @@ SingletonImplementations(Facebook, sharedInstance)
         // immortal accounts
         _immortals = [[MKMImmortals alloc] init];
 #if DEBUG && 1
-        MKMUser *user;
-        user = [_immortals userWithID:[MKMID IDWithID:MKM_MONKEY_KING_ID]];
+        DIMUser *user;
+        user = [_immortals userWithID:[DIMID IDWithID:MKM_MONKEY_KING_ID]];
         [[DIMClient sharedInstance] addUser:user];
-        user = [_immortals userWithID:[MKMID IDWithID:MKM_IMMORTAL_HULK_ID]];
+        user = [_immortals userWithID:[DIMID IDWithID:MKM_IMMORTAL_HULK_ID]];
         [[DIMClient sharedInstance] addUser:user];
 #endif
         
-        // contacts
-        _contacts = [[NSMutableArray alloc] init];
-#if DEBUG && 0
-        [_contacts addObject:MKM_MONKEY_KING_ID];
-        [_contacts addObject:MKM_IMMORTAL_HULK_ID];
+        _contactsTable = [[NSMutableDictionary alloc] init];
         
-//        NSArray *arr = scan_barrack();
-//        for (id item in arr) {
-//            if (![_contacts containsObject:item]) {
-//                [_contacts addObject:item];
-//            }
-//        }
-#endif
-
         // delegates
-        MKMBarrack *barrack = [MKMBarrack sharedInstance];
+        DIMBarrack *barrack = [DIMBarrack sharedInstance];
         barrack.accountDelegate    = self;
         barrack.userDataSource     = self;
         barrack.userDelegate       = self;
@@ -100,14 +62,14 @@ SingletonImplementations(Facebook, sharedInstance)
     return self;
 }
 
-- (MKMID *)IDWithAddress:(const MKMAddress *)address {
-    MKMID *ID;
-    for (id item in _contacts) {
-        ID = [MKMID IDWithID:item];
-        if ([ID.address isEqual:address]) {
-            return ID;
-        }
-    }
+- (DIMID *)IDWithAddress:(const DIMAddress *)address {
+    DIMID *ID;
+//    for (id item in _contacts) {
+//        ID = [DIMID IDWithID:item];
+//        if ([ID.address isEqual:address]) {
+//            return ID;
+//        }
+//    }
     ID = nil;
     
     NSString *dir = document_directory();
@@ -121,23 +83,86 @@ SingletonImplementations(Facebook, sharedInstance)
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
         NSString *seed = [dict objectForKey:@"seed"];
         NSString *idstr = [NSString stringWithFormat:@"%@@%@", seed, address];
-        ID = [MKMID IDWithID:idstr];
+        ID = [DIMID IDWithID:idstr];
         NSLog(@"Address -> number: %@, ID: %@", search_number(ID.number), ID);
     }
     
     return ID;
 }
 
-- (void)switchUser {
-    [_contacts removeAllObjects];
+- (void)addContact:(const DIMID *)contactID user:(const DIMUser *)user {
+    MKMContactListM *contacts = [_contactsTable objectForKey:user.ID.address];
+    if (contacts) {
+        if ([contacts containsObject:contactID]) {
+            NSLog(@"contact %@ already exists, user: %@", contactID, user.ID);
+            return ;
+        } else {
+            [contacts addObject:contactID];
+        }
+    } else {
+        contacts = [[MKMContactListM alloc] initWithCapacity:1];
+        [contacts addObject:contactID];
+        [_contactsTable setObject:contacts forKey:user.ID.address];
+    }
+    [self flushContactsWithUser:user];
+}
+
+- (void)removeContact:(const DIMID *)contactID user:(const DIMUser *)user {
+    MKMContactListM *contacts = [_contactsTable objectForKey:user.ID.address];
+    if (contacts) {
+        if ([contacts containsObject:contactID]) {
+            [contacts removeObject:contactID];
+        } else {
+            NSLog(@"contact %@ not exists, user: %@", contactID, user.ID);
+            return ;
+        }
+    } else {
+        NSLog(@"user %@ doesn't has contact yet", user.ID);
+        return ;
+    }
+    [self flushContactsWithUser:user];
+}
+
+// {document_directory}/.mkm/{address}/contacts.plist
+- (void)flushContactsWithUser:(const DIMUser *)user {
     
-    // TODO: reload contacts of the current user
+    MKMContactListM *contacts = [_contactsTable objectForKey:user.ID.address];
+    if (contacts.count > 0) {
+        NSString *dir = document_directory();
+        NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
+        [contacts writeToFile:path atomically:YES];
+        NSLog(@"contacts updated: %@", contacts);
+        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+        [dc postNotificationName:@"ContactsUpdated" object:nil];
+    } else {
+        NSLog(@"no contacts");
+    }
+    user.contacts = contacts;
+}
+
+// {document_directory}/.mkm/{address}/contacts.plist
+- (ContactTable *)reloadContactsWithUser:(DIMUser *)user {
+    NSString *dir = document_directory();
+    NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
+    
+    MKMContactListM *contacts = nil;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        contacts = [[MKMContactListM alloc] initWithContentsOfFile:path];
+    }
+    
+    if (contacts) {
+        [_contactsTable setObject:contacts forKey:user.ID.address];
+    } else {
+        [_contactsTable removeObjectForKey:user.ID.address];
+    }
+    user.contacts = contacts;
+    return contacts;
 }
 
 #pragma mark - MKMAccountDelegate
 
-- (MKMAccount *)accountWithID:(const MKMID *)ID {
-    MKMAccount *contact = [_immortals accountWithID:ID];
+- (DIMAccount *)accountWithID:(const DIMID *)ID {
+    DIMAccount *contact = [_immortals accountWithID:ID];
     if (contact) {
         return contact;
     }
@@ -150,9 +175,9 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     // create with ID and public key
-    MKMPublicKey *PK = MKMPublicKeyForID(ID);
+    DIMPublicKey *PK = MKMPublicKeyForID(ID);
     if (PK) {
-        contact = [[MKMAccount alloc] initWithID:ID publicKey:PK];
+        contact = [[DIMAccount alloc] initWithID:ID publicKey:PK];
     } else {
         NSAssert(false, @"failed to get PK for user: %@", ID);
     }
@@ -162,35 +187,41 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMUserDataSource
 
-- (NSInteger)numberOfContactsInUser:(const MKMUser *)user {
-    NSInteger count = 0;
+- (NSInteger)numberOfContactsInUser:(const DIMUser *)user {
+    DIMID *ID = user.ID;
     
-    count = _contacts.count;
+    NSArray *contacts = [_contactsTable objectForKey:ID.address];
+    if (!contacts) {
+        contacts = [self reloadContactsWithUser:user];
+    }
     
-    return count;
+    return contacts.count;
 }
 
-- (MKMID *)user:(const MKMUser *)user contactAtIndex:(NSInteger)index {
-    MKMID *ID = nil;
+- (DIMID *)user:(const DIMUser *)user contactAtIndex:(NSInteger)index {
+    DIMID *ID = user.ID;
     
-    ID = [_contacts objectAtIndex:index];
-    ID = [MKMID IDWithID:ID];
+    NSArray *contacts = [_contactsTable objectForKey:ID.address];
+    if (!contacts) {
+        contacts = [self reloadContactsWithUser:user];
+    }
     
-    return ID;
+    ID = [contacts objectAtIndex:index];
+    return [DIMID IDWithID:ID];
 }
 
 #pragma mark MKMUserDelegate
 
-- (MKMUser *)userWithID:(const MKMID *)ID {
-    MKMUser *user = [_immortals userWithID:ID];
+- (DIMUser *)userWithID:(const DIMID *)ID {
+    DIMUser *user = [_immortals userWithID:ID];
     if (user) {
         return user;
     }
     
     // create with ID and public key
-    MKMPublicKey *PK = MKMPublicKeyForID(ID);
+    DIMPublicKey *PK = MKMPublicKeyForID(ID);
     if (PK) {
-        user = [[MKMUser alloc] initWithID:ID publicKey:PK];
+        user = [[DIMUser alloc] initWithID:ID publicKey:PK];
     } else {
         NSAssert(false, @"failed to get PK for user: %@", ID);
     }
@@ -206,33 +237,33 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMGroupDataSource
 
-- (MKMID *)founderForGroupID:(const MKMID *)ID {
+- (DIMID *)founderForGroupID:(const DIMID *)ID {
     // TODO:
     return nil;
 }
 
-- (MKMID *)ownerForGroupID:(const MKMID *)ID {
+- (DIMID *)ownerForGroupID:(const DIMID *)ID {
     // TODO:
     return nil;
 }
 
-- (NSInteger)numberOfMembersInGroup:(const MKMGroup *)grp {
+- (NSInteger)numberOfMembersInGroup:(const DIMGroup *)grp {
     // TODO:
     return 0;
 }
 
-- (MKMID *)group:(const MKMGroup *)grp memberAtIndex:(NSInteger)index {
+- (DIMID *)group:(const DIMGroup *)grp memberAtIndex:(NSInteger)index {
     // TODO:
     return nil;
 }
 
 #pragma mark MKMGroupDelegate
 
-- (MKMGroup *)groupWithID:(const MKMID *)ID {
-    MKMGroup *group = nil;
+- (DIMGroup *)groupWithID:(const DIMID *)ID {
+    DIMGroup *group = nil;
     
     // get founder of this group
-    MKMID *founder = [self founderForGroupID:ID];
+    DIMID *founder = [self founderForGroupID:ID];
     if (!founder) {
         NSAssert(false, @"founder not found for group: %@", ID);
         return  nil;
@@ -240,9 +271,9 @@ SingletonImplementations(Facebook, sharedInstance)
     
     // create it
     if (ID.type == MKMNetwork_Polylogue) {
-        group = [[MKMPolylogue alloc] initWithID:ID founderID:founder];
+        group = [[DIMPolylogue alloc] initWithID:ID founderID:founder];
     } else if (ID.type == MKMNetwork_Chatroom) {
-        group = [[MKMChatroom alloc] initWithID:ID founderID:founder];
+        group = [[DIMChatroom alloc] initWithID:ID founderID:founder];
     } else {
         NSAssert(false, @"group error: %@", ID);
     }
@@ -257,7 +288,7 @@ SingletonImplementations(Facebook, sharedInstance)
     
     if (ID.type == MKMNetwork_Chatroom) {
         // add admins
-        MKMChatroom *chatroom = (MKMChatroom *)group;
+        DIMChatroom *chatroom = (DIMChatroom *)group;
         count = [self numberOfAdminsInChatroom:chatroom];
         for (index = 0; index < count; ++index) {
             [chatroom addAdmin:[self chatroom:chatroom adminAtIndex:index]];
@@ -269,30 +300,30 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark MKMMemberDelegate
 
-- (MKMMember *)memberWithID:(const MKMID *)ID groupID:(const MKMID *)gID {
+- (DIMMember *)memberWithID:(const DIMID *)ID groupID:(const DIMID *)gID {
     // TODO:
     return nil;
 }
 
 #pragma mark MKMChatroomDataSource
 
-- (MKMID *)chatroom:(const MKMChatroom *)grp adminAtIndex:(NSInteger)index {
+- (DIMID *)chatroom:(const DIMChatroom *)grp adminAtIndex:(NSInteger)index {
     // TODO:
     return nil;
 }
 
-- (NSInteger)numberOfAdminsInChatroom:(const MKMChatroom *)grp {
+- (NSInteger)numberOfAdminsInChatroom:(const DIMChatroom *)grp {
     // TODO:
     return 0;
 }
 
 #pragma mark - MKMEntityDataSource
 
-- (MKMMeta *)metaForEntityID:(const MKMID *)ID {
-    MKMMeta *meta = nil;
+- (DIMMeta *)metaForEntityID:(const DIMID *)ID {
+    DIMMeta *meta = nil;
     
     // TODO:
-    MKMBarrack *barrack = [MKMBarrack sharedInstance];
+    DIMBarrack *barrack = [DIMBarrack sharedInstance];
     meta = [barrack loadMetaForEntityID:ID];
     if (meta) {
         return meta;
@@ -303,8 +334,8 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMProfileDataSource
 
-- (MKMProfile *)profileForID:(const MKMID *)ID {
-    MKMProfile *profile = nil;
+- (DIMProfile *)profileForID:(const DIMID *)ID {
+    DIMProfile *profile = nil;
     
     // TODO:
     
@@ -314,7 +345,7 @@ SingletonImplementations(Facebook, sharedInstance)
     NSString *path = [dir stringByAppendingPathComponent:@"profile.plist"];
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
     if (dict) {
-        profile = [MKMProfile profileWithProfile:dict];
+        profile = [DIMProfile profileWithProfile:dict];
         if (profile) {
             NSLog(@"loaded profile from %@", path);
             return profile;
