@@ -122,7 +122,6 @@
                             // not finished data, push back for next input
                             _inputData = [[NSMutableData alloc] initWithData:[string data]];
                             NSLog(@"not finished data: %@", [_inputData UTF8String]);
-                            break;
                         }
                     }
                 }
@@ -251,14 +250,9 @@
 
 - (void)processOnlineUsersMessageContent:(DIMMessageContent *)content {
     NSArray *users = [content objectForKey:@"users"];
-    if ([users count] > 0) {
-        NSString *dir = NSTemporaryDirectory();
-        NSString *path = [dir stringByAppendingPathComponent:@"online_users.plist"];
-        [users writeToFile:path atomically:YES];
-        // notice
-        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-        [dc postNotificationName:@"OnlineUsersUpdated" object:users];
-    }
+    NSDictionary *info = @{@"users": users};
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    [dc postNotificationName:@"OnlineUsersUpdated" object:info];
 }
 
 - (void)searchUsersWithKeywords:(NSString *)keywords {

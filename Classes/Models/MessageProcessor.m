@@ -105,15 +105,23 @@ static inline NSMutableDictionary *scan_messages(void) {
     NSArray *array;
     
     MKMID *ID;
+    MKMAddress *address;
     
     NSString *path;
     while (path = [de nextObject]) {
         if ([path hasSuffix:@"/messages.plist"]) {
             addr = [path substringToIndex:(path.length - 15)];
+            address = [MKMAddress addressWithAddress:addr];
+            if (!MKMNetwork_IsPerson(address.network) &&
+                !MKMNetwork_IsGroup(address.network)) {
+                // ignore
+                continue;
+            }
+            
             path = [dir stringByAppendingPathComponent:path];
             array = [NSArray arrayWithContentsOfFile:path];
             
-            ID = [fb IDWithAddress:[MKMAddress addressWithAddress:addr]];
+            ID = [fb IDWithAddress:address];
             if (array && ID) {
                 [mDict setObject:array forKey:ID];
             }

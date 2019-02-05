@@ -42,10 +42,7 @@
              object:nil];
     
     { // online users
-        // 1. load from local cache
-        [self loadCacheFile];
-        
-        // 2. query from the station
+        // 1. query from the station
         DIMCommand *content = [[DIMCommand alloc] initWithCommand:@"users"];
         DIMClient *client = [DIMClient sharedInstance];
         DIMUser *user = client.currentUser;
@@ -60,7 +57,7 @@
                              time:nil
                          callback:callback];
         
-        // 3. waiting for update
+        // 2. waiting for update
         NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
         [dc addObserver:self
                selector:@selector(reloadData:)
@@ -71,62 +68,28 @@
 
 - (void)reloadData:(NSNotification *)notification {
     
-    if ([notification.name isEqualToString:@"OnlineUsersUpdated"]) {
-        // online users
-        { // online users
-            DIMClient *client = [DIMClient sharedInstance];
-            Station *station = (Station *)client.currentStation;
-            
-            NSArray *users = [notification object];
-            NSLog(@"online users: %@", users);
-            if ([users count] > 0) {
-                _onlineUsers = [[NSMutableArray alloc] initWithCapacity:users.count];
-                DIMID *ID;
-                DIMPublicKey *PK;
-                for (NSString *item in users) {
-                    ID = [DIMID IDWithID:item];
-                    PK = MKMPublicKeyForID(ID);
-                    if (PK) {
-                        [_onlineUsers addObject:ID];
-                    } else {
-                        [station queryMetaForID:ID];
-                    }
-                }
-            } else {
-                [self loadCacheFile];
-            }
-            [self.tableView reloadData];
-        }
-        return;
-    }
-    
+    NSString *notice = [notification name];
     NSDictionary *info = [notification object];
-    _users = [info objectForKey:@"users"];
-    NSDictionary *results = [info objectForKey:@"results"];
+    NSArray *users = [info objectForKey:@"users"];
     
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
-    DIMID *ID;
-    DIMMeta *meta;
-    for (NSString *key in results) {
-        ID = [DIMID IDWithID:key];
-        meta = [DIMMeta metaWithMeta:[results objectForKey:key]];
-        [barrack saveMeta:meta forEntityID:ID];
-    }
-    
-    [self.tableView reloadData];
-}
-
-- (void)loadCacheFile {
     DIMClient *client = [DIMClient sharedInstance];
     Station *station = (Station *)client.currentStation;
     
-    NSString *dir = NSTemporaryDirectory();
-    NSString *path = [dir stringByAppendingPathComponent:@"online_users.plist"];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        NSArray *users = [NSArray arrayWithContentsOfFile:path];
-        _onlineUsers = [[NSMutableArray alloc] initWithCapacity:users.count];
-        DIMID *ID;
-        DIMPublicKey *PK;
+    DIMID *ID;
+    DIMMeta *meta;
+    DIMPublicKey *PK;
+    
+    if ([notice isEqualToString:@"OnlineUsersUpdated"]) {
+        // online users
+        NSLog(@"online users: %@", users);
+        
+        if (_onlineUsers) {
+            [_onlineUsers removeAllObjects];
+        } else {
+            _onlineUsers = [[NSMutableArray alloc] initWithCapacity:users.count];
+        }
+        
         for (NSString *item in users) {
             ID = [DIMID IDWithID:item];
             PK = MKMPublicKeyForID(ID);
@@ -136,9 +99,36 @@
                 [station queryMetaForID:ID];
             }
         }
-    } else {
-        _onlineUsers = nil;
+        
+    } else if ([notice isEqualToString:@"SearchUsersUpdated"]) {
+        // search users
+        
+        if (_users) {
+            [_users removeAllObjects];
+        } else {
+            _users = [[NSMutableArray alloc] initWithCapacity:users.count];
+        }
+        
+        for (NSString *item in users) {
+            ID = [DIMID IDWithID:item];
+            if (!MKMNetwork_IsPerson(ID.type) &&
+                !MKMNetwork_IsGroup(ID.type)) {
+                // ignore
+                continue;
+            }
+            [_users addObject:ID];
+        }
+        
+        NSDictionary *results = [info objectForKey:@"results"];
+        for (NSString *key in results) {
+            ID = [DIMID IDWithID:key];
+            meta = [DIMMeta metaWithMeta:[results objectForKey:key]];
+            [barrack saveMeta:meta forEntityID:ID];
+        }
+        
     }
+    
+    [self.tableView reloadData];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {

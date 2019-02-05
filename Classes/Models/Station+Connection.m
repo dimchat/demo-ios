@@ -62,21 +62,22 @@
 }
 
 - (BOOL)isConnected {
-    if (_outputStream.streamStatus == NSStreamStatusClosed ||
-        _outputStream.streamStatus == NSStreamStatusError) {
-        [self disconnect];
-        return NO;
-    }
     if (_inputStream.streamStatus == NSStreamStatusClosed ||
-        _inputStream.streamStatus == NSStreamStatusError) {
-        [self disconnect];
+        _inputStream.streamStatus == NSStreamStatusError ||
+        
+        _outputStream.streamStatus == NSStreamStatusClosed ||
+        _outputStream.streamStatus == NSStreamStatusError ||
+        [_outputStream hasSpaceAvailable] == NO) {
+        
+        _state = StationState_Error;
         return NO;
     }
     return YES;
 }
 
 - (BOOL)runTask:(Task *)task {
-    if (![_outputStream hasSpaceAvailable]) {
+    if (![self isConnected]) {
+        NSLog(@"connection lost");
         return NO;
     }
     const NSData *data = task.data;
@@ -140,15 +141,6 @@
             case StationState_Connected: {
                 _state = StationState_ShakingHands;
                 [self handshakeWithUser:user];
-                continue;
-            }
-                break;
-                
-            case StationState_Error: {
-                // reconnect
-                [self disconnect];
-                _state = StationState_Init;
-                sleep(5);
             }
                 break;
                 
@@ -172,13 +164,20 @@
                             [_tasks removeObject:task];
                         } else {
                             _state = StationState_Error;
-                            sleep(1);
                         }
                     }
                 } else {
                     // no task
                     sleep(1);
                 }
+            }
+                break;
+                
+            case StationState_Error: {
+                // reconnect
+                [self disconnect];
+                _state = StationState_Init;
+                sleep(2);
             }
                 break;
                 
@@ -191,8 +190,10 @@
                 NSAssert(false, @"unknown status: %d", _state);
             }
                 break;
-        }
-    }
+                
+        } /* EOF switch (_state) */
+        
+    } /* EOF while (_state != StationState_Stopped) */
 }
 
 
