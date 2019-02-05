@@ -32,8 +32,8 @@ typedef NS_ENUM(UInt8, StationState) {
     NSString *_session;
 }
 
-- (instancetype)initWithID:(const MKMID *)ID
-                 publicKey:(const MKMPublicKey *)PK
+- (instancetype)initWithID:(const DIMID *)ID
+                 publicKey:(const DIMPublicKey *)PK
                       host:(const NSString *)IP
                       port:(UInt32)port;
 

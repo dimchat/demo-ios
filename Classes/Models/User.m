@@ -30,8 +30,8 @@
     user.privateKey = SK;
     
     // profile
-    MKMAccountProfile *profile = [dict objectForKey:@"profile"];
-    profile = [MKMAccountProfile profileWithProfile:profile];
+    DIMAccountProfile *profile = [dict objectForKey:@"profile"];
+    profile = [DIMAccountProfile profileWithProfile:profile];
     if (profile) {
         user.name = profile.name;
     }

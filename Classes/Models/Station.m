@@ -21,8 +21,8 @@
 
 @implementation Station
 
-- (instancetype)initWithID:(const MKMID *)ID
-                 publicKey:(const MKMPublicKey *)PK
+- (instancetype)initWithID:(const DIMID *)ID
+                 publicKey:(const DIMPublicKey *)PK
                       host:(const NSString *)IP
                       port:(UInt32)port {
     if (self = [super initWithID:ID publicKey:PK host:IP port:port]) {

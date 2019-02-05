@@ -40,13 +40,13 @@ NSString *search_number(UInt32 code) {
     return number;
 }
 
-NSString *account_title(const MKMAccount *account) {
+NSString *account_title(const DIMAccount *account) {
     NSString *name = account.name;
     NSString *number = search_number(account.number);
     return [NSString stringWithFormat:@"%@ (%@)", name, number];
 }
 
-NSString *group_title(const MKMGroup *group) {
+NSString *group_title(const DIMGroup *group) {
     NSString *name = group.name;
     NSUInteger count = group.members.count;
     return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];

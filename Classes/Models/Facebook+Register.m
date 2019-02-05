@@ -12,7 +12,7 @@
 
 @implementation Facebook (Register)
 
-- (BOOL)saveRegisterInfo:(MKMRegisterInfo *)info {
+- (BOOL)saveRegisterInfo:(DIMRegisterInfo *)info {
     NSLog(@"saving register info: %@", info);
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
     
@@ -61,8 +61,8 @@
     return [users writeToFile:path atomically:YES];
 }
 
-- (NSArray<MKMID *> *)scanUserIDList {
-    NSMutableArray<MKMID *> *users = nil;
+- (NSArray<DIMID *> *)scanUserIDList {
+    NSMutableArray<DIMID *> *users = nil;
     // load ("Documents/.mkm/users.plist")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
@@ -70,12 +70,12 @@
     NSArray *array = [NSArray arrayWithContentsOfFile:path];
     users = [[NSMutableArray alloc] initWithCapacity:[array count]];
     for (NSString *item in array) {
-        [users addObject:[MKMID IDWithID:item]];
+        [users addObject:[DIMID IDWithID:item]];
     }
     return users;
 }
 
-- (BOOL)saveProfile:(MKMProfile *)profile forID:(MKMID *)ID {
+- (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID {
     NSLog(@"saving profile: %@ for ID: %@", profile, ID);
     
     // load "Documents/.mkm/{address}/profile.plist"

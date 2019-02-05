@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)saveRegisterInfo:(DIMRegisterInfo *)info;
 
-- (NSArray<MKMID *> *)scanUserIDList;
+- (NSArray<DIMID *> *)scanUserIDList;
 
 - (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID;
 

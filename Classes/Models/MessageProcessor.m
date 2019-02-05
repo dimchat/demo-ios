@@ -51,12 +51,12 @@ NSString *NSStringFromDate(const NSDate *date) {
  @param filename - "messages.plist"
  @return "Documents/.dim/{address}/messages.plist"
  */
-static inline NSString *full_filepath(const MKMID *ID, NSString *filename) {
+static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
     assert(ID.isValid);
     // base directory: Documents/.dim/{address}
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".dim"];
-    MKMAddress *addr = ID.address;
+    DIMAddress *addr = ID.address;
     if (addr) {
         dir = [dir stringByAppendingPathComponent:addr];
     }
@@ -75,7 +75,7 @@ static inline NSString *full_filepath(const MKMID *ID, NSString *filename) {
     return [dir stringByAppendingPathComponent:filename];
 }
 
-static inline NSArray *load_message(const MKMID *ID) {
+static inline NSArray *load_message(const DIMID *ID) {
     NSArray *array = nil;
     NSString *path = full_filepath(ID, @"messages.plist");
     if (file_exists(path)) {
@@ -84,7 +84,7 @@ static inline NSArray *load_message(const MKMID *ID) {
     return array;
 }
 
-static inline BOOL save_message(NSArray *messages, const MKMID *ID) {
+static inline BOOL save_message(NSArray *messages, const DIMID *ID) {
     NSString *path = full_filepath(ID, @"messages.plist");
     NSLog(@"save path: %@", path);
     return [messages writeToFile:path atomically:YES];
@@ -104,14 +104,14 @@ static inline NSMutableDictionary *scan_messages(void) {
     NSString *addr;
     NSArray *array;
     
-    MKMID *ID;
-    MKMAddress *address;
+    DIMID *ID;
+    DIMAddress *address;
     
     NSString *path;
     while (path = [de nextObject]) {
         if ([path hasSuffix:@"/messages.plist"]) {
             addr = [path substringToIndex:(path.length - 15)];
-            address = [MKMAddress addressWithAddress:addr];
+            address = [DIMAddress addressWithAddress:addr];
             if (!MKMNetwork_IsPerson(address.network) &&
                 !MKMNetwork_IsGroup(address.network)) {
                 // ignore
@@ -132,7 +132,7 @@ static inline NSMutableDictionary *scan_messages(void) {
 }
 
 typedef NSMutableArray<const DIMInstantMessage *> MessageList;
-typedef NSMutableDictionary<const MKMID *, MessageList *> ConversationTable;
+typedef NSMutableDictionary<const DIMID *, MessageList *> ConversationTable;
 
 @interface MessageProcessor () {
     
@@ -173,7 +173,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 - (DIMConversation *)conversationAtIndex:(NSInteger)index {
     NSArray *keys = _chatHistory.allKeys;
-    MKMID *ID = [keys objectAtIndex:index];
+    DIMID *ID = [keys objectAtIndex:index];
     return DIMConversationWithID(ID);
 }
 
@@ -181,7 +181,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 // get message count in the conversation
 - (NSInteger)numberOfMessagesInConversation:(const DIMConversation *)chatBox {
-    MKMID *ID = chatBox.ID;
+    DIMID *ID = chatBox.ID;
     
     MessageList *list = [_chatHistory objectForKey:ID];
     if (!list) {
@@ -198,7 +198,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 // get message at index of the conversation
 - (DIMInstantMessage *)conversation:(const DIMConversation *)chatBox messageAtIndex:(NSInteger)index {
-    MKMID *ID = chatBox.ID;
+    DIMID *ID = chatBox.ID;
     
     MessageList *list = [_chatHistory objectForKey:ID];
     if (!list) {
@@ -223,8 +223,8 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 #pragma mark DIMConversationDelegate
 
 // Conversation factory
-- (DIMConversation *)conversationWithID:(const MKMID *)ID {
-    MKMEntity *entity = nil;
+- (DIMConversation *)conversationWithID:(const DIMID *)ID {
+    DIMEntity *entity = nil;
     if (MKMNetwork_IsCommunicator(ID.type)) {
         entity = MKMAccountWithID(ID);
     } else if (MKMNetwork_IsGroup(ID.type)) {
@@ -241,7 +241,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 // save the new message to local storage
 - (BOOL)conversation:(const DIMConversation *)chatBox insertMessage:(const DIMInstantMessage *)iMsg {
-    MKMID *ID = chatBox.ID;
+    DIMID *ID = chatBox.ID;
     
     // system command
     DIMMessageContent *content = iMsg.content;

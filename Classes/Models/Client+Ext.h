@@ -32,7 +32,7 @@ NSString *search_number(UInt32 code);
  @param account - account
  @return "Name (search number)"
  */
-NSString *account_title(const MKMAccount *account);
+NSString *account_title(const DIMAccount *account);
 
 /**
  Group Title for Conversation
@@ -40,7 +40,7 @@ NSString *account_title(const MKMAccount *account);
  @param group - group
  @return "Name (members count)"
  */
-NSString *group_title(const MKMGroup *group);
+NSString *group_title(const DIMGroup *group);
 
 #pragma mark -
 

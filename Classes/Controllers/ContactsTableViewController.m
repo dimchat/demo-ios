@@ -50,62 +50,60 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    if (section == 0) {
-        DIMClient *client = [DIMClient sharedInstance];
-        DIMUser *user = client.currentUser;
-        Facebook *facebook = [Facebook sharedInstance];
-        return [facebook numberOfContactsInUser:user];
-    }
-    return [super tableView:tableView numberOfRowsInSection:section];
+    DIMClient *client = [DIMClient sharedInstance];
+    DIMUser *user = client.currentUser;
+    Facebook *facebook = [Facebook sharedInstance];
+    return [facebook numberOfContactsInUser:user];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     // Configure the cell...
-    NSInteger section = indexPath.section;
-    NSInteger row = indexPath.row;
-
     UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     NSString *identifier = nil;
 
     DIMID *ID = nil;
     DIMAccount *contact = nil;
 
-    if (section == 0) {
-        DIMClient *client = [DIMClient sharedInstance];
-        DIMUser *user = client.currentUser;
-        Facebook *facebook = [Facebook sharedInstance];
-        ID = [facebook user:user contactAtIndex:row];
-        
-        contact = [facebook accountWithID:ID];
-        identifier = @"ContactCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-        cell.textLabel.text = account_title(contact);
-        cell.detailTextLabel.text = contact.ID;
-        return cell;
-    }
-    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    DIMClient *client = [DIMClient sharedInstance];
+    DIMUser *user = client.currentUser;
+    Facebook *facebook = [Facebook sharedInstance];
+    ID = [facebook user:user contactAtIndex:indexPath.row];
+    
+    contact = [facebook accountWithID:ID];
+    identifier = @"ContactCell";
+    cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    cell.textLabel.text = account_title(contact);
+    cell.detailTextLabel.text = contact.ID;
+    return cell;
 }
 
-/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView beginUpdates];
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        DIMClient *client = [DIMClient sharedInstance];
+        DIMUser *user = client.currentUser;
+        Facebook *facebook = [Facebook sharedInstance];
+        DIMID *ID = [facebook user:user contactAtIndex:indexPath.row];
+        [facebook removeContact:ID user:user];
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    }
+    
+    [tableView endUpdates];
 }
-*/
 
 /*
 // Override to support rearranging the table view.
