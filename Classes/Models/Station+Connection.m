@@ -80,11 +80,11 @@
         NSLog(@"connection lost");
         return NO;
     }
-    const NSData *data = task.data;
     DKDTransceiverCompletionHandler handler = task.completionHandler;
-    
-    NSInteger written = [_outputStream write:data.bytes maxLength:data.length];
-    if (written != data.length) {
+    NSMutableData *pack = [[NSMutableData alloc] initWithBytes:task.data.bytes length:task.data.length];
+    [pack appendBytes:"\n" length:1];
+    NSInteger written = [_outputStream write:pack.bytes maxLength:pack.length];
+    if (written != pack.length) {
         if (handler) {
             NSDictionary *info = @{
                                    @"message" : @"output stream error",

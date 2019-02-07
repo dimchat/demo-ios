@@ -154,12 +154,13 @@
                         <viewLayoutGuide key="safeArea" id="Pms-x2-LAP"/>
                     </view>
                     <navigationItem key="navigationItem" id="JPE-6p-etL">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="3Z2-5W-VIy">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="3Z2-5W-VIy">
                             <connections>
                                 <action selector="unwindForSegue:towardsViewController:" destination="bP7-p2-KZv" id="hc4-ma-fVK"/>
                                 <segue destination="MH0-Vf-BcQ" kind="unwind" unwindAction="unwindForSegue:towardsViewController:" id="p3j-BG-c3a"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="Llz-sF-oTJ"/>
                     </navigationItem>
                     <connections>
                         <outlet property="inputTextField" destination="Kyv-2j-wIX" id="kQ8-MU-HnG"/>
