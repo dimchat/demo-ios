@@ -11,6 +11,7 @@
 #import "MKMImmortals.h"
 
 #import "Client+Ext.h"
+#import "Facebook+Register.h"
 
 #import "Facebook.h"
 
@@ -37,14 +38,8 @@ SingletonImplementations(Facebook, sharedInstance)
     if (self = [super init]) {
         // immortal accounts
         _immortals = [[MKMImmortals alloc] init];
-#if DEBUG && 0
-        DIMUser *user;
-        user = [_immortals userWithID:[DIMID IDWithID:MKM_MONKEY_KING_ID]];
-        [[DIMClient sharedInstance] addUser:user];
-        user = [_immortals userWithID:[DIMID IDWithID:MKM_IMMORTAL_HULK_ID]];
-        [[DIMClient sharedInstance] addUser:user];
-#endif
         
+        // contacts list of each user
         _contactsTable = [[NSMutableDictionary alloc] init];
         
         // delegates
@@ -58,6 +53,27 @@ SingletonImplementations(Facebook, sharedInstance)
         barrack.chatroomDataSource = self;
         barrack.entityDataSource   = self;
         barrack.profileDataSource  = self;
+        
+        // scan users
+        NSArray *users = [self scanUserIDList];
+#if DEBUG && 1
+        NSMutableArray *mArray;
+        if (users.count > 0) {
+            mArray = [users mutableCopy];
+        } else {
+            mArray = [[NSMutableArray alloc] initWithCapacity:2];
+        }
+        [mArray addObject:[DIMID IDWithID:MKM_IMMORTAL_HULK_ID]];
+        [mArray addObject:[DIMID IDWithID:MKM_MONKEY_KING_ID]];
+        users = mArray;
+#endif
+        // add users
+        DIMClient *client = [DIMClient sharedInstance];
+        DIMUser *user;
+        for (MKMID *ID in users) {
+            user = [self userWithID:ID];
+            [client addUser:user];
+        }
     }
     return self;
 }

@@ -142,10 +142,10 @@
             </objects>
             <point key="canvasLocation" x="2586" y="542"/>
         </scene>
-        <!--Add Contacts-->
+        <!--Add Contact-->
         <scene sceneID="30M-BE-kpx">
             <objects>
-                <tableViewController title="Add Contacts" id="8Ph-gC-tvu" customClass="SearchUsersTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Add Contact" id="8Ph-gC-tvu" customClass="SearchUsersTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Bjc-q7-979">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -465,6 +465,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="SZz-Nm-lCA"/>
+        <segue reference="cex-po-RLc"/>
     </inferredMetricsTieBreakers>
 </document>

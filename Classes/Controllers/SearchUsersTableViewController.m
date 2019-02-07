@@ -163,7 +163,9 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     if (section == 1) {
-        return @"Online Users";
+        if (_onlineUsers.count > 0) {
+            return @"Online User(s)";
+        }
     }
     return [super tableView:tableView titleForHeaderInSection:section];
 }

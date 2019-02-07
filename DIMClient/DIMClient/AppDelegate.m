@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "Facebook.h"
 #import "User.h"
 #import "Station.h"
 
@@ -21,12 +22,15 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    [Facebook sharedInstance];
+    
 #if DEBUG && 0
     {
+        DIMClient *client = [DIMClient sharedInstance];
         // moky
         NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-moky" ofType:@"plist"];
         User *user = [User userWithConfigFile:path];
-        [DIMClient sharedInstance].currentUser = user;
+        [client addUser:user];
     }
 #endif
     

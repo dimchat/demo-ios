@@ -16,25 +16,26 @@
     NSLog(@"saving register info: %@", info);
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
     
+    // ID
     DIMID *ID = info.ID;
     if (!ID) {
         ID = info.user.ID;
     }
     NSArray *array = [self scanUserIDList];
-    NSMutableArray *users = [[NSMutableArray alloc] initWithCapacity:(array.count + 1)];
-    [users addObjectsFromArray:array];
-    if ([users containsObject:ID]) {
+    if ([array containsObject:ID]) {
         NSLog(@"User ID already exists");
         return NO;
     }
     
-    // save meta
+    // meta
     DIMMeta *meta = info.meta;
+    
+    // 1. check & save meta
     if ([meta matchID:ID]) {
         if ([barrack saveMeta:meta forEntityID:ID]) {
             NSLog(@"meta saved: %@", meta);
         } else {
-            NSAssert(false, @"save meta filed");
+            NSAssert(false, @"save meta failed");
             return NO;
         }
     } else {
@@ -42,16 +43,38 @@
         return NO;
     }
     
-    // save private key
+    // public key
+    DIMPublicKey *PK = info.publicKey;
+    if (!PK) {
+        PK = meta.key;
+    }
+    
+    // private key
     DIMPrivateKey *SK = info.privateKey;
     if (!SK) {
         SK = info.user.privateKey;
     }
-    [SK saveKeyWithIdentifier:ID.address];
-    NSLog(@"private key saved: %@", SK);
+    
+    // 2. check & save private key
+    if ([PK isMatch:SK]) {
+        if ([SK saveKeyWithIdentifier:ID.address]) {
+            NSLog(@"private key saved: %@", SK);
+        } else {
+            NSAssert(false, @"save private key failed");
+            return NO;
+        }
+    } else {
+        NSAssert(false, @"asymmetric keys not match: %@, %@", PK, SK);
+        return NO;
+    }
+    
+    // 3. save user ID to local file
     
     // add current user ID to exists users
+    NSMutableArray *users = [[NSMutableArray alloc] initWithCapacity:(array.count + 1)];
     [users addObject:ID];
+    [users addObjectsFromArray:array];
+    
     // save ("Documents/.mkm/users.plist")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
