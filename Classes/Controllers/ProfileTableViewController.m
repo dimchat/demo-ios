@@ -18,7 +18,7 @@
 
 @interface ProfileTableViewController () {
     
-    DIMAccountProfile *_profile;
+    DIMProfile *_profile;
 }
 
 @end
@@ -36,7 +36,7 @@
     
     self.title = account_title(_account);
     
-    _profile = (DIMAccountProfile *)MKMProfileForID(_account.ID);
+    _profile = MKMProfileForID(_account.ID);
 }
 
 #pragma mark - Table view data source
@@ -93,10 +93,13 @@
     if (section == 1) {
         NSString *key = [_profile.allKeys objectAtIndex:row];
         id value = [_profile objectForKey:key];
+        if (![value isKindOfClass:[NSString class]]) {
+            value = [value jsonString];
+        }
         
         cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath:indexPath];
         cell.textLabel.text = key;
-        cell.detailTextLabel.text = [value jsonString];
+        cell.detailTextLabel.text = value;
         return cell;
     }
     if (section == 2) {

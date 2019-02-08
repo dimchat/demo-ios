@@ -42,14 +42,14 @@
     DIMCommand *content = [[DIMCommand alloc] initWithCommand:@"users"];
     DIMClient *client = [DIMClient sharedInstance];
     DIMUser *user = client.currentUser;
-    Station *station = (Station *)client.currentStation;
+    Station *server = (Station *)client.currentStation;
     DKDTransceiverCallback callback = ^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
         assert(!error);
     };
     DIMTransceiver *trans = [DIMTransceiver sharedInstance];
     [trans sendMessageContent:content
                          from:user.ID
-                           to:station.ID
+                           to:server.ID
                          time:nil
                      callback:callback];
     
@@ -63,7 +63,7 @@
 
 - (void)loadCacheFile {
     DIMClient *client = [DIMClient sharedInstance];
-    Station *station = (Station *)client.currentStation;
+    Station *server = (Station *)client.currentStation;
     
     NSString *dir = NSTemporaryDirectory();
     NSString *path = [dir stringByAppendingPathComponent:@"online_users.plist"];
@@ -78,7 +78,7 @@
             if (PK) {
                 [_onlineUsers addObject:ID];
             } else {
-                [station queryMetaForID:ID];
+                [server queryMetaForID:ID];
             }
         }
     } else {
@@ -88,7 +88,7 @@
 
 - (void)reloadData:(NSNotification *)notification {
     DIMClient *client = [DIMClient sharedInstance];
-    Station *station = (Station *)client.currentStation;
+    Station *server = (Station *)client.currentStation;
     
     NSArray *users = [notification object];
     NSLog(@"online users: %@", users);
@@ -102,7 +102,7 @@
             if (PK) {
                 [_onlineUsers addObject:ID];
             } else {
-                [station queryMetaForID:ID];
+                [server queryMetaForID:ID];
             }
         }
     } else {

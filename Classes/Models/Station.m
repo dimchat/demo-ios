@@ -8,6 +8,7 @@
 
 #import "NSObject+JsON.h"
 
+#import "Facebook+Register.h"
 #import "Station+Connection.h"
 
 #import "Station.h"
@@ -286,6 +287,17 @@
     }
 }
 
+- (void)processProfileMessageContent:(DIMMessageContent *)content {
+    DIMProfileCommand *cmd;
+    cmd = [[DIMProfileCommand alloc] initWithDictionary:content];
+    DIMProfile *profile = cmd.profile;
+    if ([profile.ID isEqual:cmd.ID]) {
+        NSLog(@"got new profile for %@", cmd.ID);
+        Facebook *facebook = [Facebook sharedInstance];
+        [facebook saveProfile:profile forID:cmd.ID];
+    }
+}
+
 - (void)processOnlineUsersMessageContent:(DIMMessageContent *)content {
     NSArray *users = [content objectForKey:@"users"];
     NSDictionary *info = @{@"users": users};
@@ -315,7 +327,7 @@
 
 #pragma mark DIMStationDelegate
 
-- (void)station:(const DIMStation *)station didReceiveData:(const NSData *)data {
+- (void)station:(const DIMStation *)server didReceiveData:(const NSData *)data {
     DIMClient *client = [DIMClient sharedInstance];
     DIMUser *user = client.currentUser;
     DIMTransceiver *trans = [DIMTransceiver sharedInstance];
@@ -350,6 +362,9 @@
         } else if ([command isEqualToString:@"meta"]) {
             // query meta response
             return [self processMetaMessageContent:content];
+        } else if ([command isEqualToString:@"profile"]) {
+            // query profile response
+            return [self processProfileMessageContent:content];
         } else if ([command isEqualToString:@"users"]) {
             // query online users response
             return [self processOnlineUsersMessageContent:content];
@@ -357,6 +372,11 @@
             // search users response
             return [self processSearchUsersMessageContent:content];
         }
+    }
+    
+    if (MKMNetwork_IsStation(sender.type)) {
+        NSLog(@"*** message from station: %@", content);
+        return ;
     }
     
     // normal message, let the clerk to deliver it

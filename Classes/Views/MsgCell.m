@@ -38,7 +38,7 @@
                              avatarFrame.size.height);
     {
         UIImage *image = nil;
-        DIMAccountProfile *profile = (DIMAccountProfile *)MKMProfileForID(env.sender);
+        DIMProfile *profile = MKMProfileForID(env.sender);
         if (profile) {
             NSString *avatar = profile.avatar;
             if (avatar) {

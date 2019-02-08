@@ -48,14 +48,14 @@
         
         // 1. query from the station
         DIMCommand *content = [[DIMCommand alloc] initWithCommand:@"users"];
-        Station *station = (Station *)client.currentStation;
+        Station *server = (Station *)client.currentStation;
         DKDTransceiverCallback callback = ^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
             assert(!error);
         };
         DIMTransceiver *trans = [DIMTransceiver sharedInstance];
         [trans sendMessageContent:content
                              from:user.ID
-                               to:station.ID
+                               to:server.ID
                              time:nil
                          callback:callback];
         
@@ -76,7 +76,7 @@
     
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
     DIMClient *client = [DIMClient sharedInstance];
-    Station *station = (Station *)client.currentStation;
+    Station *server = (Station *)client.currentStation;
     
     DIMID *ID;
     DIMMeta *meta;
@@ -98,7 +98,7 @@
             if (PK) {
                 [_onlineUsers addObject:ID];
             } else {
-                [station queryMetaForID:ID];
+                [server queryMetaForID:ID];
             }
         }
         
@@ -142,8 +142,8 @@
     NSLog(@"****************** searching %@", keywords);
     
     DIMClient *client = [DIMClient sharedInstance];
-    Station *station = (Station *)client.currentStation;
-    [station searchUsersWithKeywords:keywords];
+    Station *server = (Station *)client.currentStation;
+    [server searchUsersWithKeywords:keywords];
     
     [searchBar resignFirstResponder];
 }

@@ -99,6 +99,7 @@
 }
 
 - (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID {
+    NSAssert([profile.ID isEqual:ID], @"profile error: %@", profile);
     // save ("Documents/.mkm/{address}/profile.plist")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];

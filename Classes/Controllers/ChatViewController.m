@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view.
     
     self.title = _conversation.title;
-    NSLog(@"title: %@", _conversation.title);
+    NSLog(@"title: %@", self.title);
     
     _tableFrame = _messagesTableView.frame;
     _trayFrame = _trayView.frame;

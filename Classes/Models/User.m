@@ -30,8 +30,8 @@
     user.privateKey = SK;
     
     // profile
-    DIMAccountProfile *profile = [dict objectForKey:@"profile"];
-    profile = [DIMAccountProfile profileWithProfile:profile];
+    DIMProfile *profile = [dict objectForKey:@"profile"];
+    profile = [DIMProfile profileWithProfile:profile];
     if (profile) {
         user.name = profile.name;
     }

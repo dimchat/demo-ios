@@ -16,8 +16,8 @@
 - (void)login:(DIMUser *)user {
     self.currentUser = user;
     
-    Station *station = (Station *)self.currentStation;
-    [station switchUser];
+    Station *server = (Station *)self.currentStation;
+    [server switchUser];
     
     Facebook *facebook = [Facebook sharedInstance];
     [facebook reloadContactsWithUser:user];

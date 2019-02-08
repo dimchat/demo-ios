@@ -22,11 +22,15 @@
 
 @end
 
+typedef NSMutableDictionary<const DIMAddress *, DIMProfile *> ProfileTableM;
+
 @interface Facebook () {
     
     MKMImmortals *_immortals;
     
     NSMutableDictionary<DIMAddress *, MKMContactListM *> *_contactsTable;
+    
+    ProfileTableM *_profileTable;
 }
 
 @end
@@ -42,6 +46,9 @@ SingletonImplementations(Facebook, sharedInstance)
         
         // contacts list of each user
         _contactsTable = [[NSMutableDictionary alloc] init];
+        
+        // profile cache
+        _profileTable = [[ProfileTableM alloc] init];
         
         // delegates
         DIMBarrack *barrack = [DIMBarrack sharedInstance];
@@ -174,6 +181,18 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     user.contacts = contacts;
     return contacts;
+}
+
+- (void)setProfile:(DIMProfile *)profile forID:(const DIMID *)ID {
+    if (profile) {
+        if ([profile.ID isEqual:ID]) {
+            [_profileTable setObject:profile forKey:ID.address];
+        } else {
+            NSAssert(false, @"profile error: %@, ID = %@", profile, ID);
+        }
+    } else {
+        [_profileTable removeObjectForKey:ID.address];
+    }
 }
 
 #pragma mark - MKMAccountDelegate
@@ -354,7 +373,14 @@ SingletonImplementations(Facebook, sharedInstance)
 - (DIMProfile *)profileForID:(const DIMID *)ID {
     DIMProfile *profile = nil;
     
-    // load from "Documents/.mkm/{address}/profile.plist"
+    // (a) get from profile cache
+    profile = [_profileTable objectForKey:ID.address];
+    if (profile) {
+        // TODO: check cache expires
+        return profile;
+    }
+    
+    // (b) load from "Documents/.mkm/{address}/profile.plist"
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
     dir = [dir stringByAppendingPathComponent:ID.address];
@@ -362,25 +388,23 @@ SingletonImplementations(Facebook, sharedInstance)
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        profile = [DIMAccountProfile profileWithProfile:dict];
-        if (profile) {
-            NSLog(@"loaded profile from %@", path);
-            return profile;
+        profile = [DIMProfile profileWithProfile:dict];
+        NSLog(@"loaded profile from %@", path);
+    } else {
+        // (c) try immortals
+        if (MKMNetwork_IsPerson(ID.type)) {
+            profile = [_immortals profileForID:ID];
         }
     }
     
-    // try immortals
-    if (MKMNetwork_IsPerson(ID.type)) {
-        profile = [_immortals profileForID:ID];
-    }
-    
-    // query from network
+    // (d) query from network
     if (!profile) {
         DIMClient *client = [DIMClient sharedInstance];
         Station *server = (Station *)[client currentStation];
         [server queryProfileForID:ID];
     }
     
+    [self setProfile:profile forID:ID];
     return profile;
 }
 
