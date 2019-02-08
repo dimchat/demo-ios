@@ -99,15 +99,14 @@
 }
 
 - (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID {
-    NSLog(@"saving profile: %@ for ID: %@", profile, ID);
-    
-    // load "Documents/.mkm/{address}/profile.plist"
+    // save ("Documents/.mkm/{address}/profile.plist")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
     dir = [dir stringByAppendingPathComponent:ID.address];
     make_dirs(dir);
     NSString *path = [dir stringByAppendingPathComponent:@"profile.plist"];
     if ([profile writeToFile:path atomically:YES]) {
+        NSLog(@"profile %@ of %@ has been saved to %@", profile, ID, path);
         return YES;
     } else {
         NSAssert(false, @"failed to save profile for ID: %@, %@", ID, profile);

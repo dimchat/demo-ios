@@ -122,10 +122,14 @@
         }
         
         NSDictionary *results = [info objectForKey:@"results"];
+        id value;
         for (NSString *key in results) {
             ID = [DIMID IDWithID:key];
-            meta = [DIMMeta metaWithMeta:[results objectForKey:key]];
-            [barrack saveMeta:meta forEntityID:ID];
+            value = [results objectForKey:key];
+            if ([value isKindOfClass:[NSDictionary class]]) {
+                meta = [DIMMeta metaWithMeta:value];
+                [barrack saveMeta:meta forEntityID:ID];
+            }
         }
         
     }

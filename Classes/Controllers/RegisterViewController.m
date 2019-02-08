@@ -138,6 +138,8 @@
     DIMID *ID = regInfo.ID;
     NSString *message = [NSString stringWithFormat:@"Save user: %@ ?", ID];
     
+    NSString *nickname = _nicknameTextField.text;
+    
     UIAlertController * alert;
     alert = [UIAlertController alertControllerWithTitle:@"Register"
                                                 message:message
@@ -154,6 +156,12 @@
             DIMClient *client = [DIMClient sharedInstance];
             client.currentUser = regInfo.user;
         }
+        
+        // save fullname in profile
+        DIMProfile *profile = [[DIMProfile alloc] initWithID:regInfo.ID];
+        [profile setName:nickname];
+        [facebook saveProfile:profile forID:regInfo.ID];
+        
         // post notice
         NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
         [dc postNotificationName:@"UsersUpdated" object:nil];

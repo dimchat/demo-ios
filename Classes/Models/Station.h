@@ -43,9 +43,11 @@ typedef NS_ENUM(UInt8, StationState) {
 - (void)stop;
 
 - (void)switchUser;
-- (void)handshakeWithUser:(DIMUser *)user;
-- (void)queryMetaForID:(DIMID *)ID;
-- (void)searchUsersWithKeywords:(NSString *)keywords;
+- (void)handshakeWithUser:(const DIMUser *)user;
+
+- (void)queryProfileForID:(const DIMID *)ID;
+- (void)queryMetaForID:(const DIMID *)ID;
+- (void)searchUsersWithKeywords:(const NSString *)keywords;
 
 @end
 

@@ -11,6 +11,7 @@
 #import "MKMImmortals.h"
 
 #import "Client+Ext.h"
+#import "Station.h"
 #import "Facebook+Register.h"
 
 #import "Facebook.h"
@@ -195,7 +196,7 @@ SingletonImplementations(Facebook, sharedInstance)
     if (PK) {
         contact = [[DIMAccount alloc] initWithID:ID publicKey:PK];
     } else {
-        NSAssert(false, @"failed to get PK for user: %@", ID);
+        NSLog(@"failed to get PK for user: %@", ID);
     }
     
     return contact;
@@ -353,24 +354,33 @@ SingletonImplementations(Facebook, sharedInstance)
 - (DIMProfile *)profileForID:(const DIMID *)ID {
     DIMProfile *profile = nil;
     
-    // TODO:
-    
     // load from "Documents/.mkm/{address}/profile.plist"
     NSString *dir = document_directory();
+    dir = [dir stringByAppendingPathComponent:@".mkm"];
     dir = [dir stringByAppendingPathComponent:ID.address];
     NSString *path = [dir stringByAppendingPathComponent:@"profile.plist"];
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-    if (dict) {
-        profile = [DIMProfile profileWithProfile:dict];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+        profile = [DIMAccountProfile profileWithProfile:dict];
         if (profile) {
             NSLog(@"loaded profile from %@", path);
             return profile;
         }
     }
     
+    // try immortals
     if (MKMNetwork_IsPerson(ID.type)) {
         profile = [_immortals profileForID:ID];
     }
+    
+    // query from network
+    if (!profile) {
+        DIMClient *client = [DIMClient sharedInstance];
+        Station *server = (Station *)[client currentStation];
+        [server queryProfileForID:ID];
+    }
+    
     return profile;
 }
 

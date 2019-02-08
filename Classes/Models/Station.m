@@ -160,7 +160,7 @@
 
 #pragma mark -
 
-- (void)handshakeWithUser:(DIMUser *)user {
+- (void)handshakeWithUser:(const DIMUser *)user {
     
     // 1. create command 'handshake'
     DIMHandshakeCommand *command;
@@ -205,6 +205,9 @@
         NSLog(@"handshake accepted: %@", user);
         NSLog(@"current station: %@", self);
         _state = StationState_Running;
+        // post profile
+        DIMProfile *profile = MKMProfileForID(user.ID);
+        [self postProfile:profile];
     } else if (state == DIMHandshake_Again) {
         // update session and handshake again
         NSString *session = cmd.sessionKey;
@@ -216,14 +219,15 @@
     }
 }
 
-- (void)queryMetaForID:(DIMID *)ID {
+// pack and send
+- (void)sendCommand:(DIMCommand *)cmd {
     DIMClient *client = [DIMClient sharedInstance];
     DIMUser *user = client.currentUser;
+    if (!user) {
+        NSLog(@"not login yet");
+        return ;
+    }
     DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    
-    DIMMetaCommand *cmd;
-    cmd = [[DIMMetaCommand alloc] initWithID:ID meta:nil];
-    // pack and send
     [trans sendMessageContent:cmd
                          from:user.ID
                            to:self.ID
@@ -236,6 +240,40 @@
                              NSLog(@"send %@ -> %@", cmd, rMsg);
                          }
                      }];
+}
+
+- (void)postProfile:(DIMProfile *)profile {
+    if (!profile) {
+        return ;
+    }
+    DIMClient *client = [DIMClient sharedInstance];
+    DIMUser *user = client.currentUser;
+    
+    if (![profile.ID isEqual:user.ID]) {
+        NSAssert(false, @"profile ID not match");
+        return ;
+    }
+    
+    DIMProfileCommand *cmd;
+    cmd = [[DIMProfileCommand alloc] initWithID:user.ID
+                                     privateKey:user.privateKey
+                                        profile:profile];
+    [self sendCommand:cmd];
+}
+
+- (void)queryProfileForID:(const DIMID *)ID {
+    DIMProfileCommand *cmd;
+    cmd = [[DIMProfileCommand alloc] initWithID:ID
+                                        profile:nil
+                                      signature:nil];
+    [self sendCommand:cmd];
+}
+
+- (void)queryMetaForID:(const DIMID *)ID {
+    DIMMetaCommand *cmd;
+    cmd = [[DIMMetaCommand alloc] initWithID:ID
+                                        meta:nil];
+    [self sendCommand:cmd];
 }
 
 - (void)processMetaMessageContent:(DIMMessageContent *)content {
@@ -255,30 +293,10 @@
     [dc postNotificationName:@"OnlineUsersUpdated" object:info];
 }
 
-- (void)searchUsersWithKeywords:(NSString *)keywords {
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMUser *user = client.currentUser;
-    if (!user) {
-        NSLog(@"not login yet");
-        return ;
-    }
-    
+- (void)searchUsersWithKeywords:(const NSString *)keywords {
     DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"search"];
     [cmd setObject:keywords forKey:@"keywords"];
-    // pack and send
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    [trans sendMessageContent:cmd
-                         from:user.ID
-                           to:self.ID
-                         time:nil
-                     callback:^(const DKDReliableMessage *rMsg,
-                                const NSError *error) {
-                         if (error) {
-                             NSLog(@"error: %@", error);
-                         } else {
-                             NSLog(@"send %@ -> %@", cmd, rMsg);
-                         }
-                     }];
+    [self sendCommand:cmd];
 }
 
 - (void)processSearchUsersMessageContent:(DIMMessageContent *)content {
