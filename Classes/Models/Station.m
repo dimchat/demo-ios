@@ -371,6 +371,10 @@
         } else if ([command isEqualToString:@"search"]) {
             // search users response
             return [self processSearchUsersMessageContent:content];
+        } else {
+            NSLog(@"!!! unknown command: %@, sender: %@, message content: %@",
+                  command, sender, content);
+            return ;
         }
     }
     

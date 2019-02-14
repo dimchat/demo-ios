@@ -128,22 +128,27 @@
     DIMID *sender = user.ID;
     DIMID *receiver = _conversation.ID;
     
-    DIMMessageContent *content = [[DIMMessageContent alloc] initWithText:text];
+    DIMMessageContent *content;
+    content = [[DIMMessageContent alloc] initWithText:text];
     
-    DIMInstantMessage *iMsg = [[DIMInstantMessage alloc] initWithContent:content
-                                                                  sender:sender
-                                                                receiver:receiver
-                                                                    time:nil];
+    DIMInstantMessage *iMsg;
+    iMsg = [[DIMInstantMessage alloc] initWithContent:content
+                                               sender:sender
+                                             receiver:receiver
+                                                 time:nil];
     NSLog(@"iMsg: %@", iMsg);
     
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    [trans sendMessage:iMsg callback:^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
+    DKDTransceiverCallback callback;
+    callback = ^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
         if (error) {
             NSLog(@"error: %@", error);
         } else {
             NSLog(@"message sent: %@ -> %@", iMsg, rMsg);
         }
-    }];
+    };
+    
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+    [trans sendInstantMessage:iMsg callback:callback dispersedly:YES];
     
     [_conversation insertMessage:iMsg];
     
