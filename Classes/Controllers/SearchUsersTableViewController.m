@@ -6,11 +6,9 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMCore/DIMCore.h>
-
-#import "Client+Ext.h"
+#import "User.h"
 #import "Facebook.h"
-#import "Station.h"
+#import "Station+Handler.h"
 
 #import "ProfileTableViewController.h"
 
@@ -47,17 +45,8 @@
         // online users
         
         // 1. query from the station
-        DIMCommand *content = [[DIMCommand alloc] initWithCommand:@"users"];
         Station *server = (Station *)client.currentStation;
-        DKDTransceiverCallback callback = ^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
-            assert(!error);
-        };
-        DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-        [trans sendMessageContent:content
-                             from:user.ID
-                               to:server.ID
-                             time:nil
-                         callback:callback];
+        [server queryOnlineUsers];
         
         // 2. waiting for update
         NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];

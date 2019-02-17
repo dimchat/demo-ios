@@ -10,8 +10,9 @@
 
 #import "MKMImmortals.h"
 
+#import "User.h"
 #import "Client+Ext.h"
-#import "Station.h"
+#import "Station+Handler.h"
 #import "Facebook+Register.h"
 
 #import "Facebook.h"
@@ -64,7 +65,7 @@ SingletonImplementations(Facebook, sharedInstance)
         
         // scan users
         NSArray *users = [self scanUserIDList];
-#if DEBUG && 1
+#if DEBUG && 0
         NSMutableArray *mArray;
         if (users.count > 0) {
             mArray = [users mutableCopy];

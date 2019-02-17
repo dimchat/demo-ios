@@ -8,6 +8,28 @@
 
 #import "User.h"
 
+NSString *search_number(UInt32 code) {
+    NSMutableString *number;
+    number = [[NSMutableString alloc] initWithFormat:@"%010u", (unsigned int)code];;
+    if ([number length] == 10) {
+        [number insertString:@"-" atIndex:6];
+        [number insertString:@"-" atIndex:3];
+    }
+    return number;
+}
+
+NSString *account_title(const DIMAccount *account) {
+    NSString *name = account.name;
+    NSString *number = search_number(account.number);
+    return [NSString stringWithFormat:@"%@ (%@)", name, number];
+}
+
+NSString *group_title(const DIMGroup *group) {
+    NSString *name = group.name;
+    NSUInteger count = group.members.count;
+    return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];
+}
+
 @implementation User
 
 + (instancetype)userWithConfigFile:(NSString *)config {

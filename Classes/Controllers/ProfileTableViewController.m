@@ -9,8 +9,9 @@
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 
+#import "Station+Handler.h"
+#import "User.h"
 #import "Facebook.h"
-#import "Client+Ext.h"
 
 #import "ChatViewController.h"
 
@@ -157,11 +158,15 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
+    NSLog(@"contact: %@", _account.ID);
+    
+    DIMClient *client = [DIMClient sharedInstance];
+    DIMUser *user = client.currentUser;
+    Station *server = (Station *)client.currentStation;
+    
     if ([segue.identifier isEqualToString:@"startChat"]) {
         
-        DIMID *ID = _account.ID;
-        NSLog(@"contact: %@", ID);
-        DIMConversation *convers = DIMConversationWithID(ID);
+        DIMConversation *convers = DIMConversationWithID(_account.ID);
         
         ChatViewController *chatVC = segue.destinationViewController;
         if (![chatVC isKindOfClass:[ChatViewController class]]) {
@@ -171,16 +176,22 @@
         
     } else if ([segue.identifier isEqualToString:@"addContact"]) {
         
+        // send meta & profile first as handshake
+        DIMMeta *meta = MKMMetaForID(user.ID);
+        DIMProfile *profile = MKMProfileForID(user.ID);
+        DIMProfileCommand *cmd;
+        cmd = [[DIMProfileCommand alloc] initWithID:user.ID
+                                               meta:meta
+                                         privateKey:user.privateKey
+                                            profile:profile];
+        [server sendContent:cmd to:_account.ID];
+        
         // add to contacts
-        DIMClient *client = [DIMClient sharedInstance];
-        DIMUser *user = client.currentUser;
         Facebook *facebook = [Facebook sharedInstance];
         [facebook addContact:_account.ID user:user];
         NSLog(@"contact %@ added to user %@", _account, user);
         
-        DIMID *ID = _account.ID;
-        NSLog(@"contact: %@", ID);
-        DIMConversation *convers = DIMConversationWithID(ID);
+        DIMConversation *convers = DIMConversationWithID(_account.ID);
         
         ChatViewController *chatVC = segue.destinationViewController;
         if (![chatVC isKindOfClass:[ChatViewController class]]) {

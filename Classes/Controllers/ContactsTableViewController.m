@@ -6,8 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "Client+Ext.h"
-
+#import "User.h"
 #import "Facebook.h"
 
 #import "ProfileTableViewController.h"

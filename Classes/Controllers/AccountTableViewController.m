@@ -6,11 +6,9 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <DIMCore/DIMCore.h>
-
+#import "User.h"
 #import "Facebook.h"
-#import "Station.h"
-#import "Client+Ext.h"
+#import "Station+Handler.h"
 
 #import "AccountTableViewController.h"
 
@@ -168,13 +166,14 @@
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
     DIMClient *client = [DIMClient sharedInstance];
+    Station *server = (Station *)[client currentStation];
     
     if (section == 0) {
         // Account
     } else if (section == 1) {
         // Users
         DIMUser *user = [client.users objectAtIndex:row];
-        [client login:user];
+        [server login:user];
         [self reloadData];
     } else if (section == 2) {
         // Functions

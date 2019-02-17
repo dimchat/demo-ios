@@ -8,7 +8,7 @@
 
 #import "NSObject+JsON.h"
 
-#import "Facebook+Register.h"
+#import "Station+Handler.h"
 #import "Station+Connection.h"
 
 #import "Station.h"
@@ -72,10 +72,6 @@
 
 - (void)stop {
     _state = StationState_Stopped;
-}
-
-- (void)switchUser {
-    _state = StationState_Init;
 }
 
 #pragma mark - NSStreamDelegate
@@ -157,172 +153,6 @@
         default:
             break;
     }
-}
-
-#pragma mark -
-
-- (void)handshakeWithUser:(const DIMUser *)user {
-    
-    // 1. create command 'handshake'
-    DIMHandshakeCommand *command;
-    command = [[DIMHandshakeCommand alloc] initWithSessionKey:_session];
-    
-    // 2. make instant message
-    DKDInstantMessage *iMsg;
-    iMsg = [[DKDInstantMessage alloc] initWithContent:command
-                                               sender:user.ID
-                                             receiver:self.ID
-                                                 time:nil];
-    
-    // 3. pack and attach meta info
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    DKDReliableMessage *rMsg = [trans encryptAndSignMessage:iMsg];
-    rMsg.meta = MKMMetaForID(user.ID);
-    
-    // 4. send out
-    DKDTransceiverCompletionHandler handler;
-    handler = ^(const NSError *error) {
-        if (error) {
-            NSLog(@"error: %@", error);
-        } else {
-            NSLog(@"send %@ -> %@", command, rMsg);
-        }
-    };
-    Task *task = [[Task alloc] initWithData:[rMsg jsonData]
-                          completionHandler:handler];
-    // run it immediately
-    [self runTask:task];
-}
-
-- (void)processHandshakeMessageContent:(DIMMessageContent *)content {
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMUser *user = client.currentUser;
-    
-    DIMHandshakeCommand *cmd;
-    cmd = [[DIMHandshakeCommand alloc] initWithDictionary:content];
-    DIMHandshakeState state = cmd.state;
-    if (state == DIMHandshake_Success) {
-        // handshake OK
-        NSLog(@"handshake accepted: %@", user);
-        NSLog(@"current station: %@", self);
-        _state = StationState_Running;
-        // post profile
-        DIMProfile *profile = MKMProfileForID(user.ID);
-        [self postProfile:profile];
-    } else if (state == DIMHandshake_Again) {
-        // update session and handshake again
-        NSString *session = cmd.sessionKey;
-        NSLog(@"session %@ -> %@", _session, session);
-        _session = session;
-        [self handshakeWithUser:user];
-    } else {
-        NSLog(@"handshake rejected: %@", content);
-    }
-}
-
-// pack and send
-- (void)sendCommand:(DIMCommand *)cmd {
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMUser *user = client.currentUser;
-    if (!user) {
-        NSLog(@"not login yet");
-        return ;
-    }
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    [trans sendMessageContent:cmd
-                         from:user.ID
-                           to:self.ID
-                         time:nil
-                     callback:^(const DKDReliableMessage *rMsg,
-                                const NSError *error) {
-                         if (error) {
-                             NSLog(@"error: %@", error);
-                         } else {
-                             NSLog(@"send %@ -> %@", cmd, rMsg);
-                         }
-                     }];
-}
-
-- (void)postProfile:(DIMProfile *)profile {
-    if (!profile) {
-        return ;
-    }
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMUser *user = client.currentUser;
-    
-    if (![profile.ID isEqual:user.ID]) {
-        NSAssert(false, @"profile ID not match");
-        return ;
-    }
-    
-    DIMProfileCommand *cmd;
-    cmd = [[DIMProfileCommand alloc] initWithID:user.ID
-                                     privateKey:user.privateKey
-                                        profile:profile];
-    [self sendCommand:cmd];
-}
-
-- (void)queryProfileForID:(const DIMID *)ID {
-    DIMProfileCommand *cmd;
-    cmd = [[DIMProfileCommand alloc] initWithID:ID
-                                        profile:nil
-                                      signature:nil];
-    [self sendCommand:cmd];
-}
-
-- (void)queryMetaForID:(const DIMID *)ID {
-    DIMMetaCommand *cmd;
-    cmd = [[DIMMetaCommand alloc] initWithID:ID
-                                        meta:nil];
-    [self sendCommand:cmd];
-}
-
-- (void)processMetaMessageContent:(DIMMessageContent *)content {
-    DIMMetaCommand *cmd;
-    cmd = [[DIMMetaCommand alloc] initWithDictionary:content];
-    if ([cmd.meta matchID:cmd.ID]) {
-        NSLog(@"got new meta for %@", cmd.ID);
-        DIMBarrack *facebook = [DIMBarrack sharedInstance];
-        [facebook saveMeta:cmd.meta forEntityID:cmd.ID];
-    }
-}
-
-- (void)processProfileMessageContent:(DIMMessageContent *)content {
-    DIMProfileCommand *cmd;
-    cmd = [[DIMProfileCommand alloc] initWithDictionary:content];
-    DIMProfile *profile = cmd.profile;
-    if ([profile.ID isEqual:cmd.ID]) {
-        NSLog(@"got new profile for %@", cmd.ID);
-        Facebook *facebook = [Facebook sharedInstance];
-        [facebook saveProfile:profile forID:cmd.ID];
-    }
-}
-
-- (void)processOnlineUsersMessageContent:(DIMMessageContent *)content {
-    NSArray *users = [content objectForKey:@"users"];
-    NSDictionary *info = @{@"users": users};
-    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-    [dc postNotificationName:@"OnlineUsersUpdated" object:info];
-}
-
-- (void)searchUsersWithKeywords:(const NSString *)keywords {
-    DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"search"];
-    [cmd setObject:keywords forKey:@"keywords"];
-    [self sendCommand:cmd];
-}
-
-- (void)processSearchUsersMessageContent:(DIMMessageContent *)content {
-    NSArray *users = [content objectForKey:@"users"];
-    NSDictionary *results = [content objectForKey:@"results"];
-    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] initWithCapacity:2];
-    if (users) {
-        [mDict setObject:users forKey:@"users"];
-    }
-    if (results) {
-        [mDict setObject:results forKey:@"results"];
-    }
-    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-    [dc postNotificationName:@"SearchUsersUpdated" object:mDict];
 }
 
 #pragma mark DIMStationDelegate

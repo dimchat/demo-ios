@@ -8,6 +8,7 @@
 
 #import "NSString+Extension.h"
 
+#import "Station+Handler.h"
 #import "MessageProcessor.h"
 #import "MsgCell.h"
 
@@ -124,31 +125,21 @@
 
     NSLog(@"send text: %@", text);
     
-    DIMUser *user = [DIMClient sharedInstance].currentUser;
-    DIMID *sender = user.ID;
-    DIMID *receiver = _conversation.ID;
+    DIMClient *client = [DIMClient sharedInstance];
+    DIMUser *user = client.currentUser;
     
+    // create message content
     DIMMessageContent *content;
     content = [[DIMMessageContent alloc] initWithText:text];
-    
+    // pack message
     DIMInstantMessage *iMsg;
     iMsg = [[DIMInstantMessage alloc] initWithContent:content
-                                               sender:sender
-                                             receiver:receiver
+                                               sender:user.ID
+                                             receiver:_conversation.ID
                                                  time:nil];
-    NSLog(@"iMsg: %@", iMsg);
-    
-    DKDTransceiverCallback callback;
-    callback = ^(const DKDReliableMessage * _Nonnull rMsg, const NSError * _Nullable error) {
-        if (error) {
-            NSLog(@"error: %@", error);
-        } else {
-            NSLog(@"message sent: %@ -> %@", iMsg, rMsg);
-        }
-    };
-    
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    [trans sendInstantMessage:iMsg callback:callback dispersedly:YES];
+    // send out
+    Station *server = (Station *)client.currentStation;
+    [server sendMessage:iMsg];
     
     [_conversation insertMessage:iMsg];
     

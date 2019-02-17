@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "Station+Handler.h"
 #import "Station+Connection.h"
 
 @implementation Station (Connection)

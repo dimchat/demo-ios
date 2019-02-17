@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E912ADB821E89CC500F56BBE /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = E912ADB721E89CC500F56BBE /* Station.m */; };
+		E91575CC2219B92C00D674B9 /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = E91575C62219B92B00D674B9 /* Station.m */; };
+		E91575CD2219B92C00D674B9 /* Station+Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = E91575C72219B92B00D674B9 /* Station+Connection.m */; };
+		E91575CE2219B92C00D674B9 /* Station+Handler.m in Sources */ = {isa = PBXBuildFile; fileRef = E91575C92219B92B00D674B9 /* Station+Handler.m */; };
+		E91575D12219B93300D674B9 /* Client+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = E91575D02219B93300D674B9 /* Client+Ext.m */; };
 		E94855CD2204646E004C6FB5 /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94855CC2204646E004C6FB5 /* AccountEditViewController.m */; };
 		E94855D02204841B004C6FB5 /* OnlineUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94855CF2204841B004C6FB5 /* OnlineUsersTableViewController.m */; };
 		E94855D22205D42E004C6FB5 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94855D12205D42D004C6FB5 /* WebKit.framework */; };
@@ -17,14 +20,12 @@
 		E9CF97F021FC09680092DD8B /* usr-moky.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97EF21FC09680092DD8B /* usr-moky.plist */; };
 		E9CF97F221FC0E8B0092DD8B /* gsp-selvn.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9CF97F121FC0E8B0092DD8B /* gsp-selvn.plist */; };
 		E9CF97FD21FEDBBF0092DD8B /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */; };
-		E9CF980321FF37160092DD8B /* Client+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CF980221FF37160092DD8B /* Client+Ext.m */; };
 		E9DC2EEE22087FCB005EE45F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DC2EED22087FCB005EE45F /* User.m */; };
 		E9E0525322041DB0005D1CF3 /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9E0525222041DB0005D1CF3 /* ChatViewImages.xcassets */; };
 		E9E0525722041EF4005D1CF3 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525622041EF4005D1CF3 /* NSString+Extension.m */; };
 		E9E0525A22042077005D1CF3 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525922042077005D1CF3 /* UIImage+Extension.m */; };
 		E9E0525D220421F2005D1CF3 /* MsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525C220421F2005D1CF3 /* MsgCell.m */; };
 		E9E052602204221B005D1CF3 /* MyMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E0525F2204221B005D1CF3 /* MyMsgCell.m */; };
-		E9E9419E2204151C00E82FAD /* Station+Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E9419D2204151C00E82FAD /* Station+Connection.m */; };
 		E9F3AAAB21CC0ED3009690F6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F3AAAA21CC0ED3009690F6 /* AppDelegate.m */; };
 		E9F3AAB421CC0ED3009690F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9F3AAB221CC0ED3009690F6 /* Main.storyboard */; };
 		E9F3AAB921CC0ED4009690F6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9F3AAB721CC0ED4009690F6 /* LaunchScreen.storyboard */; };
@@ -107,8 +108,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E912ADB621E89CC500F56BBE /* Station.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
-		E912ADB721E89CC500F56BBE /* Station.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
+		E91575C62219B92B00D674B9 /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
+		E91575C72219B92B00D674B9 /* Station+Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+Connection.m"; sourceTree = "<group>"; };
+		E91575C82219B92B00D674B9 /* Station+Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+Handler.h"; sourceTree = "<group>"; };
+		E91575C92219B92B00D674B9 /* Station+Handler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+Handler.m"; sourceTree = "<group>"; };
+		E91575CA2219B92C00D674B9 /* Station+Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+Connection.h"; sourceTree = "<group>"; };
+		E91575CB2219B92C00D674B9 /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
+		E91575CF2219B93300D674B9 /* Client+Ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Client+Ext.h"; sourceTree = "<group>"; };
+		E91575D02219B93300D674B9 /* Client+Ext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Client+Ext.m"; sourceTree = "<group>"; };
 		E94855CB2204646E004C6FB5 /* AccountEditViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccountEditViewController.h; sourceTree = "<group>"; };
 		E94855CC2204646E004C6FB5 /* AccountEditViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AccountEditViewController.m; sourceTree = "<group>"; };
 		E94855CE2204841B004C6FB5 /* OnlineUsersTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OnlineUsersTableViewController.h; sourceTree = "<group>"; };
@@ -123,8 +130,6 @@
 		E9CF97F121FC0E8B0092DD8B /* gsp-selvn.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "gsp-selvn.plist"; sourceTree = "<group>"; };
 		E9CF97FB21FEDBBF0092DD8B /* Facebook+Register.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
 		E9CF97FC21FEDBBF0092DD8B /* Facebook+Register.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
-		E9CF980121FF37160092DD8B /* Client+Ext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Client+Ext.h"; sourceTree = "<group>"; };
-		E9CF980221FF37160092DD8B /* Client+Ext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Client+Ext.m"; sourceTree = "<group>"; };
 		E9DC2EEC22087FCB005EE45F /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		E9DC2EED22087FCB005EE45F /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		E9E0525222041DB0005D1CF3 /* ChatViewImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatViewImages.xcassets; sourceTree = "<group>"; };
@@ -136,8 +141,6 @@
 		E9E0525C220421F2005D1CF3 /* MsgCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MsgCell.m; sourceTree = "<group>"; };
 		E9E0525E2204221B005D1CF3 /* MyMsgCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyMsgCell.h; sourceTree = "<group>"; };
 		E9E0525F2204221B005D1CF3 /* MyMsgCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyMsgCell.m; sourceTree = "<group>"; };
-		E9E9419C2204151C00E82FAD /* Station+Connection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Station+Connection.h"; sourceTree = "<group>"; };
-		E9E9419D2204151C00E82FAD /* Station+Connection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Station+Connection.m"; sourceTree = "<group>"; };
 		E9F3AAA621CC0ED2009690F6 /* DIMClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIMClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9F3AAA921CC0ED2009690F6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E9F3AAAA21CC0ED3009690F6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -293,6 +296,14 @@
 		E9F3AAEF21CC120D009690F6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E91575CF2219B93300D674B9 /* Client+Ext.h */,
+				E91575D02219B93300D674B9 /* Client+Ext.m */,
+				E91575CB2219B92C00D674B9 /* Station.h */,
+				E91575C62219B92B00D674B9 /* Station.m */,
+				E91575CA2219B92C00D674B9 /* Station+Connection.h */,
+				E91575C72219B92B00D674B9 /* Station+Connection.m */,
+				E91575C82219B92B00D674B9 /* Station+Handler.h */,
+				E91575C92219B92B00D674B9 /* Station+Handler.m */,
 				E9E0525422041ECB005D1CF3 /* Views */,
 				E9F3AAF021CC120D009690F6 /* Models */,
 				E9F3AAFA21CC16C9009690F6 /* Controllers */,
@@ -304,8 +315,6 @@
 		E9F3AAF021CC120D009690F6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E9CF980121FF37160092DD8B /* Client+Ext.h */,
-				E9CF980221FF37160092DD8B /* Client+Ext.m */,
 				E9F3AAF221CC120D009690F6 /* Facebook.h */,
 				E9F3AAF421CC120D009690F6 /* Facebook.m */,
 				E9CF97FB21FEDBBF0092DD8B /* Facebook+Register.h */,
@@ -314,10 +323,6 @@
 				E9F3AAF321CC120D009690F6 /* MessageProcessor.m */,
 				E9DC2EEC22087FCB005EE45F /* User.h */,
 				E9DC2EED22087FCB005EE45F /* User.m */,
-				E912ADB621E89CC500F56BBE /* Station.h */,
-				E912ADB721E89CC500F56BBE /* Station.m */,
-				E9E9419C2204151C00E82FAD /* Station+Connection.h */,
-				E9E9419D2204151C00E82FAD /* Station+Connection.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -534,26 +539,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9E9419E2204151C00E82FAD /* Station+Connection.m in Sources */,
 				E9CF97FD21FEDBBF0092DD8B /* Facebook+Register.m in Sources */,
 				E94855D02204841B004C6FB5 /* OnlineUsersTableViewController.m in Sources */,
 				E94855D52205D5BC004C6FB5 /* AboutViewController.m in Sources */,
 				E9F3AAF821CC120D009690F6 /* Facebook.m in Sources */,
 				E9E052602204221B005D1CF3 /* MyMsgCell.m in Sources */,
+				E91575CC2219B92C00D674B9 /* Station.m in Sources */,
 				E94855CD2204646E004C6FB5 /* AccountEditViewController.m in Sources */,
 				E9F3AAF721CC120D009690F6 /* MessageProcessor.m in Sources */,
-				E912ADB821E89CC500F56BBE /* Station.m in Sources */,
 				E9E0525D220421F2005D1CF3 /* MsgCell.m in Sources */,
 				E9F3AB8321CFF3AE009690F6 /* ConversationsTableViewController.m in Sources */,
 				E9F3AB7321CFC6C8009690F6 /* ContactsTableViewController.m in Sources */,
 				E9DC2EEE22087FCB005EE45F /* User.m in Sources */,
 				E95A80C22205F66B007EA611 /* SearchUsersTableViewController.m in Sources */,
 				E9E0525A22042077005D1CF3 /* UIImage+Extension.m in Sources */,
-				E9CF980321FF37160092DD8B /* Client+Ext.m in Sources */,
 				E9F3AB7621CFCCDF009690F6 /* ProfileTableViewController.m in Sources */,
 				E9F3ABC221D0877A009690F6 /* RegisterViewController.m in Sources */,
 				E9E0525722041EF4005D1CF3 /* NSString+Extension.m in Sources */,
 				E9F3AAAB21CC0ED3009690F6 /* AppDelegate.m in Sources */,
+				E91575D12219B93300D674B9 /* Client+Ext.m in Sources */,
+				E91575CD2219B92C00D674B9 /* Station+Connection.m in Sources */,
+				E91575CE2219B92C00D674B9 /* Station+Handler.m in Sources */,
 				E9F3AB7D21CFDAFC009690F6 /* AccountTableViewController.m in Sources */,
 				E9F3AABC21CC0ED4009690F6 /* main.m in Sources */,
 				E9F3AB8621CFF69B009690F6 /* ChatViewController.m in Sources */,

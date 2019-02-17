@@ -6,11 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <DIMCore/DIMCore.h>
-
-#import "Facebook.h"
+#import "User.h"
 #import "Facebook+Register.h"
-#import "Client+Ext.h"
 
 #import "RegisterViewController.h"
 
