@@ -179,11 +179,16 @@
         // send meta & profile first as handshake
         DIMMeta *meta = MKMMetaForID(user.ID);
         DIMProfile *profile = MKMProfileForID(user.ID);
-        DIMProfileCommand *cmd;
-        cmd = [[DIMProfileCommand alloc] initWithID:user.ID
-                                               meta:meta
-                                         privateKey:user.privateKey
-                                            profile:profile];
+        DIMCommand *cmd;
+        if (profile) {
+            cmd = [[DIMProfileCommand alloc] initWithID:user.ID
+                                                   meta:meta
+                                             privateKey:user.privateKey
+                                                profile:profile];
+        } else {
+            cmd = [[DIMMetaCommand alloc] initWithID:user.ID
+                                                meta:meta];
+        }
         [server sendContent:cmd to:_account.ID];
         
         // add to contacts
