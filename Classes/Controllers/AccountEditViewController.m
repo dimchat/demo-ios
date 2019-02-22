@@ -10,6 +10,8 @@
 
 #import "NSObject+JsON.h"
 
+#import "Client.h"
+
 #import "AccountEditViewController.h"
 
 @interface AccountEditViewController ()
@@ -22,7 +24,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     
     NSString *name = user.name;

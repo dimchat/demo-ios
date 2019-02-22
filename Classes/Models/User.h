@@ -34,7 +34,7 @@ NSString *account_title(const DIMAccount *account);
  */
 NSString *group_title(const DIMGroup *group);
 
-@interface User : DIMUser
+@interface DIMUser (Config)
 
 + (instancetype)userWithConfigFile:(NSString *)config;
 

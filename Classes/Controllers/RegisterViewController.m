@@ -7,6 +7,7 @@
 //
 
 #import "User.h"
+#import "Client.h"
 #import "Facebook+Register.h"
 
 #import "RegisterViewController.h"
@@ -132,6 +133,8 @@
     
     NSLog(@"row: %ld, saving info: %@", row, regInfo);
     
+    Client *client = [Client sharedInstance];
+    
     DIMID *ID = regInfo.ID;
     NSString *message = [NSString stringWithFormat:@"Save user: %@ ?", ID];
     
@@ -150,7 +153,6 @@
     handler = ^(UIAlertAction *action) {
         Facebook *facebook = [Facebook sharedInstance];
         if ([facebook saveRegisterInfo:regInfo]) {
-            DIMClient *client = [DIMClient sharedInstance];
             client.currentUser = regInfo.user;
         }
         
@@ -160,8 +162,7 @@
         [facebook saveProfile:profile forID:regInfo.ID];
         
         // post notice
-        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-        [dc postNotificationName:@"UsersUpdated" object:nil];
+        [client postNotificationName:@"UsersUpdated"];
         NSLog(@"post notification: UsersUpdated");
     };
     

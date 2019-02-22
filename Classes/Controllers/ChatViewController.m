@@ -8,8 +8,10 @@
 
 #import "NSString+Extension.h"
 
+#import "Client.h"
 #import "Station+Handler.h"
-#import "MessageProcessor.h"
+
+#import "MessageProcessor+Station.h"
 #import "MsgCell.h"
 
 #import "ChatViewController.h"
@@ -125,7 +127,8 @@
 
     NSLog(@"send text: %@", text);
     
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
+    Station *server = client.currentStation;
     DIMUser *user = client.currentUser;
     
     // create message content
@@ -138,7 +141,6 @@
                                              receiver:_conversation.ID
                                                  time:nil];
     // send out
-    Station *server = (Station *)client.currentStation;
     [server sendMessage:iMsg];
     
     [_conversation insertMessage:iMsg];
@@ -169,7 +171,7 @@
     //    NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];

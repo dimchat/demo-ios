@@ -8,6 +8,9 @@
 
 #import "User.h"
 #import "Facebook.h"
+#import "MessageProcessor+Station.h"
+
+#import "Client.h"
 #import "Station+Handler.h"
 
 #import "ProfileTableViewController.h"
@@ -36,8 +39,8 @@
     [self loadCacheFile];
     
     // 2. query from the station
-    DIMClient *client = [DIMClient sharedInstance];
-    Station *server = (Station *)client.currentStation;
+    Client *client = [Client sharedInstance];
+    Station *server = client.currentStation;
     [server queryOnlineUsers];
     
     // 3. waiting for update
@@ -49,8 +52,8 @@
 }
 
 - (void)loadCacheFile {
-    DIMClient *client = [DIMClient sharedInstance];
-    Station *server = (Station *)client.currentStation;
+    Client *client = [Client sharedInstance];
+    Station *server = client.currentStation;
     
     NSString *dir = NSTemporaryDirectory();
     NSString *path = [dir stringByAppendingPathComponent:@"online_users.plist"];
@@ -74,8 +77,8 @@
 }
 
 - (void)reloadData:(NSNotification *)notification {
-    DIMClient *client = [DIMClient sharedInstance];
-    Station *server = (Station *)client.currentStation;
+    Client *client = [Client sharedInstance];
+    Station *server = client.currentStation;
     
     NSArray *users = [notification object];
     NSLog(@"online users: %@", users);

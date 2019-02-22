@@ -7,10 +7,13 @@
 //
 
 #import "NSObject+Singleton.h"
+#import "NSObject+JsON.h"
 
 #import "Facebook.h"
-#import "Client+Ext.h"
+#import "Client.h"
+#import "Station+Handler.h"
 
+#import "MessageProcessor+Station.h"
 #import "MessageProcessor.h"
 
 NSString *NSStringFromDate(const NSDate *date) {
@@ -233,7 +236,11 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     
     if (entity) {
         // create new conversation with entity (Account/Group)
-        return [[DIMConversation alloc] initWithEntity:entity];
+        DIMConversation *chatBox;
+        chatBox = [[DIMConversation alloc] initWithEntity:entity];
+        chatBox.dataSource = self;
+        chatBox.delegate = self;
+        return chatBox;
     }
     NSAssert(false, @"failed to create conversation with ID: %@", ID);
     return nil;
@@ -266,20 +273,81 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     }
     
     [list addObject:iMsg];
+    // Burn After Reading
+    while (list.count > 100) {
+        [list removeObjectAtIndex:0];
+    }
     
     if (save_message(list, ID)) {
-//        [self performSelectorOnMainThread:@selector(noticeMessageUpdate) withObject:nil waitUntilDone:NO];
-        [self noticeMessageUpdate];
+        Client *client = [Client sharedInstance];
+        [client postNotificationName:@"MessageUpdated"];
         return YES;
     } else {
         return NO;
     }
 }
 
-- (void)noticeMessageUpdate {
-    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-    [dc postNotificationName:@"MessageUpdated" object:nil];
-    NSLog(@"post notification: MessageUpdated");
+#pragma mark DIMStationDelegate
+
+- (void)station:(nonnull const DIMStation *)server didReceivePackage:(nonnull const NSData *)data {
+    Client *client = [Client sharedInstance];
+    DIMUser *user = client.currentUser;
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+    
+    // decode
+    NSString *json = [data UTF8String];
+    DIMReliableMessage *rMsg;
+    rMsg = [[DKDReliableMessage alloc] initWithJSONString:json];
+    
+    // check sender
+    DIMID *sender = rMsg.envelope.sender;
+    DIMMeta *meta = MKMMetaForID(sender);
+    if (!meta) {
+        meta = rMsg.meta;
+        if (!meta) {
+            NSLog(@"meta for %@ not found, query from the network...", sender);
+            return [(Station *)server queryMetaForID:sender];
+        }
+    }
+    
+    // trans to instant message
+    DKDInstantMessage *iMsg;
+    iMsg = [trans verifyAndDecryptMessage:rMsg forUser:user];
+    
+    // process commands
+    DIMMessageContent *content = iMsg.content;
+    if (content.type == DIMMessageType_Command) {
+        NSString *command = content.command;
+        if ([command isEqualToString:@"handshake"]) {
+            // handshake
+            return [self processHandshakeMessageContent:content];
+        } else if ([command isEqualToString:@"meta"]) {
+            // query meta response
+            return [self processMetaMessageContent:content];
+        } else if ([command isEqualToString:@"profile"]) {
+            // query profile response
+            return [self processProfileMessageContent:content];
+        } else if ([command isEqualToString:@"users"]) {
+            // query online users response
+            return [self processOnlineUsersMessageContent:content];
+        } else if ([command isEqualToString:@"search"]) {
+            // search users response
+            return [self processSearchUsersMessageContent:content];
+        } else {
+            NSLog(@"!!! unknown command: %@, sender: %@, message content: %@",
+                  command, sender, content);
+            return ;
+        }
+    }
+    
+    if (MKMNetwork_IsStation(sender.type)) {
+        NSLog(@"*** message from station: %@", content);
+        //return ;
+    }
+    
+    // normal message, let the clerk to deliver it
+    DIMAmanuensis *clerk = [DIMAmanuensis sharedInstance];
+    [clerk saveMessage:iMsg];
 }
 
 @end

@@ -9,9 +9,12 @@
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 
+#import "Client.h"
 #import "Station+Handler.h"
+
 #import "User.h"
 #import "Facebook.h"
+#import "MessageProcessor+Station.h"
 
 #import "ChatViewController.h"
 
@@ -95,7 +98,12 @@
         NSString *key = [_profile.allKeys objectAtIndex:row];
         id value = [_profile objectForKey:key];
         if (![value isKindOfClass:[NSString class]]) {
-            value = [value jsonString];
+            if ([value isKindOfClass:[NSDictionary class]] ||
+                [value isKindOfClass:[NSArray class]]) {
+                value = [value jsonString];
+            } else {
+                value = [NSString stringWithFormat:@"%@", value];
+            }
         }
         
         cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell" forIndexPath:indexPath];
@@ -104,8 +112,8 @@
         return cell;
     }
     if (section == 2) {
-        DIMUser *user = [DIMClient sharedInstance].currentUser;
-        if ([user.contacts containsObject:_account.ID]) {
+        DIMUser *user = [Client sharedInstance].currentUser;
+        if ([user containsContact:_account.ID]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"AddFriendCell" forIndexPath:indexPath];
@@ -160,9 +168,9 @@
     
     NSLog(@"contact: %@", _account.ID);
     
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
+    Station *server = client.currentStation;
     DIMUser *user = client.currentUser;
-    Station *server = (Station *)client.currentStation;
     
     if ([segue.identifier isEqualToString:@"startChat"]) {
         

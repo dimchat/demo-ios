@@ -10,15 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Station (Connection)
-
-- (void)connect;
-- (void)disconnect;
-
-- (BOOL)runTask:(Task *)task;
-
-- (void)run;
-
-@end
+//@interface Station (Connection)
+//
+//- (void)connect;
+//- (void)disconnect;
+//
+//- (BOOL)runTask:(Task *)task;
+//
+//- (void)run;
+//
+//@end
 
 NS_ASSUME_NONNULL_END

@@ -1,18 +1,18 @@
 //
-//  DIMClientUITests.m
-//  DIMClientUITests
+//  SeChatUITests.m
+//  SeChatUITests
 //
-//  Created by Albert Moky on 2018/12/21.
-//  Copyright © 2018 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2019/2/19.
+//  Copyright © 2019 DIM Group. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 
-@interface DIMClientUITests : XCTestCase
+@interface SeChatUITests : XCTestCase
 
 @end
 
-@implementation DIMClientUITests
+@implementation SeChatUITests
 
 - (void)setUp {
     // Put setup code here. This method is called before the invocation of each test method in the class.

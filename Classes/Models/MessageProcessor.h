@@ -13,7 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 NSString *NSStringFromDate(const NSDate *date);
 
 @interface MessageProcessor : NSObject <DIMConversationDataSource,
-                                        DIMConversationDelegate>
+                                        DIMConversationDelegate,
+                                        DIMStationDelegate>
 
 + (instancetype)sharedInstance;
 

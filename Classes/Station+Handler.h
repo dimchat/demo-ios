@@ -12,20 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Station (Handler)
 
-- (void)processHandshakeMessageContent:(DIMMessageContent *)content;
-
-- (void)processMetaMessageContent:(DIMMessageContent *)content;
-- (void)processProfileMessageContent:(DIMMessageContent *)content;
-
-- (void)processOnlineUsersMessageContent:(DIMMessageContent *)content;
-- (void)processSearchUsersMessageContent:(DIMMessageContent *)content;
-
-@end
-
-#pragma mark -
-
-@interface Station (Message)
-
 - (void)sendContent:(DIMMessageContent *)content to:(DIMID *)receiver;
 - (void)sendMessage:(DIMInstantMessage *)msg;
 

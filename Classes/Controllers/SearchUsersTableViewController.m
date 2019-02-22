@@ -8,6 +8,9 @@
 
 #import "User.h"
 #import "Facebook.h"
+#import "MessageProcessor+Station.h"
+
+#import "Client.h"
 #import "Station+Handler.h"
 
 #import "ProfileTableViewController.h"
@@ -39,14 +42,13 @@
                name:@"SearchUsersUpdated"
              object:nil];
     
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     if (user) {
         // online users
         
         // 1. query from the station
-        Station *server = (Station *)client.currentStation;
-        [server queryOnlineUsers];
+        [client.currentStation queryOnlineUsers];
         
         // 2. waiting for update
         NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
@@ -64,8 +66,8 @@
     NSArray *users = [info objectForKey:@"users"];
     
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
-    DIMClient *client = [DIMClient sharedInstance];
-    Station *server = (Station *)client.currentStation;
+    Client *client = [Client sharedInstance];
+    Station *server = client.currentStation;
     
     DIMID *ID;
     DIMMeta *meta;
@@ -130,8 +132,8 @@
     NSString *keywords = searchBar.text;
     NSLog(@"****************** searching %@", keywords);
     
-    DIMClient *client = [DIMClient sharedInstance];
-    Station *server = (Station *)client.currentStation;
+    Client *client = [Client sharedInstance];
+    Station *server = client.currentStation;
     [server searchUsersWithKeywords:keywords];
     
     [searchBar resignFirstResponder];
@@ -156,8 +158,10 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     if (section == 1) {
-        if (_onlineUsers.count > 0) {
-            return @"Online User(s)";
+        if (_onlineUsers.count == 1) {
+            return @"Online User";
+        } else if (_onlineUsers.count > 1) {
+            return @"Online Users";
         }
     }
     return [super tableView:tableView titleForHeaderInSection:section];

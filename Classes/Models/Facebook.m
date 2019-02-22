@@ -7,11 +7,14 @@
 //
 
 #import "NSObject+Singleton.h"
+#import "NSDate+Timestamp.h"
 
 #import "MKMImmortals.h"
 
 #import "User.h"
-#import "Client+Ext.h"
+#import "MessageProcessor+Station.h"
+
+#import "Client.h"
 #import "Station+Handler.h"
 #import "Facebook+Register.h"
 
@@ -77,7 +80,7 @@ SingletonImplementations(Facebook, sharedInstance)
         users = mArray;
 #endif
         // add users
-        DIMClient *client = [DIMClient sharedInstance];
+        Client *client = [Client sharedInstance];
         DIMUser *user;
         for (MKMID *ID in users) {
             user = [self userWithID:ID];
@@ -129,6 +132,7 @@ SingletonImplementations(Facebook, sharedInstance)
         [contacts addObject:contactID];
         [_contactsTable setObject:contacts forKey:user.ID.address];
     }
+    [user addContact:contactID];
     [self flushContactsWithUser:user];
 }
 
@@ -145,11 +149,13 @@ SingletonImplementations(Facebook, sharedInstance)
         NSLog(@"user %@ doesn't has contact yet", user.ID);
         return ;
     }
+    [user removeContact:contactID];
     [self flushContactsWithUser:user];
 }
 
 // {document_directory}/.mkm/{address}/contacts.plist
 - (void)flushContactsWithUser:(const DIMUser *)user {
+    Client *client = [Client sharedInstance];
     
     MKMContactListM *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts.count > 0) {
@@ -157,12 +163,10 @@ SingletonImplementations(Facebook, sharedInstance)
         NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
         [contacts writeToFile:path atomically:YES];
         NSLog(@"contacts updated: %@", contacts);
-        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-        [dc postNotificationName:@"ContactsUpdated" object:nil];
+        [client postNotificationName:@"ContactsUpdated"];
     } else {
         NSLog(@"no contacts");
     }
-    user.contacts = contacts;
 }
 
 // {document_directory}/.mkm/{address}/contacts.plist
@@ -204,7 +208,7 @@ SingletonImplementations(Facebook, sharedInstance)
         return contact;
     }
     
-    NSArray *users = [DIMClient sharedInstance].users;
+    NSArray *users = [Client sharedInstance].users;
     for (contact in users) {
         if ([contact.ID isEqual:ID]) {
             return contact;
@@ -378,6 +382,15 @@ SingletonImplementations(Facebook, sharedInstance)
     profile = [_profileTable objectForKey:ID.address];
     if (profile) {
         // TODO: check cache expires
+        NSNumber *timestamp = [profile objectForKey:@"lastTime"];
+        if (timestamp) {
+            NSDate *lastTime = NSDateFromNumber(timestamp);
+            NSTimeInterval ti = [lastTime timeIntervalSinceNow];
+            if (fabs(ti) > 300) {
+                [_profileTable removeObjectForKey:ID.address];
+            }
+        }
+        
         return profile;
     }
     
@@ -400,10 +413,14 @@ SingletonImplementations(Facebook, sharedInstance)
     
     // (d) query from network
     if (!profile) {
-        DIMClient *client = [DIMClient sharedInstance];
-        Station *server = (Station *)[client currentStation];
+        profile = [[DIMProfile alloc] initWithID:ID];
+        
+        Client *client = [Client sharedInstance];
+        Station *server = client.currentStation;
         [server queryProfileForID:ID];
     }
+    NSDate *now = [[NSDate alloc] init];
+    [profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
     
     [self setProfile:profile forID:ID];
     return profile;

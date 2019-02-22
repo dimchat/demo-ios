@@ -8,17 +8,13 @@
 
 #import "NSObject+JsON.h"
 
+#import "MessageProcessor+Station.h"
+
+#import "Client.h"
 #import "Station+Handler.h"
 #import "Station+Connection.h"
 
 #import "Station.h"
-
-@interface Station () {
-    
-    NSMutableData *_inputData;
-}
-
-@end
 
 @implementation Station
 
@@ -30,16 +26,11 @@
         
         _state = StationState_Init;
         
-        _inputStream = nil;
-        _outputStream = nil;
-        
-        _inputData = nil;
-        
-        _tasks = [[NSMutableArray alloc] init];
-        
         _session = nil;
         
-        _delegate = self;
+        _starGate = [[MGMars alloc] initWithMessageHandler:self];
+        
+        _delegate = [MessageProcessor sharedInstance];
     }
     return self;
 }
@@ -60,7 +51,7 @@
     
     // connect server
     Station *server = [[Station alloc] initWithDictionary:station];
-    [DIMClient sharedInstance].currentStation = server;
+    [Client sharedInstance].currentStation = server;
     [DIMTransceiver sharedInstance].delegate = server;
     return server;
 }
@@ -74,173 +65,239 @@
     _state = StationState_Stopped;
 }
 
-#pragma mark - NSStreamDelegate
-
-- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
-    switch (eventCode) {
-        case NSStreamEventOpenCompleted: {
-            NSLog(@"NSStreamEventOpenCompleted: %@", aStream);
-        }
-            break;
-            
-        case NSStreamEventHasBytesAvailable: {
-            NSLog(@"NSStreamEventHasBytesAvailable: %@", aStream);
-            
-            if (_inputData) {
-                NSLog(@"last not finished data: %@", [_inputData UTF8String]);
-            } else {
-                _inputData = [[NSMutableData alloc] initWithCapacity:1024];
-            }
-            uint8_t buf[1024];
-            NSInteger len;
-            while ([_inputStream hasBytesAvailable]) {
-                len = [_inputStream read:buf maxLength:sizeof(buf)];
-                if (len > 0) {
-                    [_inputData appendBytes:(const void *)buf length:len];
+- (void)run {
+    Client *client = [Client sharedInstance];
+    DIMUser *user = nil;
+    
+    while (_state != StationState_Stopped) {
+        
+        switch (_state) {
+            case StationState_Init: {
+                // check user login
+                user = client.currentUser;
+                if (user) {
+                    _state = StationState_Connecting;
+                } else {
+                    // waiting for new user login
+                    NSLog(@"[Station] No user login, paused");
+                    sleep(3);
                 }
             }
-            
-            if (_inputData.length > 0) {
-                NSAssert(_delegate, @"delegate not set");
-                NSString *string = [_inputData UTF8String];
-                _inputData = nil;
-                NSArray *array = [string componentsSeparatedByString:@"\n"];
-                NSUInteger count = [array count];
-                for (NSUInteger index = 0; index < count; ++index) {
-                    string = [array objectAtIndex:index];
-                    if (string.length == 0) {
-                        continue;
-                    }
-                    @try {
-                        [_delegate station:self didReceiveData:[string data]];
-                    } @catch (NSException *exception) {
-                        NSLog(@"**** JsON error!");
-                        if (index == count - 1) {
-                            // not finished data, push back for next input
-                            _inputData = [[NSMutableData alloc] initWithData:[string data]];
-                            NSLog(@"not finished data: %@", [_inputData UTF8String]);
-                        }
-                    }
+                break;
+                
+            case StationState_Connecting: {
+                if (_starGate.isConnected) {
+                    sleep(1);
+                    _state = StationState_Connected;
+                } else {
+                    // waiting for connection
+                    sleep(1);
                 }
             }
-        }
-            break;
-            
-        case NSStreamEventHasSpaceAvailable: {
-            NSLog(@"NSStreamEventHasSpaceAvailable: %@", aStream);
-            if (_state == StationState_Connecting &&
-                aStream == _outputStream) {
-                NSLog(@"connected");
-                _state = StationState_Connected;
+                break;
+                
+            case StationState_Connected: {
+                _state = StationState_ShakingHands;
+                [self handshakeWithUser:user];
             }
-        }
-            break;
-            
-        case NSStreamEventErrorOccurred: {
-            NSLog(@"NSStreamEventErrorOccurred: %@", aStream);
-            [self disconnect];
-            _state = StationState_Error;
-        }
-            break;
-            
-        case NSStreamEventEndEncountered: {
-            NSLog(@"NSStreamEventEndEncountered: %@", aStream);
-            [self disconnect];
-            _state = StationState_Init;
-        }
-            break;
-            
-        default:
-            break;
-    }
+                break;
+                
+            case StationState_ShakingHands: {
+                // waiting for shacking hands
+                sleep(1);
+            }
+                break;
+                
+            case StationState_Running: {
+//                // run task
+//                if (_tasks.count > 0) {
+//                    task = _tasks.firstObject;
+//                    BOOL sent = NO;
+//                    @try {
+//                        sent = [self runTask:task];
+//                    } @catch (NSException *exception) {
+//                        NSLog(@"run task error: %@", exception);
+//                    } @finally {
+//                        if (sent) {
+//                            [_tasks removeObject:task];
+//                        } else {
+//                            _state = StationState_Error;
+//                        }
+//                    }
+//                } else {
+//                    // no task
+//                    sleep(1);
+//                }
+            }
+                break;
+                
+            case StationState_Error: {
+//                // reconnect
+//                [self disconnect];
+                _state = StationState_Init;
+                sleep(2);
+            }
+                break;
+                
+            case StationState_Stopped: {
+                // terminate
+            }
+                break;
+                
+            default: {
+                NSAssert(false, @"unknown status: %d", _state);
+            }
+                break;
+                
+        } /* EOF switch (_state) */
+        
+    } /* EOF while (_state != StationState_Stopped) */
 }
 
-#pragma mark DIMStationDelegate
+#pragma mark DKDTransceiverDelegate
 
-- (void)station:(const DIMStation *)server didReceiveData:(const NSData *)data {
-    DIMClient *client = [DIMClient sharedInstance];
-    DIMUser *user = client.currentUser;
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+- (BOOL)sendPackage:(const NSData *)data completionHandler:(nullable DKDTransceiverCompletionHandler)handler {
+    NSLog(@"sending data len: %ld", data.length);
+    // TODO: send data
+    NSInteger res = [_starGate send:data];
     
-    // decode
-    NSString *json = [data UTF8String];
-    DIMReliableMessage *rMsg;
-    rMsg = [[DKDReliableMessage alloc] initWithJSONString:json];
-    
-    // check sender
-    DIMID *sender = rMsg.envelope.sender;
-    DIMMeta *meta = MKMMetaForID(sender);
-    if (!meta) {
-        meta = rMsg.meta;
-        if (!meta) {
-            NSLog(@"meta for %@ not found, query from the network...", sender);
-            return [self queryMetaForID:sender];
-        }
-    }
-    
-    // trans to instant message
-    DKDInstantMessage *iMsg;
-    iMsg = [trans verifyAndDecryptMessage:rMsg forUser:user];
-    
-    // process commands
-    DIMMessageContent *content = iMsg.content;
-    if (content.type == DIMMessageType_Command) {
-        NSString *command = content.command;
-        if ([command isEqualToString:@"handshake"]) {
-            // handshake
-            return [self processHandshakeMessageContent:content];
-        } else if ([command isEqualToString:@"meta"]) {
-            // query meta response
-            return [self processMetaMessageContent:content];
-        } else if ([command isEqualToString:@"profile"]) {
-            // query profile response
-            return [self processProfileMessageContent:content];
-        } else if ([command isEqualToString:@"users"]) {
-            // query online users response
-            return [self processOnlineUsersMessageContent:content];
-        } else if ([command isEqualToString:@"search"]) {
-            // search users response
-            return [self processSearchUsersMessageContent:content];
+    if (handler) {
+        NSError *error;
+        if (res < 0) {
+            error = [[NSError alloc] initWithDomain:NSNetServicesErrorDomain
+                                               code:res
+                                           userInfo:nil];
         } else {
-            NSLog(@"!!! unknown command: %@, sender: %@, message content: %@",
-                  command, sender, content);
-            return ;
+            error = nil;
         }
+        handler(error);
     }
     
-    if (MKMNetwork_IsStation(sender.type)) {
-        NSLog(@"*** message from station: %@", content);
-        return ;
-    }
-    
-    // normal message, let the clerk to deliver it
-    DIMAmanuensis *clerk = [DIMAmanuensis sharedInstance];
-    [clerk saveMessage:iMsg];
-    
+    return res == 0;
 }
 
-#pragma mark - DKDTransceiverDelegate
+#pragma mark SGStarDelegate
 
-- (BOOL)sendPackage:(const NSData *)data completionHandler:(DKDTransceiverCompletionHandler)handler {
-    // push the task to waiting queue
-    Task *task = [[Task alloc] initWithData:data completionHandler:handler];
-    [_tasks addObject:task];
-    return YES;
+- (NSInteger)onReceive:(const NSData *)responseData {
+    NSLog(@"response data len: %ld", responseData.length);
+    [[MessageProcessor sharedInstance] station:self didReceivePackage:responseData];
+    return 0;
 }
 
 @end
 
-#pragma mark -
-
-@implementation Task
-
-- (instancetype)initWithData:(const NSData *)data
-           completionHandler:(DKDTransceiverCompletionHandler)handler {
-    if (self = [self init]) {
-        self.data = data;
-        self.completionHandler = handler;
-    }
-    return self;
-}
-
-@end
+//@interface Station () {
+//    
+//    NSMutableData *_inputData;
+//}
+//
+//@end
+//
+//@implementation Station
+//
+//#pragma mark - NSStreamDelegate
+//
+//- (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
+//    switch (eventCode) {
+//        case NSStreamEventOpenCompleted: {
+//            NSLog(@"NSStreamEventOpenCompleted: %@", aStream);
+//        }
+//            break;
+//            
+//        case NSStreamEventHasBytesAvailable: {
+//            NSLog(@"NSStreamEventHasBytesAvailable: %@", aStream);
+//            
+//            if (_inputData) {
+//                NSLog(@"last not finished data: %@", [_inputData UTF8String]);
+//            } else {
+//                _inputData = [[NSMutableData alloc] initWithCapacity:1024];
+//            }
+//            uint8_t buf[1024];
+//            NSInteger len;
+//            while ([_inputStream hasBytesAvailable]) {
+//                len = [_inputStream read:buf maxLength:sizeof(buf)];
+//                if (len > 0) {
+//                    [_inputData appendBytes:(const void *)buf length:len];
+//                }
+//            }
+//            
+//            if (_inputData.length > 0) {
+//                NSAssert(_delegate, @"delegate not set");
+//                NSString *string = [_inputData UTF8String];
+//                _inputData = nil;
+//                NSArray *array = [string componentsSeparatedByString:@"\n"];
+//                NSUInteger count = [array count];
+//                for (NSUInteger index = 0; index < count; ++index) {
+//                    string = [array objectAtIndex:index];
+//                    if (string.length == 0) {
+//                        continue;
+//                    }
+//                    @try {
+//                        [_delegate station:self didReceivePackage:[string data]];
+//                    } @catch (NSException *exception) {
+//                        NSLog(@"**** JsON error!");
+//                        if (index == count - 1) {
+//                            // not finished data, push back for next input
+//                            _inputData = [[NSMutableData alloc] initWithData:[string data]];
+//                            NSLog(@"not finished data: %@", [_inputData UTF8String]);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//            break;
+//            
+//        case NSStreamEventHasSpaceAvailable: {
+//            NSLog(@"NSStreamEventHasSpaceAvailable: %@", aStream);
+//            if (_state == StationState_Connecting &&
+//                aStream == _outputStream) {
+//                NSLog(@"connected");
+//                _state = StationState_Connected;
+//            }
+//        }
+//            break;
+//            
+//        case NSStreamEventErrorOccurred: {
+//            NSLog(@"NSStreamEventErrorOccurred: %@", aStream);
+//            [self disconnect];
+//            _state = StationState_Error;
+//        }
+//            break;
+//            
+//        case NSStreamEventEndEncountered: {
+//            NSLog(@"NSStreamEventEndEncountered: %@", aStream);
+//            [self disconnect];
+//            _state = StationState_Init;
+//        }
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//}
+//
+//#pragma mark - DKDTransceiverDelegate
+//
+//- (BOOL)sendPackage:(const NSData *)data completionHandler:(DKDTransceiverCompletionHandler)handler {
+//    // push the task to waiting queue
+//    Task *task = [[Task alloc] initWithData:data completionHandler:handler];
+//    [_tasks addObject:task];
+//    return YES;
+//}
+//
+//@end
+//
+//#pragma mark -
+//
+//@implementation Task
+//
+//- (instancetype)initWithData:(const NSData *)data
+//           completionHandler:(DKDTransceiverCompletionHandler)handler {
+//    if (self = [self init]) {
+//        self.data = data;
+//        self.completionHandler = handler;
+//    }
+//    return self;
+//}
+//
+//@end

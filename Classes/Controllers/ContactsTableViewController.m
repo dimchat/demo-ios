@@ -9,6 +9,8 @@
 #import "User.h"
 #import "Facebook.h"
 
+#include "Client.h"
+
 #import "ProfileTableViewController.h"
 
 #import "ContactsTableViewController.h"
@@ -49,7 +51,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     if (user) {
         Facebook *facebook = [Facebook sharedInstance];
@@ -68,7 +70,7 @@
     DIMID *ID = nil;
     DIMAccount *contact = nil;
 
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     Facebook *facebook = [Facebook sharedInstance];
     ID = [facebook user:user contactAtIndex:indexPath.row];
@@ -94,7 +96,7 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        DIMClient *client = [DIMClient sharedInstance];
+        Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
         Facebook *facebook = [Facebook sharedInstance];
         DIMID *ID = [facebook user:user contactAtIndex:indexPath.row];

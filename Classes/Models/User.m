@@ -30,7 +30,7 @@ NSString *group_title(const DIMGroup *group) {
     return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];
 }
 
-@implementation User
+@implementation DIMUser (Config)
 
 + (instancetype)userWithConfigFile:(NSString *)config {
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:config];
@@ -45,11 +45,9 @@ NSString *group_title(const DIMGroup *group) {
     [[DIMBarrack sharedInstance] saveMeta:meta forEntityID:ID];
     
     DIMPrivateKey *SK = [DIMPrivateKey keyWithKey:[dict objectForKey:@"privateKey"]];
-    DIMPublicKey *PK = [SK publicKey];
     [SK saveKeyWithIdentifier:ID.address];
     
-    User *user = [[User alloc] initWithID:ID publicKey:PK];
-    user.privateKey = SK;
+    DIMUser *user = MKMUserWithID(ID);
     
     // profile
     DIMProfile *profile = [dict objectForKey:@"profile"];

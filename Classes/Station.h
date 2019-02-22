@@ -7,6 +7,7 @@
 //
 
 #import <DIMCore/DIMCore.h>
+#import <MarsGate/MarsGate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,17 +21,16 @@ typedef NS_ENUM(UInt8, StationState) {
     StationState_Stopped,
 };
 
-@interface Station : DIMStation <NSStreamDelegate, DIMStationDelegate, DIMTransceiverDelegate> {
+@interface Station : DIMStation <DIMTransceiverDelegate, SGStarDelegate> {
     
     StationState _state;
-    
-    NSInputStream *_inputStream;
-    NSOutputStream *_outputStream;
-    
-    NSMutableArray *_tasks;
-    
     NSString *_session;
 }
+
+@property (nonatomic) StationState state;
+@property (strong, nonatomic) NSString *session;
+
+@property (strong, nonatomic) MGMars *starGate;
 
 - (instancetype)initWithID:(const DIMID *)ID
                  publicKey:(const DIMPublicKey *)PK
@@ -44,16 +44,28 @@ typedef NS_ENUM(UInt8, StationState) {
 
 @end
 
-#pragma mark -
-
-@interface Task : NSObject
-
-@property (strong, nonatomic) const NSData *data;
-@property (nonatomic) DKDTransceiverCompletionHandler completionHandler;
-
-- (instancetype)initWithData:(const NSData *)data
-           completionHandler:(DKDTransceiverCompletionHandler)handler;
-
-@end
+//@interface Station : DIMStation <NSStreamDelegate, DIMStationDelegate, DIMTransceiverDelegate> {
+//    
+//
+//    NSInputStream *_inputStream;
+//    NSOutputStream *_outputStream;
+//    
+//    NSMutableArray *_tasks;
+//    
+//}
+//
+//@end
+//
+//#pragma mark -
+//
+//@interface Task : NSObject
+//
+//@property (strong, nonatomic) const NSData *data;
+//@property (nonatomic) DKDTransceiverCompletionHandler completionHandler;
+//
+//- (instancetype)initWithData:(const NSData *)data
+//           completionHandler:(DKDTransceiverCompletionHandler)handler;
+//
+//@end
 
 NS_ASSUME_NONNULL_END

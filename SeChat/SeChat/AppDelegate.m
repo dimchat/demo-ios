@@ -8,6 +8,8 @@
 
 #import "Facebook.h"
 #import "User.h"
+
+#import "Client.h"
 #import "Station.h"
 
 #import "AppDelegate.h"
@@ -24,19 +26,19 @@
     
     [Facebook sharedInstance];
     
-#if DEBUG && 0
+#if DEBUG && 1
     {
-        DIMClient *client = [DIMClient sharedInstance];
         // moky
         NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-moky" ofType:@"plist"];
-        User *user = [User userWithConfigFile:path];
-        [client addUser:user];
+        DIMUser *user = [DIMUser userWithConfigFile:path];
+        [[Client sharedInstance] addUser:user];
     }
 #endif
     
     // GSP station
     NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp" ofType:@"plist"];
     Station *server = [Station stationWithConfigFile:path];
+    [server.starGate application:application didFinishLaunchingWithOptions:launchOptions];
     [server start];
     
     return YES;
@@ -52,11 +54,17 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+    Station *server = [Client sharedInstance].currentStation;
+    [server.starGate applicationDidEnterBackground:application];
 }
 
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    
+    Station *server = [Client sharedInstance].currentStation;
+    [server.starGate applicationWillEnterForeground:application];
 }
 
 
@@ -67,6 +75,9 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+    Station *server = [Client sharedInstance].currentStation;
+    [server.starGate applicationWillTerminate:application];
 }
 
 

@@ -6,7 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "Client+Ext.h"
+#import "Client.h"
 
 #import "Facebook+Register.h"
 

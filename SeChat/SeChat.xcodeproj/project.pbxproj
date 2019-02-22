@@ -1,0 +1,933 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E93BA167221BFC9400D73B20 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA166221BFC9400D73B20 /* AppDelegate.m */; };
+		E93BA170221BFC9400D73B20 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E93BA16E221BFC9400D73B20 /* Main.storyboard */; };
+		E93BA175221BFC9600D73B20 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E93BA173221BFC9600D73B20 /* LaunchScreen.storyboard */; };
+		E93BA178221BFC9600D73B20 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA177221BFC9600D73B20 /* main.m */; };
+		E93BA182221BFC9600D73B20 /* SeChatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA181221BFC9600D73B20 /* SeChatTests.m */; };
+		E93BA18D221BFC9600D73B20 /* SeChatUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA18C221BFC9600D73B20 /* SeChatUITests.m */; };
+		E93BA1F6221C014400D73B20 /* gsp-selvn.plist in Resources */ = {isa = PBXBuildFile; fileRef = E93BA1C2221C014400D73B20 /* gsp-selvn.plist */; };
+		E93BA1F7221C014400D73B20 /* usr-moky.plist in Resources */ = {isa = PBXBuildFile; fileRef = E93BA1C3221C014400D73B20 /* usr-moky.plist */; };
+		E93BA1F8221C014400D73B20 /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E93BA1C4221C014400D73B20 /* gsp.plist */; };
+		E93BA1F9221C014400D73B20 /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E93BA1C5221C014400D73B20 /* ChatViewImages.xcassets */; };
+		E93BA1FA221C014400D73B20 /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1C8221C014400D73B20 /* Station.m */; };
+		E93BA1FB221C014400D73B20 /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1CD221C014400D73B20 /* Facebook+Register.m */; };
+		E93BA1FC221C014400D73B20 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1CE221C014400D73B20 /* User.m */; };
+		E93BA1FD221C014400D73B20 /* MessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1D0221C014400D73B20 /* MessageProcessor.m */; };
+		E93BA1FE221C014400D73B20 /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1D3221C014400D73B20 /* Facebook.m */; };
+		E93BA1FF221C014400D73B20 /* Station+Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1D4221C014400D73B20 /* Station+Connection.m */; };
+		E93BA200221C014400D73B20 /* Station+Handler.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1D6221C014400D73B20 /* Station+Handler.m */; };
+		E93BA201221C014400D73B20 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1DB221C014400D73B20 /* AboutViewController.m */; };
+		E93BA202221C014400D73B20 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1DC221C014400D73B20 /* ConversationsTableViewController.m */; };
+		E93BA203221C014400D73B20 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1DF221C014400D73B20 /* ChatViewController.m */; };
+		E93BA204221C014400D73B20 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1E0221C014400D73B20 /* RegisterViewController.m */; };
+		E93BA205221C014400D73B20 /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1E2221C014400D73B20 /* AccountTableViewController.m */; };
+		E93BA206221C014400D73B20 /* ProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1E3221C014400D73B20 /* ProfileTableViewController.m */; };
+		E93BA207221C014400D73B20 /* ContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1E6221C014400D73B20 /* ContactsTableViewController.m */; };
+		E93BA208221C014400D73B20 /* OnlineUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1E7221C014400D73B20 /* OnlineUsersTableViewController.m */; };
+		E93BA209221C014400D73B20 /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1E8221C014400D73B20 /* AccountEditViewController.m */; };
+		E93BA20A221C014400D73B20 /* SearchUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1E9221C014400D73B20 /* SearchUsersTableViewController.m */; };
+		E93BA20B221C014400D73B20 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1EC221C014400D73B20 /* Client.m */; };
+		E93BA20C221C014400D73B20 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1F1221C014400D73B20 /* UIImage+Extension.m */; };
+		E93BA20D221C014400D73B20 /* MyMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1F2221C014400D73B20 /* MyMsgCell.m */; };
+		E93BA20E221C014400D73B20 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1F3221C014400D73B20 /* NSString+Extension.m */; };
+		E93BA20F221C014400D73B20 /* MsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E93BA1F5221C014400D73B20 /* MsgCell.m */; };
+		E93BA218221C01D700D73B20 /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E93BA210221C01D700D73B20 /* Contacts.storyboard */; };
+		E93BA219221C01D700D73B20 /* Conversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E93BA212221C01D700D73B20 /* Conversations.storyboard */; };
+		E93BA21A221C01D700D73B20 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E93BA214221C01D700D73B20 /* Account.storyboard */; };
+		E93BA21B221C01D700D73B20 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E93BA216221C01D700D73B20 /* Profile.storyboard */; };
+		E93BA237221C051200D73B20 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93BA236221C051200D73B20 /* WebKit.framework */; };
+		E9FAF6B8221EC37300DB6567 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9FAF6B7221EC37300DB6567 /* Assets.xcassets */; };
+		E9FAF6B9221ECB9E00DB6567 /* MarsGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9FAF6B3221EC32F00DB6567 /* MarsGate.framework */; };
+		E9FAF6BA221ECBF000DB6567 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E93BA23E221C20E000D73B20 /* DIMCore.framework */; };
+		E9FAF6BD221ECEB100DB6567 /* MessageProcessor+Station.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FAF6BC221ECEB100DB6567 /* MessageProcessor+Station.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E93BA17E221BFC9600D73B20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E93BA15A221BFC9400D73B20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E93BA161221BFC9400D73B20;
+			remoteInfo = SeChat;
+		};
+		E93BA189221BFC9600D73B20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E93BA15A221BFC9400D73B20 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E93BA161221BFC9400D73B20;
+			remoteInfo = SeChat;
+		};
+		E93BA23D221C20E000D73B20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E93BA238221C20DF00D73B20 /* DIMCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9F3AA3C21CBD02C009690F6;
+			remoteInfo = DIMCore;
+		};
+		E93BA23F221C20E000D73B20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E93BA238221C20DF00D73B20 /* DIMCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9F3AA4521CBD02C009690F6;
+			remoteInfo = DIMCoreTests;
+		};
+		E9FAF6B2221EC32F00DB6567 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9FAF6AD221EC32F00DB6567 /* MarsGate.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9FAF5E8221EAC5F00DB6567;
+			remoteInfo = MarsGate;
+		};
+		E9FAF6B4221EC32F00DB6567 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9FAF6AD221EC32F00DB6567 /* MarsGate.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9FAF5F1221EAC5F00DB6567;
+			remoteInfo = MarsGateTests;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E93BA162221BFC9400D73B20 /* SeChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E93BA165221BFC9400D73B20 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E93BA166221BFC9400D73B20 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E93BA16F221BFC9400D73B20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E93BA174221BFC9600D73B20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E93BA176221BFC9600D73B20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E93BA177221BFC9600D73B20 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E93BA17D221BFC9600D73B20 /* SeChatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeChatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E93BA181221BFC9600D73B20 /* SeChatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SeChatTests.m; sourceTree = "<group>"; };
+		E93BA183221BFC9600D73B20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E93BA188221BFC9600D73B20 /* SeChatUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeChatUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E93BA18C221BFC9600D73B20 /* SeChatUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SeChatUITests.m; sourceTree = "<group>"; };
+		E93BA18E221BFC9600D73B20 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E93BA1C2221C014400D73B20 /* gsp-selvn.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "gsp-selvn.plist"; sourceTree = "<group>"; };
+		E93BA1C3221C014400D73B20 /* usr-moky.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-moky.plist"; sourceTree = "<group>"; };
+		E93BA1C4221C014400D73B20 /* gsp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gsp.plist; sourceTree = "<group>"; };
+		E93BA1C5221C014400D73B20 /* ChatViewImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatViewImages.xcassets; sourceTree = "<group>"; };
+		E93BA1C7221C014400D73B20 /* Station+Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+Handler.h"; sourceTree = "<group>"; };
+		E93BA1C8221C014400D73B20 /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
+		E93BA1C9221C014400D73B20 /* Station+Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+Connection.h"; sourceTree = "<group>"; };
+		E93BA1CA221C014400D73B20 /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		E93BA1CC221C014400D73B20 /* MessageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageProcessor.h; sourceTree = "<group>"; };
+		E93BA1CD221C014400D73B20 /* Facebook+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
+		E93BA1CE221C014400D73B20 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		E93BA1CF221C014400D73B20 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
+		E93BA1D0221C014400D73B20 /* MessageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageProcessor.m; sourceTree = "<group>"; };
+		E93BA1D1221C014400D73B20 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		E93BA1D2221C014400D73B20 /* Facebook+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
+		E93BA1D3221C014400D73B20 /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
+		E93BA1D4221C014400D73B20 /* Station+Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+Connection.m"; sourceTree = "<group>"; };
+		E93BA1D5221C014400D73B20 /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
+		E93BA1D6221C014400D73B20 /* Station+Handler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+Handler.m"; sourceTree = "<group>"; };
+		E93BA1D8221C014400D73B20 /* ProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewController.h; sourceTree = "<group>"; };
+		E93BA1D9221C014400D73B20 /* AccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTableViewController.h; sourceTree = "<group>"; };
+		E93BA1DA221C014400D73B20 /* ContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewController.h; sourceTree = "<group>"; };
+		E93BA1DB221C014400D73B20 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		E93BA1DC221C014400D73B20 /* ConversationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewController.m; sourceTree = "<group>"; };
+		E93BA1DD221C014400D73B20 /* AccountEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountEditViewController.h; sourceTree = "<group>"; };
+		E93BA1DE221C014400D73B20 /* OnlineUsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineUsersTableViewController.h; sourceTree = "<group>"; };
+		E93BA1DF221C014400D73B20 /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		E93BA1E0221C014400D73B20 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		E93BA1E1221C014400D73B20 /* SearchUsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchUsersTableViewController.h; sourceTree = "<group>"; };
+		E93BA1E2221C014400D73B20 /* AccountTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountTableViewController.m; sourceTree = "<group>"; };
+		E93BA1E3221C014400D73B20 /* ProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewController.m; sourceTree = "<group>"; };
+		E93BA1E4221C014400D73B20 /* ConversationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationsTableViewController.h; sourceTree = "<group>"; };
+		E93BA1E5221C014400D73B20 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		E93BA1E6221C014400D73B20 /* ContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewController.m; sourceTree = "<group>"; };
+		E93BA1E7221C014400D73B20 /* OnlineUsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineUsersTableViewController.m; sourceTree = "<group>"; };
+		E93BA1E8221C014400D73B20 /* AccountEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountEditViewController.m; sourceTree = "<group>"; };
+		E93BA1E9221C014400D73B20 /* SearchUsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchUsersTableViewController.m; sourceTree = "<group>"; };
+		E93BA1EA221C014400D73B20 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		E93BA1EB221C014400D73B20 /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
+		E93BA1EC221C014400D73B20 /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
+		E93BA1EE221C014400D73B20 /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
+		E93BA1EF221C014400D73B20 /* MyMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMsgCell.h; sourceTree = "<group>"; };
+		E93BA1F0221C014400D73B20 /* MsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MsgCell.h; sourceTree = "<group>"; };
+		E93BA1F1221C014400D73B20 /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
+		E93BA1F2221C014400D73B20 /* MyMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMsgCell.m; sourceTree = "<group>"; };
+		E93BA1F3221C014400D73B20 /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
+		E93BA1F4221C014400D73B20 /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
+		E93BA1F5221C014400D73B20 /* MsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MsgCell.m; sourceTree = "<group>"; };
+		E93BA211221C01D700D73B20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Contacts.storyboard; sourceTree = "<group>"; };
+		E93BA213221C01D700D73B20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Conversations.storyboard; sourceTree = "<group>"; };
+		E93BA215221C01D700D73B20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account.storyboard; sourceTree = "<group>"; };
+		E93BA217221C01D700D73B20 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
+		E93BA236221C051200D73B20 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		E93BA238221C20DF00D73B20 /* DIMCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMCore.xcodeproj; path = "../../core-objc/DIMCore/DIMCore.xcodeproj"; sourceTree = "<group>"; };
+		E9FAF6AD221EC32F00DB6567 /* MarsGate.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MarsGate.xcodeproj; path = ../../../moky/StarGate/MarsGate/MarsGate.xcodeproj; sourceTree = "<group>"; };
+		E9FAF6B7221EC37300DB6567 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E9FAF6BB221ECEB100DB6567 /* MessageProcessor+Station.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MessageProcessor+Station.h"; sourceTree = "<group>"; };
+		E9FAF6BC221ECEB100DB6567 /* MessageProcessor+Station.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MessageProcessor+Station.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E93BA15F221BFC9400D73B20 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9FAF6BA221ECBF000DB6567 /* DIMCore.framework in Frameworks */,
+				E9FAF6B9221ECB9E00DB6567 /* MarsGate.framework in Frameworks */,
+				E93BA237221C051200D73B20 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E93BA17A221BFC9600D73B20 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E93BA185221BFC9600D73B20 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E93BA159221BFC9400D73B20 = {
+			isa = PBXGroup;
+			children = (
+				E93BA238221C20DF00D73B20 /* DIMCore.xcodeproj */,
+				E9FAF6AD221EC32F00DB6567 /* MarsGate.xcodeproj */,
+				E93BA1C6221C014400D73B20 /* Classes */,
+				E93BA1C1221C014400D73B20 /* Resources */,
+				E93BA164221BFC9400D73B20 /* SeChat */,
+				E93BA180221BFC9600D73B20 /* SeChatTests */,
+				E93BA18B221BFC9600D73B20 /* SeChatUITests */,
+				E93BA163221BFC9400D73B20 /* Products */,
+				E93BA21C221C021F00D73B20 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E93BA163221BFC9400D73B20 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA162221BFC9400D73B20 /* SeChat.app */,
+				E93BA17D221BFC9600D73B20 /* SeChatTests.xctest */,
+				E93BA188221BFC9600D73B20 /* SeChatUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E93BA164221BFC9400D73B20 /* SeChat */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA165221BFC9400D73B20 /* AppDelegate.h */,
+				E93BA166221BFC9400D73B20 /* AppDelegate.m */,
+				E93BA16E221BFC9400D73B20 /* Main.storyboard */,
+				E93BA214221C01D700D73B20 /* Account.storyboard */,
+				E93BA210221C01D700D73B20 /* Contacts.storyboard */,
+				E93BA212221C01D700D73B20 /* Conversations.storyboard */,
+				E93BA216221C01D700D73B20 /* Profile.storyboard */,
+				E93BA173221BFC9600D73B20 /* LaunchScreen.storyboard */,
+				E93BA176221BFC9600D73B20 /* Info.plist */,
+				E93BA177221BFC9600D73B20 /* main.m */,
+			);
+			path = SeChat;
+			sourceTree = "<group>";
+		};
+		E93BA180221BFC9600D73B20 /* SeChatTests */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA181221BFC9600D73B20 /* SeChatTests.m */,
+				E93BA183221BFC9600D73B20 /* Info.plist */,
+			);
+			path = SeChatTests;
+			sourceTree = "<group>";
+		};
+		E93BA18B221BFC9600D73B20 /* SeChatUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA18C221BFC9600D73B20 /* SeChatUITests.m */,
+				E93BA18E221BFC9600D73B20 /* Info.plist */,
+			);
+			path = SeChatUITests;
+			sourceTree = "<group>";
+		};
+		E93BA1C1221C014400D73B20 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA1C2221C014400D73B20 /* gsp-selvn.plist */,
+				E93BA1C3221C014400D73B20 /* usr-moky.plist */,
+				E93BA1C4221C014400D73B20 /* gsp.plist */,
+				E93BA1C5221C014400D73B20 /* ChatViewImages.xcassets */,
+				E9FAF6B7221EC37300DB6567 /* Assets.xcassets */,
+			);
+			name = Resources;
+			path = ../Resources;
+			sourceTree = "<group>";
+		};
+		E93BA1C6221C014400D73B20 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA1ED221C014400D73B20 /* Views */,
+				E93BA1D7221C014400D73B20 /* Controllers */,
+				E93BA1CB221C014400D73B20 /* Models */,
+				E93BA1CA221C014400D73B20 /* Client.h */,
+				E93BA1EC221C014400D73B20 /* Client.m */,
+				E93BA1D5221C014400D73B20 /* Station.h */,
+				E93BA1C8221C014400D73B20 /* Station.m */,
+				E93BA1C7221C014400D73B20 /* Station+Handler.h */,
+				E93BA1D6221C014400D73B20 /* Station+Handler.m */,
+				E93BA1C9221C014400D73B20 /* Station+Connection.h */,
+				E93BA1D4221C014400D73B20 /* Station+Connection.m */,
+			);
+			name = Classes;
+			path = ../Classes;
+			sourceTree = "<group>";
+		};
+		E93BA1CB221C014400D73B20 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA1CF221C014400D73B20 /* Facebook.h */,
+				E93BA1D3221C014400D73B20 /* Facebook.m */,
+				E93BA1CD221C014400D73B20 /* Facebook+Register.m */,
+				E93BA1D2221C014400D73B20 /* Facebook+Register.h */,
+				E93BA1CC221C014400D73B20 /* MessageProcessor.h */,
+				E93BA1D0221C014400D73B20 /* MessageProcessor.m */,
+				E9FAF6BB221ECEB100DB6567 /* MessageProcessor+Station.h */,
+				E9FAF6BC221ECEB100DB6567 /* MessageProcessor+Station.m */,
+				E93BA1D1221C014400D73B20 /* User.h */,
+				E93BA1CE221C014400D73B20 /* User.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E93BA1D7221C014400D73B20 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA1E4221C014400D73B20 /* ConversationsTableViewController.h */,
+				E93BA1DC221C014400D73B20 /* ConversationsTableViewController.m */,
+				E93BA1EB221C014400D73B20 /* ChatViewController.h */,
+				E93BA1DF221C014400D73B20 /* ChatViewController.m */,
+				E93BA1DA221C014400D73B20 /* ContactsTableViewController.h */,
+				E93BA1E6221C014400D73B20 /* ContactsTableViewController.m */,
+				E93BA1E1221C014400D73B20 /* SearchUsersTableViewController.h */,
+				E93BA1E9221C014400D73B20 /* SearchUsersTableViewController.m */,
+				E93BA1DE221C014400D73B20 /* OnlineUsersTableViewController.h */,
+				E93BA1E7221C014400D73B20 /* OnlineUsersTableViewController.m */,
+				E93BA1D8221C014400D73B20 /* ProfileTableViewController.h */,
+				E93BA1E3221C014400D73B20 /* ProfileTableViewController.m */,
+				E93BA1D9221C014400D73B20 /* AccountTableViewController.h */,
+				E93BA1E2221C014400D73B20 /* AccountTableViewController.m */,
+				E93BA1DD221C014400D73B20 /* AccountEditViewController.h */,
+				E93BA1E8221C014400D73B20 /* AccountEditViewController.m */,
+				E93BA1EA221C014400D73B20 /* RegisterViewController.h */,
+				E93BA1E0221C014400D73B20 /* RegisterViewController.m */,
+				E93BA1E5221C014400D73B20 /* AboutViewController.h */,
+				E93BA1DB221C014400D73B20 /* AboutViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		E93BA1ED221C014400D73B20 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA1EE221C014400D73B20 /* NSString+Extension.h */,
+				E93BA1F3221C014400D73B20 /* NSString+Extension.m */,
+				E93BA1F1221C014400D73B20 /* UIImage+Extension.m */,
+				E93BA1F4221C014400D73B20 /* UIImage+Extension.h */,
+				E93BA1F0221C014400D73B20 /* MsgCell.h */,
+				E93BA1F5221C014400D73B20 /* MsgCell.m */,
+				E93BA1EF221C014400D73B20 /* MyMsgCell.h */,
+				E93BA1F2221C014400D73B20 /* MyMsgCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E93BA21C221C021F00D73B20 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA236221C051200D73B20 /* WebKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E93BA239221C20DF00D73B20 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E93BA23E221C20E000D73B20 /* DIMCore.framework */,
+				E93BA240221C20E000D73B20 /* DIMCoreTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E9FAF6AE221EC32F00DB6567 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9FAF6B3221EC32F00DB6567 /* MarsGate.framework */,
+				E9FAF6B5221EC32F00DB6567 /* MarsGateTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E93BA161221BFC9400D73B20 /* SeChat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E93BA191221BFC9600D73B20 /* Build configuration list for PBXNativeTarget "SeChat" */;
+			buildPhases = (
+				E93BA15E221BFC9400D73B20 /* Sources */,
+				E93BA15F221BFC9400D73B20 /* Frameworks */,
+				E93BA160221BFC9400D73B20 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SeChat;
+			productName = SeChat;
+			productReference = E93BA162221BFC9400D73B20 /* SeChat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E93BA17C221BFC9600D73B20 /* SeChatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E93BA194221BFC9600D73B20 /* Build configuration list for PBXNativeTarget "SeChatTests" */;
+			buildPhases = (
+				E93BA179221BFC9600D73B20 /* Sources */,
+				E93BA17A221BFC9600D73B20 /* Frameworks */,
+				E93BA17B221BFC9600D73B20 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E93BA17F221BFC9600D73B20 /* PBXTargetDependency */,
+			);
+			name = SeChatTests;
+			productName = SeChatTests;
+			productReference = E93BA17D221BFC9600D73B20 /* SeChatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E93BA187221BFC9600D73B20 /* SeChatUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E93BA197221BFC9600D73B20 /* Build configuration list for PBXNativeTarget "SeChatUITests" */;
+			buildPhases = (
+				E93BA184221BFC9600D73B20 /* Sources */,
+				E93BA185221BFC9600D73B20 /* Frameworks */,
+				E93BA186221BFC9600D73B20 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E93BA18A221BFC9600D73B20 /* PBXTargetDependency */,
+			);
+			name = SeChatUITests;
+			productName = SeChatUITests;
+			productReference = E93BA188221BFC9600D73B20 /* SeChatUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E93BA15A221BFC9400D73B20 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "DIM Group";
+				TargetAttributes = {
+					E93BA161221BFC9400D73B20 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					E93BA17C221BFC9600D73B20 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = E93BA161221BFC9400D73B20;
+					};
+					E93BA187221BFC9600D73B20 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = E93BA161221BFC9400D73B20;
+					};
+				};
+			};
+			buildConfigurationList = E93BA15D221BFC9400D73B20 /* Build configuration list for PBXProject "SeChat" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E93BA159221BFC9400D73B20;
+			productRefGroup = E93BA163221BFC9400D73B20 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E93BA239221C20DF00D73B20 /* Products */;
+					ProjectRef = E93BA238221C20DF00D73B20 /* DIMCore.xcodeproj */;
+				},
+				{
+					ProductGroup = E9FAF6AE221EC32F00DB6567 /* Products */;
+					ProjectRef = E9FAF6AD221EC32F00DB6567 /* MarsGate.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				E93BA161221BFC9400D73B20 /* SeChat */,
+				E93BA17C221BFC9600D73B20 /* SeChatTests */,
+				E93BA187221BFC9600D73B20 /* SeChatUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E93BA23E221C20E000D73B20 /* DIMCore.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DIMCore.framework;
+			remoteRef = E93BA23D221C20E000D73B20 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E93BA240221C20E000D73B20 /* DIMCoreTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DIMCoreTests.xctest;
+			remoteRef = E93BA23F221C20E000D73B20 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E9FAF6B3221EC32F00DB6567 /* MarsGate.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MarsGate.framework;
+			remoteRef = E9FAF6B2221EC32F00DB6567 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E9FAF6B5221EC32F00DB6567 /* MarsGateTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MarsGateTests.xctest;
+			remoteRef = E9FAF6B4221EC32F00DB6567 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E93BA160221BFC9400D73B20 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E93BA1F6221C014400D73B20 /* gsp-selvn.plist in Resources */,
+				E93BA1F9221C014400D73B20 /* ChatViewImages.xcassets in Resources */,
+				E9FAF6B8221EC37300DB6567 /* Assets.xcassets in Resources */,
+				E93BA21B221C01D700D73B20 /* Profile.storyboard in Resources */,
+				E93BA175221BFC9600D73B20 /* LaunchScreen.storyboard in Resources */,
+				E93BA1F7221C014400D73B20 /* usr-moky.plist in Resources */,
+				E93BA1F8221C014400D73B20 /* gsp.plist in Resources */,
+				E93BA219221C01D700D73B20 /* Conversations.storyboard in Resources */,
+				E93BA218221C01D700D73B20 /* Contacts.storyboard in Resources */,
+				E93BA21A221C01D700D73B20 /* Account.storyboard in Resources */,
+				E93BA170221BFC9400D73B20 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E93BA17B221BFC9600D73B20 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E93BA186221BFC9600D73B20 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E93BA15E221BFC9400D73B20 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E93BA200221C014400D73B20 /* Station+Handler.m in Sources */,
+				E93BA1FB221C014400D73B20 /* Facebook+Register.m in Sources */,
+				E93BA1FE221C014400D73B20 /* Facebook.m in Sources */,
+				E93BA20D221C014400D73B20 /* MyMsgCell.m in Sources */,
+				E93BA202221C014400D73B20 /* ConversationsTableViewController.m in Sources */,
+				E93BA1FF221C014400D73B20 /* Station+Connection.m in Sources */,
+				E93BA1FC221C014400D73B20 /* User.m in Sources */,
+				E93BA1FD221C014400D73B20 /* MessageProcessor.m in Sources */,
+				E93BA201221C014400D73B20 /* AboutViewController.m in Sources */,
+				E93BA207221C014400D73B20 /* ContactsTableViewController.m in Sources */,
+				E93BA20E221C014400D73B20 /* NSString+Extension.m in Sources */,
+				E93BA208221C014400D73B20 /* OnlineUsersTableViewController.m in Sources */,
+				E93BA20F221C014400D73B20 /* MsgCell.m in Sources */,
+				E93BA1FA221C014400D73B20 /* Station.m in Sources */,
+				E93BA204221C014400D73B20 /* RegisterViewController.m in Sources */,
+				E93BA206221C014400D73B20 /* ProfileTableViewController.m in Sources */,
+				E93BA205221C014400D73B20 /* AccountTableViewController.m in Sources */,
+				E93BA20C221C014400D73B20 /* UIImage+Extension.m in Sources */,
+				E93BA167221BFC9400D73B20 /* AppDelegate.m in Sources */,
+				E93BA209221C014400D73B20 /* AccountEditViewController.m in Sources */,
+				E93BA178221BFC9600D73B20 /* main.m in Sources */,
+				E93BA20A221C014400D73B20 /* SearchUsersTableViewController.m in Sources */,
+				E93BA203221C014400D73B20 /* ChatViewController.m in Sources */,
+				E9FAF6BD221ECEB100DB6567 /* MessageProcessor+Station.m in Sources */,
+				E93BA20B221C014400D73B20 /* Client.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E93BA179221BFC9600D73B20 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E93BA182221BFC9600D73B20 /* SeChatTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E93BA184221BFC9600D73B20 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E93BA18D221BFC9600D73B20 /* SeChatUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E93BA17F221BFC9600D73B20 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E93BA161221BFC9400D73B20 /* SeChat */;
+			targetProxy = E93BA17E221BFC9600D73B20 /* PBXContainerItemProxy */;
+		};
+		E93BA18A221BFC9600D73B20 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E93BA161221BFC9400D73B20 /* SeChat */;
+			targetProxy = E93BA189221BFC9600D73B20 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E93BA16E221BFC9400D73B20 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E93BA16F221BFC9400D73B20 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E93BA173221BFC9600D73B20 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E93BA174221BFC9600D73B20 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		E93BA210221C01D700D73B20 /* Contacts.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E93BA211221C01D700D73B20 /* Base */,
+			);
+			name = Contacts.storyboard;
+			sourceTree = "<group>";
+		};
+		E93BA212221C01D700D73B20 /* Conversations.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E93BA213221C01D700D73B20 /* Base */,
+			);
+			name = Conversations.storyboard;
+			sourceTree = "<group>";
+		};
+		E93BA214221C01D700D73B20 /* Account.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E93BA215221C01D700D73B20 /* Base */,
+			);
+			name = Account.storyboard;
+			sourceTree = "<group>";
+		};
+		E93BA216221C01D700D73B20 /* Profile.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E93BA217221C01D700D73B20 /* Base */,
+			);
+			name = Profile.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E93BA18F221BFC9600D73B20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		E93BA190221BFC9600D73B20 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E93BA192221BFC9600D73B20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				HEADER_SEARCH_PATHS = "../../mkm-objc/Classes/**";
+				INFOPLIST_FILE = SeChat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SeChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E93BA193221BFC9600D73B20 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				HEADER_SEARCH_PATHS = "../../mkm-objc/Classes/**";
+				INFOPLIST_FILE = SeChat/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SeChat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E93BA195221BFC9600D73B20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				INFOPLIST_FILE = SeChatTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SeChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SeChat.app/SeChat";
+			};
+			name = Debug;
+		};
+		E93BA196221BFC9600D73B20 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				INFOPLIST_FILE = SeChatTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SeChatTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SeChat.app/SeChat";
+			};
+			name = Release;
+		};
+		E93BA198221BFC9600D73B20 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				INFOPLIST_FILE = SeChatUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SeChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SeChat;
+			};
+			name = Debug;
+		};
+		E93BA199221BFC9600D73B20 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4N8627W97S;
+				INFOPLIST_FILE = SeChatUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = DIM.SeChatUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SeChat;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E93BA15D221BFC9400D73B20 /* Build configuration list for PBXProject "SeChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E93BA18F221BFC9600D73B20 /* Debug */,
+				E93BA190221BFC9600D73B20 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E93BA191221BFC9600D73B20 /* Build configuration list for PBXNativeTarget "SeChat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E93BA192221BFC9600D73B20 /* Debug */,
+				E93BA193221BFC9600D73B20 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E93BA194221BFC9600D73B20 /* Build configuration list for PBXNativeTarget "SeChatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E93BA195221BFC9600D73B20 /* Debug */,
+				E93BA196221BFC9600D73B20 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E93BA197221BFC9600D73B20 /* Build configuration list for PBXNativeTarget "SeChatUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E93BA198221BFC9600D73B20 /* Debug */,
+				E93BA199221BFC9600D73B20 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E93BA15A221BFC9400D73B20 /* Project object */;
+}

@@ -8,6 +8,9 @@
 
 #import "User.h"
 #import "Facebook.h"
+#import "MessageProcessor+Station.h"
+
+#import "Client.h"
 #import "Station+Handler.h"
 
 #import "AccountTableViewController.h"
@@ -27,7 +30,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     if (user) {
         _nameLabel.text = account_title(user);
@@ -46,7 +49,7 @@
 
 - (void)reloadData {
     // TODO: update client.users
-    DIMUser *user = [DIMClient sharedInstance].currentUser;
+    DIMUser *user = [Client sharedInstance].currentUser;
     _nameLabel.text = account_title(user);
     _descLabel.text = user.ID;
     
@@ -64,7 +67,7 @@
 //#warning Incomplete implementation, return the number of rows
     
     if (section == 1) {
-        DIMClient *client = [DIMClient sharedInstance];
+        Client *client = [Client sharedInstance];
         return client.users.count;
     }
     
@@ -79,7 +82,7 @@
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
     DIMUser *user = nil;
     
     if (section == 1) {
@@ -165,13 +168,12 @@
     NSInteger row = indexPath.row;
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
-    DIMClient *client = [DIMClient sharedInstance];
-    Station *server = (Station *)[client currentStation];
-    
     if (section == 0) {
         // Account
     } else if (section == 1) {
         // Users
+        Client *client = [Client sharedInstance];
+        Station *server = client.currentStation;
         DIMUser *user = [client.users objectAtIndex:row];
         [server login:user];
         [self reloadData];

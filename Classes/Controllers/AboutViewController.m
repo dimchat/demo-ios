@@ -8,6 +8,8 @@
 
 #import <DIMCore/DIMCore.h>
 
+#import "Client.h"
+
 #import "AboutViewController.h"
 
 @interface AboutViewController ()
@@ -20,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    DIMClient *client = [DIMClient sharedInstance];
+    Client *client = [Client sharedInstance];
     self.webView.customUserAgent = client.userAgent;
     
     NSURL *url = [NSURL URLWithString:@"https://dim.chat/"];
