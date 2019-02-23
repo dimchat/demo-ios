@@ -1,6 +1,6 @@
 //
 //  Station.h
-//  DIM
+//  DIMClient
 //
 //  Created by Albert Moky on 2019/1/11.
 //  Copyright © 2019 DIM Group. All rights reserved.
@@ -41,6 +41,9 @@ typedef NS_ENUM(UInt8, StationState) {
 
 - (void)start;
 - (void)stop;
+
+- (void)pause;
+- (void)resume;
 
 @end
 

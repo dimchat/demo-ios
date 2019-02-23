@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  DIMClient
+//  SeChat
 //
 //  Created by Albert Moky on 2018/12/21.
 //  Copyright © 2018 DIM Group. All rights reserved.
@@ -38,7 +38,6 @@
     // GSP station
     NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp" ofType:@"plist"];
     Station *server = [Station stationWithConfigFile:path];
-    [server.starGate application:application didFinishLaunchingWithOptions:launchOptions];
     [server start];
     
     return YES;
@@ -56,7 +55,7 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
     Station *server = [Client sharedInstance].currentStation;
-    [server.starGate applicationDidEnterBackground:application];
+    [server pause];
 }
 
 
@@ -64,7 +63,7 @@
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     
     Station *server = [Client sharedInstance].currentStation;
-    [server.starGate applicationWillEnterForeground:application];
+    [server resume];
 }
 
 
@@ -77,7 +76,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
     Station *server = [Client sharedInstance].currentStation;
-    [server.starGate applicationWillTerminate:application];
+    [server stop];
 }
 
 

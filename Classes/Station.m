@@ -1,6 +1,6 @@
 //
 //  Station.m
-//  DIM
+//  DIMClient
 //
 //  Created by Albert Moky on 2019/1/11.
 //  Copyright © 2019 DIM Group. All rights reserved.
@@ -28,7 +28,7 @@
         
         _session = nil;
         
-        _starGate = [[MGMars alloc] initWithMessageHandler:self];
+        _starGate = nil;
         
         _delegate = [MessageProcessor sharedInstance];
     }
@@ -58,11 +58,24 @@
 
 - (void)start {
     _state = StationState_Init;
+    
+    _starGate = [[MGMars alloc] initWithMessageHandler:self];
+    [_starGate launchWithOptions:nil];
+    
     [self performSelectorInBackground:@selector(run) withObject:nil];
 }
 
 - (void)stop {
+    [_starGate terminate];
     _state = StationState_Stopped;
+}
+
+- (void)pause {
+    [_starGate enterBackground];
+}
+
+- (void)resume {
+    [_starGate enterForeground];
 }
 
 - (void)run {
