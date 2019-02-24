@@ -1,6 +1,6 @@
 //
 //  Client.h
-//  DIM
+//  DIMClient
 //
 //  Created by Albert Moky on 2019/1/28.
 //  Copyright © 2019 DIM Group. All rights reserved.

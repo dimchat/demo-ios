@@ -1,6 +1,6 @@
 //
 //  ChatViewController.h
-//  DIMClient
+//  Sechat
 //
 //  Created by Albert Moky on 2018/12/24.
 //  Copyright © 2018 DIM Group. All rights reserved.

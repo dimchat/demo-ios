@@ -1,6 +1,6 @@
 //
 //  AboutViewController.m
-//  DIMClient
+//  Sechat
 //
 //  Created by Albert Moky on 2019/2/2.
 //  Copyright © 2019 DIM Group. All rights reserved.

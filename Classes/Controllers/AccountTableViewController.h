@@ -1,6 +1,6 @@
 //
 //  AccountTableViewController.h
-//  DIMClient
+//  Sechat
 //
 //  Created by Albert Moky on 2018/12/23.
 //  Copyright © 2018 DIM Group. All rights reserved.

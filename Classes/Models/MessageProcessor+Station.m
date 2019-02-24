@@ -1,6 +1,6 @@
 //
 //  MessageProcessor+Station.m
-//  SeChat
+//  DIMClient
 //
 //  Created by Albert Moky on 2019/2/21.
 //  Copyright © 2019 DIM Group. All rights reserved.

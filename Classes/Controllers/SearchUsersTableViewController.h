@@ -1,6 +1,6 @@
 //
 //  SearchUsersTableViewController.h
-//  DIMClient
+//  Sechat
 //
 //  Created by Albert Moky on 2019/2/3.
 //  Copyright © 2019 DIM Group. All rights reserved.

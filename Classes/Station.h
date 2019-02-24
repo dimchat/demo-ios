@@ -30,8 +30,6 @@ typedef NS_ENUM(UInt8, StationState) {
 @property (nonatomic) StationState state;
 @property (strong, nonatomic) NSString *session;
 
-@property (strong, nonatomic) MGMars *starGate;
-
 - (instancetype)initWithID:(const DIMID *)ID
                  publicKey:(const DIMPublicKey *)PK
                       host:(const NSString *)IP
@@ -40,7 +38,7 @@ typedef NS_ENUM(UInt8, StationState) {
 + (instancetype)stationWithConfigFile:(NSString *)spConfig;
 
 - (void)start;
-- (void)stop;
+- (void)end;
 
 - (void)pause;
 - (void)resume;

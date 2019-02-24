@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  SeChat
+//  Sechat
 //
 //  Created by Albert Moky on 2018/12/21.
 //  Copyright © 2018 DIM Group. All rights reserved.
@@ -76,7 +76,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
     Station *server = [Client sharedInstance].currentStation;
-    [server stop];
+    [server end];
 }
 
 

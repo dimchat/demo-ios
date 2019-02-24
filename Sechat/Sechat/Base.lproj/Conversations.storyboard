@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--DIM!-->
+        <!--Secure Chat-->
         <scene sceneID="vqt-rW-fC0">
             <objects>
                 <tableViewController id="xcy-Go-HfB" customClass="ConversationsTableViewController" sceneMemberID="viewController">
@@ -52,7 +52,7 @@
                             <outlet property="delegate" destination="xcy-Go-HfB" id="vY7-pq-D22"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="DIM!" id="Bzi-Yl-bNu"/>
+                    <navigationItem key="navigationItem" title="Secure Chat" id="Bzi-Yl-bNu"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="nJr-4v-GOk" id="61H-fF-nKV"/>
                     </connections>

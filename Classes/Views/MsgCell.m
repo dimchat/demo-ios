@@ -1,6 +1,6 @@
 //
 //  MsgCell.m
-//  DIM
+//  Sechat
 //
 //  Created by Albert Moky on 2019/2/1.
 //  Copyright © 2019 DIM Group. All rights reserved.

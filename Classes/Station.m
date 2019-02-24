@@ -16,6 +16,13 @@
 
 #import "Station.h"
 
+@interface Station () {
+    
+    id<SGStar> _starGate;
+}
+
+@end
+
 @implementation Station
 
 - (instancetype)initWithID:(const DIMID *)ID
@@ -65,7 +72,7 @@
     [self performSelectorInBackground:@selector(run) withObject:nil];
 }
 
-- (void)stop {
+- (void)end {
     [_starGate terminate];
     _state = StationState_Stopped;
 }

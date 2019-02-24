@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:SeChat.xcodeproj">
+      location = "self:Sechat.xcodeproj">
    </FileRef>
 </Workspace>
