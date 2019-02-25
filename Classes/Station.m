@@ -6,6 +6,8 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import <MarsGate/MarsGate.h>
+
 #import "NSObject+JsON.h"
 
 #import "MessageProcessor+Station.h"
@@ -198,10 +200,44 @@
 
 #pragma mark SGStarDelegate
 
-- (NSInteger)onReceive:(const NSData *)responseData {
+- (NSInteger)star:(id<SGStar>)star onReceive:(const NSData *)responseData {
     NSLog(@"response data len: %ld", responseData.length);
     [[MessageProcessor sharedInstance] station:self didReceivePackage:responseData];
     return 0;
+}
+
+- (void)star:(id<SGStar>)star onConnectionStatusChanged:(SGStarStatus)status {
+    NSLog(@"connection status changed: %d", status);
+    
+    switch (status) {
+        case SGStarStatus_Init: {
+            _state = StationState_Init;
+            NSLog(@"station init");
+        }
+            break;
+            
+        case SGStarStatus_Connecting: {
+            _state = StationState_Connecting;
+            NSLog(@"station connecting");
+        }
+            break;
+            
+        case SGStarStatus_Connected: {
+            NSAssert(_state == StationState_Connecting, @"state error");
+            _state = StationState_Connected;
+            NSLog(@"station connected");
+        }
+            break;
+            
+        case SGStarStatus_Error: {
+            _state = StationState_Error;
+            NSLog(@"station error");
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

@@ -292,6 +292,8 @@
 		E92256172222ED7C006CADEA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E922561F2222ED7C006CADEA /* User.h */,
+				E922561A2222ED7C006CADEA /* User.m */,
 				E922561C2222ED7C006CADEA /* Facebook.h */,
 				E92256212222ED7C006CADEA /* Facebook.m */,
 				E92256202222ED7C006CADEA /* Facebook+Register.h */,
@@ -300,8 +302,6 @@
 				E922561D2222ED7C006CADEA /* MessageProcessor.m */,
 				E922561E2222ED7C006CADEA /* MessageProcessor+Station.h */,
 				E922561B2222ED7C006CADEA /* MessageProcessor+Station.m */,
-				E922561F2222ED7C006CADEA /* User.h */,
-				E922561A2222ED7C006CADEA /* User.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -336,14 +336,14 @@
 		E922563B2222ED7C006CADEA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E922563E2222ED7C006CADEA /* MsgCell.h */,
-				E92256432222ED7C006CADEA /* MsgCell.m */,
-				E922563D2222ED7C006CADEA /* MyMsgCell.h */,
-				E92256402222ED7C006CADEA /* MyMsgCell.m */,
 				E922563C2222ED7C006CADEA /* NSString+Extension.h */,
 				E92256412222ED7C006CADEA /* NSString+Extension.m */,
 				E92256422222ED7C006CADEA /* UIImage+Extension.h */,
 				E922563F2222ED7C006CADEA /* UIImage+Extension.m */,
+				E922563E2222ED7C006CADEA /* MsgCell.h */,
+				E92256432222ED7C006CADEA /* MsgCell.m */,
+				E922563D2222ED7C006CADEA /* MyMsgCell.h */,
+				E92256402222ED7C006CADEA /* MyMsgCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";

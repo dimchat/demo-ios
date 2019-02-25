@@ -7,7 +7,7 @@
 //
 
 #import <DIMCore/DIMCore.h>
-#import <MarsGate/MarsGate.h>
+#import <MarsGate/StarGate.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

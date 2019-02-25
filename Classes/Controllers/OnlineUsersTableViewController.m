@@ -98,6 +98,7 @@
     } else {
         [self loadCacheFile];
     }
+    
     [self.tableView reloadData];
 }
 
