@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Notification
 
-- (void)postNotificationName:(NSNotificationName)aName;
 - (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject;
 - (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject userInfo:(nullable NSDictionary *)aUserInfo;
 

@@ -77,7 +77,7 @@
     NSArray *users = [content objectForKey:@"users"];
     NSDictionary *info = @{@"users": users};
     Client *client = [Client sharedInstance];
-    [client postNotificationName:@"OnlineUsersUpdated" object:info];
+    [client postNotificationName:@"OnlineUsersUpdated" object:self userInfo:info];
 }
 
 - (void)processSearchUsersMessageContent:(DIMMessageContent *)content {
@@ -91,7 +91,7 @@
         [mDict setObject:results forKey:@"results"];
     }
     Client *client = [Client sharedInstance];
-    [client postNotificationName:@"SearchUsersUpdated" object:mDict];
+    [client postNotificationName:@"SearchUsersUpdated" object:self userInfo:mDict];
 }
 
 @end

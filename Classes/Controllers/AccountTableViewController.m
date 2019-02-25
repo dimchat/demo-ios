@@ -175,7 +175,7 @@
         DIMUser *user = [client.users objectAtIndex:row];
         [client login:user];
         [[Facebook sharedInstance] reloadContactsWithUser:user];
-        [client postNotificationName:@"ContactsUpdated"];
+        [client postNotificationName:@"ContactsUpdated" object:self];
         [self reloadData];
     } else if (section == 2) {
         // Functions

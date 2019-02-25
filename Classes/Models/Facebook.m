@@ -162,7 +162,7 @@ SingletonImplementations(Facebook, sharedInstance)
         NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
         [contacts writeToFile:path atomically:YES];
         NSLog(@"contacts updated: %@", contacts);
-        [client postNotificationName:@"ContactsUpdated"];
+        [client postNotificationName:@"ContactsUpdated" object:self];
     } else {
         NSLog(@"no contacts");
     }

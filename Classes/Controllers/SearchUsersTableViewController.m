@@ -60,9 +60,7 @@
 
 - (void)reloadData:(NSNotification *)notification {
     
-    NSString *notice = [notification name];
-    NSDictionary *info = [notification object];
-    NSArray *users = [info objectForKey:@"users"];
+    NSArray *users = [notification.userInfo objectForKey:@"users"];
     
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
     Client *client = [Client sharedInstance];
@@ -71,7 +69,7 @@
     DIMMeta *meta;
     DIMPublicKey *PK;
     
-    if ([notice isEqualToString:@"OnlineUsersUpdated"]) {
+    if ([notification.name isEqualToString:@"OnlineUsersUpdated"]) {
         // online users
         NSLog(@"online users: %@", users);
         
@@ -91,7 +89,7 @@
             }
         }
         
-    } else if ([notice isEqualToString:@"SearchUsersUpdated"]) {
+    } else if ([notification.name isEqualToString:@"SearchUsersUpdated"]) {
         // search users
         
         if (_users) {
@@ -110,7 +108,7 @@
             [_users addObject:ID];
         }
         
-        NSDictionary *results = [info objectForKey:@"results"];
+        NSDictionary *results = [notification.userInfo objectForKey:@"results"];
         id value;
         for (NSString *key in results) {
             ID = [DIMID IDWithID:key];

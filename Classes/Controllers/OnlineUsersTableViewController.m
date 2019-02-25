@@ -76,7 +76,8 @@
 - (void)reloadData:(NSNotification *)notification {
     Client *client = [Client sharedInstance];
     
-    NSArray *users = [notification object];
+    NSArray *users = [notification.userInfo objectForKey:@"users"];
+    
     NSLog(@"online users: %@", users);
     if ([users count] > 0) {
         _onlineUsers = [[NSMutableArray alloc] initWithCapacity:users.count];

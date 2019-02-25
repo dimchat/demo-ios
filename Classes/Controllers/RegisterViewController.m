@@ -162,7 +162,7 @@
         [facebook saveProfile:profile forID:regInfo.ID];
         
         // post notice
-        [client postNotificationName:@"UsersUpdated"];
+        [client postNotificationName:@"UsersUpdated" object:self];
         NSLog(@"post notification: UsersUpdated");
     };
     

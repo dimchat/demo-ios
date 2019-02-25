@@ -279,7 +279,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     
     if (save_message(list, ID)) {
         Client *client = [Client sharedInstance];
-        [client postNotificationName:@"MessageUpdated"];
+        [client postNotificationName:@"MessageUpdated" object:self];
         return YES;
     } else {
         return NO;

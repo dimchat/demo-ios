@@ -60,9 +60,6 @@ SingletonImplementations(Client, sharedInstance)
 
 #pragma mark - Notification
 
-- (void)postNotificationName:(NSNotificationName)aName {
-    [self postNotificationName:aName object:nil userInfo:nil];
-}
 - (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject {
     [self postNotificationName:aName object:anObject userInfo:nil];
 }
