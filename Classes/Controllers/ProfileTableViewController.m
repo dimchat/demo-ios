@@ -10,7 +10,6 @@
 #import "NSData+Crypto.h"
 
 #import "Client.h"
-#import "Station+Handler.h"
 
 #import "User.h"
 #import "Facebook.h"
@@ -169,7 +168,6 @@
     NSLog(@"contact: %@", _account.ID);
     
     Client *client = [Client sharedInstance];
-    Station *server = client.currentStation;
     DIMUser *user = client.currentUser;
     
     if ([segue.identifier isEqualToString:@"startChat"]) {
@@ -197,7 +195,7 @@
             cmd = [[DIMMetaCommand alloc] initWithID:user.ID
                                                 meta:meta];
         }
-        [server sendContent:cmd to:_account.ID];
+        [client sendContent:cmd to:_account.ID];
         
         // add to contacts
         Facebook *facebook = [Facebook sharedInstance];

@@ -6,30 +6,17 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMCore/DIMCore.h>
-
-#import "Station.h"
+#import <DIMClient/DIMClient.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Client : NSObject {
-    
-    DIMUser *_currentUser;
-    Station *_currentStation;
-}
-
-@property (strong, nonatomic) DIMUser *currentUser;
-@property (readonly, strong, nonatomic) NSArray<DIMUser *> *users;
-
-@property (strong, nonatomic) Station *currentStation;
-@property (readonly, nonatomic) NSString *userAgent;
+@interface Client : DIMTerminal
 
 + (instancetype)sharedInstance;
 
-- (void)addUser:(DIMUser *)user;
-- (void)removeUser:(DIMUser *)user;
++ (instancetype)createWithConfigFile:(NSString *)spConfig;
 
-#pragma mark -
+#pragma mark - Notification
 
 - (void)postNotificationName:(NSNotificationName)aName;
 - (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject;
@@ -37,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#pragma mark -
+#pragma mark - DOS
 
 NSString *document_directory(void);
 

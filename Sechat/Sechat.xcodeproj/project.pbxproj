@@ -19,18 +19,14 @@
 		E92256062222ED5A006CADEA /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92256012222ED59006CADEA /* Account.storyboard */; };
 		E922560D2222ED6B006CADEA /* gsp-selvn.plist in Resources */ = {isa = PBXBuildFile; fileRef = E92256082222ED6B006CADEA /* gsp-selvn.plist */; };
 		E922560E2222ED6B006CADEA /* usr-moky.plist in Resources */ = {isa = PBXBuildFile; fileRef = E92256092222ED6B006CADEA /* usr-moky.plist */; };
-		E922560F2222ED6B006CADEA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560A2222ED6B006CADEA /* Assets.xcassets */; };
 		E92256102222ED6B006CADEA /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E922560B2222ED6B006CADEA /* gsp.plist */; };
 		E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
-		E92256442222ED7C006CADEA /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256142222ED7C006CADEA /* Station.m */; };
 		E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* Facebook+Register.m */; };
 		E92256462222ED7C006CADEA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561A2222ED7C006CADEA /* User.m */; };
 		E92256472222ED7C006CADEA /* MessageProcessor+Station.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561B2222ED7C006CADEA /* MessageProcessor+Station.m */; };
 		E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561D2222ED7C006CADEA /* MessageProcessor.m */; };
 		E92256492222ED7C006CADEA /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256212222ED7C006CADEA /* Facebook.m */; };
 		E922564A2222ED7C006CADEA /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256222222ED7C006CADEA /* Client.m */; };
-		E922564B2222ED7C006CADEA /* Station+Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256232222ED7C006CADEA /* Station+Connection.m */; };
-		E922564C2222ED7C006CADEA /* Station+Handler.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256252222ED7C006CADEA /* Station+Handler.m */; };
 		E922564D2222ED7C006CADEA /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E922562A2222ED7C006CADEA /* AboutViewController.m */; };
 		E922564E2222ED7C006CADEA /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E922562B2222ED7C006CADEA /* ConversationsTableViewController.m */; };
 		E922564F2222ED7C006CADEA /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E922562E2222ED7C006CADEA /* ChatViewController.m */; };
@@ -45,9 +41,9 @@
 		E92256582222ED7C006CADEA /* MyMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256402222ED7C006CADEA /* MyMsgCell.m */; };
 		E92256592222ED7C006CADEA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256412222ED7C006CADEA /* NSString+Extension.m */; };
 		E922565A2222ED7C006CADEA /* MsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256432222ED7C006CADEA /* MsgCell.m */; };
-		E922567A2222EE3D006CADEA /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E92256752222EDBB006CADEA /* DIMCore.framework */; };
-		E922567B2222EE42006CADEA /* MarsGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922566A2222EDAE006CADEA /* MarsGate.framework */; };
 		E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
+		E97816C52223E94C00BCE3AD /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
+		E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97816CD2223EAA700BCE3AD /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,33 +61,19 @@
 			remoteGlobalIDString = E92255BE2222EC53006CADEA;
 			remoteInfo = Sechat;
 		};
-		E92256692222EDAE006CADEA /* PBXContainerItemProxy */ = {
+		E97816C12223E91600BCE3AD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E92256642222EDAE006CADEA /* MarsGate.xcodeproj */;
+			containerPortal = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = E9FAF5E8221EAC5F00DB6567;
-			remoteInfo = MarsGate;
+			remoteGlobalIDString = E97816802223E7F200BCE3AD;
+			remoteInfo = DIMClient;
 		};
-		E922566B2222EDAE006CADEA /* PBXContainerItemProxy */ = {
+		E97816C32223E91600BCE3AD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E92256642222EDAE006CADEA /* MarsGate.xcodeproj */;
+			containerPortal = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = E9FAF5F1221EAC5F00DB6567;
-			remoteInfo = MarsGateTests;
-		};
-		E92256742222EDBB006CADEA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E922566D2222EDBB006CADEA /* DIMCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E9F3AA3C21CBD02C009690F6;
-			remoteInfo = DIMCore;
-		};
-		E92256762222EDBB006CADEA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E922566D2222EDBB006CADEA /* DIMCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E9F3AA4521CBD02C009690F6;
-			remoteInfo = DIMCoreTests;
+			remoteGlobalIDString = E97816892223E7F200BCE3AD;
+			remoteInfo = DIMClientTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -115,12 +97,8 @@
 		E92256022222ED59006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account.storyboard; sourceTree = "<group>"; };
 		E92256082222ED6B006CADEA /* gsp-selvn.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "gsp-selvn.plist"; sourceTree = "<group>"; };
 		E92256092222ED6B006CADEA /* usr-moky.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-moky.plist"; sourceTree = "<group>"; };
-		E922560A2222ED6B006CADEA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E922560B2222ED6B006CADEA /* gsp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gsp.plist; sourceTree = "<group>"; };
 		E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatViewImages.xcassets; sourceTree = "<group>"; };
-		E92256132222ED7C006CADEA /* Station+Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+Handler.h"; sourceTree = "<group>"; };
-		E92256142222ED7C006CADEA /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
-		E92256152222ED7C006CADEA /* Station+Connection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+Connection.h"; sourceTree = "<group>"; };
 		E92256162222ED7C006CADEA /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		E92256182222ED7C006CADEA /* MessageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageProcessor.h; sourceTree = "<group>"; };
 		E92256192222ED7C006CADEA /* Facebook+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
@@ -133,9 +111,6 @@
 		E92256202222ED7C006CADEA /* Facebook+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
 		E92256212222ED7C006CADEA /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
 		E92256222222ED7C006CADEA /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
-		E92256232222ED7C006CADEA /* Station+Connection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+Connection.m"; sourceTree = "<group>"; };
-		E92256242222ED7C006CADEA /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
-		E92256252222ED7C006CADEA /* Station+Handler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+Handler.m"; sourceTree = "<group>"; };
 		E92256272222ED7C006CADEA /* ProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewController.h; sourceTree = "<group>"; };
 		E92256282222ED7C006CADEA /* AccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTableViewController.h; sourceTree = "<group>"; };
 		E92256292222ED7C006CADEA /* ContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewController.h; sourceTree = "<group>"; };
@@ -164,9 +139,9 @@
 		E92256412222ED7C006CADEA /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
 		E92256422222ED7C006CADEA /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		E92256432222ED7C006CADEA /* MsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MsgCell.m; sourceTree = "<group>"; };
-		E92256642222EDAE006CADEA /* MarsGate.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MarsGate.xcodeproj; path = ../../../moky/StarGate/MarsGate/MarsGate.xcodeproj; sourceTree = "<group>"; };
-		E922566D2222EDBB006CADEA /* DIMCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMCore.xcodeproj; path = "../../core-objc/DIMCore/DIMCore.xcodeproj"; sourceTree = "<group>"; };
 		E922567E2222EF3D006CADEA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMClient.xcodeproj; path = "../../client-objc/DIMClient/DIMClient.xcodeproj"; sourceTree = "<group>"; };
+		E97816CD2223EAA700BCE3AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,9 +149,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E97816C52223E94C00BCE3AD /* DIMClient.framework in Frameworks */,
 				E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */,
-				E922567B2222EE42006CADEA /* MarsGate.framework in Frameworks */,
-				E922567A2222EE3D006CADEA /* DIMCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,8 +174,7 @@
 		E92255B62222EC53006CADEA = {
 			isa = PBXGroup;
 			children = (
-				E922566D2222EDBB006CADEA /* DIMCore.xcodeproj */,
-				E92256642222EDAE006CADEA /* MarsGate.xcodeproj */,
+				E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */,
 				E92256122222ED7C006CADEA /* Classes */,
 				E92256072222ED6B006CADEA /* Resources */,
 				E92255C12222EC53006CADEA /* Sechat */,
@@ -263,7 +236,7 @@
 				E92256082222ED6B006CADEA /* gsp-selvn.plist */,
 				E922560B2222ED6B006CADEA /* gsp.plist */,
 				E92256092222ED6B006CADEA /* usr-moky.plist */,
-				E922560A2222ED6B006CADEA /* Assets.xcassets */,
+				E97816CD2223EAA700BCE3AD /* Assets.xcassets */,
 				E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */,
 			);
 			name = Resources;
@@ -278,12 +251,6 @@
 				E92256262222ED7C006CADEA /* Controllers */,
 				E92256162222ED7C006CADEA /* Client.h */,
 				E92256222222ED7C006CADEA /* Client.m */,
-				E92256242222ED7C006CADEA /* Station.h */,
-				E92256142222ED7C006CADEA /* Station.m */,
-				E92256152222ED7C006CADEA /* Station+Connection.h */,
-				E92256232222ED7C006CADEA /* Station+Connection.m */,
-				E92256132222ED7C006CADEA /* Station+Handler.h */,
-				E92256252222ED7C006CADEA /* Station+Handler.m */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -348,30 +315,21 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		E92256652222EDAE006CADEA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E922566A2222EDAE006CADEA /* MarsGate.framework */,
-				E922566C2222EDAE006CADEA /* MarsGateTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		E922566E2222EDBB006CADEA /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E92256752222EDBB006CADEA /* DIMCore.framework */,
-				E92256772222EDBB006CADEA /* DIMCoreTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		E92256782222EE25006CADEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				E922567E2222EF3D006CADEA /* WebKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E97816B92223E91600BCE3AD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E97816C22223E91600BCE3AD /* DIMClient.framework */,
+				E97816C42223E91600BCE3AD /* DIMClientTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -465,12 +423,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = E922566E2222EDBB006CADEA /* Products */;
-					ProjectRef = E922566D2222EDBB006CADEA /* DIMCore.xcodeproj */;
-				},
-				{
-					ProductGroup = E92256652222EDAE006CADEA /* Products */;
-					ProjectRef = E92256642222EDAE006CADEA /* MarsGate.xcodeproj */;
+					ProductGroup = E97816B92223E91600BCE3AD /* Products */;
+					ProjectRef = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -483,32 +437,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E922566A2222EDAE006CADEA /* MarsGate.framework */ = {
+		E97816C22223E91600BCE3AD /* DIMClient.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = MarsGate.framework;
-			remoteRef = E92256692222EDAE006CADEA /* PBXContainerItemProxy */;
+			path = DIMClient.framework;
+			remoteRef = E97816C12223E91600BCE3AD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E922566C2222EDAE006CADEA /* MarsGateTests.xctest */ = {
+		E97816C42223E91600BCE3AD /* DIMClientTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = MarsGateTests.xctest;
-			remoteRef = E922566B2222EDAE006CADEA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E92256752222EDBB006CADEA /* DIMCore.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = DIMCore.framework;
-			remoteRef = E92256742222EDBB006CADEA /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E92256772222EDBB006CADEA /* DIMCoreTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = DIMCoreTests.xctest;
-			remoteRef = E92256762222EDBB006CADEA /* PBXContainerItemProxy */;
+			path = DIMClientTests.xctest;
+			remoteRef = E97816C32223E91600BCE3AD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -520,13 +460,13 @@
 			files = (
 				E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */,
 				E92256102222ED6B006CADEA /* gsp.plist in Resources */,
+				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,
 				E92255CD2222EC53006CADEA /* Main.storyboard in Resources */,
 				E92256052222ED5A006CADEA /* Contacts.storyboard in Resources */,
 				E922560D2222ED6B006CADEA /* gsp-selvn.plist in Resources */,
 				E92256042222ED5A006CADEA /* Profile.storyboard in Resources */,
 				E92256062222ED5A006CADEA /* Account.storyboard in Resources */,
 				E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */,
-				E922560F2222ED6B006CADEA /* Assets.xcassets in Resources */,
 				E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */,
 				E922560E2222ED6B006CADEA /* usr-moky.plist in Resources */,
 			);
@@ -553,11 +493,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E922564C2222ED7C006CADEA /* Station+Handler.m in Sources */,
 				E92256462222ED7C006CADEA /* User.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
 				E922564E2222ED7C006CADEA /* ConversationsTableViewController.m in Sources */,
-				E922564B2222ED7C006CADEA /* Station+Connection.m in Sources */,
 				E92255C42222EC53006CADEA /* AppDelegate.m in Sources */,
 				E92255D52222EC56006CADEA /* main.m in Sources */,
 				E92256592222ED7C006CADEA /* NSString+Extension.m in Sources */,
@@ -565,7 +503,6 @@
 				E92256532222ED7C006CADEA /* ContactsTableViewController.m in Sources */,
 				E92256572222ED7C006CADEA /* UIImage+Extension.m in Sources */,
 				E92256542222ED7C006CADEA /* OnlineUsersTableViewController.m in Sources */,
-				E92256442222ED7C006CADEA /* Station.m in Sources */,
 				E922564A2222ED7C006CADEA /* Client.m in Sources */,
 				E92256502222ED7C006CADEA /* RegisterViewController.m in Sources */,
 				E92256522222ED7C006CADEA /* ProfileTableViewController.m in Sources */,

@@ -11,7 +11,6 @@
 #import "Facebook+Register.h"
 
 #import "Client.h"
-#import "Station+Handler.h"
 
 #import "MessageProcessor+Station.h"
 
@@ -20,7 +19,6 @@
 - (void)processHandshakeMessageContent:(DIMMessageContent *)content {
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
-    Station *server = client.currentStation;
     
     DIMHandshakeCommand *cmd;
     cmd = [[DIMHandshakeCommand alloc] initWithDictionary:content];
@@ -29,16 +27,16 @@
         // handshake OK
         NSLog(@"handshake accepted: %@", user);
         NSLog(@"current station: %@", self);
-        server.state = StationState_Running;
+        client.state = DIMTerminalState_Running;
         // post profile
         DIMProfile *profile = MKMProfileForID(user.ID);
-        [server postProfile:profile meta:nil];
+        [client postProfile:profile meta:nil];
     } else if (state == DIMHandshake_Again) {
         // update session and handshake again
         NSString *session = cmd.sessionKey;
-        NSLog(@"session %@ -> %@", server.session, session);
-        server.session = session;
-        [server handshakeWithUser:user];
+        NSLog(@"session %@ -> %@", client.session, session);
+        client.session = session;
+        [client handshake];
     } else {
         NSLog(@"handshake rejected: %@", content);
     }

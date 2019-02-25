@@ -8,69 +8,57 @@
 
 #import "NSObject+Singleton.h"
 
-#import "Station.h"
 #import "Facebook.h"
+#import "MessageProcessor.h"
 
 #import "Client.h"
-
-@interface Client ()
-
-@property (strong, nonatomic) NSMutableArray<DIMUser *> *users;
-
-@end
 
 @implementation Client
 
 SingletonImplementations(Client, sharedInstance)
 
-- (instancetype)init {
-    if (self = [super init]) {
-        _users = [[NSMutableArray alloc] init];
-        _currentUser = nil;
++ (instancetype)createWithConfigFile:(NSString *)spConfig {
+    NSDictionary *gsp = [NSDictionary dictionaryWithContentsOfFile:spConfig];
+    NSArray *stations = [gsp objectForKey:@"stations"];
+    
+    // choose the fast station
+    NSDictionary *station = stations.firstObject;
+    
+    // save meta for server ID
+    DIMID *ID = [station objectForKey:@"ID"];
+    ID = [DIMID IDWithID:ID];
+    DIMMeta *meta = [station objectForKey:@"meta"];
+    meta = [DIMMeta metaWithMeta:meta];
+    [[DIMBarrack sharedInstance] setMeta:meta forID:ID];
+    
+    // connect server
+    DIMStation *server = [[DIMStation alloc] initWithDictionary:station];
+    server.delegate = [MessageProcessor sharedInstance];
+    
+    // prepare for launch star
+    NSMutableDictionary *launchOptions = [[NSMutableDictionary alloc] init];
+    NSString *IP = [station objectForKey:@"host"];
+    if (IP) {
+        //[launchOptions setObject:IP forKey:@"LongLinkAddress"];
+        [launchOptions setObject:@"dim.chat" forKey:@"LongLinkAddress"];
+        NSDictionary *ipTable = @{
+                                  @"dim.chat": @[IP],
+                                  };
+        [launchOptions setObject:ipTable forKey:@"NewDNS"];
     }
-    return self;
+    NSNumber *port = [station objectForKey:@"port"];
+    if (port) {
+        [launchOptions setObject:port forKey:@"LongLinkPort"];
+    }
+    
+    Client *client = [self sharedInstance];
+    client.currentStation = server;
+    [client startWithOptions:launchOptions];
+    return client;
+
 }
 
-- (NSString *)userAgent {
-    return @"DIMP/1.0 (iPad; U; iOS 11.4; zh-CN) DIMCoreKit/1.0 (Terminal, like WeChat) DIM-by-GSP/1.0.1";
-}
-
-#pragma mark - Users
-
-- (void)setCurrentUser:(DIMUser *)currentUser {
-    if (![_currentUser isEqual:currentUser]) {
-        _currentUser = currentUser;
-        // add to the list of this client
-        if (currentUser && ![_users containsObject:currentUser]) {
-            [_users addObject:currentUser];
-        }
-        
-        // update keystore
-        [DIMKeyStore sharedInstance].currentUser = currentUser;
-    }
-}
-
-- (void)addUser:(DIMUser *)user {
-    if (user && ![_users containsObject:user]) {
-        [_users addObject:user];
-    }
-    // check current user
-    if (!_currentUser) {
-        _currentUser = user;
-    }
-}
-
-- (void)removeUser:(DIMUser *)user {
-    if ([_users containsObject:user]) {
-        [_users removeObject:user];
-    }
-    // check current user
-    if ([_currentUser isEqual:user]) {
-        _currentUser = _users.firstObject;
-    }
-}
-
-#pragma mark -
+#pragma mark - Notification
 
 - (void)postNotificationName:(NSNotificationName)aName {
     [self postNotificationName:aName object:nil userInfo:nil];
@@ -91,7 +79,7 @@ SingletonImplementations(Client, sharedInstance)
 
 @end
 
-#pragma mark -
+#pragma mark - DOS
 
 NSString *document_directory(void) {
     NSArray *paths;

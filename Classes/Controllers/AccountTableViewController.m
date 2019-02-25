@@ -11,7 +11,6 @@
 #import "MessageProcessor+Station.h"
 
 #import "Client.h"
-#import "Station+Handler.h"
 
 #import "AccountTableViewController.h"
 
@@ -173,9 +172,10 @@
     } else if (section == 1) {
         // Users
         Client *client = [Client sharedInstance];
-        Station *server = client.currentStation;
         DIMUser *user = [client.users objectAtIndex:row];
-        [server login:user];
+        [client login:user];
+        [[Facebook sharedInstance] reloadContactsWithUser:user];
+        [client postNotificationName:@"ContactsUpdated"];
         [self reloadData];
     } else if (section == 2) {
         // Functions

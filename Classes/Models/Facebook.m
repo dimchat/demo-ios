@@ -15,7 +15,6 @@
 #import "MessageProcessor+Station.h"
 
 #import "Client.h"
-#import "Station+Handler.h"
 #import "Facebook+Register.h"
 
 #import "Facebook.h"
@@ -416,8 +415,7 @@ SingletonImplementations(Facebook, sharedInstance)
         profile = [[DIMProfile alloc] initWithID:ID];
         
         Client *client = [Client sharedInstance];
-        Station *server = client.currentStation;
-        [server queryProfileForID:ID];
+        [client queryProfileForID:ID];
     }
     NSDate *now = [[NSDate alloc] init];
     [profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];

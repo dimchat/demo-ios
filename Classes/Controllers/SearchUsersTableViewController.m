@@ -11,7 +11,6 @@
 #import "MessageProcessor+Station.h"
 
 #import "Client.h"
-#import "Station+Handler.h"
 
 #import "ProfileTableViewController.h"
 
@@ -48,7 +47,7 @@
         // online users
         
         // 1. query from the station
-        [client.currentStation queryOnlineUsers];
+        [client queryOnlineUsers];
         
         // 2. waiting for update
         NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
@@ -67,7 +66,6 @@
     
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
     Client *client = [Client sharedInstance];
-    Station *server = client.currentStation;
     
     DIMID *ID;
     DIMMeta *meta;
@@ -89,7 +87,7 @@
             if (PK) {
                 [_onlineUsers addObject:ID];
             } else {
-                [server queryMetaForID:ID];
+                [client queryMetaForID:ID];
             }
         }
         
@@ -133,8 +131,7 @@
     NSLog(@"****************** searching %@", keywords);
     
     Client *client = [Client sharedInstance];
-    Station *server = client.currentStation;
-    [server searchUsersWithKeywords:keywords];
+    [client searchUsersWithKeywords:keywords];
     
     [searchBar resignFirstResponder];
 }

@@ -9,7 +9,6 @@
 #import "NSString+Extension.h"
 
 #import "Client.h"
-#import "Station+Handler.h"
 
 #import "MessageProcessor+Station.h"
 #import "MsgCell.h"
@@ -128,7 +127,6 @@
     NSLog(@"send text: %@", text);
     
     Client *client = [Client sharedInstance];
-    Station *server = client.currentStation;
     DIMUser *user = client.currentUser;
     
     // create message content
@@ -141,7 +139,7 @@
                                              receiver:_conversation.ID
                                                  time:nil];
     // send out
-    [server sendMessage:iMsg];
+    [client sendMessage:iMsg];
     
     [_conversation insertMessage:iMsg];
     

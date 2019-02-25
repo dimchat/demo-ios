@@ -11,7 +11,6 @@
 #import "MessageProcessor+Station.h"
 
 #import "Client.h"
-#import "Station+Handler.h"
 
 #import "ProfileTableViewController.h"
 
@@ -40,8 +39,7 @@
     
     // 2. query from the station
     Client *client = [Client sharedInstance];
-    Station *server = client.currentStation;
-    [server queryOnlineUsers];
+    [client queryOnlineUsers];
     
     // 3. waiting for update
     NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
@@ -53,7 +51,6 @@
 
 - (void)loadCacheFile {
     Client *client = [Client sharedInstance];
-    Station *server = client.currentStation;
     
     NSString *dir = NSTemporaryDirectory();
     NSString *path = [dir stringByAppendingPathComponent:@"online_users.plist"];
@@ -68,7 +65,7 @@
             if (PK) {
                 [_onlineUsers addObject:ID];
             } else {
-                [server queryMetaForID:ID];
+                [client queryMetaForID:ID];
             }
         }
     } else {
@@ -78,7 +75,6 @@
 
 - (void)reloadData:(NSNotification *)notification {
     Client *client = [Client sharedInstance];
-    Station *server = client.currentStation;
     
     NSArray *users = [notification object];
     NSLog(@"online users: %@", users);
@@ -92,7 +88,7 @@
             if (PK) {
                 [_onlineUsers addObject:ID];
             } else {
-                [server queryMetaForID:ID];
+                [client queryMetaForID:ID];
             }
         }
     } else {

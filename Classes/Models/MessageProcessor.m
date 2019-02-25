@@ -11,7 +11,6 @@
 
 #import "Facebook.h"
 #import "Client.h"
-#import "Station+Handler.h"
 
 #import "MessageProcessor+Station.h"
 #import "MessageProcessor.h"
@@ -306,7 +305,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         meta = rMsg.meta;
         if (!meta) {
             NSLog(@"meta for %@ not found, query from the network...", sender);
-            return [(Station *)server queryMetaForID:sender];
+            return [client queryMetaForID:sender];
         }
     }
     
