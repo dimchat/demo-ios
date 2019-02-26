@@ -6,6 +6,8 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSDictionary+Binary.h"
+
 #import "Client.h"
 
 #import "Facebook+Register.h"
@@ -106,7 +108,7 @@
     dir = [dir stringByAppendingPathComponent:ID.address];
     make_dirs(dir);
     NSString *path = [dir stringByAppendingPathComponent:@"profile.plist"];
-    if ([profile writeToFile:path atomically:YES]) {
+    if ([profile writeToBinaryFile:path]) {
         NSLog(@"profile %@ of %@ has been saved to %@", profile, ID, path);
         return YES;
     } else {

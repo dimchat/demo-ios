@@ -6,6 +6,8 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "Facebook+Register.h"
+
 #import "User.h"
 
 NSString *search_number(UInt32 code) {
@@ -54,6 +56,11 @@ NSString *group_title(const DIMGroup *group) {
     profile = [DIMProfile profileWithProfile:profile];
     if (profile) {
         user.name = profile.name;
+        // copy profile from config to local storage
+        if (!profile.ID) {
+            [profile setObject:ID forKey:@"ID"];
+        }
+        [[Facebook sharedInstance] saveProfile:profile forID:ID];
     }
     
     return user;
