@@ -23,6 +23,7 @@ SingletonImplementations(Client, sharedInstance)
     
     // choose the fast station
     NSDictionary *station = stations.firstObject;
+    NSLog(@"got station: %@", station);
     
     // save meta for server ID
     DIMID *ID = [station objectForKey:@"ID"];

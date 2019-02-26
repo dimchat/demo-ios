@@ -42,8 +42,17 @@
 		E92256592222ED7C006CADEA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256412222ED7C006CADEA /* NSString+Extension.m */; };
 		E922565A2222ED7C006CADEA /* MsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256432222ED7C006CADEA /* MsgCell.m */; };
 		E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
-		E97816C52223E94C00BCE3AD /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
 		E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97816CD2223EAA700BCE3AD /* Assets.xcassets */; };
+		E978171122254AB000BCE3AD /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
+		E978171222254AB000BCE3AD /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E978171F22254CBB00BCE3AD /* MarsGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; };
+		E978172322254CC600BCE3AD /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; };
+		E978172522254CC900BCE3AD /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; };
+		E978172622254D2400BCE3AD /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; };
+		E978172722254D2400BCE3AD /* DIMCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E978172922254D3400BCE3AD /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,7 +84,32 @@
 			remoteGlobalIDString = E97816892223E7F200BCE3AD;
 			remoteInfo = DIMClientTests;
 		};
+		E978171322254AB000BCE3AD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E978167F2223E7F200BCE3AD;
+			remoteInfo = DIMClient;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E978171522254AB000BCE3AD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E978172922254D3400BCE3AD /* DaoKeDao.framework in Embed Frameworks */,
+				E978172722254D2400BCE3AD /* DIMCore.framework in Embed Frameworks */,
+				E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */,
+				E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */,
+				E978171222254AB000BCE3AD /* DIMClient.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E92255BF2222EC53006CADEA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +176,10 @@
 		E922567E2222EF3D006CADEA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMClient.xcodeproj; path = "../../client-objc/DIMClient/DIMClient.xcodeproj"; sourceTree = "<group>"; };
 		E97816CD2223EAA700BCE3AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E978171E22254CBB00BCE3AD /* MarsGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarsGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E978172022254CC000BCE3AD /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E978172222254CC600BCE3AD /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E978172422254CC900BCE3AD /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,7 +187,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E97816C52223E94C00BCE3AD /* DIMClient.framework in Frameworks */,
+				E978171122254AB000BCE3AD /* DIMClient.framework in Frameworks */,
+				E978172622254D2400BCE3AD /* DIMCore.framework in Frameworks */,
+				E978172322254CC600BCE3AD /* DaoKeDao.framework in Frameworks */,
+				E978172522254CC900BCE3AD /* MingKeMing.framework in Frameworks */,
+				E978171F22254CBB00BCE3AD /* MarsGate.framework in Frameworks */,
 				E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,6 +360,10 @@
 		E92256782222EE25006CADEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E978172422254CC900BCE3AD /* MingKeMing.framework */,
+				E978172222254CC600BCE3AD /* DaoKeDao.framework */,
+				E978172022254CC000BCE3AD /* DIMCore.framework */,
+				E978171E22254CBB00BCE3AD /* MarsGate.framework */,
 				E922567E2222EF3D006CADEA /* WebKit.framework */,
 			);
 			name = Frameworks;
@@ -342,10 +388,12 @@
 				E92255BB2222EC53006CADEA /* Sources */,
 				E92255BC2222EC53006CADEA /* Frameworks */,
 				E92255BD2222EC53006CADEA /* Resources */,
+				E978171522254AB000BCE3AD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				E978171422254AB000BCE3AD /* PBXTargetDependency */,
 			);
 			name = Sechat;
 			productName = Sechat;
@@ -547,6 +595,11 @@
 			target = E92255BE2222EC53006CADEA /* Sechat */;
 			targetProxy = E92255E62222EC56006CADEA /* PBXContainerItemProxy */;
 		};
+		E978171422254AB000BCE3AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DIMClient;
+			targetProxy = E978171322254AB000BCE3AD /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -636,6 +689,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -695,6 +749,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -719,6 +774,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4N8627W97S;
+				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = "../../mkm-objc/Classes/**";
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -738,6 +794,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4N8627W97S;
+				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = "../../mkm-objc/Classes/**";
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
