@@ -33,6 +33,8 @@ typedef NSArray<DIMID *> ContactTable;
 
 - (ContactTable *)reloadContactsWithUser:(const DIMUser *)user;
 
+- (void)setProfile:(DIMProfile *)profile forID:(const DIMID *)ID;
+
 @end
 
 NS_ASSUME_NONNULL_END

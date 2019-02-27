@@ -191,6 +191,9 @@ SingletonImplementations(Facebook, sharedInstance)
     if (profile) {
         if ([profile.ID isEqual:ID]) {
             [_profileTable setObject:profile forKey:ID.address];
+            // update exists account
+            DIMBarrack *barrack = [DIMBarrack sharedInstance];
+            [barrack setProfile:profile forID:ID];
         } else {
             NSAssert(false, @"profile error: %@, ID = %@", profile, ID);
         }
@@ -377,10 +380,10 @@ SingletonImplementations(Facebook, sharedInstance)
 - (DIMProfile *)profileForID:(const DIMID *)ID {
     DIMProfile *profile = nil;
     
-    // (a) get from profile cache
+    // try from profile cache
     profile = [_profileTable objectForKey:ID.address];
     if (profile) {
-        // TODO: check cache expires
+        // check cache expires
         NSNumber *timestamp = [profile objectForKey:@"lastTime"];
         if (timestamp) {
             NSDate *lastTime = NSDateFromNumber(timestamp);
@@ -388,37 +391,40 @@ SingletonImplementations(Facebook, sharedInstance)
             if (fabs(ti) > 300) {
                 [_profileTable removeObjectForKey:ID.address];
             }
+        } else {
+            NSDate *now = [[NSDate alloc] init];
+            [profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
         }
         
         return profile;
     }
     
-    // (b) load from "Documents/.mkm/{address}/profile.plist"
+    // update from network
+    [[Client sharedInstance] queryProfileForID:ID];
+    
+    // try from "Documents/.mkm/{address}/profile.plist"
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
     dir = [dir stringByAppendingPathComponent:ID.address];
     NSString *path = [dir stringByAppendingPathComponent:@"profile.plist"];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        NSLog(@"loaded profile from %@", path);
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
         profile = [DIMProfile profileWithProfile:dict];
-        NSLog(@"loaded profile from %@", path);
-    } else {
-        // (c) try immortals
+    }
+    
+    if (!profile) {
+        // try immortals
         if (MKMNetwork_IsPerson(ID.type)) {
             profile = [_immortals profileForID:ID];
         }
-    }
-    
-    // (d) query from network
-    if (!profile) {
-        profile = [[DIMProfile alloc] initWithID:ID];
         
-        Client *client = [Client sharedInstance];
-        [client queryProfileForID:ID];
+        // place an empty profile for cache
+        if (!profile) {
+            profile = [[DIMProfile alloc] initWithID:ID];
+        }
     }
-    NSDate *now = [[NSDate alloc] init];
-    [profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
     
     [self setProfile:profile forID:ID];
     return profile;

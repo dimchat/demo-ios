@@ -69,7 +69,8 @@
     if ([profile.ID isEqual:cmd.ID]) {
         NSLog(@"got new profile for %@", cmd.ID);
         Facebook *facebook = [Facebook sharedInstance];
-        [facebook saveProfile:profile forID:cmd.ID];
+        [facebook setProfile:profile forID:profile.ID];
+        [facebook saveProfile:profile forID:profile.ID];
     }
 }
 

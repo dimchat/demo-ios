@@ -52,15 +52,20 @@ NSString *group_title(const DIMGroup *group) {
     DIMUser *user = MKMUserWithID(ID);
     
     // profile
-    DIMProfile *profile = [dict objectForKey:@"profile"];
-    profile = [DIMProfile profileWithProfile:profile];
-    if (profile) {
+    DIMProfile *profile = MKMProfileForID(ID);
+    if (profile.name) {
         user.name = profile.name;
-        // copy profile from config to local storage
-        if (!profile.ID) {
-            [profile setObject:ID forKey:@"ID"];
+    } else {
+        profile = [dict objectForKey:@"profile"];
+        profile = [DIMProfile profileWithProfile:profile];
+        if (profile) {
+            user.name = profile.name;
+            // copy profile from config to local storage
+            if (!profile.ID) {
+                [profile setObject:ID forKey:@"ID"];
+            }
+            [[Facebook sharedInstance] saveProfile:profile forID:ID];
         }
-        [[Facebook sharedInstance] saveProfile:profile forID:ID];
     }
     
     return user;
