@@ -32,11 +32,6 @@ SingletonImplementations(Client, sharedInstance)
     meta = [DIMMeta metaWithMeta:meta];
     [[DIMBarrack sharedInstance] setMeta:meta forID:ID];
     
-    // connect server
-    DIMStation *server = [[DIMStation alloc] initWithDictionary:station];
-    server.delegate = self;
-    self.currentStation = server;
-    
     // prepare for launch star
     NSMutableDictionary *launchOptions = [[NSMutableDictionary alloc] init];
     NSString *IP = [station objectForKey:@"host"];
@@ -53,7 +48,23 @@ SingletonImplementations(Client, sharedInstance)
         [launchOptions setObject:port forKey:@"LongLinkPort"];
     }
     
-    [self startWithOptions:launchOptions];
+    // connect server
+    DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
+    server.delegate = self;
+    [server startWithOptions:launchOptions];
+    _currentStation = server;
+}
+
+- (void)didEnterBackground {
+    [_currentStation pause];
+}
+
+- (void)willEnterForeground {
+    [_currentStation resume];
+}
+
+- (void)willTerminate {
+    [_currentStation end];
 }
 
 #pragma mark - Notification
