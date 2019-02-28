@@ -17,7 +17,7 @@
 
 SingletonImplementations(Client, sharedInstance)
 
-+ (instancetype)createWithConfigFile:(NSString *)spConfig {
+- (void)startWithConfigFile:(NSString *)spConfig {
     NSDictionary *gsp = [NSDictionary dictionaryWithContentsOfFile:spConfig];
     NSArray *stations = [gsp objectForKey:@"stations"];
     
@@ -34,7 +34,8 @@ SingletonImplementations(Client, sharedInstance)
     
     // connect server
     DIMStation *server = [[DIMStation alloc] initWithDictionary:station];
-    server.delegate = [MessageProcessor sharedInstance];
+    server.delegate = self;
+    self.currentStation = server;
     
     // prepare for launch star
     NSMutableDictionary *launchOptions = [[NSMutableDictionary alloc] init];
@@ -52,11 +53,7 @@ SingletonImplementations(Client, sharedInstance)
         [launchOptions setObject:port forKey:@"LongLinkPort"];
     }
     
-    Client *client = [self sharedInstance];
-    client.currentStation = server;
-    [client startWithOptions:launchOptions];
-    return client;
-
+    [self startWithOptions:launchOptions];
 }
 
 #pragma mark - Notification

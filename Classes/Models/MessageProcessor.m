@@ -12,7 +12,6 @@
 #import "Facebook.h"
 #import "Client.h"
 
-#import "MessageProcessor+Station.h"
 #import "MessageProcessor.h"
 
 NSString *NSStringFromDate(const NSDate *date) {
@@ -284,69 +283,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     } else {
         return NO;
     }
-}
-
-#pragma mark DIMStationDelegate
-
-- (void)station:(nonnull const DIMStation *)server didReceivePackage:(nonnull const NSData *)data {
-    Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    
-    // decode
-    NSString *json = [data UTF8String];
-    DIMReliableMessage *rMsg;
-    rMsg = [[DKDReliableMessage alloc] initWithJSONString:json];
-    
-    // check sender
-    DIMID *sender = rMsg.envelope.sender;
-    DIMMeta *meta = MKMMetaForID(sender);
-    if (!meta) {
-        meta = rMsg.meta;
-        if (!meta) {
-            NSLog(@"meta for %@ not found, query from the network...", sender);
-            return [client queryMetaForID:sender];
-        }
-    }
-    
-    // trans to instant message
-    DKDInstantMessage *iMsg;
-    iMsg = [trans verifyAndDecryptMessage:rMsg forUser:user];
-    
-    // process commands
-    DIMMessageContent *content = iMsg.content;
-    if (content.type == DIMMessageType_Command) {
-        NSString *command = content.command;
-        if ([command isEqualToString:@"handshake"]) {
-            // handshake
-            return [self processHandshakeMessageContent:content];
-        } else if ([command isEqualToString:@"meta"]) {
-            // query meta response
-            return [self processMetaMessageContent:content];
-        } else if ([command isEqualToString:@"profile"]) {
-            // query profile response
-            return [self processProfileMessageContent:content];
-        } else if ([command isEqualToString:@"users"]) {
-            // query online users response
-            return [self processOnlineUsersMessageContent:content];
-        } else if ([command isEqualToString:@"search"]) {
-            // search users response
-            return [self processSearchUsersMessageContent:content];
-        } else {
-            NSLog(@"!!! unknown command: %@, sender: %@, message content: %@",
-                  command, sender, content);
-            return ;
-        }
-    }
-    
-    if (MKMNetwork_IsStation(sender.type)) {
-        NSLog(@"*** message from station: %@", content);
-        //return ;
-    }
-    
-    // normal message, let the clerk to deliver it
-    DIMAmanuensis *clerk = [DIMAmanuensis sharedInstance];
-    [clerk saveMessage:iMsg];
 }
 
 @end

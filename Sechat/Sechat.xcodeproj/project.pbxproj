@@ -23,7 +23,6 @@
 		E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
 		E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* Facebook+Register.m */; };
 		E92256462222ED7C006CADEA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561A2222ED7C006CADEA /* User.m */; };
-		E92256472222ED7C006CADEA /* MessageProcessor+Station.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561B2222ED7C006CADEA /* MessageProcessor+Station.m */; };
 		E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561D2222ED7C006CADEA /* MessageProcessor.m */; };
 		E92256492222ED7C006CADEA /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256212222ED7C006CADEA /* Facebook.m */; };
 		E922564A2222ED7C006CADEA /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256222222ED7C006CADEA /* Client.m */; };
@@ -53,6 +52,7 @@
 		E978172922254D3400BCE3AD /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E97926AA22258CFF005ED1F0 /* usr-selina.plist in Resources */ = {isa = PBXBuildFile; fileRef = E97926A822258CFF005ED1F0 /* usr-selina.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,10 +137,8 @@
 		E92256182222ED7C006CADEA /* MessageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageProcessor.h; sourceTree = "<group>"; };
 		E92256192222ED7C006CADEA /* Facebook+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
 		E922561A2222ED7C006CADEA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		E922561B2222ED7C006CADEA /* MessageProcessor+Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MessageProcessor+Station.m"; sourceTree = "<group>"; };
 		E922561C2222ED7C006CADEA /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		E922561D2222ED7C006CADEA /* MessageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageProcessor.m; sourceTree = "<group>"; };
-		E922561E2222ED7C006CADEA /* MessageProcessor+Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MessageProcessor+Station.h"; sourceTree = "<group>"; };
 		E922561F2222ED7C006CADEA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		E92256202222ED7C006CADEA /* Facebook+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
 		E92256212222ED7C006CADEA /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
@@ -180,6 +178,7 @@
 		E978172022254CC000BCE3AD /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172222254CC600BCE3AD /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172422254CC900BCE3AD /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E97926A822258CFF005ED1F0 /* usr-selina.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-selina.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,6 +277,7 @@
 				E92256082222ED6B006CADEA /* gsp-selvn.plist */,
 				E922560B2222ED6B006CADEA /* gsp.plist */,
 				E92256092222ED6B006CADEA /* usr-moky.plist */,
+				E97926A822258CFF005ED1F0 /* usr-selina.plist */,
 				E97816CD2223EAA700BCE3AD /* Assets.xcassets */,
 				E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */,
 			);
@@ -309,8 +309,6 @@
 				E92256192222ED7C006CADEA /* Facebook+Register.m */,
 				E92256182222ED7C006CADEA /* MessageProcessor.h */,
 				E922561D2222ED7C006CADEA /* MessageProcessor.m */,
-				E922561E2222ED7C006CADEA /* MessageProcessor+Station.h */,
-				E922561B2222ED7C006CADEA /* MessageProcessor+Station.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -332,12 +330,12 @@
 				E922562B2222ED7C006CADEA /* ConversationsTableViewController.m */,
 				E922562D2222ED7C006CADEA /* OnlineUsersTableViewController.h */,
 				E92256362222ED7C006CADEA /* OnlineUsersTableViewController.m */,
+				E92256302222ED7C006CADEA /* SearchUsersTableViewController.h */,
+				E92256382222ED7C006CADEA /* SearchUsersTableViewController.m */,
 				E92256272222ED7C006CADEA /* ProfileTableViewController.h */,
 				E92256322222ED7C006CADEA /* ProfileTableViewController.m */,
 				E92256392222ED7C006CADEA /* RegisterViewController.h */,
 				E922562F2222ED7C006CADEA /* RegisterViewController.m */,
-				E92256302222ED7C006CADEA /* SearchUsersTableViewController.h */,
-				E92256382222ED7C006CADEA /* SearchUsersTableViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -515,6 +513,7 @@
 				E92256042222ED5A006CADEA /* Profile.storyboard in Resources */,
 				E92256062222ED5A006CADEA /* Account.storyboard in Resources */,
 				E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */,
+				E97926AA22258CFF005ED1F0 /* usr-selina.plist in Resources */,
 				E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */,
 				E922560E2222ED6B006CADEA /* usr-moky.plist in Resources */,
 			);
@@ -557,7 +556,6 @@
 				E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */,
 				E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
-				E92256472222ED7C006CADEA /* MessageProcessor+Station.m in Sources */,
 				E92256562222ED7C006CADEA /* SearchUsersTableViewController.m in Sources */,
 				E922564F2222ED7C006CADEA /* ChatViewController.m in Sources */,
 				E922565A2222ED7C006CADEA /* MsgCell.m in Sources */,

@@ -8,9 +8,9 @@
 
 #import "NSString+Extension.h"
 
+#import "MessageProcessor.h"
 #import "Client.h"
 
-#import "MessageProcessor+Station.h"
 #import "MsgCell.h"
 
 #import "ChatViewController.h"

@@ -13,7 +13,6 @@
 
 #import "User.h"
 #import "Facebook.h"
-#import "MessageProcessor+Station.h"
 
 #import "ChatViewController.h"
 

@@ -8,7 +8,6 @@
 
 #import "User.h"
 #import "Facebook.h"
-#import "MessageProcessor+Station.h"
 
 #import "Client.h"
 
@@ -36,17 +35,35 @@
     
     // 1. load from local cache
     [self loadCacheFile];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     
-    // 2. query from the station
     Client *client = [Client sharedInstance];
-    [client queryOnlineUsers];
-    
-    // 3. waiting for update
     NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    
+    // 2. waiting for update
     [dc addObserver:self
            selector:@selector(reloadData:)
                name:@"OnlineUsersUpdated"
-             object:nil];
+             object:client];
+    
+    // 3. query from the station
+    [client queryOnlineUsers];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    Client *client = [Client sharedInstance];
+    
+    // 4. stop listening
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    [dc removeObserver:self
+                  name:@"OnlineUsersUpdated"
+                object:client];
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)loadCacheFile {
@@ -96,7 +113,9 @@
         [self loadCacheFile];
     }
     
-    [self.tableView reloadData];
+    [self.tableView performSelectorOnMainThread:@selector(reloadData)
+                                     withObject:nil
+                                  waitUntilDone:NO];
 }
 
 #pragma mark - Table view data source

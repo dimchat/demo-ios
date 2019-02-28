@@ -8,7 +8,6 @@
 
 #import "User.h"
 #import "Facebook.h"
-#import "MessageProcessor+Station.h"
 
 #import "Client.h"
 
@@ -35,27 +34,43 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    // 1. load from local cache
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    Client *client = [Client sharedInstance];
     NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    
+    // 2. waiting for update
+    [dc addObserver:self
+           selector:@selector(reloadData:)
+               name:@"OnlineUsersUpdated"
+             object:client];
     [dc addObserver:self
            selector:@selector(reloadData:)
                name:@"SearchUsersUpdated"
-             object:nil];
+             object:client];
+    
+    // 3. query from the station
+    [client queryOnlineUsers];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    if (user) {
-        // online users
-        
-        // 1. query from the station
-        [client queryOnlineUsers];
-        
-        // 2. waiting for update
-        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-        [dc addObserver:self
-               selector:@selector(reloadData:)
-                   name:@"OnlineUsersUpdated"
-                 object:nil];
-    }
+    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+    
+    // 4. stop listening
+    [dc removeObserver:self
+                  name:@"SearchUsersUpdated"
+                object:client];
+    [dc removeObserver:self
+                  name:@"OnlineUsersUpdated"
+                object:client];
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)reloadData:(NSNotification *)notification {
@@ -121,7 +136,9 @@
         
     }
     
-    [self.tableView reloadData];
+    [self.tableView performSelectorOnMainThread:@selector(reloadData)
+                                     withObject:nil
+                                  waitUntilDone:NO];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {

@@ -25,10 +25,16 @@
     
     [Facebook sharedInstance];
     
-#if DEBUG && 1
+#if DEBUG && 0
     {
         // moky
         NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-moky" ofType:@"plist"];
+        DIMUser *user = [DIMUser userWithConfigFile:path];
+        [[Client sharedInstance] addUser:user];
+    }
+    {
+        // selina
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-selina" ofType:@"plist"];
         DIMUser *user = [DIMUser userWithConfigFile:path];
         [[Client sharedInstance] addUser:user];
     }
@@ -36,7 +42,7 @@
     
     // GSP station
     NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp" ofType:@"plist"];
-    Client *client = [Client createWithConfigFile:path];
+    [[Client sharedInstance] startWithConfigFile:path];
     
     return YES;
 }

@@ -12,7 +12,6 @@
 #import "MKMImmortals.h"
 
 #import "User.h"
-#import "MessageProcessor+Station.h"
 
 #import "Client.h"
 #import "Facebook+Register.h"
@@ -85,8 +84,25 @@ SingletonImplementations(Facebook, sharedInstance)
             user = [self userWithID:ID];
             [client addUser:user];
         }
+        
+        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
+        [dc addObserver:self
+               selector:@selector(onProfileUpdated:)
+                   name:@"ProfileUpdated"
+                 object:client];
     }
     return self;
+}
+
+- (void)onProfileUpdated:(NSNotification *)notification {
+    if ([notification.name isEqualToString:@"ProfileUpdated"]) {
+        DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
+        DIMProfile *profile = cmd.profile;
+        if ([profile.ID isEqual:cmd.ID]) {
+            [self setProfile:profile forID:profile.ID];
+            [self saveProfile:profile forID:profile.ID];
+        }
+    }
 }
 
 - (DIMID *)IDWithAddress:(const DIMAddress *)address {

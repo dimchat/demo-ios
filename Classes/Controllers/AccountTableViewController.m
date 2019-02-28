@@ -8,7 +8,6 @@
 
 #import "User.h"
 #import "Facebook.h"
-#import "MessageProcessor+Station.h"
 
 #import "Client.h"
 

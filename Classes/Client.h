@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 
-+ (instancetype)createWithConfigFile:(NSString *)spConfig;
+- (void)startWithConfigFile:(NSString *)spConfig;
 
 #pragma mark - Notification
 
