@@ -48,6 +48,16 @@
                     image = [UIImage imageWithData:data];
                 }
             }
+            if (!image) {
+                NSString *name = profile.name;
+                if (!name) {
+                    name = env.sender.name;
+                }
+                if (name.length > 0) {
+                    NSString *text = [name substringToIndex:1];
+                    image = [UIImage imageWithText:text size:CGSizeMake(60.0, 60.0)];
+                }
+            }
         }
         if (!image) {
             image = [UIImage imageNamed:@"AppIcon"];

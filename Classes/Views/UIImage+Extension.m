@@ -10,6 +10,26 @@
 
 @implementation UIImage (Extension)
 
++ (UIImage *)imageWithText:(NSString *)text size:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [UIColor grayColor].CGColor);
+    CGContextFillRect(context, CGRectMake(0, 0, size.width, size.height));
+    
+    CGFloat fontSize = MIN(size.width, size.height) -10;
+    UIFont *font = [UIFont systemFontOfSize:fontSize];
+    UIColor *color = [UIColor whiteColor];
+    NSDictionary *attributes = @{NSFontAttributeName:font,
+                                 NSForegroundColorAttributeName:color,
+                                 };
+    CGRect rect = CGRectMake(5, 0, size.width, size.height);
+    [text drawInRect:rect withAttributes:attributes];
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 - (UIImage *)resizableImage {
     CGSize size = self.size;
     CGFloat width = size.width;
