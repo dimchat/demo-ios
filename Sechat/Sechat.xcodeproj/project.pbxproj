@@ -53,6 +53,7 @@
 		E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E97926AA22258CFF005ED1F0 /* usr-selina.plist in Resources */ = {isa = PBXBuildFile; fileRef = E97926A822258CFF005ED1F0 /* usr-selina.plist */; };
+		E97926C622293438005ED1F0 /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E97926C522293438005ED1F0 /* UIViewController+Extension.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +180,8 @@
 		E978172222254CC600BCE3AD /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172422254CC900BCE3AD /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E97926A822258CFF005ED1F0 /* usr-selina.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-selina.plist"; sourceTree = "<group>"; };
+		E97926C422293438005ED1F0 /* UIViewController+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
+		E97926C522293438005ED1F0 /* UIViewController+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Extension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -347,6 +350,8 @@
 				E92256412222ED7C006CADEA /* NSString+Extension.m */,
 				E92256422222ED7C006CADEA /* UIImage+Extension.h */,
 				E922563F2222ED7C006CADEA /* UIImage+Extension.m */,
+				E97926C422293438005ED1F0 /* UIViewController+Extension.h */,
+				E97926C522293438005ED1F0 /* UIViewController+Extension.m */,
 				E922563E2222ED7C006CADEA /* MsgCell.h */,
 				E92256432222ED7C006CADEA /* MsgCell.m */,
 				E922563D2222ED7C006CADEA /* MyMsgCell.h */,
@@ -554,6 +559,7 @@
 				E92256502222ED7C006CADEA /* RegisterViewController.m in Sources */,
 				E92256522222ED7C006CADEA /* ProfileTableViewController.m in Sources */,
 				E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */,
+				E97926C622293438005ED1F0 /* UIViewController+Extension.m in Sources */,
 				E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
 				E92256562222ED7C006CADEA /* SearchUsersTableViewController.m in Sources */,

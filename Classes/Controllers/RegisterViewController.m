@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "UIViewController+Extension.h"
+
 #import "User.h"
 #import "Client.h"
 #import "Facebook+Register.h"
@@ -26,6 +28,12 @@
     // Do any additional setup after loading the view.
     
     _registerInfos = [[NSMutableArray alloc] init];
+    
+    Client *client = [Client sharedInstance];
+    DIMUser *user = client.currentUser;
+    if (!user) {
+        [_doneButton setEnabled:NO];
+    }
 }
 
 - (void)_addRegisterInfo:(DIMRegisterInfo *)info {
@@ -61,9 +69,22 @@
     NSString *nickname = _nicknameTextField.text;
     NSString *username = _usernameTextField.text;
     
-    if (nickname.length == 0 || username.length == 0) {
-        NSLog(@"nickname & username cannot be empty");
-        return;
+    // check nickname
+    if (nickname.length == 0) {
+        [self showMessage:@"Nickname cannot be empty" withTitle:@"Nickname Error"];
+        [_nicknameTextField becomeFirstResponder];
+        return ;
+    }
+    // check username
+    if (username.length == 0) {
+        [self showMessage:@"Username cannot be empty" withTitle:@"Username Error"];
+        [_usernameTextField becomeFirstResponder];
+        return ;
+    } else if (!check_username(username)) {
+        NSString *msg = @"Username must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'";
+        [self showMessage:msg withTitle:@"Username Error"];
+        [_usernameTextField becomeFirstResponder];
+        return ;
     }
     
     [self _hideKeyboard];
@@ -136,18 +157,9 @@
     Client *client = [Client sharedInstance];
     
     DIMID *ID = regInfo.ID;
-    NSString *message = [NSString stringWithFormat:@"Save user: %@ ?", ID];
+    NSString *message = [NSString stringWithFormat:@"%@\nSearch Number: %@", ID, search_number(ID.number)];
     
     NSString *nickname = _nicknameTextField.text;
-    
-    UIAlertController * alert;
-    alert = [UIAlertController alertControllerWithTitle:@"Register"
-                                                message:message
-                                         preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancel;
-    cancel = [UIAlertAction actionWithTitle:@"Cancel"
-                                      style:UIAlertActionStyleCancel
-                                    handler:nil];
     
     void (^handler)(UIAlertAction *);
     handler = ^(UIAlertAction *action) {
@@ -164,17 +176,14 @@
         // post notice
         [client postNotificationName:@"UsersUpdated" object:self];
         NSLog(@"post notification: UsersUpdated");
+        
+        [self->_doneButton setEnabled:YES];
     };
     
-    UIAlertAction *OK;
-    OK = [UIAlertAction actionWithTitle:@"OK"
-                                  style:UIAlertActionStyleDefault
-                                handler:handler];
-    
-    [alert addAction:cancel];
-    [alert addAction:OK];
-    [self presentViewController:alert animated:YES completion:nil];
-    
+    [self showMessage:message
+            withTitle:@"Save User Info?"
+        cancelHandler:nil
+       defaultHandler:handler];
 }
 
 /*

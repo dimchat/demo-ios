@@ -36,6 +36,9 @@
     } else {
         _nameLabel.text = @"USER NOT FOUND";
         _descLabel.text = @"Please register/login first.";
+        
+        // show register view controller
+        [self performSegueWithIdentifier:@"registerSegue" sender:self];
     }
     
     NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];

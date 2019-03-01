@@ -9,6 +9,7 @@
 #import "User.h"
 #import "Facebook.h"
 #import "MessageProcessor.h"
+#import "Client.h"
 
 #import "ChatViewController.h"
 
@@ -34,6 +35,22 @@
            selector:@selector(reloadData)
                name:@"MessageUpdated"
              object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    Client *client = [Client sharedInstance];
+    DIMUser *user = client.currentUser;
+    if (!user) {
+        NSLog(@"show accountNavigationController");
+        UIViewController *vc = self.parentViewController;
+        while (vc && ![vc isKindOfClass:[UITabBarController class]]) {
+            vc = vc.parentViewController;
+        }
+        UITabBarController *tbc = (UITabBarController *)vc;
+        tbc.selectedIndex = 2;
+    }
 }
 
 - (void)reloadData {

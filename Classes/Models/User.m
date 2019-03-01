@@ -32,6 +32,12 @@ NSString *group_title(const DIMGroup *group) {
     return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];
 }
 
+BOOL check_username(const NSString *username) {
+    NSString *pattern = @"^[A-Za-z0-9._-]+$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
+    return [pred evaluateWithObject:username];
+}
+
 @implementation DIMUser (Config)
 
 + (instancetype)userWithConfigFile:(NSString *)config {

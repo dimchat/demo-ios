@@ -52,7 +52,7 @@ SingletonImplementations(Client, sharedInstance)
     DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
     server.delegate = self;
     [server startWithOptions:launchOptions];
-    _currentStation = server;
+    self.currentStation = server;
 }
 
 - (void)didEnterBackground {

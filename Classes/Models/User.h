@@ -34,6 +34,14 @@ NSString *account_title(const DIMAccount *account);
  */
 NSString *group_title(const DIMGroup *group);
 
+/**
+ Check Username Valid
+ 
+ @param username - format: ^[A-Za-z0-9_-\.]+$
+ @return YES on valid
+ */
+BOOL check_username(const NSString *username);
+
 @interface DIMUser (Config)
 
 + (instancetype)userWithConfigFile:(NSString *)config;
