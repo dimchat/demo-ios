@@ -6,7 +6,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "Facebook.h"
 #import "User.h"
 
 #import "Client.h"
@@ -22,8 +21,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
-    [Facebook sharedInstance];
     
     // GSP station
     NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp" ofType:@"plist"];

@@ -113,11 +113,11 @@ static inline NSMutableDictionary *scan_messages(void) {
         if ([path hasSuffix:@"/messages.plist"]) {
             addr = [path substringToIndex:(path.length - 15)];
             address = [DIMAddress addressWithAddress:addr];
-            if (!MKMNetwork_IsPerson(address.network) &&
-                !MKMNetwork_IsGroup(address.network)) {
-                // ignore
-                continue;
-            }
+//            if (!MKMNetwork_IsPerson(address.network) &&
+//                !MKMNetwork_IsGroup(address.network)) {
+//                // ignore
+//                continue;
+//            }
             
             path = [dir stringByAppendingPathComponent:path];
             array = [NSArray arrayWithContentsOfFile:path];

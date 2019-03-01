@@ -18,10 +18,18 @@
 SingletonImplementations(Client, sharedInstance)
 
 - (void)startWithConfigFile:(NSString *)spConfig {
-    NSDictionary *gsp = [NSDictionary dictionaryWithContentsOfFile:spConfig];
-    NSArray *stations = [gsp objectForKey:@"stations"];
+    NSDictionary *config = [NSDictionary dictionaryWithContentsOfFile:spConfig];
+    DIMServiceProvider *sp = nil;
+    {
+        DIMID *ID = [config objectForKey:@"ID"];
+        ID = [DIMID IDWithID:ID];
+        DIMID *founder = [config objectForKey:@"founder"];
+        founder = [DIMID IDWithID:founder];
+        sp = [[DIMServiceProvider alloc] initWithID:ID founderID:founder];
+    }
     
     // choose the fast station
+    NSArray *stations = [config objectForKey:@"stations"];
     NSDictionary *station = stations.firstObject;
     NSLog(@"got station: %@", station);
     
@@ -50,9 +58,14 @@ SingletonImplementations(Client, sharedInstance)
     
     // connect server
     DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
+    _currentStation = server;
+    
+    // load user(s) and start connecting server
+    Facebook *facebook = [Facebook sharedInstance];
+    [facebook addStation:ID provider:sp];
+    
     server.delegate = self;
     [server startWithOptions:launchOptions];
-    self.currentStation = server;
 }
 
 - (void)didEnterBackground {

@@ -28,6 +28,8 @@ typedef NSArray<DIMID *> ContactTable;
 
 - (DIMID *)IDWithAddress:(const DIMAddress *)address;
 
+- (void)addStation:(const DIMID *)stationID provider:(const DIMServiceProvider *)sp;
+
 - (void)addContact:(const DIMID *)contactID user:(const DIMUser *)user;
 - (void)removeContact:(const DIMID *)contactID user:(const DIMUser *)user;
 

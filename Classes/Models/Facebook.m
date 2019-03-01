@@ -99,6 +99,7 @@ SingletonImplementations(Facebook, sharedInstance)
         DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
         DIMProfile *profile = cmd.profile;
         if ([profile.ID isEqual:cmd.ID]) {
+            [profile removeObjectForKey:@"lastTime"];
             [self setProfile:profile forID:profile.ID];
             [self saveProfile:profile forID:profile.ID];
         }
@@ -107,12 +108,15 @@ SingletonImplementations(Facebook, sharedInstance)
 
 - (DIMID *)IDWithAddress:(const DIMAddress *)address {
     DIMID *ID;
-//    for (id item in _contacts) {
-//        ID = [DIMID IDWithID:item];
-//        if ([ID.address isEqual:address]) {
-//            return ID;
-//        }
-//    }
+    NSArray *tables = _contactsTable.allValues;
+    for (MKMContactList *list in tables) {
+        for (id item in list) {
+            ID = [DIMID IDWithID:item];
+            if ([ID.address isEqual:address]) {
+                return ID;
+            }
+        }
+    }
     ID = nil;
     
     NSString *dir = document_directory();
@@ -131,6 +135,22 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     return ID;
+}
+
+- (void)addStation:(const MKMID *)stationID provider:(const DIMServiceProvider *)sp {
+    NSMutableArray *stations = [_contactsTable objectForKey:sp.ID.address];
+    if (stations) {
+        if ([stations containsObject:stationID]) {
+            NSLog(@"station %@ already exists, provider: %@", stationID, sp.ID);
+            return ;
+        } else {
+            [stations addObject:stationID];
+        }
+    } else {
+        stations = [[NSMutableArray alloc] initWithCapacity:1];
+        [stations addObject:stationID];
+        [_contactsTable setObject:stations forKey:sp.ID.address];
+    }
 }
 
 - (void)addContact:(const DIMID *)contactID user:(const DIMUser *)user {
@@ -405,6 +425,7 @@ SingletonImplementations(Facebook, sharedInstance)
             NSDate *lastTime = NSDateFromNumber(timestamp);
             NSTimeInterval ti = [lastTime timeIntervalSinceNow];
             if (fabs(ti) > 300) {
+                NSLog(@"profile expired: %@", lastTime);
                 [_profileTable removeObjectForKey:ID.address];
             }
         } else {
