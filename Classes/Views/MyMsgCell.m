@@ -21,22 +21,20 @@
     
     UIEdgeInsets margins = self.layoutMargins;
     CGRect contentBounds = self.contentView.bounds;
-    //CGFloat maxWidth = contentBounds.size.width * 0.8;
     
     CGFloat space = 5.0;
-    CGSize avatarSize = CGSizeMake(40, 40);
     //CGFloat nameHeight = 20;
     
     // avatar
     CGRect avatarFrame = self.avatarImageView.frame;
-    avatarFrame.origin.x = contentBounds.size.width - margins.right - avatarSize.width - space * 2;
+    avatarFrame.origin.x = contentBounds.size.width - margins.right - avatarFrame.size.width;
     self.avatarImageView.frame = avatarFrame;
     
     // name
     CGRect nameFrame = self.nameLabel.frame;
     nameFrame.origin.x = avatarFrame.origin.x - space - nameFrame.size.width;
     self.nameLabel.frame = nameFrame;
-    self.nameLabel.text = [NSString stringWithFormat:@"[%@] %@", NSStringFromDate(env.time), env.sender.name];
+    self.nameLabel.text = [NSString stringWithFormat:@"[%@] %@", NSStringFromDate(env.time), readable_name(env.sender)];
     
     // message
     CGRect msgFrame = self.messageView.frame;

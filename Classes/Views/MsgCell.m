@@ -8,10 +8,21 @@
 
 #import "NSString+Extension.h"
 #import "UIImage+Extension.h"
+#import "DIMProfile+Extension.h"
 
 #import "MessageProcessor.h"
 
 #import "MsgCell.h"
+
+NSString *readable_name(DIMID *sender) {
+    DIMProfile *profile = MKMProfileForID(sender);
+    NSString *senderName = profile.name;
+    if (senderName) {
+        return [NSString stringWithFormat:@"%@(%@)", sender.name, senderName];
+    } else {
+        return sender.name;
+    }
+}
 
 @implementation MsgCell
 
@@ -20,7 +31,8 @@
     
     DIMEnvelope *env = self.msg.envelope;
     DIMMessageContent *content = self.msg.content;
-    NSString *name = [NSString stringWithFormat:@"%@ [%@]", env.sender.name, NSStringFromDate(env.time)];
+    
+    NSString *name = [NSString stringWithFormat:@"%@ [%@]", readable_name(env.sender), NSStringFromDate(env.time)];
     NSString *text = content.text;
     
     UIEdgeInsets margins = self.layoutMargins;
@@ -32,33 +44,11 @@
     
     // avatar
     CGRect avatarFrame = self.avatarImageView.frame;
-    avatarFrame = CGRectMake(margins.left + contentBounds.origin.x,
-                             margins.top + contentBounds.origin.y,
-                             avatarFrame.size.width,
-                             avatarFrame.size.height);
+    avatarFrame.origin.x = margins.left + contentBounds.origin.x;
+    avatarFrame.origin.y = margins.top + contentBounds.origin.y;
     {
-        UIImage *image = nil;
         DIMProfile *profile = MKMProfileForID(env.sender);
-        if (profile) {
-            NSString *avatar = profile.avatar;
-            if (avatar) {
-                NSURL *url = [NSURL URLWithString:avatar];
-                NSData *data = [NSData dataWithContentsOfURL:url];
-                if (data) {
-                    image = [UIImage imageWithData:data];
-                }
-            }
-            if (!image) {
-                NSString *name = profile.name;
-                if (!name) {
-                    name = env.sender.name;
-                }
-                if (name.length > 0) {
-                    NSString *text = [name substringToIndex:1];
-                    image = [UIImage imageWithText:text size:CGSizeMake(60.0, 60.0)];
-                }
-            }
-        }
+        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
         if (!image) {
             image = [UIImage imageNamed:@"AppIcon"];
         }

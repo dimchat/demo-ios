@@ -12,6 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NSString *readable_name(DIMID *sender);
+
 @interface MsgCell : UITableViewCell
 
 @property (strong, nonatomic) DIMInstantMessage *msg;

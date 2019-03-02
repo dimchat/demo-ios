@@ -272,7 +272,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     
     [list addObject:iMsg];
     // Burn After Reading
-    while (list.count > 100) {
+    while (list.count > MAX_MESSAGES_SAVED_COUNT) {
         [list removeObjectAtIndex:0];
     }
     
