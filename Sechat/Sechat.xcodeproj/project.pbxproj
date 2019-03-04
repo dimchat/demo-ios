@@ -27,15 +27,9 @@
 		E92256492222ED7C006CADEA /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256212222ED7C006CADEA /* Facebook.m */; };
 		E922564A2222ED7C006CADEA /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256222222ED7C006CADEA /* Client.m */; };
 		E922564D2222ED7C006CADEA /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E922562A2222ED7C006CADEA /* AboutViewController.m */; };
-		E922564E2222ED7C006CADEA /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E922562B2222ED7C006CADEA /* ConversationsTableViewController.m */; };
-		E922564F2222ED7C006CADEA /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E922562E2222ED7C006CADEA /* ChatViewController.m */; };
 		E92256502222ED7C006CADEA /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E922562F2222ED7C006CADEA /* RegisterViewController.m */; };
 		E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256312222ED7C006CADEA /* AccountTableViewController.m */; };
-		E92256522222ED7C006CADEA /* ProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256322222ED7C006CADEA /* ProfileTableViewController.m */; };
-		E92256532222ED7C006CADEA /* ContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256352222ED7C006CADEA /* ContactsTableViewController.m */; };
-		E92256542222ED7C006CADEA /* OnlineUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256362222ED7C006CADEA /* OnlineUsersTableViewController.m */; };
 		E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256372222ED7C006CADEA /* AccountEditViewController.m */; };
-		E92256562222ED7C006CADEA /* SearchUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256382222ED7C006CADEA /* SearchUsersTableViewController.m */; };
 		E92256582222ED7C006CADEA /* MyMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256402222ED7C006CADEA /* MyMsgCell.m */; };
 		E922565A2222ED7C006CADEA /* MsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256432222ED7C006CADEA /* MsgCell.m */; };
 		E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
@@ -51,8 +45,14 @@
 		E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E97926AA22258CFF005ED1F0 /* usr-selina.plist in Resources */ = {isa = PBXBuildFile; fileRef = E97926A822258CFF005ED1F0 /* usr-selina.plist */; };
-		E97926ED222A787E005ED1F0 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97926EC222A787E005ED1F0 /* ChatManageTableViewController.m */; };
-		E97926F1222A8301005ED1F0 /* ParticipantsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97926F0222A8301005ED1F0 /* ParticipantsCollectionViewController.m */; };
+		E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
+		E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */; };
+		E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */; };
+		E99A5CB1222D8B3400EE6C86 /* ParticipantsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA2222D8B3400EE6C86 /* ParticipantsCollectionViewController.m */; };
+		E99A5CB2222D8B3400EE6C86 /* AddParticipantsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA4222D8B3400EE6C86 /* AddParticipantsTableViewController.m */; };
+		E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CAB222D8B3400EE6C86 /* ProfileTableViewController.m */; };
+		E99A5CB4222D8B3400EE6C86 /* ContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CAC222D8B3400EE6C86 /* ContactsTableViewController.m */; };
+		E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CBD222DA24B00EE6C86 /* SearchUsersTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,26 +143,14 @@
 		E92256202222ED7C006CADEA /* Facebook+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
 		E92256212222ED7C006CADEA /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
 		E92256222222ED7C006CADEA /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
-		E92256272222ED7C006CADEA /* ProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewController.h; sourceTree = "<group>"; };
 		E92256282222ED7C006CADEA /* AccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTableViewController.h; sourceTree = "<group>"; };
-		E92256292222ED7C006CADEA /* ContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewController.h; sourceTree = "<group>"; };
 		E922562A2222ED7C006CADEA /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
-		E922562B2222ED7C006CADEA /* ConversationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewController.m; sourceTree = "<group>"; };
 		E922562C2222ED7C006CADEA /* AccountEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountEditViewController.h; sourceTree = "<group>"; };
-		E922562D2222ED7C006CADEA /* OnlineUsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnlineUsersTableViewController.h; sourceTree = "<group>"; };
-		E922562E2222ED7C006CADEA /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
 		E922562F2222ED7C006CADEA /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		E92256302222ED7C006CADEA /* SearchUsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchUsersTableViewController.h; sourceTree = "<group>"; };
 		E92256312222ED7C006CADEA /* AccountTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountTableViewController.m; sourceTree = "<group>"; };
-		E92256322222ED7C006CADEA /* ProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewController.m; sourceTree = "<group>"; };
-		E92256332222ED7C006CADEA /* ConversationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationsTableViewController.h; sourceTree = "<group>"; };
 		E92256342222ED7C006CADEA /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
-		E92256352222ED7C006CADEA /* ContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewController.m; sourceTree = "<group>"; };
-		E92256362222ED7C006CADEA /* OnlineUsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnlineUsersTableViewController.m; sourceTree = "<group>"; };
 		E92256372222ED7C006CADEA /* AccountEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountEditViewController.m; sourceTree = "<group>"; };
-		E92256382222ED7C006CADEA /* SearchUsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchUsersTableViewController.m; sourceTree = "<group>"; };
 		E92256392222ED7C006CADEA /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
-		E922563A2222ED7C006CADEA /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
 		E922563D2222ED7C006CADEA /* MyMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMsgCell.h; sourceTree = "<group>"; };
 		E922563E2222ED7C006CADEA /* MsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MsgCell.h; sourceTree = "<group>"; };
 		E92256402222ED7C006CADEA /* MyMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMsgCell.m; sourceTree = "<group>"; };
@@ -175,10 +163,22 @@
 		E978172222254CC600BCE3AD /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172422254CC900BCE3AD /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E97926A822258CFF005ED1F0 /* usr-selina.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-selina.plist"; sourceTree = "<group>"; };
-		E97926EB222A787E005ED1F0 /* ChatManageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatManageTableViewController.h; sourceTree = "<group>"; };
-		E97926EC222A787E005ED1F0 /* ChatManageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatManageTableViewController.m; sourceTree = "<group>"; };
-		E97926EF222A8301005ED1F0 /* ParticipantsCollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticipantsCollectionViewController.h; sourceTree = "<group>"; };
-		E97926F0222A8301005ED1F0 /* ParticipantsCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParticipantsCollectionViewController.m; sourceTree = "<group>"; };
+		E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatManageTableViewController.m; sourceTree = "<group>"; };
+		E99A5C9E222D8B3400EE6C86 /* ParticipantsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipantsCollectionViewController.h; sourceTree = "<group>"; };
+		E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewController.m; sourceTree = "<group>"; };
+		E99A5CA0222D8B3400EE6C86 /* AddParticipantsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddParticipantsTableViewController.h; sourceTree = "<group>"; };
+		E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		E99A5CA2222D8B3400EE6C86 /* ParticipantsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipantsCollectionViewController.m; sourceTree = "<group>"; };
+		E99A5CA3222D8B3400EE6C86 /* ChatManageTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatManageTableViewController.h; sourceTree = "<group>"; };
+		E99A5CA4222D8B3400EE6C86 /* AddParticipantsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddParticipantsTableViewController.m; sourceTree = "<group>"; };
+		E99A5CA5222D8B3400EE6C86 /* ConversationsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationsTableViewController.h; sourceTree = "<group>"; };
+		E99A5CA6222D8B3400EE6C86 /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
+		E99A5CA8222D8B3400EE6C86 /* ProfileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewController.h; sourceTree = "<group>"; };
+		E99A5CA9222D8B3400EE6C86 /* ContactsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewController.h; sourceTree = "<group>"; };
+		E99A5CAB222D8B3400EE6C86 /* ProfileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewController.m; sourceTree = "<group>"; };
+		E99A5CAC222D8B3400EE6C86 /* ContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewController.m; sourceTree = "<group>"; };
+		E99A5CBC222DA24B00EE6C86 /* SearchUsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchUsersTableViewController.h; sourceTree = "<group>"; };
+		E99A5CBD222DA24B00EE6C86 /* SearchUsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchUsersTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,28 +316,14 @@
 		E92256262222ED7C006CADEA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E99A5CA7222D8B3400EE6C86 /* contacts */,
+				E99A5C9C222D8B3400EE6C86 /* conversations */,
 				E92256342222ED7C006CADEA /* AboutViewController.h */,
 				E922562A2222ED7C006CADEA /* AboutViewController.m */,
 				E922562C2222ED7C006CADEA /* AccountEditViewController.h */,
 				E92256372222ED7C006CADEA /* AccountEditViewController.m */,
 				E92256282222ED7C006CADEA /* AccountTableViewController.h */,
 				E92256312222ED7C006CADEA /* AccountTableViewController.m */,
-				E922563A2222ED7C006CADEA /* ChatViewController.h */,
-				E922562E2222ED7C006CADEA /* ChatViewController.m */,
-				E97926EB222A787E005ED1F0 /* ChatManageTableViewController.h */,
-				E97926EC222A787E005ED1F0 /* ChatManageTableViewController.m */,
-				E97926EF222A8301005ED1F0 /* ParticipantsCollectionViewController.h */,
-				E97926F0222A8301005ED1F0 /* ParticipantsCollectionViewController.m */,
-				E92256292222ED7C006CADEA /* ContactsTableViewController.h */,
-				E92256352222ED7C006CADEA /* ContactsTableViewController.m */,
-				E92256332222ED7C006CADEA /* ConversationsTableViewController.h */,
-				E922562B2222ED7C006CADEA /* ConversationsTableViewController.m */,
-				E922562D2222ED7C006CADEA /* OnlineUsersTableViewController.h */,
-				E92256362222ED7C006CADEA /* OnlineUsersTableViewController.m */,
-				E92256302222ED7C006CADEA /* SearchUsersTableViewController.h */,
-				E92256382222ED7C006CADEA /* SearchUsersTableViewController.m */,
-				E92256272222ED7C006CADEA /* ProfileTableViewController.h */,
-				E92256322222ED7C006CADEA /* ProfileTableViewController.m */,
 				E92256392222ED7C006CADEA /* RegisterViewController.h */,
 				E922562F2222ED7C006CADEA /* RegisterViewController.m */,
 			);
@@ -374,6 +360,36 @@
 				E97816C42223E91600BCE3AD /* DIMClientTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E99A5C9C222D8B3400EE6C86 /* conversations */ = {
+			isa = PBXGroup;
+			children = (
+				E99A5CA5222D8B3400EE6C86 /* ConversationsTableViewController.h */,
+				E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */,
+				E99A5CA6222D8B3400EE6C86 /* ChatViewController.h */,
+				E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */,
+				E99A5CA3222D8B3400EE6C86 /* ChatManageTableViewController.h */,
+				E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */,
+				E99A5C9E222D8B3400EE6C86 /* ParticipantsCollectionViewController.h */,
+				E99A5CA2222D8B3400EE6C86 /* ParticipantsCollectionViewController.m */,
+				E99A5CA0222D8B3400EE6C86 /* AddParticipantsTableViewController.h */,
+				E99A5CA4222D8B3400EE6C86 /* AddParticipantsTableViewController.m */,
+			);
+			path = conversations;
+			sourceTree = "<group>";
+		};
+		E99A5CA7222D8B3400EE6C86 /* contacts */ = {
+			isa = PBXGroup;
+			children = (
+				E99A5CA9222D8B3400EE6C86 /* ContactsTableViewController.h */,
+				E99A5CAC222D8B3400EE6C86 /* ContactsTableViewController.m */,
+				E99A5CBC222DA24B00EE6C86 /* SearchUsersTableViewController.h */,
+				E99A5CBD222DA24B00EE6C86 /* SearchUsersTableViewController.m */,
+				E99A5CA8222D8B3400EE6C86 /* ProfileTableViewController.h */,
+				E99A5CAB222D8B3400EE6C86 /* ProfileTableViewController.m */,
+			);
+			path = contacts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -542,24 +558,24 @@
 			files = (
 				E92256462222ED7C006CADEA /* User.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
-				E922564E2222ED7C006CADEA /* ConversationsTableViewController.m in Sources */,
 				E92255C42222EC53006CADEA /* AppDelegate.m in Sources */,
+				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,
 				E92255D52222EC56006CADEA /* main.m in Sources */,
 				E922564D2222ED7C006CADEA /* AboutViewController.m in Sources */,
-				E92256532222ED7C006CADEA /* ContactsTableViewController.m in Sources */,
-				E92256542222ED7C006CADEA /* OnlineUsersTableViewController.m in Sources */,
 				E922564A2222ED7C006CADEA /* Client.m in Sources */,
 				E92256502222ED7C006CADEA /* RegisterViewController.m in Sources */,
-				E92256522222ED7C006CADEA /* ProfileTableViewController.m in Sources */,
+				E99A5CB4222D8B3400EE6C86 /* ContactsTableViewController.m in Sources */,
 				E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */,
 				E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
-				E92256562222ED7C006CADEA /* SearchUsersTableViewController.m in Sources */,
-				E922564F2222ED7C006CADEA /* ChatViewController.m in Sources */,
+				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
+				E99A5CB2222D8B3400EE6C86 /* AddParticipantsTableViewController.m in Sources */,
+				E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */,
+				E99A5CB1222D8B3400EE6C86 /* ParticipantsCollectionViewController.m in Sources */,
 				E922565A2222ED7C006CADEA /* MsgCell.m in Sources */,
 				E92256582222ED7C006CADEA /* MyMsgCell.m in Sources */,
-				E97926F1222A8301005ED1F0 /* ParticipantsCollectionViewController.m in Sources */,
-				E97926ED222A787E005ED1F0 /* ChatManageTableViewController.m in Sources */,
+				E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */,
+				E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */,
 				E92256492222ED7C006CADEA /* Facebook.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

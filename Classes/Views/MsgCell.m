@@ -8,6 +8,7 @@
 
 #import "NSString+Extension.h"
 #import "UIImage+Extension.h"
+#import "UIImageView+Extension.h"
 #import "DIMProfile+Extension.h"
 
 #import "MessageProcessor.h"
@@ -102,16 +103,7 @@ NSString *readable_name(DIMID *sender) {
     // avatar
     CGRect frame = CGRectMake(0, 0, 64, 64);
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
-    {
-        UIBezierPath *maskPath;
-        maskPath = [UIBezierPath bezierPathWithRoundedRect:frame
-                                         byRoundingCorners:UIRectCornerAllCorners
-                                               cornerRadii:CGSizeMake(10, 10)];
-        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-        maskLayer.frame = imageView.bounds;
-        maskLayer.path = maskPath.CGPath;
-        imageView.layer.mask = maskLayer;
-    }
+    [imageView roundedCorner];
     [self.contentView addSubview:imageView];
     self.avatarImageView = imageView;
     

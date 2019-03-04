@@ -6,6 +6,10 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "UIImageView+Extension.h"
+
+#import "AddParticipantsTableViewController.h"
+
 #import "ParticipantsCollectionViewController.h"
 
 @interface ParticipantsCollectionViewController () {
@@ -49,15 +53,23 @@
     return [_participants objectAtIndex:index];
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"addParticipantsSegue"]) {
+        
+        AddParticipantsTableViewController *addTVC = segue.destinationViewController;
+        if (![addTVC isKindOfClass:[AddParticipantsTableViewController class]]) {
+            addTVC = (AddParticipantsTableViewController *)[(UINavigationController *)addTVC visibleViewController];
+        }
+        addTVC.conversation = _conversation;
+    }
+    
 }
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -87,19 +99,20 @@
     DIMProfile *profile = MKMProfileForID(ID);
     
     // avatar
-    UIImage *image = [profile avatarImageWithSize:cell.contentView.bounds.size];
+    UIImageView *imageView = cell.contentView.subviews.firstObject;
+    UIImage *image = [profile avatarImageWithSize:imageView.bounds.size];
     if (!image) {
         image = [UIImage imageNamed:@"AppIcon"];
     }
-    UIImageView *imageView = cell.contentView.subviews.firstObject;
+    [imageView roundedCorner];
     [imageView setImage:image];
     
     // name
+    UILabel *label = cell.contentView.subviews.lastObject;
     NSString *name = profile.name;
     if (!name) {
-        name = _conversation.ID.name;
+        name = ID.name;
     }
-    UILabel *label = cell.contentView.subviews.lastObject;
     label.text = name;
     
     return cell;

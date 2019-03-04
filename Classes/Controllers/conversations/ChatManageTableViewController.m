@@ -79,8 +79,9 @@
         // member list
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
         UIView *view = _participantsCollectionViewController.view;
+        UICollectionView *cView = _participantsCollectionViewController.collectionView;
         if (view.superview == nil) {
-            view.frame = cell.bounds;
+            cView.frame = cell.bounds;
             [cell addSubview:view];
         }
     } else if (section == 1) {
