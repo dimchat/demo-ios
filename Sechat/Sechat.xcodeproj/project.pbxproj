@@ -51,6 +51,8 @@
 		E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E97926AA22258CFF005ED1F0 /* usr-selina.plist in Resources */ = {isa = PBXBuildFile; fileRef = E97926A822258CFF005ED1F0 /* usr-selina.plist */; };
+		E97926ED222A787E005ED1F0 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97926EC222A787E005ED1F0 /* ChatManageTableViewController.m */; };
+		E97926F1222A8301005ED1F0 /* ParticipantsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97926F0222A8301005ED1F0 /* ParticipantsCollectionViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,6 +175,10 @@
 		E978172222254CC600BCE3AD /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172422254CC900BCE3AD /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E97926A822258CFF005ED1F0 /* usr-selina.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-selina.plist"; sourceTree = "<group>"; };
+		E97926EB222A787E005ED1F0 /* ChatManageTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChatManageTableViewController.h; sourceTree = "<group>"; };
+		E97926EC222A787E005ED1F0 /* ChatManageTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChatManageTableViewController.m; sourceTree = "<group>"; };
+		E97926EF222A8301005ED1F0 /* ParticipantsCollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticipantsCollectionViewController.h; sourceTree = "<group>"; };
+		E97926F0222A8301005ED1F0 /* ParticipantsCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParticipantsCollectionViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,6 +324,10 @@
 				E92256312222ED7C006CADEA /* AccountTableViewController.m */,
 				E922563A2222ED7C006CADEA /* ChatViewController.h */,
 				E922562E2222ED7C006CADEA /* ChatViewController.m */,
+				E97926EB222A787E005ED1F0 /* ChatManageTableViewController.h */,
+				E97926EC222A787E005ED1F0 /* ChatManageTableViewController.m */,
+				E97926EF222A8301005ED1F0 /* ParticipantsCollectionViewController.h */,
+				E97926F0222A8301005ED1F0 /* ParticipantsCollectionViewController.m */,
 				E92256292222ED7C006CADEA /* ContactsTableViewController.h */,
 				E92256352222ED7C006CADEA /* ContactsTableViewController.m */,
 				E92256332222ED7C006CADEA /* ConversationsTableViewController.h */,
@@ -548,6 +558,8 @@
 				E922564F2222ED7C006CADEA /* ChatViewController.m in Sources */,
 				E922565A2222ED7C006CADEA /* MsgCell.m in Sources */,
 				E92256582222ED7C006CADEA /* MyMsgCell.m in Sources */,
+				E97926F1222A8301005ED1F0 /* ParticipantsCollectionViewController.m in Sources */,
+				E97926ED222A787E005ED1F0 /* ChatManageTableViewController.m in Sources */,
 				E92256492222ED7C006CADEA /* Facebook.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

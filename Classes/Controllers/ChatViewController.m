@@ -13,6 +13,8 @@
 
 #import "MsgCell.h"
 
+#import "ChatManageTableViewController.h"
+
 #import "ChatViewController.h"
 
 @interface ChatViewController () {
@@ -200,14 +202,21 @@
     return cell.frame.size.height;
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"chatDetailSegue"]) {
+        ChatManageTableViewController *chatManageTVC = segue.destinationViewController;
+        if (![chatManageTVC isKindOfClass:[ChatManageTableViewController class]]) {
+            chatManageTVC = (ChatManageTableViewController *)[(UINavigationController *)chatManageTVC visibleViewController];
+        }
+        chatManageTVC.conversation = _conversation;
+
+    }
 }
-*/
 
 @end
