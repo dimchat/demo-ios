@@ -6,6 +6,8 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "UIStoryboardSegue+Extension.h"
+
 #import "User.h"
 #import "Facebook.h"
 
@@ -251,8 +253,8 @@
         UserCell *cell = sender;
         DIMAccount *contact = cell.contact;
         
-        ProfileTableViewController *profileTVC = segue.destinationViewController;
-        profileTVC.account = contact;
+        ProfileTableViewController *vc = (id)[segue visibleDestinationViewController];
+        vc.account = contact;
     }
 }
 

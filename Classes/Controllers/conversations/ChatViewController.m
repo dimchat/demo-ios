@@ -8,6 +8,8 @@
 
 #import "NSString+Extension.h"
 
+#import "UIStoryboardSegue+Extension.h"
+
 #import "MessageProcessor.h"
 #import "Client.h"
 
@@ -207,12 +209,9 @@
     // Pass the selected object to the new view controller.
     
     if ([segue.identifier isEqualToString:@"chatDetailSegue"]) {
-        ChatManageTableViewController *chatManageTVC = segue.destinationViewController;
-        if (![chatManageTVC isKindOfClass:[ChatManageTableViewController class]]) {
-            chatManageTVC = (ChatManageTableViewController *)[(UINavigationController *)chatManageTVC visibleViewController];
-        }
-        chatManageTVC.conversation = _conversation;
-
+        
+        ChatManageTableViewController *vc = (id)[segue visibleDestinationViewController];
+        vc.conversation = _conversation;
     }
 }
 

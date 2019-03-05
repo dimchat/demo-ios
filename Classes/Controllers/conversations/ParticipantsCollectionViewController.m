@@ -7,6 +7,7 @@
 //
 
 #import "UIImageView+Extension.h"
+#import "UIStoryboardSegue+Extension.h"
 
 #import "ParticipantCollectionCell.h"
 #import "ParticipantsManageTableViewController.h"
@@ -55,12 +56,8 @@
     
     if ([segue.identifier isEqualToString:@"addParticipantsSegue"]) {
         
-        ParticipantsManageTableViewController *tvc;
-        tvc = segue.destinationViewController;
-        if ([tvc isKindOfClass:[UINavigationController class]]) {
-            tvc = (ParticipantsManageTableViewController *)[(UINavigationController *)tvc visibleViewController];
-        }
-        tvc.conversation = _conversation;
+        ParticipantsManageTableViewController *vc = (id)[segue visibleDestinationViewController];
+        vc.conversation = _conversation;
     }
     
 }

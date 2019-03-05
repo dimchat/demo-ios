@@ -10,6 +10,8 @@
 #import "NSData+Crypto.h"
 #import "NSDate+Timestamp.h"
 
+#import "UIStoryboardSegue+Extension.h"
+
 #import "Client.h"
 
 #import "User.h"
@@ -187,11 +189,8 @@
         
         DIMConversation *convers = DIMConversationWithID(_account.ID);
         
-        ChatViewController *chatVC = segue.destinationViewController;
-        if (![chatVC isKindOfClass:[ChatViewController class]]) {
-            chatVC = (ChatViewController *)[(UINavigationController *)chatVC visibleViewController];
-        }
-        chatVC.conversation = convers;
+        ChatViewController *vc = (id)[segue visibleDestinationViewController];
+        vc.conversation = convers;
         
     } else if ([segue.identifier isEqualToString:@"addContact"]) {
         
@@ -217,12 +216,8 @@
         
         DIMConversation *convers = DIMConversationWithID(_account.ID);
         
-        ChatViewController *chatVC = segue.destinationViewController;
-        if (![chatVC isKindOfClass:[ChatViewController class]]) {
-            chatVC = (ChatViewController *)[(UINavigationController *)chatVC visibleViewController];
-        }
-        chatVC.conversation = convers;
-        
+        ChatViewController *vc = (id)[segue visibleDestinationViewController];
+        vc.conversation = convers;
     }
 }
 

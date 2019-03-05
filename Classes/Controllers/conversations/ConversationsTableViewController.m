@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "UIStoryboardSegue+Extension.h"
+
 #import "User.h"
 #import "Facebook.h"
 #import "MessageProcessor.h"
@@ -159,11 +161,8 @@
         DIMID *ID = cell.conversation.ID;
         DIMConversation *convers = DIMConversationWithID(ID);
         
-        ChatViewController *chatVC = segue.destinationViewController;
-        if (![chatVC isKindOfClass:[ChatViewController class]]) {
-            chatVC = (ChatViewController *)[(UINavigationController *)chatVC visibleViewController];
-        }
-        chatVC.conversation = convers;
+        ChatViewController *vc = (id)[segue visibleDestinationViewController];
+        vc.conversation = convers;
     }
 }
 
