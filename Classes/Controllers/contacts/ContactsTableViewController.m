@@ -11,6 +11,8 @@
 
 #include "Client.h"
 
+#import "ContactCell.h"
+
 #import "ProfileTableViewController.h"
 
 #import "ContactsTableViewController.h"
@@ -41,6 +43,12 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - Table delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -63,22 +71,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     // Configure the cell...
-    UITableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    NSString *identifier = nil;
-
-    DIMID *ID = nil;
-    DIMAccount *contact = nil;
-
+    NSInteger row = indexPath.row;
+    
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     Facebook *facebook = [Facebook sharedInstance];
-    ID = [facebook user:user contactAtIndex:indexPath.row];
+    DIMID *ID = [facebook user:user contactAtIndex:row];
     
-    contact = [facebook accountWithID:ID];
-    identifier = @"ContactCell";
-    cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    cell.textLabel.text = account_title(contact);
-    cell.detailTextLabel.text = contact.ID;
+    DIMAccount *contact = [facebook accountWithID:ID];
+    
+    ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
+    cell.contact = contact;
+    
     return cell;
 }
 

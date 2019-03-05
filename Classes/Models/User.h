@@ -35,6 +35,14 @@ NSString *account_title(const DIMAccount *account);
 NSString *group_title(const DIMGroup *group);
 
 /**
+ Readable name for Entity ID
+ 
+ @param ID - entity ID
+ @return "..."
+ */
+NSString *readable_name(DIMID *ID);
+
+/**
  Check Username Valid
  
  @param username - format: ^[A-Za-z0-9_-\.]+$

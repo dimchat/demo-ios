@@ -179,12 +179,12 @@
     
     if ([env.sender isEqual:_conversation.ID]) {
         // message from conversation target
-        cell = [tableView dequeueReusableCellWithIdentifier:@"MsgCell" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"receivedMsgCell" forIndexPath:indexPath];
     } else if ([env.sender isEqual:user.ID]) {
         // message from current user
-        cell = [tableView dequeueReusableCellWithIdentifier:@"MyMsgCell" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"sentMsgCell" forIndexPath:indexPath];
     } else {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"MsgCell" forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"receivedMsgCell" forIndexPath:indexPath];
     }
     cell.msg = iMsg;
     
@@ -194,12 +194,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = indexPath.row;
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
-    CGRect frame = tableView.bounds;
-    MsgCell *cell = [[MsgCell alloc] initWithFrame:frame];
-    cell.msg = iMsg;
-    [cell awakeFromNib];
-    [cell layoutSubviews];
-    return cell.frame.size.height;
+    CGRect bounds = tableView.bounds;
+    CGSize size = [MsgCell sizeWithMessage:iMsg bounds:bounds];
+    return size.height;
 }
 
 #pragma mark - Navigation

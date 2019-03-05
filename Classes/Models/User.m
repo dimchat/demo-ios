@@ -32,6 +32,23 @@ NSString *group_title(const DIMGroup *group) {
     return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];
 }
 
+NSString *readable_name(DIMID *ID) {
+    DIMProfile *profile = MKMProfileForID(ID);
+    NSString *nickname = profile.name;
+    NSString *username = ID.name;
+    if (nickname) {
+        if (!username) {
+            return nickname;
+        }
+        return [NSString stringWithFormat:@"%@(%@)", username, nickname];
+    } else if (username) {
+        return username;
+    } else {
+        // BTC Address
+        return ID;
+    }
+}
+
 BOOL check_username(const NSString *username) {
     NSString *pattern = @"^[A-Za-z0-9._-]+$";
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];

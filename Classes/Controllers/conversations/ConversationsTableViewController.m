@@ -13,6 +13,8 @@
 
 #import "ChatViewController.h"
 
+#import "ConversationCell.h"
+
 #import "ConversationsTableViewController.h"
 
 @interface ConversationsTableViewController ()
@@ -59,6 +61,12 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - Table delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 80;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -79,7 +87,7 @@
     // fix a bug with UISearchBar
     tableView = self.tableView;
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ConversationCell" forIndexPath:indexPath];
+    ConversationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"conversationCell" forIndexPath:indexPath];
     
     //NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
@@ -100,9 +108,7 @@
     } else {
         title = entity.name;
     }
-    
-    cell.textLabel.text = title;
-    cell.detailTextLabel.text = chat.ID;
+    cell.conversation = chat;
     
     return cell;
 }
@@ -149,8 +155,8 @@
     // Pass the selected object to the new view controller.
     
     if ([segue.identifier isEqualToString:@"startChat"]) {
-        UITableViewCell *cell = sender;
-        DIMID *ID = [DIMID IDWithID:cell.detailTextLabel.text];
+        ConversationCell *cell = sender;
+        DIMID *ID = cell.conversation.ID;
         DIMConversation *convers = DIMConversationWithID(ID);
         
         ChatViewController *chatVC = segue.destinationViewController;

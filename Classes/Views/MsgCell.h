@@ -12,16 +12,33 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NSString *readable_name(DIMID *sender);
-
-@interface MsgCell : UITableViewCell
+@interface MsgCell : UITableViewCell {
+    
+    DIMInstantMessage *_msg;
+}
 
 @property (strong, nonatomic) DIMInstantMessage *msg;
 
-@property (strong, nonatomic) UIImageView *avatarImageView;
-@property (strong, nonatomic) UILabel *nameLabel;
-@property (strong, nonatomic) UILabel *messageLabel;
-@property (strong, nonatomic) UIImageView *messageView;
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect;
+
+@end
+
+#pragma mark -
+
+@interface SentMsgCell : MsgCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *messageImageView;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+
+@end
+
+@interface ReceivedMsgCell : MsgCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *messageImageView;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
 
 @end
 

@@ -30,7 +30,6 @@
 		E92256502222ED7C006CADEA /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E922562F2222ED7C006CADEA /* RegisterViewController.m */; };
 		E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256312222ED7C006CADEA /* AccountTableViewController.m */; };
 		E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256372222ED7C006CADEA /* AccountEditViewController.m */; };
-		E92256582222ED7C006CADEA /* MyMsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256402222ED7C006CADEA /* MyMsgCell.m */; };
 		E922565A2222ED7C006CADEA /* MsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256432222ED7C006CADEA /* MsgCell.m */; };
 		E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
 		E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97816CD2223EAA700BCE3AD /* Assets.xcassets */; };
@@ -53,6 +52,8 @@
 		E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CAB222D8B3400EE6C86 /* ProfileTableViewController.m */; };
 		E99A5CB4222D8B3400EE6C86 /* ContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CAC222D8B3400EE6C86 /* ContactsTableViewController.m */; };
 		E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CBD222DA24B00EE6C86 /* SearchUsersTableViewController.m */; };
+		E99A5CC7222E576300EE6C86 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CC6222E576300EE6C86 /* ConversationCell.m */; };
+		E99A5CCA222E577900EE6C86 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CC9222E577900EE6C86 /* ContactCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,9 +152,7 @@
 		E92256342222ED7C006CADEA /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		E92256372222ED7C006CADEA /* AccountEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountEditViewController.m; sourceTree = "<group>"; };
 		E92256392222ED7C006CADEA /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
-		E922563D2222ED7C006CADEA /* MyMsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMsgCell.h; sourceTree = "<group>"; };
 		E922563E2222ED7C006CADEA /* MsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MsgCell.h; sourceTree = "<group>"; };
-		E92256402222ED7C006CADEA /* MyMsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMsgCell.m; sourceTree = "<group>"; };
 		E92256432222ED7C006CADEA /* MsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MsgCell.m; sourceTree = "<group>"; };
 		E922567E2222EF3D006CADEA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMClient.xcodeproj; path = "../../client-objc/DIMClient/DIMClient.xcodeproj"; sourceTree = "<group>"; };
@@ -179,6 +178,10 @@
 		E99A5CAC222D8B3400EE6C86 /* ContactsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewController.m; sourceTree = "<group>"; };
 		E99A5CBC222DA24B00EE6C86 /* SearchUsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchUsersTableViewController.h; sourceTree = "<group>"; };
 		E99A5CBD222DA24B00EE6C86 /* SearchUsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchUsersTableViewController.m; sourceTree = "<group>"; };
+		E99A5CC5222E576300EE6C86 /* ConversationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationCell.h; sourceTree = "<group>"; };
+		E99A5CC6222E576300EE6C86 /* ConversationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationCell.m; sourceTree = "<group>"; };
+		E99A5CC8222E577900EE6C86 /* ContactCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactCell.h; sourceTree = "<group>"; };
+		E99A5CC9222E577900EE6C86 /* ContactCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -333,10 +336,12 @@
 		E922563B2222ED7C006CADEA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E99A5CC5222E576300EE6C86 /* ConversationCell.h */,
+				E99A5CC6222E576300EE6C86 /* ConversationCell.m */,
+				E99A5CC8222E577900EE6C86 /* ContactCell.h */,
+				E99A5CC9222E577900EE6C86 /* ContactCell.m */,
 				E922563E2222ED7C006CADEA /* MsgCell.h */,
 				E92256432222ED7C006CADEA /* MsgCell.m */,
-				E922563D2222ED7C006CADEA /* MyMsgCell.h */,
-				E92256402222ED7C006CADEA /* MyMsgCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -564,6 +569,8 @@
 				E922564D2222ED7C006CADEA /* AboutViewController.m in Sources */,
 				E922564A2222ED7C006CADEA /* Client.m in Sources */,
 				E92256502222ED7C006CADEA /* RegisterViewController.m in Sources */,
+				E99A5CCA222E577900EE6C86 /* ContactCell.m in Sources */,
+				E99A5CC7222E576300EE6C86 /* ConversationCell.m in Sources */,
 				E99A5CB4222D8B3400EE6C86 /* ContactsTableViewController.m in Sources */,
 				E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */,
 				E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */,
@@ -573,7 +580,6 @@
 				E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */,
 				E99A5CB1222D8B3400EE6C86 /* ParticipantsCollectionViewController.m in Sources */,
 				E922565A2222ED7C006CADEA /* MsgCell.m in Sources */,
-				E92256582222ED7C006CADEA /* MyMsgCell.m in Sources */,
 				E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */,
 				E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */,
 				E92256492222ED7C006CADEA /* Facebook.m in Sources */,
