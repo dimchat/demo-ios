@@ -18,24 +18,28 @@
     if (![_contact isEqual:contact]) {
         _contact = contact;
         
-        DIMProfile *profile = MKMProfileForID(contact.ID);
-        
-        // avatar
-        CGRect avatarFrame = _avatarImageView.frame;
-        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"AppIcon"];
-        }
-        [_avatarImageView setImage:image];
-        
-        // name
-        _nameLabel.text = account_title(contact);
-        
-        // desc
-        _descLabel.text = contact.ID;
-        
         [self setNeedsLayout];
     }
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    DIMProfile *profile = MKMProfileForID(_contact.ID);
+    
+    // avatar
+    CGRect frame = _avatarImageView.frame;
+    UIImage *image = [profile avatarImageWithSize:frame.size];
+    if (!image) {
+        image = [UIImage imageNamed:@"AppIcon"];
+    }
+    [_avatarImageView setImage:image];
+    
+    // name
+    _nameLabel.text = account_title(_contact);
+    
+    // desc
+    _descLabel.text = _contact.ID;
 }
 
 - (void)awakeFromNib {

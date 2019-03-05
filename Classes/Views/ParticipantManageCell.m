@@ -18,23 +18,31 @@
     if (![_participant isEqual:participant]) {
         _participant = participant;
         
-        DIMProfile *profile = MKMProfileForID(participant);
-        
-        // avatar
-        CGRect avatarFrame = _avatarImageView.frame;
-        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"AppIcon"];
-        }
-        [_avatarImageView setImage:image];
-        
-        // name
-        NSString *name = readable_name(participant);
-        name = [name stringByAppendingFormat:@" [%@]", search_number(participant.number)];
-        _nameLabel.text = name;
-        
         [self setNeedsLayout];
     }
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    DIMProfile *profile = MKMProfileForID(_participant);
+    
+    // avatar
+    CGRect frame = _avatarImageView.frame;
+    UIImage *image = [profile avatarImageWithSize:frame.size];
+    if (!image) {
+        image = [UIImage imageNamed:@"AppIcon"];
+    }
+    [_avatarImageView setImage:image];
+    
+    // name
+    NSString *name = profile.name;
+    if (name.length > 0) {
+        name = [NSString stringWithFormat:@"%@ (%@)", name, search_number(_participant.number)];
+    } else {
+        name = _participant;
+    }
+    _nameLabel.text = name;
 }
 
 - (void)awakeFromNib {

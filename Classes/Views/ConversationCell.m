@@ -19,24 +19,48 @@
     if (![_conversation.ID isEqual:conversation.ID]) {
         _conversation = conversation;
         
-        DIMProfile *profile = MKMProfileForID(conversation.ID);
-        
-        // avatar
-        CGRect avatarFrame = _avatarImageView.frame;
-        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"AppIcon"];
-        }
-        [_avatarImageView setImage:image];
-        
-        // name
-        _nameLabel.text = readable_name(conversation.ID);
-        
-        // last message
-        _lastMsgLabel.text = @"...";
-        
         [self setNeedsLayout];
     }
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    DIMProfile *profile = MKMProfileForID(_conversation.ID);
+    
+    // avatar
+    CGRect frame = _avatarImageView.frame;
+    UIImage *image = [profile avatarImageWithSize:frame.size];
+    if (!image) {
+        image = [UIImage imageNamed:@"AppIcon"];
+    }
+    [_avatarImageView setImage:image];
+    
+    // name
+    _nameLabel.text = readable_name(_conversation.ID);
+    
+    // last message
+    NSString *last = nil;
+    NSInteger count = [_conversation numberOfMessage];
+    DIMInstantMessage *msg;
+    DIMMessageContent *content;
+    while (--count >= 0) {
+        msg = [_conversation messageAtIndex:count];
+        content = msg.content;
+        switch (content.type) {
+            case DIMMessageType_Text:
+                last = content.text;
+                break;
+                
+            default:
+                break;
+        }
+        if (last.length > 0) {
+            // got it
+            break;
+        }
+    }
+    _lastMsgLabel.text = last;
 }
 
 - (void)awakeFromNib {

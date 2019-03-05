@@ -7,6 +7,7 @@
 //
 
 #import "UIImageView+Extension.h"
+#import "UIViewController+Extension.h"
 
 #import "ParticipantManageCell.h"
 #import "Client.h"
@@ -83,6 +84,8 @@
 
 - (IBAction)addParticipants:(id)sender {
     NSLog(@"addParticipants: %@", _selectedList);
+    // TODO: add participants to group chat
+    [self showMessage:[_selectedList componentsJoinedByString:@", "] withTitle:@"Add Group Member(s)"];
 }
 
 - (IBAction)unwindForSegue:(UIStoryboardSegue *)unwindSegue towardsViewController:(UIViewController *)subsequentVC {

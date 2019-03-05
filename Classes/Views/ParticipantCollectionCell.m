@@ -18,29 +18,33 @@
     if (![_participant isEqual:participant]) {
         _participant = participant;
         
-        DIMProfile *profile = MKMProfileForID(participant);
-        
-        // avatar
-        CGRect avatarFrame = _avatarImageView.frame;
-        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"AppIcon"];
-        }
-        [_avatarImageView setImage:image];
-        
-        // name
-        NSString *name = profile.name;
-        if (name.length == 0) {
-            name = participant.name;
-            if (name.length == 0) {
-                // BTC Address
-                name = participant;
-            }
-        }
-        _nameLabel.text = name;
-        
         [self setNeedsLayout];
     }
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    DIMProfile *profile = MKMProfileForID(_participant);
+    
+    // avatar
+    CGRect frame = _avatarImageView.frame;
+    UIImage *image = [profile avatarImageWithSize:frame.size];
+    if (!image) {
+        image = [UIImage imageNamed:@"AppIcon"];
+    }
+    [_avatarImageView setImage:image];
+    
+    // name
+    NSString *name = profile.name;
+    if (name.length == 0) {
+        name = _participant.name;
+        if (name.length == 0) {
+            // BTC Address
+            name = _participant;
+        }
+    }
+    _nameLabel.text = name;
 }
 
 - (void)awakeFromNib {
