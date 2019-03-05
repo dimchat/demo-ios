@@ -60,9 +60,10 @@ SingletonImplementations(Client, sharedInstance)
     DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
     _currentStation = server;
     
-    // load user(s) and start connecting server
     Facebook *facebook = [Facebook sharedInstance];
     [facebook addStation:ID provider:sp];
+    
+    [MessageProcessor sharedInstance];
     
     server.delegate = self;
     [server startWithOptions:launchOptions];

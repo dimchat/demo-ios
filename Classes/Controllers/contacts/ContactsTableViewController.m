@@ -135,8 +135,8 @@
     // Pass the selected object to the new view controller.
     
     if ([segue.identifier isEqualToString:@"profileSegue"]) {
-        UITableViewCell *cell = sender;
-        DIMID *ID = [DIMID IDWithID:cell.detailTextLabel.text];
+        ContactCell *cell = sender;
+        DIMID *ID = cell.contact.ID;
         
         ProfileTableViewController *profileTVC = segue.destinationViewController;
         profileTVC.account = MKMAccountWithID(ID);

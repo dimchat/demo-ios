@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "UIImageView+Extension.h"
+
 #import "User.h"
 #import "Facebook.h"
 
@@ -31,7 +33,21 @@
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     if (user) {
+        DIMProfile *profile = MKMProfileForID(user.ID);
+        
+        // avatar
+        CGRect avatarFrame = _avatarImageView.frame;
+        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
+        if (!image) {
+            image = [UIImage imageNamed:@"AppIcon"];
+        }
+        [_avatarImageView setImage:image];
+        [_avatarImageView roundedCorner];
+        
+        // name
         _nameLabel.text = account_title(user);
+        
+        // desc
         _descLabel.text = user.ID;
     } else {
         _nameLabel.text = @"USER NOT FOUND";
@@ -51,7 +67,21 @@
 - (void)reloadData {
     // TODO: update client.users
     DIMUser *user = [Client sharedInstance].currentUser;
+    DIMProfile *profile = MKMProfileForID(user.ID);
+    
+    // avatar
+    CGRect avatarFrame = _avatarImageView.frame;
+    UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
+    if (!image) {
+        image = [UIImage imageNamed:@"AppIcon"];
+    }
+    [_avatarImageView setImage:image];
+    //[_avatarImageView roundedCorner];
+    
+    // name
     _nameLabel.text = account_title(user);
+    
+    // desc
     _descLabel.text = user.ID;
     
     [self.tableView reloadData];

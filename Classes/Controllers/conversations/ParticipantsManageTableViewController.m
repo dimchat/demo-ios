@@ -1,5 +1,5 @@
 //
-//  AddParticipantsTableViewController.m
+//  ParticipantsManageTableViewController.m
 //  Sechat
 //
 //  Created by Albert Moky on 2019/3/5.
@@ -8,11 +8,12 @@
 
 #import "UIImageView+Extension.h"
 
+#import "ParticipantManageCell.h"
 #import "Client.h"
 
-#import "AddParticipantsTableViewController.h"
+#import "ParticipantsManageTableViewController.h"
 
-@interface AddParticipantsTableViewController () {
+@interface ParticipantsManageTableViewController () {
     
     NSMutableArray *_contactsList;
     NSMutableArray *_selectedList;
@@ -20,7 +21,7 @@
 
 @end
 
-@implementation AddParticipantsTableViewController
+@implementation ParticipantsManageTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -124,29 +125,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
+    ParticipantManageCell *cell = [tableView dequeueReusableCellWithIdentifier:@"participantManageCell" forIndexPath:indexPath];
     
     // Configure the cell...
     NSInteger row = indexPath.row;
-    DIMID *ID = [_contactsList objectAtIndex:row];
-    DIMProfile *profile = MKMProfileForID(ID);
-    
-    // avatar
-    UIImageView *imageView = cell.contentView.subviews.firstObject;
-    UIImage *image = [profile avatarImageWithSize:imageView.bounds.size];
-    if (!image) {
-        image = [UIImage imageNamed:@"AppIcon"];
-    }
-    [imageView roundedCorner];
-    [imageView setImage:image];
-    
-    // name
-    UILabel *label = cell.contentView.subviews.lastObject;
-    NSString *name = profile.name;
-    if (!name) {
-        name = ID.name;
-    }
-    label.text = name;
+    cell.participant = [_contactsList objectAtIndex:row];
     
     return cell;
 }

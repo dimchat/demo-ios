@@ -8,6 +8,7 @@
 
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
+#import "NSDate+Timestamp.h"
 
 #import "Client.h"
 
@@ -21,6 +22,7 @@
 @interface ProfileTableViewController () {
     
     DIMProfile *_profile;
+    NSMutableArray *_keys;
 }
 
 @end
@@ -39,6 +41,17 @@
     self.title = account_title(_account);
     
     _profile = MKMProfileForID(_account.ID);
+    
+    NSArray *keys = _profile.allKeys;
+    _keys = [[NSMutableArray alloc] initWithCapacity:keys.count];
+    for (NSString *key in keys) {
+        if ([key isEqualToString:@"ID"] ||
+            [key isEqualToString:@"lastTime"]) {
+            // ignore them
+            continue;
+        }
+        [_keys addObject:key];
+    }
 }
 
 #pragma mark - Table view data source
@@ -53,7 +66,7 @@
         return 3;
     }
     if (section == 1) {
-        return [_profile.allKeys count];
+        return [_keys count];
     }
     if (section == 2) {
         return 1;
@@ -93,11 +106,12 @@
         return cell;
     }
     if (section == 1) {
-        NSString *key = [_profile.allKeys objectAtIndex:row];
+        NSString *key = [_keys objectAtIndex:row];
         id value = [_profile objectForKey:key];
         if (![value isKindOfClass:[NSString class]]) {
-            if ([value isKindOfClass:[NSDictionary class]] ||
-                [value isKindOfClass:[NSArray class]]) {
+            if ([value isKindOfClass:[NSArray class]]) {
+                value = [value componentsJoinedByString:@", "];
+            } else if ([value isKindOfClass:[NSDictionary class]]) {
                 value = [value jsonString];
             } else {
                 value = [NSString stringWithFormat:@"%@", value];

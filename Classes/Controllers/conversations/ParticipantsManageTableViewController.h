@@ -1,5 +1,5 @@
 //
-//  AddParticipantsTableViewController.h
+//  ParticipantsManageTableViewController.h
 //  Sechat
 //
 //  Created by Albert Moky on 2019/3/5.
@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AddParticipantsTableViewController : UITableViewController
+@interface ParticipantsManageTableViewController : UITableViewController
 
 @property (strong, nonatomic) DIMConversation *conversation;
 

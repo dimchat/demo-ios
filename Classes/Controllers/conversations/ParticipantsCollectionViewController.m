@@ -8,7 +8,8 @@
 
 #import "UIImageView+Extension.h"
 
-#import "AddParticipantsTableViewController.h"
+#import "ParticipantCollectionCell.h"
+#import "ParticipantsManageTableViewController.h"
 
 #import "ParticipantsCollectionViewController.h"
 
@@ -45,14 +46,6 @@
     }
 }
 
-- (NSInteger)numberOfParticipants {
-    return _participants.count;
-}
-
-- (DIMID *)participantsAtIndex:(NSInteger)index {
-    return [_participants objectAtIndex:index];
-}
-
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -62,11 +55,12 @@
     
     if ([segue.identifier isEqualToString:@"addParticipantsSegue"]) {
         
-        AddParticipantsTableViewController *addTVC = segue.destinationViewController;
-        if (![addTVC isKindOfClass:[AddParticipantsTableViewController class]]) {
-            addTVC = (AddParticipantsTableViewController *)[(UINavigationController *)addTVC visibleViewController];
+        ParticipantsManageTableViewController *tvc;
+        tvc = segue.destinationViewController;
+        if ([tvc isKindOfClass:[UINavigationController class]]) {
+            tvc = (ParticipantsManageTableViewController *)[(UINavigationController *)tvc visibleViewController];
         }
-        addTVC.conversation = _conversation;
+        tvc.conversation = _conversation;
     }
     
 }
@@ -79,41 +73,20 @@
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [self numberOfParticipants] + 1;
+    return _participants.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = nil;
     
     // Configure the cell
-    NSInteger count = [self numberOfParticipants];
+    NSInteger count = _participants.count;
     NSInteger row = indexPath.row;
     if (row >= count) {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"MoreCell" forIndexPath:indexPath];
-        return cell;
+        return [collectionView dequeueReusableCellWithReuseIdentifier:@"moreCell" forIndexPath:indexPath];
     }
     
-    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ParticipantCell" forIndexPath:indexPath];
-    DIMID *ID = [self participantsAtIndex:row];
-    
-    DIMProfile *profile = MKMProfileForID(ID);
-    
-    // avatar
-    UIImageView *imageView = cell.contentView.subviews.firstObject;
-    UIImage *image = [profile avatarImageWithSize:imageView.bounds.size];
-    if (!image) {
-        image = [UIImage imageNamed:@"AppIcon"];
-    }
-    [imageView roundedCorner];
-    [imageView setImage:image];
-    
-    // name
-    UILabel *label = cell.contentView.subviews.lastObject;
-    NSString *name = profile.name;
-    if (!name) {
-        name = ID.name;
-    }
-    label.text = name;
+    ParticipantCollectionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"participantCollectionCell" forIndexPath:indexPath];
+    cell.participant = [_participants objectAtIndex:row];
     
     return cell;
 }

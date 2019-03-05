@@ -11,6 +11,7 @@
 
 #import "Client.h"
 
+#import "UserCell.h"
 #import "ProfileTableViewController.h"
 
 #import "SearchUsersTableViewController.h"
@@ -151,6 +152,12 @@
     [searchBar resignFirstResponder];
 }
 
+#pragma mark - Table delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 64;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -181,34 +188,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"userCell" forIndexPath:indexPath];
+    
     NSInteger section = indexPath.section;
-    if (section == 1) {
-        // online users
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
-        
-        // Configure the cell...
-        NSInteger row = indexPath.row;
-        NSString *item = [_onlineUsers objectAtIndex:row];
-        DIMID *ID = [DIMID IDWithID:item];
-        
-        DIMAccount *contact = MKMAccountWithID(ID);
-        cell.textLabel.text = account_title(contact);
-        cell.detailTextLabel.text = contact.ID;
-        
-        return cell;
-    }
-    
-    tableView = self.tableView;
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell" forIndexPath:indexPath];
-    
-    // Configure the cell...
     NSInteger row = indexPath.row;
-    NSString *item = [_users objectAtIndex:row];
-    DIMID *ID = [DIMID IDWithID:item];
     
-    DIMAccount *contact = MKMAccountWithID(ID);
-    cell.textLabel.text = account_title(contact);
-    cell.detailTextLabel.text = contact.ID;
+    DIMID *ID = nil;
+    if (section == 0) {
+        // search users
+        ID = [_users objectAtIndex:row];
+    } else if (section == 1) {
+        // online users
+        ID = [_onlineUsers objectAtIndex:row];
+    }
+    cell.contact = MKMAccountWithID(ID);
     
     return cell;
 }
@@ -255,11 +248,11 @@
     // Pass the selected object to the new view controller.
     
     if ([segue.identifier isEqualToString:@"profileSegue"]) {
-        UITableViewCell *cell = sender;
-        DIMID *ID = [DIMID IDWithID:cell.detailTextLabel.text];
+        UserCell *cell = sender;
+        DIMAccount *contact = cell.contact;
         
         ProfileTableViewController *profileTVC = segue.destinationViewController;
-        profileTVC.account = MKMAccountWithID(ID);
+        profileTVC.account = contact;
     }
 }
 
