@@ -19,7 +19,21 @@
 
 #import "ContactsTableViewController.h"
 
-@interface ContactsTableViewController ()
+static inline void sort_array(NSMutableArray *array) {
+    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    NSComparator cmp = ^NSComparisonResult(NSString *obj1, NSString *obj2) {
+        const char *s1 = [obj1 cStringUsingEncoding:enc];
+        const char *s2 = [obj2 cStringUsingEncoding:enc];
+        return strcmp(s1, s2);
+    };
+    [array sortUsingComparator:cmp];
+}
+
+@interface ContactsTableViewController () {
+    
+    NSMutableDictionary<NSString *, NSMutableArray<DIMID *> *> *_contactsTable;
+    NSMutableArray *_contactsKey;
+}
 
 @end
 
@@ -34,6 +48,10 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    _contactsTable = nil;
+    _contactsKey = nil;
+    [self reloadData];
+    
     Client *client = [Client sharedInstance];
     [client addObserver:self
                selector:@selector(reloadData)
@@ -42,6 +60,38 @@
 }
 
 - (void)reloadData {
+    _contactsTable = [[NSMutableDictionary alloc] init];
+    
+    Client *client = [Client sharedInstance];
+    DIMUser *user = client.currentUser;
+    Facebook *facebook = [Facebook sharedInstance];
+    NSInteger count = [facebook numberOfContactsInUser:user];
+    
+    NSMutableArray<DIMID *> *mArray;
+    DIMID *contact;
+    DIMProfile *profile;
+    NSString *name;
+    while (--count >= 0) {
+        contact = [facebook user:user contactAtIndex:count];
+        profile = MKMProfileForID(contact);
+        name = profile.name;
+        if (name.length == 0) {
+            name = contact.name;
+            if (name.length == 0) {
+                name = @"Đ"; // BTC Address: ฿
+            }
+        }
+        name = [name substringToIndex:1];
+        mArray = [_contactsTable objectForKey:name];
+        if (!mArray) {
+            mArray = [[NSMutableArray alloc] init];
+            [_contactsTable setObject:mArray forKey:name];
+        }
+        [mArray addObject:contact];
+    }
+    _contactsKey = [[_contactsTable allKeys] mutableCopy];
+    sort_array(_contactsKey);
+    
     [self.tableView reloadData];
 }
 
@@ -55,31 +105,33 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 1;
+    return _contactsKey.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    NSString *key = [_contactsKey objectAtIndex:section];
+    NSArray *contacts = [_contactsTable objectForKey:key];
+    return contacts.count;
+}
 
-    Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    if (user) {
-        Facebook *facebook = [Facebook sharedInstance];
-        return [facebook numberOfContactsInUser:user];
-    } else {
-        return 0;
-    }
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    NSString *key = [_contactsKey objectAtIndex:section];
+    return key;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     // Configure the cell...
+    NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
-    Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    Facebook *facebook = [Facebook sharedInstance];
-    DIMID *ID = [facebook user:user contactAtIndex:row];
+    NSString *key = [_contactsKey objectAtIndex:section];
+    NSArray *list = [_contactsTable objectForKey:key];
+    DIMID *ID = [list objectAtIndex:row];
     
+    Facebook *facebook = [Facebook sharedInstance];
     DIMAccount *contact = [facebook accountWithID:ID];
     
     ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
@@ -101,12 +153,26 @@
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        NSInteger section = indexPath.section;
+        NSInteger row = indexPath.row;
+        
+        NSString *key = [_contactsKey objectAtIndex:section];
+        NSMutableArray *list = [_contactsTable objectForKey:key];
+        DIMID *ID = [list objectAtIndex:row];
+        
         Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
         Facebook *facebook = [Facebook sharedInstance];
-        DIMID *ID = [facebook user:user contactAtIndex:indexPath.row];
         [facebook removeContact:ID user:user];
         
+        [list removeObjectAtIndex:row];
+        if (list.count == 0) {
+            [_contactsKey removeObject:key];
+            [_contactsTable removeObjectForKey:key];
+            
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section]
+                     withRowAnimation:UITableViewRowAnimationFade];
+        }
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
