@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Table view cell for Conversation List (Secure Chat History)
+ */
 @interface ConversationCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;

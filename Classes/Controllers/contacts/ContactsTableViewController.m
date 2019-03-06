@@ -34,11 +34,11 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-    [dc addObserver:self
-           selector:@selector(reloadData)
-               name:@"ContactsUpdated"
-             object:nil];
+    Client *client = [Client sharedInstance];
+    [client addObserver:self
+               selector:@selector(reloadData)
+                   name:kNotificationName_ContactsUpdated
+                 object:nil];
 }
 
 - (void)reloadData {

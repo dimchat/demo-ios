@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Table view cell for Search/Online User List
+ */
 @interface UserCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;

@@ -347,16 +347,16 @@
 			children = (
 				E99A5CC5222E576300EE6C86 /* ConversationCell.h */,
 				E99A5CC6222E576300EE6C86 /* ConversationCell.m */,
-				E99A5CC8222E577900EE6C86 /* ContactCell.h */,
-				E99A5CC9222E577900EE6C86 /* ContactCell.m */,
 				E99A5CCB222ECDBE00EE6C86 /* ParticipantCollectionCell.h */,
 				E99A5CCC222ECDBE00EE6C86 /* ParticipantCollectionCell.m */,
 				E99A5CCE222ECDE100EE6C86 /* ParticipantManageCell.h */,
 				E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */,
-				E99A5CD1222ED9B600EE6C86 /* UserCell.h */,
-				E99A5CD2222ED9B600EE6C86 /* UserCell.m */,
 				E922563E2222ED7C006CADEA /* MsgCell.h */,
 				E92256432222ED7C006CADEA /* MsgCell.m */,
+				E99A5CC8222E577900EE6C86 /* ContactCell.h */,
+				E99A5CC9222E577900EE6C86 /* ContactCell.m */,
+				E99A5CD1222ED9B600EE6C86 /* UserCell.h */,
+				E99A5CD2222ED9B600EE6C86 /* UserCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";

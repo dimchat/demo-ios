@@ -154,8 +154,6 @@
     
     NSLog(@"row: %ld, saving info: %@", row, regInfo);
     
-    Client *client = [Client sharedInstance];
-    
     DIMID *ID = regInfo.ID;
     NSString *message = [NSString stringWithFormat:@"%@\nSearch Number: %@", ID, search_number(ID.number)];
     
@@ -163,6 +161,7 @@
     
     void (^handler)(UIAlertAction *);
     handler = ^(UIAlertAction *action) {
+        Client *client = [Client sharedInstance];
         Facebook *facebook = [Facebook sharedInstance];
         if ([facebook saveRegisterInfo:regInfo]) {
             client.currentUser = regInfo.user;
@@ -174,8 +173,7 @@
         [facebook saveProfile:profile forID:regInfo.ID];
         
         // post notice
-        [client postNotificationName:@"UsersUpdated" object:self];
-        NSLog(@"post notification: UsersUpdated");
+        [client postNotificationName:kNotificationName_UsersUpdated object:self];
         
         [self->_doneButton setEnabled:YES];
     };

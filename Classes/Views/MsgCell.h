@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Table view cell for Conversation History List
+ */
 @interface MsgCell : UITableViewCell {
     
     DIMInstantMessage *_msg;

@@ -91,6 +91,11 @@ static inline BOOL save_message(NSArray *messages, const DIMID *ID) {
     return [messages writeToFile:path atomically:YES];
 }
 
+static inline BOOL clear_message(const DIMID *ID) {
+    NSString *path = full_filepath(ID, @"messages.plist");
+    return remove_file(path);
+}
+
 static inline NSMutableDictionary *scan_messages(void) {
     NSMutableDictionary *mDict = [[NSMutableDictionary alloc] init];
     
@@ -176,6 +181,18 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     NSArray *keys = _chatHistory.allKeys;
     DIMID *ID = [keys objectAtIndex:index];
     return DIMConversationWithID(ID);
+}
+
+- (BOOL)clearConversationAtIndex:(NSInteger)index {
+    DIMConversation *chatBox = [self conversationAtIndex:index];
+    return [self clearConversation:chatBox];
+}
+
+- (BOOL)clearConversation:(DIMConversation *)chatBox {
+    DIMID *ID = chatBox.ID;
+    NSLog(@"clear conversation for %@", ID);
+    [_chatHistory removeObjectForKey:ID];
+    return clear_message(ID);
 }
 
 #pragma mark DIMConversationDataSource
@@ -278,7 +295,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     
     if (save_message(list, ID)) {
         Client *client = [Client sharedInstance];
-        [client postNotificationName:@"MessageUpdated" object:self];
+        [client postNotificationName:kNotificationName_MessageUpdated object:self];
         return YES;
     } else {
         return NO;

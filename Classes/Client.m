@@ -81,22 +81,6 @@ SingletonImplementations(Client, sharedInstance)
     [_currentStation end];
 }
 
-#pragma mark - Notification
-
-- (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject {
-    [self postNotificationName:aName object:anObject userInfo:nil];
-}
-
-- (void)postNotificationName:(NSNotificationName)aName
-                      object:(nullable id)anObject
-                    userInfo:(nullable NSDictionary *)aUserInfo {
-    NSNotification *noti = [[NSNotification alloc] initWithName:aName
-                                                         object:anObject
-                                                       userInfo:aUserInfo];
-    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-    [dc performSelectorOnMainThread:@selector(postNotification:) withObject:noti waitUntilDone:NO];
-}
-
 @end
 
 #pragma mark - DOS
@@ -123,4 +107,17 @@ void make_dirs(NSString *dir) {
 BOOL file_exists(NSString *path) {
     NSFileManager *fm = [NSFileManager defaultManager];
     return [fm fileExistsAtPath:path];
+}
+
+BOOL remove_file(NSString *path) {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:path]) {
+        NSError *err = nil;
+        [fm removeItemAtPath:path error:&err];
+        if (err) {
+            NSLog(@"failed to remove file: %@", err);
+            return NO;
+        }
+    }
+    return YES;
 }

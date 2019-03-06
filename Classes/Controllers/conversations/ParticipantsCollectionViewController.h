@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Collection view controller for Participants in Conversation Details
+ */
 @interface ParticipantsCollectionViewController : UICollectionViewController
 
 @property (strong, nonatomic) DIMConversation *conversation;

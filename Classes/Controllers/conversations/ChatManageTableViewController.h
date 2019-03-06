@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Table view controller for Conversation Details
+ */
 @interface ChatManageTableViewController : UITableViewController
 
 @property (strong, nonatomic) DIMConversation *conversation;

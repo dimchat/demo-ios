@@ -39,21 +39,21 @@
     _tableFrame = _messagesTableView.frame;
     _trayFrame = _trayView.frame;
     
-    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-    [dc addObserver:self
-           selector:@selector(keyboardWillShow:)
-               name:UIKeyboardWillShowNotification
-             object:nil];
+    Client *client = [Client sharedInstance];
+    [client addObserver:self
+               selector:@selector(keyboardWillShow:)
+                   name:UIKeyboardWillShowNotification
+                 object:nil];
     
-    [dc addObserver:self
-           selector:@selector(keyboardWillHide:)
-               name:UIKeyboardWillHideNotification
-             object:nil];
+    [client addObserver:self
+               selector:@selector(keyboardWillHide:)
+                   name:UIKeyboardWillHideNotification
+                 object:nil];
     
-    [dc addObserver:self
-           selector:@selector(reloadData)
-               name:@"MessageUpdated"
-             object:nil];
+    [client addObserver:self
+               selector:@selector(reloadData)
+                   name:kNotificationName_MessageUpdated
+                 object:nil];
 }
 
 - (void)reloadData {
@@ -167,7 +167,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    MsgCell *cell;
     
     // Configure the cell...
     //    NSInteger section = indexPath.section;
@@ -178,16 +177,24 @@
     
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
     DIMEnvelope *env = iMsg.envelope;
+    DIMID *sender = env.sender;
     
-    if ([env.sender isEqual:_conversation.ID]) {
+    NSString *identifier = @"receivedMsgCell";
+    if ([sender isEqual:_conversation.ID]) {
         // message from conversation target
-        cell = [tableView dequeueReusableCellWithIdentifier:@"receivedMsgCell" forIndexPath:indexPath];
-    } else if ([env.sender isEqual:user.ID]) {
+    } else if ([sender isEqual:user.ID]) {
         // message from current user
-        cell = [tableView dequeueReusableCellWithIdentifier:@"sentMsgCell" forIndexPath:indexPath];
+        identifier = @"sentMsgCell";
     } else {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"receivedMsgCell" forIndexPath:indexPath];
+        NSArray *users = client.users;
+        for (user in users) {
+            if ([user.ID isEqual:sender]) {
+                // message from my account
+                identifier = @"sentMsgCell";
+            }
+        }
     }
+    MsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     cell.msg = iMsg;
     
     return cell;

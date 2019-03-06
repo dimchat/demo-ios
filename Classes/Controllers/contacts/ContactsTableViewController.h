@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Table view controller for Contact List
+ */
 @interface ContactsTableViewController : UITableViewController
 
 @end

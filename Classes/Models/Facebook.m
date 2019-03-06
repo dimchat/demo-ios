@@ -85,17 +85,16 @@ SingletonImplementations(Facebook, sharedInstance)
             [client addUser:user];
         }
         
-        NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-        [dc addObserver:self
-               selector:@selector(onProfileUpdated:)
-                   name:@"ProfileUpdated"
-                 object:client];
+        [client addObserver:self
+                   selector:@selector(onProfileUpdated:)
+                       name:kNotificationName_ProfileUpdated
+                     object:client];
     }
     return self;
 }
 
 - (void)onProfileUpdated:(NSNotification *)notification {
-    if ([notification.name isEqualToString:@"ProfileUpdated"]) {
+    if ([notification.name isEqualToString:kNotificationName_ProfileUpdated]) {
         DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
         DIMProfile *profile = cmd.profile;
         if ([profile.ID isEqual:cmd.ID]) {
@@ -184,7 +183,9 @@ SingletonImplementations(Facebook, sharedInstance)
         NSLog(@"user %@ doesn't has contact yet", user.ID);
         return ;
     }
-    [user removeContact:contactID];
+    if (user.contacts != contacts) {
+        [user removeContact:contactID];
+    }
     [self flushContactsWithUser:user];
 }
 
@@ -198,7 +199,7 @@ SingletonImplementations(Facebook, sharedInstance)
         NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
         [contacts writeToFile:path atomically:YES];
         NSLog(@"contacts updated: %@", contacts);
-        [client postNotificationName:@"ContactsUpdated" object:self];
+        [client postNotificationName:kNotificationName_ContactsUpdated object:self];
     } else {
         NSLog(@"no contacts");
     }

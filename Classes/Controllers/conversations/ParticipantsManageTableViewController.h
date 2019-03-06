@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Table view controller for Show Contact list and add Group members
+ */
 @interface ParticipantsManageTableViewController : UITableViewController
 
 @property (strong, nonatomic) DIMConversation *conversation;

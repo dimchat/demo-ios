@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Table view cell for Contact List
+ */
 @interface ContactCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;

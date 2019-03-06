@@ -11,6 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  About page in More information tab
+ */
 @interface AboutViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet WKWebView *webView;

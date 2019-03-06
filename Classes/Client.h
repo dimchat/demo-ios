@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *kNotificationName_MessageUpdated = @"MessageUpdated";
+static NSString *kNotificationName_UsersUpdated = @"UsersUpdated";
+
 @interface Client : DIMTerminal
 
 + (instancetype)sharedInstance;
@@ -18,11 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didEnterBackground;
 - (void)willEnterForeground;
 - (void)willTerminate;
-
-#pragma mark - Notification
-
-- (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject;
-- (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject userInfo:(nullable NSDictionary *)aUserInfo;
 
 @end
 
@@ -33,5 +31,6 @@ NSString *document_directory(void);
 void make_dirs(NSString *dir);
 
 BOOL file_exists(NSString *path);
+BOOL remove_file(NSString *path);
 
 NS_ASSUME_NONNULL_END

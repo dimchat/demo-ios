@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Table view controller for Account (More information tab)
+ */
 @interface AccountTableViewController : UITableViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;

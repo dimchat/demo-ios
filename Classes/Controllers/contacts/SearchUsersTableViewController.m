@@ -44,17 +44,16 @@
     [super viewDidAppear:animated];
     
     Client *client = [Client sharedInstance];
-    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
     
     // 2. waiting for update
-    [dc addObserver:self
-           selector:@selector(reloadData:)
-               name:@"OnlineUsersUpdated"
-             object:client];
-    [dc addObserver:self
-           selector:@selector(reloadData:)
-               name:@"SearchUsersUpdated"
-             object:client];
+    [client addObserver:self
+               selector:@selector(reloadData:)
+                   name:kNotificationName_OnlineUsersUpdated
+                 object:client];
+    [client addObserver:self
+               selector:@selector(reloadData:)
+                   name:kNotificationName_SearchUsersUpdated
+                 object:client];
     
     // 3. query from the station
     [client queryOnlineUsers];
@@ -63,16 +62,15 @@
 - (void)viewWillDisappear:(BOOL)animated {
     
     Client *client = [Client sharedInstance];
-    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
     
     // 4. stop listening
-    [dc removeObserver:self
-                  name:@"SearchUsersUpdated"
-                object:client];
-    [dc removeObserver:self
-                  name:@"OnlineUsersUpdated"
-                object:client];
-    
+    [client removeObserver:self
+                      name:kNotificationName_SearchUsersUpdated
+                    object:client];
+    [client removeObserver:self
+                      name:kNotificationName_OnlineUsersUpdated
+                    object:client];
+
     [super viewWillDisappear:animated];
 }
 
@@ -87,7 +85,7 @@
     DIMMeta *meta;
     DIMPublicKey *PK;
     
-    if ([notification.name isEqualToString:@"OnlineUsersUpdated"]) {
+    if ([notification.name isEqualToString:kNotificationName_OnlineUsersUpdated]) {
         // online users
         NSLog(@"online users: %@", users);
         
@@ -107,7 +105,7 @@
             }
         }
         
-    } else if ([notification.name isEqualToString:@"SearchUsersUpdated"]) {
+    } else if ([notification.name isEqualToString:kNotificationName_SearchUsersUpdated]) {
         // search users
         
         if (_users) {
@@ -139,9 +137,7 @@
         
     }
     
-    [self.tableView performSelectorOnMainThread:@selector(reloadData)
-                                     withObject:nil
-                                  waitUntilDone:NO];
+    [self.tableView reloadData];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {

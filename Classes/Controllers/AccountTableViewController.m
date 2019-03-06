@@ -57,11 +57,10 @@
         [self performSegueWithIdentifier:@"registerSegue" sender:self];
     }
     
-    NSNotificationCenter *dc = [NSNotificationCenter defaultCenter];
-    [dc addObserver:self
-           selector:@selector(reloadData)
-               name:@"UsersUpdated"
-             object:nil];
+    [client addObserver:self
+               selector:@selector(reloadData)
+                   name:kNotificationName_UsersUpdated
+                 object:nil];
 }
 
 - (void)reloadData {
@@ -207,7 +206,7 @@
         DIMUser *user = [client.users objectAtIndex:row];
         [client login:user];
         [[Facebook sharedInstance] reloadContactsWithUser:user];
-        [client postNotificationName:@"ContactsUpdated" object:self];
+        [client postNotificationName:kNotificationName_ContactsUpdated object:self];
         [self reloadData];
     } else if (section == 2) {
         // Functions

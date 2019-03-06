@@ -24,6 +24,9 @@ NSString *NSStringFromDate(const NSDate *date);
 
 - (DIMConversation *)conversationAtIndex:(NSInteger)index;
 
+- (BOOL)clearConversationAtIndex:(NSInteger)index;
+- (BOOL)clearConversation:(DIMConversation *)chatBox;
+
 - (BOOL)reloadData;
 
 @end

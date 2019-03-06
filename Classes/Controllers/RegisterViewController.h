@@ -10,6 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  View controller for Register account
+ */
 @interface RegisterViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;

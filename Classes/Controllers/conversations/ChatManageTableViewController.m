@@ -6,6 +6,11 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "UIViewController+Extension.h"
+
+#import "MessageProcessor.h"
+#import "Client.h"
+
 #import "ParticipantsCollectionViewController.h"
 
 #import "ChatManageTableViewController.h"
@@ -42,6 +47,34 @@
 //}
 
 #pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+    if (section == 2) {
+        // functions
+        if (row == 0) {
+            // Clear Chat History
+            
+            NSString *title = @"Clear Chat History";
+            NSString *text = [NSString stringWithFormat:@"Are you sure to clear all message(s) of %@ ?\nThis operation is unrecoverable!", _conversation.ID];
+            
+            void (^handler)(UIAlertAction *);
+            handler = ^(UIAlertAction *action) {
+                MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+                [msgDB clearConversation:self->_conversation];
+                Client *client = [Client sharedInstance];
+                [client postNotificationName:kNotificationName_MessageUpdated object:self];
+            };
+            [self showMessage:text
+                    withTitle:title
+                cancelHandler:nil
+               defaultHandler:handler];
+        } else if (row == 1) {
+            // Delete and Leave
+        }
+    }
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     

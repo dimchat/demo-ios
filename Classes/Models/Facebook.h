@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static NSString *kNotificationName_ContactsUpdated = @"ContactsUpdated";
+
 typedef NSArray<DIMID *> ContactTable;
 
 @interface Facebook : NSObject <DIMAccountDelegate,

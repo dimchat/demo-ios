@@ -12,6 +12,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ *  Collection view cell for Participants in Conversation Details
+ */
 @interface ParticipantCollectionCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
