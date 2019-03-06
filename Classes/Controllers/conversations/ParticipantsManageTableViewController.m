@@ -70,7 +70,7 @@
                 NSLog(@"ignore current user: %@", contact);
                 continue;
             }
-            if ([group hasMember:contact]) {
+            if ([group existsMember:contact]) {
                 NSLog(@"ignore exists member: %@", contact);
                 continue;
             }

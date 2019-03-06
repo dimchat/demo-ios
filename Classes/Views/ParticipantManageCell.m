@@ -40,7 +40,12 @@
     if (name.length > 0) {
         name = [NSString stringWithFormat:@"%@ (%@)", name, search_number(_participant.number)];
     } else {
-        name = _participant;
+        name = _participant.name;
+        if (name.length > 0) {
+            name = [NSString stringWithFormat:@"%@ (%@)", name, search_number(_participant.number)];
+        } else {
+            name = _participant.address;
+        }
     }
     _nameLabel.text = name;
 }

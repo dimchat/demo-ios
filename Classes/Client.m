@@ -25,7 +25,8 @@ SingletonImplementations(Client, sharedInstance)
         ID = [DIMID IDWithID:ID];
         DIMID *founder = [config objectForKey:@"founder"];
         founder = [DIMID IDWithID:founder];
-        sp = [[DIMServiceProvider alloc] initWithID:ID founderID:founder];
+        
+        sp = [[DIMServiceProvider alloc] initWithID:ID];
     }
     
     // choose the fast station

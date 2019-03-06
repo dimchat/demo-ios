@@ -14,7 +14,9 @@ static NSString *kNotificationName_ContactsUpdated = @"ContactsUpdated";
 
 typedef NSArray<DIMID *> ContactTable;
 
-@interface Facebook : NSObject <DIMAccountDelegate,
+@interface Facebook : NSObject <DIMMetaDataSource,
+                                DIMEntityDataSource,
+                                DIMAccountDelegate,
                                 DIMUserDataSource,
                                 DIMUserDelegate,
                                 //-
@@ -23,7 +25,6 @@ typedef NSArray<DIMID *> ContactTable;
                                 DIMMemberDelegate,
                                 DIMChatroomDataSource,
                                 //-
-                                DIMEntityDataSource,
                                 DIMProfileDataSource>
 
 + (instancetype)sharedInstance;
@@ -31,9 +32,6 @@ typedef NSArray<DIMID *> ContactTable;
 - (DIMID *)IDWithAddress:(const DIMAddress *)address;
 
 - (void)addStation:(const DIMID *)stationID provider:(const DIMServiceProvider *)sp;
-
-- (void)addContact:(const DIMID *)contactID user:(const DIMUser *)user;
-- (void)removeContact:(const DIMID *)contactID user:(const DIMUser *)user;
 
 - (ContactTable *)reloadContactsWithUser:(const DIMUser *)user;
 

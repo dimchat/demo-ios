@@ -127,7 +127,7 @@
     }
     if (section == 2) {
         DIMUser *user = [Client sharedInstance].currentUser;
-        if ([user containsContact:_account.ID]) {
+        if ([user existsContact:_account.ID]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"AddFriendCell" forIndexPath:indexPath];
@@ -211,7 +211,7 @@
         
         // add to contacts
         Facebook *facebook = [Facebook sharedInstance];
-        [facebook addContact:_account.ID user:user];
+        [facebook user:user addContact:_account.ID];
         NSLog(@"contact %@ added to user %@", _account, user);
         
         DIMConversation *convers = DIMConversationWithID(_account.ID);

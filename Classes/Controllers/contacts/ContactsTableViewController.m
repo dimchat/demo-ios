@@ -163,7 +163,7 @@ static inline void sort_array(NSMutableArray *array) {
         Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
         Facebook *facebook = [Facebook sharedInstance];
-        [facebook removeContact:ID user:user];
+        [facebook user:user removeContact:ID];
         
         [list removeObjectAtIndex:row];
         if (list.count == 0) {

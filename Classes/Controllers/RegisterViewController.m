@@ -56,7 +56,7 @@
     for (NSInteger index = 0; index < cnt; ++index) {
         SK = [[DIMPrivateKey alloc] init];
         info = [DIMUser registerWithName:username privateKey:SK publicKey:nil];
-        info.user.name = nickname;
+        info.nickname = nickname;
         
         NSLog(@"generated register info: %@", info);
         [self performSelectorOnMainThread:@selector(_addRegisterInfo:)

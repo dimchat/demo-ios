@@ -65,11 +65,10 @@
     NSString *text = _messageLabel.text;
     size = [text sizeWithFont:font maxSize:size];
     
-    frame = _avatarImageView.frame;
-    frame = CGRectMake(frame.origin.x - size.width - edges.right - edges.left - space,
-                       frame.origin.y,
-                       size.width + edges.left + edges.right,
-                       size.height + edges.top + edges.bottom);
+    frame = _messageImageView.frame;
+    frame.size = CGSizeMake(size.width + edges.left + edges.right,
+                            size.height + edges.top + edges.bottom);
+    frame.origin.x = _avatarImageView.frame.origin.x - space - frame.size.width;
     _messageImageView.frame = frame;
     _messageLabel.frame = CGRectMake(frame.origin.x + edges.left,
                                      frame.origin.y + edges.top,
