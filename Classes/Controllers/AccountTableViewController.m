@@ -9,7 +9,7 @@
 #import "UIImageView+Extension.h"
 
 #import "User.h"
-#import "Facebook.h"
+#import "Facebook+Register.h"
 
 #import "Client.h"
 
@@ -162,19 +162,46 @@
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+    
+    Client *client = [Client sharedInstance];
+    DIMUser *user = nil;
+    
+    if (section == 1) {
+        // All account(s)
+        user = [client.users objectAtIndex:row];
+        if ([user isEqual:client.currentUser]) {
+            return NO;
+        }
+        return YES;
+    }
+    
+    return NO;
 }
-*/
 
-/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView beginUpdates];
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        NSInteger row = indexPath.row;
+        
+        Client *client = [Client sharedInstance];
+        DIMUser *user = [client.users objectAtIndex:row];
+        [client removeUser:user];
+        
+        Facebook *facebook = [Facebook sharedInstance];
+        [facebook removeUser:user];
+        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    }
+    
+    [tableView endUpdates];
 }
 */
 
@@ -198,16 +225,23 @@
     NSInteger row = indexPath.row;
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
+    Client *client = [Client sharedInstance];
+    Facebook *facebook = [Facebook sharedInstance];
+    
     if (section == 0) {
         // Account
     } else if (section == 1) {
         // Users
-        Client *client = [Client sharedInstance];
         DIMUser *user = [client.users objectAtIndex:row];
-        [client login:user];
-        [[Facebook sharedInstance] reloadContactsWithUser:user];
-        [client postNotificationName:kNotificationName_ContactsUpdated object:self];
-        [self reloadData];
+        if (![user isEqual:client.currentUser]) {
+            [client login:user];
+            [facebook reloadContactsWithUser:user];
+            [client postNotificationName:kNotificationName_ContactsUpdated object:self];
+            [self reloadData];
+            // update user ID list file
+            [facebook saveUserList:client.users withCurrentUser:client.currentUser];
+        }
+        
     } else if (section == 2) {
         // Functions
     } else if (section == 3) {

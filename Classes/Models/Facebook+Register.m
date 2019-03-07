@@ -88,7 +88,7 @@
 
 - (NSArray<DIMID *> *)scanUserIDList {
     NSMutableArray<DIMID *> *users = nil;
-    // load ("Documents/.mkm/users.plist")
+    // load from ("Documents/.mkm/users.plist")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
     NSString *path = [dir stringByAppendingPathComponent:@"users.plist"];
@@ -97,8 +97,51 @@
     for (NSString *item in array) {
         [users addObject:[DIMID IDWithID:item]];
     }
+    NSLog(@"loaded %ld user(s) from %@", users.count, path);
     return users;
 }
+
+- (BOOL)saveUserIDList:(const NSArray<const MKMID *> *)users
+         withCurrentID:(nullable const MKMID *)curr {
+    if (users.count == 0) {
+        return NO;
+    }
+    if (curr && [users containsObject:curr]) {
+        // exchange the current user to the first
+        NSUInteger index = [users indexOfObject:curr];
+        if (index > 0) {
+            NSMutableArray *mArray = [users mutableCopy];
+            [mArray exchangeObjectAtIndex:index withObjectAtIndex:0];
+            users = mArray;
+        }
+    }
+    // save to ("Documents/.mkm/users.plist")
+    NSString *dir = document_directory();
+    dir = [dir stringByAppendingPathComponent:@".mkm"];
+    NSString *path = [dir stringByAppendingPathComponent:@"users.plist"];
+    NSLog(@"saving %ld user(s) to %@", users.count, path);
+    return [users writeToFile:path atomically:YES];
+}
+
+- (BOOL)saveUserList:(const NSArray<const MKMUser *> *)users
+     withCurrentUser:(const MKMUser *)curr {
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
+    for (DIMUser *user in users) {
+        [list addObject:user.ID];
+    }
+    return [self saveUserIDList:list withCurrentID:curr.ID];
+}
+
+//- (BOOL)removeUser:(const DIMUser *)user {
+//    NSMutableArray<DIMID *> *users = (NSMutableArray *)[self scanUserIDList];
+//    if ([users containsObject:user.ID]) {
+//        [users removeObject:user.ID];
+//        return [self saveUserIDList:users withCurrentID:nil];
+//    } else {
+//        NSLog(@"user not exists: %@", user);
+//        return NO;
+//    }
+//}
 
 - (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID {
     NSAssert([profile.ID isEqual:ID], @"profile error: %@", profile);

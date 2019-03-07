@@ -16,6 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<DIMID *> *)scanUserIDList;
 
+- (BOOL)saveUserIDList:(const NSArray<const DIMID *> *)users
+         withCurrentID:(nullable const DIMID *)curr;
+- (BOOL)saveUserList:(const NSArray<const DIMUser *> *)users
+     withCurrentUser:(nullable const DIMUser *)curr;
+
+//- (BOOL)removeUser:(const DIMUser *)user;
+
 - (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID;
 
 @end

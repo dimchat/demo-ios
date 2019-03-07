@@ -50,13 +50,20 @@
         cnt = 20;
     }
     
+    Facebook *facebook = [Facebook sharedInstance];
+    DIMProfile *profile = [[DIMProfile alloc] initWithDictionary:@{@"name":nickname}];
+    
     DIMRegisterInfo *info;
     DIMPrivateKey *SK;
     
     for (NSInteger index = 0; index < cnt; ++index) {
         SK = [[DIMPrivateKey alloc] init];
         info = [DIMUser registerWithName:username privateKey:SK publicKey:nil];
-        info.nickname = nickname;
+        
+        // profile
+        [profile setObject:info.ID forKey:@"ID"];
+        [facebook setProfile:profile forID:info.ID];
+        info.profile = profile;
         
         NSLog(@"generated register info: %@", info);
         [self performSelectorOnMainThread:@selector(_addRegisterInfo:)
