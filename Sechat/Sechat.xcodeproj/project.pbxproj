@@ -57,6 +57,8 @@
 		E99A5CCD222ECDBE00EE6C86 /* ParticipantCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCC222ECDBE00EE6C86 /* ParticipantCollectionCell.m */; };
 		E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */; };
 		E99A5CD3222ED9B600EE6C86 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CD2222ED9B600EE6C86 /* UserCell.m */; };
+		E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
+		E9AFAAE122310B49001F95C6 /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +107,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				E978172922254D3400BCE3AD /* DaoKeDao.framework in Embed Frameworks */,
+				E9AFAAE122310B49001F95C6 /* FiniteStateMachine.framework in Embed Frameworks */,
 				E978172722254D2400BCE3AD /* DIMCore.framework in Embed Frameworks */,
 				E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */,
 				E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */,
@@ -191,6 +194,7 @@
 		E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParticipantManageCell.m; sourceTree = "<group>"; };
 		E99A5CD1222ED9B600EE6C86 /* UserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCell.h; sourceTree = "<group>"; };
 		E99A5CD2222ED9B600EE6C86 /* UserCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserCell.m; sourceTree = "<group>"; };
+		E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FiniteStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +207,7 @@
 				E978172322254CC600BCE3AD /* DaoKeDao.framework in Frameworks */,
 				E978172522254CC900BCE3AD /* MingKeMing.framework in Frameworks */,
 				E978171F22254CBB00BCE3AD /* MarsGate.framework in Frameworks */,
+				E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */,
 				E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,6 +369,7 @@
 		E92256782222EE25006CADEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */,
 				E978172422254CC900BCE3AD /* MingKeMing.framework */,
 				E978172222254CC600BCE3AD /* DaoKeDao.framework */,
 				E978172022254CC000BCE3AD /* DIMCore.framework */,

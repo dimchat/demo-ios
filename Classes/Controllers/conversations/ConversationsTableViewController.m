@@ -19,7 +19,10 @@
 
 #import "ConversationsTableViewController.h"
 
-@interface ConversationsTableViewController ()
+@interface ConversationsTableViewController () {
+    
+    NSString *_fixedTitle;
+}
 
 @end
 
@@ -34,10 +37,28 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    while (_fixedTitle.length == 0) {
+        _fixedTitle = self.navigationItem.title;
+        if (_fixedTitle.length > 0) {
+            break;
+        }
+        _fixedTitle = self.title;
+        if (_fixedTitle.length > 0) {
+            break;
+        }
+        _fixedTitle = @"Secure Chat";
+        break;
+    }
+    
     Client *client = [Client sharedInstance];
     [client addObserver:self
                selector:@selector(reloadData)
                    name:kNotificationName_MessageUpdated
+                 object:nil];
+    
+    [client addObserver:self
+               selector:@selector(onServerStateChanged:)
+                   name:kNotificationName_ServerStateChanged
                  object:nil];
 }
 
@@ -54,6 +75,31 @@
         }
         UITabBarController *tbc = (UITabBarController *)vc;
         tbc.selectedIndex = 2;
+    }
+}
+
+- (void)onServerStateChanged:(NSNotification *)notification {
+    NSString *name = notification.name;
+    NSDictionary *info = notification.userInfo;
+    if ([name isEqualToString:kNotificationName_ServerStateChanged]) {
+        NSString *state = [info objectForKey:@"state"];
+        if ([state isEqualToString:kDIMServerState_Default]) {
+            self.title = @"Disconnected";
+        } else if ([state isEqualToString:kDIMServerState_Connecting]) {
+            self.title = @"Connecting ...";
+        } else if ([state isEqualToString:kDIMServerState_Connected]) {
+            self.title = @"Connected";
+        } else if ([state isEqualToString:kDIMServerState_Handshaking]) {
+            self.title = @"Authenticating ...";
+        } else if ([state isEqualToString:kDIMServerState_Running]) {
+            self.title = _fixedTitle;
+        } else if ([state isEqualToString:kDIMServerState_Error]) {
+            self.title = @"Network error!";
+        } else if ([state isEqualToString:kDIMServerState_Stopped]) {
+            self.title = @"Connection stopped";
+        } else {
+            NSAssert(false, @"unexpected state: %@", state);
+        }
     }
 }
 

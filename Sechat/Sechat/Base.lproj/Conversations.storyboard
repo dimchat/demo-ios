@@ -13,7 +13,7 @@
         <!--Secure Chat-->
         <scene sceneID="vqt-rW-fC0">
             <objects>
-                <tableViewController id="xcy-Go-HfB" customClass="ConversationsTableViewController" sceneMemberID="viewController">
+                <tableViewController title="Secure Chat" id="xcy-Go-HfB" customClass="ConversationsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="JUW-nx-4Qx">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -131,8 +131,7 @@ static inline void sort_array(NSMutableArray *array) {
     NSArray *list = [_contactsTable objectForKey:key];
     DIMID *ID = [list objectAtIndex:row];
     
-    Facebook *facebook = [Facebook sharedInstance];
-    DIMAccount *contact = [facebook accountWithID:ID];
+    DIMAccount *contact = MKMAccountWithID(ID);
     
     ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
     cell.contact = contact;
