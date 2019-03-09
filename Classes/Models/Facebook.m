@@ -415,7 +415,9 @@ SingletonImplementations(Facebook, sharedInstance)
         profile = [DIMProfile profileWithProfile:dict];
     }
     
-    if (!profile) {
+    if (profile) {
+        [profile removeObjectForKey:@"lastTime"];
+    } else {
         // try immortals
         if (MKMNetwork_IsPerson(ID.type)) {
             profile = [_immortals profileForID:ID];
