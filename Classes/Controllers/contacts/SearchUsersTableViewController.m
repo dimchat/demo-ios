@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSNotificationCenter+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 
 #import "User.h"
@@ -46,14 +47,14 @@
     Client *client = [Client sharedInstance];
     
     // 2. waiting for update
-    [client addObserver:self
-               selector:@selector(reloadData:)
-                   name:kNotificationName_OnlineUsersUpdated
-                 object:client];
-    [client addObserver:self
-               selector:@selector(reloadData:)
-                   name:kNotificationName_SearchUsersUpdated
-                 object:client];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(reloadData:)
+                                 name:kNotificationName_OnlineUsersUpdated
+                               object:client];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(reloadData:)
+                                 name:kNotificationName_SearchUsersUpdated
+                               object:client];
     
     // 3. query from the station
     [client queryOnlineUsers];
@@ -64,12 +65,12 @@
     Client *client = [Client sharedInstance];
     
     // 4. stop listening
-    [client removeObserver:self
-                      name:kNotificationName_SearchUsersUpdated
-                    object:client];
-    [client removeObserver:self
-                      name:kNotificationName_OnlineUsersUpdated
-                    object:client];
+    [NSNotificationCenter removeObserver:self
+                                    name:kNotificationName_SearchUsersUpdated
+                                  object:client];
+    [NSNotificationCenter removeObserver:self
+                                    name:kNotificationName_OnlineUsersUpdated
+                                  object:client];
 
     [super viewWillDisappear:animated];
 }

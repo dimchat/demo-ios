@@ -14,50 +14,27 @@
 
 @implementation Facebook (Register)
 
-- (BOOL)saveRegisterInfo:(DIMRegisterInfo *)info {
-    NSLog(@"saving register info: %@", info);
+- (BOOL)saveMeta:(const DIMMeta *)meta
+      privateKey:(const DIMPrivateKey *)SK
+           forID:(const DIMID *)ID {
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
     
-    // ID
-    DIMID *ID = info.ID;
-    if (!ID) {
-        ID = info.user.ID;
-    }
     NSArray *array = [self scanUserIDList];
     if ([array containsObject:ID]) {
         NSLog(@"User ID already exists");
         return NO;
     }
     
-    // meta
-    DIMMeta *meta = info.meta;
-    
     // 1. check & save meta
-    if ([meta matchID:ID]) {
-        if ([barrack saveMeta:meta forEntityID:ID]) {
-            NSLog(@"meta saved: %@", meta);
-        } else {
-            NSAssert(false, @"save meta failed");
-            return NO;
-        }
+    if ([barrack saveMeta:meta forEntityID:ID]) {
+        NSLog(@"meta saved: %@", meta);
     } else {
-        NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
+        NSAssert(false, @"save meta failed");
         return NO;
     }
     
-    // public key
-    DIMPublicKey *PK = info.publicKey;
-    if (!PK) {
-        PK = meta.key;
-    }
-    
-    // private key
-    DIMPrivateKey *SK = info.privateKey;
-    if (!SK) {
-        SK = info.user.privateKey;
-    }
-    
     // 2. check & save private key
+    DIMPublicKey *PK = meta.key;
     if ([PK isMatch:SK]) {
         if ([SK saveKeyWithIdentifier:ID.address]) {
             NSLog(@"private key saved: %@", SK);
@@ -86,8 +63,8 @@
     return [users writeToFile:path atomically:YES];
 }
 
-- (NSArray<DIMID *> *)scanUserIDList {
-    NSMutableArray<DIMID *> *users = nil;
+- (NSArray<const DIMID *> *)scanUserIDList {
+    NSMutableArray<const DIMID *> *users = nil;
     // load from ("Documents/.mkm/users.plist")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
@@ -132,23 +109,29 @@
     return [self saveUserIDList:list withCurrentID:curr.ID];
 }
 
-//- (BOOL)removeUser:(const DIMUser *)user {
-//    NSMutableArray<DIMID *> *users = (NSMutableArray *)[self scanUserIDList];
-//    if ([users containsObject:user.ID]) {
-//        [users removeObject:user.ID];
-//        return [self saveUserIDList:users withCurrentID:nil];
-//    } else {
-//        NSLog(@"user not exists: %@", user);
-//        return NO;
-//    }
-//}
+- (BOOL)removeUser:(const DIMUser *)user {
+    NSMutableArray<const DIMID *> *users = (NSMutableArray *)[self scanUserIDList];
+    if ([users containsObject:user.ID]) {
+        [users removeObject:user.ID];
+        return [self saveUserIDList:users withCurrentID:nil];
+    } else {
+        NSLog(@"user not exists: %@", user);
+        return NO;
+    }
+}
 
-- (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID {
-    NSAssert([profile.ID isEqual:ID], @"profile error: %@", profile);
+- (BOOL)saveProfile:(const DIMProfile *)profile forEntityID:(const DIMID *)ID {
+    if (![profile.ID isEqual:ID]) {
+        NSAssert(false, @"profile error: %@", profile);
+        return NO;
+    }
+    // update memory cache
+    [self setProfile:profile forID:ID];
+    
     // save ("Documents/.mkm/{address}/profile.plist")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
-    dir = [dir stringByAppendingPathComponent:ID.address];
+    dir = [dir stringByAppendingPathComponent:(NSString *)ID.address];
     make_dirs(dir);
     NSString *path = [dir stringByAppendingPathComponent:@"profile.plist"];
     if ([profile writeToBinaryFile:path]) {
@@ -158,6 +141,40 @@
         NSAssert(false, @"failed to save profile for ID: %@, %@", ID, profile);
         return NO;
     }
+}
+
+- (BOOL)saveMembers:(const NSArray<const MKMID *> *)list
+        withGroupID:(const MKMID *)grp {
+    // save ("Documents/.mkm/{address}/members.plist")
+    NSString *dir = document_directory();
+    dir = [dir stringByAppendingPathComponent:@".mkm"];
+    dir = [dir stringByAppendingPathComponent:(NSString *)grp.address];
+    make_dirs(dir);
+    NSString *path = [dir stringByAppendingPathComponent:@"members.plist"];
+    if ([list writeToFile:path atomically:YES]) {
+        NSLog(@"members %@ of %@ has been saved to %@", list, grp, path);
+        return YES;
+    } else {
+        NSAssert(false, @"failed to save members for group: %@, %@", grp, list);
+        return NO;
+    }
+}
+
+- (NSArray<const DIMID *> *)loadMembersWithGroupID:(const MKMID *)grp {
+    // save ("Documents/.mkm/{address}/members.plist")
+    NSString *dir = document_directory();
+    dir = [dir stringByAppendingPathComponent:@".mkm"];
+    dir = [dir stringByAppendingPathComponent:(NSString *)grp.address];
+    make_dirs(dir);
+    NSString *path = [dir stringByAppendingPathComponent:@"members.plist"];
+    NSArray *list = [NSArray arrayWithContentsOfFile:path];
+    NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:list.count];
+    DIMID *ID;
+    for (NSString *item in list) {
+        ID = [DIMID IDWithID:item];
+        [mArray addObject:ID];
+    }
+    return mArray;
 }
 
 @end

@@ -40,7 +40,7 @@ NSString *group_title(const DIMGroup *group);
  @param ID - entity ID
  @return "..."
  */
-NSString *readable_name(DIMID *ID);
+NSString *readable_name(const DIMID *ID);
 
 /**
  Check Username Valid

@@ -7,6 +7,7 @@
 //
 
 #import "NSString+Extension.h"
+#import "NSNotificationCenter+Extension.h"
 
 #import "UIStoryboardSegue+Extension.h"
 
@@ -39,21 +40,20 @@
     _tableFrame = _messagesTableView.frame;
     _trayFrame = _trayView.frame;
     
-    Client *client = [Client sharedInstance];
-    [client addObserver:self
-               selector:@selector(keyboardWillShow:)
-                   name:UIKeyboardWillShowNotification
-                 object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(keyboardWillShow:)
+                                 name:UIKeyboardWillShowNotification
+                               object:nil];
     
-    [client addObserver:self
-               selector:@selector(keyboardWillHide:)
-                   name:UIKeyboardWillHideNotification
-                 object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(keyboardWillHide:)
+                                 name:UIKeyboardWillHideNotification
+                               object:nil];
     
-    [client addObserver:self
-               selector:@selector(reloadData)
-                   name:kNotificationName_MessageUpdated
-                 object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(reloadData)
+                                 name:kNotificationName_MessageUpdated
+                               object:nil];
 }
 
 - (void)reloadData {
@@ -136,6 +136,11 @@
     // create message content
     DIMMessageContent *content;
     content = [[DIMMessageContent alloc] initWithText:text];
+    
+    if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+        content.group = _conversation.ID;
+    }
+    
     // pack message
     DIMInstantMessage *iMsg;
     iMsg = [[DIMInstantMessage alloc] initWithContent:content
@@ -177,7 +182,7 @@
     
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
     DIMEnvelope *env = iMsg.envelope;
-    DIMID *sender = env.sender;
+    const DIMID *sender = env.sender;
     
     NSString *identifier = @"receivedMsgCell";
     if ([sender isEqual:_conversation.ID]) {

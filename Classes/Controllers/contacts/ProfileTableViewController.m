@@ -100,7 +100,7 @@
             cell.detailTextLabel.text = _account.ID.name;
         } else if (row == 1) {
             cell.textLabel.text = @"Address";
-            cell.detailTextLabel.text = _account.ID.address;
+            cell.detailTextLabel.text = (NSString *)_account.ID.address;
         } else if (row == 2) {
             cell.textLabel.text = @"Number";
             cell.detailTextLabel.text = search_number(_account.ID.number);
@@ -195,7 +195,7 @@
     } else if ([segue.identifier isEqualToString:@"addContact"]) {
         
         // send meta & profile first as handshake
-        DIMMeta *meta = MKMMetaForID(user.ID);
+        const DIMMeta *meta = MKMMetaForID(user.ID);
         DIMProfile *profile = MKMProfileForID(user.ID);
         DIMCommand *cmd;
         if (profile) {

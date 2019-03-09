@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSNotificationCenter+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 
 #import "User.h"
@@ -31,7 +32,7 @@ static inline void sort_array(NSMutableArray *array) {
 
 @interface ContactsTableViewController () {
     
-    NSMutableDictionary<NSString *, NSMutableArray<DIMID *> *> *_contactsTable;
+    NSMutableDictionary<NSString *, NSMutableArray<const DIMID *> *> *_contactsTable;
     NSMutableArray *_contactsKey;
 }
 
@@ -52,11 +53,10 @@ static inline void sort_array(NSMutableArray *array) {
     _contactsKey = nil;
     [self reloadData];
     
-    Client *client = [Client sharedInstance];
-    [client addObserver:self
-               selector:@selector(reloadData)
-                   name:kNotificationName_ContactsUpdated
-                 object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(reloadData)
+                                 name:kNotificationName_ContactsUpdated
+                               object:nil];
 }
 
 - (void)reloadData {
@@ -67,8 +67,8 @@ static inline void sort_array(NSMutableArray *array) {
     Facebook *facebook = [Facebook sharedInstance];
     NSInteger count = [facebook numberOfContactsInUser:user];
     
-    NSMutableArray<DIMID *> *mArray;
-    DIMID *contact;
+    NSMutableArray<const DIMID *> *mArray;
+    const DIMID *contact;
     DIMProfile *profile;
     NSString *name;
     while (--count >= 0) {
@@ -203,7 +203,7 @@ static inline void sort_array(NSMutableArray *array) {
     
     if ([segue.identifier isEqualToString:@"profileSegue"]) {
         ContactCell *cell = sender;
-        DIMID *ID = cell.contact.ID;
+        const DIMID *ID = cell.contact.ID;
         
         ProfileTableViewController *vc = (id)[segue visibleDestinationViewController];
         vc.account = MKMAccountWithID(ID);

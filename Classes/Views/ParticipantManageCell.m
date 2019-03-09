@@ -14,7 +14,7 @@
 
 @implementation ParticipantManageCell
 
-- (void)setParticipant:(DIMID *)participant {
+- (void)setParticipant:(const DIMID *)participant {
     if (![_participant isEqual:participant]) {
         _participant = participant;
         
@@ -44,7 +44,7 @@
         if (name.length > 0) {
             name = [NSString stringWithFormat:@"%@ (%@)", name, search_number(_participant.number)];
         } else {
-            name = _participant.address;
+            name = (NSString *)_participant.address;
         }
     }
     _nameLabel.text = name;

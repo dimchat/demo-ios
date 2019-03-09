@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSNotificationCenter+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 
 #import "User.h"
@@ -50,16 +51,15 @@
         break;
     }
     
-    Client *client = [Client sharedInstance];
-    [client addObserver:self
-               selector:@selector(reloadData)
-                   name:kNotificationName_MessageUpdated
-                 object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(reloadData)
+                                 name:kNotificationName_MessageUpdated
+                               object:nil];
     
-    [client addObserver:self
-               selector:@selector(onServerStateChanged:)
-                   name:kNotificationName_ServerStateChanged
-                 object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(onServerStateChanged:)
+                                 name:kNotificationName_ServerStateChanged
+                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -144,18 +144,6 @@
     MessageProcessor *msgDB = [MessageProcessor sharedInstance];
     DIMConversation *chat = [msgDB conversationAtIndex:row];
     
-    NSString *title = nil;
-    
-    DIMEntity *entity;
-    if (MKMNetwork_IsPerson(chat.ID.type)) {
-        entity = MKMAccountWithID(chat.ID);
-        title = account_title((DIMAccount *)entity);
-    } else if (MKMNetwork_IsGroup(chat.ID.type)) {
-        entity = MKMGroupWithID(chat.ID);
-        title = group_title((DIMGroup *)entity);
-    } else {
-        title = entity.name;
-    }
     cell.conversation = chat;
     
     return cell;
@@ -212,7 +200,7 @@
     
     if ([segue.identifier isEqualToString:@"startChat"]) {
         ConversationCell *cell = sender;
-        DIMID *ID = cell.conversation.ID;
+        const DIMID *ID = cell.conversation.ID;
         DIMConversation *convers = DIMConversationWithID(ID);
         
         ChatViewController *vc = (id)[segue visibleDestinationViewController];

@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSNotificationCenter+Extension.h"
 #import "UIViewController+Extension.h"
 
 #import "MessageProcessor.h"
@@ -57,14 +58,13 @@
             // Clear Chat History
             
             NSString *title = @"Clear Chat History";
-            NSString *text = [NSString stringWithFormat:@"Are you sure to clear all message(s) of %@ ?\nThis operation is unrecoverable!", _conversation.ID];
+            NSString *text = [NSString stringWithFormat:@"Are you sure to clear all messages with %@ ?\nThis operation is unrecoverable!", _conversation.title];
             
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
                 MessageProcessor *msgDB = [MessageProcessor sharedInstance];
                 [msgDB clearConversation:self->_conversation];
-                Client *client = [Client sharedInstance];
-                [client postNotificationName:kNotificationName_MessageUpdated object:self];
+                [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
             };
             [self showMessage:text
                     withTitle:title

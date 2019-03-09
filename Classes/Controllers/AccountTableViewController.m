@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSNotificationCenter+Extension.h"
 #import "UIImageView+Extension.h"
 
 #import "User.h"
@@ -48,7 +49,7 @@
         _nameLabel.text = account_title(user);
         
         // desc
-        _descLabel.text = user.ID;
+        _descLabel.text = (NSString *)user.ID;
     } else {
         _nameLabel.text = @"USER NOT FOUND";
         _descLabel.text = @"Please register/login first.";
@@ -57,10 +58,10 @@
         [self performSegueWithIdentifier:@"registerSegue" sender:self];
     }
     
-    [client addObserver:self
-               selector:@selector(reloadData)
-                   name:kNotificationName_UsersUpdated
-                 object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(reloadData)
+                                 name:kNotificationName_UsersUpdated
+                               object:nil];
 }
 
 - (void)reloadData {
@@ -81,7 +82,7 @@
     _nameLabel.text = account_title(user);
     
     // desc
-    _descLabel.text = user.ID;
+    _descLabel.text = (NSString *)user.ID;
     
     [self.tableView reloadData];
 }
@@ -158,7 +159,6 @@
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
-/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
@@ -203,7 +203,6 @@
     
     [tableView endUpdates];
 }
-*/
 
 /*
 // Override to support rearranging the table view.
@@ -236,7 +235,7 @@
         if (![user isEqual:client.currentUser]) {
             [client login:user];
             [facebook reloadContactsWithUser:user];
-            [client postNotificationName:kNotificationName_ContactsUpdated object:self];
+            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
             [self reloadData];
             // update user ID list file
             [facebook saveUserList:client.users withCurrentUser:client.currentUser];

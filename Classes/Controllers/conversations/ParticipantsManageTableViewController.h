@@ -17,7 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface ParticipantsManageTableViewController : UITableViewController
 
+@property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *seedTextField;
+
 @property (strong, nonatomic) DIMConversation *conversation;
+
+- (IBAction)changeGroupName:(UITextField *)sender;
 
 - (IBAction)addParticipants:(id)sender;
 

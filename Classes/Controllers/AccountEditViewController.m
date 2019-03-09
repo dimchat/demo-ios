@@ -28,12 +28,12 @@
     DIMUser *user = client.currentUser;
     
     NSString *name = user.name;
-    DIMID *ID = user.ID;
-    DIMMeta *meta = MKMMetaForID(ID);
+    const DIMID *ID = user.ID;
+    const DIMMeta *meta = MKMMetaForID(ID);
     DIMPrivateKey *SK = user.privateKey;
     
     _fullnameTextField.text = name;
-    _usernameTextField.text = ID;
+    _usernameTextField.text = (NSString *)ID;
     _metaTextView.text = [meta jsonString];
     _privateKeyTextView.text = [SK jsonString];
 }

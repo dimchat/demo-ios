@@ -17,9 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
+@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UITextField *nicknameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
 @property (weak, nonatomic) IBOutlet UITableView *accountsTableView;
+
+- (IBAction)changeNickname:(UITextField *)sender;
 
 - (IBAction)generateAccounts:(id)senderObject;
 

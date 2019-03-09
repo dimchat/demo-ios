@@ -39,7 +39,7 @@
     _nameLabel.text = account_title(_contact);
     
     // desc
-    _descLabel.text = _contact.ID;
+    _descLabel.text = (NSString *)_contact.ID;
 }
 
 - (void)awakeFromNib {

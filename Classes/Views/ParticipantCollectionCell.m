@@ -14,7 +14,7 @@
 
 @implementation ParticipantCollectionCell
 
-- (void)setParticipant:(DIMID *)participant {
+- (void)setParticipant:(const DIMID *)participant {
     if (![_participant isEqual:participant]) {
         _participant = participant;
         
@@ -41,7 +41,7 @@
         name = _participant.name;
         if (name.length == 0) {
             // BTC Address
-            name = _participant;
+            name = (NSString *)_participant.address;
         }
     }
     _nameLabel.text = name;

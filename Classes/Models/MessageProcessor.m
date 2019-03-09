@@ -8,6 +8,7 @@
 
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
+#import "NSNotificationCenter+Extension.h"
 
 #import "Facebook.h"
 #import "Client.h"
@@ -57,9 +58,9 @@ static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
     // base directory: Documents/.dim/{address}
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".dim"];
-    DIMAddress *addr = ID.address;
+    const DIMAddress *addr = ID.address;
     if (addr) {
-        dir = [dir stringByAppendingPathComponent:addr];
+        dir = [dir stringByAppendingPathComponent:(NSString *)addr];
     }
     
     // check base directory exists
@@ -110,7 +111,7 @@ static inline NSMutableDictionary *scan_messages(void) {
     NSString *addr;
     NSArray *array;
     
-    DIMID *ID;
+    const DIMID *ID;
     DIMAddress *address;
     
     NSString *path;
@@ -189,7 +190,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (BOOL)clearConversation:(DIMConversation *)chatBox {
-    DIMID *ID = chatBox.ID;
+    const DIMID *ID = chatBox.ID;
     NSLog(@"clear conversation for %@", ID);
     [_chatHistory removeObjectForKey:ID];
     return clear_message(ID);
@@ -199,7 +200,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 // get message count in the conversation
 - (NSInteger)numberOfMessagesInConversation:(const DIMConversation *)chatBox {
-    DIMID *ID = chatBox.ID;
+    const DIMID *ID = chatBox.ID;
     
     MessageList *list = [_chatHistory objectForKey:ID];
     if (!list) {
@@ -216,7 +217,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 // get message at index of the conversation
 - (DIMInstantMessage *)conversation:(const DIMConversation *)chatBox messageAtIndex:(NSInteger)index {
-    DIMID *ID = chatBox.ID;
+    const DIMID *ID = chatBox.ID;
     
     MessageList *list = [_chatHistory objectForKey:ID];
     if (!list) {
@@ -263,7 +264,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 // save the new message to local storage
 - (BOOL)conversation:(const DIMConversation *)chatBox insertMessage:(const DIMInstantMessage *)iMsg {
-    DIMID *ID = chatBox.ID;
+    const DIMID *ID = chatBox.ID;
     
     // system command
     DIMMessageContent *content = iMsg.content;
@@ -294,8 +295,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     }
     
     if (save_message(list, ID)) {
-        Client *client = [Client sharedInstance];
-        [client postNotificationName:kNotificationName_MessageUpdated object:self];
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
         return YES;
     } else {
         return NO;

@@ -6,7 +6,9 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSNotificationCenter+Extension.h"
 #import "UIViewController+Extension.h"
+#import "UIImageView+Extension.h"
 
 #import "User.h"
 #import "Client.h"
@@ -16,7 +18,7 @@
 
 @interface RegisterViewController () {
     
-    NSMutableArray<DIMRegisterInfo *> *_registerInfos;
+    NSMutableArray<NSDictionary *> *_registerInfos;
 }
 
 @end
@@ -27,6 +29,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [_avatarImageView setText:@"Đ"];
+    
     _registerInfos = [[NSMutableArray alloc] init];
     
     Client *client = [Client sharedInstance];
@@ -34,11 +38,6 @@
     if (!user) {
         [_doneButton setEnabled:NO];
     }
-}
-
-- (void)_addRegisterInfo:(DIMRegisterInfo *)info {
-    [_registerInfos addObject:info];
-    [self.accountsTableView reloadData];
 }
 
 - (void)_generateWithParameters:(NSDictionary *)parameters {
@@ -51,24 +50,50 @@
     }
     
     Facebook *facebook = [Facebook sharedInstance];
-    DIMProfile *profile = [[DIMProfile alloc] initWithDictionary:@{@"name":nickname}];
     
-    DIMRegisterInfo *info;
+    NSDictionary *info;
     DIMPrivateKey *SK;
+    const DIMMeta *meta;
+    const DIMID *ID;
+    DIMUser *user;
     
     for (NSInteger index = 0; index < cnt; ++index) {
+        // 1. generate private key
         SK = [[DIMPrivateKey alloc] init];
-        info = [DIMUser registerWithName:username privateKey:SK publicKey:nil];
+        // 2. generate meta
+        meta = [[DIMMeta alloc] initWithSeed:username
+                                  privateKey:SK
+                                   publicKey:nil
+                                     version:MKMMetaDefaultVersion];
+        // 3. generate ID
+        ID = [meta buildIDWithNetworkID:MKMNetwork_Main];
+        // 4. create user
+        user = [[DIMUser alloc] initWithID:ID];
+        user.dataSource = facebook;
         
-        // profile
-        [profile setObject:info.ID forKey:@"ID"];
-        [facebook setProfile:profile forID:info.ID];
-        info.profile = profile;
+        // add register info
+        info = @{@"ID": ID,
+                 @"meta": meta,
+                 @"user": user,
+                 @"privateKey": SK,
+                 @"nickname": nickname,
+                 };
         
         NSLog(@"generated register info: %@", info);
-        [self performSelectorOnMainThread:@selector(_addRegisterInfo:)
-                               withObject:info
-                            waitUntilDone:NO];
+        [_registerInfos addObject:info];
+        
+        // refresh table
+        [self.accountsTableView performSelectorOnMainThread:@selector(reloadData)
+                                                 withObject:nil
+                                              waitUntilDone:NO];
+    }
+}
+
+- (IBAction)changeNickname:(UITextField *)sender {
+    NSString *nickname = _nicknameTextField.text;
+    if (nickname.length > 0) {
+        NSString *text = [nickname substringToIndex:1];
+        [_avatarImageView setText:text];
     }
 }
 
@@ -146,49 +171,57 @@
     NSInteger row = indexPath.row;
     
     // Configure the cell...
-    DIMRegisterInfo *info = [_registerInfos objectAtIndex:row];
-    DIMUser *user = info.user;
+    NSDictionary *info = [_registerInfos objectAtIndex:row];
+    NSString *nickname = [info objectForKey:@"nickname"];
+    DIMUser *user = [info objectForKey:@"user"];
+    NSString *title =  [NSString stringWithFormat:@"%@ (%@)", nickname, search_number(user.number)];
     
-    cell.textLabel.text = account_title(user);
-    cell.detailTextLabel.text = user.ID;
+    cell.textLabel.text = title;
+    cell.detailTextLabel.text = (NSString *)user.ID;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = indexPath.row;
-    DIMRegisterInfo *regInfo = [_registerInfos objectAtIndex:row];
+    NSDictionary *info = [_registerInfos objectAtIndex:row];
     
-    NSLog(@"row: %ld, saving info: %@", row, regInfo);
+    NSLog(@"row: %ld, saving info: %@", row, info);
     
-    DIMID *ID = regInfo.ID;
-    NSString *message = [NSString stringWithFormat:@"%@\nSearch Number: %@", ID, search_number(ID.number)];
-    
+    DIMID *ID = [info objectForKey:@"ID"];
+    DIMMeta *meta = [info objectForKey:@"meta"];
+    DIMUser *user = [info objectForKey:@"user"];
+    DIMPrivateKey *SK = [info objectForKey:@"privateKey"];
     NSString *nickname = _nicknameTextField.text;
+    
+    NSString *title = @"New Account";
+    NSString *message = [NSString stringWithFormat:@"%@ (%@)", nickname, search_number(ID.number)];
     
     void (^handler)(UIAlertAction *);
     handler = ^(UIAlertAction *action) {
         Client *client = [Client sharedInstance];
         Facebook *facebook = [Facebook sharedInstance];
-        if ([facebook saveRegisterInfo:regInfo]) {
-            client.currentUser = regInfo.user;
+        if ([facebook saveMeta:meta privateKey:SK forID:ID]) {
+            client.currentUser = user;
         }
         
         // save fullname in profile
-        DIMProfile *profile = [[DIMProfile alloc] initWithID:regInfo.ID];
+        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
         [profile setName:nickname];
-        [facebook saveProfile:profile forID:regInfo.ID];
+        [facebook saveProfile:profile forEntityID:ID];
         
         // post notice
-        [client postNotificationName:kNotificationName_UsersUpdated object:self];
+        [NSNotificationCenter postNotificationName:kNotificationName_UsersUpdated object:self];
         
         [self->_doneButton setEnabled:YES];
     };
     
     [self showMessage:message
-            withTitle:@"Save User Info?"
+            withTitle:title
         cancelHandler:nil
-       defaultHandler:handler];
+          cacelButton:@"Cancel"
+       defaultHandler:handler
+        defaultButton:@"Save"];
 }
 
 /*

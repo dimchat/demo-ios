@@ -12,18 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Facebook (Register)
 
-- (BOOL)saveRegisterInfo:(DIMRegisterInfo *)info;
+- (BOOL)saveMeta:(const DIMMeta *)meta privateKey:(const DIMPrivateKey *)SK forID:(const DIMID *)ID;
 
-- (NSArray<DIMID *> *)scanUserIDList;
+- (NSArray<const DIMID *> *)scanUserIDList;
 
-- (BOOL)saveUserIDList:(const NSArray<const DIMID *> *)users
-         withCurrentID:(nullable const DIMID *)curr;
-- (BOOL)saveUserList:(const NSArray<const DIMUser *> *)users
-     withCurrentUser:(nullable const DIMUser *)curr;
+- (BOOL)saveUserIDList:(const NSArray<const DIMID *> *)users withCurrentID:(nullable const DIMID *)curr;
+- (BOOL)saveUserList:(const NSArray<const DIMUser *> *)users withCurrentUser:(nullable const DIMUser *)curr;
 
-//- (BOOL)removeUser:(const DIMUser *)user;
+- (BOOL)removeUser:(const DIMUser *)user;
 
-- (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID;
+- (BOOL)saveProfile:(const DIMProfile *)profile forEntityID:(const DIMID *)ID;
+
+- (BOOL)saveMembers:(const NSArray<const DIMID *> *)list withGroupID:(const DIMID *)grp;
+- (NSArray<const DIMID *> *)loadMembersWithGroupID:(const DIMID *)grp;
 
 @end
 

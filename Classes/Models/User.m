@@ -32,7 +32,7 @@ NSString *group_title(const DIMGroup *group) {
     return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];
 }
 
-NSString *readable_name(DIMID *ID) {
+NSString *readable_name(const DIMID *ID) {
     DIMProfile *profile = MKMProfileForID(ID);
     NSString *nickname = profile.name;
     NSString *username = ID.name;
@@ -40,12 +40,21 @@ NSString *readable_name(DIMID *ID) {
         if (!username) {
             return nickname;
         }
+        if (MKMNetwork_IsGroup(ID.type)) {
+            return [NSString stringWithFormat:@"Group (%@)", nickname];
+        }
         return [NSString stringWithFormat:@"%@(%@)", username, nickname];
     } else if (username) {
+        if (MKMNetwork_IsGroup(ID.type)) {
+            return [NSString stringWithFormat:@"Group (%@)", username];
+        }
         return username;
     } else {
         // BTC Address
-        return ID;
+        if (MKMNetwork_IsGroup(ID.type)) {
+            return [NSString stringWithFormat:@"Group (%@)", ID.address];
+        }
+        return (NSString *)ID.address;
     }
 }
 
@@ -82,7 +91,7 @@ BOOL check_username(const NSString *username) {
         if (!profile.ID) {
             [profile setObject:ID forKey:@"ID"];
         }
-        [[Facebook sharedInstance] saveProfile:profile forID:ID];
+        [[Facebook sharedInstance] saveProfile:profile forEntityID:ID];
     }
     
     return user;

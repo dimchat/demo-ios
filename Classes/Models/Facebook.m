@@ -8,6 +8,7 @@
 
 #import "NSObject+Singleton.h"
 #import "NSDate+Timestamp.h"
+#import "NSNotificationCenter+Extension.h"
 
 #import "MKMImmortals.h"
 
@@ -24,7 +25,7 @@ typedef NSMutableDictionary<const DIMAddress *, DIMProfile *> ProfileTableM;
     
     MKMImmortals *_immortals;
     
-    NSMutableDictionary<DIMAddress *, NSMutableArray<const MKMID *> *> *_contactsTable;
+    NSMutableDictionary<const DIMAddress *, NSMutableArray<const MKMID *> *> *_contactsTable;
     
     ProfileTableM *_profileTable;
 }
@@ -80,10 +81,10 @@ SingletonImplementations(Facebook, sharedInstance)
             [client addUser:user];
         }
         
-        [client addObserver:self
-                   selector:@selector(onProfileUpdated:)
-                       name:kNotificationName_ProfileUpdated
-                     object:client];
+        [NSNotificationCenter addObserver:self
+                                 selector:@selector(onProfileUpdated:)
+                                     name:kNotificationName_ProfileUpdated
+                                   object:client];
     }
     return self;
 }
@@ -94,13 +95,12 @@ SingletonImplementations(Facebook, sharedInstance)
         DIMProfile *profile = cmd.profile;
         if ([profile.ID isEqual:cmd.ID]) {
             [profile removeObjectForKey:@"lastTime"];
-            [self setProfile:profile forID:profile.ID];
-            [self saveProfile:profile forID:profile.ID];
+            [self saveProfile:profile forEntityID:profile.ID];
         }
     }
 }
 
-- (DIMID *)IDWithAddress:(const DIMAddress *)address {
+- (const DIMID *)IDWithAddress:(const DIMAddress *)address {
     DIMID *ID;
     NSArray *tables = _contactsTable.allValues;
     for (NSArray *list in tables) {
@@ -149,7 +149,6 @@ SingletonImplementations(Facebook, sharedInstance)
 
 // {document_directory}/.mkm/{address}/contacts.plist
 - (void)flushContactsWithUser:(const DIMUser *)user {
-    Client *client = [Client sharedInstance];
     
     NSMutableArray<const MKMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts.count > 0) {
@@ -157,7 +156,7 @@ SingletonImplementations(Facebook, sharedInstance)
         NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
         [contacts writeToFile:path atomically:YES];
         NSLog(@"contacts updated: %@", contacts);
-        [client postNotificationName:kNotificationName_ContactsUpdated object:self];
+        [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
     } else {
         NSLog(@"no contacts");
     }
@@ -181,10 +180,10 @@ SingletonImplementations(Facebook, sharedInstance)
     return contacts;
 }
 
-- (void)setProfile:(DIMProfile *)profile forID:(const DIMID *)ID {
+- (void)setProfile:(const DIMProfile *)profile forID:(const DIMID *)ID {
     if (profile) {
         if ([profile.ID isEqual:ID]) {
-            [_profileTable setObject:profile forKey:ID.address];
+            [_profileTable setObject:[profile copy] forKey:ID.address];
         } else {
             NSAssert(false, @"profile error: %@, ID = %@", profile, ID);
         }
@@ -195,8 +194,8 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMMetaDataSource
 
-- (DIMMeta *)metaForID:(const DIMID *)ID {
-    DIMMeta *meta = nil;
+- (const DIMMeta *)metaForID:(const DIMID *)ID {
+    const DIMMeta *meta = nil;
     
     // TODO: load meta from database
     
@@ -208,7 +207,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMEntityDataSource
 
-- (DIMMeta *)metaForEntity:(const DIMEntity *)entity {
+- (const DIMMeta *)metaForEntity:(const DIMEntity *)entity {
     return [self metaForID:entity.ID];
 }
 
@@ -239,7 +238,7 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - MKMUserDataSource
 
 - (NSInteger)numberOfContactsInUser:(const DIMUser *)user {
-    DIMID *ID = user.ID;
+    const DIMID *ID = user.ID;
     
     NSArray *contacts = [_contactsTable objectForKey:ID.address];
     if (!contacts) {
@@ -249,8 +248,8 @@ SingletonImplementations(Facebook, sharedInstance)
     return contacts.count;
 }
 
-- (DIMID *)user:(const DIMUser *)user contactAtIndex:(NSInteger)index {
-    DIMID *ID = user.ID;
+- (const DIMID *)user:(const DIMUser *)user contactAtIndex:(NSInteger)index {
+    const DIMID *ID = user.ID;
     
     NSArray *contacts = [_contactsTable objectForKey:ID.address];
     if (!contacts) {
@@ -317,24 +316,28 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMGroupDataSource
 
-- (DIMID *)founderOfGroup:(const MKMGroup *)grp {
+- (const DIMID *)founderOfGroup:(const MKMGroup *)grp {
     // TODO:
     return nil;
 }
 
-- (DIMID *)ownerOfGroup:(const MKMGroup *)grp {
+- (const DIMID *)ownerOfGroup:(const MKMGroup *)grp {
     // TODO:
     return nil;
 }
 
 - (NSInteger)numberOfMembersInGroup:(const DIMGroup *)grp {
-    // TODO:
-    return 0;
+    NSArray<const DIMID *> *list = [self loadMembersWithGroupID:grp.ID];
+    return list.count;
 }
 
-- (DIMID *)group:(const DIMGroup *)grp memberAtIndex:(NSInteger)index {
-    // TODO:
-    return nil;
+- (const DIMID *)group:(const DIMGroup *)grp memberAtIndex:(NSInteger)index {
+    NSArray<const DIMID *> *list = [self loadMembersWithGroupID:grp.ID];
+    if (index < list.count && index >= 0) {
+        return [list objectAtIndex:index];
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark MKMGroupDelegate
@@ -362,7 +365,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark MKMChatroomDataSource
 
-- (DIMID *)chatroom:(const DIMChatroom *)grp adminAtIndex:(NSInteger)index {
+- (const DIMID *)chatroom:(const DIMChatroom *)grp adminAtIndex:(NSInteger)index {
     // TODO:
     return nil;
 }
@@ -403,7 +406,7 @@ SingletonImplementations(Facebook, sharedInstance)
     // try from "Documents/.mkm/{address}/profile.plist"
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
-    dir = [dir stringByAppendingPathComponent:ID.address];
+    dir = [dir stringByAppendingPathComponent:(NSString *)ID.address];
     NSString *path = [dir stringByAppendingPathComponent:@"profile.plist"];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {

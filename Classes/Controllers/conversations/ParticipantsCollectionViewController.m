@@ -42,8 +42,7 @@
     } else if (MKMNetwork_IsGroup(_conversation.ID.type)) {
         // group conversation
         DIMGroup *group = MKMGroupWithID(_conversation.ID);
-        NSArray *members = group.members;
-        [_participants addObjectsFromArray:members];
+        [_participants addObjectsFromArray:group.members];
     }
 }
 

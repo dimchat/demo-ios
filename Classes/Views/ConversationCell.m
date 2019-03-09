@@ -30,7 +30,12 @@
     
     // avatar
     CGRect frame = _avatarImageView.frame;
-    UIImage *image = [profile avatarImageWithSize:frame.size];
+    UIImage *image;
+    if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+        image = [profile logoImageWithSize:frame.size];
+    } else {
+        image = [profile avatarImageWithSize:frame.size];
+    }
     if (!image) {
         image = [UIImage imageNamed:@"AppIcon"];
     }
