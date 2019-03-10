@@ -260,13 +260,13 @@ SingletonImplementations(Facebook, sharedInstance)
     return [DIMID IDWithID:ID];
 }
 
-- (void)user:(const MKMUser *)user addContact:(const MKMID *)contact {
+- (BOOL)user:(const MKMUser *)user addContact:(const MKMID *)contact {
     NSLog(@"user %@ add contact %@", user, contact);
     NSMutableArray<const MKMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts) {
         if ([contacts containsObject:contact]) {
             NSLog(@"contact %@ already exists, user: %@", contact, user.ID);
-            return ;
+            return NO;
         } else {
             [contacts addObject:contact];
         }
@@ -276,9 +276,10 @@ SingletonImplementations(Facebook, sharedInstance)
         [_contactsTable setObject:contacts forKey:user.ID.address];
     }
     [self flushContactsWithUser:user];
+    return YES;
 }
 
-- (void)user:(const MKMUser *)user removeContact:(const MKMID *)contact {
+- (BOOL)user:(const MKMUser *)user removeContact:(const MKMID *)contact {
     NSLog(@"user %@ remove contact %@", user, contact);
     NSMutableArray<const MKMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts) {
@@ -286,13 +287,14 @@ SingletonImplementations(Facebook, sharedInstance)
             [contacts removeObject:contact];
         } else {
             NSLog(@"contact %@ not exists, user: %@", contact, user.ID);
-            return ;
+            return NO;
         }
     } else {
         NSLog(@"user %@ doesn't has contact yet", user.ID);
-        return ;
+        return NO;
     }
     [self flushContactsWithUser:user];
+    return YES;
 }
 
 #pragma mark MKMUserDelegate
@@ -354,6 +356,33 @@ SingletonImplementations(Facebook, sharedInstance)
         NSAssert(false, @"group error: %@", ID);
     }
     return group;
+}
+
+- (BOOL)group:(const MKMGroup *)group addMember:(const MKMID *)member {
+    NSArray<const DIMID *> *members = group.members;
+    if ([members containsObject:member]) {
+        NSAssert(false, @"member already exists: %@, %@", member, group);
+        return NO;
+    }
+    NSMutableArray *mArray = [members mutableCopy];
+    [mArray addObject:members];
+    return [self saveMembers:mArray withGroupID:group.ID];
+}
+
+- (BOOL)group:(const MKMGroup *)group removeMember:(const MKMID *)member {
+    NSArray<const DIMID *> *members = group.members;
+    if (![members containsObject:member]) {
+        NSAssert(false, @"member not exists: %@, %@", member, group);
+        return NO;
+    }
+    NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:(members.count - 1)];
+    for (const DIMID *item in members) {
+        if ([item isEqual:member]) {
+            continue;
+        }
+        [mArray addObject:item];
+    }
+    return [self saveMembers:mArray withGroupID:group.ID];
 }
 
 #pragma mark MKMMemberDelegate
