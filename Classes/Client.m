@@ -13,6 +13,9 @@
 
 #import "Client.h"
 
+const NSString *kNotificationName_MessageUpdated = @"MessageUpdated";
+const NSString *kNotificationName_UsersUpdated = @"UsersUpdated";
+
 @implementation Client
 
 SingletonImplementations(Client, sharedInstance)

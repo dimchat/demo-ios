@@ -19,6 +19,8 @@
 
 #import "Facebook.h"
 
+const NSString *kNotificationName_ContactsUpdated = @"ContactsUpdated";
+
 typedef NSMutableDictionary<const DIMAddress *, DIMProfile *> ProfileTableM;
 
 @interface Facebook () {
@@ -90,7 +92,7 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 - (void)onProfileUpdated:(NSNotification *)notification {
-    if ([notification.name isEqualToString:kNotificationName_ProfileUpdated]) {
+    if ([notification.name isEqual:kNotificationName_ProfileUpdated]) {
         DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
         DIMProfile *profile = cmd.profile;
         if ([profile.ID isEqual:cmd.ID]) {
@@ -319,11 +321,22 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - MKMGroupDataSource
 
 - (const DIMID *)founderOfGroup:(const MKMGroup *)grp {
-    // TODO:
+    NSInteger count = [self numberOfMembersInGroup:grp];
+    const DIMID *member;
+    for (NSInteger index = 0; index < count; ++index) {
+        member = [self group:grp memberAtIndex:index];
+        if ([grp isFounder:member]) {
+            return member;
+        }
+    }
     return nil;
 }
 
 - (const DIMID *)ownerOfGroup:(const MKMGroup *)grp {
+    if (grp.ID.type == MKMNetwork_Polylogue) {
+        // the polylogue's owner is its founder
+        return [self founderOfGroup:grp];
+    }
     // TODO:
     return nil;
 }

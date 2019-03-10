@@ -80,7 +80,7 @@
         <!--Navigation Controller-->
         <scene sceneID="3tY-dQ-VPi">
             <objects>
-                <navigationController storyboardIdentifier="ChatBox" id="VO3-x5-g0J" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="chatBox" id="VO3-x5-g0J" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bYc-wm-r2c">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

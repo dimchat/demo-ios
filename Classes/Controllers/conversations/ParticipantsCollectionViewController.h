@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) DIMConversation *conversation;
 
+- (void)reloadData;
+
 @end
 
 NS_ASSUME_NONNULL_END

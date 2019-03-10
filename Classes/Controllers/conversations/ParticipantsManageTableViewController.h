@@ -12,6 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern const NSString *kNotificationName_GroupMembersUpdated;
+
 /**
  *  Table view controller for Show Contact list and add Group members
  */

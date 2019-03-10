@@ -59,6 +59,7 @@
 		E99A5CD3222ED9B600EE6C86 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CD2222ED9B600EE6C86 /* UserCell.m */; };
 		E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
 		E9AFAAE122310B49001F95C6 /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -195,6 +196,8 @@
 		E99A5CD1222ED9B600EE6C86 /* UserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCell.h; sourceTree = "<group>"; };
 		E99A5CD2222ED9B600EE6C86 /* UserCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserCell.m; sourceTree = "<group>"; };
 		E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FiniteStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9AFAB6222352E09001F95C6 /* MessageProcessor+GroupCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MessageProcessor+GroupCommand.h"; sourceTree = "<group>"; };
+		E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MessageProcessor+GroupCommand.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +329,8 @@
 				E92256192222ED7C006CADEA /* Facebook+Register.m */,
 				E92256182222ED7C006CADEA /* MessageProcessor.h */,
 				E922561D2222ED7C006CADEA /* MessageProcessor.m */,
+				E9AFAB6222352E09001F95C6 /* MessageProcessor+GroupCommand.h */,
+				E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -596,6 +601,7 @@
 				E99A5CB4222D8B3400EE6C86 /* ContactsTableViewController.m in Sources */,
 				E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */,
 				E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */,
+				E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
 				E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */,

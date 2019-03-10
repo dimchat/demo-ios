@@ -13,6 +13,8 @@
 #import "Client.h"
 #import "Facebook+Register.h"
 
+#import "MessageProcessor+GroupCommand.h"
+
 #import "MessageProcessor.h"
 
 NSString *NSStringFromDate(const NSDate *date) {
@@ -276,81 +278,12 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         // ...
         return YES;
     } else if (content.type == DIMMessageType_History) {
-        NSString *command = content.command;
-        NSLog(@"command: %@", command);
-        Facebook *facebook = [Facebook sharedInstance];
-        
         const DIMID *groupID = content.group;
         if (groupID) {
-            DIMGroup *group = MKMGroupWithID(groupID);
-            NSArray *members = group.members;
-            const DIMID *member;
-            
-            if ([command isEqualToString:@"invite"]) {
-                NSArray *invites = [content objectForKey:@"members"];
-                NSMutableArray *addeds = [[NSMutableArray alloc] initWithCapacity:invites.count];
-                
-                for (NSString *item in invites) {
-                    member = [DIMID IDWithID:item];
-                    if ([members containsObject:member]) {
-                        // NOTE: allow invite same member
-                        //NSAssert(false, @"adding member error: %@, %@", members, invites);
-                        //return NO;
-                    } else {
-                        [addeds addObject:member];
-                    }
-                }
-                
-                // save new members list
-                if ([facebook saveMembers:invites withGroupID:groupID]) {
-                    if (addeds.count > 0) {
-                        NSString *owner = [content objectForKey:@"owner"];
-                        NSString *str = [addeds componentsJoinedByString:@", "];
-                        NSString *text = [NSString stringWithFormat:@"%@ has added new member(s): %@", owner, str];
-                        NSAssert([content objectForKey:@"text"], @"text");
-                        [content setObject:text forKey:@"text"];
-                        [content setObject:addeds forKey:@"added"];
-                    }
-                } else {
-                    return NO;
-                }
-            } else if ([command isEqualToString:@"expel"]) {
-                NSArray *expels = [content objectForKey:@"members"];
-                NSMutableArray *removeds = [[NSMutableArray alloc] initWithCapacity:expels.count];
-                
-                NSMutableArray *mArray = [members mutableCopy];
-                for (NSString *item in expels) {
-                    member = [DIMID IDWithID:item];
-                    if ([mArray containsObject:member]) {
-                        [mArray removeObject:member];
-                        [removeds addObject:member];
-                    } else {
-                        NSAssert(false, @"removing member error: %@, %@", members, expels);
-                        return NO;
-                    }
-                }
-                members = mArray;
-                
-                // save new members list
-                if ([facebook saveMembers:members withGroupID:groupID]) {
-                    if (removeds.count > 0) {
-                        NSString *owner = [content objectForKey:@"owner"];
-                        NSString *str = [removeds componentsJoinedByString:@", "];
-                        NSString *text = [NSString stringWithFormat:@"%@ has removed member(s): %@", owner, str];
-                        NSAssert([content objectForKey:@"text"], @"text");
-                        [content setObject:text forKey:@"text"];
-                        [content setObject:removeds forKey:@"removed"];
-                    }
-                } else {
-                    return NO;
-                }
-            } else if ([command isEqualToString:@"quit"]) {
-                member = iMsg.envelope.sender;
-                if ([facebook group:group removeMember:member]) {
-                    NSString *text = [NSString stringWithFormat:@"%@ has quitted group chat", member];
-                    NSAssert([content objectForKey:@"text"], @"text");
-                    [content setObject:text forKey:@"text"];
-                }
+            const DIMID *sender = iMsg.envelope.sender;
+            if (![self processGroupCommand:content commander:sender]) {
+                NSLog(@"group comment error: %@", content);
+                return NO;
             }
         }
     }

@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static NSString *kNotificationName_ContactsUpdated = @"ContactsUpdated";
+extern const NSString *kNotificationName_ContactsUpdated;
 
 typedef NSArray<const DIMID *> ContactTable;
 

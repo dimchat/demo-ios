@@ -86,7 +86,7 @@
     DIMMeta *meta;
     DIMPublicKey *PK;
     
-    if ([notification.name isEqualToString:kNotificationName_OnlineUsersUpdated]) {
+    if ([notification.name isEqual:kNotificationName_OnlineUsersUpdated]) {
         // online users
         NSLog(@"online users: %@", users);
         
@@ -106,7 +106,7 @@
             }
         }
         
-    } else if ([notification.name isEqualToString:kNotificationName_SearchUsersUpdated]) {
+    } else if ([notification.name isEqual:kNotificationName_SearchUsersUpdated]) {
         // search users
         
         if (_users) {

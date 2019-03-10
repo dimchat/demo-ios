@@ -12,6 +12,8 @@
 #import "MessageProcessor.h"
 #import "Client.h"
 
+#import "ParticipantsManageTableViewController.h"
+
 #import "ParticipantsCollectionViewController.h"
 
 #import "ChatManageTableViewController.h"
@@ -40,6 +42,31 @@
     participantsCVC = (ParticipantsCollectionViewController *)vc;
     participantsCVC.conversation = _conversation;
     _participantsCollectionViewController = participantsCVC;
+    
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(onGroupMembersUpdated:)
+                                 name:kNotificationName_GroupMembersUpdated
+                               object:nil];
+}
+
+- (void)onGroupMembersUpdated:(NSNotification *)notification {
+    NSString *name = notification.name;
+    NSDictionary *info = notification.userInfo;
+    
+    if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
+        DIMGroup *group = [info objectForKey:@"group"];
+        if ([group.ID isEqual:_conversation.ID]) {
+            // the same group
+            [_participantsCollectionViewController reloadData];
+            [_participantsCollectionViewController.collectionView reloadData];
+            [self.tableView reloadData];
+        } else {
+            // dismiss the personal chat box
+            [self dismissViewControllerAnimated:YES completion:^{
+                //
+            }];
+        }
+    }
 }
 
 //- (void)systemLayoutFittingSizeDidChangeForChildContentContainer:(id<UIContentContainer>)container {

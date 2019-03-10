@@ -118,10 +118,10 @@
             </objects>
             <point key="canvasLocation" x="1692" y="884.70764617691157"/>
         </scene>
-        <!--ChatBox-->
+        <!--chatBox-->
         <scene sceneID="A7k-Fy-4uN">
             <objects>
-                <viewControllerPlaceholder storyboardName="Conversations" referencedIdentifier="ChatBox" id="Htg-HP-tDn" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Conversations" referencedIdentifier="chatBox" id="Htg-HP-tDn" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="di1-45-aFp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2322" y="1139"/>

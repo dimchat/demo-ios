@@ -15,6 +15,7 @@
 #import "Client.h"
 
 #import "ChatViewController.h"
+#import "ParticipantsManageTableViewController.h"
 
 #import "ConversationCell.h"
 
@@ -60,6 +61,11 @@
                              selector:@selector(onServerStateChanged:)
                                  name:kNotificationName_ServerStateChanged
                                object:nil];
+    
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(onGroupMembersUpdated:)
+                                 name:kNotificationName_GroupMembersUpdated
+                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -78,10 +84,21 @@
     }
 }
 
+- (void)onGroupMembersUpdated:(NSNotification *)notification {
+    NSString *name = notification.name;
+    NSDictionary *info = notification.userInfo;
+    
+    if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
+        DIMGroup *group = [info objectForKey:@"group"];
+        DIMConversation *chatBox = DIMConversationWithID(group.ID);
+        //[self performSegueWithIdentifier:@"startChat" sender:chatBox];
+    }
+}
+
 - (void)onServerStateChanged:(NSNotification *)notification {
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
-    if ([name isEqualToString:kNotificationName_ServerStateChanged]) {
+    if ([name isEqual:kNotificationName_ServerStateChanged]) {
         NSString *state = [info objectForKey:@"state"];
         if ([state isEqualToString:kDIMServerState_Default]) {
             self.title = @"Disconnected";
@@ -199,8 +216,14 @@
     // Pass the selected object to the new view controller.
     
     if ([segue.identifier isEqualToString:@"startChat"]) {
-        ConversationCell *cell = sender;
-        const DIMID *ID = cell.conversation.ID;
+        DIMConversation *chatBox = nil;
+        if ([sender isKindOfClass:[ConversationCell class]]) {
+            ConversationCell *cell = sender;
+            chatBox = cell.conversation;
+        } else if ([sender isKindOfClass:[DIMConversation class]]) {
+            chatBox = sender;
+        }
+        const DIMID *ID = chatBox.ID;
         DIMConversation *convers = DIMConversationWithID(ID);
         
         ChatViewController *vc = (id)[segue visibleDestinationViewController];

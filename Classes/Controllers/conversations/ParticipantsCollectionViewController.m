@@ -34,6 +34,10 @@
     
     // Do any additional setup after loading the view.
     
+    [self reloadData];
+}
+
+- (void)reloadData {
     _participants = [[NSMutableArray alloc] init];
     
     if (MKMNetwork_IsCommunicator(_conversation.ID.type)) {
