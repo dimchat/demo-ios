@@ -94,9 +94,15 @@ static inline BOOL save_message(NSArray *messages, const DIMID *ID) {
     return [messages writeToFile:path atomically:YES];
 }
 
-static inline BOOL clear_message(const DIMID *ID) {
+static inline BOOL remove_messages(const DIMID *ID) {
     NSString *path = full_filepath(ID, @"messages.plist");
     return remove_file(path);
+}
+
+static inline BOOL clear_messages(const DIMID *ID) {
+    NSString *path = full_filepath(ID, @"messages.plist");
+    NSArray *empty = [[NSArray alloc] init];
+    return [empty writeToFile:path atomically:YES];
 }
 
 static inline NSMutableDictionary *scan_messages(void) {
@@ -129,9 +135,11 @@ static inline NSMutableDictionary *scan_messages(void) {
             
             path = [dir stringByAppendingPathComponent:path];
             array = [NSArray arrayWithContentsOfFile:path];
+            NSLog(@"loaded %lu message(s) from %@", array.count, path);
             
             ID = [fb IDWithAddress:address];
             if (array && ID) {
+                NSLog(@"ID: %@", ID);
                 [mDict setObject:array forKey:ID];
             }
         }
@@ -186,6 +194,18 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     return DIMConversationWithID(ID);
 }
 
+- (BOOL)removeConversationAtIndex:(NSInteger)index {
+    DIMConversation *chatBox = [self conversationAtIndex:index];
+    return [self removeConversation:chatBox];
+}
+
+- (BOOL)removeConversation:(DIMConversation *)chatBox {
+    const DIMID *ID = chatBox.ID;
+    NSLog(@"clear conversation for %@", ID);
+    [_chatHistory removeObjectForKey:ID];
+    return remove_messages(ID);
+}
+
 - (BOOL)clearConversationAtIndex:(NSInteger)index {
     DIMConversation *chatBox = [self conversationAtIndex:index];
     return [self clearConversation:chatBox];
@@ -195,7 +215,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     const DIMID *ID = chatBox.ID;
     NSLog(@"clear conversation for %@", ID);
     [_chatHistory removeObjectForKey:ID];
-    return clear_message(ID);
+    return clear_messages(ID);
 }
 
 #pragma mark DIMConversationDataSource

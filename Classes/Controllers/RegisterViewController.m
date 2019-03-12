@@ -61,10 +61,10 @@
         // 1. generate private key
         SK = [[DIMPrivateKey alloc] init];
         // 2. generate meta
-        meta = [[DIMMeta alloc] initWithSeed:username
-                                  privateKey:SK
-                                   publicKey:nil
-                                     version:MKMMetaDefaultVersion];
+        meta = [[DIMMeta alloc] initWithVersion:MKMMetaDefaultVersion
+                                           seed:username
+                                     privateKey:SK
+                                      publicKey:nil];
         // 3. generate ID
         ID = [meta buildIDWithNetworkID:MKMNetwork_Main];
         // 4. create user

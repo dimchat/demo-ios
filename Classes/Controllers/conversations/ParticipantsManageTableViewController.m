@@ -332,7 +332,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     } else if (section == 1) {
         // members
         const DIMID *ID = [_contactsList objectAtIndex:row];
-        NSAssert([_selectedList containsObject:ID], @"error");
+        NSAssert([_selectedList containsObject:ID], @"contact not selected: %@", ID);
         [_selectedList removeObject:ID];
         NSLog(@"deselect: %@", ID);
         

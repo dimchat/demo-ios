@@ -24,6 +24,11 @@ NSString *NSStringFromDate(const NSDate *date);
 
 - (DIMConversation *)conversationAtIndex:(NSInteger)index;
 
+// remove messages file
+- (BOOL)removeConversationAtIndex:(NSInteger)index;
+- (BOOL)removeConversation:(DIMConversation *)chatBox;
+
+// clear messages records, but keep the empty file
 - (BOOL)clearConversationAtIndex:(NSInteger)index;
 - (BOOL)clearConversation:(DIMConversation *)chatBox;
 

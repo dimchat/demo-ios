@@ -56,7 +56,7 @@
         NSString *owner = [content objectForKey:@"owner"];
         NSString *str = [addeds componentsJoinedByString:@", "];
         NSString *text = [NSString stringWithFormat:@"%@ has added new member(s): %@", owner, str];
-        NSAssert(![content objectForKey:@"text"], @"text should be empty here");
+        NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
         [content setObject:text forKey:@"text"];
         [content setObject:addeds forKey:@"added"];
         
@@ -95,7 +95,7 @@
         NSString *owner = [content objectForKey:@"owner"];
         NSString *str = [removeds componentsJoinedByString:@", "];
         NSString *text = [NSString stringWithFormat:@"%@ has removed member(s): %@", owner, str];
-        NSAssert(![content objectForKey:@"text"], @"text should be empty here");
+        NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
         [content setObject:text forKey:@"text"];
         [content setObject:removeds forKey:@"removed"];
         
@@ -103,7 +103,7 @@
         
         if ([facebook group:group removeMember:sender]) {
             NSString *text = [NSString stringWithFormat:@"%@ has quitted group chat", sender];
-            NSAssert(![content objectForKey:@"text"], @"text should be empty here");
+            NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
             [content setObject:text forKey:@"text"];
         }
         

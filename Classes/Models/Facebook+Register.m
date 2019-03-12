@@ -21,7 +21,7 @@
     
     NSArray *array = [self scanUserIDList];
     if ([array containsObject:ID]) {
-        NSLog(@"User ID already exists");
+        NSLog(@"User ID already exists: %@", ID);
         return NO;
     }
     
@@ -29,7 +29,7 @@
     if ([barrack saveMeta:meta forEntityID:ID]) {
         NSLog(@"meta saved: %@", meta);
     } else {
-        NSAssert(false, @"save meta failed");
+        NSAssert(false, @"save meta failed: %@, %@", ID, meta);
         return NO;
     }
     
@@ -39,7 +39,7 @@
         if ([SK saveKeyWithIdentifier:ID.address]) {
             NSLog(@"private key saved: %@", SK);
         } else {
-            NSAssert(false, @"save private key failed");
+            NSAssert(false, @"save private key failed: %@", ID);
             return NO;
         }
     } else {

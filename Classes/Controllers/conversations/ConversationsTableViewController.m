@@ -184,7 +184,7 @@
         NSInteger row = indexPath.row;
         
         MessageProcessor *msgDB = [MessageProcessor sharedInstance];
-        [msgDB clearConversationAtIndex:row];
+        [msgDB removeConversationAtIndex:row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {

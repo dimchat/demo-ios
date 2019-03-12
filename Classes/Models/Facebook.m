@@ -199,11 +199,21 @@ SingletonImplementations(Facebook, sharedInstance)
 - (const DIMMeta *)metaForID:(const DIMID *)ID {
     const DIMMeta *meta = nil;
     
-    // TODO: load meta from database
-    
-    if (!meta && MKMNetwork_IsPerson(ID.type)) {
+    if (MKMNetwork_IsPerson(ID.type)) {
         meta = [_immortals metaForID:ID];
     }
+    
+    // TODO: load meta from database
+    DIMBarrack *barrack = [DIMBarrack sharedInstance];
+    meta = [barrack loadMetaForID:ID];
+    
+    if (!meta) {
+        // query from DIM network
+        DIMMetaCommand *cmd = [[DIMMetaCommand alloc] initWithID:ID meta:nil];
+        Client *client = [Client sharedInstance];
+        [client sendCommand:cmd];
+    }
+    
     return meta;
 }
 
