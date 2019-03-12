@@ -141,6 +141,8 @@ static inline NSMutableDictionary *scan_messages(void) {
             if (array && ID) {
                 NSLog(@"ID: %@", ID);
                 [mDict setObject:array forKey:ID];
+            } else {
+                NSLog(@"failed to load message in path: %@", path);
             }
         }
     }
@@ -326,9 +328,11 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     }
     
     if (save_message(list, ID)) {
+        NSLog(@"new message for %@ saved", ID);
         [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
         return YES;
     } else {
+        NSLog(@"failed to save new message for ID: %@", ID);
         return NO;
     }
 }

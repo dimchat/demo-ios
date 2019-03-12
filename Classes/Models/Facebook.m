@@ -128,6 +128,8 @@ SingletonImplementations(Facebook, sharedInstance)
         NSString *idstr = [NSString stringWithFormat:@"%@@%@", seed, address];
         ID = [DIMID IDWithID:idstr];
         NSLog(@"Address -> number: %@, ID: %@", search_number(ID.number), ID);
+    } else {
+        NSLog(@"meta file not exists: %@", path);
     }
     
     return ID;
@@ -209,9 +211,9 @@ SingletonImplementations(Facebook, sharedInstance)
     
     if (!meta) {
         // query from DIM network
-        DIMMetaCommand *cmd = [[DIMMetaCommand alloc] initWithID:ID meta:nil];
         Client *client = [Client sharedInstance];
-        [client sendCommand:cmd];
+        [client queryMetaForID:ID];
+        NSLog(@"querying meta for ID: %@", ID);
     }
     
     return meta;
@@ -241,6 +243,12 @@ SingletonImplementations(Facebook, sharedInstance)
         if ([account.ID isEqual:ID]) {
             return account;
         }
+    }
+    
+    // check meta
+    const DIMMeta *meta = MKMMetaForID(ID);
+    if (!meta) {
+        NSLog(@"meta not found: %@", ID);
     }
     
     account = [[DIMAccount alloc] initWithID:ID];
@@ -324,6 +332,12 @@ SingletonImplementations(Facebook, sharedInstance)
         }
     }
     
+    // check meta
+    const DIMMeta *meta = MKMMetaForID(ID);
+    if (!meta) {
+        NSLog(@"meta not found: %@", ID);
+    }
+    
     user = [[DIMUser alloc] initWithID:ID];
     return user;
 }
@@ -369,6 +383,12 @@ SingletonImplementations(Facebook, sharedInstance)
 
 - (DIMGroup *)groupWithID:(const DIMID *)ID {
     DIMGroup *group = nil;
+    
+    // check meta
+    const DIMMeta *meta = MKMMetaForID(ID);
+    if (!meta) {
+        NSLog(@"meta not found: %@", ID);
+    }
     
     // create it
     if (ID.type == MKMNetwork_Polylogue) {
