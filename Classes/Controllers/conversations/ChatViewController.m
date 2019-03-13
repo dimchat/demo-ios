@@ -150,7 +150,9 @@
     // send out
     [client sendMessage:iMsg];
     
-    [_conversation insertMessage:iMsg];
+    if (MKMNetwork_IsCommunicator(_conversation.ID.type)) {
+        [_conversation insertMessage:iMsg];
+    }
     
     _inputTextField.text = @"";
     
