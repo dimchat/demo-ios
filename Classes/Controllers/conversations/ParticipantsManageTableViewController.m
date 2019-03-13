@@ -100,10 +100,15 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
         // 1.1. logo
         DIMProfile *profile = MKMProfileForID(_group.ID);
         NSString *name = profile.name;
-        if (name.length > 0) {
-            [_logoImageView setText:[NSString stringWithFormat:@"[%@]", [name substringToIndex:1]]];
+        UIImage *logoImage = [profile logoImageWithSize:_logoImageView.bounds.size];
+        if (logoImage) {
+            [_logoImageView setImage:logoImage];
         } else {
-            [_logoImageView setText:@"[Đ]"];
+            if (name.length > 0) {
+                [_logoImageView setText:[name substringToIndex:1]];
+            } else {
+                [_logoImageView setText:@"[Đ]"];
+            }
         }
         
         // 1.2. name

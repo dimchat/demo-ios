@@ -56,6 +56,12 @@
                                object:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self scrollToBottom];
+}
+
 - (void)reloadData {
     MessageProcessor *msgDB = [MessageProcessor sharedInstance];
     [msgDB reloadData];

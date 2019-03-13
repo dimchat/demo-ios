@@ -37,23 +37,14 @@ NSString *readable_name(const DIMID *ID) {
     NSString *nickname = profile.name;
     NSString *username = ID.name;
     if (nickname) {
-        if (!username) {
-            return nickname;
+        if (username && MKMNetwork_IsCommunicator(ID.type)) {
+            return [NSString stringWithFormat:@"%@(%@)", nickname, username];
         }
-        if (MKMNetwork_IsGroup(ID.type)) {
-            return [NSString stringWithFormat:@"Group[%@]", nickname];
-        }
-        return [NSString stringWithFormat:@"%@(%@)", username, nickname];
+        return nickname;
     } else if (username) {
-        if (MKMNetwork_IsGroup(ID.type)) {
-            return [NSString stringWithFormat:@"Group[%@]", username];
-        }
         return username;
     } else {
         // BTC Address
-        if (MKMNetwork_IsGroup(ID.type)) {
-            return [NSString stringWithFormat:@"Group[%@]", ID.address];
-        }
         return (NSString *)ID.address;
     }
 }
