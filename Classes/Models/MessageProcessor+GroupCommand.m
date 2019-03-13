@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "User.h"
 #import "Facebook+Register.h"
 
 #import "MessageProcessor+GroupCommand.h"
@@ -29,9 +30,13 @@
         NSArray *invites = [content objectForKey:@"members"];
         NSMutableArray *addeds = [[NSMutableArray alloc] initWithCapacity:invites.count];
         
+        NSMutableArray *mArray = [members mutableCopy];
+        if (!mArray) {
+            mArray = [[NSMutableArray alloc] initWithCapacity:invites.count];
+        }
         for (NSString *item in invites) {
             member = [DIMID IDWithID:item];
-            if ([members containsObject:member]) {
+            if ([mArray containsObject:member]) {
                 // NOTE:
                 //    the owner will receive the invite command sent by itself
                 //    after it's already added these members to the group,
@@ -39,23 +44,27 @@
                 //NSAssert(false, @"adding member error: %@, %@", members, invites);
                 //return NO;
             } else {
+                [mArray addObject:member];
                 [addeds addObject:member];
             }
         }
-        if (addeds.count == 0) {
-            NSLog(@"members not changed: %@ invites %@", members, invites);
-            return NO;
+        if (addeds.count > 0) {
+            NSLog(@"invite members: %@ to group: %@", addeds, groupID);
+            // save new members list
+            if (![facebook saveMembers:mArray withGroupID:groupID]) {
+                return NO;
+            }
         }
         
-        // save new members list
-        if (![facebook saveMembers:invites withGroupID:groupID]) {
-            NSLog(@"failed to invite members: %@ to group: %@", invites, groupID);
-            return NO;
+        DIMID *owner = [content objectForKey:@"owner"];
+        owner = [DIMID IDWithID:owner];
+        NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:addeds.count];
+        for (DIMID *item in invites) {
+            [mArr addObject:readable_name([DIMID IDWithID:item])];
         }
-        
-        NSString *owner = [content objectForKey:@"owner"];
-        NSString *str = [addeds componentsJoinedByString:@", "];
-        NSString *text = [NSString stringWithFormat:@"%@ has added new member(s): %@", owner, str];
+        NSString *str = [mArr componentsJoinedByString:@",\n"];
+        NSString *text = [NSString stringWithFormat:@"%@ has invited member(s):\n%@.",
+                          readable_name(owner), str];
         NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
         [content setObject:text forKey:@"text"];
         [content setObject:addeds forKey:@"added"];
@@ -80,32 +89,37 @@
                 //return NO;
             }
         }
-        if (removeds.count == 0) {
-            NSLog(@"members not changed: %@ expels %@", members, expels);
-            return NO;
-        }
-        members = mArray;
-        
-        // save new members list
-        if ([facebook saveMembers:members withGroupID:groupID]) {
-            NSLog(@"failed to expel members: %@ from group: %@", expels, groupID);
-            return NO;
+        if (removeds.count > 0) {
+            NSLog(@"expel members: %@ from group: %@", removeds, groupID);
+            // save new members list
+            if (![facebook saveMembers:mArray withGroupID:groupID]) {
+                return NO;
+            }
         }
         
-        NSString *owner = [content objectForKey:@"owner"];
-        NSString *str = [removeds componentsJoinedByString:@", "];
-        NSString *text = [NSString stringWithFormat:@"%@ has removed member(s): %@", owner, str];
+        DIMID *owner = [content objectForKey:@"owner"];
+        owner = [DIMID IDWithID:owner];
+        NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:expels.count];
+        for (DIMID *item in expels) {
+            [mArr addObject:readable_name([DIMID IDWithID:item])];
+        }
+        NSString *str = [mArr componentsJoinedByString:@",\n"];
+        NSString *text = [NSString stringWithFormat:@"%@ has removed member(s):\n%@.",
+                          readable_name(owner), str];
         NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
         [content setObject:text forKey:@"text"];
         [content setObject:removeds forKey:@"removed"];
         
     } else if ([command isEqualToString:@"quit"]) {
         
-        if ([facebook group:group removeMember:sender]) {
-            NSString *text = [NSString stringWithFormat:@"%@ has quitted group chat", sender];
-            NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
-            [content setObject:text forKey:@"text"];
+        // remove member
+        if (![facebook group:group removeMember:sender]) {
+            return NO;
         }
+        
+        NSString *text = [NSString stringWithFormat:@"%@ has quitted group chat.", readable_name(sender)];
+        NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
+        [content setObject:text forKey:@"text"];
         
     }
     

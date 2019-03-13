@@ -20,13 +20,54 @@
 
 const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 
+static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *group, const DIMUser *user) {
+    const DIMID *founder = group.founder;
+    NSArray<const DIMID *> *members = group.members;
+    const DIMID *current = user.ID;
+    NSArray<const DIMID *> *contacts = user.contacts;
+    
+    const DIMID *ID;
+    NSMutableArray *candidates = [[NSMutableArray alloc] initWithCapacity:(members.count + contacts.count)];
+    // add all members (except the founder & current user) as candidates
+    for (ID in members) {
+        if ([ID isEqual:founder] || [ID isEqual:current]) {
+            // move these two account to the tail
+            continue;
+        }
+        if ([candidates containsObject:ID]) {
+            continue;
+        }
+        [candidates addObject:ID];
+    }
+    // add all contacts (except the founder & current user) as candidates
+    for (ID in contacts) {
+        if ([ID isEqual:founder] || [ID isEqual:current]) {
+            // move these two account to the tail
+            continue;
+        }
+        if ([candidates containsObject:ID]) {
+            continue;
+        }
+        [candidates addObject:ID];
+    }
+    
+    // add current user & founder as candidates
+    if (current) {
+        [candidates addObject:current];
+    }
+    if (founder && ![founder isEqual:current]) {
+        [candidates addObject:founder];
+    }
+    return candidates;
+}
+
 @interface ParticipantsManageTableViewController () {
     
     DIMGroup *_group;
     const DIMID *_founder;
-    NSArray<const DIMID *> *_membersList;
+    NSArray<const DIMID *> *_memberList;
     
-    NSArray<const DIMID *> *_contactsList;
+    NSArray<const DIMID *> *_candidateList;
     NSMutableArray<const DIMID *> *_selectedList;
 }
 
@@ -43,82 +84,78 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    [_logoImageView roundedCorner];
+    
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     
-    // 1. contacts list
-    _contactsList = user.contacts;
-    if (![_contactsList containsObject:user.ID]) {
-        NSMutableArray *mArray = [_contactsList mutableCopy];
-        [mArray addObject:user.ID];
-        _contactsList = mArray;
-    }
-    
-    _selectedList = [[NSMutableArray alloc] init];
-    [_selectedList addObject:user.ID];
-    
-    [_logoImageView roundedCorner];
-    
-    const DIMID *ID = _conversation.ID;
-    if (MKMNetwork_IsGroup(ID.type)) {
-        _group = MKMGroupWithID(ID);
-        DIMProfile *profile = MKMProfileForID(ID);
-        
-        // founder
+    // 1. group info
+    if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+        // exists group
+        _group = MKMGroupWithID(_conversation.ID);
         _founder = _group.founder;
+        // Notice: the group member list will/will not include the founder
+        _memberList = _group.members;
         
-        // 2. members list
-        _membersList = _group.members;
-        
-        // 3. selected list
-        const DIMID *contact;
-        for (contact in _membersList) {
-            if ([_selectedList containsObject:contact]) {
-                continue;
-            }
-            if (![_contactsList containsObject:contact]) {
-                //NSAssert(false, @"unexpected member: %@", contact);
-                continue;
-            }
-            [_selectedList addObject:contact];
-        }
-        
-        // 4. logo
+        // 1.1. logo
+        DIMProfile *profile = MKMProfileForID(_group.ID);
         NSString *name = profile.name;
         if (name.length > 0) {
             [_logoImageView setText:[NSString stringWithFormat:@"[%@]", [name substringToIndex:1]]];
         } else {
             [_logoImageView setText:@"[Đ]"];
         }
-        // 5. name
+        
+        // 1.2. name
         _nameTextField.text = name;
-        // 6. seed
-        _seedTextField.text = ID.name;
+        
+        // 1.3. seed
+        _seedTextField.text = _group.ID.name;
         _seedTextField.enabled = NO;
     } else {
-        // founder
+        // new group
+        _group = nil;
         _founder = user.ID;
+        // Notice: the group member list will/will not include the founder
+        _memberList = [[NSArray alloc] initWithObjects:_conversation.ID, nil];
         
-        // 2. members list
-        _membersList = nil;
-        
-        // 3. selected list
-        [_selectedList addObject:_conversation.ID];
-        
-        // 4. logo
+        // 1.1. logo
         [_logoImageView setText:@"[Đ]"];
         
-        // 5. name
+        // 1.2. name
         _nameTextField.text = @"";
         
-        // 6. seed
+        // 1.3. seed
         uint32_t seed = arc4random();
-        if (ID.name) {
-            _seedTextField.text = [NSString stringWithFormat:@"polylogue-%u-%@", seed, ID.name];
+        if (_conversation.ID.name) {
+            _seedTextField.text = [NSString stringWithFormat:@"polylogue-%u-%@", seed, _conversation.ID.name];
         } else {
             _seedTextField.text = [NSString stringWithFormat:@"polylogue-%u", seed];
         }
         _seedTextField.enabled = YES;
+    }
+    
+    // 2. candidates
+    _candidateList = group_member_candidates(_group, user);
+    
+    // 3. selected list
+    _selectedList = [[NSMutableArray alloc] init];
+    [_selectedList addObject:user.ID];
+    if (_founder && ![_founder isEqual:user.ID]) {
+        [_selectedList addObject:_founder];
+    }
+    if (!_group && MKMNetwork_IsCommunicator(_conversation.ID.type)) {
+        if (![_selectedList containsObject:_conversation.ID]) {
+            [_selectedList addObject:_conversation.ID];
+        }
+    }
+    if (_memberList.count > 0) {
+        for (const DIMID *item in _memberList) {
+            if ([_selectedList containsObject:item]) {
+                continue;
+            }
+            [_selectedList addObject:item];
+        }
     }
 }
 
@@ -181,24 +218,6 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     
     // TODO: save current user as founder & owner of the group
     // ...
-    
-//    NSString *text = [NSString stringWithFormat:@"Group %@ updated!", profile.name];
-//    DIMMessageContent *content;
-//    content = [[DIMMessageContent alloc] initWithText:text];
-//    content.group = ID;
-//    [content setObject:_selectedList forKey:@"members"];
-//    [content setObject:profile forKey:@"profile"];
-//    [client sendContent:content to:ID];
-//
-//    // send to myself
-//    DIMUser *user = client.currentUser;
-//    DIMInstantMessage *iMsg;
-//    iMsg = [[DIMInstantMessage alloc] initWithContent:content
-//                                               sender:user.ID
-//                                             receiver:ID
-//                                                 time:nil];
-//    DIMAmanuensis *clerk = [DIMAmanuensis sharedInstance];
-//    [clerk saveMessage:iMsg];
     
     return YES;
 }
@@ -311,8 +330,8 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     if (section == 0) {
         // founder
     } else if (section == 1) {
-        // members
-        const DIMID *ID = [_contactsList objectAtIndex:row];
+        // candidates
+        const DIMID *ID = [_candidateList objectAtIndex:row];
         NSAssert(![_selectedList containsObject:ID], @"%@ should not in selected list: %@", ID, _selectedList);
         [_selectedList addObject:ID];
         NSLog(@"select: %@", ID);
@@ -330,8 +349,8 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     if (section == 0) {
         // founder
     } else if (section == 1) {
-        // members
-        const DIMID *ID = [_contactsList objectAtIndex:row];
+        // candidates
+        const DIMID *ID = [_candidateList objectAtIndex:row];
         NSAssert([_selectedList containsObject:ID], @"contact not selected: %@", ID);
         [_selectedList removeObject:ID];
         NSLog(@"deselect: %@", ID);
@@ -356,8 +375,8 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
             return 0;
         }
     } else if (section == 1) {
-        // members
-        return _contactsList.count;
+        // candidates
+        return _candidateList.count;
     }
     return [super tableView:tableView numberOfRowsInSection:section];
 }
@@ -375,11 +394,11 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         cell.participant = _founder;
         cell.userInteractionEnabled = NO;
     } else if (section == 1) {
-        // members
+        // candidates
         Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
         const DIMID *contact;
-        contact = [_contactsList objectAtIndex:row];
+        contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;
         
         if ([contact isEqual:_founder] ||
