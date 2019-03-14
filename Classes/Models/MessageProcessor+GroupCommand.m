@@ -20,8 +20,8 @@
     NSString *command = content.command;
     NSLog(@"command: %@", command);
     
-    const DIMID *groupID = content.group;
-    DIMGroup *group = MKMGroupWithID(groupID);
+    const DIMID *groupID = [DIMID IDWithID:content.group];
+    DIMGroup *group = DIMGroupWithID(groupID);
     NSArray *members = group.members;
     const DIMID *member;
     

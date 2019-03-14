@@ -90,8 +90,9 @@
         _msg = msg;
         
         DIMEnvelope *env = _msg.envelope;
+        const DIMID *sender = [DIMID IDWithID:env.sender];
         DIMMessageContent *content = _msg.content;
-        DIMProfile *profile = MKMProfileForID(env.sender);
+        DIMProfile *profile = DIMProfileForID(sender);
         
         // avatar
         CGRect avatarFrame = _avatarImageView.frame;
@@ -169,8 +170,9 @@
         _msg = msg;
         
         DIMEnvelope *env = _msg.envelope;
+        const DIMID *sender = [DIMID IDWithID:env.sender];
         DIMMessageContent *content = _msg.content;
-        DIMProfile *profile = MKMProfileForID(env.sender);
+        DIMProfile *profile = DIMProfileForID(sender);
         
         // avatar
         CGRect avatarFrame = _avatarImageView.frame;
@@ -181,7 +183,7 @@
         [_avatarImageView setImage:image];
         
         // name
-        _nameLabel.text = readable_name(env.sender);
+        _nameLabel.text = readable_name(sender);
         
         // message
         _messageLabel.text = content.text;

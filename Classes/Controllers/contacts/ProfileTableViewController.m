@@ -42,7 +42,7 @@
     
     self.title = account_title(_account);
     
-    _profile = MKMProfileForID(_account.ID);
+    _profile = DIMProfileForID(_account.ID);
     
     NSArray *keys = _profile.allKeys;
     _keys = [[NSMutableArray alloc] initWithCapacity:keys.count];
@@ -195,8 +195,8 @@
     } else if ([segue.identifier isEqualToString:@"addContact"]) {
         
         // send meta & profile first as handshake
-        const DIMMeta *meta = MKMMetaForID(user.ID);
-        DIMProfile *profile = MKMProfileForID(user.ID);
+        const DIMMeta *meta = DIMMetaForID(user.ID);
+        DIMProfile *profile = DIMProfileForID(user.ID);
         DIMCommand *cmd;
         if (profile) {
             cmd = [[DIMProfileCommand alloc] initWithID:user.ID

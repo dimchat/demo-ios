@@ -92,13 +92,13 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     // 1. group info
     if (MKMNetwork_IsGroup(_conversation.ID.type)) {
         // exists group
-        _group = MKMGroupWithID(_conversation.ID);
+        _group = DIMGroupWithID(_conversation.ID);
         _founder = _group.founder;
         // Notice: the group member list will/will not include the founder
         _memberList = _group.members;
         
         // 1.1. logo
-        DIMProfile *profile = MKMProfileForID(_group.ID);
+        DIMProfile *profile = DIMProfileForID(_group.ID);
         NSString *name = profile.name;
         UIImage *logoImage = [profile logoImageWithSize:_logoImageView.bounds.size];
         if (logoImage) {
@@ -184,7 +184,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     
     if (MKMNetwork_IsGroup(ID.type)) {
         // exists group
-        profile = MKMProfileForID(ID);
+        profile = DIMProfileForID(ID);
         if (profile) {
             profile.name = name;
         } else {
@@ -260,7 +260,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     DIMAccount *contact;
     NSString *name;
     for (ID in _selectedList) {
-        contact = MKMAccountWithID(ID);
+        contact = DIMAccountWithID(ID);
         name = account_title(contact);
         [mArray addObject:name];
     }

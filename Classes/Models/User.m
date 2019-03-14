@@ -33,7 +33,7 @@ NSString *group_title(const DIMGroup *group) {
 }
 
 NSString *readable_name(const DIMID *ID) {
-    DIMProfile *profile = MKMProfileForID(ID);
+    DIMProfile *profile = DIMProfileForID(ID);
     NSString *nickname = profile.name;
     NSString *username = ID.name;
     if (nickname) {
@@ -72,7 +72,7 @@ BOOL check_username(const NSString *username) {
     DIMPrivateKey *SK = [DIMPrivateKey keyWithKey:[dict objectForKey:@"privateKey"]];
     [SK saveKeyWithIdentifier:ID.address];
     
-    DIMUser *user = MKMUserWithID(ID);
+    DIMUser *user = DIMUserWithID(ID);
     
     // profile
     DIMProfile *profile = [dict objectForKey:@"profile"];

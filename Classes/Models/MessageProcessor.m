@@ -269,9 +269,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (DIMConversation *)conversationWithID:(const DIMID *)ID {
     DIMEntity *entity = nil;
     if (MKMNetwork_IsCommunicator(ID.type)) {
-        entity = MKMAccountWithID(ID);
+        entity = DIMAccountWithID(ID);
     } else if (MKMNetwork_IsGroup(ID.type)) {
-        entity = MKMGroupWithID(ID);
+        entity = DIMGroupWithID(ID);
     }
     
     if (entity) {
@@ -300,9 +300,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         // ...
         return YES;
     } else if (content.type == DIMMessageType_History) {
-        const DIMID *groupID = content.group;
+        const DIMID *groupID = [DIMID IDWithID:content.group];
         if (groupID) {
-            const DIMID *sender = iMsg.envelope.sender;
+            const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
             if (![self processGroupCommand:content commander:sender]) {
                 NSLog(@"group comment error: %@", content);
                 return NO;

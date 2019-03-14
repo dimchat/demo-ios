@@ -32,6 +32,9 @@ SingletonImplementations(Client, sharedInstance)
         sp = [[DIMServiceProvider alloc] initWithID:ID];
     }
     
+    // load key classes (AES, RSA)
+    [DIMKeyStore sharedInstance];
+    
     // choose the fast station
     NSArray *stations = [config objectForKey:@"stations"];
     NSDictionary *station = stations.firstObject;

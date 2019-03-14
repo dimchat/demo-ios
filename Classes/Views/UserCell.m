@@ -25,7 +25,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    DIMProfile *profile = MKMProfileForID(_contact.ID);
+    DIMProfile *profile = DIMProfileForID(_contact.ID);
     
     // avatar
     CGRect frame = _avatarImageView.frame;

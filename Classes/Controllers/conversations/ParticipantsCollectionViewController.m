@@ -45,7 +45,7 @@
         [_participants addObject:_conversation.ID];
     } else if (MKMNetwork_IsGroup(_conversation.ID.type)) {
         // group conversation
-        DIMGroup *group = MKMGroupWithID(_conversation.ID);
+        DIMGroup *group = DIMGroupWithID(_conversation.ID);
         [_participants addObjectsFromArray:group.members];
     }
 }

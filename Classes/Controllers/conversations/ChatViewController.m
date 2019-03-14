@@ -190,7 +190,7 @@
     
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
     DIMEnvelope *env = iMsg.envelope;
-    const DIMID *sender = env.sender;
+    const DIMID *sender = [DIMID IDWithID:env.sender];
     
     NSString *identifier = @"receivedMsgCell";
     if ([sender isEqual:_conversation.ID]) {

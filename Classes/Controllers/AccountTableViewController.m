@@ -34,7 +34,7 @@
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     if (user) {
-        DIMProfile *profile = MKMProfileForID(user.ID);
+        DIMProfile *profile = DIMProfileForID(user.ID);
         
         // avatar
         CGRect avatarFrame = _avatarImageView.frame;
@@ -67,7 +67,7 @@
 - (void)reloadData {
     // TODO: update client.users
     DIMUser *user = [Client sharedInstance].currentUser;
-    DIMProfile *profile = MKMProfileForID(user.ID);
+    DIMProfile *profile = DIMProfileForID(user.ID);
     
     // avatar
     CGRect avatarFrame = _avatarImageView.frame;

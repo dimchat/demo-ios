@@ -26,7 +26,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    DIMProfile *profile = MKMProfileForID(_conversation.ID);
+    DIMProfile *profile = DIMProfileForID(_conversation.ID);
     
     // avatar
     CGRect frame = _avatarImageView.frame;

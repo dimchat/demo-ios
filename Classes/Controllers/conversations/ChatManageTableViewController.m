@@ -152,7 +152,7 @@
         if (row == 0) {
             // Name
             key = @"Name";
-            DIMProfile *profile = MKMProfileForID(_conversation.ID);
+            DIMProfile *profile = DIMProfileForID(_conversation.ID);
             value = profile.name;
             if (!value) {
                 value = _conversation.ID.name;

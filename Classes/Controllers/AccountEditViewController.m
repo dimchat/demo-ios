@@ -29,7 +29,7 @@
     
     NSString *name = user.name;
     const DIMID *ID = user.ID;
-    const DIMMeta *meta = MKMMetaForID(ID);
+    const DIMMeta *meta = DIMMetaForID(ID);
     DIMPrivateKey *SK = user.privateKey;
     
     _fullnameTextField.text = name;

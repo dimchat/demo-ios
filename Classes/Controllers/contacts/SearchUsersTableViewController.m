@@ -98,7 +98,7 @@
         
         for (NSString *item in users) {
             ID = [DIMID IDWithID:item];
-            PK = MKMPublicKeyForID(ID);
+            PK = DIMPublicKeyForID(ID);
             if (PK) {
                 [_onlineUsers addObject:ID];
             } else {
@@ -200,7 +200,7 @@
         // online users
         ID = [_onlineUsers objectAtIndex:row];
     }
-    cell.contact = MKMAccountWithID(ID);
+    cell.contact = DIMAccountWithID(ID);
     
     return cell;
 }

@@ -73,7 +73,7 @@ static inline void sort_array(NSMutableArray *array) {
     NSString *name;
     while (--count >= 0) {
         contact = [facebook user:user contactAtIndex:count];
-        profile = MKMProfileForID(contact);
+        profile = DIMProfileForID(contact);
         name = profile.name;
         if (name.length == 0) {
             name = contact.name;
@@ -131,7 +131,7 @@ static inline void sort_array(NSMutableArray *array) {
     NSArray *list = [_contactsTable objectForKey:key];
     DIMID *ID = [list objectAtIndex:row];
     
-    DIMAccount *contact = MKMAccountWithID(ID);
+    DIMAccount *contact = DIMAccountWithID(ID);
     
     ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
     cell.contact = contact;
@@ -206,7 +206,7 @@ static inline void sort_array(NSMutableArray *array) {
         const DIMID *ID = cell.contact.ID;
         
         ProfileTableViewController *vc = (id)[segue visibleDestinationViewController];
-        vc.account = MKMAccountWithID(ID);
+        vc.account = DIMAccountWithID(ID);
     }
     
 }

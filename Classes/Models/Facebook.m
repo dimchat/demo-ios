@@ -27,7 +27,7 @@ typedef NSMutableDictionary<const DIMAddress *, DIMProfile *> ProfileTableM;
     
     MKMImmortals *_immortals;
     
-    NSMutableDictionary<const DIMAddress *, NSMutableArray<const MKMID *> *> *_contactsTable;
+    NSMutableDictionary<const DIMAddress *, NSMutableArray<const DIMID *> *> *_contactsTable;
     
     ProfileTableM *_profileTable;
 }
@@ -78,8 +78,8 @@ SingletonImplementations(Facebook, sharedInstance)
         // add users
         Client *client = [Client sharedInstance];
         DIMUser *user;
-        for (MKMID *ID in users) {
-            user = MKMUserWithID(ID);
+        for (DIMID *ID in users) {
+            user = DIMUserWithID(ID);
             [client addUser:user];
         }
         
@@ -135,7 +135,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return ID;
 }
 
-- (void)addStation:(const MKMID *)stationID provider:(const DIMServiceProvider *)sp {
+- (void)addStation:(const DIMID *)stationID provider:(const DIMServiceProvider *)sp {
     NSMutableArray *stations = [_contactsTable objectForKey:sp.ID.address];
     if (stations) {
         if ([stations containsObject:stationID]) {
@@ -154,7 +154,7 @@ SingletonImplementations(Facebook, sharedInstance)
 // {document_directory}/.mkm/{address}/contacts.plist
 - (void)flushContactsWithUser:(const DIMUser *)user {
     
-    NSMutableArray<const MKMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
+    NSMutableArray<const DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts.count > 0) {
         NSString *dir = document_directory();
         NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
@@ -171,7 +171,7 @@ SingletonImplementations(Facebook, sharedInstance)
     NSString *dir = document_directory();
     NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
     
-    NSMutableArray<const MKMID *> *contacts = nil;
+    NSMutableArray<const DIMID *> *contacts = nil;
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         contacts = [[NSMutableArray alloc] initWithContentsOfFile:path];
     }
@@ -225,7 +225,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return [self metaForID:entity.ID];
 }
 
-- (NSString *)nameOfEntity:(const MKMEntity *)entity {
+- (NSString *)nameOfEntity:(const DIMEntity *)entity {
     DIMProfile *profile = [self profileForID:entity.ID];
     return profile.name;
 }
@@ -246,7 +246,7 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     // check meta
-    const DIMMeta *meta = MKMMetaForID(ID);
+    const DIMMeta *meta = DIMMetaForID(ID);
     if (!meta) {
         NSLog(@"meta not found: %@", ID);
     }
@@ -280,9 +280,9 @@ SingletonImplementations(Facebook, sharedInstance)
     return [DIMID IDWithID:ID];
 }
 
-- (BOOL)user:(const MKMUser *)user addContact:(const MKMID *)contact {
+- (BOOL)user:(const DIMUser *)user addContact:(const DIMID *)contact {
     NSLog(@"user %@ add contact %@", user, contact);
-    NSMutableArray<const MKMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
+    NSMutableArray<const DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts) {
         if ([contacts containsObject:contact]) {
             NSLog(@"contact %@ already exists, user: %@", contact, user.ID);
@@ -299,9 +299,9 @@ SingletonImplementations(Facebook, sharedInstance)
     return YES;
 }
 
-- (BOOL)user:(const MKMUser *)user removeContact:(const MKMID *)contact {
+- (BOOL)user:(const DIMUser *)user removeContact:(const DIMID *)contact {
     NSLog(@"user %@ remove contact %@", user, contact);
-    NSMutableArray<const MKMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
+    NSMutableArray<const DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts) {
         if ([contacts containsObject:contact]) {
             [contacts removeObject:contact];
@@ -333,7 +333,7 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     // check meta
-    const DIMMeta *meta = MKMMetaForID(ID);
+    const DIMMeta *meta = DIMMetaForID(ID);
     if (!meta) {
         NSLog(@"meta not found: %@", ID);
     }
@@ -344,19 +344,22 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMGroupDataSource
 
-- (const DIMID *)founderOfGroup:(const MKMGroup *)grp {
+- (const DIMID *)founderOfGroup:(const DIMGroup *)grp {
+    const DIMMeta *groupMeta = grp.meta;
     NSInteger count = [self numberOfMembersInGroup:grp];
     const DIMID *member;
     for (NSInteger index = 0; index < count; ++index) {
         member = [self group:grp memberAtIndex:index];
-        if ([grp isFounder:member]) {
+        // if the user's public key matches with the group's meta,
+        // it means this meta was generate by the user's private key
+        if ([groupMeta matchPublicKey:DIMPublicKeyForID(member)]) {
             return member;
         }
     }
     return nil;
 }
 
-- (const DIMID *)ownerOfGroup:(const MKMGroup *)grp {
+- (const DIMID *)ownerOfGroup:(const DIMGroup *)grp {
     if (grp.ID.type == MKMNetwork_Polylogue) {
         // the polylogue's owner is its founder
         return [self founderOfGroup:grp];
@@ -385,7 +388,7 @@ SingletonImplementations(Facebook, sharedInstance)
     DIMGroup *group = nil;
     
     // check meta
-    const DIMMeta *meta = MKMMetaForID(ID);
+    const DIMMeta *meta = DIMMetaForID(ID);
     if (!meta) {
         NSLog(@"meta not found: %@", ID);
     }
@@ -401,7 +404,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return group;
 }
 
-- (BOOL)group:(const MKMGroup *)group addMember:(const MKMID *)member {
+- (BOOL)group:(const DIMGroup *)group addMember:(const DIMID *)member {
     NSArray<const DIMID *> *members = group.members;
     if ([members containsObject:member]) {
         NSAssert(false, @"member already exists: %@, %@", member, group);
@@ -412,7 +415,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return [self saveMembers:mArray withGroupID:group.ID];
 }
 
-- (BOOL)group:(const MKMGroup *)group removeMember:(const MKMID *)member {
+- (BOOL)group:(const DIMGroup *)group removeMember:(const DIMID *)member {
     NSArray<const DIMID *> *members = group.members;
     if (![members containsObject:member]) {
         NSAssert(false, @"member not exists: %@, %@", member, group);
