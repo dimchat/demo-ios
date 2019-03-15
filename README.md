@@ -31,6 +31,7 @@ git clone https://github.com/dimchat/mkm-objc.git
 
 cd ..; mkdir moky; cd moky/
 git clone https://github.com/moky/StarGate.git
+git clone https://github.com/moky/FiniteStateMachine.git
 ```
 
 ### 1. Test in simulators
