@@ -5,11 +5,12 @@ Demo project of DIM Client, just for study purpose.
 Dependencies:
 
 - [DIM Client (client-objc)](https://github.com/dimchat/client-objc)
-	1. [DIM Core (core-objc)](https://github.com/dimchat/core-objc)
+	- [DIM Core (core-objc)](https://github.com/dimchat/core-objc)
 		- [Message Module (dkd-objc)](https://github.com/dimchat/dkd-objc)
 		- [Account Module (mkm-objc)](https://github.com/dimchat/mkm-objc)
-	2. [Connection Module (moky/StarGate)](https://github.com/moky/StarGate)
+	- [Connection Module (moky/StarGate)](https://github.com/moky/StarGate)
 		- [Tencent/mars](https://github.com/Tencent/mars)
+	- [Finite State Machine](https://github.com/moky/FiniteStateMachine)
 
 ## Getting started
 
