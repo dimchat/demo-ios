@@ -369,11 +369,13 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 - (NSInteger)numberOfMembersInGroup:(const DIMGroup *)grp {
+    // TODO: cache it
     NSArray<const DIMID *> *list = [self loadMembersWithGroupID:grp.ID];
     return list.count;
 }
 
 - (const DIMID *)group:(const DIMGroup *)grp memberAtIndex:(NSInteger)index {
+    // TODO: cache it
     NSArray<const DIMID *> *list = [self loadMembersWithGroupID:grp.ID];
     if (index < list.count && index >= 0) {
         return [list objectAtIndex:index];

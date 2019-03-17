@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SentMsgCell : MsgCell
 
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *messageImageView;
 @property (weak, nonatomic) IBOutlet UILabel *messageLabel;
@@ -37,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface ReceivedMsgCell : MsgCell
+
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;

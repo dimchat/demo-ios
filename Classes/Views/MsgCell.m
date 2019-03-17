@@ -42,6 +42,102 @@
     // Configure the view for the selected state
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    id cell = self;
+    //UILabel *timeLabel = [cell timeLabel];
+    //UIImageView *avatarImageView = [cell avatarImageView];
+    UIImageView *messageImageView = [cell messageImageView];
+    UILabel *messageLabel = [cell messageLabel];
+    
+    CGFloat cellWidth = self.bounds.size.width;
+    CGFloat msgWidth = cellWidth * 0.618;
+    UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
+    
+    // message
+    UIFont *font = messageLabel.font;
+    NSString *text = messageLabel.text;
+    CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
+    size = [text sizeWithFont:font maxSize:size];
+    
+    CGRect imageFrame = messageImageView.frame;
+    imageFrame.size = CGSizeMake(size.width + edges.left + edges.right,
+                                 size.height + edges.top + edges.bottom);
+    CGRect labelFrame = CGRectMake(imageFrame.origin.x + edges.left,
+                                   imageFrame.origin.y + edges.top,
+                                   size.width, size.height);
+    messageImageView.frame = imageFrame;
+    messageLabel.frame = labelFrame;
+    
+    // resize content view
+    CGFloat cellHeight = imageFrame.origin.y + imageFrame.size.height;
+    if (cellHeight < 80) {
+        cellHeight = 80;
+    }
+    CGRect rect = CGRectMake(0, 0, cellWidth, cellHeight);
+    self.bounds = rect;
+    self.contentView.frame = rect;
+}
+
+- (void)setMsg:(DKDInstantMessage *)msg {
+    if (![_msg isEqual:msg]) {
+        _msg = msg;
+        
+        id cell = self;
+        UILabel *timeLabel = [cell timeLabel];
+        UIImageView *avatarImageView = [cell avatarImageView];
+        UILabel *messageLabel = [cell messageLabel];
+        
+        DIMEnvelope *env = msg.envelope;
+        const DIMID *sender = [DIMID IDWithID:env.sender];
+        DIMMessageContent *content = msg.content;
+        DIMProfile *profile = DIMProfileForID(sender);
+        
+        // time
+        NSString *time = [msg objectForKey:@"timeTag"];
+        if (time.length > 0) {
+            timeLabel.text = time;
+            // resize
+            UIFont *font = timeLabel.font;
+            CGSize size = CGSizeMake(200, MAXFLOAT);
+            size = [time sizeWithFont:font maxSize:size];
+            size = CGSizeMake(size.width + 16, 16);
+            CGRect rect = CGRectMake(0, 0,
+                                     size.width, size.height);
+            timeLabel.bounds = rect;
+            [timeLabel roundedCorner];
+        } else {
+            timeLabel.bounds = CGRectMake(0, 0, 0, 0);
+            timeLabel.text = @"";
+        }
+        
+        // avatar
+        CGRect avatarFrame = avatarImageView.frame;
+        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
+        if (!image) {
+            image = [UIImage imageNamed:@"AppIcon"];
+        }
+        [avatarImageView setImage:image];
+        
+        // message
+        messageLabel.text = content.text;
+        
+        [self setNeedsLayout];
+    }
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    id cell = self;
+    // avatar
+    [[cell avatarImageView] roundedCorner];
+    
+    // message
+    [cell messageImageView].image = [[cell messageImageView].image resizableImage];
+}
+
 @end
 
 #pragma mark -
@@ -51,155 +147,33 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat cellWidth = self.bounds.size.width;
-    CGFloat msgWidth = cellWidth * 0.618;
     UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
     CGFloat space = 5;
     
-    CGRect frame;
+    CGRect avatarFrame = _avatarImageView.frame;
+    CGRect msgImageFrame = _messageImageView.frame;
+    CGRect msgLabelFrame = _messageLabel.frame;
     
-    // message
-    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right,
-                             MAXFLOAT);
-    UIFont *font = _messageLabel.font;
-    NSString *text = _messageLabel.text;
-    size = [text sizeWithFont:font maxSize:size];
+    // adjust position of message box
+    msgImageFrame.origin.x = avatarFrame.origin.x - space - msgImageFrame.size.width;
+    msgLabelFrame.origin.x = msgImageFrame.origin.x + edges.left;
     
-    frame = _messageImageView.frame;
-    frame.size = CGSizeMake(size.width + edges.left + edges.right,
-                            size.height + edges.top + edges.bottom);
-    frame.origin.x = _avatarImageView.frame.origin.x - space - frame.size.width;
-    _messageImageView.frame = frame;
-    _messageLabel.frame = CGRectMake(frame.origin.x + edges.left,
-                                     frame.origin.y + edges.top,
-                                     size.width,
-                                     size.height);
-    
-    // resize content view
-    CGFloat cellHeight = frame.origin.y + frame.size.height;
-    if (cellHeight < 80) {
-        cellHeight = 80;
-    }
-    CGRect rect = CGRectMake(0, 0, cellWidth, cellHeight);
-    self.bounds = rect;
-    self.contentView.frame = rect;
-}
-
-- (void)setMsg:(DKDInstantMessage *)msg {
-    if (![_msg isEqual:msg]) {
-        _msg = msg;
-        
-        DIMEnvelope *env = _msg.envelope;
-        const DIMID *sender = [DIMID IDWithID:env.sender];
-        DIMMessageContent *content = _msg.content;
-        DIMProfile *profile = DIMProfileForID(sender);
-        
-        // avatar
-        CGRect avatarFrame = _avatarImageView.frame;
-        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"AppIcon"];
-        }
-        [_avatarImageView setImage:image];
-        
-        // message
-        _messageLabel.text = content.text;
-        
-        [self setNeedsLayout];
-    }
-}
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    
-    // avatar
-    [_avatarImageView roundedCorner];
-    
-    // message
-    _messageImageView.image = [_messageImageView.image resizableImage];
+    _messageImageView.frame = msgImageFrame;
+    _messageLabel.frame = msgLabelFrame;
 }
 
 @end
 
 @implementation ReceivedMsgCell
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)setMsg:(DKDInstantMessage *)msg {
+    [super setMsg:msg];
     
-    CGFloat cellWidth = self.bounds.size.width;
-    CGFloat msgWidth = cellWidth * 0.618;
-    UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
-    
-    CGRect frame;
+    DIMEnvelope *env = msg.envelope;
+    const DIMID *sender = [DIMID IDWithID:env.sender];
     
     // name
-    frame = _nameLabel.frame;
-    frame.size.width = msgWidth;
-    _nameLabel.frame = frame;
-    
-    // message
-    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right,
-                                MAXFLOAT);
-    UIFont *font = _messageLabel.font;
-    NSString *text = _messageLabel.text;
-    size = [text sizeWithFont:font maxSize:size];
-    
-    frame = _messageImageView.frame;
-    frame = CGRectMake(frame.origin.x,
-                       frame.origin.y,
-                       size.width + edges.left + edges.right,
-                       size.height + edges.top + edges.bottom);
-    _messageImageView.frame = frame;
-    _messageLabel.frame = CGRectMake(frame.origin.x + edges.left,
-                                     frame.origin.y + edges.top,
-                                     size.width,
-                                     size.height);
-
-    // resize content view
-    CGFloat cellHeight = frame.origin.y + frame.size.height;
-    if (cellHeight < 80) {
-        cellHeight = 80;
-    }
-    CGRect rect = CGRectMake(0, 0, cellWidth, cellHeight);
-    self.bounds = rect;
-    self.contentView.frame = rect;
-}
-
-- (void)setMsg:(DKDInstantMessage *)msg {
-    if (![_msg isEqual:msg]) {
-        _msg = msg;
-        
-        DIMEnvelope *env = _msg.envelope;
-        const DIMID *sender = [DIMID IDWithID:env.sender];
-        DIMMessageContent *content = _msg.content;
-        DIMProfile *profile = DIMProfileForID(sender);
-        
-        // avatar
-        CGRect avatarFrame = _avatarImageView.frame;
-        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"AppIcon"];
-        }
-        [_avatarImageView setImage:image];
-        
-        // name
-        _nameLabel.text = readable_name(sender);
-        
-        // message
-        _messageLabel.text = content.text;
-        
-        [self setNeedsLayout];
-    }
-}
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    
-    // avatar
-    [_avatarImageView roundedCorner];
-    
-    // message
-    _messageImageView.image = [_messageImageView.image resizableImage];
+    _nameLabel.text = readable_name(sender);
 }
 
 @end

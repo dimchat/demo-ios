@@ -150,12 +150,36 @@ static inline NSMutableDictionary *scan_messages(void) {
     return mDict;
 }
 
+static inline NSMutableArray *time_for_messages(NSArray *messages) {
+    NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:messages.count];
+    NSNumber *timestamp;
+    NSDate *date;
+    NSDate *lastDate = nil;
+    NSString *text;
+    for (NSDictionary *msg in messages) {
+        timestamp = [msg objectForKey:@"time"];
+        date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.doubleValue];
+        if (lastDate == nil || [date timeIntervalSinceDate:lastDate] > 300) {
+            text = NSStringFromDate(date);
+            lastDate = date;
+        } else {
+            text = @"";
+        }
+        [mArray addObject:text];
+    }
+    return mArray;
+}
+
 typedef NSMutableArray<const DIMInstantMessage *> MessageList;
 typedef NSMutableDictionary<const DIMID *, MessageList *> ConversationTable;
+typedef NSMutableArray<const DIMID *> ConversationIDList;
 
 @interface MessageProcessor () {
     
     ConversationTable *_chatHistory;
+    ConversationIDList *_chatList;
+    
+    NSMutableDictionary<const DIMID *, NSMutableArray<NSString *> *> *_timesTable;
 }
 
 @end
@@ -175,24 +199,38 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     return self;
 }
 
+- (void)sortConversationList {
+    [_chatList sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        MessageList *table1 = [self->_chatHistory objectForKey:obj1];
+        MessageList *table2 = [self->_chatHistory objectForKey:obj2];
+        const DIMInstantMessage *msg1 = table1.lastObject;
+        const DIMInstantMessage *msg2 = table2.lastObject;
+        NSNumber *time1 = [msg1 objectForKey:@"time"];
+        NSNumber *time2 = [msg2 objectForKey:@"time"];
+        return [time2 compare:time1];
+    }];
+}
+
+- (void)setChatHistory:(NSMutableDictionary *)dict {
+    _chatHistory = dict;
+    _chatList = [dict.allKeys mutableCopy];
+    [self sortConversationList];
+    
+    _timesTable = [[NSMutableDictionary alloc] init];
+}
+
 - (BOOL)reloadData {
     NSMutableDictionary *dict = scan_messages();
-    if ([_chatHistory isEqual:dict]) {
-        // nothing changed
-        return NO;
-    }
-    _chatHistory = dict;
+    [self setChatHistory:dict];
     return YES;
 }
 
 - (NSInteger)numberOfConversations {
-    NSArray *keys = _chatHistory.allKeys;
-    return keys.count;
+    return _chatList.count;
 }
 
 - (DIMConversation *)conversationAtIndex:(NSInteger)index {
-    NSArray *keys = _chatHistory.allKeys;
-    DIMID *ID = [keys objectAtIndex:index];
+    const DIMID *ID = [_chatList objectAtIndex:index];
     return DIMConversationWithID(ID);
 }
 
@@ -259,6 +297,13 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     } else {
         NSAssert(false, @"out of data");
     }
+    
+    NSMutableArray *timeList = [_timesTable objectForKey:ID];
+    if (timeList.count < list.count) {
+        timeList = time_for_messages(list);
+        [_timesTable setObject:timeList forKey:ID];
+    }
+    [iMsg setObject:[timeList objectAtIndex:index] forKey:@"timeTag"];
     
     return iMsg;
 }
