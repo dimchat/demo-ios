@@ -17,8 +17,6 @@
 		E92256042222ED5A006CADEA /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FD2222ED59006CADEA /* Profile.storyboard */; };
 		E92256052222ED5A006CADEA /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FF2222ED59006CADEA /* Contacts.storyboard */; };
 		E92256062222ED5A006CADEA /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92256012222ED59006CADEA /* Account.storyboard */; };
-		E922560D2222ED6B006CADEA /* gsp-selvn.plist in Resources */ = {isa = PBXBuildFile; fileRef = E92256082222ED6B006CADEA /* gsp-selvn.plist */; };
-		E922560E2222ED6B006CADEA /* usr-moky.plist in Resources */ = {isa = PBXBuildFile; fileRef = E92256092222ED6B006CADEA /* usr-moky.plist */; };
 		E92256102222ED6B006CADEA /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E922560B2222ED6B006CADEA /* gsp.plist */; };
 		E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
 		E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* Facebook+Register.m */; };
@@ -43,7 +41,6 @@
 		E978172922254D3400BCE3AD /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E97926AA22258CFF005ED1F0 /* usr-selina.plist in Resources */ = {isa = PBXBuildFile; fileRef = E97926A822258CFF005ED1F0 /* usr-selina.plist */; };
 		E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
 		E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */; };
 		E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */; };
@@ -137,8 +134,6 @@
 		E92255FE2222ED59006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
 		E92256002222ED59006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Contacts.storyboard; sourceTree = "<group>"; };
 		E92256022222ED59006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account.storyboard; sourceTree = "<group>"; };
-		E92256082222ED6B006CADEA /* gsp-selvn.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "gsp-selvn.plist"; sourceTree = "<group>"; };
-		E92256092222ED6B006CADEA /* usr-moky.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-moky.plist"; sourceTree = "<group>"; };
 		E922560B2222ED6B006CADEA /* gsp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gsp.plist; sourceTree = "<group>"; };
 		E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatViewImages.xcassets; sourceTree = "<group>"; };
 		E92256162222ED7C006CADEA /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
@@ -168,7 +163,6 @@
 		E978172022254CC000BCE3AD /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172222254CC600BCE3AD /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172422254CC900BCE3AD /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E97926A822258CFF005ED1F0 /* usr-selina.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-selina.plist"; sourceTree = "<group>"; };
 		E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatManageTableViewController.m; sourceTree = "<group>"; };
 		E99A5C9E222D8B3400EE6C86 /* ParticipantsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipantsCollectionViewController.h; sourceTree = "<group>"; };
 		E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewController.m; sourceTree = "<group>"; };
@@ -294,10 +288,7 @@
 		E92256072222ED6B006CADEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E92256082222ED6B006CADEA /* gsp-selvn.plist */,
 				E922560B2222ED6B006CADEA /* gsp.plist */,
-				E92256092222ED6B006CADEA /* usr-moky.plist */,
-				E97926A822258CFF005ED1F0 /* usr-selina.plist */,
 				E97816CD2223EAA700BCE3AD /* Assets.xcassets */,
 				E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */,
 			);
@@ -556,13 +547,10 @@
 				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,
 				E92255CD2222EC53006CADEA /* Main.storyboard in Resources */,
 				E92256052222ED5A006CADEA /* Contacts.storyboard in Resources */,
-				E922560D2222ED6B006CADEA /* gsp-selvn.plist in Resources */,
 				E92256042222ED5A006CADEA /* Profile.storyboard in Resources */,
 				E92256062222ED5A006CADEA /* Account.storyboard in Resources */,
 				E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */,
-				E97926AA22258CFF005ED1F0 /* usr-selina.plist in Resources */,
 				E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */,
-				E922560E2222ED6B006CADEA /* usr-moky.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

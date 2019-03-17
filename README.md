@@ -20,8 +20,8 @@ Dependencies:
 cd GitHub/
 mkdir dimchat; cd dimchat/
 
-# source codes
-git clone https://github.com/dimchat/client-ios.git
+# demo source codes
+git clone https://github.com/dimchat/demo-ios.git
 
 # requirements
 git clone https://github.com/dimchat/client-objc.git
@@ -36,7 +36,7 @@ git clone https://github.com/moky/FiniteStateMachine.git
 
 ### 1. Test in simulators
 
-Just open `dimchat/client-ios/Sechat/Sechat.xcodeproj`
+Just open `dimchat/demo-ios/Sechat/Sechat.xcodeproj`
 
 ### 2. Test in iOS devices
 
@@ -69,4 +69,4 @@ python build_ios.py
 #
 ```
 
-then open `dimchat/client-ios/Sechat/Sechat.xcodeproj`
+then open `dimchat/demo-ios/Sechat/Sechat.xcodeproj`
