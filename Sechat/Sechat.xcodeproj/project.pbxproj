@@ -57,6 +57,8 @@
 		E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
 		E9AFAAE122310B49001F95C6 /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */; };
+		E9BBBE30223E614A00E6ACDA /* usr-moky.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBE2D223E614A00E6ACDA /* usr-moky.plist */; };
+		E9BBBE31223E614A00E6ACDA /* usr-selina.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBE2F223E614A00E6ACDA /* usr-selina.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +194,8 @@
 		E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FiniteStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9AFAB6222352E09001F95C6 /* MessageProcessor+GroupCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MessageProcessor+GroupCommand.h"; sourceTree = "<group>"; };
 		E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MessageProcessor+GroupCommand.m"; sourceTree = "<group>"; };
+		E9BBBE2D223E614A00E6ACDA /* usr-moky.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-moky.plist"; sourceTree = "<group>"; };
+		E9BBBE2F223E614A00E6ACDA /* usr-selina.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-selina.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -289,6 +293,8 @@
 			isa = PBXGroup;
 			children = (
 				E922560B2222ED6B006CADEA /* gsp.plist */,
+				E9BBBE2D223E614A00E6ACDA /* usr-moky.plist */,
+				E9BBBE2F223E614A00E6ACDA /* usr-selina.plist */,
 				E97816CD2223EAA700BCE3AD /* Assets.xcassets */,
 				E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */,
 			);
@@ -547,8 +553,10 @@
 				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,
 				E92255CD2222EC53006CADEA /* Main.storyboard in Resources */,
 				E92256052222ED5A006CADEA /* Contacts.storyboard in Resources */,
+				E9BBBE31223E614A00E6ACDA /* usr-selina.plist in Resources */,
 				E92256042222ED5A006CADEA /* Profile.storyboard in Resources */,
 				E92256062222ED5A006CADEA /* Account.storyboard in Resources */,
+				E9BBBE30223E614A00E6ACDA /* usr-moky.plist in Resources */,
 				E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */,
 				E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */,
 			);
@@ -815,6 +823,7 @@
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../mkm-objc/Classes/**",
+					"../../core-objc/Classes/**",
 					"../../client-objc/Classes/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
@@ -838,6 +847,7 @@
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../mkm-objc/Classes/**",
+					"../../core-objc/Classes/**",
 					"../../client-objc/Classes/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;

@@ -34,6 +34,7 @@
         if (!mArray) {
             mArray = [[NSMutableArray alloc] initWithCapacity:invites.count];
         }
+        //invites = [invites copy];
         for (NSString *item in invites) {
             member = [DIMID IDWithID:item];
             if ([mArray containsObject:member]) {
@@ -59,6 +60,7 @@
         DIMID *owner = [content objectForKey:@"owner"];
         owner = [DIMID IDWithID:owner];
         NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:addeds.count];
+        //invites = [invites copy];
         for (DIMID *item in invites) {
             [mArr addObject:readable_name([DIMID IDWithID:item])];
         }
@@ -75,6 +77,7 @@
         NSMutableArray *removeds = [[NSMutableArray alloc] initWithCapacity:expels.count];
         
         NSMutableArray *mArray = [members mutableCopy];
+        //expels = [expels copy];
         for (NSString *item in expels) {
             member = [DIMID IDWithID:item];
             if ([mArray containsObject:member]) {
@@ -100,6 +103,7 @@
         DIMID *owner = [content objectForKey:@"owner"];
         owner = [DIMID IDWithID:owner];
         NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:expels.count];
+        //expels = [expels copy];
         for (DIMID *item in expels) {
             [mArr addObject:readable_name([DIMID IDWithID:item])];
         }

@@ -102,6 +102,7 @@
 
 - (BOOL)saveUserList:(const NSArray<const MKMUser *> *)users
      withCurrentUser:(const MKMUser *)curr {
+    users = [users copy];
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
     for (DIMUser *user in users) {
         [list addObject:user.ID];

@@ -155,7 +155,8 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
         }
     }
     if (_memberList.count > 0) {
-        for (const DIMID *item in _memberList) {
+        NSArray *list = [_memberList copy];
+        for (const DIMID *item in list) {
             if ([_selectedList containsObject:item]) {
                 continue;
             }
@@ -259,7 +260,8 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     DIMID *ID;
     DIMAccount *contact;
     NSString *name;
-    for (ID in _selectedList) {
+    NSArray *list = [_selectedList copy];
+    for (ID in list) {
         contact = DIMAccountWithID(ID);
         name = account_title(contact);
         [mArray addObject:name];
