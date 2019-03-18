@@ -13,8 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 // Burn After Reading
 #define MAX_MESSAGES_SAVED_COUNT 100
 
-NSString *NSStringFromDate(const NSDate *date);
-
 @interface MessageProcessor : NSObject <DIMConversationDataSource,
                                         DIMConversationDelegate>
 

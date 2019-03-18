@@ -8,6 +8,7 @@
 
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
+#import "NSDate+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 
 #import "Client.h"
@@ -16,37 +17,6 @@
 #import "MessageProcessor+GroupCommand.h"
 
 #import "MessageProcessor.h"
-
-NSString *NSStringFromDate(const NSDate *date) {
-    NSTimeInterval delta = [date timeIntervalSinceNow];
-    if (delta < 10 && delta > -30) {
-        return @"Just now";
-    }
-    if (delta > -60) {
-        return @"Less than 1 minute";
-    }
-    if (delta > -120) {
-        return @"Less than 2 minutes";
-    }
-    if (delta > -600) {
-        return @"Within a few minutes";
-    }
-    static NSDateFormatter *dateFormatter = nil;
-    if (!dateFormatter) {
-        dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setLocale:[NSLocale currentLocale]];
-    }
-    if (delta > -36000) {
-        [dateFormatter setDateFormat:@"HH:mm"];
-        return [dateFormatter stringFromDate:(id)date];
-    }
-    if (delta > -(3600*24*10)) {
-        [dateFormatter setDateFormat:@"MM-dd HH:mm"];
-        return [dateFormatter stringFromDate:(id)date];
-    }
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-    return [dateFormatter stringFromDate:(id)date];
-}
 
 /**
  Get full filepath to Documents Directory
@@ -156,7 +126,8 @@ static inline NSMutableArray *time_for_messages(NSArray *messages) {
     NSDate *date;
     NSDate *lastDate = nil;
     NSString *text;
-    for (NSDictionary *msg in messages) {
+    NSArray *list = [messages copy];
+    for (NSDictionary *msg in list) {
         timestamp = [msg objectForKey:@"time"];
         date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.doubleValue];
         if (lastDate == nil || [date timeIntervalSinceDate:lastDate] > 300) {
