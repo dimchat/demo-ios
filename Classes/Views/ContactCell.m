@@ -7,6 +7,7 @@
 //
 
 #import "UIImageView+Extension.h"
+#import "DIMProfile+Extension.h"
 
 #import "User.h"
 

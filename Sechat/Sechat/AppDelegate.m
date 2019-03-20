@@ -33,6 +33,8 @@
         DIMUser *user = [DIMUser userWithConfigFile:path];
         [[Client sharedInstance] addUser:user];
     }
+#endif
+#if DEBUG && 0
     {
         // selina
         NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-selina" ofType:@"plist"];

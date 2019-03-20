@@ -59,6 +59,12 @@
 		E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */; };
 		E9BBBE30223E614A00E6ACDA /* usr-moky.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBE2D223E614A00E6ACDA /* usr-moky.plist */; };
 		E9BBBE31223E614A00E6ACDA /* usr-selina.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9BBBE2F223E614A00E6ACDA /* usr-selina.plist */; };
+		E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */; };
+		E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */; };
+		E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */; };
+		E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */; };
+		E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3792242B21200E6ACDA /* NSString+Extension.m */; };
+		E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +202,18 @@
 		E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MessageProcessor+GroupCommand.m"; sourceTree = "<group>"; };
 		E9BBBE2D223E614A00E6ACDA /* usr-moky.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-moky.plist"; sourceTree = "<group>"; };
 		E9BBBE2F223E614A00E6ACDA /* usr-selina.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "usr-selina.plist"; sourceTree = "<group>"; };
+		E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMProfile+Extension.h"; sourceTree = "<group>"; };
+		E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
+		E9BBC3732242B21200E6ACDA /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
+		E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Extension.m"; sourceTree = "<group>"; };
+		E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extension.m"; sourceTree = "<group>"; };
+		E9BBC3762242B21200E6ACDA /* UIStoryboardSegue+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIStoryboardSegue+Extension.h"; sourceTree = "<group>"; };
+		E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Extension.m"; sourceTree = "<group>"; };
+		E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DIMProfile+Extension.m"; sourceTree = "<group>"; };
+		E9BBC3792242B21200E6ACDA /* NSString+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extension.m"; sourceTree = "<group>"; };
+		E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
+		E9BBC37B2242B21200E6ACDA /* UIViewController+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
+		E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboardSegue+Extension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +323,7 @@
 		E92256122222ED7C006CADEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E9BBC3702242B21200E6ACDA /* extends */,
 				E92256172222ED7C006CADEA /* Models */,
 				E922563B2222ED7C006CADEA /* Views */,
 				E92256262222ED7C006CADEA /* Controllers */,
@@ -418,6 +437,25 @@
 				E99A5CAB222D8B3400EE6C86 /* ProfileTableViewController.m */,
 			);
 			path = contacts;
+			sourceTree = "<group>";
+		};
+		E9BBC3702242B21200E6ACDA /* extends */ = {
+			isa = PBXGroup;
+			children = (
+				E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */,
+				E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */,
+				E9BBC3732242B21200E6ACDA /* NSString+Extension.h */,
+				E9BBC3792242B21200E6ACDA /* NSString+Extension.m */,
+				E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */,
+				E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */,
+				E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */,
+				E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */,
+				E9BBC3762242B21200E6ACDA /* UIStoryboardSegue+Extension.h */,
+				E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */,
+				E9BBC37B2242B21200E6ACDA /* UIViewController+Extension.h */,
+				E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */,
+			);
+			path = extends;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -583,9 +621,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
 				E92256462222ED7C006CADEA /* User.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
 				E92255C42222EC53006CADEA /* AppDelegate.m in Sources */,
+				E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */,
 				E99A5CD3222ED9B600EE6C86 /* UserCell.m in Sources */,
 				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,
 				E92255D52222EC56006CADEA /* main.m in Sources */,
@@ -597,9 +637,13 @@
 				E99A5CB4222D8B3400EE6C86 /* ContactsTableViewController.m in Sources */,
 				E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */,
 				E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */,
+				E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */,
+				E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */,
 				E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
+				E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */,
+				E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */,
 				E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */,
 				E99A5CB2222D8B3400EE6C86 /* ParticipantsManageTableViewController.m in Sources */,
 				E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */,

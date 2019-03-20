@@ -8,6 +8,7 @@
 
 #import "NSNotificationCenter+Extension.h"
 #import "UIImageView+Extension.h"
+#import "DIMProfile+Extension.h"
 
 #import "User.h"
 #import "Facebook+Register.h"

@@ -41,10 +41,18 @@
     _trayFrame = _trayView.frame;
     
     [NSNotificationCenter addObserver:self
+                             selector:@selector(onMessageSent:)
+                                 name:kNotificationName_MessageSent
+                               object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(onSendMessageFailed:)
+                                 name:kNotificationName_SendMessageFailed
+                               object:nil];;
+    
+    [NSNotificationCenter addObserver:self
                              selector:@selector(keyboardWillShow:)
                                  name:UIKeyboardWillShowNotification
                                object:nil];
-    
     [NSNotificationCenter addObserver:self
                              selector:@selector(keyboardWillHide:)
                                  name:UIKeyboardWillHideNotification
@@ -163,6 +171,25 @@
     _inputTextField.text = @"";
     
     [_messagesTableView reloadData];
+}
+
+- (void)onMessageSent:(NSNotification *)notification {
+    NSString *name = notification.name;
+    NSDictionary *info = notification.userInfo;
+    DIMInstantMessage *msg = [info objectForKey:@"message"];
+    msg = [DIMInstantMessage messageWithMessage:msg];
+    NSLog(@"%@: %@", name, msg);
+    // TODO: mark the message sent
+}
+
+- (void)onSendMessageFailed:(NSNotification *)notification {
+    NSString *name = notification.name;
+    NSDictionary *info = notification.userInfo;
+    DIMInstantMessage *msg = [info objectForKey:@"message"];
+    msg = [DIMInstantMessage messageWithMessage:msg];
+    NSError *error = [info objectForKey:@"error"];
+    NSLog(@"%@: %@, error: %@", name, msg, error);
+    // TODO: mark the message failed for trying again
 }
 
 #pragma mark - Table view data source
