@@ -369,6 +369,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="avatarImageView" destination="tNc-yl-yhs" id="5Mw-q4-Bnv"/>
+                        <outlet property="doneButton" destination="mXU-Gr-8Dg" id="VlF-02-eFk"/>
                         <outlet property="nicknameTextField" destination="wDP-dB-c7o" id="LFy-nl-byj"/>
                         <outlet property="usernameTextField" destination="gQY-Ri-7yg" id="5Br-Gs-sZR"/>
                     </connections>
