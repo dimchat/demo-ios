@@ -83,9 +83,9 @@
         [_registerInfos addObject:info];
         
         // refresh table
-        [self.accountsTableView performSelectorOnMainThread:@selector(reloadData)
-                                                 withObject:nil
-                                              waitUntilDone:NO];
+        [self.tableView performSelectorOnMainThread:@selector(reloadData)
+                                         withObject:nil
+                                      waitUntilDone:NO];
     }
 }
 
@@ -124,7 +124,7 @@
     NSLog(@"generate with %@(%@)", username, nickname);
     
     [_registerInfos removeAllObjects];
-    [_accountsTableView reloadData];
+    [self.tableView reloadData];
     
     NSDictionary *params = @{
                              @"nickname" : nickname,
@@ -165,7 +165,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RegisterInfoCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"registerInfoCell" forIndexPath:indexPath];
     
     //NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;

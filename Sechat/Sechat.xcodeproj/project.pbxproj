@@ -866,9 +866,9 @@
 				DEVELOPMENT_TEAM = 4N8627W97S;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../mkm-objc/Classes/**",
-					"../../core-objc/Classes/**",
 					"../../client-objc/Classes/**",
+					"../../core-objc/Classes/**",
+					"../../mkm-objc/Classes/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -890,9 +890,9 @@
 				DEVELOPMENT_TEAM = 4N8627W97S;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../mkm-objc/Classes/**",
-					"../../core-objc/Classes/**",
 					"../../client-objc/Classes/**",
+					"../../core-objc/Classes/**",
+					"../../mkm-objc/Classes/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
