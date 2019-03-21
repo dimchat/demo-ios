@@ -7,7 +7,6 @@
 //
 
 #import "User.h"
-
 #import "Client.h"
 
 #import "AppDelegate.h"
@@ -24,7 +23,13 @@
     
     // GSP station
     NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp" ofType:@"plist"];
-    [[Client sharedInstance] startWithConfigFile:path];
+    NSMutableDictionary *mDict = [launchOptions mutableCopy];
+    if (!mDict) {
+        mDict = [[NSMutableDictionary alloc] init];
+    }
+    [mDict setObject:path forKey:@"ConfigFilePath"];
+    
+    [[Client sharedInstance] didFinishLaunchingWithOptions:mDict];
     
 #if DEBUG && 0
     {
@@ -79,5 +84,21 @@
     [[Client sharedInstance] willTerminate];
 }
 
+#pragma mark - APNs
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // APNs register success
+    [[Client sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    // APNs register failed
+    [[Client sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    // APNs receive notification
+    [[Client sharedInstance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
 
 @end

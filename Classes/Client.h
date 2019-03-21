@@ -6,6 +6,8 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import <UIKit/UIApplication.h>
+
 #import <DIMClient/DIMClient.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,10 +19,23 @@ extern const NSString *kNotificationName_UsersUpdated;
 
 + (instancetype)sharedInstance;
 
-- (void)startWithConfigFile:(NSString *)spConfig;
+@end
+
+@interface Client (AppDelegate)
+
+- (void)didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;
 - (void)didEnterBackground;
 - (void)willEnterForeground;
 - (void)willTerminate;
+
+@end
+
+@interface Client (APNs)
+
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
+- (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
+- (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
+              fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler;
 
 @end
 

@@ -7,6 +7,7 @@
 //
 
 #import "NSObject+Singleton.h"
+#import "NSObject+JsON.h"
 
 #import "Facebook.h"
 #import "MessageProcessor.h"
@@ -20,8 +21,48 @@ const NSString *kNotificationName_UsersUpdated = @"UsersUpdated";
 
 SingletonImplementations(Client, sharedInstance)
 
-- (void)startWithConfigFile:(NSString *)spConfig {
-    NSDictionary *config = [NSDictionary dictionaryWithContentsOfFile:spConfig];
+@end
+
+@implementation Client (AppDelegate)
+
+- (void)_startServer:(NSDictionary *)station withProvider:(DIMServiceProvider *)sp {
+    // save meta for server ID
+    DIMID *ID = [station objectForKey:@"ID"];
+    ID = [DIMID IDWithID:ID];
+    DIMMeta *meta = [station objectForKey:@"meta"];
+    meta = [DIMMeta metaWithMeta:meta];
+    [[DIMBarrack sharedInstance] setMeta:meta forID:ID];
+    
+    // prepare for launch star
+    NSMutableDictionary *serverOptions = [[NSMutableDictionary alloc] init];
+    NSString *IP = [station objectForKey:@"host"];
+    if (IP) {
+        //[launchOptions setObject:IP forKey:@"LongLinkAddress"];
+        [serverOptions setObject:@"dim.chat" forKey:@"LongLinkAddress"];
+        NSDictionary *ipTable = @{
+                                  @"dim.chat": @[IP],
+                                  };
+        [serverOptions setObject:ipTable forKey:@"NewDNS"];
+    }
+    NSNumber *port = [station objectForKey:@"port"];
+    if (port) {
+        [serverOptions setObject:port forKey:@"LongLinkPort"];
+    }
+    
+    // connect server
+    DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
+    _currentStation = server;
+    
+    Facebook *facebook = [Facebook sharedInstance];
+    [facebook addStation:ID provider:sp];
+    
+    [MessageProcessor sharedInstance];
+    
+    server.delegate = self;
+    [server startWithOptions:serverOptions];
+}
+
+- (void)_launchServiceProviderConfig:(NSDictionary *)config {
     DIMServiceProvider *sp = nil;
     {
         DIMID *ID = [config objectForKey:@"ID"];
@@ -36,41 +77,32 @@ SingletonImplementations(Client, sharedInstance)
     NSArray *stations = [config objectForKey:@"stations"];
     NSDictionary *station = stations.firstObject;
     NSLog(@"got station: %@", station);
+    [self _startServer:station withProvider:sp];
+}
+
+- (void)didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    UIApplication *app = [UIApplication sharedApplication];
     
-    // save meta for server ID
-    DIMID *ID = [station objectForKey:@"ID"];
-    ID = [DIMID IDWithID:ID];
-    DIMMeta *meta = [station objectForKey:@"meta"];
-    meta = [DIMMeta metaWithMeta:meta];
-    [[DIMBarrack sharedInstance] setMeta:meta forID:ID];
-    
-    // prepare for launch star
-    NSMutableDictionary *launchOptions = [[NSMutableDictionary alloc] init];
-    NSString *IP = [station objectForKey:@"host"];
-    if (IP) {
-        //[launchOptions setObject:IP forKey:@"LongLinkAddress"];
-        [launchOptions setObject:@"dim.chat" forKey:@"LongLinkAddress"];
-        NSDictionary *ipTable = @{
-                                  @"dim.chat": @[IP],
-                                  };
-        [launchOptions setObject:ipTable forKey:@"NewDNS"];
+    // APNs
+    if ([launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        // TODO:
+        // ...
+        
+        // clear icon badge
+        NSInteger badge = app.applicationIconBadgeNumber;
+        if (badge > 0) {
+            badge = 0;
+            app.applicationIconBadgeNumber = badge;
+        }
     }
-    NSNumber *port = [station objectForKey:@"port"];
-    if (port) {
-        [launchOptions setObject:port forKey:@"LongLinkPort"];
-    }
+    [app registerForRemoteNotifications];
+    //UNUserNotificationCenter *nc = [UNUserNotificationCenter defaultCenter];
+    //[nc requestAuthorizationWithOptions:completionHandler:];
     
-    // connect server
-    DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
-    _currentStation = server;
-    
-    Facebook *facebook = [Facebook sharedInstance];
-    [facebook addStation:ID provider:sp];
-    
-    [MessageProcessor sharedInstance];
-    
-    server.delegate = self;
-    [server startWithOptions:launchOptions];
+    // launch server
+    NSString *spConfig = [launchOptions objectForKey:@"ConfigFilePath"];
+    NSDictionary *config = [NSDictionary dictionaryWithContentsOfFile:spConfig];
+    [self _launchServiceProviderConfig:config];
 }
 
 - (void)didEnterBackground {
@@ -83,6 +115,25 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)willTerminate {
     [_currentStation end];
+}
+
+@end
+
+@implementation Client (APNs)
+
+- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    NSString *token = [deviceToken UTF8String];
+    NSLog(@"APNs token: %@", token);
+    // TODO: send this device token to server
+}
+
+- (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"APNs failed to get token: %@", error);
+}
+
+- (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
+              fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    NSLog(@"APNs user info: %@", userInfo);
 }
 
 @end
