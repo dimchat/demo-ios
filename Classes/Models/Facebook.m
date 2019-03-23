@@ -345,14 +345,14 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - MKMGroupDataSource
 
 - (const DIMID *)founderOfGroup:(const DIMGroup *)grp {
-    const DIMMeta *groupMeta = grp.meta;
+    const DIMMeta *meta = grp.meta;
     NSInteger count = [self numberOfMembersInGroup:grp];
     const DIMID *member;
     for (NSInteger index = 0; index < count; ++index) {
         member = [self group:grp memberAtIndex:index];
         // if the user's public key matches with the group's meta,
         // it means this meta was generate by the user's private key
-        if ([groupMeta matchPublicKey:DIMPublicKeyForID(member)]) {
+        if ([meta matchPublicKey:DIMPublicKeyForID(member)]) {
             return member;
         }
     }

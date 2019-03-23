@@ -6,8 +6,11 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import <UserNotifications/UserNotifications.h>
+
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
+#import "NSData+Crypto.h"
 
 #import "Facebook.h"
 #import "MessageProcessor.h"
@@ -96,8 +99,12 @@ SingletonImplementations(Client, sharedInstance)
         }
     }
     [app registerForRemoteNotifications];
-    //UNUserNotificationCenter *nc = [UNUserNotificationCenter defaultCenter];
-    //[nc requestAuthorizationWithOptions:completionHandler:];
+    
+    UNAuthorizationOptions options = UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert;
+    UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
+    [nc requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        NSLog(@"APNs requestAuthorizationWithOptions completed");
+    }];
     
     // launch server
     NSString *spConfig = [launchOptions objectForKey:@"ConfigFilePath"];
@@ -122,9 +129,13 @@ SingletonImplementations(Client, sharedInstance)
 @implementation Client (APNs)
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *token = [deviceToken UTF8String];
-    NSLog(@"APNs token: %@", token);
+    NSString *token = [deviceToken base64Encode];
+    NSLog(@"APNs token: %@", deviceToken);
+    NSLog(@"APNs token(base64): %@", token);
     // TODO: send this device token to server
+    if (deviceToken.length > 0) {
+        self.deviceToken = deviceToken;
+    }
 }
 
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

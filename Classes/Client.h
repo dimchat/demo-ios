@@ -17,6 +17,8 @@ extern const NSString *kNotificationName_UsersUpdated;
 
 @interface Client : DIMTerminal
 
+@property (strong, nonatomic) NSData *deviceToken;
+
 + (instancetype)sharedInstance;
 
 @end
