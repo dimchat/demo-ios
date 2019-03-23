@@ -24,6 +24,19 @@ const NSString *kNotificationName_UsersUpdated = @"UsersUpdated";
 
 SingletonImplementations(Client, sharedInstance)
 
+- (void)onHandshakeAccepted:(const NSString *)session {
+    [super onHandshakeAccepted:session];
+    
+    // post device token
+    NSString *token = [self.deviceToken hexEncode];
+    if (token) {
+        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"apns"];
+        [cmd setObject:self.currentUser.ID forKey:@"ID"];
+        [cmd setObject:token forKey:@"device_token"];
+        [self sendCommand:cmd];
+    }
+}
+
 @end
 
 @implementation Client (AppDelegate)
@@ -118,6 +131,11 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)willEnterForeground {
     [_currentStation resume];
+    // clear icon badge
+    UIApplication *app = [UIApplication sharedApplication];
+    app.applicationIconBadgeNumber = 0;
+    UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
+    [nc removeAllPendingNotificationRequests];
 }
 
 - (void)willTerminate {
@@ -129,9 +147,9 @@ SingletonImplementations(Client, sharedInstance)
 @implementation Client (APNs)
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *token = [deviceToken base64Encode];
+    NSString *token = [deviceToken hexEncode];
     NSLog(@"APNs token: %@", deviceToken);
-    NSLog(@"APNs token(base64): %@", token);
+    NSLog(@"APNs token(hex): %@", token);
     // TODO: send this device token to server
     if (deviceToken.length > 0) {
         self.deviceToken = deviceToken;
