@@ -171,15 +171,37 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (void)sortConversationList {
-    [_chatList sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+    /*
+     These constants are used to indicate how items in a request are ordered,
+     from the first one given in a method invocation or function call
+     to the last (that is, left to right in code).
+     
+     Given the function:
+     NSComparisonResult f(int a, int b)
+     
+     If:
+     a < b   then return NSOrderedAscending.
+     a > b   then return NSOrderedDescending.
+     a == b  then return NSOrderedSame.
+     */
+    NSComparator comparator = ^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         MessageList *table1 = [self->_chatHistory objectForKey:obj1];
         MessageList *table2 = [self->_chatHistory objectForKey:obj2];
         const DIMInstantMessage *msg1 = table1.lastObject;
         const DIMInstantMessage *msg2 = table2.lastObject;
         NSNumber *time1 = [msg1 objectForKey:@"time"];
         NSNumber *time2 = [msg2 objectForKey:@"time"];
-        return [time2 compare:time1];
-    }];
+        NSTimeInterval t1 = [time1 doubleValue];
+        NSTimeInterval t2 = [time2 doubleValue];
+        if (t1 < t2) {
+            return NSOrderedDescending;
+        } else if (t1 > t2) {
+            return NSOrderedAscending;
+        } else {
+            return NSOrderedSame;
+        }
+    };
+    [_chatList sortUsingComparator:comparator];
 }
 
 - (void)setChatHistory:(NSMutableDictionary *)dict {
@@ -328,11 +350,10 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     
     // TODO: save message in local storage,
     //       if the chat box is visiable, call it to reload data
-    BOOL newConvers = NO;
     
     MessageList *list = [_chatHistory objectForKey:ID];
-    if (!list) {
-        newConvers = YES;
+    if (list.count == 0) {
+        // message list empty, create new one, even '_NSArray0'
         list = [[MessageList alloc] init];
         [_chatHistory setObject:list forKey:ID];
     }
