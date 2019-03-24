@@ -102,7 +102,7 @@
             cell.textLabel.text = @"Address";
             cell.detailTextLabel.text = (NSString *)_account.ID.address;
         } else if (row == 2) {
-            cell.textLabel.text = @"Number";
+            cell.textLabel.text = @"Search No.";
             cell.detailTextLabel.text = search_number(_account.ID.number);
         }
         return cell;

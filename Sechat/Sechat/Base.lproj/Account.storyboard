@@ -101,28 +101,8 @@
                             </tableViewSection>
                             <tableViewSection id="hr4-CB-Wlc">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="4a6-aG-CMZ" style="IBUITableViewCellStyleDefault" id="3R1-jA-0iV">
-                                        <rect key="frame" x="0.0" y="371.5" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3R1-jA-0iV" id="sFa-yI-Gpj">
-                                            <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Setting" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4a6-aG-CMZ">
-                                                    <rect key="frame" x="16" y="0.0" width="324" height="43.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="nmM-UV-xb4" kind="show" id="qiu-kY-CzF"/>
-                                        </connections>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="qPi-LS-u2a" style="IBUITableViewCellStyleDefault" id="ihZ-8P-Fb1">
-                                        <rect key="frame" x="0.0" y="415.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="371.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ihZ-8P-Fb1" id="Qwq-Pm-RAy">
                                             <rect key="frame" x="0.0" y="0.0" width="341" height="43.5"/>
@@ -261,7 +241,6 @@
         <!--Navigation Controller-->
         <scene sceneID="Tky-zK-eXZ">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="a1S-RA-OSq" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="registerNavigationController" id="YCo-rY-VbO" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="HtY-Zj-aRv">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -271,6 +250,7 @@
                         <segue destination="OwF-iA-CBd" kind="relationship" relationship="rootViewController" id="74l-VN-S5y"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a1S-RA-OSq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1562" y="-272"/>
         </scene>

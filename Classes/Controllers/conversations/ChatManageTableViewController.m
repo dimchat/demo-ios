@@ -11,6 +11,7 @@
 
 #import "MessageProcessor.h"
 #import "Client.h"
+#import "User.h"
 
 #import "ParticipantsManageTableViewController.h"
 
@@ -149,19 +150,48 @@
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
         NSString *key = nil;
         NSString *value = nil;
-        if (row == 0) {
-            // Name
-            key = @"Name";
-            DIMProfile *profile = DIMProfileForID(_conversation.ID);
-            value = profile.name;
-            if (!value) {
+        switch (row) {
+            case 0: { // Name
+                if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+                    key = @"Group name";
+                } else {
+                    key = @"Nickname";
+                }
+                DIMProfile *profile = DIMProfileForID(_conversation.ID);
+                value = profile.name;
+                if (!value) {
+                    value = _conversation.ID.name;
+                }
+            }
+                break;
+                
+            case 1: { // seed
+                if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+                    key = @"Seed";
+                } else {
+                    key = @"Username";
+                }
                 value = _conversation.ID.name;
             }
-            cell.textLabel.text = key;
-            cell.detailTextLabel.text = value;
-        } else if (row == 1) {
-            // QR Code
+                break;
+                
+            case 2: { // address
+                key = @"Address";
+                value = (NSString *)_conversation.ID.address;
+            }
+                break;
+                
+            case 3: { // search number
+                key = @"Search No.";
+                value = search_number(_conversation.ID.number);
+            }
+                break;
+                
+            default:
+                break;
         }
+        cell.textLabel.text = key;
+        cell.detailTextLabel.text = value;
     } else if (section == 2) {
         // functions
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
