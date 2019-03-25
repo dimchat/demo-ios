@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)showMessage:(nullable NSString *)text
           withTitle:(nullable NSString *)title
       cancelHandler:(void (^ __nullable)(UIAlertAction *action))cancelHandler
-        cacelButton:(nullable NSString *)cancelTitle
+       cancelButton:(nullable NSString *)cancelTitle
      defaultHandler:(void (^ __nullable)(UIAlertAction *action))okHandler
       defaultButton:(nullable NSString *)defaultTitle;
 

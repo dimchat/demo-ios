@@ -294,7 +294,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     [self showMessage:message
             withTitle:title
         cancelHandler:nil
-          cacelButton:@"Cancel"
+         cancelButton:@"Cancel"
        defaultHandler:handler
         defaultButton:@"Submit"];
 }

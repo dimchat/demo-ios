@@ -219,7 +219,7 @@
     [self showMessage:message
             withTitle:title
         cancelHandler:nil
-          cacelButton:@"Cancel"
+         cancelButton:@"Cancel"
        defaultHandler:handler
         defaultButton:@"Save"];
 }

@@ -7,7 +7,9 @@
 //
 
 #import "NSNotificationCenter+Extension.h"
+
 #import "UIImageView+Extension.h"
+#import "UIViewController+Extension.h"
 #import "DIMProfile+Extension.h"
 
 #import "User.h"
@@ -184,25 +186,37 @@
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [tableView beginUpdates];
+    NSInteger row = indexPath.row;
     
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        NSInteger row = indexPath.row;
-        
-        Client *client = [Client sharedInstance];
-        DIMUser *user = [client.users objectAtIndex:row];
-        [client removeUser:user];
-        
-        Facebook *facebook = [Facebook sharedInstance];
-        [facebook removeUser:user];
-        
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }
+    Client *client = [Client sharedInstance];
+    DIMUser *user = [client.users objectAtIndex:row];
     
-    [tableView endUpdates];
+    NSString *text = [NSString stringWithFormat:@"%@\n(%@)\n%@\n"
+                      "\nThis operation is unrecoverable!",
+                      user.name, search_number(user.number), user.ID];
+    
+    NSString *title = @"ARE YOU SURE?";
+    
+    void (^handler)(UIAlertAction *);
+    handler = ^(UIAlertAction *action) {
+        [tableView beginUpdates];
+        
+        if (editingStyle == UITableViewCellEditingStyleDelete) {
+            // Delete the row from the data source
+            [client removeUser:user];
+            
+            Facebook *facebook = [Facebook sharedInstance];
+            [facebook removeUser:user];
+            
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+        
+        [tableView endUpdates];
+    };
+    
+    [self showMessage:text withTitle:title cancelHandler:NULL cancelButton:@"Cancel" defaultHandler:handler defaultButton:@"Delete"];
 }
 
 /*

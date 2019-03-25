@@ -341,7 +341,7 @@
                                 <segue destination="NyS-AN-6QC" kind="unwind" unwindAction="unwindForSegue:towardsViewController:" id="ZrX-Ch-Ceb"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="wRU-aB-kIu">
+                        <barButtonItem key="rightBarButtonItem" title="Generate" id="wRU-aB-kIu">
                             <connections>
                                 <action selector="generateAccounts:" destination="OwF-iA-CBd" id="H3d-er-RJR"/>
                             </connections>
