@@ -87,7 +87,7 @@ static inline NSMutableDictionary *scan_messages(void) {
     Facebook *fb = [Facebook sharedInstance];
     
     NSString *addr;
-    NSArray *array;
+    NSMutableArray *array;
     
     const DIMID *ID;
     DIMAddress *address;
@@ -104,7 +104,7 @@ static inline NSMutableDictionary *scan_messages(void) {
 //            }
             
             path = [dir stringByAppendingPathComponent:path];
-            array = [NSArray arrayWithContentsOfFile:path];
+            array = [NSMutableArray arrayWithContentsOfFile:path];
             NSLog(@"loaded %lu message(s) from %@", array.count, path);
             
             ID = [fb IDWithAddress:address];
@@ -257,16 +257,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (NSInteger)numberOfMessagesInConversation:(const DIMConversation *)chatBox {
     const DIMID *ID = chatBox.ID;
     
-    MessageList *list = [_chatHistory objectForKey:ID];
-    if (!list) {
-        // TODO: load data from local storage
-        NSArray *array = load_message(ID);
-        if (array) {
-            list = [array mutableCopy];
-            [_chatHistory setObject:list forKey:ID];
-        }
-    }
-    
+    NSArray *list = [_chatHistory objectForKey:ID];
     return list.count;
 }
 
@@ -274,25 +265,23 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (DIMInstantMessage *)conversation:(const DIMConversation *)chatBox messageAtIndex:(NSInteger)index {
     const DIMID *ID = chatBox.ID;
     
-    MessageList *list = [_chatHistory objectForKey:ID];
-    if (!list) {
-        // TODO: load data from local storage
-        NSArray *array = load_message(ID);
-        if (array) {
-            list = [array mutableCopy];
-            [_chatHistory setObject:list forKey:ID];
-        }
-    }
+    NSMutableArray *list = [_chatHistory objectForKey:ID];
     
     DIMInstantMessage *iMsg = nil;
     if (list.count > index) {
-        iMsg = [DIMInstantMessage messageWithMessage:[list objectAtIndex:index]];
+        NSDictionary *item = [list objectAtIndex:index];
+        iMsg = [DIMInstantMessage messageWithMessage:item];
+        if (iMsg != item) {
+            // replace InstantMessage object for next access
+            [list replaceObjectAtIndex:index withObject:iMsg];
+        }
     } else {
         NSAssert(false, @"out of data");
     }
     
     NSMutableArray *timeList = [_timesTable objectForKey:ID];
     if (timeList.count < list.count) {
+        // new message appended, update 'timeTag'
         timeList = time_for_messages(list);
         [_timesTable setObject:timeList forKey:ID];
     }
@@ -366,6 +355,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     
     if (save_message(list, ID)) {
         NSLog(@"new message for %@ saved", ID);
+        [self sortConversationList];
         [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
         return YES;
     } else {

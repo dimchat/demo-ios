@@ -58,7 +58,7 @@
                                  name:UIKeyboardWillHideNotification
                                object:nil];
     
-    [NSNotificationCenter addObserver:self
+    [NSNotificationCenter addObserver:self.messagesTableView
                              selector:@selector(reloadData)
                                  name:kNotificationName_MessageUpdated
                                object:nil];
@@ -68,12 +68,6 @@
     [super viewDidAppear:animated];
     
     [self scrollToBottom];
-}
-
-- (void)reloadData {
-    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
-    [msgDB reloadData];
-    [self.messagesTableView reloadData];
 }
 
 - (void)scrollToBottom {

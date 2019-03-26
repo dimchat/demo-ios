@@ -52,7 +52,7 @@
         break;
     }
     
-    [NSNotificationCenter addObserver:self
+    [NSNotificationCenter addObserver:self.tableView
                              selector:@selector(reloadData)
                                  name:kNotificationName_MessageUpdated
                                object:nil];
@@ -118,12 +118,6 @@
             NSAssert(false, @"unexpected state: %@", state);
         }
     }
-}
-
-- (void)reloadData {
-    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
-    [msgDB reloadData];
-    [self.tableView reloadData];
 }
 
 #pragma mark - Table delegate
