@@ -49,4 +49,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface CommandMsgCell : UITableViewCell {
+    
+    DIMInstantMessage *_msg;
+}
+
+@property (strong, nonatomic) DIMInstantMessage *msg;
+
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect;
+
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+
+@end
+
 NS_ASSUME_NONNULL_END

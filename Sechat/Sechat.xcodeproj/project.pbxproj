@@ -63,6 +63,7 @@
 		E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */; };
 		E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3792242B21200E6ACDA /* NSString+Extension.m */; };
 		E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
+		E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,6 +212,8 @@
 		E9BBC37B2242B21200E6ACDA /* UIViewController+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboardSegue+Extension.m"; sourceTree = "<group>"; };
 		E9E824592245539100A029F1 /* Sechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sechat.entitlements; sourceTree = "<group>"; };
+		E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
+		E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -442,6 +445,8 @@
 				E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */,
 				E9BBC3732242B21200E6ACDA /* NSString+Extension.h */,
 				E9BBC3792242B21200E6ACDA /* NSString+Extension.m */,
+				E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */,
+				E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */,
 				E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */,
 				E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */,
 				E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */,
@@ -624,6 +629,7 @@
 				E92256462222ED7C006CADEA /* User.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
 				E92255C42222EC53006CADEA /* AppDelegate.m in Sources */,
+				E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */,
 				E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */,
 				E99A5CD3222ED9B600EE6C86 /* UserCell.m in Sources */,
 				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,

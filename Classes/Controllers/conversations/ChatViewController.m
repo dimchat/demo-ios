@@ -62,7 +62,7 @@
                                object:nil];
     
     [NSNotificationCenter addObserver:self
-                             selector:@selector(reloadData)
+                             selector:@selector(onMessageUpdated:)
                                  name:kNotificationName_MessageUpdated
                                object:nil];
 }
@@ -71,6 +71,15 @@
     [super viewDidAppear:animated];
     
     [self scrollToBottom];
+}
+
+- (void)onMessageUpdated:(NSNotification *)notification {
+    NSDictionary *info = notification.userInfo;
+    DIMID *ID = [info objectForKey:@"ID"];
+    ID = [DIMID IDWithID:ID];
+    if ([_conversation.ID isEqual:ID]) {
+        [self reloadData];
+    }
 }
 
 - (void)reloadData {
@@ -222,8 +231,13 @@
     const DIMID *sender = [DIMID IDWithID:env.sender];
     
     NSString *identifier = @"receivedMsgCell";
-    if ([sender isEqual:_conversation.ID]) {
+    DKDMessageType type = iMsg.content.type;
+    if (type == DIMMessageType_History || type == DIMMessageType_Command) {
+        // command message
+        identifier = @"commandMsgCell";
+    } else if ([sender isEqual:_conversation.ID]) {
         // message from conversation target
+        identifier = @"receivedMsgCell";
     } else if ([sender isEqual:user.ID]) {
         // message from current user
         identifier = @"sentMsgCell";
@@ -246,8 +260,15 @@
     NSInteger row = indexPath.row;
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
     CGRect bounds = tableView.bounds;
-    CGSize size = [MsgCell sizeWithMessage:iMsg bounds:bounds];
-    return size.height;
+    
+    DKDMessageType type = iMsg.content.type;
+    if (type == DKDMessageType_Command || type == DKDMessageType_History) {
+        CGSize size = [CommandMsgCell sizeWithMessage:iMsg bounds:bounds];
+        return size.height;
+    } else {
+        CGSize size = [MsgCell sizeWithMessage:iMsg bounds:bounds];
+        return size.height;
+    }
 }
 
 #pragma mark - Navigation

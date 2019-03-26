@@ -29,9 +29,9 @@
                              MAXFLOAT);
     UIFont *font = [UIFont systemFontOfSize:16];
     size = [text sizeWithFont:font maxSize:size];
-    CGFloat cellHeight = size.height + edges.top + edges.bottom + 40;
-    if (cellHeight < 80) {
-        cellHeight = 80;
+    CGFloat cellHeight = size.height + edges.top + edges.bottom + 32;
+    if (cellHeight < 100) {
+        cellHeight = 100;
     }
     return CGSizeMake(cellWidth, cellHeight);
 }
@@ -66,7 +66,7 @@
                                  size.height + edges.top + edges.bottom);
     CGRect labelFrame = CGRectMake(imageFrame.origin.x + edges.left,
                                    imageFrame.origin.y + edges.top,
-                                   size.width, size.height);
+                                   size.width + 16, size.height);
     messageImageView.frame = imageFrame;
     messageLabel.frame = labelFrame;
     
@@ -174,6 +174,90 @@
     
     // name
     _nameLabel.text = readable_name(sender);
+}
+
+@end
+
+@implementation CommandMsgCell
+
++ (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
+    NSString *text = iMsg.content.text;
+    CGFloat cellWidth = rect.size.width;
+    CGFloat msgWidth = cellWidth * 0.618;
+    UIEdgeInsets edges = UIEdgeInsetsMake(10, 10, 10, 10);
+
+    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right,
+                             MAXFLOAT);
+    UIFont *font = [UIFont systemFontOfSize:14];
+    size = [text sizeWithFont:font maxSize:size];
+    CGFloat cellHeight = size.height + edges.top + edges.bottom + 24;
+    return CGSizeMake(cellWidth, cellHeight);
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGFloat cellWidth = self.bounds.size.width;
+    CGFloat msgWidth = cellWidth * 0.618;
+    UIEdgeInsets edges = UIEdgeInsetsMake(10, 10, 10, 10);
+    
+    UILabel *timeLabel = [self timeLabel];
+    UILabel *messageLabel = [self messageLabel];
+    
+    CGRect timeFrame = timeLabel.frame;
+    
+    NSString *text = _msg.content.text;
+    if (text.length > 0) {
+        UIFont *font = messageLabel.font;
+        CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
+        size = [text sizeWithFont:font maxSize:size];
+        size.width += edges.left + edges.right;
+        size.height += edges.top + edges.bottom;
+        CGRect frame = CGRectMake((cellWidth - size.width) * 0.5,
+                                  timeFrame.origin.y + timeFrame.size.height,
+                                  size.width, size.height);
+        messageLabel.frame = frame;
+    }
+    
+    // resize content view
+    CGRect msgFrame = messageLabel.frame;
+    CGFloat cellHeight = msgFrame.origin.y + msgFrame.size.height + edges.bottom;
+    CGRect rect = CGRectMake(0, 0, cellWidth, cellHeight);
+    self.bounds = rect;
+    self.contentView.frame = rect;
+}
+
+- (void)setMsg:(DKDInstantMessage *)msg {
+    if (![_msg isEqual:msg]) {
+        _msg = msg;
+        
+        CGFloat cellWidth = self.bounds.size.width;
+        CGFloat msgWidth = cellWidth * 0.618;
+        
+        // time
+        NSString *time = [msg objectForKey:@"timeTag"];
+        UILabel *timeLabel = [self timeLabel];
+        if (time.length > 0) {
+            timeLabel.text = time;
+            // resize
+            UIFont *font = timeLabel.font;
+            CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
+            size = [time sizeWithFont:font maxSize:size];
+            size = CGSizeMake(size.width + 16, 16);
+            CGRect rect = CGRectMake(0, 0, size.width, size.height);
+            timeLabel.bounds = rect;
+            [timeLabel roundedCorner];
+        } else {
+            timeLabel.bounds = CGRectMake(0, 0, 0, 0);
+            timeLabel.text = @"";
+        }
+        
+        // message
+        UILabel *messageLabel = [self messageLabel];
+        messageLabel.text = msg.content.text;
+        
+        [self setNeedsLayout];
+    }
 }
 
 @end

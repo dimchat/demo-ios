@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+Extension.h"
+#import "UIColor+Extension.h"
 
 #import "DIMProfile+Extension.h"
 
@@ -32,7 +33,7 @@
         }
         NSString *text = [name substringToIndex:1];
         UIColor *textColor = [UIColor whiteColor];
-        UIColor *bgColor = [UIColor darkGrayColor];
+        UIColor *bgColor = [UIColor colorWithHexString:@"1F1F0A"];
         image = [UIImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
     }
     return image;
@@ -68,7 +69,7 @@
                     }
                 }
             }
-            UIColor *bgColor = [UIColor lightGrayColor];
+            UIColor *bgColor = [UIColor colorWithHexString:@"E0E0F5"];
             image = [UIImage tiledImages:mArray size:size backgroundColor:bgColor];
         }
     }
@@ -83,7 +84,7 @@
         NSString *text = [name substringToIndex:1];
         //text = [NSString stringWithFormat:@"[%@]", text];
         UIColor *textColor = [UIColor whiteColor];
-        UIColor *bgColor = [UIColor lightGrayColor];
+        UIColor *bgColor = [UIColor colorWithHexString:@"E0E0F5"];
         image = [UIImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
     }
     return image;

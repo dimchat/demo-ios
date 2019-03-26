@@ -239,7 +239,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (removed) {
         [_chatHistory removeObjectForKey:ID];
         [_chatList removeObject:ID];
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+                                            object:self
+                                          userInfo:@{@"ID": ID}];
     }
     return removed;
 }
@@ -255,7 +257,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     BOOL cleared = clear_messages(ID);
     if (cleared) {
         //[_chatHistory removeObjectForKey:ID];
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+                                            object:self
+                                          userInfo:@{@"ID": ID}];
     }
     return cleared;
 }
@@ -387,7 +391,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (save_message(list, ID)) {
         NSLog(@"new message for %@ saved", ID);
         [self sortConversationList];
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+                                            object:self
+                                          userInfo:@{@"ID": ID}];
         return YES;
     } else {
         NSLog(@"failed to save new message for ID: %@", ID);
