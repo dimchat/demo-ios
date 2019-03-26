@@ -7,11 +7,44 @@
 //
 
 #import "User.h"
+#import "Client.h"
 #import "Facebook+Register.h"
 
 #import "MessageProcessor+GroupCommand.h"
 
 @implementation MessageProcessor (GroupCommand)
+
+- (BOOL)_processQueryCommand:(DIMMessageContent *)content commander:(const DIMID *)sender polylogue:(DIMPolylogue *)group {
+    
+    // 1. check permission
+    if (![group existsMember:sender]) {
+        NSAssert(false, @"%@ is not a member of polylogue: %@, cannot query.", sender, group);
+        return NO;
+    }
+    
+    // 2. response
+    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+    Client *client = [Client sharedInstance];
+    DIMUser *user = client.currentUser;
+    
+    DIMTransceiverCallback callback;
+    callback = ^(const DKDReliableMessage *rMsg, const NSError *error) {
+        if (error) {
+            NSLog(@"failed to response group members to %@, error: %@", sender, error);
+        }
+    };
+    
+    NSArray *members = group.members;
+    DIMInviteCommand *cmd = [[DIMInviteCommand alloc] initWithGroup:group.ID members:members];
+    [trans sendMessageContent:cmd from:user.ID to:sender time:nil callback:callback];
+    
+    // 3. build message
+    NSString *text = [NSString stringWithFormat:@"%@ is querying group info, responsed.", readable_name(sender)];
+    NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
+    [content setObject:text forKey:@"text"];
+    
+    return YES;
+}
 
 - (BOOL)_processResetCommand:(DIMMessageContent *)content commander:(const DIMID *)sender polylogue:(DIMPolylogue *)group {
     
@@ -267,6 +300,8 @@
             return [self _processQuitCommand:content commander:sender polylogue:group];
         } else if ([command isEqualToString:@"reset"]) {
             return [self _processResetCommand:content commander:sender polylogue:group];
+        } else if ([command isEqualToString:@"query"]) {
+            return [self _processQueryCommand:content commander:sender polylogue:group];
         } else {
             NSAssert(false, @"unknown polylogue command: %@", content);
         }

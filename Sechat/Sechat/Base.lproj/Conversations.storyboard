@@ -211,6 +211,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <action selector="beginEditing:" destination="bP7-p2-KZv" eventType="editingDidBegin" id="zJR-5D-xA2"/>
+                                            <action selector="send:" destination="bP7-p2-KZv" eventType="editingDidEndOnExit" id="U1g-Fy-1ey"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWN-83-F4u">

@@ -92,7 +92,6 @@
             handler = ^(UIAlertAction *action) {
                 MessageProcessor *msgDB = [MessageProcessor sharedInstance];
                 [msgDB clearConversation:self->_conversation];
-                [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
             };
             [self showMessage:text withTitle:title cancelHandler:nil defaultHandler:handler];
         } else if (row == 1) {

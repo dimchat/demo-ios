@@ -71,7 +71,7 @@ static inline BOOL remove_messages(const DIMID *ID) {
 
 static inline BOOL clear_messages(const DIMID *ID) {
     NSString *path = full_filepath(ID, @"messages.plist");
-    NSArray *empty = [[NSArray alloc] init];
+    NSMutableArray *empty = [[NSMutableArray alloc] init];
     return [empty writeToFile:path atomically:YES];
 }
 
@@ -201,12 +201,12 @@ SingletonImplementations(MessageProcessor, sharedInstance)
             return NSOrderedSame;
         }
     };
+    _chatList = [_chatHistory.allKeys mutableCopy];
     [_chatList sortUsingComparator:comparator];
 }
 
 - (void)setChatHistory:(NSMutableDictionary *)dict {
     _chatHistory = dict;
-    _chatList = [dict.allKeys mutableCopy];
     [self sortConversationList];
     
     _timesTable = [[NSMutableDictionary alloc] init];
@@ -235,8 +235,13 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (BOOL)removeConversation:(DIMConversation *)chatBox {
     const DIMID *ID = chatBox.ID;
     NSLog(@"clear conversation for %@", ID);
-    [_chatHistory removeObjectForKey:ID];
-    return remove_messages(ID);
+    BOOL removed = remove_messages(ID);
+    if (removed) {
+        [_chatHistory removeObjectForKey:ID];
+        [_chatList removeObject:ID];
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
+    }
+    return removed;
 }
 
 - (BOOL)clearConversationAtIndex:(NSInteger)index {
@@ -247,8 +252,12 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (BOOL)clearConversation:(DIMConversation *)chatBox {
     const DIMID *ID = chatBox.ID;
     NSLog(@"clear conversation for %@", ID);
-    [_chatHistory removeObjectForKey:ID];
-    return clear_messages(ID);
+    BOOL cleared = clear_messages(ID);
+    if (cleared) {
+        //[_chatHistory removeObjectForKey:ID];
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated object:self];
+    }
+    return cleared;
 }
 
 #pragma mark DIMConversationDataSource
@@ -334,6 +343,28 @@ SingletonImplementations(MessageProcessor, sharedInstance)
                 NSLog(@"group comment error: %@", content);
                 return NO;
             }
+        }
+    }
+    
+    // check whether the group members info is updated
+    if (MKMNetwork_IsGroup(ID.type)) {
+        DIMGroup *group = DIMGroupWithID(ID);
+        const DIMID *founder = group.founder;
+        if (!founder) {
+            DIMTransceiver *trans = [DIMTransceiver sharedInstance];
+            Client *client = [Client sharedInstance];
+            DIMUser *user = client.currentUser;
+            const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
+            
+            DIMTransceiverCallback callback;
+            callback = ^(const DKDReliableMessage *rMsg, const NSError *error) {
+                if (error) {
+                    NSLog(@"failed to query for group members: %@", error);
+                }
+            };
+            DIMQueryGroupCommand *query;
+            query = [[DIMQueryGroupCommand alloc] initWithGroup:ID];
+            [trans sendMessageContent:query from:user.ID to:sender time:nil callback:callback];
         }
     }
     

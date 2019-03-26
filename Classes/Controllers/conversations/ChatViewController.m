@@ -37,6 +37,9 @@
     self.title = _conversation.title;
     NSLog(@"title: %@", self.title);
     
+    // TODO: if group members info not found, disable sending and
+    //       managing functions (disable the 'chatDetailSegue')
+    
     _tableFrame = _messagesTableView.frame;
     _trayFrame = _trayView.frame;
     
@@ -58,7 +61,7 @@
                                  name:UIKeyboardWillHideNotification
                                object:nil];
     
-    [NSNotificationCenter addObserver:self.messagesTableView
+    [NSNotificationCenter addObserver:self
                              selector:@selector(reloadData)
                                  name:kNotificationName_MessageUpdated
                                object:nil];
@@ -67,6 +70,11 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    [self scrollToBottom];
+}
+
+- (void)reloadData {
+    [self.messagesTableView reloadData];
     [self scrollToBottom];
 }
 
@@ -164,7 +172,7 @@
     
     _inputTextField.text = @"";
     
-    [_messagesTableView reloadData];
+    [self reloadData];
 }
 
 - (void)onMessageSent:(NSNotification *)notification {

@@ -6,8 +6,6 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <UserNotifications/UserNotifications.h>
-
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
@@ -113,8 +111,10 @@ SingletonImplementations(Client, sharedInstance)
     }
     [app registerForRemoteNotifications];
     
-    UNAuthorizationOptions options = UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert;
     UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
+    nc.delegate = self;
+    
+    UNAuthorizationOptions options = UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert;
     [nc requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
         NSLog(@"APNs requestAuthorizationWithOptions completed");
     }];
@@ -123,6 +123,10 @@ SingletonImplementations(Client, sharedInstance)
     NSString *spConfig = [launchOptions objectForKey:@"ConfigFilePath"];
     NSDictionary *config = [NSDictionary dictionaryWithContentsOfFile:spConfig];
     [self _launchServiceProviderConfig:config];
+    
+    // clear icon badge
+    app.applicationIconBadgeNumber = 0;
+    [nc removeAllPendingNotificationRequests];
 }
 
 - (void)didEnterBackground {
@@ -131,6 +135,7 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)willEnterForeground {
     [_currentStation resume];
+    
     // clear icon badge
     UIApplication *app = [UIApplication sharedApplication];
     app.applicationIconBadgeNumber = 0;
@@ -140,6 +145,16 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)willTerminate {
     [_currentStation end];
+}
+
+#pragma mark - UNUserNotificationCenterDelegate
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    NSLog(@"willPresentNotification: %@", notification);
+    // show alert even in foreground
+    completionHandler(UNNotificationPresentationOptionAlert);
 }
 
 @end
@@ -163,6 +178,27 @@ SingletonImplementations(Client, sharedInstance)
 - (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
               fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     NSLog(@"APNs user info: %@", userInfo);
+    UIApplication *app = [UIApplication sharedApplication];
+    UIApplicationState applicationState = app.applicationState;
+    switch (applicationState) {
+        case UIApplicationStateActive: {
+            
+        }
+            break;
+            
+        case UIApplicationStateInactive: {
+            
+        }
+            break;
+            
+        case UIApplicationStateBackground: {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

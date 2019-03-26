@@ -6,6 +6,8 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "MKMImmortals.h"
+
 #import "User.h"
 #import "Client.h"
 
@@ -47,7 +49,23 @@
         [[Client sharedInstance] addUser:user];
     }
 #endif
-    
+#if DEBUG && 0
+    {
+        // monkey king
+        DIMID *ID = [DIMID IDWithID:MKM_MONKEY_KING_ID];
+        DIMUser *user = DIMUserWithID(ID);
+        [[Client sharedInstance] addUser:user];
+    }
+#endif
+#if DEBUG && 0
+    {
+        // hulk
+        DIMID *ID = [DIMID IDWithID:MKM_IMMORTAL_HULK_ID];
+        DIMUser *user = DIMUserWithID(ID);
+        [[Client sharedInstance] addUser:user];
+    }
+#endif
+
     return YES;
 }
 

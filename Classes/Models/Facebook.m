@@ -160,7 +160,6 @@ SingletonImplementations(Facebook, sharedInstance)
         NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
         [contacts writeToFile:path atomically:YES];
         NSLog(@"contacts updated: %@", contacts);
-        [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
     } else {
         NSLog(@"no contacts");
     }
@@ -263,6 +262,9 @@ SingletonImplementations(Facebook, sharedInstance)
     NSArray *contacts = [_contactsTable objectForKey:ID.address];
     if (!contacts) {
         contacts = [self reloadContactsWithUser:user];
+        if (contacts.count > 0) {
+            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
+        }
     }
     
     return contacts.count;
@@ -274,6 +276,9 @@ SingletonImplementations(Facebook, sharedInstance)
     NSArray *contacts = [_contactsTable objectForKey:ID.address];
     if (!contacts) {
         contacts = [self reloadContactsWithUser:user];
+        if (contacts.count > 0) {
+            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
+        }
     }
     
     ID = [contacts objectAtIndex:index];
@@ -296,6 +301,7 @@ SingletonImplementations(Facebook, sharedInstance)
         [_contactsTable setObject:contacts forKey:user.ID.address];
     }
     [self flushContactsWithUser:user];
+    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
     return YES;
 }
 
@@ -314,6 +320,7 @@ SingletonImplementations(Facebook, sharedInstance)
         return NO;
     }
     [self flushContactsWithUser:user];
+    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
     return YES;
 }
 
