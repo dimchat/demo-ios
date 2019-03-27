@@ -136,11 +136,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
         
         // 1.3. seed
         uint32_t seed = arc4random();
-        if (_conversation.ID.name) {
-            _seedTextField.text = [NSString stringWithFormat:@"polylogue-%u-%@", seed, _conversation.ID.name];
-        } else {
-            _seedTextField.text = [NSString stringWithFormat:@"polylogue-%u", seed];
-        }
+        _seedTextField.text = [NSString stringWithFormat:@"Group-%u", seed];
         _seedTextField.enabled = YES;
     }
     

@@ -292,11 +292,11 @@
     if (groupID.type == MKMNetwork_Polylogue) {
         DIMPolylogue *group = (DIMPolylogue *)DIMGroupWithID(groupID);
         
-        if ([command isEqualToString:@"invite"]) {
+        if ([command isEqualToString:DKDGroupCommand_Invite]) {
             return [self _processInviteCommand:content commander:sender polylogue:group];
-        } else if ([command isEqualToString:@"expel"]) {
+        } else if ([command isEqualToString:DKDGroupCommand_Expel]) {
             return [self _processExpelCommand:content commander:sender polylogue:group];
-        } else if ([command isEqualToString:@"quit"]) {
+        } else if ([command isEqualToString:DKDGroupCommand_Quit]) {
             return [self _processQuitCommand:content commander:sender polylogue:group];
         } else if ([command isEqualToString:@"reset"]) {
             return [self _processResetCommand:content commander:sender polylogue:group];

@@ -22,14 +22,23 @@ const NSString *kNotificationName_UsersUpdated = @"UsersUpdated";
 
 SingletonImplementations(Client, sharedInstance)
 
+- (NSString *)displayName {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *name = [info valueForKey:@"CFBundleDisplayName"];
+    if (name) {
+        return name;
+    }
+    return @"DIM!";
+}
+
 - (void)onHandshakeAccepted:(const NSString *)session {
     [super onHandshakeAccepted:session];
     
     // post device token
     NSString *token = [self.deviceToken hexEncode];
     if (token) {
-        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"apns"];
-        [cmd setObject:self.currentUser.ID forKey:@"ID"];
+        DIMBroadcastCommand *cmd;
+        cmd = [[DIMBroadcastCommand alloc] initWithTitle:@"apns"];
         [cmd setObject:token forKey:@"device_token"];
         [self sendCommand:cmd];
     }
@@ -91,6 +100,7 @@ SingletonImplementations(Client, sharedInstance)
     NSArray *stations = [config objectForKey:@"stations"];
     NSDictionary *station = stations.firstObject;
     NSLog(@"got station: %@", station);
+    
     [self _startServer:station withProvider:sp];
 }
 
@@ -130,6 +140,12 @@ SingletonImplementations(Client, sharedInstance)
 }
 
 - (void)didEnterBackground {
+    // report client state
+    DIMBroadcastCommand *cmd;
+    cmd = [[DIMBroadcastCommand alloc] initWithTitle:@"report"];
+    [cmd setObject:@"background" forKey:@"state"];
+    [self sendCommand:cmd];
+    
     [_currentStation pause];
 }
 
@@ -141,6 +157,12 @@ SingletonImplementations(Client, sharedInstance)
     app.applicationIconBadgeNumber = 0;
     UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
     [nc removeAllPendingNotificationRequests];
+    
+    // report client state
+    DIMBroadcastCommand *cmd;
+    cmd = [[DIMBroadcastCommand alloc] initWithTitle:@"report"];
+    [cmd setObject:@"foreground" forKey:@"state"];
+    [self sendCommand:cmd];
 }
 
 - (void)willTerminate {
