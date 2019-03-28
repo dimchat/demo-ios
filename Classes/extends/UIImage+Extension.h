@@ -19,6 +19,12 @@ NS_ASSUME_NONNULL_BEGIN
                       size:(const CGSize)size
                      color:(nullable UIColor *)textColor
            backgroundColor:(nullable UIColor *)bgColor;
++ (UIImage *)imageWithText:(const NSString *)text
+                      size:(const CGSize)size
+                     color:(nullable UIColor *)textColor
+           backgroundImage:(nullable UIImage *)bgImage;
+
+#pragma mark Tiled Images
 
 + (UIImage *)tiledImages:(NSArray<UIImage *> *)images size:(const CGSize)size;
 + (UIImage *)tiledImages:(NSArray<UIImage *> *)images

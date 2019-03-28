@@ -238,7 +238,7 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
                                             <action selector="beginEditing:" destination="bP7-p2-KZv" eventType="editingDidBegin" id="zJR-5D-xA2"/>
                                             <action selector="send:" destination="bP7-p2-KZv" eventType="editingDidEndOnExit" id="U1g-Fy-1ey"/>

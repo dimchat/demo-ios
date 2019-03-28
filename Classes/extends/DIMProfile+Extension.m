@@ -33,8 +33,13 @@
         }
         NSString *text = [name substringToIndex:1];
         UIColor *textColor = [UIColor whiteColor];
-        UIColor *bgColor = [UIColor colorWithHexString:@"1F1F0A"];
-        image = [UIImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
+        UIImage *bgImage = [UIImage imageNamed:@"avatar-bg"];
+        if (bgImage) {
+            image = [UIImage imageWithText:text size:size color:textColor backgroundImage:bgImage];
+        } else {
+            UIColor *bgColor = [UIColor colorWithHexString:@"1F1F0A"];
+            image = [UIImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
+        }
     }
     return image;
 }

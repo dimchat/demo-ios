@@ -65,6 +65,7 @@
 		E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
 		E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
 		E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
+		E9E82501224D198200A029F1 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +237,7 @@
 		E9E824F0224CCFFB00A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E9E824F1224CCFFF00A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E9E824F2224CD00000A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		E9E824FF224D198200A029F1 /* avatar-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-bg.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				E922560B2222ED6B006CADEA /* gsp.plist */,
+				E9E824FF224D198200A029F1 /* avatar-bg.png */,
 				E97816CD2223EAA700BCE3AD /* Assets.xcassets */,
 				E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */,
 			);
@@ -619,6 +622,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */,
+				E9E82501224D198200A029F1 /* avatar-bg.png in Resources */,
 				E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */,
 				E92256102222ED6B006CADEA /* gsp.plist in Resources */,
 				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,

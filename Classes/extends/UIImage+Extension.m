@@ -72,6 +72,52 @@
     return image;
 }
 
++ (UIImage *)imageWithText:(const NSString *)text
+                      size:(const CGSize)size
+                     color:(nullable UIColor *)textColor
+           backgroundImage:(nullable UIImage *)bgImage {
+    
+    // prepare image contact
+    UIGraphicsBeginImageContext(size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    if (bgImage) {
+        CGContextDrawImage(context, CGRectMake(0, 0, size.width, size.height), bgImage.CGImage);
+    }
+    
+    // calculate font size
+    CGFloat fontSize = [UIFont systemFontSize];
+    UIFont *font = [UIFont systemFontOfSize:fontSize];
+    CGSize textSize = [text sizeWithFont:font maxSize:size];
+    CGFloat scale = MIN(size.width / textSize.width,
+                        size.height / textSize.height);
+    // adjust text font size
+    fontSize *= scale;
+    font = [UIFont systemFontOfSize:fontSize];
+    textSize = [text sizeWithFont:font maxSize:size];
+    
+    // draw the text in center
+    NSDictionary *attr;
+    if (textColor) {
+        attr = @{NSFontAttributeName:font,
+                 NSForegroundColorAttributeName:textColor,
+                 };
+    } else {
+        attr = @{NSFontAttributeName:font,
+                 };
+    }
+    CGRect rect = CGRectMake((size.width - textSize.width) * 0.5,
+                             (size.height - textSize.height) * 0.5,
+                             size.width, size.height);
+    [text drawInRect:rect withAttributes:attr];
+    
+    // get image
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+#pragma mark Tiled Images
+
 + (UIImage *)tiledImages:(NSArray<UIImage *> *)images size:(const CGSize)size {
     return [self tiledImages:images size:size backgroundColor:nil];
 }
