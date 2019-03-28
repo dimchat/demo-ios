@@ -43,7 +43,8 @@
     [trans sendMessageContent:cmd from:user.ID to:sender time:nil callback:callback];
     
     // 3. build message
-    NSString *text = [NSString stringWithFormat:@"%@ is querying group info, responsed.", readable_name(sender)];
+    NSString *format = NSLocalizedString(@"%@ was querying group info, responsed.", nil);
+    NSString *text = [NSString stringWithFormat:format, readable_name(sender)];
     NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
     [content setObject:text forKey:@"text"];
     
@@ -101,14 +102,15 @@
     }
     
     // 4. build message
-    NSString *text = [NSString stringWithFormat:@"%@ has updated group members", readable_name(sender)];
+    NSString *format = NSLocalizedString(@"%@ has updated group members", nil);
+    NSString *text = [NSString stringWithFormat:format, readable_name(sender)];
     if (removeds.count > 0) {
         NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:removeds.count];
         for (DIMID *item in removeds) {
             [mArr addObject:readable_name(item)];
         }
         NSString *str = [mArr componentsJoinedByString:@",\n"];
-        text = [text stringByAppendingFormat:@", removed %@", str];
+        text = [text stringByAppendingFormat:@", %@ %@", NSLocalizedString(@"removed", nil), str];
         [content setObject:removeds forKey:@"removed"];
     }
     if (addeds.count > 0) {
@@ -117,7 +119,7 @@
             [mArr addObject:readable_name(item)];
         }
         NSString *str = [mArr componentsJoinedByString:@",\n"];
-        text = [text stringByAppendingFormat:@", invited %@", str];
+        text = [text stringByAppendingFormat:@", %@ %@", NSLocalizedString(@"invited", nil), str];
         [content setObject:addeds forKey:@"added"];
     }
     NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
@@ -190,8 +192,8 @@
         [mArr addObject:readable_name([DIMID IDWithID:item])];
     }
     NSString *str = [mArr componentsJoinedByString:@",\n"];
-    NSString *text = [NSString stringWithFormat:@"%@ has invited member(s):\n%@.",
-                      readable_name(sender), str];
+    NSString *format = NSLocalizedString(@"%@ has invited member(s):\n%@.", nil);
+    NSString *text = [NSString stringWithFormat:format, readable_name(sender), str];
     NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
     [content setObject:text forKey:@"text"];
     [content setObject:addeds forKey:@"added"];
@@ -252,8 +254,8 @@
         [mArr addObject:readable_name([DIMID IDWithID:item])];
     }
     NSString *str = [mArr componentsJoinedByString:@",\n"];
-    NSString *text = [NSString stringWithFormat:@"%@ has removed member(s):\n%@.",
-                      readable_name(sender), str];
+    NSString *format = NSLocalizedString(@"%@ has removed member(s):\n%@.", nil);
+    NSString *text = [NSString stringWithFormat:format, readable_name(sender), str];
     NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
     [content setObject:text forKey:@"text"];
     [content setObject:removeds forKey:@"removed"];
@@ -280,7 +282,8 @@
     }
     
     // 3. build message
-    NSString *text = [NSString stringWithFormat:@"%@ has quitted group chat.", readable_name(sender)];
+    NSString *format = NSLocalizedString(@"%@ has quitted group chat.", nil);
+    NSString *text = [NSString stringWithFormat:format, readable_name(sender)];
     NSAssert(![content objectForKey:@"text"], @"text should be empty here: %@", content);
     [content setObject:text forKey:@"text"];
     

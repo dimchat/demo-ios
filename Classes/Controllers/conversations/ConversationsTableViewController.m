@@ -101,19 +101,19 @@
     if ([name isEqual:kNotificationName_ServerStateChanged]) {
         NSString *state = [info objectForKey:@"state"];
         if ([state isEqualToString:kDIMServerState_Default]) {
-            self.title = @"Disconnected";
+            self.title = NSLocalizedString(@"Disconnected!", nil);
         } else if ([state isEqualToString:kDIMServerState_Connecting]) {
-            self.title = @"Connecting ...";
+            self.title = NSLocalizedString(@"Connecting ...", nil);
         } else if ([state isEqualToString:kDIMServerState_Connected]) {
-            self.title = @"Connected";
+            self.title = NSLocalizedString(@"Connected!", nil);
         } else if ([state isEqualToString:kDIMServerState_Handshaking]) {
-            self.title = @"Authenticating ...";
+            self.title = NSLocalizedString(@"Authenticating ...", nil);
         } else if ([state isEqualToString:kDIMServerState_Running]) {
             self.title = _fixedTitle;
         } else if ([state isEqualToString:kDIMServerState_Error]) {
-            self.title = @"Network error!";
+            self.title = NSLocalizedString(@"Network error!", nil);
         } else if ([state isEqualToString:kDIMServerState_Stopped]) {
-            self.title = @"Connection stopped";
+            self.title = NSLocalizedString(@"Connection stopped!", nil);
         } else {
             NSAssert(false, @"unexpected state: %@", state);
         }

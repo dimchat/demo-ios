@@ -177,9 +177,9 @@
     
     if (section == 1) {
         if (_onlineUsers.count == 1) {
-            return @"Online User";
+            return NSLocalizedString(@"Online User", nil);
         } else if (_onlineUsers.count > 1) {
-            return @"Online Users";
+            return NSLocalizedString(@"Online Users", nil);
         }
     }
     return [super tableView:tableView titleForHeaderInSection:section];

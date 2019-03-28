@@ -1,0 +1,21 @@
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Pv1-Y9-OxK"; */
+"Pv1-Y9-OxK.text" = "Title";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "TMS-eT-4BA"; */
+"TMS-eT-4BA.text" = "Title";
+
+/* Class = "UILabel"; text = "Add Contact"; ObjectID = "iNs-lO-LvM"; */
+"iNs-lO-LvM.text" = "添加好友";
+
+/* Class = "UILabel"; text = "💬 Messages"; ObjectID = "jEB-0B-2qg"; */
+"jEB-0B-2qg.text" = "💬 發消息";
+
+/* Class = "UITableViewController"; title = "Profile"; ObjectID = "meJ-Kq-8RZ"; */
+"meJ-Kq-8RZ.title" = "資料";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "nAe-BT-0Fr"; */
+"nAe-BT-0Fr.text" = "Subtitle";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "ryz-aS-mFe"; */
+"ryz-aS-mFe.text" = "Detail";

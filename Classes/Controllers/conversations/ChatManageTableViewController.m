@@ -85,8 +85,9 @@
         if (row == 0) {
             // Clear Chat History
             
-            NSString *title = @"Clear Chat History";
-            NSString *text = [NSString stringWithFormat:@"Are you sure to clear all messages with %@ ?\nThis operation is unrecoverable!", _conversation.title];
+            NSString *title = NSLocalizedString(@"Clear Chat History", nil);
+            NSString *format = NSLocalizedString(@"Are you sure to clear all messages with %@ ?\nThis operation is unrecoverable!", nil);
+            NSString *text = [NSString stringWithFormat:format, _conversation.title];
             
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
@@ -149,9 +150,9 @@
         switch (row) {
             case 0: { // Name
                 if (MKMNetwork_IsGroup(_conversation.ID.type)) {
-                    key = @"Group name";
+                    key = NSLocalizedString(@"Group name", nil);
                 } else {
-                    key = @"Nickname";
+                    key = NSLocalizedString(@"Nickname", nil);
                 }
                 DIMProfile *profile = DIMProfileForID(_conversation.ID);
                 value = profile.name;
@@ -163,22 +164,22 @@
                 
             case 1: { // seed
                 if (MKMNetwork_IsGroup(_conversation.ID.type)) {
-                    key = @"Seed";
+                    key = NSLocalizedString(@"Seed", nil);
                 } else {
-                    key = @"Username";
+                    key = NSLocalizedString(@"Username", nil);
                 }
                 value = _conversation.ID.name;
             }
                 break;
                 
             case 2: { // address
-                key = @"Address";
+                key = NSLocalizedString(@"Address", nil);
                 value = (NSString *)_conversation.ID.address;
             }
                 break;
                 
             case 3: { // search number
-                key = @"Search No.";
+                key = NSLocalizedString(@"Search No.", nil);
                 value = search_number(_conversation.ID.number);
             }
                 break;

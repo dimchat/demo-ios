@@ -1,0 +1,84 @@
+
+/* Class = "UILabel"; text = "ID (username@address)"; ObjectID = "432-qU-XK6"; */
+"432-qU-XK6.text" = "ID (username@address)";
+
+/* Class = "UILabel"; text = "124.156.108.150"; ObjectID = "4hq-vJ-cqE"; */
+"4hq-vJ-cqE.text" = "124.156.108.150";
+
+/* Class = "UILabel"; text = "9394"; ObjectID = "5Yt-tQ-t9L"; */
+"5Yt-tQ-t9L.text" = "9394";
+
+/* Class = "UILabel"; text = "Username:"; ObjectID = "7ap-RG-sff"; */
+"7ap-RG-sff.text" = "账号名:";
+
+/* Class = "UILabel"; text = "Host"; ObjectID = "7oy-1n-MIm"; */
+"7oy-1n-MIm.text" = "Host";
+
+/* Class = "UILabel"; text = "Meta info (Seed, Key, Fingerprint)"; ObjectID = "Czd-0c-XVX"; */
+"Czd-0c-XVX.text" = "元信息 (Seed, Key, Fingerprint)";
+
+/* Class = "UILabel"; text = "desc"; ObjectID = "FB9-Bm-4Lf"; */
+"FB9-Bm-4Lf.text" = "desc";
+
+/* Class = "UIViewController"; title = "Account"; ObjectID = "NSU-Yj-2Sb"; */
+"NSU-Yj-2Sb.title" = "账号";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Ndg-2v-qf6"; */
+"Ndg-2v-qf6.text" = "Title";
+
+/* Class = "UIViewController"; title = "About"; ObjectID = "SJY-md-j1K"; */
+"SJY-md-j1K.title" = "关于";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "W6Z-Wb-M8m"; */
+"W6Z-Wb-M8m.text" = "Subtitle";
+
+/* Class = "UILabel"; text = "Private Key"; ObjectID = "aVj-ez-NbM"; */
+"aVj-ez-NbM.text" = "私钥";
+
+/* Class = "UILabel"; text = "Full name:"; ObjectID = "arL-ay-pK3"; */
+"arL-ay-pK3.text" = "中文名:";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "cQZ-hL-vAN"; */
+"cQZ-hL-vAN.text" = "Title";
+
+/* Class = "UINavigationItem"; title = "Create Account"; ObjectID = "cbd-3h-xTY"; */
+"cbd-3h-xTY.title" = "创建账号";
+
+/* Class = "UILabel"; text = "Create Account"; ObjectID = "cta-oL-Rhe"; */
+"cta-oL-Rhe.text" = "创建账号";
+
+/* Class = "UILabel"; text = "Nickname:"; ObjectID = "ehh-vz-awY"; */
+"ehh-vz-awY.text" = "昵称:";
+
+/* Class = "UITableViewSection"; headerTitle = "All Account(s)"; ObjectID = "f4a-cR-G8g"; */
+"f4a-cR-G8g.headerTitle" = "所有账号";
+
+/* Class = "UITableViewSection"; headerTitle = "Current Account"; ObjectID = "gYp-EN-BaU"; */
+"gYp-EN-BaU.headerTitle" = "当前账号";
+
+/* Class = "UIButton"; normalTitle = "Update"; ObjectID = "lvy-cD-XzB"; */
+"lvy-cD-XzB.normalTitle" = "更新";
+
+/* Class = "UILabel"; text = "Port"; ObjectID = "mDw-np-nWv"; */
+"mDw-np-nWv.text" = "端口";
+
+/* Class = "UITableViewController"; title = "Setting"; ObjectID = "nmM-UV-xb4"; */
+"nmM-UV-xb4.title" = "设置";
+
+/* Class = "UILabel"; text = "About"; ObjectID = "qPi-LS-u2a"; */
+"qPi-LS-u2a.text" = "关于";
+
+/* Class = "UIBarButtonItem"; title = "Generate"; ObjectID = "wRU-aB-kIu"; */
+"wRU-aB-kIu.title" = "生成";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "xGK-ne-Ous"; */
+"xGK-ne-Ous.text" = "name";
+
+/* Class = "UITableViewSection"; headerTitle = "Current Station"; ObjectID = "yQl-iG-5j7"; */
+"yQl-iG-5j7.headerTitle" = "当前基站";
+
+/* Class = "UINavigationItem"; title = "Me"; ObjectID = "zFh-81-wfe"; */
+"zFh-81-wfe.title" = "我";
+
+/* Class = "UIButton"; normalTitle = "Delete"; ObjectID = "zhK-9i-v8L"; */
+"zhK-9i-v8L.normalTitle" = "删除";

@@ -1,0 +1,87 @@
+
+/* Class = "UILabel"; text = "Search number"; ObjectID = "3bL-iX-b2E"; */
+"3bL-iX-b2E.text" = "檢索號碼";
+
+/* Class = "UITableViewController"; title = "Details"; ObjectID = "3du-vH-Zdo"; */
+"3du-vH-Zdo.title" = "詳情";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "3ge-ku-hii"; */
+"3ge-ku-hii.text" = "Label";
+
+/* Class = "UINavigationItem"; title = "Secure Chat"; ObjectID = "Bzi-Yl-bNu"; */
+"Bzi-Yl-bNu.title" = "Secure Chat";
+
+/* Class = "UILabel"; text = "last message"; ObjectID = "GtS-XW-P7O"; */
+"GtS-XW-P7O.text" = "最後一條消息";
+
+/* Class = "UILabel"; text = "Seed:"; ObjectID = "LZh-w8-68S"; */
+"LZh-w8-68S.text" = "Seed:";
+
+/* Class = "UITextField"; placeholder = "group name"; ObjectID = "M1h-g5-iDP"; */
+"M1h-g5-iDP.placeholder" = "群名稱";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "MKM-ow-Ouj"; */
+"MKM-ow-Ouj.text" = "Detail";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "Ovv-Q6-9J9"; */
+"Ovv-Q6-9J9.text" = "Detail";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "UDn-Ws-hBh"; */
+"UDn-Ws-hBh.text" = "Detail";
+
+/* Class = "UILabel"; text = "Nickname"; ObjectID = "V9C-sX-1Sc"; */
+"V9C-sX-1Sc.text" = "暱稱";
+
+/* Class = "UILabel"; text = "sent message"; ObjectID = "XKV-R5-F3I"; */
+"XKV-R5-F3I.text" = "sent message";
+
+/* Class = "UILabel"; text = "Username"; ObjectID = "YGx-l5-BVk"; */
+"YGx-l5-BVk.text" = "帳號名稱";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "bI1-l7-gB4"; */
+"bI1-l7-gB4.text" = "name";
+
+/* Class = "UILabel"; text = "Name:"; ObjectID = "c2D-ai-DbO"; */
+"c2D-ai-DbO.text" = "名稱:";
+
+/* Class = "UILabel"; text = "command message"; ObjectID = "clu-kZ-L6u"; */
+"clu-kZ-L6u.text" = "command message";
+
+/* Class = "UILabel"; text = "received message"; ObjectID = "dz5-N2-oTy"; */
+"dz5-N2-oTy.text" = "received message";
+
+/* Class = "UITextField"; placeholder = "seed to generate group ID"; ObjectID = "fVT-7q-maI"; */
+"fVT-7q-maI.placeholder" = "seed to generate group ID";
+
+/* Class = "UILabel"; text = "Clear Chat History"; ObjectID = "kOe-GX-gYP"; */
+"kOe-GX-gYP.text" = "清空聊天紀錄";
+
+/* Class = "UILabel"; text = "Address"; ObjectID = "kRq-yU-cC0"; */
+"kRq-yU-cC0.text" = "地址";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "lMb-BO-6gH"; */
+"lMb-BO-6gH.text" = "name";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "lWN-83-F4u"; */
+"lWN-83-F4u.normalTitle" = "發送";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "pqF-f9-Gte"; */
+"pqF-f9-Gte.text" = "Label";
+
+/* Class = "UILabel"; text = "time"; ObjectID = "pw9-eP-0VU"; */
+"pw9-eP-0VU.text" = "time";
+
+/* Class = "UILabel"; text = "contact"; ObjectID = "qPP-UP-xYf"; */
+"qPP-UP-xYf.text" = "contact";
+
+/* Class = "UILabel"; text = "Detail"; ObjectID = "vYr-rA-Dlv"; */
+"vYr-rA-Dlv.text" = "Detail";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "wDE-R4-Soc"; */
+"wDE-R4-Soc.text" = "name";
+
+/* Class = "UINavigationItem"; title = "Participants"; ObjectID = "wII-4E-5yh"; */
+"wII-4E-5yh.title" = "參與人";
+
+/* Class = "UITableViewController"; title = "Secure Chat"; ObjectID = "xcy-Go-HfB"; */
+"xcy-Go-HfB.title" = "Secure Chat";

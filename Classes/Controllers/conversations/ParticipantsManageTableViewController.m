@@ -199,7 +199,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
                                          profile:profile];
         if (!success) {
             NSLog(@"failed to update group: %@, %@, %@", ID, _selectedList, profile);
-            [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, ID.name] withTitle:@"Update Group Failed"];
+            [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, ID.name] withTitle:NSLocalizedString(@"Update Group Failed!", nil)];
             return NO;
         }
         NSLog(@"update group: %@, profile: %@, members: %@", ID, profile, _selectedList);
@@ -210,7 +210,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
                                      profile:@{@"name":name}];
         if (!_group) {
             NSLog(@"failed to create group: %@, %@, %@", seed, _selectedList, name);
-            [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, seed] withTitle:@"Create Group Failed"];
+            [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, seed] withTitle:NSLocalizedString(@"Create Group Failed!", nil)];
             return NO;
         }
         ID = _group.ID;
@@ -237,25 +237,29 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     NSString *groupSeed = _seedTextField.text;
     // check group name
     if (groupName.length == 0) {
-        [self showMessage:@"Group name cannot be empty" withTitle:@"Input Error"];
+        [self showMessage:NSLocalizedString(@"Group name cannot be empty.", nil)
+                withTitle:NSLocalizedString(@"Input Error!", nil)];
         [_nameTextField becomeFirstResponder];
         return ;
     }
     // check group seed
     if (groupSeed.length == 0) {
-        [self showMessage:@"Seed cannot be empty" withTitle:@"Input Error"];
+        [self showMessage:NSLocalizedString(@"Seed cannot be empty.", nil)
+                withTitle:NSLocalizedString(@"Input Error!", nil)];
         [_seedTextField becomeFirstResponder];
         return ;
     } else if (!check_username(groupSeed)) {
-        NSString *msg = @"Seed must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'";
-        [self showMessage:msg withTitle:@"Input Error"];
+        NSString *msg = NSLocalizedString(@"Seed must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'", nil);
+        [self showMessage:msg
+                withTitle:NSLocalizedString(@"Input Error!", nil)];
         [_seedTextField becomeFirstResponder];
         return ;
     }
     
     NSLog(@"selected: %@", _selectedList);
     if (_selectedList.count == 0) {
-        [self showMessage:@"Please select at least ONE contact" withTitle:@"Group Chat"];
+        [self showMessage:NSLocalizedString(@"Please select at least ONE contact.", nil)
+                withTitle:NSLocalizedString(@"Group Member Error!", nil)];
         return ;
     }
     
@@ -287,9 +291,9 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     [self showMessage:message
             withTitle:title
         cancelHandler:nil
-         cancelButton:@"Cancel"
+         cancelButton:NSLocalizedString(@"Cancel", nil)
        defaultHandler:handler
-        defaultButton:@"Submit"];
+        defaultButton:NSLocalizedString(@"Submit", nil)];
 }
 
 - (IBAction)unwindForSegue:(UIStoryboardSegue *)unwindSegue towardsViewController:(UIViewController *)subsequentVC {
@@ -304,10 +308,10 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         // founder
-        return @"Owner";
+        return NSLocalizedString(@"Owner", nil);
     } else if (section == 1) {
         // members
-        return @"Members";
+        return NSLocalizedString(@"Members", nil);
     }
     return [super tableView:tableView titleForHeaderInSection:section];
 }

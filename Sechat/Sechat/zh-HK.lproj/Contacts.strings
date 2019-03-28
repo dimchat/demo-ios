@@ -1,0 +1,63 @@
+
+/* Class = "UILabel"; text = "Find by Phone No."; ObjectID = "7Rp-fd-hyV"; */
+"7Rp-fd-hyV.text" = "通過手機號碼查詢";
+
+/* Class = "UITableViewController"; title = "Add Contact"; ObjectID = "8Ph-gC-tvu"; */
+"8Ph-gC-tvu.title" = "加好友";
+
+/* Class = "UITableViewController"; title = "Tags"; ObjectID = "8zZ-cV-u7H"; */
+"8zZ-cV-u7H.title" = "標籤";
+
+/* Class = "UILabel"; text = "desc"; ObjectID = "ANU-XG-rmj"; */
+"ANU-XG-rmj.text" = "描述";
+
+/* Class = "UITableViewController"; title = "Group Chats"; ObjectID = "C7L-e1-4P2"; */
+"C7L-e1-4P2.title" = "群聊天";
+
+/* Class = "UILabel"; text = "Add from mobile address book"; ObjectID = "EIa-xP-GZ7"; */
+"EIa-xP-GZ7.text" = "由手機通訊錄添加";
+
+/* Class = "UILabel"; text = "SeChat Work Contacts"; ObjectID = "Fhx-Nt-gir"; */
+"Fhx-Nt-gir.text" = "SeChat Work Contacts";
+
+/* Class = "UINavigationItem"; title = "Contacts"; ObjectID = "Hfx-mI-E0t"; */
+"Hfx-mI-E0t.title" = "聯繫人";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "I6D-nD-XaO"; */
+"I6D-nD-XaO.text" = "name";
+
+/* Class = "UILabel"; text = "Official Accounts"; ObjectID = "LbN-cM-fHG"; */
+"LbN-cM-fHG.text" = "公眾號";
+
+/* Class = "UILabel"; text = "Mobile Contacts"; ObjectID = "PJZ-Ue-Aov"; */
+"PJZ-Ue-Aov.text" = "手機聯繫人";
+
+/* Class = "UILabel"; text = "Scan contact's QR Code"; ObjectID = "PkU-6F-DYu"; */
+"PkU-6F-DYu.text" = "掃描二維碼名片";
+
+/* Class = "UILabel"; text = "Quickly add friends in your vicinity"; ObjectID = "QpR-0l-E5I"; */
+"QpR-0l-E5I.text" = "添加身邊嘅朋友";
+
+/* Class = "UILabel"; text = "Scan QR Code"; ObjectID = "UCf-KO-Zny"; */
+"UCf-KO-Zny.text" = "掃一下";
+
+/* Class = "UILabel"; text = "Join a group with friends nearby"; ObjectID = "USy-II-sNj"; */
+"USy-II-sNj.text" = "同身邊嘅人一齊聊天";
+
+/* Class = "UILabel"; text = "Join Private Group"; ObjectID = "Z39-Fi-mZF"; */
+"Z39-Fi-mZF.text" = "面對面建群";
+
+/* Class = "UILabel"; text = "desc"; ObjectID = "e8A-3e-2KP"; */
+"e8A-3e-2KP.text" = "描述";
+
+/* Class = "UILabel"; text = "Get more info and services"; ObjectID = "mYE-sh-vp8"; */
+"mYE-sh-vp8.text" = "獲取更多嘅資訊同服務";
+
+/* Class = "UILabel"; text = "Friend Radar"; ObjectID = "tMs-9E-YQc"; */
+"tMs-9E-YQc.text" = "雷達加好友";
+
+/* Class = "UILabel"; text = "name"; ObjectID = "wBi-qg-BXQ"; */
+"wBi-qg-BXQ.text" = "name";
+
+/* Class = "UITableViewController"; title = "New Friends"; ObjectID = "xqg-YD-yas"; */
+"xqg-YD-yas.title" = "新朋友";

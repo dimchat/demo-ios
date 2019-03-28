@@ -103,18 +103,21 @@
     
     // check nickname
     if (nickname.length == 0) {
-        [self showMessage:@"Nickname cannot be empty" withTitle:@"Nickname Error"];
+        [self showMessage:NSLocalizedString(@"Nickname cannot be empty.", nil)
+                withTitle:NSLocalizedString(@"Nickname Error!", nil)];
         [_nicknameTextField becomeFirstResponder];
         return ;
     }
     // check username
     if (username.length == 0) {
-        [self showMessage:@"Username cannot be empty" withTitle:@"Username Error"];
+        [self showMessage:NSLocalizedString(@"Username cannot be empty.", nil)
+                withTitle:NSLocalizedString(@"Username Error!", nil)];
         [_usernameTextField becomeFirstResponder];
         return ;
     } else if (!check_username(username)) {
-        NSString *msg = @"Username must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'";
-        [self showMessage:msg withTitle:@"Username Error"];
+        NSString *msg = NSLocalizedString(@"Username must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'", nil);
+        [self showMessage:msg
+                withTitle:NSLocalizedString(@"Username Error!", nil)];
         [_usernameTextField becomeFirstResponder];
         return ;
     }
@@ -194,7 +197,7 @@
     DIMPrivateKey *SK = [info objectForKey:@"privateKey"];
     NSString *nickname = _nicknameTextField.text;
     
-    NSString *title = @"New Account";
+    NSString *title = NSLocalizedString(@"New Account", nil);
     NSString *message = [NSString stringWithFormat:@"%@ (%@)", nickname, search_number(ID.number)];
     
     void (^handler)(UIAlertAction *);
@@ -219,9 +222,9 @@
     [self showMessage:message
             withTitle:title
         cancelHandler:nil
-         cancelButton:@"Cancel"
+         cancelButton:NSLocalizedString(@"Cancel", nil)
        defaultHandler:handler
-        defaultButton:@"Save"];
+        defaultButton:NSLocalizedString(@"Save", nil)];
 }
 
 /*

@@ -78,10 +78,10 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return @"ID";
+        return NSLocalizedString(@"ID", nil);
     }
     if (section == 1) {
-        return @"Profiles";
+        return NSLocalizedString(@"Profiles", nil);
     }
     return [super tableView:tableView titleForHeaderInSection:section];
 }
@@ -96,13 +96,13 @@
     if (section == 0) {
         cell = [tableView dequeueReusableCellWithIdentifier:@"IDCell" forIndexPath:indexPath];
         if (row == 0) {
-            cell.textLabel.text = @"Username";
+            cell.textLabel.text = NSLocalizedString(@"Username", nil);
             cell.detailTextLabel.text = _account.ID.name;
         } else if (row == 1) {
-            cell.textLabel.text = @"Address";
+            cell.textLabel.text = NSLocalizedString(@"Address", nil);
             cell.detailTextLabel.text = (NSString *)_account.ID.address;
         } else if (row == 2) {
-            cell.textLabel.text = @"Search No.";
+            cell.textLabel.text = NSLocalizedString(@"Search No.", nil);
             cell.detailTextLabel.text = search_number(_account.ID.number);
         }
         return cell;

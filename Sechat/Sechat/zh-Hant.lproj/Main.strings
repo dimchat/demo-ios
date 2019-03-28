@@ -1,0 +1,9 @@
+
+/* Class = "UITabBarItem"; title = "Chat"; ObjectID = "GSn-RG-OEj"; */
+"GSn-RG-OEj.title" = "聊天";
+
+/* Class = "UITabBarItem"; title = "Contacts"; ObjectID = "Sez-K9-DYJ"; */
+"Sez-K9-DYJ.title" = "通訊錄";
+
+/* Class = "UITabBarItem"; title = "Me"; ObjectID = "mKD-yW-hkT"; */
+"mKD-yW-hkT.title" = "我";

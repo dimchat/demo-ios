@@ -1,0 +1,97 @@
+/*
+ Localizable.strings
+ Sechat
+ 
+ Created by Albert Moky on 2019/3/28.
+ Copyright © 2019 DIM Group. All rights reserved.
+ */
+
+//
+//  Alert
+//
+"Cancel" = "取消";
+"OK" = "好的";
+"Submit" = "提交";
+"Save" = "保存";
+
+//
+//  Connection
+//
+"Disconnected!" = "网络中断";
+"Connecting ..." = "正在连接基站⋯⋯";
+"Connected!" = "基站连接成功！";
+"Authenticating ..." = "正在验证⋯⋯";
+"Network error!" = "网路错误！";
+"Connection stopped!" = "连接中止！";
+
+//
+//。Conversation
+//
+"Group name" = "群名称";
+"Nickname" = "昵称";
+
+"Seed" = "Seed";
+"Username" = "帐号名称";
+"Address" = "地址";
+"Search No." = "搜索号";
+
+"Clear Chat History" = "清空聊天纪录";
+"Are you sure to clear all messages with %@ ?\nThis operation is unrecoverable!" = "你确定要删除 %@ 的所有纪录吗？\n这个操作无法恢复的喔！";
+
+// participants manage
+"Update Group Failed!" = "更新群信息失败！";
+"Create Group Failed!" = "创建群信息失败！";
+
+"Input Error!" = "输入错误";
+"Group name cannot be empty." = "群名称不能为空";
+"Seed cannot be empty." = "Seed 不能为空";
+"Seed must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'" = "Seed 必须由英文字符（区分大小写）、数字, 以及横线、下横线、小数点组成";
+
+"Group Member Error!" = "群成员错误";
+"Please select at least ONE contact." = "请至少选择一名成员！";
+
+"Owner" = "群主";
+"Members" = "群成员";
+
+//
+//  Contacts
+//
+
+"ID" = "ID";
+"Profile" = "资料";
+"Profiles" = "资料";
+
+"Online User" = "在线用户";
+"Online Users" = "在线用户";
+
+//
+//  Account
+//
+
+"USER NOT FOUND" = "尚未登录";
+"Please register/login first." = "请先注册或登录";
+
+"ARE YOU SURE?" = "您确定吗？";
+"This operation is unrecoverable!" = "该操作无法撤回！";
+
+"Nickname Error!" = "昵称不正确";
+"Nickname cannot be empty." = "昵称不能为空";
+
+"Username Error!" = "帐号名不正确";
+"Username cannot be empty." = "帐号名不能为空";
+"Username must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'" = "帐号名必须由英文字母（区分大小写）、数字，以及横线、下横线和小数点组成";
+
+"New Account" = "新的帐号";
+
+//
+//  Message Processor
+//
+
+"%@ was querying group info, responsed." = "%@ 在询问最新的群信息，已应答。";
+"%@ has updated group members" = "%@ 更新了群信息";
+"removed" = "删除了成员";
+"invited" = "添加了成员";
+
+"%@ has invited member(s):\n%@." = "%@ 邀请了群成员:\n%@。";
+"%@ has removed member(s):\n%@." = "%@ 删除了群成员:\n%@。";
+"%@ has quitted group chat." = "%@ 退出了群聊。";

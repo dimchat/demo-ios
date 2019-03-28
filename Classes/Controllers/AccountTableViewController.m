@@ -54,8 +54,8 @@
         // desc
         _descLabel.text = (NSString *)user.ID;
     } else {
-        _nameLabel.text = @"USER NOT FOUND";
-        _descLabel.text = @"Please register/login first.";
+        _nameLabel.text = NSLocalizedString(@"USER NOT FOUND", nil);
+        _descLabel.text = NSLocalizedString(@"Please register/login first.", nil);
         
         // show register view controller
         [self performSegueWithIdentifier:@"registerSegue" sender:self];
@@ -191,11 +191,11 @@
     Client *client = [Client sharedInstance];
     DIMUser *user = [client.users objectAtIndex:row];
     
-    NSString *text = [NSString stringWithFormat:@"%@\n(%@)\n%@\n"
-                      "\nThis operation is unrecoverable!",
-                      user.name, search_number(user.number), user.ID];
+    NSString *unrecoverable = NSLocalizedString(@"This operation is unrecoverable!", nil);
+    NSString *text = [NSString stringWithFormat:@"%@\n(%@)\n%@\n\n%@",
+                      user.name, search_number(user.number), user.ID, unrecoverable];
     
-    NSString *title = @"ARE YOU SURE?";
+    NSString *title = NSLocalizedString(@"ARE YOU SURE?", nil);
     
     void (^handler)(UIAlertAction *);
     handler = ^(UIAlertAction *action) {
