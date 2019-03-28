@@ -6,9 +6,13 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSNotificationCenter+Extension.h"
+
 #import "User.h"
 #import "Client.h"
 #import "Facebook+Register.h"
+
+#import "ParticipantsManageTableViewController.h"
 
 #import "MessageProcessor+GroupCommand.h"
 
@@ -284,6 +288,7 @@
 }
 
 - (BOOL)processGroupCommand:(DIMMessageContent *)content commander:(const DIMID *)sender {
+    BOOL OK = NO;
     
     NSString *command = content.command;
     NSLog(@"command: %@", command);
@@ -293,22 +298,31 @@
         DIMPolylogue *group = (DIMPolylogue *)DIMGroupWithID(groupID);
         
         if ([command isEqualToString:DKDGroupCommand_Invite]) {
-            return [self _processInviteCommand:content commander:sender polylogue:group];
+            OK = [self _processInviteCommand:content commander:sender polylogue:group];
         } else if ([command isEqualToString:DKDGroupCommand_Expel]) {
-            return [self _processExpelCommand:content commander:sender polylogue:group];
+            OK = [self _processExpelCommand:content commander:sender polylogue:group];
         } else if ([command isEqualToString:DKDGroupCommand_Quit]) {
-            return [self _processQuitCommand:content commander:sender polylogue:group];
+            OK = [self _processQuitCommand:content commander:sender polylogue:group];
         } else if ([command isEqualToString:@"reset"]) {
-            return [self _processResetCommand:content commander:sender polylogue:group];
+            OK = [self _processResetCommand:content commander:sender polylogue:group];
         } else if ([command isEqualToString:@"query"]) {
-            return [self _processQueryCommand:content commander:sender polylogue:group];
+            OK = [self _processQueryCommand:content commander:sender polylogue:group];
         } else {
             NSAssert(false, @"unknown polylogue command: %@", content);
         }
     } else {
         NSAssert(false, @"unsupport group command: %@", content);
     }
-    return NO;
+    
+    if (OK) {
+        // notice
+        const NSString *name = kNotificationName_GroupMembersUpdated;
+        NSDictionary *info = @{@"group": groupID};
+        [NSNotificationCenter postNotificationName:name
+                                            object:self
+                                          userInfo:info];
+    }
+    return OK;
 }
 
 @end

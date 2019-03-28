@@ -17,6 +17,7 @@
 #import "MsgCell.h"
 
 #import "ChatManageTableViewController.h"
+#import "ParticipantsManageTableViewController.h"
 
 #import "ChatViewController.h"
 
@@ -65,6 +66,10 @@
                              selector:@selector(onMessageUpdated:)
                                  name:kNotificationName_MessageUpdated
                                object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(onGroupMembersUpdated:)
+                                 name:kNotificationName_GroupMembersUpdated
+                               object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -74,11 +79,34 @@
 }
 
 - (void)onMessageUpdated:(NSNotification *)notification {
+    NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
-    DIMID *ID = [info objectForKey:@"ID"];
-    ID = [DIMID IDWithID:ID];
-    if ([_conversation.ID isEqual:ID]) {
-        [self reloadData];
+    
+    if ([name isEqual:kNotificationName_MessageUpdated]) {
+        DIMID *ID = [info objectForKey:@"ID"];
+        ID = [DIMID IDWithID:ID];
+        if ([_conversation.ID isEqual:ID]) {
+            [self reloadData];
+        }
+    }
+}
+
+- (void)onGroupMembersUpdated:(NSNotification *)notification {
+    NSString *name = notification.name;
+    NSDictionary *info = notification.userInfo;
+    
+    if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
+        DIMID *groupID = [info objectForKey:@"group"];
+        if ([groupID isEqual:_conversation.ID]) {
+            // the same group, refresh title
+            self.title = _conversation.title;
+            NSLog(@"new title: %@", self.title);
+        } else {
+            // dismiss the personal chat box
+            [self dismissViewControllerAnimated:YES completion:^{
+                //
+            }];
+        }
     }
 }
 

@@ -218,6 +218,9 @@
         
         ChatViewController *vc = (id)[segue visibleDestinationViewController];
         vc.conversation = convers;
+        
+        // refresh button 'Add Contact' to 'Send Message'
+        [self.tableView reloadData];
     }
 }
 

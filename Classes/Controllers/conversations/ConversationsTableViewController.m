@@ -89,8 +89,8 @@
     NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
-        DIMGroup *group = [info objectForKey:@"group"];
-        DIMConversation *chatBox = DIMConversationWithID(group.ID);
+        DIMID *groupID = [info objectForKey:@"group"];
+        DIMConversation *chatBox = DIMConversationWithID(groupID);
         //[self performSegueWithIdentifier:@"startChat" sender:chatBox];
     }
 }

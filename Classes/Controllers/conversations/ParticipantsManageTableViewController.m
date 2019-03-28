@@ -185,6 +185,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     
     if (MKMNetwork_IsGroup(ID.type)) {
         // exists group
+        _group = DIMGroupWithID(ID);
         profile = DIMProfileForID(ID);
         if (profile) {
             profile.name = name;
@@ -222,9 +223,11 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     [facebook saveProfile:profile forEntityID:ID];
     [facebook saveMembers:_selectedList withGroupID:ID];
     
-    // TODO: save current user as founder & owner of the group
-    // ...
-    
+    // notice
+    NSDictionary *info = @{@"group": ID};
+    [NSNotificationCenter postNotificationName:kNotificationName_GroupMembersUpdated
+                                        object:self
+                                      userInfo:info];
     return YES;
 }
 
@@ -273,12 +276,6 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     void (^handler)(UIAlertAction *);
     handler = ^(UIAlertAction *action) {
         if ([self submitGroupInfo]) {
-            // notice
-            const NSString *name = kNotificationName_GroupMembersUpdated;
-            NSDictionary *info = @{@"group":self->_group};
-            [NSNotificationCenter postNotificationName:name
-                                                object:self
-                                              userInfo:info];
             // dismiss this view controller
             [self dismissViewControllerAnimated:YES completion:^{
                 //

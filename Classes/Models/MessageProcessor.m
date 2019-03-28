@@ -353,8 +353,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     // check whether the group members info is updated
     if (MKMNetwork_IsGroup(ID.type)) {
         DIMGroup *group = DIMGroupWithID(ID);
-        const DIMID *founder = group.founder;
-        if (!founder) {
+        if (group.founder == nil) {
             DIMTransceiver *trans = [DIMTransceiver sharedInstance];
             Client *client = [Client sharedInstance];
             DIMUser *user = client.currentUser;

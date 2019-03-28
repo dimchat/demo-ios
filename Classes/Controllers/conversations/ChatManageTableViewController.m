@@ -55,8 +55,8 @@
     NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
-        DIMGroup *group = [info objectForKey:@"group"];
-        if ([group.ID isEqual:_conversation.ID]) {
+        DIMID *groupID = [info objectForKey:@"group"];
+        if ([groupID isEqual:_conversation.ID]) {
             // the same group
             [_participantsCollectionViewController reloadData];
             [_participantsCollectionViewController.collectionView reloadData];
