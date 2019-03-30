@@ -66,6 +66,7 @@
 		E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
 		E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
 		E9E82501224D198200A029F1 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
+		E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -238,6 +239,8 @@
 		E9E824F1224CCFFF00A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E9E824F2224CD00000A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E9E824FF224D198200A029F1 /* avatar-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-bg.png"; sourceTree = "<group>"; };
+		E9E8250D224F5BBD00A029F1 /* UIButton+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extension.h"; sourceTree = "<group>"; };
+		E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -471,6 +474,8 @@
 				E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */,
 				E9BBC3732242B21200E6ACDA /* NSString+Extension.h */,
 				E9BBC3792242B21200E6ACDA /* NSString+Extension.m */,
+				E9E8250D224F5BBD00A029F1 /* UIButton+Extension.h */,
+				E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */,
 				E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */,
 				E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */,
 				E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */,
@@ -677,6 +682,7 @@
 				E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */,
 				E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
+				E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
 				E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */,
 				E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */,

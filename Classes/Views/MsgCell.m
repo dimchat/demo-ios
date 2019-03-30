@@ -10,6 +10,7 @@
 #import "UIImage+Extension.h"
 #import "UIImageView+Extension.h"
 #import "DIMProfile+Extension.h"
+#import "UIButton+Extension.h"
 
 #import "User.h"
 
@@ -160,6 +161,33 @@
     
     _messageImageView.frame = msgImageFrame;
     _messageLabel.frame = msgLabelFrame;
+    
+    // error info button
+    NSError *error = [_msg objectForKey:@"error"];
+    if (error) {
+        CGRect frame = _infoButton.frame;
+        CGFloat x, y;
+        x = msgImageFrame.origin.x - frame.size.width;
+        y = msgImageFrame.origin.y + (msgImageFrame.size.height - frame.size.height) * 0.5;
+        frame.origin = CGPointMake(x, y);
+        _infoButton.frame = frame;
+        _infoButton.hidden = NO;
+    } else {
+        _infoButton.hidden = YES;
+    }
+}
+
+- (void)setMsg:(DKDInstantMessage *)msg {
+    [super setMsg:msg];
+    
+    // error info button
+    NSError *error = [_msg objectForKey:@"error"];
+    if (error) {
+        // message
+        MessageButton *btn = (MessageButton *)_infoButton;
+        btn.title = NSLocalizedString(@"Failed to send this message", nil);
+        btn.message = error.localizedDescription;
+    }
 }
 
 @end

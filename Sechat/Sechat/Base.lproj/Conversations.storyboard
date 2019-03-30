@@ -183,11 +183,17 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4F2-nD-2Ql" customClass="MessageButton">
+                                                    <rect key="frame" x="87" y="44" width="22" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="tintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" cocoaTouchSystemColor="lightTextColor"/>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="avatarImageView" destination="wLD-v4-nKd" id="R3U-Tf-rpK"/>
+                                            <outlet property="infoButton" destination="4F2-nD-2Ql" id="zRu-ek-IRh"/>
                                             <outlet property="messageImageView" destination="2Yy-5l-lgt" id="w2Q-C2-CJR"/>
                                             <outlet property="messageLabel" destination="XKV-R5-F3I" id="oRr-so-BBz"/>
                                             <outlet property="timeLabel" destination="pqF-f9-Gte" id="nyM-8S-C9W"/>

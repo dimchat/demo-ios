@@ -95,3 +95,8 @@
 "%@ has invited member(s):\n%@." = "%@ 邀請了群成員:\n%@。";
 "%@ has removed member(s):\n%@." = "%@ 刪除了群成員:\n%@。";
 "%@ has quitted group chat." = "%@ 退出了群聊。";
+
+//
+//  Message Cell
+//
+"Failed to send this message" = "發送信息失敗";

@@ -10,6 +10,7 @@
 #import "NSNotificationCenter+Extension.h"
 
 #import "UIStoryboardSegue+Extension.h"
+#import "UIButton+Extension.h"
 
 #import "MessageProcessor.h"
 #import "Client.h"
@@ -229,6 +230,8 @@
     NSError *error = [info objectForKey:@"error"];
     NSLog(@"%@: %@, error: %@", name, msg, error);
     // TODO: mark the message failed for trying again
+    NSAssert(error, @"notification error: %@", notification);
+    [msg setObject:error forKey:@"error"];
 }
 
 #pragma mark - Table view data source
@@ -280,6 +283,12 @@
     }
     MsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     cell.msg = iMsg;
+    
+    if ([identifier isEqualToString:@"sentMsgCell"]) {
+        SentMsgCell * sentMsgCell = (SentMsgCell *)cell;
+        MessageButton *btn = (MessageButton *)sentMsgCell.infoButton;
+        btn.controller = self;
+    }
     
     return cell;
 }
