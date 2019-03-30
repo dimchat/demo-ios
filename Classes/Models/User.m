@@ -57,7 +57,7 @@ BOOL check_username(const NSString *username) {
 
 @implementation DIMUser (Config)
 
-+ (instancetype)userWithConfigFile:(NSString *)config {
++ (nullable instancetype)userWithConfigFile:(NSString *)config {
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:config];
     
     if (!dict) {

@@ -29,7 +29,7 @@ typedef NSArray<const DIMID *> ContactTable;
 
 + (instancetype)sharedInstance;
 
-- (const DIMID *)IDWithAddress:(const DIMAddress *)address;
+- (nullable const DIMID *)IDWithAddress:(const DIMAddress *)address;
 
 - (void)addStation:(const DIMID *)stationID provider:(const DIMServiceProvider *)sp;
 

@@ -12,17 +12,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImage (Extension)
 
-+ (UIImage *)imageWithURLString:(const NSString *)urlString;
++ (nullable UIImage *)imageWithURLString:(const NSString *)urlString;
 
-+ (UIImage *)imageWithText:(const NSString *)text size:(const CGSize)size;
-+ (UIImage *)imageWithText:(const NSString *)text
-                      size:(const CGSize)size
-                     color:(nullable UIColor *)textColor
-           backgroundColor:(nullable UIColor *)bgColor;
-+ (UIImage *)imageWithText:(const NSString *)text
-                      size:(const CGSize)size
-                     color:(nullable UIColor *)textColor
-           backgroundImage:(nullable UIImage *)bgImage;
++ (nullable UIImage *)imageWithText:(const NSString *)text size:(const CGSize)size;
++ (nullable UIImage *)imageWithText:(const NSString *)text
+                               size:(const CGSize)size
+                              color:(nullable UIColor *)textColor
+                    backgroundColor:(nullable UIColor *)bgColor;
++ (nullable UIImage *)imageWithText:(const NSString *)text
+                               size:(const CGSize)size
+                              color:(nullable UIColor *)textColor
+                    backgroundImage:(nullable UIImage *)bgImage;
 
 #pragma mark Tiled Images
 

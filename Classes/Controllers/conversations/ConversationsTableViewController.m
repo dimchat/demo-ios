@@ -86,12 +86,13 @@
 
 - (void)onGroupMembersUpdated:(NSNotification *)notification {
     NSString *name = notification.name;
-    NSDictionary *info = notification.userInfo;
+//    NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
-        DIMID *groupID = [info objectForKey:@"group"];
-        DIMConversation *chatBox = DIMConversationWithID(groupID);
-        //[self performSegueWithIdentifier:@"startChat" sender:chatBox];
+        // TODO: open chat box for new group
+//        DIMID *groupID = [info objectForKey:@"group"];
+//        DIMConversation *chatBox = DIMConversationWithID(groupID);
+//        //[self performSegueWithIdentifier:@"startChat" sender:chatBox];
     }
 }
 
@@ -214,7 +215,8 @@
         if ([sender isKindOfClass:[ConversationCell class]]) {
             ConversationCell *cell = sender;
             chatBox = cell.conversation;
-        } else if ([sender isKindOfClass:[DIMConversation class]]) {
+        } else {
+            NSAssert([sender isKindOfClass:[DIMConversation class]], @"sender error: %@", sender);
             chatBox = sender;
         }
         const DIMID *ID = chatBox.ID;

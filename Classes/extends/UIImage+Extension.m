@@ -12,7 +12,7 @@
 
 @implementation UIImage (Extension)
 
-+ (UIImage *)imageWithURLString:(const NSString *)urlString {
++ (nullable UIImage *)imageWithURLString:(const NSString *)urlString {
     NSURL *url = [NSURL URLWithString:[urlString copy]];
     NSData *data = [NSData dataWithContentsOfURL:url];
     if (data) {
@@ -23,14 +23,14 @@
     }
 }
 
-+ (UIImage *)imageWithText:(const NSString *)text size:(const CGSize)size {
++ (nullable UIImage *)imageWithText:(const NSString *)text size:(const CGSize)size {
     return [self imageWithText:text size:size color:nil backgroundColor:nil];
 }
 
-+ (UIImage *)imageWithText:(const NSString *)text
-                      size:(const CGSize)size
-                     color:(nullable UIColor *)textColor
-           backgroundColor:(nullable UIColor *)bgColor {
++ (nullable UIImage *)imageWithText:(const NSString *)text
+                               size:(const CGSize)size
+                              color:(nullable UIColor *)textColor
+                    backgroundColor:(nullable UIColor *)bgColor {
     
     // prepare image contact
     UIGraphicsBeginImageContext(size);
@@ -72,10 +72,10 @@
     return image;
 }
 
-+ (UIImage *)imageWithText:(const NSString *)text
-                      size:(const CGSize)size
-                     color:(nullable UIColor *)textColor
-           backgroundImage:(nullable UIImage *)bgImage {
++ (nullable UIImage *)imageWithText:(const NSString *)text
+                               size:(const CGSize)size
+                              color:(nullable UIColor *)textColor
+                    backgroundImage:(nullable UIImage *)bgImage {
     
     // prepare image contact
     UIGraphicsBeginImageContext(size);

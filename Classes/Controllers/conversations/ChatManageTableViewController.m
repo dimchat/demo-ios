@@ -192,6 +192,9 @@
     } else if (section == 2) {
         // functions
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    } else {
+        // others
+        cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
     
     return cell;

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MessageButton : UIButton
 
 @property (strong, nonatomic, nullable) NSString *title;
-@property (strong, nonatomic) NSString *message;
+@property (strong, nonatomic, nullable) NSString *message;
 
 @property (weak, nonatomic) UIViewController *controller;
 

@@ -52,7 +52,7 @@ BOOL check_username(const NSString *username);
 
 @interface DIMUser (Config)
 
-+ (instancetype)userWithConfigFile:(NSString *)config;
++ (nullable instancetype)userWithConfigFile:(NSString *)config;
 
 @end
 

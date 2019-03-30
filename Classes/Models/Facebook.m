@@ -102,7 +102,7 @@ SingletonImplementations(Facebook, sharedInstance)
     }
 }
 
-- (const DIMID *)IDWithAddress:(const DIMAddress *)address {
+- (nullable const DIMID *)IDWithAddress:(const DIMAddress *)address {
     DIMID *ID;
     NSArray *tables = _contactsTable.allValues;
     for (NSArray *list in tables) {
@@ -179,6 +179,7 @@ SingletonImplementations(Facebook, sharedInstance)
         [_contactsTable setObject:contacts forKey:user.ID.address];
     } else {
         [_contactsTable removeObjectForKey:user.ID.address];
+        contacts = [[NSMutableArray alloc] init];
     }
     return contacts;
 }
@@ -197,11 +198,14 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMMetaDataSource
 
-- (const DIMMeta *)metaForID:(const DIMID *)ID {
+- (nullable const DIMMeta *)metaForID:(const DIMID *)ID {
     const DIMMeta *meta = nil;
     
     if (MKMNetwork_IsPerson(ID.type)) {
         meta = [_immortals metaForID:ID];
+        if (meta) {
+            return meta;
+        }
     }
     
     // TODO: load meta from database
@@ -220,7 +224,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMEntityDataSource
 
-- (const DIMMeta *)metaForEntity:(const DIMEntity *)entity {
+- (nullable const DIMMeta *)metaForEntity:(const DIMEntity *)entity {
     return [self metaForID:entity.ID];
 }
 
@@ -231,7 +235,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMAccountDelegate
 
-- (DIMAccount *)accountWithID:(const DIMID *)ID {
+- (nullable DIMAccount *)accountWithID:(const DIMID *)ID {
     DIMAccount *account = [_immortals accountWithID:ID];
     if (account) {
         return account;
@@ -326,7 +330,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark MKMUserDelegate
 
-- (DIMUser *)userWithID:(const DIMID *)ID {
+- (nullable DIMUser *)userWithID:(const DIMID *)ID {
     DIMUser *user = [_immortals userWithID:ID];
     if (user) {
         return user;
@@ -366,7 +370,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return nil;
 }
 
-- (const DIMID *)ownerOfGroup:(const DIMGroup *)grp {
+- (nullable const DIMID *)ownerOfGroup:(const DIMGroup *)grp {
     if (grp.ID.type == MKMNetwork_Polylogue) {
         // the polylogue's owner is its founder
         return [self founderOfGroup:grp];
@@ -393,7 +397,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark MKMGroupDelegate
 
-- (DIMGroup *)groupWithID:(const DIMID *)ID {
+- (nullable DIMGroup *)groupWithID:(const DIMID *)ID {
     DIMGroup *group = nil;
     
     // check meta
@@ -469,7 +473,7 @@ SingletonImplementations(Facebook, sharedInstance)
     if (profile) {
         // check cache expires
         NSNumber *timestamp = [profile objectForKey:@"lastTime"];
-        if (timestamp) {
+        if (timestamp != nil) {
             NSDate *lastTime = NSDateFromNumber(timestamp);
             NSTimeInterval ti = [lastTime timeIntervalSinceNow];
             if (fabs(ti) > 300) {

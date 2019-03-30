@@ -10,7 +10,7 @@
 
 @implementation UIViewController (Extension)
 
-- (void)showMessage:(NSString *)text withTitle:(NSString *)title {
+- (void)showMessage:(nullable NSString *)text withTitle:(nullable NSString *)title {
     
     [self showMessage:text withTitle:title defaultButton:@"OK"];
 }
@@ -24,7 +24,7 @@
                                                 message:text
                                          preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *OK;
-    OK = [UIAlertAction actionWithTitle:defaultTitle
+    OK = [UIAlertAction actionWithTitle:NSLocalizedString(defaultTitle, @"Alert Title")
                                   style:UIAlertActionStyleDefault
                                 handler:nil];
     [alert addAction:OK];
@@ -56,11 +56,11 @@
                                                 message:text
                                          preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction;
-    cancelAction = [UIAlertAction actionWithTitle:cancelTitle
+    cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(cancelTitle, @"Cancel Button")
                                       style:UIAlertActionStyleCancel
                                     handler:cancelHandler];
     UIAlertAction *okAction;
-    okAction = [UIAlertAction actionWithTitle:defaultTitle
+    okAction = [UIAlertAction actionWithTitle:NSLocalizedString(defaultTitle, @"OK Button")
                                         style:UIAlertActionStyleDefault
                                       handler:okHandler];
 
