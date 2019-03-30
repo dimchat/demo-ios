@@ -385,6 +385,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     // Burn After Reading
     while (list.count > MAX_MESSAGES_SAVED_COUNT) {
         [list removeObjectAtIndex:0];
+        NSMutableArray *timeList = [_timesTable objectForKey:ID];
+        NSAssert(timeList.count == MAX_MESSAGES_SAVED_COUNT, @"times table error: %@", timeList);
+        [timeList removeObjectAtIndex:0];
     }
     
     if (save_message(list, ID)) {
