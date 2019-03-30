@@ -212,6 +212,46 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     _timesTable = [[NSMutableDictionary alloc] init];
 }
 
+- (BOOL)insertMessage:(const DIMInstantMessage *)iMsg forConversationID:(const DIMID *)ID {
+    
+    MessageList *list = [_chatHistory objectForKey:ID];
+    if (list.count == 0) {
+        // message list empty, create new one, even '_NSArray0'
+        list = [[MessageList alloc] init];
+        [_chatHistory setObject:list forKey:ID];
+    }
+    [list addObject:iMsg];
+    
+    // Burn After Reading
+    NSMutableArray *timeList = [_timesTable objectForKey:ID];
+    while (list.count > MAX_MESSAGES_SAVED_COUNT) {
+        [list removeObjectAtIndex:0];
+        [timeList removeObjectAtIndex:0];
+    }
+    
+    if (save_message(list, ID)) {
+        NSLog(@"new message for %@ saved", ID);
+        [self sortConversationList];
+        return YES;
+    } else {
+        NSLog(@"failed to save new message for ID: %@", ID);
+        return NO;
+    }
+}
+
+- (NSString *)timeTagAtIndex:(NSInteger)index forConversationID:(const DIMID *)ID {
+    
+    NSMutableArray *timeList = [_timesTable objectForKey:ID];
+    if (timeList.count <= index) {
+        // new message appended, update 'timeTag'
+        MessageList *list = [_chatHistory objectForKey:ID];
+        timeList = time_for_messages(list);
+        NSAssert(timeList.count == list.count, @"time tags error: %@", timeList);
+        [_timesTable setObject:timeList forKey:ID];
+    }
+    return [timeList objectAtIndex:index];
+}
+
 - (BOOL)reloadData {
     NSMutableDictionary *dict = scan_messages();
     [self setChatHistory:dict];
@@ -292,13 +332,8 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         NSAssert(false, @"out of data");
     }
     
-    NSMutableArray *timeList = [_timesTable objectForKey:ID];
-    if (timeList.count < list.count) {
-        // new message appended, update 'timeTag'
-        timeList = time_for_messages(list);
-        [_timesTable setObject:timeList forKey:ID];
-    }
-    [iMsg setObject:[timeList objectAtIndex:index] forKey:@"timeTag"];
+    NSString *timeTag = [self timeTagAtIndex:index forConversationID:ID];
+    [iMsg setObject:timeTag forKey:@"timeTag"];
     
     return iMsg;
 }
@@ -374,31 +409,12 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     // TODO: save message in local storage,
     //       if the chat box is visiable, call it to reload data
     
-    MessageList *list = [_chatHistory objectForKey:ID];
-    if (list.count == 0) {
-        // message list empty, create new one, even '_NSArray0'
-        list = [[MessageList alloc] init];
-        [_chatHistory setObject:list forKey:ID];
-    }
-    
-    [list addObject:iMsg];
-    // Burn After Reading
-    while (list.count > MAX_MESSAGES_SAVED_COUNT) {
-        [list removeObjectAtIndex:0];
-        NSMutableArray *timeList = [_timesTable objectForKey:ID];
-        NSAssert(timeList.count == MAX_MESSAGES_SAVED_COUNT, @"times table error: %@", timeList);
-        [timeList removeObjectAtIndex:0];
-    }
-    
-    if (save_message(list, ID)) {
-        NSLog(@"new message for %@ saved", ID);
-        [self sortConversationList];
+    if ([self insertMessage:iMsg forConversationID:ID]) {
         [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
                                             object:self
                                           userInfo:@{@"ID": ID}];
         return YES;
     } else {
-        NSLog(@"failed to save new message for ID: %@", ID);
         return NO;
     }
 }
