@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (IBAction)beginEditing:(id)sender;
 
-- (IBAction)send:(id)senderObject;
+- (IBAction)send:(id)sender;
+- (IBAction)camera:(id)sender;
 
 - (IBAction)unwindForSegue:(UIStoryboardSegue *)unwindSegue towardsViewController:(UIViewController *)subsequentVC;
 

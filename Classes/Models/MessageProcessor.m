@@ -11,6 +11,8 @@
 #import "NSDate+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 
+#import "FileTransporter.h"
+
 #import "Client.h"
 #import "Facebook+Register.h"
 
@@ -49,14 +51,14 @@ static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
     return [dir stringByAppendingPathComponent:filename];
 }
 
-static inline NSArray *load_message(const DIMID *ID) {
-    NSArray *array = nil;
-    NSString *path = full_filepath(ID, @"messages.plist");
-    if (file_exists(path)) {
-        array = [NSArray arrayWithContentsOfFile:path];
-    }
-    return array;
-}
+//static inline NSArray *load_message(const DIMID *ID) {
+//    NSArray *array = nil;
+//    NSString *path = full_filepath(ID, @"messages.plist");
+//    if (file_exists(path)) {
+//        array = [NSArray arrayWithContentsOfFile:path];
+//    }
+//    return array;
+//}
 
 static inline BOOL save_message(NSArray *messages, const DIMID *ID) {
     NSString *path = full_filepath(ID, @"messages.plist");
@@ -362,7 +364,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 // save the new message to local storage
-- (BOOL)conversation:(const DIMConversation *)chatBox insertMessage:(const DIMInstantMessage *)iMsg {
+- (BOOL)conversation:(const DIMConversation *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
     const DIMID *ID = chatBox.ID;
     
     // system command
@@ -383,6 +385,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
                 return NO;
             }
         }
+    } else if (content.URL != nil && content.fileData == nil) {
+        FileTransporter *ftp = [FileTransporter sharedInstance];
+        iMsg = [ftp downloadFileForMessage:iMsg];
     }
     
     // check whether the group members info is updated

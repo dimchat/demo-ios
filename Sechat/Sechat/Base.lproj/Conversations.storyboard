@@ -240,8 +240,8 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kyv-2j-wIX">
-                                        <rect key="frame" x="8" y="11" width="296" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
+                                        <rect key="frame" x="8" y="11" width="305" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
@@ -250,15 +250,14 @@
                                             <action selector="send:" destination="bP7-p2-KZv" eventType="editingDidEndOnExit" id="U1g-Fy-1ey"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWN-83-F4u">
-                                        <rect key="frame" x="312" y="11" width="50" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" red="0.11019916087388992" green="0.72231465578079224" blue="0.085971198976039886" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="Send">
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWN-83-F4u">
+                                        <rect key="frame" x="315" y="0.0" width="52" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="sharemore_video">
                                             <color key="titleColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="send:" destination="bP7-p2-KZv" eventType="touchUpInside" id="Esj-Iu-LMo"/>
+                                            <action selector="camera:" destination="bP7-p2-KZv" eventType="touchUpInside" id="Dvi-uU-K3O"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -657,5 +656,6 @@
         <image name="message_receiver_background_normal" width="66" height="49"/>
         <image name="message_sender_background_highlight" width="66" height="49"/>
         <image name="message_sender_background_normal" width="66" height="49"/>
+        <image name="sharemore_video" width="59.5" height="59"/>
     </resources>
 </document>

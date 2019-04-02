@@ -17,12 +17,12 @@
 //
 //  Connection
 //
-"Disconnected!" = "網絡斷咗！";
-"Connecting ..." = "連緊基站⋯⋯";
-"Connected!" = "連上基站啦！";
-"Authenticating ..." = "驗證緊⋯⋯";
+"Disconnected!" = "未連線！";
+"Connecting ..." = "正在連線⋯⋯";
+"Connected!" = "連線成功！";
+"Authenticating ..." = "正在驗證⋯⋯";
 "Network error!" = "網絡出錯！";
-"Connection stopped!" = "連接中止！";
+"Connection stopped!" = "連線中止！";
 
 //
 //。Conversation
@@ -39,12 +39,12 @@
 "Are you sure to clear all messages with %@ ?\nThis operation is unrecoverable!" = "你確實要抹曬 %@ 嘅所有紀錄嗎？\n呢個操作無辦法撤銷喔！";
 
 // participants manage
-"Update Group Failed!" = "更新群信息失敗！";
+"Update Group Failed!" = "刷新群信息失敗！";
 "Create Group Failed!" = "創建群失敗！";
 
 "Input Error!" = "輸入錯誤";
-"Group name cannot be empty." = "群名一定要填";
-"Seed cannot be empty." = "Seed 一定要有";
+"Group name cannot be empty." = "請輸入群名";
+"Seed cannot be empty." = "Seed 唔能夠係空白";
 "Seed must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'" = "Seed 必須由英文字符（區分大小寫）、數字, 以及橫線、下橫線、小數點組成";
 
 "Group Member Error!" = "群成員錯誤";

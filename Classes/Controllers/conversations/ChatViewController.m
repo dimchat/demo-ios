@@ -12,6 +12,9 @@
 #import "UIStoryboardSegue+Extension.h"
 #import "UIButton+Extension.h"
 
+#import "CameraController.h"
+#import "FileTransporter.h"
+
 #import "MessageProcessor.h"
 #import "Client.h"
 
@@ -173,7 +176,7 @@
     [self scrollToBottom];
 }
 
-- (IBAction)send:(id)senderObject {
+- (IBAction)send:(id)sender {
     NSString *text = _inputTextField.text;
     if (text.length == 0) {
         NSLog(@"empty");
@@ -211,6 +214,49 @@
     _inputTextField.text = @"";
     
     [self reloadData];
+}
+
+- (IBAction)camera:(id)sender {
+    NSLog(@"open camera");
+    Client *client = [Client sharedInstance];
+    DIMUser *user = client.currentUser;
+    
+    CameraController *camera = [[CameraController alloc] init];
+    [camera showWithViewController:self completionHandler:^(UIImage * _Nullable image,
+                                                            NSString *path,
+                                                            NSDictionary<UIImagePickerControllerInfoKey,id> *info,
+                                                            UIImagePickerController *ipc) {
+        NSLog(@"pick image: %@, path: %@", image, path);
+        // 1. build message content
+        DIMMessageContent *content = nil;
+        if (image) {
+            // image message
+            NSData *data = UIImagePNGRepresentation(image);
+            content = [[DIMMessageContent alloc] initWithImageData:data filename:@"photo.png"];
+        } else {
+            // movie message
+            NSData *data = [NSData dataWithContentsOfFile:path];
+            content = [[DIMMessageContent alloc] initWithVideoData:data filename:@"video.mp4"];
+        }
+        // 2. build instant message
+        DIMInstantMessage *iMsg;
+        iMsg = [[DIMInstantMessage alloc] initWithContent:content
+                                                   sender:user.ID
+                                                 receiver:self->_conversation.ID
+                                                     time:nil];
+        
+        // 3. upload
+        FileTransporter *ftp = [FileTransporter sharedInstance];
+        iMsg = [ftp uploadFileForMessage:iMsg];
+        
+        // 4. send message
+        [client sendMessage:iMsg];
+        
+        if (MKMNetwork_IsCommunicator(self->_conversation.ID.type)) {
+            // personal message, save a copy
+            [self->_conversation insertMessage:iMsg];
+        }
+    }];
 }
 
 - (void)onMessageSent:(NSNotification *)notification {

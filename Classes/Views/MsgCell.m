@@ -122,7 +122,20 @@
         [avatarImageView setImage:image];
         
         // message
-        messageLabel.text = content.text;
+        switch (content.type) {
+            case DKDMessageType_Text:
+                messageLabel.text = content.text;
+                break;
+                
+            case DKDMessageType_Image:
+                // TODO: show image
+                messageLabel.text = content.filename;
+                break;
+                
+            default:
+                break;
+        }
+        NSLog(@"message content: %@", content);
         
         [self setNeedsLayout];
     }

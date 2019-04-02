@@ -21,14 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)showMessage:(nullable NSString *)text
           withTitle:(nullable NSString *)title
-      cancelHandler:(void (^ __nullable)(UIAlertAction *action))cancelHandler
-     defaultHandler:(void (^ __nullable)(UIAlertAction *action))okHandler;
+      cancelHandler:(void (^ _Nullable)(UIAlertAction *action))cancelHandler
+     defaultHandler:(void (^ _Nullable)(UIAlertAction *action))okHandler;
 
 - (void)showMessage:(nullable NSString *)text
           withTitle:(nullable NSString *)title
-      cancelHandler:(void (^ __nullable)(UIAlertAction *action))cancelHandler
+      cancelHandler:(void (^ _Nullable)(UIAlertAction *action))cancelHandler
        cancelButton:(nullable NSString *)cancelTitle
-     defaultHandler:(void (^ __nullable)(UIAlertAction *action))okHandler
+     defaultHandler:(void (^ _Nullable)(UIAlertAction *action))okHandler
       defaultButton:(nullable NSString *)defaultTitle;
 
 @end
