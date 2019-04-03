@@ -144,10 +144,9 @@ SingletonImplementations(FileTransporter, sharedInstance)
                                  NSLog(@"HTTP task complete: %@, %@, %@", response, error, [data UTF8String]);
                                  
                                  NSArray *keys = [self->_uploadings allKeysForObject:task];
-                                 for (NSString *filename in keys) {
-                                     NSLog(@"remove task: %@, %@", filename, task);
-                                     [self->_uploadings removeObjectForKey:filename];
-                                 }
+                                 NSAssert([keys isEqualToArray:@[filename]], @"keys error: %@, filename: %@", keys, filename);
+                                 [self->_uploadings removeObjectsForKeys:keys];
+                                 NSLog(@"uploading task removed: %@, keys: %@", task, keys);
                              }];
     [_uploadings setObject:task forKey:filename];
     
@@ -180,10 +179,9 @@ SingletonImplementations(FileTransporter, sharedInstance)
                            
                            // 2. remove downloading task
                            NSArray *keys = [self->_downloadings allKeysForObject:task];
-                           for (NSString *filename in keys) {
-                               NSLog(@"remove task: %@, %@", filename, task);
-                               [self->_downloadings removeObjectForKey:filename];
-                           }
+                           NSAssert([keys isEqualToArray:@[filename]], @"keys error: %@, filename: %@", keys, filename);
+                           [self->_downloadings removeObjectsForKeys:keys];
+                           NSLog(@"downloading task removed: %@, keys: %@", task, keys);
                        }];
     [_downloadings setObject:task forKey:filename];
     

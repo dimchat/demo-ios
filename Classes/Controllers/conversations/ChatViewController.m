@@ -12,7 +12,7 @@
 #import "UIStoryboardSegue+Extension.h"
 #import "UIButton+Extension.h"
 
-#import "CameraController.h"
+#import "ImagePickerController.h"
 #import "FileTransporter.h"
 
 #import "MessageProcessor.h"

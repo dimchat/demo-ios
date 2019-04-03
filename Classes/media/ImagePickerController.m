@@ -1,5 +1,5 @@
 //
-//  CameraController.m
+//  ImagePickerController.m
 //  Sechat
 //
 //  Created by Albert Moky on 2019/4/2.
@@ -8,7 +8,7 @@
 
 #import <MobileCoreServices/MobileCoreServices.h>
 
-#import "CameraController.h"
+#import "ImagePickerController.h"
 
 static inline BOOL supports(NSString *mediaType, UIImagePickerControllerSourceType sourceType) {
     NSArray *availableTypes = [UIImagePickerController availableMediaTypesForSourceType:sourceType];
@@ -24,7 +24,7 @@ static inline BOOL supports(NSString *mediaType, UIImagePickerControllerSourceTy
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.allowsEditing = YES;
+        //self.allowsEditing = YES;
         self.delegate = self;
     }
     return self;

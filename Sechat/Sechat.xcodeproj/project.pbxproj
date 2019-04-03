@@ -41,8 +41,8 @@
 		E978172922254D3400BCE3AD /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E979076A225384F90024C830 /* CameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790769225384F90024C830 /* CameraController.m */; };
-		E979076D2253B60E0024C830 /* FileTransporter.m in Sources */ = {isa = PBXBuildFile; fileRef = E979076C2253B60E0024C830 /* FileTransporter.m */; };
+		E97907732254A3970024C830 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907712254A3970024C830 /* ImagePickerController.m */; };
+		E97907742254A3970024C830 /* FileTransporter.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907722254A3970024C830 /* FileTransporter.m */; };
 		E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
 		E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */; };
 		E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */; };
@@ -175,10 +175,10 @@
 		E978172022254CC000BCE3AD /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172222254CC600BCE3AD /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172422254CC900BCE3AD /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9790768225384F90024C830 /* CameraController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraController.h; sourceTree = "<group>"; };
-		E9790769225384F90024C830 /* CameraController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraController.m; sourceTree = "<group>"; };
-		E979076B2253B60E0024C830 /* FileTransporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileTransporter.h; sourceTree = "<group>"; };
-		E979076C2253B60E0024C830 /* FileTransporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileTransporter.m; sourceTree = "<group>"; };
+		E979076F2254A3970024C830 /* ImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickerController.h; sourceTree = "<group>"; };
+		E97907702254A3970024C830 /* FileTransporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileTransporter.h; sourceTree = "<group>"; };
+		E97907712254A3970024C830 /* ImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickerController.m; sourceTree = "<group>"; };
+		E97907722254A3970024C830 /* FileTransporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileTransporter.m; sourceTree = "<group>"; };
 		E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatManageTableViewController.m; sourceTree = "<group>"; };
 		E99A5C9E222D8B3400EE6C86 /* ParticipantsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipantsCollectionViewController.h; sourceTree = "<group>"; };
 		E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewController.m; sourceTree = "<group>"; };
@@ -357,7 +357,7 @@
 		E92256122222ED7C006CADEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				E9790766225384BF0024C830 /* camera */,
+				E979076E2254A3970024C830 /* media */,
 				E9BBC3702242B21200E6ACDA /* extends */,
 				E92256172222ED7C006CADEA /* Models */,
 				E922563B2222ED7C006CADEA /* Views */,
@@ -444,15 +444,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		E9790766225384BF0024C830 /* camera */ = {
+		E979076E2254A3970024C830 /* media */ = {
 			isa = PBXGroup;
 			children = (
-				E9790768225384F90024C830 /* CameraController.h */,
-				E9790769225384F90024C830 /* CameraController.m */,
-				E979076B2253B60E0024C830 /* FileTransporter.h */,
-				E979076C2253B60E0024C830 /* FileTransporter.m */,
+				E979076F2254A3970024C830 /* ImagePickerController.h */,
+				E97907712254A3970024C830 /* ImagePickerController.m */,
+				E97907702254A3970024C830 /* FileTransporter.h */,
+				E97907722254A3970024C830 /* FileTransporter.m */,
 			);
-			path = camera;
+			path = media;
 			sourceTree = "<group>";
 		};
 		E99A5C9C222D8B3400EE6C86 /* conversations */ = {
@@ -679,8 +679,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E979076D2253B60E0024C830 /* FileTransporter.m in Sources */,
-				E979076A225384F90024C830 /* CameraController.m in Sources */,
+				E97907742254A3970024C830 /* FileTransporter.m in Sources */,
+				E97907732254A3970024C830 /* ImagePickerController.m in Sources */,
 				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
 				E92256462222ED7C006CADEA /* User.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,

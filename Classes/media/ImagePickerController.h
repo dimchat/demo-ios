@@ -1,5 +1,5 @@
 //
-//  CameraController.h
+//  ImagePickerController.h
 //  Sechat
 //
 //  Created by Albert Moky on 2019/4/2.
