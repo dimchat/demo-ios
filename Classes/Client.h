@@ -47,6 +47,7 @@ extern const NSString *kNotificationName_UsersUpdated;
 #pragma mark - DOS
 
 NSString *document_directory(void);
+NSString *caches_directory(void);
 
 void make_dirs(NSString *dir);
 

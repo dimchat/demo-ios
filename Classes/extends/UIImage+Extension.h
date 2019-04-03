@@ -14,6 +14,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nullable UIImage *)imageWithURLString:(const NSString *)urlString;
 
+- (UIImage *)thumbnail;
+
+- (NSData *)jpegData;
+- (NSData *)pngData;
+
+#pragma mark Text
+
 + (nullable UIImage *)imageWithText:(const NSString *)text size:(const CGSize)size;
 + (nullable UIImage *)imageWithText:(const NSString *)text
                                size:(const CGSize)size

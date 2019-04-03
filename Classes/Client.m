@@ -13,6 +13,8 @@
 #import "Facebook.h"
 #import "MessageProcessor.h"
 
+#import "Server.h"
+
 #import "Client.h"
 
 const NSString *kNotificationName_MessageUpdated = @"MessageUpdated";
@@ -73,7 +75,7 @@ SingletonImplementations(Client, sharedInstance)
     }
     
     // connect server
-    DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
+    Server *server = [[Server alloc] initWithDictionary:station];
     _currentStation = server;
     
     Facebook *facebook = [Facebook sharedInstance];
@@ -230,6 +232,13 @@ SingletonImplementations(Client, sharedInstance)
 NSString *document_directory(void) {
     NSArray *paths;
     paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                NSUserDomainMask, YES);
+    return paths.firstObject;
+}
+
+NSString *caches_directory(void) {
+    NSArray *paths;
+    paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
                                                 NSUserDomainMask, YES);
     return paths.firstObject;
 }

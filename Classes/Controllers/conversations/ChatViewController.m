@@ -6,14 +6,16 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSData+Crypto.h"
+
 #import "NSString+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 
 #import "UIStoryboardSegue+Extension.h"
 #import "UIButton+Extension.h"
+#import "UIImage+Extension.h"
 
 #import "ImagePickerController.h"
-#import "FileTransporter.h"
 
 #import "MessageProcessor.h"
 #import "Client.h"
@@ -216,28 +218,33 @@
     [self reloadData];
 }
 
-- (IBAction)camera:(id)sender {
-    NSLog(@"open camera");
-    Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    
-    CameraController *camera = [[CameraController alloc] init];
-    [camera showWithViewController:self completionHandler:^(UIImage * _Nullable image,
-                                                            NSString *path,
-                                                            NSDictionary<UIImagePickerControllerInfoKey,id> *info,
-                                                            UIImagePickerController *ipc) {
+- (void)_showImagePickerController:(ImagePickerController *)ipc {
+    [ipc showWithViewController:self completionHandler:^(UIImage * _Nullable image,
+                                                         NSString *path,
+                                                         NSDictionary<UIImagePickerControllerInfoKey,id> *info,
+                                                         UIImagePickerController *ipc) {
         NSLog(@"pick image: %@, path: %@", image, path);
+        Client *client = [Client sharedInstance];
+        DIMUser *user = client.currentUser;
+        
         // 1. build message content
         DIMMessageContent *content = nil;
         if (image) {
             // image message
-            NSData *data = UIImagePNGRepresentation(image);
-            content = [[DIMMessageContent alloc] initWithImageData:data filename:@"photo.png"];
+            NSData *data = [image jpegData];
+            content = [[DIMMessageContent alloc] initWithImageData:data filename:@"photo.jpeg"];
+            // thumbnail
+            UIImage *thumbnail = [image thumbnail];
+            NSData *small = [thumbnail jpegData];
+            NSLog(@"thumbnail data length: %lu", small.length);
+            [content setObject:[small base64Encode] forKey:@"thumbnail"];
         } else {
             // movie message
             NSData *data = [NSData dataWithContentsOfFile:path];
             content = [[DIMMessageContent alloc] initWithVideoData:data filename:@"video.mp4"];
+            // TODO: snapshot
         }
+        
         // 2. build instant message
         DIMInstantMessage *iMsg;
         iMsg = [[DIMInstantMessage alloc] initWithContent:content
@@ -245,11 +252,7 @@
                                                  receiver:self->_conversation.ID
                                                      time:nil];
         
-        // 3. upload
-        FileTransporter *ftp = [FileTransporter sharedInstance];
-        iMsg = [ftp uploadFileForMessage:iMsg];
-        
-        // 4. send message
+        // 3. send message
         [client sendMessage:iMsg];
         
         if (MKMNetwork_IsCommunicator(self->_conversation.ID.type)) {
@@ -257,6 +260,18 @@
             [self->_conversation insertMessage:iMsg];
         }
     }];
+}
+
+- (IBAction)camera:(id)sender {
+    NSLog(@"open camera");
+    CameraController *camera = [[CameraController alloc] init];
+    [self _showImagePickerController:camera];
+}
+
+- (IBAction)album:(id)sender {
+    NSLog(@"open album");
+    AlbumController *album = [[AlbumController alloc] init];
+    [self _showImagePickerController:album];
 }
 
 - (void)onMessageSent:(NSNotification *)notification {

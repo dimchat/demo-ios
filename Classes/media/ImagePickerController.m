@@ -39,6 +39,36 @@ static inline BOOL supports(NSString *mediaType, UIImagePickerControllerSourceTy
 
 #pragma mark UIImagePickerControllerDelegate
 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey, id> *)info {
+    NSLog(@"media info: %@", info);
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
+        // image
+        UIImage *image;
+        if ([self allowsEditing]) {
+            image = [info objectForKey:UIImagePickerControllerEditedImage];
+        } else {
+            image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        }
+        NSURL *imageURL = [info objectForKey:UIImagePickerControllerImageURL];
+        NSString *path = [imageURL path];
+        if (_completionHandler) {
+            _completionHandler(image, path, info, self);
+        }
+    } else if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]) {
+        // movie
+        NSURL *movieURL = [info objectForKey:UIImagePickerControllerMediaURL];
+        NSString *path = [movieURL path];
+        if (_completionHandler) {
+            _completionHandler(nil, path, info, self);
+        }
+    }
+    // dismiss
+    [self dismissViewControllerAnimated:YES completion:^{
+        //
+    }];
+}
+
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:^{
         //
@@ -94,38 +124,6 @@ static inline BOOL supports(NSString *mediaType, UIImagePickerControllerSourceTy
     return supports((NSString *)kUTTypeImage, UIImagePickerControllerSourceTypeCamera);
 }
 
-#pragma mark UIImagePickerControllerDelegate
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey, id> *)info {
-    NSLog(@"media info: %@", info);
-    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
-        // image
-        UIImage *image;
-        if ([self allowsEditing]) {
-            image = [info objectForKey:UIImagePickerControllerEditedImage];
-        } else {
-            image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        }
-        NSURL *imageURL = [info objectForKey:UIImagePickerControllerImageURL];
-        NSString *path = [imageURL path];
-        if (_completionHandler) {
-            _completionHandler(image, path, info, self);
-        }
-    } else if ([mediaType isEqualToString:(NSString *)kUTTypeMovie]) {
-        // movie
-        NSURL *movieURL = [info objectForKey:UIImagePickerControllerMediaURL];
-        NSString *path = [movieURL path];
-        if (_completionHandler) {
-            _completionHandler(nil, path, info, self);
-        }
-    }
-    // dismiss
-    [self dismissViewControllerAnimated:YES completion:^{
-        //
-    }];
-}
-
 @end
 
 @implementation AlbumController
@@ -159,12 +157,6 @@ static inline BOOL supports(NSString *mediaType, UIImagePickerControllerSourceTy
 
 - (BOOL)canUserPickPhotosFromPhotoLibrary {
     return supports((NSString *)kUTTypeImage, UIImagePickerControllerSourceTypePhotoLibrary);
-}
-
-#pragma mark UIImagePickerControllerDelegate
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<UIImagePickerControllerInfoKey, id> *)info {
-    
 }
 
 @end

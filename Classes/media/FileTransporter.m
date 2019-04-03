@@ -19,12 +19,12 @@
  
  @param ID - account ID
  @param filename - "xxxx.png"
- @return "Documents/.dim/{address}/xxxx.png"
+ @return "Library/Caches/.dim/{address}/xxxx.png"
  */
 static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
     assert(ID.isValid);
-    // base directory: Documents/.dim/{address}
-    NSString *dir = document_directory();
+    // base directory: Library/Caches/.dim/{address}
+    NSString *dir = caches_directory();
     dir = [dir stringByAppendingPathComponent:@".dim"];
     const DIMAddress *addr = ID.address;
     if (addr) {
@@ -104,7 +104,7 @@ SingletonImplementations(FileTransporter, sharedInstance)
     return _session;
 }
 
-- (NSData *)buildHTTPBodyWithFilename:(NSString *)name data:(NSData *)data {
+- (NSData *)buildHTTPBodyWithFilename:(const NSString *)name data:(const NSData *)data {
     
     NSMutableString *begin = [[NSMutableString alloc] init];
     [begin appendString:@"--4Tcjm5mp8BNiQN5YnxAAAnexqnbb3MrWjK\r\n"];
@@ -116,19 +116,18 @@ SingletonImplementations(FileTransporter, sharedInstance)
     NSUInteger len = begin.length + data.length + end.length;
     NSMutableData *mData = [[NSMutableData alloc] initWithCapacity:len];
     [mData appendData:[begin data]];
-    [mData appendData:data];
+    [mData appendData:[data copy]];
     [mData appendData:[end data]];
     return mData;
 }
 
-- (void)post:(NSData *)data name:(NSString *)filename url:(NSString *)urlString {
+- (void)post:(NSData *)data name:(NSString *)filename url:(NSURL *)url {
     if ([_uploadings objectForKey:filename]) {
         NSAssert(false, @"post twice: %@", filename);
         return;
     }
     
     // URL request
-    NSURL *url = [NSURL URLWithString:urlString];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setValue:@"multipart/form-data; boundary=4Tcjm5mp8BNiQN5YnxAAAnexqnbb3MrWjK" forHTTPHeaderField:@"Content-Type"];
     request.HTTPMethod = @"POST";
@@ -143,10 +142,9 @@ SingletonImplementations(FileTransporter, sharedInstance)
                              completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                                  NSLog(@"HTTP task complete: %@, %@, %@", response, error, [data UTF8String]);
                                  
-                                 NSArray *keys = [self->_uploadings allKeysForObject:task];
-                                 NSAssert([keys isEqualToArray:@[filename]], @"keys error: %@, filename: %@", keys, filename);
-                                 [self->_uploadings removeObjectsForKeys:keys];
-                                 NSLog(@"uploading task removed: %@, keys: %@", task, keys);
+                                 // remove uploading task
+                                 NSLog(@"removing task: %@, filename: %@", [self->_uploadings objectForKey:filename], filename);
+                                 [self->_uploadings removeObjectForKey:filename];
                              }];
     [_uploadings setObject:task forKey:filename];
     
@@ -154,7 +152,7 @@ SingletonImplementations(FileTransporter, sharedInstance)
     [task resume];
 }
 
-- (void)get:(NSURL *)url name:(NSString *)filename key:(DIMSymmetricKey *)scKey sender:(DIMID *)sender {
+- (void)get:(NSURL *)url name:(NSString *)filename sender:(const DIMID *)sender {
     if ([_downloadings objectForKey:filename]) {
         NSLog(@"waiting for download: %@", filename);
         return ;
@@ -165,10 +163,9 @@ SingletonImplementations(FileTransporter, sharedInstance)
                        completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                            NSLog(@"HTTP task complete: %@, %@, %@", response, error, [data UTF8String]);
                            
-                           // 1. decrypt data and save to local storage
-                           if (!error && data.length > 0) {
-                               data = [scKey decrypt:data];
-                               NSAssert(data.length > 0, @"failed to decrypt file data: %@, %@", filename, data);
+                           if (error) {
+                               NSLog(@"download %@ error: %@", url, error);
+                           } else {
                                // save to local
                                NSString *path = full_filepath(sender, filename);
                                NSFileManager *fm = [NSFileManager defaultManager];
@@ -177,11 +174,9 @@ SingletonImplementations(FileTransporter, sharedInstance)
                                }
                            }
                            
-                           // 2. remove downloading task
-                           NSArray *keys = [self->_downloadings allKeysForObject:task];
-                           NSAssert([keys isEqualToArray:@[filename]], @"keys error: %@, filename: %@", keys, filename);
-                           [self->_downloadings removeObjectsForKeys:keys];
-                           NSLog(@"downloading task removed: %@, keys: %@", task, keys);
+                           // remove downloading task
+                           NSLog(@"removing task: %@, filename: %@", [self->_downloadings objectForKey:filename], filename);
+                           [self->_downloadings removeObjectForKey:filename];
                        }];
     [_downloadings setObject:task forKey:filename];
     
@@ -189,104 +184,49 @@ SingletonImplementations(FileTransporter, sharedInstance)
     [task resume];
 }
 
-#pragma mark - Upload
+#pragma mark -
 
-- (NSString *)_uploadData:(NSData *)data filename:(NSString *)name sender:(const DIMID *)from {
-    NSString *uploadURL = [[NSString alloc] initWithFormat:@"%@/%@/upload", _baseURL, from.address];
-    [self post:data name:name url:uploadURL];
+- (NSURL *)uploadData:(const NSData *)data filename:(nullable const NSString *)name sender:(const DIMID *)from {
     
-    NSString *downloadURL = [[NSString alloc] initWithFormat:@"%@/download/%@/%@", _baseURL, from.address, name];
-    return downloadURL;
-}
-
-- (DIMInstantMessage *)uploadFileForMessage:(DIMInstantMessage *)iMsg {
-    DIMMessageContent *content = iMsg.content;
-    NSData *data = content.fileData;
-    if (data == nil/* || content.URL != nil*/) {
-        return iMsg;
-    }
-    
-    // 0. check filename & type
-    DIMMessageType type = content.type;
-    NSString *filename = content.filename;
-    NSString *ext = [filename pathExtension];
+    // 0. prepare filename (make sure that filenames won't conflict)
+    NSString *filename = [[data md5] hexEncode];
+    NSString *ext = [name pathExtension];
     if (ext.length > 0) {
-        NSLog(@"got file type in message content: %@", ext);
-    } else if (type == DIMMessageType_Image) {
-        ext = @"png";
-    } else if (type == DIMMessageType_Audio) {
-        ext = @"mp3";
-    } else if (type == DIMMessageType_Video) {
-        ext = @"mp4";
-    } else {
-        NSAssert(false, @"unknown message type: %@", content);
-        return iMsg;
+        filename = [filename stringByAppendingPathExtension:ext];
     }
-    // make sure that filenames won't conflict
-    filename = [[NSString alloc] initWithFormat:@"%@.%@", [[data md5] hexEncode], ext];
     
-    DIMEnvelope *env = iMsg.envelope;
-    DIMID *sender = [DIMID IDWithID:env.sender];
-    DIMID *receiver = [DIMID IDWithID:env.receiver];
-    
-    // 1. save to local
-    NSString *path = full_filepath(sender, filename);
+    // 1. save to local storage
+    NSString *path = full_filepath(from, filename);
     NSFileManager *fm = [NSFileManager defaultManager];
     if (![fm fileExistsAtPath:path]) {
         [data writeToFile:path atomically:YES];
     }
     
-    // 2. encrypt
-    DIMKeyStore *store = [DIMKeyStore sharedInstance];
-    DIMSymmetricKey *scKey = nil;
-    if (MKMNetwork_IsGroup(receiver.type)) {
-        scKey = [store cipherKeyForGroup:receiver];
-    } else {
-        scKey = [store cipherKeyForAccount:receiver];
-    }
-    NSAssert(scKey != nil, @"failed to generate key for receiver: %@", receiver);
-    data = [scKey encrypt:data];
+    // 2. upload to CDN
+    NSString *api = [[NSString alloc] initWithFormat:@"%@/%@/upload", _baseURL, from.address];
+    NSURL *url = [NSURL URLWithString:api];
+    [self post:(NSData *)data name:filename url:url];
     
-    // 3. upload file and replace 'data' with 'URL'
-    NSString *urlString = [self _uploadData:data filename:filename sender:sender];
-    [content setObject:urlString forKey:@"URL"];
-    [content removeObjectForKey:@"data"];
-    
-    return iMsg;
+    // 3. build download URL
+    NSString *downloadURL = [[NSString alloc] initWithFormat:@"%@/download/%@/%@", _baseURL, from.address, filename];
+    return [NSURL URLWithString:downloadURL];
 }
 
-#pragma mark Download
-
-- (DIMInstantMessage *)downloadFileForMessage:(DIMInstantMessage *)iMsg {
-    DIMMessageContent *content = iMsg.content;
-    if (content.URL == nil || content.fileData != nil) {
-        return iMsg;
-    }
-    DIMEnvelope *env = iMsg.envelope;
-    DIMID *sender = [DIMID IDWithID:env.sender];
-    DIMID *receiver = [DIMID IDWithID:env.receiver];
+- (NSData *)downloadDataFromURL:(const NSURL *)url filename:(nullable const NSString *)name sender:(const DIMID *)from {
     
-    NSString *filename = content.filename;
-    NSString *path = full_filepath(sender, filename);
+    // 0. prepare filename
+    NSString *filename = [url lastPathComponent];
+    
+    // 1. check local storage
+    NSString *path = full_filepath(from, filename);
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:path]) {
-        NSData *data = [[NSData alloc] initWithContentsOfFile:path];
-        [content setObject:[data base64Encode] forKey:@"data"];
-    } else {
-        DIMKeyStore *store = [DIMKeyStore sharedInstance];
-        DIMSymmetricKey *scKey = [iMsg objectForKey:@"key"];
-        if (scKey) {
-            scKey = [DIMSymmetricKey keyWithKey:scKey];
-        } else if (MKMNetwork_IsGroup(receiver.type)) {
-            scKey = [store cipherKeyFromMember:sender inGroup:receiver];
-        } else {
-            scKey = [store cipherKeyFromAccount:sender];
-        }
-        // add task
-        [self get:content.URL name:filename key:scKey sender:sender];
+        return [[NSData alloc] initWithContentsOfFile:path];
     }
     
-    return iMsg;
+    // 2. download from url
+    [self get:(NSURL *)url name:filename sender:from];
+    return nil;
 }
 
 @end

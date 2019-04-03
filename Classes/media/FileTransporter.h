@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 
-- (DIMInstantMessage *)uploadFileForMessage:(DIMInstantMessage *)iMsg;
+- (NSURL *)uploadData:(const NSData *)data filename:(nullable const NSString *)name sender:(const DIMID *)from;
 
-- (DIMInstantMessage *)downloadFileForMessage:(DIMInstantMessage *)iMsg;
+- (NSData *)downloadDataFromURL:(const NSURL *)url filename:(nullable const NSString *)name sender:(const DIMID *)from;
 
 @end
 

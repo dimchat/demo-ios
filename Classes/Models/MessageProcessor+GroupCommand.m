@@ -27,7 +27,6 @@
     }
     
     // 2. response
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     
@@ -40,7 +39,7 @@
     
     NSArray *members = group.members;
     DIMInviteCommand *cmd = [[DIMInviteCommand alloc] initWithGroup:group.ID members:members];
-    [trans sendMessageContent:cmd from:user.ID to:sender time:nil callback:callback];
+    [self sendMessageContent:cmd from:user.ID to:sender time:nil callback:callback];
     
     // 3. build message
     NSString *format = NSLocalizedString(@"%@ was querying group info, responsed.", nil);

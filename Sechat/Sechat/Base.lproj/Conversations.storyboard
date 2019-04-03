@@ -240,7 +240,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kyv-2j-wIX">
-                                        <rect key="frame" x="8" y="11" width="305" height="30"/>
+                                        <rect key="frame" x="8" y="11" width="261" height="30"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -253,11 +253,17 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWN-83-F4u">
                                         <rect key="frame" x="315" y="0.0" width="52" height="52"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                        <state key="normal" image="sharemore_video">
-                                            <color key="titleColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
+                                        <state key="normal" image="sharemore_video"/>
                                         <connections>
                                             <action selector="camera:" destination="bP7-p2-KZv" eventType="touchUpInside" id="Dvi-uU-K3O"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xy3-Z1-6CF">
+                                        <rect key="frame" x="271" y="0.0" width="52" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                        <state key="normal" image="sharemore_pic"/>
+                                        <connections>
+                                            <action selector="album:" destination="bP7-p2-KZv" eventType="touchUpInside" id="Uvn-uf-FPo"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -656,6 +662,7 @@
         <image name="message_receiver_background_normal" width="66" height="49"/>
         <image name="message_sender_background_highlight" width="66" height="49"/>
         <image name="message_sender_background_normal" width="66" height="49"/>
+        <image name="sharemore_pic" width="59" height="59"/>
         <image name="sharemore_video" width="59.5" height="59"/>
     </resources>
 </document>

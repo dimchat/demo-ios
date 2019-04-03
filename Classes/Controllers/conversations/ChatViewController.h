@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (IBAction)send:(id)sender;
 - (IBAction)camera:(id)sender;
+- (IBAction)album:(id)sender;
 
 - (IBAction)unwindForSegue:(UIStoryboardSegue *)unwindSegue towardsViewController:(UIViewController *)subsequentVC;
 

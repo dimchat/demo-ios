@@ -18,6 +18,23 @@
 
 #import "MsgCell.h"
 
+static inline UIImage *image_content(const DIMMessageContent *content) {
+    NSData *imageData = content.imageData;
+    if (!imageData) {
+        imageData = content.thumbnail;
+    }
+    if (imageData) {
+        return [UIImage imageWithData:imageData];
+    }
+    return nil;
+}
+
+@interface MsgCell ()
+
+@property (strong, nonatomic) UIImage *picture;
+
+@end
+
 @implementation MsgCell
 
 + (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
@@ -28,8 +45,14 @@
     
     CGSize size = CGSizeMake(msgWidth - edges.left - edges.right,
                              MAXFLOAT);
-    UIFont *font = [UIFont systemFontOfSize:16];
-    size = [text sizeWithFont:font maxSize:size];
+    UIImage *picture = image_content(iMsg.content);
+    if (picture) {
+        size = picture.size;
+    } else {
+        UIFont *font = [UIFont systemFontOfSize:16];
+        size = [text sizeWithFont:font maxSize:size];
+    }
+    
     CGFloat cellHeight = size.height + edges.top + edges.bottom + 32;
     if (cellHeight < 100) {
         cellHeight = 100;
@@ -41,6 +64,13 @@
     [super setSelected:selected animated:animated];
     
     // Configure the view for the selected state
+}
+
+- (UIImage *)picture {
+    if (!_picture) {
+        _picture = image_content(_msg.content);
+    }
+    return _picture;
 }
 
 - (void)layoutSubviews {
@@ -60,7 +90,14 @@
     UIFont *font = messageLabel.font;
     NSString *text = messageLabel.text;
     CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
-    size = [text sizeWithFont:font maxSize:size];
+    
+    _picture = nil;
+    UIImage *image = self.picture;
+    if (image) {
+        size = image.size;
+    } else {
+        size = [text sizeWithFont:font maxSize:size];
+    }
     
     CGRect imageFrame = messageImageView.frame;
     imageFrame.size = CGSizeMake(size.width + edges.left + edges.right,
@@ -123,13 +160,26 @@
         
         // message
         switch (content.type) {
-            case DKDMessageType_Text:
+            case DKDMessageType_Text: {
                 messageLabel.text = content.text;
+            }
                 break;
                 
-            case DKDMessageType_Image:
+            case DKDMessageType_Image: {
                 // TODO: show image
-                messageLabel.text = content.filename;
+                _picture = nil;
+                UIImage *image = self.picture;
+                if (image) {
+                    // show image
+                    NSTextAttachment *att = [[NSTextAttachment alloc] init];
+                    att.image = image;
+                    NSAttributedString *as = [NSAttributedString attributedStringWithAttachment:att];
+                    messageLabel.attributedText = as;
+                    messageLabel.bounds = CGRectMake(0, 0, image.size.width, image.size.height);
+                } else {
+                    messageLabel.text = content.filename;
+                }
+            }
                 break;
                 
             default:

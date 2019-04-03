@@ -13,15 +13,17 @@
 @implementation UIView (Extension)
 
 - (void)roundedCorner {
-    CGRect rect = self.bounds;
-    UIBezierPath *maskPath;
-    maskPath = [UIBezierPath bezierPathWithRoundedRect:rect
-                                     byRoundingCorners:UIRectCornerAllCorners
-                                           cornerRadii:CGSizeMake(10, 10)];
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = rect;
-    maskLayer.path = maskPath.CGPath;
-    self.layer.mask = maskLayer;
+//    CGRect rect = self.bounds;
+//    UIBezierPath *maskPath;
+//    maskPath = [UIBezierPath bezierPathWithRoundedRect:rect
+//                                     byRoundingCorners:UIRectCornerAllCorners
+//                                           cornerRadii:CGSizeMake(10, 10)];
+//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+//    maskLayer.frame = rect;
+//    maskLayer.path = maskPath.CGPath;
+//    self.layer.mask = maskLayer;
+    self.layer.cornerRadius = 10;
+    self.layer.masksToBounds = YES;
 }
 
 @end
