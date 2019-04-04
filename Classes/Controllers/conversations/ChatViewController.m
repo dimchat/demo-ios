@@ -255,6 +255,10 @@
             // TODO: snapshot
         }
         
+        if (MKMNetwork_IsGroup(self->_conversation.ID.type)) {
+            content.group = self->_conversation.ID;
+        }
+        
         // 2. build instant message
         DIMInstantMessage *iMsg;
         iMsg = [[DIMInstantMessage alloc] initWithContent:content
