@@ -219,10 +219,13 @@
 }
 
 - (void)_showImagePickerController:(ImagePickerController *)ipc {
-    [ipc showWithViewController:self completionHandler:^(UIImage * _Nullable image,
-                                                         NSString *path,
-                                                         NSDictionary<UIImagePickerControllerInfoKey,id> *info,
-                                                         UIImagePickerController *ipc) {
+    // completion handler
+    ImagePickerControllerCompletionHandler handler;
+    handler = ^(UIImage * _Nullable image,
+                NSString *path,
+                NSDictionary<UIImagePickerControllerInfoKey,id> *info,
+                UIImagePickerController *ipc) {
+        
         NSLog(@"pick image: %@, path: %@", image, path);
         Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
@@ -266,7 +269,9 @@
             // personal message, save a copy
             [self->_conversation insertMessage:iMsg];
         }
-    }];
+    };
+    
+    [ipc showWithViewController:self completionHandler:handler];
 }
 
 - (IBAction)camera:(id)sender {

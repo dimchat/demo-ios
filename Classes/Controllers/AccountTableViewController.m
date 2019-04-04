@@ -65,6 +65,10 @@
                              selector:@selector(reloadData)
                                  name:kNotificationName_UsersUpdated
                                object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(reloadData)
+                                 name:kNotificationName_AvatarUpdated
+                               object:nil];
 }
 
 - (void)reloadData {

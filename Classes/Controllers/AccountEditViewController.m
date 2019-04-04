@@ -9,8 +9,19 @@
 #import <DIMCore/DIMCore.h>
 
 #import "NSObject+JsON.h"
+#import "NSNotificationCenter+Extension.h"
 
+#import "UIViewController+Extension.h"
+#import "UIImageView+Extension.h"
+#import "UIImage+Extension.h"
+
+#import "DIMProfile+Extension.h"
+
+#import "ImagePickerController.h"
+
+#import "User.h"
 #import "Client.h"
+#import "Facebook+Register.h"
 
 #import "AccountEditViewController.h"
 
@@ -26,16 +37,138 @@
     
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
-    
-    NSString *name = user.name;
     const DIMID *ID = user.ID;
-    const DIMMeta *meta = DIMMetaForID(ID);
-    DIMPrivateKey *SK = user.privateKey;
     
-    _fullnameTextField.text = name;
-    _usernameTextField.text = (NSString *)ID;
-    _metaTextView.text = [meta jsonString];
-    _privateKeyTextView.text = [SK jsonString];
+    DIMProfile *profile = DIMProfileForID(ID);
+    
+    CGSize avatarSize = _avatarImageView.bounds.size;
+    
+    UIImage *image = [profile avatarImageWithSize:avatarSize];
+    NSString *nickname = profile.name;
+    
+    [_avatarImageView roundedCorner];
+    _avatarImageView.image = image;
+    
+    [_changeButton addTarget:self action:@selector(changeAvatar:) forControlEvents:UIControlEventTouchUpInside];
+    
+    _nicknameTextField.text = nickname;
+    _usernameLabel.text = ID.name;
+    _addressLabel.text = (NSString *)ID.address;
+    _numberLabel.text = search_number(ID.number);
+    
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(reloadAvatar)
+                                 name:kNotificationName_AvatarUpdated
+                               object:nil];
+}
+
+- (void)reloadAvatar {
+    // TODO: update client.users
+    DIMUser *user = [Client sharedInstance].currentUser;
+    DIMProfile *profile = DIMProfileForID(user.ID);
+    
+    // avatar
+    CGRect avatarFrame = _avatarImageView.frame;
+    UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
+    if (image) {
+        [_avatarImageView setImage:image];
+    }
+}
+
+- (void)changeAvatar:(id)sender {
+    
+    ImagePickerControllerCompletionHandler handler;
+    handler = ^(UIImage * _Nullable image,
+                NSString *path,
+                NSDictionary<UIImagePickerControllerInfoKey,id> *info,
+                UIImagePickerController *ipc) {
+        
+        NSLog(@"pick image: %@, path: %@", image, path);
+        if (image) {
+            // image file
+            NSData *data = [image jpegData];
+            NSString *filename = @"avatar.jpeg";
+            
+            Client *client = [Client sharedInstance];
+            DIMUser *user = client.currentUser;
+            const DIMID *ID = user.ID;
+            DIMProfile *profile = DIMProfileForID(ID);
+            
+            // save to local storage
+            [profile saveAvatar:data name:filename];
+            
+            // upload to CDN
+            DIMFileServer *ftp = [DIMFileServer sharedInstance];
+            NSURL *url = [ftp uploadAvatar:data filename:filename sender:ID];
+            
+            // got avatar URL
+            profile.avatar = [url absoluteString];
+            
+            // save profile with new avatar
+            Facebook *facebook = [Facebook sharedInstance];
+            [facebook saveProfile:profile forEntityID:ID];
+            
+            // submit to network
+            [client postProfile:profile meta:nil];
+            
+            [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated object:self];
+        }
+    };
+    
+    AlbumController *album = [[AlbumController alloc] init];
+    album.allowsEditing = YES;
+    [album showWithViewController:self completionHandler:handler];
+}
+
+- (BOOL)saveAndSubmit {
+    
+    NSString *nickname = _nicknameTextField.text;
+    
+    // check nickname
+    if (nickname.length == 0) {
+        [self showMessage:NSLocalizedString(@"Nickname cannot be empty.", nil)
+                withTitle:NSLocalizedString(@"Nickname Error!", nil)];
+        [_nicknameTextField becomeFirstResponder];
+        return NO;
+    }
+    
+    Client *client = [Client sharedInstance];
+    DIMUser *user = client.currentUser;
+    const DIMID *ID = user.ID;
+    
+    DIMProfile *profile = DIMProfileForID(ID);
+    [profile setName:nickname];
+    
+    Facebook *facebook = [Facebook sharedInstance];
+    [facebook saveProfile:profile forEntityID:ID];
+    
+    // submit to station
+    [client postProfile:profile meta:nil];
+    
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+    NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
+    
+    if (section == 0) {
+        // avatar & nickname
+    } else if (section == 1) {
+        // profiles
+    } else {
+        // function
+        if (row == 0) {
+            // Save
+            if ([self saveAndSubmit]) {
+                // saved
+                [self showMessage:NSLocalizedString(@"Success", nil)
+                        withTitle:nil];
+            }
+        }
+    }
 }
 
 /*

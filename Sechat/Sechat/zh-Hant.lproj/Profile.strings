@@ -1,21 +1,30 @@
 
-/* Class = "UILabel"; text = "Title"; ObjectID = "Pv1-Y9-OxK"; */
-"Pv1-Y9-OxK.text" = "Title";
+/* Class = "UILabel"; text = "Username"; ObjectID = "OdJ-sd-9vq"; */
+"OdJ-sd-9vq.text" = "帳號名";
 
-/* Class = "UILabel"; text = "Title"; ObjectID = "TMS-eT-4BA"; */
-"TMS-eT-4BA.text" = "Title";
+/* Class = "UILabel"; text = "Nickname:"; ObjectID = "SJQ-MY-iwa"; */
+"SJQ-MY-iwa.text" = "暱稱:";
+
+/* Class = "UILabel"; text = "Search No."; ObjectID = "aaT-A1-578"; */
+"aaT-A1-578.text" = "檢索號";
+
+/* Class = "UIButton"; normalTitle = "Change"; ObjectID = "coR-j4-RuF"; */
+"coR-j4-RuF.normalTitle" = "更換頭像";
+
+/* Class = "UILabel"; text = "Save"; ObjectID = "e4w-YO-0Sp"; */
+"e4w-YO-0Sp.text" = "儲存";
 
 /* Class = "UILabel"; text = "Add Contact"; ObjectID = "iNs-lO-LvM"; */
 "iNs-lO-LvM.text" = "添加好友";
 
-/* Class = "UILabel"; text = "💬 Messages"; ObjectID = "jEB-0B-2qg"; */
-"jEB-0B-2qg.text" = "💬 發消息";
+/* Class = "UILabel"; text = "💬 Message"; ObjectID = "jEB-0B-2qg"; */
+"jEB-0B-2qg.text" = "💬 發送信息";
 
 /* Class = "UITableViewController"; title = "Profile"; ObjectID = "meJ-Kq-8RZ"; */
-"meJ-Kq-8RZ.title" = "資料";
+"meJ-Kq-8RZ.title" = "檔案資料";
 
-/* Class = "UILabel"; text = "Subtitle"; ObjectID = "nAe-BT-0Fr"; */
-"nAe-BT-0Fr.text" = "Subtitle";
+/* Class = "UITextField"; placeholder = "Input your nickname here"; ObjectID = "tii-m3-5Ac"; */
+"tii-m3-5Ac.placeholder" = "請輸入你的暱稱";
 
-/* Class = "UILabel"; text = "Detail"; ObjectID = "ryz-aS-mFe"; */
-"ryz-aS-mFe.text" = "Detail";
+/* Class = "UILabel"; text = "Address"; ObjectID = "uQB-Jy-uIO"; */
+"uQB-Jy-uIO.text" = "地址";

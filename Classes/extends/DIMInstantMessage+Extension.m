@@ -57,16 +57,42 @@
     if (imageData) {
         image = [UIImage imageWithData:imageData];
         if (image) {
+            // the thumbnail is no use now
+            [content removeObjectForKey:@"thumbnail"];
             return image;
         }
     }
+    
     // use thumbnail as a stopgap
-    imageData = (NSData *)content.thumbnail;
-    if (imageData) {
-        image = [UIImage imageWithData:imageData];
-    }
-    return image;
+    return [self thumbnail];
+}
 
+- (UIImage *)thumbnail {
+    DIMMessageContent *content = self.content;
+    if (content.type != DIMMessageType_Image) {
+        // not Image message
+        return nil;
+    }
+    
+    DIMFileServer *ftp = [DIMFileServer sharedInstance];
+
+    NSString *filename = content.filename;
+    NSData *imageData = (NSData *)content.thumbnail;
+    if (imageData) {
+        NSAssert(filename.length > 0, @"image filename not found: %@", content);
+        
+        if ([ftp saveThumbnail:imageData filename:filename]) {
+            // saved, remove BASE64 data
+            [content removeObjectForKey:@"thumbnail"];
+        }
+    } else {
+        imageData = [ftp loadThumbnailWithFilename:filename];
+    }
+    
+    if (imageData) {
+        return [UIImage imageWithData:imageData];
+    }
+    return nil;
 }
 
 @end

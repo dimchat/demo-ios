@@ -77,6 +77,7 @@ SingletonImplementations(Client, sharedInstance)
     ftp.userAgent = self.userAgent;
     ftp.uploadAPI = @"http://124.156.108.150:8081/{ID}/upload";
     ftp.downloadAPI = @"http://124.156.108.150:8081/download/{ID}/{filename}";
+    ftp.avatarAPI = @"http://124.156.108.150:8081/{ID}/avatar.{ext}";
     
     // connect server
     DIMServer *server = [[DIMServer alloc] initWithDictionary:station];

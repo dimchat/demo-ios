@@ -406,20 +406,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         }
     }
     
-    // save thumbnail
-    if (content.type == DIMMessageType_Image) {
-        const NSData *thumbnail = content.thumbnail;
-        NSAssert(thumbnail.length > 0, @"thumbnail not found: %@", content);
-        NSString *filename = content.filename;
-        NSAssert(filename.length > 0, @"image filename not found: %@", content);
-        
-        DIMFileServer *ftp = [DIMFileServer sharedInstance];
-        if ([ftp saveThumbnail:thumbnail filename:filename]) {
-            // saved, remove BASE64 data
-            [content removeObjectForKey:@"thumbnail"];
-        }
-    }
-    
     if ([self insertMessage:iMsg forConversationID:ID]) {
         [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
                                             object:self

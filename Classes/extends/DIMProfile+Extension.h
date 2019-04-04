@@ -12,7 +12,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern const NSString *kNotificationName_AvatarUpdated;
+
 @interface DIMProfile (Extension)
+
+- (BOOL)saveAvatar:(const NSData *)data name:(nullable const NSString *)filename;
 
 // account.avatar
 - (UIImage *)avatarImageWithSize:(const CGSize)size;
