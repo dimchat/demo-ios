@@ -37,8 +37,9 @@
     
     UIImage *image = iMsg.image;
     if (image) {
-        if (image.size.width > size.width) {
-            CGFloat ratio = size.width / image.size.width;
+        CGFloat max_width = MIN(rect.size.width, rect.size.height) * 0.618;
+        if (image.size.width > max_width) {
+            CGFloat ratio = max_width / image.size.width;
             size = CGSizeMake(image.size.width * ratio, image.size.height * ratio);
         } else {
             size = image.size;
@@ -93,8 +94,9 @@
     CGSize size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
     
     if (_picture) {
-        if (_picture.size.width > size.width) {
-            CGFloat ratio = size.width / _picture.size.width;
+        CGFloat max_width = MIN(self.bounds.size.width, self.bounds.size.height) * 0.618;
+        if (_picture.size.width > max_width) {
+            CGFloat ratio = max_width / _picture.size.width;
             size = CGSizeMake(_picture.size.width * ratio, _picture.size.height * ratio);
         } else {
             size = _picture.size;
@@ -173,13 +175,11 @@
                 
             case DKDMessageType_Image: {
                 if (_picture) {
-                    CGFloat cellWidth = self.bounds.size.width;
-                    CGFloat msgWidth = cellWidth * 0.618;
-                    UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
-                    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
+                    CGFloat max_width = MIN(self.bounds.size.width, self.bounds.size.height) * 0.618;
+                    CGSize size;
                     
-                    if (_picture.size.width > size.width) {
-                        CGFloat ratio = size.width / _picture.size.width;
+                    if (_picture.size.width > max_width) {
+                        CGFloat ratio = max_width / _picture.size.width;
                         size = CGSizeMake(_picture.size.width * ratio, _picture.size.height * ratio);
                     } else {
                         size = _picture.size;

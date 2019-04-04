@@ -227,7 +227,12 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     NSMutableArray *timeList = [_timesTable objectForKey:ID];
     while (list.count > MAX_MESSAGES_SAVED_COUNT) {
         [list removeObjectAtIndex:0];
-        [timeList removeObjectAtIndex:0];
+        if (timeList.count > 0) {
+            [timeList removeObjectAtIndex:0];
+        } else {
+            // FIXME: sometimes this would happen
+            //NSAssert(false, @"time list should not be empty here");
+        }
     }
     
     if (save_message(list, ID)) {
