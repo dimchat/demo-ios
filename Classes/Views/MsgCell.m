@@ -9,25 +9,16 @@
 #import "NSString+Extension.h"
 #import "UIImage+Extension.h"
 #import "UIImageView+Extension.h"
-#import "DIMProfile+Extension.h"
 #import "UIButton+Extension.h"
+
+#import "DIMProfile+Extension.h"
+#import "DIMInstantMessage+Extension.h"
 
 #import "User.h"
 
 #import "MessageProcessor.h"
 
 #import "MsgCell.h"
-
-static inline UIImage *image_content(const DIMMessageContent *content) {
-    NSData *imageData = content.imageData;
-    if (!imageData) {
-        imageData = content.thumbnail;
-    }
-    if (imageData) {
-        return [UIImage imageWithData:imageData];
-    }
-    return nil;
-}
 
 @interface MsgCell ()
 
@@ -42,20 +33,30 @@ static inline UIImage *image_content(const DIMMessageContent *content) {
     CGFloat cellWidth = rect.size.width;
     CGFloat msgWidth = cellWidth * 0.618;
     UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
+    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
     
-    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right,
-                             MAXFLOAT);
-    UIImage *picture = image_content(iMsg.content);
-    if (picture) {
-        size = picture.size;
+    UIImage *image = iMsg.image;
+    if (image) {
+        if (image.size.width > size.width) {
+            CGFloat ratio = size.width / image.size.width;
+            size = CGSizeMake(image.size.width * ratio, image.size.height * ratio);
+        } else {
+            size = image.size;
+        }
     } else {
         UIFont *font = [UIFont systemFontOfSize:16];
         size = [text sizeWithFont:font maxSize:size];
     }
     
-    CGFloat cellHeight = size.height + edges.top + edges.bottom + 32;
-    if (cellHeight < 100) {
-        cellHeight = 100;
+    CGFloat cellHeight = size.height + edges.top + edges.bottom + 16;
+    
+    NSString *time = [iMsg objectForKey:@"timeTag"];
+    if (time.length > 0) {
+        cellHeight += 20;
+    }
+    
+    if (cellHeight < 80) {
+        cellHeight = 80;
     }
     return CGSizeMake(cellWidth, cellHeight);
 }
@@ -68,7 +69,7 @@ static inline UIImage *image_content(const DIMMessageContent *content) {
 
 - (UIImage *)picture {
     if (!_picture) {
-        _picture = image_content(_msg.content);
+        _picture = _msg.image;
     }
     return _picture;
 }
@@ -89,12 +90,15 @@ static inline UIImage *image_content(const DIMMessageContent *content) {
     // message
     UIFont *font = messageLabel.font;
     NSString *text = messageLabel.text;
-    CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
+    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
     
-    _picture = nil;
-    UIImage *image = self.picture;
-    if (image) {
-        size = image.size;
+    if (_picture) {
+        if (_picture.size.width > size.width) {
+            CGFloat ratio = size.width / _picture.size.width;
+            size = CGSizeMake(_picture.size.width * ratio, _picture.size.height * ratio);
+        } else {
+            size = _picture.size;
+        }
     } else {
         size = [text sizeWithFont:font maxSize:size];
     }
@@ -121,6 +125,8 @@ static inline UIImage *image_content(const DIMMessageContent *content) {
 - (void)setMsg:(DKDInstantMessage *)msg {
     if (![_msg isEqual:msg]) {
         _msg = msg;
+        
+        self.picture = msg.image;
         
         id cell = self;
         UILabel *timeLabel = [cell timeLabel];
@@ -166,16 +172,25 @@ static inline UIImage *image_content(const DIMMessageContent *content) {
                 break;
                 
             case DKDMessageType_Image: {
-                // TODO: show image
-                _picture = nil;
-                UIImage *image = self.picture;
-                if (image) {
-                    // show image
+                if (_picture) {
+                    CGFloat cellWidth = self.bounds.size.width;
+                    CGFloat msgWidth = cellWidth * 0.618;
+                    UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
+                    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
+                    
+                    if (_picture.size.width > size.width) {
+                        CGFloat ratio = size.width / _picture.size.width;
+                        size = CGSizeMake(_picture.size.width * ratio, _picture.size.height * ratio);
+                    } else {
+                        size = _picture.size;
+                    }
+                    
                     NSTextAttachment *att = [[NSTextAttachment alloc] init];
-                    att.image = image;
+                    att.image = _picture;
+                    att.bounds = CGRectMake(0, 0, size.width, size.height);
                     NSAttributedString *as = [NSAttributedString attributedStringWithAttachment:att];
                     messageLabel.attributedText = as;
-                    messageLabel.bounds = CGRectMake(0, 0, image.size.width, image.size.height);
+                    messageLabel.bounds = CGRectMake(0, 0, size.width, size.height);
                 } else {
                     messageLabel.text = content.filename;
                 }
@@ -256,6 +271,12 @@ static inline UIImage *image_content(const DIMMessageContent *content) {
 @end
 
 @implementation ReceivedMsgCell
+
++ (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
+    CGSize size = [super sizeWithMessage:iMsg bounds:rect];
+    size.height += 24;
+    return size;
+}
 
 - (void)setMsg:(DKDInstantMessage *)msg {
     [super setMsg:msg];

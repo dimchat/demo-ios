@@ -13,8 +13,6 @@
 #import "Facebook.h"
 #import "MessageProcessor.h"
 
-#import "Server.h"
-
 #import "Client.h"
 
 const NSString *kNotificationName_MessageUpdated = @"MessageUpdated";
@@ -74,8 +72,14 @@ SingletonImplementations(Client, sharedInstance)
         [serverOptions setObject:port forKey:@"LongLinkPort"];
     }
     
+    // configure FTP server
+    DIMFileServer *ftp = [DIMFileServer sharedInstance];
+    ftp.userAgent = self.userAgent;
+    ftp.uploadAPI = @"http://124.156.108.150:8081/{ID}/upload";
+    ftp.downloadAPI = @"http://124.156.108.150:8081/download/{ID}/{filename}";
+    
     // connect server
-    Server *server = [[Server alloc] initWithDictionary:station];
+    DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
     _currentStation = server;
     
     Facebook *facebook = [Facebook sharedInstance];

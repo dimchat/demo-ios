@@ -59,6 +59,7 @@ static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
 //}
 
 static inline BOOL save_message(NSArray *messages, const DIMID *ID) {
+    messages = [messages copy];
     NSString *path = full_filepath(ID, @"messages.plist");
     NSLog(@"save path: %@", path);
     return [messages writeToFile:path atomically:YES];
@@ -274,7 +275,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 - (BOOL)removeConversation:(DIMConversation *)chatBox {
     const DIMID *ID = chatBox.ID;
-    NSLog(@"clear conversation for %@", ID);
+    NSLog(@"remove conversation for %@", ID);
     BOOL removed = remove_messages(ID);
     if (removed) {
         [_chatHistory removeObjectForKey:ID];
@@ -296,7 +297,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     NSLog(@"clear conversation for %@", ID);
     BOOL cleared = clear_messages(ID);
     if (cleared) {
-        //[_chatHistory removeObjectForKey:ID];
+        [[_chatHistory objectForKey:ID] removeAllObjects];
         [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
                                             object:self
                                           userInfo:@{@"ID": ID}];
@@ -405,8 +406,19 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         }
     }
     
-    // TODO: save message in local storage,
-    //       if the chat box is visiable, call it to reload data
+    // save thumbnail
+    if (content.type == DIMMessageType_Image) {
+        const NSData *thumbnail = content.thumbnail;
+        NSAssert(thumbnail.length > 0, @"thumbnail not found: %@", content);
+        NSString *filename = content.filename;
+        NSAssert(filename.length > 0, @"image filename not found: %@", content);
+        
+        DIMFileServer *ftp = [DIMFileServer sharedInstance];
+        if ([ftp saveThumbnail:thumbnail filename:filename]) {
+            // saved, remove BASE64 data
+            [content removeObjectForKey:@"thumbnail"];
+        }
+    }
     
     if ([self insertMessage:iMsg forConversationID:ID]) {
         [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated

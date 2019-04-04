@@ -91,9 +91,9 @@ static inline BOOL supports(NSString *mediaType, UIImagePickerControllerSourceTy
             if ([self doesCameraSupportTakingPhotos]) {
                 [mediaTypes addObject:(NSString *)kUTTypeImage];
             }
-            if ([self doesCameraSupportShootingVideos]) {
-                [mediaTypes addObject:(NSString *)kUTTypeMovie];
-            }
+            //if ([self doesCameraSupportShootingVideos]) {
+            //    [mediaTypes addObject:(NSString *)kUTTypeMovie];
+            //}
             self.mediaTypes = mediaTypes;
             
             // video
@@ -138,9 +138,9 @@ static inline BOOL supports(NSString *mediaType, UIImagePickerControllerSourceTy
             if ([self canUserPickPhotosFromPhotoLibrary]) {
                 [mediaTypes addObject:(NSString *)kUTTypeImage];
             }
-            if ([self canUserPickVideosFromPhotoLibrary]) {
-                [mediaTypes addObject:(NSString *)kUTTypeMovie];
-            }
+            //if ([self canUserPickVideosFromPhotoLibrary]) {
+            //    [mediaTypes addObject:(NSString *)kUTTypeMovie];
+            //}
             self.mediaTypes = mediaTypes;
         }
     }

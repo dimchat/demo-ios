@@ -230,13 +230,20 @@
         // 1. build message content
         DIMMessageContent *content = nil;
         if (image) {
-            // image message
+            DIMFileServer *ftp = [DIMFileServer sharedInstance];
+            // image file
             NSData *data = [image jpegData];
-            content = [[DIMMessageContent alloc] initWithImageData:data filename:@"photo.jpeg"];
+            NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
+            [ftp saveData:data filename:filename];
+            
             // thumbnail
             UIImage *thumbnail = [image thumbnail];
             NSData *small = [thumbnail jpegData];
+            [ftp saveThumbnail:small filename:filename];
             NSLog(@"thumbnail data length: %lu", small.length);
+            
+            // message content
+            content = [[DIMMessageContent alloc] initWithImageData:data filename:filename];
             [content setObject:[small base64Encode] forKey:@"thumbnail"];
         } else {
             // movie message
@@ -309,18 +316,14 @@
     return [_conversation numberOfMessage];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    // Configure the cell...
-    //    NSInteger section = indexPath.section;
+- (NSString *)_identifierForReusableCellAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
-    DIMEnvelope *env = iMsg.envelope;
-    const DIMID *sender = [DIMID IDWithID:env.sender];
+    const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
     
     NSString *identifier = @"receivedMsgCell";
     DKDMessageType type = iMsg.content.type;
@@ -342,6 +345,18 @@
             }
         }
     }
+    return identifier;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    // Configure the cell...
+    //    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+    
+    DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
+    
+    NSString *identifier = [self _identifierForReusableCellAtIndexPath:indexPath];
     MsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     cell.msg = iMsg;
     
@@ -359,12 +374,15 @@
     DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
     CGRect bounds = tableView.bounds;
     
-    DKDMessageType type = iMsg.content.type;
-    if (type == DKDMessageType_Command || type == DKDMessageType_History) {
+    NSString *identifier = [self _identifierForReusableCellAtIndexPath:indexPath];
+    if ([identifier isEqualToString:@"commandMsgCell"]) {
         CGSize size = [CommandMsgCell sizeWithMessage:iMsg bounds:bounds];
         return size.height;
+    } else if ([identifier isEqualToString:@"receivedMsgCell"]) {
+        CGSize size = [ReceivedMsgCell sizeWithMessage:iMsg bounds:bounds];
+        return size.height;
     } else {
-        CGSize size = [MsgCell sizeWithMessage:iMsg bounds:bounds];
+        CGSize size = [SentMsgCell sizeWithMessage:iMsg bounds:bounds];
         return size.height;
     }
 }

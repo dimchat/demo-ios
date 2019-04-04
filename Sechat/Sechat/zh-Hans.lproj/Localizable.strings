@@ -18,8 +18,8 @@
 //  Connection
 //
 "Disconnected!" = "网络中断";
-"Connecting ..." = "正在连接基站⋯⋯";
-"Connected!" = "基站连接成功！";
+"Connecting ..." = "正在连接⋯⋯";
+"Connected!" = "连接成功！";
 "Authenticating ..." = "正在验证⋯⋯";
 "Network error!" = "网路错误！";
 "Connection stopped!" = "连接中止！";

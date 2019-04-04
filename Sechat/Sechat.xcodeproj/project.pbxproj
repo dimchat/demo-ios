@@ -42,8 +42,7 @@
 		E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E97907732254A3970024C830 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907712254A3970024C830 /* ImagePickerController.m */; };
-		E97907742254A3970024C830 /* FileTransporter.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907722254A3970024C830 /* FileTransporter.m */; };
-		E97907832254C0380024C830 /* Server.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907822254C0380024C830 /* Server.m */; };
+		E979079D225520AA0024C830 /* DIMInstantMessage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */; };
 		E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
 		E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */; };
 		E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */; };
@@ -177,11 +176,9 @@
 		E978172222254CC600BCE3AD /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172422254CC900BCE3AD /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E979076F2254A3970024C830 /* ImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickerController.h; sourceTree = "<group>"; };
-		E97907702254A3970024C830 /* FileTransporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileTransporter.h; sourceTree = "<group>"; };
 		E97907712254A3970024C830 /* ImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickerController.m; sourceTree = "<group>"; };
-		E97907722254A3970024C830 /* FileTransporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileTransporter.m; sourceTree = "<group>"; };
-		E97907812254C0380024C830 /* Server.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
-		E97907822254C0380024C830 /* Server.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Server.m; sourceTree = "<group>"; };
+		E979079B225520AA0024C830 /* DIMInstantMessage+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DIMInstantMessage+Extension.h"; sourceTree = "<group>"; };
+		E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DIMInstantMessage+Extension.m"; sourceTree = "<group>"; };
 		E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatManageTableViewController.m; sourceTree = "<group>"; };
 		E99A5C9E222D8B3400EE6C86 /* ParticipantsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipantsCollectionViewController.h; sourceTree = "<group>"; };
 		E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewController.m; sourceTree = "<group>"; };
@@ -367,8 +364,6 @@
 				E92256262222ED7C006CADEA /* Controllers */,
 				E92256162222ED7C006CADEA /* Client.h */,
 				E92256222222ED7C006CADEA /* Client.m */,
-				E97907812254C0380024C830 /* Server.h */,
-				E97907822254C0380024C830 /* Server.m */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -454,8 +449,6 @@
 			children = (
 				E979076F2254A3970024C830 /* ImagePickerController.h */,
 				E97907712254A3970024C830 /* ImagePickerController.m */,
-				E97907702254A3970024C830 /* FileTransporter.h */,
-				E97907722254A3970024C830 /* FileTransporter.m */,
 			);
 			path = media;
 			sourceTree = "<group>";
@@ -495,6 +488,8 @@
 			children = (
 				E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */,
 				E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */,
+				E979079B225520AA0024C830 /* DIMInstantMessage+Extension.h */,
+				E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */,
 				E9BBC3732242B21200E6ACDA /* NSString+Extension.h */,
 				E9BBC3792242B21200E6ACDA /* NSString+Extension.m */,
 				E9E8250D224F5BBD00A029F1 /* UIButton+Extension.h */,
@@ -684,7 +679,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E97907742254A3970024C830 /* FileTransporter.m in Sources */,
 				E97907732254A3970024C830 /* ImagePickerController.m in Sources */,
 				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
 				E92256462222ED7C006CADEA /* User.m in Sources */,
@@ -698,6 +692,7 @@
 				E922564D2222ED7C006CADEA /* AboutViewController.m in Sources */,
 				E922564A2222ED7C006CADEA /* Client.m in Sources */,
 				E92256502222ED7C006CADEA /* RegisterViewController.m in Sources */,
+				E979079D225520AA0024C830 /* DIMInstantMessage+Extension.m in Sources */,
 				E99A5CCA222E577900EE6C86 /* ContactCell.m in Sources */,
 				E99A5CC7222E576300EE6C86 /* ConversationCell.m in Sources */,
 				E99A5CB4222D8B3400EE6C86 /* ContactsTableViewController.m in Sources */,
@@ -715,7 +710,6 @@
 				E99A5CB2222D8B3400EE6C86 /* ParticipantsManageTableViewController.m in Sources */,
 				E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */,
 				E99A5CB1222D8B3400EE6C86 /* ParticipantsCollectionViewController.m in Sources */,
-				E97907832254C0380024C830 /* Server.m in Sources */,
 				E922565A2222ED7C006CADEA /* MsgCell.m in Sources */,
 				E99A5CCD222ECDBE00EE6C86 /* ParticipantCollectionCell.m in Sources */,
 				E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */,
