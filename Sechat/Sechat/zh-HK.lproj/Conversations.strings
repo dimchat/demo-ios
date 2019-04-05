@@ -53,8 +53,11 @@
 /* Class = "UITextField"; placeholder = "seed to generate group ID"; ObjectID = "fVT-7q-maI"; */
 "fVT-7q-maI.placeholder" = "seed to generate group ID";
 
-/* Class = "UILabel"; text = "Clear Chat History"; ObjectID = "kOe-GX-gYP"; */
-"kOe-GX-gYP.text" = "清空聊天紀錄";
+/* Class = "UILabel"; text = "Report"; ObjectID = "kOe-GX-gYP"; */
+"kOe-GX-gYP.text" = "投訴";
+
+/* Class = "UILabel"; text = "Clear Chat History"; ObjectID = "DNV-sw-lJE"; */
+"DNV-sw-lJE.text" = "清空聊天紀錄";
 
 /* Class = "UILabel"; text = "Address"; ObjectID = "kRq-yU-cC0"; */
 "kRq-yU-cC0.text" = "地址";

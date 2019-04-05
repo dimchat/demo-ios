@@ -1,8 +1,8 @@
 //
-//  AboutViewController.h
+//  ReportViewController.h
 //  Sechat
 //
-//  Created by Albert Moky on 2019/2/2.
+//  Created by Albert Moky on 2019/4/5.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
@@ -11,10 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  About page in More information tab
- */
-@interface AboutViewController : UIViewController <WKNavigationDelegate>
+@interface ReportViewController : UIViewController <WKNavigationDelegate>
 
 @property (weak, nonatomic) IBOutlet WKWebView *webView;
 

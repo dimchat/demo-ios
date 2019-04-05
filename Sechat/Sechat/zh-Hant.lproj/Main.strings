@@ -7,3 +7,6 @@
 
 /* Class = "UITabBarItem"; title = "Me"; ObjectID = "mKD-yW-hkT"; */
 "mKD-yW-hkT.title" = "我";
+
+/* Class = "UIViewController"; title = "Report"; ObjectID = "1lD-ps-s62"; */
+"1lD-ps-s62.title" = "舉報";

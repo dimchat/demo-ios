@@ -388,11 +388,8 @@ SingletonImplementations(Facebook, sharedInstance)
 - (const DIMID *)group:(const DIMGroup *)grp memberAtIndex:(NSInteger)index {
     // TODO: cache it
     NSArray<const DIMID *> *list = [self loadMembersWithGroupID:grp.ID];
-    if (index < list.count && index >= 0) {
-        return [list objectAtIndex:index];
-    } else {
-        return nil;
-    }
+    NSAssert(index < list.count && index >= 0, @"index out of range: %ld, %@", index, list);
+    return [list objectAtIndex:index];
 }
 
 #pragma mark MKMGroupDelegate

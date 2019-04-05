@@ -33,11 +33,12 @@
     CGFloat cellWidth = rect.size.width;
     CGFloat msgWidth = cellWidth * 0.618;
     UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
-    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
+    CGSize size;
     
     UIImage *image = iMsg.image;
     if (image) {
-        CGFloat max_width = MIN(rect.size.width, rect.size.height) * 0.618;
+        size = [UIScreen mainScreen].bounds.size;
+        CGFloat max_width = MIN(size.width, size.height) * 0.382;
         if (image.size.width > max_width) {
             CGFloat ratio = max_width / image.size.width;
             size = CGSizeMake(image.size.width * ratio, image.size.height * ratio);
@@ -46,6 +47,7 @@
         }
     } else {
         UIFont *font = [UIFont systemFontOfSize:16];
+        size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
         size = [text sizeWithFont:font maxSize:size];
     }
     
@@ -91,10 +93,11 @@
     // message
     UIFont *font = messageLabel.font;
     NSString *text = messageLabel.text;
-    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
+    CGSize size;
     
     if (_picture) {
-        CGFloat max_width = MIN(self.bounds.size.width, self.bounds.size.height) * 0.618;
+        size = [UIScreen mainScreen].bounds.size;
+        CGFloat max_width = MIN(size.width, size.height) * 0.382;
         if (_picture.size.width > max_width) {
             CGFloat ratio = max_width / _picture.size.width;
             size = CGSizeMake(_picture.size.width * ratio, _picture.size.height * ratio);
@@ -102,6 +105,7 @@
             size = _picture.size;
         }
     } else {
+        size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
         size = [text sizeWithFont:font maxSize:size];
     }
     
@@ -175,8 +179,8 @@
                 
             case DKDMessageType_Image: {
                 if (_picture) {
-                    CGFloat max_width = MIN(self.bounds.size.width, self.bounds.size.height) * 0.618;
-                    CGSize size;
+                    CGSize size = [UIScreen mainScreen].bounds.size;
+                    CGFloat max_width = MIN(size.width, size.height) * 0.382;
                     
                     if (_picture.size.width > max_width) {
                         CGFloat ratio = max_width / _picture.size.width;
