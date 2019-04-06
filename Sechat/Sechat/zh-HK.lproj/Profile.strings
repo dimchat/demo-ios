@@ -6,7 +6,7 @@
 "SJQ-MY-iwa.text" = "暱稱:";
 
 /* Class = "UILabel"; text = "Search No."; ObjectID = "aaT-A1-578"; */
-"aaT-A1-578.text" = "檢索號";
+"aaT-A1-578.text" = "搜索號";
 
 /* Class = "UIButton"; normalTitle = "Change"; ObjectID = "coR-j4-RuF"; */
 "coR-j4-RuF.normalTitle" = "更換頭像";

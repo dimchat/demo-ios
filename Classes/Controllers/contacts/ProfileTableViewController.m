@@ -11,6 +11,8 @@
 #import "NSDate+Timestamp.h"
 
 #import "UIStoryboardSegue+Extension.h"
+#import "UIImageView+Extension.h"
+#import "DIMProfile+Extension.h"
 
 #import "Client.h"
 
@@ -28,6 +30,13 @@
 }
 
 @end
+
+#define SECTION_COUNT     4
+
+#define SECTION_AVATAR    0
+#define SECTION_ID        1
+#define SECTION_PROFILES  2
+#define SECTION_FUNCTIONS 3
 
 @implementation ProfileTableViewController
 
@@ -59,28 +68,37 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return SECTION_COUNT;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (section == 0) {
+    if (section == SECTION_AVATAR) {
+        // avatar
+        return 1;
+    }
+    if (section == SECTION_ID) {
+        // ID
         return 3;
     }
-    if (section == 1) {
+    if (section == SECTION_PROFILES) {
+        // profiles
         return [_keys count];
     }
-    if (section == 2) {
+    if (section == SECTION_FUNCTIONS) {
+        // functions
         return 1;
     }
     return [super tableView:tableView numberOfRowsInSection:section];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
+    if (section == SECTION_ID) {
+        // ID
         return NSLocalizedString(@"ID", nil);
     }
-    if (section == 1) {
+    if (section == SECTION_PROFILES) {
+        // profiles
         return NSLocalizedString(@"Profiles", nil);
     }
     return [super tableView:tableView titleForHeaderInSection:section];
@@ -93,7 +111,33 @@
     NSInteger row = indexPath.row;
     
     // Configure the cell...
-    if (section == 0) {
+    if (section == SECTION_AVATAR) {
+        // Avatar
+        cell = [tableView dequeueReusableCellWithIdentifier:@"AvatarCell" forIndexPath:indexPath];
+        if (row == 0) {
+            UIImageView *avatarImageView = nil;
+            for (UIImageView *iv in cell.contentView.subviews) {
+                if ([iv isKindOfClass:[UIImageView class]]) {
+                    avatarImageView = iv;
+                    break;
+                }
+            }
+            
+            DIMProfile *profile = DIMProfileForID(_account.ID);
+            
+            // avatar
+            CGRect avatarFrame = avatarImageView.frame;
+            UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
+            if (!image) {
+                image = [UIImage imageNamed:@"AppIcon"];
+            }
+            [avatarImageView setImage:image];
+            [avatarImageView roundedCorner];
+        }
+        return cell;
+    }
+    if (section == SECTION_ID) {
+        // ID
         cell = [tableView dequeueReusableCellWithIdentifier:@"IDCell" forIndexPath:indexPath];
         if (row == 0) {
             cell.textLabel.text = NSLocalizedString(@"Username", nil);
@@ -107,7 +151,8 @@
         }
         return cell;
     }
-    if (section == 1) {
+    if (section == SECTION_PROFILES) {
+        // profiles
         NSString *key = [_keys objectAtIndex:row];
         id value = [_profile objectForKey:key];
         if (![value isKindOfClass:[NSString class]]) {
@@ -125,7 +170,8 @@
         cell.detailTextLabel.text = value;
         return cell;
     }
-    if (section == 2) {
+    if (section == SECTION_FUNCTIONS) {
+        // functions
         DIMUser *user = [Client sharedInstance].currentUser;
         if ([user existsContact:_account.ID]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
@@ -137,6 +183,16 @@
     }
     
     return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSInteger section = indexPath.section;
+    //NSInteger row = indexPath.row;
+    if (section == SECTION_AVATAR) {
+        return 160;
+    }
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 /*

@@ -10,7 +10,7 @@
 
 #import "User.h"
 #import "Client.h"
-//#import "Facebook.h"
+#import "Facebook.h"
 
 #import "AppDelegate.h"
 
@@ -56,11 +56,11 @@
         DIMID *ID = [DIMID IDWithID:MKM_MONKEY_KING_ID];
         DIMUser *user = DIMUserWithID(ID);
         [[Client sharedInstance] addUser:user];
-//        // reset the immortal account's profile
-//        MKMImmortals *immortals = [[MKMImmortals alloc] init];
-//        DIMProfile * profile = [immortals profileForID:ID];
-//        Facebook *facebook = [Facebook sharedInstance];
-//        [facebook setProfile:profile forID:ID];
+        // reset the immortal account's profile
+        MKMImmortals *immortals = [[MKMImmortals alloc] init];
+        DIMProfile * profile = [immortals profileForID:ID];
+        Facebook *facebook = [Facebook sharedInstance];
+        [facebook setProfile:profile forID:ID];
     }
 #endif
 #if DEBUG && 0
@@ -69,11 +69,11 @@
         DIMID *ID = [DIMID IDWithID:MKM_IMMORTAL_HULK_ID];
         DIMUser *user = DIMUserWithID(ID);
         [[Client sharedInstance] addUser:user];
-//        // reset the immortal account's profile
-//        MKMImmortals *immortals = [[MKMImmortals alloc] init];
-//        DIMProfile * profile = [immortals profileForID:ID];
-//        Facebook *facebook = [Facebook sharedInstance];
-//        [facebook setProfile:profile forID:ID];
+        // reset the immortal account's profile
+        MKMImmortals *immortals = [[MKMImmortals alloc] init];
+        DIMProfile * profile = [immortals profileForID:ID];
+        Facebook *facebook = [Facebook sharedInstance];
+        [facebook setProfile:profile forID:ID];
     }
 #endif
 
