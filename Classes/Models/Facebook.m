@@ -12,6 +12,8 @@
 
 #import "MKMImmortals.h"
 
+#import "DIMProfile+Extension.h"
+
 #import "User.h"
 
 #import "Client.h"
@@ -92,14 +94,38 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 - (void)onProfileUpdated:(NSNotification *)notification {
-    if ([notification.name isEqual:kNotificationName_ProfileUpdated]) {
-        DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
-        DIMProfile *profile = cmd.profile;
-        if ([profile.ID isEqual:cmd.ID]) {
-            [profile removeObjectForKey:@"lastTime"];
-            [self saveProfile:profile forEntityID:profile.ID];
-        }
+    if (![notification.name isEqual:kNotificationName_ProfileUpdated]) {
+        return ;
     }
+    DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
+    DIMProfile *profile = cmd.profile;
+    NSAssert([profile.ID isEqual:cmd.ID], @"profile command error: %@", cmd);
+    [profile removeObjectForKey:@"lastTime"];
+    
+    // check avatar
+    NSString *avatar = profile.avatar;
+    if (avatar) {
+//        // if old avatar exists, remove it
+//        const DIMID *ID = profile.ID;
+//        DIMProfile *old = [self profileForID:ID];
+//        NSString *ext = [old.avatar pathExtension];
+//        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
+//            // Cache directory: "Documents/.mkm/{address}/avatar.png"
+//            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+//            NSFileManager *fm = [NSFileManager defaultManager];
+//            if ([fm fileExistsAtPath:path]) {
+//                NSError *error = nil;
+//                if (![fm removeItemAtPath:path error:&error]) {
+//                    NSLog(@"failed to remove old avatar: %@", error);
+//                } else {
+//                    NSLog(@"old avatar removed: %@", path);
+//                }
+//            }
+//        }
+    }
+    
+    // update profile
+    [self saveProfile:profile forEntityID:profile.ID];
 }
 
 - (nullable const DIMID *)IDWithAddress:(const DIMAddress *)address {
@@ -186,11 +212,8 @@ SingletonImplementations(Facebook, sharedInstance)
 
 - (void)setProfile:(const DIMProfile *)profile forID:(const DIMID *)ID {
     if (profile) {
-        if ([profile.ID isEqual:ID]) {
-            [_profileTable setObject:[profile copy] forKey:ID.address];
-        } else {
-            NSAssert(false, @"profile error: %@, ID = %@", profile, ID);
-        }
+        NSAssert([profile.ID isEqual:ID], @"profile error: %@, ID = %@", profile, ID);
+        [_profileTable setObject:[profile copy] forKey:ID.address];
     } else {
         [_profileTable removeObjectForKey:ID.address];
     }
@@ -238,6 +261,7 @@ SingletonImplementations(Facebook, sharedInstance)
 - (nullable DIMAccount *)accountWithID:(const DIMID *)ID {
     DIMAccount *account = [_immortals accountWithID:ID];
     if (account) {
+        account.dataSource = nil;//[DIMBarrack sharedInstance];
         return account;
     }
     
@@ -333,6 +357,7 @@ SingletonImplementations(Facebook, sharedInstance)
 - (nullable DIMUser *)userWithID:(const DIMID *)ID {
     DIMUser *user = [_immortals userWithID:ID];
     if (user) {
+        user.dataSource = nil;//[DIMBarrack sharedInstance];
         return user;
     }
     

@@ -57,15 +57,19 @@
     _numberLabel.text = search_number(ID.number);
     
     [NSNotificationCenter addObserver:self
-                             selector:@selector(reloadAvatar)
+                             selector:@selector(onAvatarUpdated:)
                                  name:kNotificationName_AvatarUpdated
                                object:nil];
 }
 
-- (void)reloadAvatar {
-    // TODO: update client.users
+- (void)onAvatarUpdated:(NSNotification *)notification {
+    
+    DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];
     DIMUser *user = [Client sharedInstance].currentUser;
-    DIMProfile *profile = DIMProfileForID(user.ID);
+    if (![profile.ID isEqual:user.ID]) {
+        // not my profile
+        return ;
+    }
     
     // avatar
     CGRect avatarFrame = _avatarImageView.frame;
@@ -93,9 +97,14 @@
             DIMUser *user = client.currentUser;
             const DIMID *ID = user.ID;
             DIMProfile *profile = DIMProfileForID(ID);
+            if (!profile) {
+                NSAssert(false, @"profile should not be empty");
+                return ;
+            }
             
             // save to local storage
-            [profile saveAvatar:data name:filename];
+            Facebook *facebook = [Facebook sharedInstance];
+            [facebook saveAvatar:data name:filename forID:profile.ID];
             
             // upload to CDN
             DIMFileServer *ftp = [DIMFileServer sharedInstance];
@@ -105,13 +114,14 @@
             profile.avatar = [url absoluteString];
             
             // save profile with new avatar
-            Facebook *facebook = [Facebook sharedInstance];
             [facebook saveProfile:profile forEntityID:ID];
             
             // submit to network
             [client postProfile:profile meta:nil];
             
-            [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated object:self];
+            [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
+                                                object:self
+                                              userInfo:@{@"ID": profile.ID, @"profile": profile}];
         }
     };
     

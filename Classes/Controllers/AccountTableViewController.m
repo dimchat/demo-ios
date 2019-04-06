@@ -66,9 +66,21 @@
                                  name:kNotificationName_UsersUpdated
                                object:nil];
     [NSNotificationCenter addObserver:self
-                             selector:@selector(reloadData)
+                             selector:@selector(onAvatarUpdated:)
                                  name:kNotificationName_AvatarUpdated
                                object:nil];
+}
+
+- (void)onAvatarUpdated:(NSNotification *)notification {
+    
+    DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];
+    DIMUser *user = [Client sharedInstance].currentUser;
+    if (![profile.ID isEqual:user.ID]) {
+        // not my profile
+        return ;
+    }
+    
+    [self reloadData];
 }
 
 - (void)reloadData {

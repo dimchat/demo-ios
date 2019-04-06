@@ -38,7 +38,7 @@ NSString *readable_name(const DIMID *ID) {
     NSString *username = ID.name;
     if (nickname) {
         if (username && MKMNetwork_IsCommunicator(ID.type)) {
-            return [NSString stringWithFormat:@"%@(%@)", nickname, username];
+            return [NSString stringWithFormat:@"%@ (%@)", nickname, username];
         }
         return nickname;
     } else if (username) {

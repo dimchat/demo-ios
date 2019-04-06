@@ -8,6 +8,8 @@
 
 #import "NSDictionary+Binary.h"
 
+#import "NSNotificationCenter+Extension.h"
+
 #import "Client.h"
 
 #import "Facebook+Register.h"
@@ -176,6 +178,82 @@
         [mArray addObject:ID];
     }
     return mArray;
+}
+
+@end
+
+#pragma mark - Avatar
+
+const NSString *kNotificationName_AvatarUpdated = @"AvatarUpdated";
+
+@implementation Facebook (Avatar)
+
+- (BOOL)saveAvatar:(const NSData *)data
+              name:(nullable const NSString *)filename
+             forID:(const DIMID *)ID {
+    
+    UIImage *image = [UIImage imageWithData:(NSData *)data];
+    if (image.size.width < 32) {
+        NSAssert(false, @"avatar image error: %@", data);
+        return NO;
+    }
+    NSString *ext = [filename pathExtension];
+    if (ext.length == 0) {
+        data = UIImagePNGRepresentation(image);
+        ext = @"png";
+    }
+    NSLog(@"avatar OK: %@", image);
+    NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+    [data writeToFile:path atomically:YES];
+    // TODO: post notice 'AvatarUpdated'
+    [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
+                                        object:self
+                                      userInfo:@{@"ID": ID}];
+    return YES;
+}
+
+- (void)_downloadAvatar:(NSDictionary *)info {
+    
+    NSURL *url = [info objectForKey:@"URL"];
+    NSString *path = [info objectForKey:@"Path"];
+    const DIMID *ID = [info objectForKey:@"ID"];
+    
+    // check
+    static NSMutableArray *s_downloadings = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        s_downloadings = [[NSMutableArray alloc] init];
+    });
+    if ([s_downloadings containsObject:url]) {
+        NSLog(@"the job already exists: %@", url);
+        return ;
+    }
+    [s_downloadings addObject:url];
+    
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    NSLog(@"avatar downloaded (%lu bytes) from %@, save to %@", data.length, url, path);
+    if (data.length > 0) {
+        [self saveAvatar:data name:[path lastPathComponent] forID:ID];
+    }
+    
+    [s_downloadings removeObject:url];
+}
+
+// Cache directory: "Documents/.mkm/{address}/avatar.png"
+- (UIImage *)loadAvatarWithURL:(NSString *)urlString forID:(const DIMID *)ID {
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    NSString *ext = [url pathExtension];
+    NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:path]) {
+        return [UIImage imageWithContentsOfFile:path];
+    }
+    // download in background
+    [self performSelectorInBackground:@selector(_downloadAvatar:)
+                           withObject:@{@"URL": url, @"Path": path, @"ID": ID}];
+    return nil;
 }
 
 @end

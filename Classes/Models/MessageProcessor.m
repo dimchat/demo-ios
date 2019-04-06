@@ -95,26 +95,27 @@ static inline NSMutableDictionary *scan_messages(void) {
     
     NSString *path;
     while (path = [de nextObject]) {
-        if ([path hasSuffix:@"/messages.plist"]) {
-            addr = [path substringToIndex:(path.length - 15)];
-            address = [DIMAddress addressWithAddress:addr];
-//            if (!MKMNetwork_IsPerson(address.network) &&
-//                !MKMNetwork_IsGroup(address.network)) {
-//                // ignore
-//                continue;
-//            }
-            
-            path = [dir stringByAppendingPathComponent:path];
-            array = [NSMutableArray arrayWithContentsOfFile:path];
-            NSLog(@"loaded %lu message(s) from %@", array.count, path);
-            
-            ID = [fb IDWithAddress:address];
-            if (array && ID) {
-                NSLog(@"ID: %@", ID);
-                [mDict setObject:array forKey:ID];
-            } else {
-                NSLog(@"failed to load message in path: %@", path);
-            }
+        if (![path hasSuffix:@"/messages.plist"]) {
+            // no messages
+            continue;
+        }
+        addr = [path substringToIndex:(path.length - 15)];
+        address = [DIMAddress addressWithAddress:addr];
+        if (MKMNetwork_IsStation(address.network)) {
+            // ignore station history
+            continue;
+        }
+        
+        path = [dir stringByAppendingPathComponent:path];
+        array = [NSMutableArray arrayWithContentsOfFile:path];
+        NSLog(@"loaded %lu message(s) from %@", array.count, path);
+        
+        ID = [fb IDWithAddress:address];
+        if (array && ID) {
+            NSLog(@"ID: %@", ID);
+            [mDict setObject:array forKey:ID];
+        } else {
+            NSLog(@"failed to load message in path: %@", path);
         }
     }
     
