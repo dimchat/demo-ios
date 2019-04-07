@@ -78,17 +78,25 @@
     if (vSize.height < size.height) {
         vSize.height = size.height;
     }
+    CGPoint center = CGPointMake(vSize.width * 0.5, vSize.height * 0.5);
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.5];
     
     _scrollView.contentSize = vSize;
-    if (size.width > _fitSize.width || size.height > _fitSize.height) {
-        _scrollView.contentOffset = CGPointMake((size.width - _fitSize.width) * 0.5,
-                                                (size.height - _fitSize.height) * 0.5);
+    
+    vSize = self.view.frame.size;
+    CGPoint offset = CGPointZero;
+    if (size.width > vSize.width) {
+        offset.x = (size.width - vSize.width) * 0.5;
     }
+    if (size.height > vSize.height) {
+        offset.y = (size.height - vSize.height) * 0.5;
+    }
+    _scrollView.contentOffset = offset;
+    
     _imageView.bounds = CGRectMake(0, 0, size.width, size.height);
-    _imageView.center = CGPointMake(vSize.width * 0.5, vSize.height * 0.5);
+    _imageView.center = center;
     
     [UIView commitAnimations];
 }
