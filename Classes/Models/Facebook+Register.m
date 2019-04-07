@@ -197,13 +197,8 @@ const NSString *kNotificationName_AvatarUpdated = @"AvatarUpdated";
         NSAssert(false, @"avatar image error: %@", data);
         return NO;
     }
-    NSString *ext = [filename pathExtension];
-    if (ext.length == 0) {
-        data = UIImagePNGRepresentation(image);
-        ext = @"png";
-    }
     NSLog(@"avatar OK: %@", image);
-    NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+    NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/%@", document_directory(), ID.address, filename];
     [data writeToFile:path atomically:YES];
     // TODO: post notice 'AvatarUpdated'
     [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
@@ -243,8 +238,8 @@ const NSString *kNotificationName_AvatarUpdated = @"AvatarUpdated";
 - (UIImage *)loadAvatarWithURL:(NSString *)urlString forID:(const DIMID *)ID {
     
     NSURL *url = [NSURL URLWithString:urlString];
-    NSString *ext = [url pathExtension];
-    NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+    NSString *filename = [url lastPathComponent];
+    NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/%@", document_directory(), ID.address, filename];
     
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:path]) {

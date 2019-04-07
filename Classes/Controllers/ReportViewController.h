@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
 
+#import <DIMCore/DIMCore.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ReportViewController : UIViewController <WKNavigationDelegate>
 
 @property (weak, nonatomic) IBOutlet WKWebView *webView;
+
+@property (strong, nonatomic) const DIMID *ID;
 
 @end
 

@@ -23,11 +23,26 @@
     // Do any additional setup after loading the view.
     
     Client *client = [Client sharedInstance];
+    DIMUser *user = client.currentUser;
+    
+    NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
+    NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _ID];
+    NSString *type = @"individual";
+    if (MKMNetwork_IsGroup(_ID.type)) {
+        type = @"group";
+    }
+    NSString *api = client.reportAPI;
+    api = [api stringByReplacingOccurrencesOfString:@"{sender}" withString:sender];
+    api = [api stringByReplacingOccurrencesOfString:@"{ID}" withString:identifier];
+    api = [api stringByReplacingOccurrencesOfString:@"{type}" withString:type];
+    NSLog(@"report to URL: %@", api);
+    
+    // open in web view
     self.webView.customUserAgent = client.userAgent;
     
     self.webView.navigationDelegate = self;
     
-    NSURL *url = [NSURL URLWithString:@"https://dim.chat/sechat"];
+    NSURL *url = [NSURL URLWithString:api];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:request];
 }

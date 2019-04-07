@@ -436,7 +436,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="MId-o4-reU" kind="show" id="AgF-La-Gdt"/>
+                                            <segue destination="MId-o4-reU" kind="show" identifier="reportSegue" id="AgF-La-Gdt"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

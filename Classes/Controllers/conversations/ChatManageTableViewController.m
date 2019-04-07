@@ -8,6 +8,7 @@
 
 #import "NSNotificationCenter+Extension.h"
 #import "UIViewController+Extension.h"
+#import "UIStoryboardSegue+Extension.h"
 
 #import "MessageProcessor.h"
 #import "Client.h"
@@ -16,6 +17,8 @@
 #import "ParticipantsManageTableViewController.h"
 
 #import "ParticipantsCollectionViewController.h"
+
+#import "ReportViewController.h"
 
 #import "ChatManageTableViewController.h"
 
@@ -241,6 +244,13 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     NSLog(@"segue: %@", segue);
+    
+    if ([segue.identifier isEqualToString:@"reportSegue"]) {
+        
+        ReportViewController *vc = (id)[segue visibleDestinationViewController];
+        vc.ID = _conversation.ID;
+
+    }
 }
 
 @end

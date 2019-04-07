@@ -27,7 +27,7 @@
     
     self.webView.navigationDelegate = self;
     
-    NSURL *url = [NSURL URLWithString:@"https://dim.chat/sechat"];
+    NSURL *url = [NSURL URLWithString:client.aboutAPI];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self.webView loadRequest:request];
 }

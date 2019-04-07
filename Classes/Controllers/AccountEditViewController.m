@@ -9,6 +9,7 @@
 #import <DIMCore/DIMCore.h>
 
 #import "NSObject+JsON.h"
+#import "NSData+Crypto.h"
 #import "NSNotificationCenter+Extension.h"
 
 #import "UIViewController+Extension.h"
@@ -91,7 +92,7 @@
         if (image) {
             // image file
             NSData *data = [image jpegData];
-            NSString *filename = @"avatar.jpeg";
+            NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
             
             Client *client = [Client sharedInstance];
             DIMUser *user = client.currentUser;

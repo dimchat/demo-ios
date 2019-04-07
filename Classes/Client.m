@@ -75,9 +75,9 @@ SingletonImplementations(Client, sharedInstance)
     // configure FTP server
     DIMFileServer *ftp = [DIMFileServer sharedInstance];
     ftp.userAgent = self.userAgent;
-    ftp.uploadAPI = @"http://124.156.108.150:8081/{ID}/upload";
-    ftp.downloadAPI = @"http://124.156.108.150:8081/download/{ID}/{filename}";
-    ftp.avatarAPI = @"http://124.156.108.150:8081/{ID}/avatar.{ext}";
+    ftp.uploadAPI = self.uploadAPI;
+    ftp.downloadAPI = self.downloadAPI;
+    ftp.avatarAPI = self.avatarAPI;
     
     // connect server
     DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
@@ -228,6 +228,30 @@ SingletonImplementations(Client, sharedInstance)
         default:
             break;
     }
+}
+
+@end
+
+@implementation Client (API)
+
+- (NSString *)uploadAPI {
+    return @"http://sechat.dim.chat:8081/{ID}/upload";
+}
+
+- (NSString *)downloadAPI {
+    return @"http://sechat.dim.chat:8081/download/{ID}/{filename}";
+}
+
+- (NSString *)avatarAPI {
+    return @"http://sechat.dim.chat:8081/avatar/{ID}/{filename}";
+}
+
+- (NSString *)reportAPI {
+    return @"https://sechat.dim.chat/report?type={type}&identifier={ID}&sender={sender}";
+}
+
+- (NSString *)aboutAPI {
+    return @"https://dim.chat/sechat";
 }
 
 @end
