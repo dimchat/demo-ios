@@ -335,7 +335,7 @@
     const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
     
     NSString *identifier = @"receivedMsgCell";
-    DKDMessageType type = iMsg.content.type;
+    DIMMessageType type = iMsg.content.type;
     if (type == DIMMessageType_History || type == DIMMessageType_Command) {
         // command message
         identifier = @"commandMsgCell";

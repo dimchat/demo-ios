@@ -477,6 +477,37 @@
             </objects>
             <point key="canvasLocation" x="5400" y="-187"/>
         </scene>
+        <!--Zoom In View Controller-->
+        <scene sceneID="kPe-p2-nu5">
+            <objects>
+                <viewController storyboardIdentifier="zoomInController" id="ZcQ-OA-STo" customClass="ZoomInViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UV0-eE-Acc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ggn-4U-jhY">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="avatar-bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="pPG-zd-5ma">
+                                        <rect key="frame" x="67" y="259" width="240" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="cdf-ur-cDX"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="pPG-zd-5ma" id="ond-yH-oxg"/>
+                        <outlet property="scrollView" destination="ggn-4U-jhY" id="GHM-h9-qt5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ot-FD-Rsq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4392.8000000000002" y="309.89505247376314"/>
+        </scene>
         <!--Participants Collection View Controller-->
         <scene sceneID="jf2-bL-dRi">
             <objects>
@@ -690,6 +721,7 @@
     </scenes>
     <resources>
         <image name="Card_AddIcon" width="21" height="21"/>
+        <image name="avatar-bg.png" width="256" height="256"/>
         <image name="message_receiver_background_highlight" width="66" height="49"/>
         <image name="message_receiver_background_normal" width="66" height="49"/>
         <image name="message_sender_background_highlight" width="66" height="49"/>

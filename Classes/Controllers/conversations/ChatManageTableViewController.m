@@ -8,6 +8,7 @@
 
 #import "NSNotificationCenter+Extension.h"
 #import "UIViewController+Extension.h"
+#import "UIStoryboard+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 
 #import "MessageProcessor.h"
@@ -40,12 +41,10 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     NSLog(@"manage conversation: %@", _conversation.ID);
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Conversations" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"participantsCollectionViewController"];
-    ParticipantsCollectionViewController *participantsCVC;
-    participantsCVC = (ParticipantsCollectionViewController *)vc;
-    participantsCVC.conversation = _conversation;
-    _participantsCollectionViewController = participantsCVC;
+    ParticipantsCollectionViewController *vc;
+    vc = [UIStoryboard instantiateViewControllerWithIdentifier:@"participantsCollectionViewController" storyboardName:@"Conversations"];
+    vc.conversation = _conversation;
+    _participantsCollectionViewController = vc;
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(onGroupMembersUpdated:)

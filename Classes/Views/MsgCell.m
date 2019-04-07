@@ -10,6 +10,8 @@
 #import "UIImage+Extension.h"
 #import "UIImageView+Extension.h"
 #import "UIButton+Extension.h"
+#import "UIView+Extension.h"
+#import "UIStoryboard+Extension.h"
 
 #import "DIMProfile+Extension.h"
 #import "DIMInstantMessage+Extension.h"
@@ -17,6 +19,8 @@
 #import "User.h"
 
 #import "MessageProcessor.h"
+
+#import "ZoomInViewController.h"
 
 #import "MsgCell.h"
 
@@ -172,12 +176,14 @@
         
         // message
         switch (content.type) {
-            case DKDMessageType_Text: {
+            case DIMMessageType_Text: {
                 messageLabel.text = content.text;
+                
+                [messageLabel addDoubleClickTarget:self action:@selector(zoomIn)];
             }
                 break;
                 
-            case DKDMessageType_Image: {
+            case DIMMessageType_Image: {
                 if (_picture) {
                     CGSize size = [UIScreen mainScreen].bounds.size;
                     CGFloat max_width = MIN(size.width, size.height) * 0.382;
@@ -198,6 +204,8 @@
                 } else {
                     messageLabel.text = content.filename;
                 }
+                
+                [messageLabel addClickTarget:self action:@selector(zoomIn)];
             }
                 break;
                 
@@ -207,6 +215,26 @@
         NSLog(@"message content: %@", content);
         
         [self setNeedsLayout];
+    }
+}
+
+- (void)zoomIn {
+    NSLog(@"zoomIn: %@", _msg.content);
+    DIMMessageContent *content = _msg.content;
+    switch (content.type) {
+        case DIMMessageType_Image: {
+            ZoomInViewController *zoomIn = [UIStoryboard instantiateViewControllerWithIdentifier:@"zoomInController" storyboardName:@"Conversations"];
+            zoomIn.msg = _msg;
+            
+            UIWindow *window = [UIApplication sharedApplication].delegate.window;
+            UIViewController *root = window.rootViewController;
+            UIViewController *top = root.presentedViewController;
+            [top presentViewController:zoomIn animated:YES completion:nil];
+        }
+            break;
+            
+        default:
+            break;
     }
 }
 
