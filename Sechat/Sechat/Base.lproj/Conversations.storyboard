@@ -489,14 +489,14 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="avatar-bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="pPG-zd-5ma">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pPG-zd-5ma">
                                         <rect key="frame" x="67" y="259" width="240" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                 </subviews>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="cdf-ur-cDX"/>
                     </view>
                     <connections>
@@ -721,7 +721,6 @@
     </scenes>
     <resources>
         <image name="Card_AddIcon" width="21" height="21"/>
-        <image name="avatar-bg.png" width="256" height="256"/>
         <image name="message_receiver_background_highlight" width="66" height="49"/>
         <image name="message_receiver_background_normal" width="66" height="49"/>
         <image name="message_sender_background_highlight" width="66" height="49"/>

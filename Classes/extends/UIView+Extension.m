@@ -10,9 +10,12 @@
 
 @implementation UIView (Gesture)
 
-- (void)addTapTarget:(nullable id)target action:(nullable SEL)selector count:(NSUInteger)tapsRequired {
-    
+- (UITapGestureRecognizer *)addTapTarget:(nullable id)target
+                                  action:(nullable SEL)selector
+                                   count:(NSUInteger)tapsRequired {
     UITapGestureRecognizer *tap;
+    
+    // check duplicated recognizer
     NSArray *gestureRecognizers = [self.gestureRecognizers copy];
     for (tap in gestureRecognizers) {
         if ([tap isKindOfClass:[UITapGestureRecognizer class]] &&
@@ -20,7 +23,7 @@
             // same recognizer, add/reset target
             [tap removeTarget:target action:selector];
             [tap addTarget:target action:selector];
-            return ;
+            return tap;
         }
     }
     
@@ -28,16 +31,19 @@
     tap.numberOfTapsRequired = tapsRequired;
     [self addGestureRecognizer:tap];
     [self setUserInteractionEnabled:YES];
+    return tap;
 }
 
-- (void)addClickTarget:(nullable id)target action:(nullable SEL)selector {
+- (UITapGestureRecognizer *)addClickTarget:(nullable id)target
+                                    action:(nullable SEL)selector {
     
-    [self addTapTarget:target action:selector count:1];
+    return [self addTapTarget:target action:selector count:1];
 }
 
-- (void)addDoubleClickTarget:(nullable id)target action:(nullable SEL)selector {
+- (UITapGestureRecognizer *)addDoubleClickTarget:(nullable id)target
+                                          action:(nullable SEL)selector {
     
-    [self addTapTarget:target action:selector count:2];
+    return [self addTapTarget:target action:selector count:2];
 }
 
 @end

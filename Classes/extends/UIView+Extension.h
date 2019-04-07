@@ -13,10 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIView (Gesture)
 
 // onClick:(UITapGestureRecognizer *)
-- (void)addClickTarget:(nullable id)target action:(nullable SEL)selector;
+- (UITapGestureRecognizer *)addClickTarget:(nullable id)target action:(nullable SEL)selector;
 
 // onDoubleClick:(UITapGestureRecognizer *)
-- (void)addDoubleClickTarget:(nullable id)target action:(nullable SEL)selector;
+- (UITapGestureRecognizer *)addDoubleClickTarget:(nullable id)target action:(nullable SEL)selector;
 
 @end
 
