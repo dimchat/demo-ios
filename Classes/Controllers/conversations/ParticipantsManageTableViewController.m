@@ -414,7 +414,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             cell.userInteractionEnabled = NO;
-        } else if ([contact isEqual:_founder] || [contact isEqual:user.ID]) {
+        } else if ([contact isEqual:_founder] || [_group isFounder:contact] || [contact isEqual:user.ID]) {
             // fixed
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;

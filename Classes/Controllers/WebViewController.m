@@ -1,51 +1,36 @@
 //
-//  ReportViewController.m
+//  WebViewController.m
 //  Sechat
 //
-//  Created by Albert Moky on 2019/4/5.
+//  Created by Albert Moky on 2019/4/8.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMCore/DIMCore.h>
-
 #import "Client.h"
 
-#import "ReportViewController.h"
+#import "WebViewController.h"
 
-@interface ReportViewController ()
+@interface WebViewController ()
 
 @end
 
-@implementation ReportViewController
+@implementation WebViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    
-    NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
-    NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _ID];
-    NSString *type = @"individual";
-    if (MKMNetwork_IsGroup(_ID.type)) {
-        type = @"group";
-    }
-    NSString *api = client.reportAPI;
-    api = [api stringByReplacingOccurrencesOfString:@"{sender}" withString:sender];
-    api = [api stringByReplacingOccurrencesOfString:@"{ID}" withString:identifier];
-    api = [api stringByReplacingOccurrencesOfString:@"{type}" withString:type];
-    NSLog(@"report to URL: %@", api);
-    
-    // open in web view
     self.webView.customUserAgent = client.userAgent;
     
     self.webView.navigationDelegate = self;
     
-    NSURL *url = [NSURL URLWithString:api];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSAssert(_url, @"entrance URL not set yet");
+    NSURLRequest *request = [NSURLRequest requestWithURL:_url];
     [self.webView loadRequest:request];
 }
+
+#pragma mark - WKNavigationDelegate
 
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation {
     
@@ -56,6 +41,21 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         [webView loadRequest:request];
     }
+}
+
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
+    
+    [_activityIndicatorView startAnimating];
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+    
+    [_activityIndicatorView stopAnimating];
+}
+
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    
+    [_activityIndicatorView stopAnimating];
 }
 
 /*

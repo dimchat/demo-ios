@@ -250,6 +250,10 @@ SingletonImplementations(Client, sharedInstance)
     return @"https://sechat.dim.chat/report?type={type}&identifier={ID}&sender={sender}";
 }
 
+- (NSString *)termsAPI {
+    return @"https://dim.chat/sechat/terms.html";
+}
+
 - (NSString *)aboutAPI {
     return @"https://dim.chat/sechat";
 }

@@ -11,6 +11,8 @@
 #import "UIStoryboard+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 
+#import "WebViewController.h"
+
 #import "MessageProcessor.h"
 #import "Client.h"
 #import "User.h"
@@ -18,8 +20,6 @@
 #import "ParticipantsManageTableViewController.h"
 
 #import "ParticipantsCollectionViewController.h"
-
-#import "ReportViewController.h"
 
 #import "ChatManageTableViewController.h"
 
@@ -246,9 +246,23 @@
     
     if ([segue.identifier isEqualToString:@"reportSegue"]) {
         
-        ReportViewController *vc = (id)[segue visibleDestinationViewController];
-        vc.ID = _conversation.ID;
-
+        Client *client = [Client sharedInstance];
+        DIMUser *user = client.currentUser;
+        
+        NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
+        NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
+        NSString *type = @"individual";
+        if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+            type = @"group";
+        }
+        NSString *api = client.reportAPI;
+        api = [api stringByReplacingOccurrencesOfString:@"{sender}" withString:sender];
+        api = [api stringByReplacingOccurrencesOfString:@"{ID}" withString:identifier];
+        api = [api stringByReplacingOccurrencesOfString:@"{type}" withString:type];
+        NSLog(@"report to URL: %@", api);
+        
+        WebViewController *web = (id)[segue visibleDestinationViewController];
+        web.url = [NSURL URLWithString:api];
     }
 }
 

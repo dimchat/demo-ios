@@ -58,6 +58,7 @@ extern const NSString *kNotificationName_UsersUpdated;
 // @"https://sechat.dim.chat/report?type={type}&identifier={ID}&sender={sender}"
 @property (readonly, copy, nonatomic) NSString *reportAPI;
 
+@property (readonly, copy, nonatomic) NSString *termsAPI;
 @property (readonly, copy, nonatomic) NSString *aboutAPI;
 
 @end

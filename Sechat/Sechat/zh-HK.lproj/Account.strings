@@ -26,6 +26,9 @@
 /* Class = "UILabel"; text = "Title"; ObjectID = "Ndg-2v-qf6"; */
 "Ndg-2v-qf6.text" = "Title";
 
+/* Class = "UILabel"; text = "Terms"; ObjectID = "LwV-QU-irS"; */
+"LwV-QU-irS.text" = "用戶協議";
+
 /* Class = "UIViewController"; title = "About"; ObjectID = "SJY-md-j1K"; */
 "SJY-md-j1K.title" = "關於";
 

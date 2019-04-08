@@ -8,9 +8,12 @@
 
 #import "NSNotificationCenter+Extension.h"
 
+#import "UIStoryboardSegue+Extension.h"
 #import "UIImageView+Extension.h"
 #import "UIViewController+Extension.h"
 #import "DIMProfile+Extension.h"
+
+#import "WebViewController.h"
 
 #import "User.h"
 #import "Facebook+Register.h"
@@ -275,19 +278,31 @@
     } else if (section == 2) {
         // Functions
     } else if (section == 3) {
-        // Setting
+        // Terms, About
     }
     
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    Client *client = [Client sharedInstance];
+    
+    if ([segue.identifier isEqualToString:@"terms"]) {
+        // show terms
+        NSString *urlString = client.termsAPI;
+        WebViewController *web = (id)[segue visibleDestinationViewController];
+        web.url = [NSURL URLWithString:urlString];
+    } else if ([segue.identifier isEqualToString:@"about"]) {
+        // show about
+        NSString *urlString = client.aboutAPI;
+        WebViewController *web = (id)[segue visibleDestinationViewController];
+        web.url = [NSURL URLWithString:urlString];
+    }
 }
-*/
 
 @end

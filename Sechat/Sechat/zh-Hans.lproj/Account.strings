@@ -65,6 +65,9 @@
 /* Class = "UITableViewController"; title = "Setting"; ObjectID = "nmM-UV-xb4"; */
 "nmM-UV-xb4.title" = "设置";
 
+/* Class = "UILabel"; text = "Terms"; ObjectID = "LwV-QU-irS"; */
+"LwV-QU-irS.text" = "用户条款";
+
 /* Class = "UILabel"; text = "About"; ObjectID = "qPi-LS-u2a"; */
 "qPi-LS-u2a.text" = "关于";
 
