@@ -250,7 +250,7 @@
         UserCell *cell = sender;
         DIMAccount *contact = cell.contact;
         
-        ProfileTableViewController *vc = (id)[segue visibleDestinationViewController];
+        ProfileTableViewController *vc = [segue visibleDestinationViewController];
         vc.account = contact;
     }
 }

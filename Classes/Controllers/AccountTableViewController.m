@@ -295,12 +295,12 @@
     if ([segue.identifier isEqualToString:@"terms"]) {
         // show terms
         NSString *urlString = client.termsAPI;
-        WebViewController *web = (id)[segue visibleDestinationViewController];
+        WebViewController *web = [segue visibleDestinationViewController];
         web.url = [NSURL URLWithString:urlString];
     } else if ([segue.identifier isEqualToString:@"about"]) {
         // show about
         NSString *urlString = client.aboutAPI;
-        WebViewController *web = (id)[segue visibleDestinationViewController];
+        WebViewController *web = [segue visibleDestinationViewController];
         web.url = [NSURL URLWithString:urlString];
     }
 }

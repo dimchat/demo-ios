@@ -10,6 +10,28 @@
 
 #import "UIButton+Extension.h"
 
+@implementation SwitchButton
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        [self addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        [self addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return self;
+}
+
+- (void)onClick:(id)sender {
+    self.selected = self.selected == NO;
+}
+
+@end
+
 @implementation MessageButton
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {

@@ -235,7 +235,7 @@ const NSString *kNotificationName_AvatarUpdated = @"AvatarUpdated";
 }
 
 // Cache directory: "Documents/.mkm/{address}/avatar.png"
-- (UIImage *)loadAvatarWithURL:(NSString *)urlString forID:(const DIMID *)ID {
+- (nullable UIImage *)loadAvatarWithURL:(NSString *)urlString forID:(const DIMID *)ID {
     
     NSURL *url = [NSURL URLWithString:urlString];
     NSString *filename = [url lastPathComponent];

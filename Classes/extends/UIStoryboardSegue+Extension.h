@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIStoryboardSegue (ViewController)
 
-- (UIViewController *)visibleDestinationViewController;
+- (__kindof UIViewController *)visibleDestinationViewController;
 
 @end
 

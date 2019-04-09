@@ -261,7 +261,7 @@
         api = [api stringByReplacingOccurrencesOfString:@"{type}" withString:type];
         NSLog(@"report to URL: %@", api);
         
-        WebViewController *web = (id)[segue visibleDestinationViewController];
+        WebViewController *web = [segue visibleDestinationViewController];
         web.url = [NSURL URLWithString:api];
     }
 }

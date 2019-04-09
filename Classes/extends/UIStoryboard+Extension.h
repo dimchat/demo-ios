@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (__kindof UIViewController *)instantiateViewControllerWithIdentifier:(NSString *)identifier storyboardName:(NSString *)name;
 
++ (__kindof UIViewController *)instantiateInitialViewControllerWithStoryboardName:(NSString *)name;
+
 @end
 
 NS_ASSUME_NONNULL_END

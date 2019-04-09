@@ -10,6 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface SwitchButton : UIButton
+
+@end
+
 @interface MessageButton : UIButton
 
 @property (strong, nonatomic, nullable) NSString *title;

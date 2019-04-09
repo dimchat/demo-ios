@@ -45,8 +45,13 @@
 		E979080D2259CDA10024C830 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979080C2259CDA10024C830 /* UIView+Extension.m */; };
 		E9790817225A6E2C0024C830 /* ZoomInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790816225A6E2C0024C830 /* ZoomInViewController.m */; };
 		E979081B225A6F390024C830 /* UIStoryboard+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979081A225A6F390024C830 /* UIStoryboard+Extension.m */; };
-		E979082F225B5C210024C830 /* Welcome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E979082E225B5C210024C830 /* Welcome.storyboard */; };
 		E9790836225B666F0024C830 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790835225B666F0024C830 /* WebViewController.m */; };
+		E979084B225CA8E20024C830 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = E979084A225CA8E20024C830 /* logo.png */; };
+		E979084E225CB4D60024C830 /* checkbox_on.png in Resources */ = {isa = PBXBuildFile; fileRef = E979084C225CB4D60024C830 /* checkbox_on.png */; };
+		E979084F225CB4D60024C830 /* checkbox_off.png in Resources */ = {isa = PBXBuildFile; fileRef = E979084D225CB4D60024C830 /* checkbox_off.png */; };
+		E9790853225CB8300024C830 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790852225CB8300024C830 /* WelcomeViewController.m */; };
+		E9790856225CD4C50024C830 /* FirstAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790855225CD4C50024C830 /* FirstAccountViewController.m */; };
+		E9790863225D10240024C830 /* Welcome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9790865225D10240024C830 /* Welcome.storyboard */; };
 		E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
 		E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */; };
 		E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */; };
@@ -190,9 +195,19 @@
 		E9790816225A6E2C0024C830 /* ZoomInViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZoomInViewController.m; sourceTree = "<group>"; };
 		E9790819225A6F390024C830 /* UIStoryboard+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIStoryboard+Extension.h"; sourceTree = "<group>"; };
 		E979081A225A6F390024C830 /* UIStoryboard+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboard+Extension.m"; sourceTree = "<group>"; };
-		E979082E225B5C210024C830 /* Welcome.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Welcome.storyboard; sourceTree = "<group>"; };
 		E9790834225B666F0024C830 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		E9790835225B666F0024C830 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		E979084A225CA8E20024C830 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		E979084C225CB4D60024C830 /* checkbox_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_on.png; sourceTree = "<group>"; };
+		E979084D225CB4D60024C830 /* checkbox_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_off.png; sourceTree = "<group>"; };
+		E9790851225CB8300024C830 /* WelcomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
+		E9790852225CB8300024C830 /* WelcomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
+		E9790854225CD4C50024C830 /* FirstAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstAccountViewController.h; sourceTree = "<group>"; };
+		E9790855225CD4C50024C830 /* FirstAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstAccountViewController.m; sourceTree = "<group>"; };
+		E9790864225D10240024C830 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Welcome.storyboard; sourceTree = "<group>"; };
+		E9790868225D102B0024C830 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Welcome.strings"; sourceTree = "<group>"; };
+		E979086A225D102E0024C830 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Welcome.strings"; sourceTree = "<group>"; };
+		E979086C225D10300024C830 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Welcome.strings"; sourceTree = "<group>"; };
 		E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatManageTableViewController.m; sourceTree = "<group>"; };
 		E99A5C9E222D8B3400EE6C86 /* ParticipantsCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticipantsCollectionViewController.h; sourceTree = "<group>"; };
 		E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewController.m; sourceTree = "<group>"; };
@@ -322,7 +337,7 @@
 				E9E824592245539100A029F1 /* Sechat.entitlements */,
 				E92255C22222EC53006CADEA /* AppDelegate.h */,
 				E92255C32222EC53006CADEA /* AppDelegate.m */,
-				E979082E225B5C210024C830 /* Welcome.storyboard */,
+				E9790865225D10240024C830 /* Welcome.storyboard */,
 				E92255CB2222EC53006CADEA /* Main.storyboard */,
 				E92256012222ED59006CADEA /* Account.storyboard */,
 				E92255FF2222ED59006CADEA /* Contacts.storyboard */,
@@ -359,6 +374,9 @@
 			children = (
 				E922560B2222ED6B006CADEA /* gsp.plist */,
 				E9E824FF224D198200A029F1 /* avatar-bg.png */,
+				E979084A225CA8E20024C830 /* logo.png */,
+				E979084D225CB4D60024C830 /* checkbox_off.png */,
+				E979084C225CB4D60024C830 /* checkbox_on.png */,
 				E97816CD2223EAA700BCE3AD /* Assets.xcassets */,
 				E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */,
 			);
@@ -401,6 +419,7 @@
 		E92256262222ED7C006CADEA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				E9790850225CB8030024C830 /* welcome */,
 				E99A5CA7222D8B3400EE6C86 /* contacts */,
 				E99A5C9C222D8B3400EE6C86 /* conversations */,
 				E9790834225B666F0024C830 /* WebViewController.h */,
@@ -465,6 +484,17 @@
 			path = media;
 			sourceTree = "<group>";
 		};
+		E9790850225CB8030024C830 /* welcome */ = {
+			isa = PBXGroup;
+			children = (
+				E9790851225CB8300024C830 /* WelcomeViewController.h */,
+				E9790852225CB8300024C830 /* WelcomeViewController.m */,
+				E9790854225CD4C50024C830 /* FirstAccountViewController.h */,
+				E9790855225CD4C50024C830 /* FirstAccountViewController.m */,
+			);
+			path = welcome;
+			sourceTree = "<group>";
+		};
 		E99A5C9C222D8B3400EE6C86 /* conversations */ = {
 			isa = PBXGroup;
 			children = (
@@ -500,28 +530,28 @@
 		E9BBC3702242B21200E6ACDA /* extends */ = {
 			isa = PBXGroup;
 			children = (
-				E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */,
-				E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */,
-				E979079B225520AA0024C830 /* DIMInstantMessage+Extension.h */,
-				E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */,
 				E9BBC3732242B21200E6ACDA /* NSString+Extension.h */,
 				E9BBC3792242B21200E6ACDA /* NSString+Extension.m */,
-				E979080B2259CDA10024C830 /* UIView+Extension.h */,
-				E979080C2259CDA10024C830 /* UIView+Extension.m */,
-				E9E8250D224F5BBD00A029F1 /* UIButton+Extension.h */,
-				E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */,
 				E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */,
 				E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */,
 				E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */,
 				E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */,
-				E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */,
-				E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */,
 				E9790819225A6F390024C830 /* UIStoryboard+Extension.h */,
 				E979081A225A6F390024C830 /* UIStoryboard+Extension.m */,
 				E9BBC3762242B21200E6ACDA /* UIStoryboardSegue+Extension.h */,
 				E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */,
+				E979080B2259CDA10024C830 /* UIView+Extension.h */,
+				E979080C2259CDA10024C830 /* UIView+Extension.m */,
+				E9E8250D224F5BBD00A029F1 /* UIButton+Extension.h */,
+				E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */,
+				E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */,
+				E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */,
 				E9BBC37B2242B21200E6ACDA /* UIViewController+Extension.h */,
 				E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */,
+				E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */,
+				E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */,
+				E979079B225520AA0024C830 /* DIMInstantMessage+Extension.h */,
+				E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */,
 			);
 			path = extends;
 			sourceTree = "<group>";
@@ -662,17 +692,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E979084B225CA8E20024C830 /* logo.png in Resources */,
 				E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */,
 				E9E82501224D198200A029F1 /* avatar-bg.png in Resources */,
 				E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */,
 				E92256102222ED6B006CADEA /* gsp.plist in Resources */,
+				E979084E225CB4D60024C830 /* checkbox_on.png in Resources */,
 				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,
-				E979082F225B5C210024C830 /* Welcome.storyboard in Resources */,
+				E9790863225D10240024C830 /* Welcome.storyboard in Resources */,
 				E92255CD2222EC53006CADEA /* Main.storyboard in Resources */,
 				E92256052222ED5A006CADEA /* Contacts.storyboard in Resources */,
 				E92256042222ED5A006CADEA /* Profile.storyboard in Resources */,
 				E92256062222ED5A006CADEA /* Account.storyboard in Resources */,
 				E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */,
+				E979084F225CB4D60024C830 /* checkbox_off.png in Resources */,
 				E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -703,10 +736,12 @@
 				E9790817225A6E2C0024C830 /* ZoomInViewController.m in Sources */,
 				E92256462222ED7C006CADEA /* User.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
+				E9790853225CB8300024C830 /* WelcomeViewController.m in Sources */,
 				E92255C42222EC53006CADEA /* AppDelegate.m in Sources */,
 				E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */,
 				E979080D2259CDA10024C830 /* UIView+Extension.m in Sources */,
 				E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */,
+				E9790856225CD4C50024C830 /* FirstAccountViewController.m in Sources */,
 				E99A5CD3222ED9B600EE6C86 /* UserCell.m in Sources */,
 				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,
 				E92255D52222EC56006CADEA /* main.m in Sources */,
@@ -841,6 +876,17 @@
 				E9E824E6224CBE1200A029F1 /* zh-HK */,
 			);
 			name = Account.storyboard;
+			sourceTree = "<group>";
+		};
+		E9790865225D10240024C830 /* Welcome.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E9790864225D10240024C830 /* Base */,
+				E9790868225D102B0024C830 /* zh-Hans */,
+				E979086A225D102E0024C830 /* zh-Hant */,
+				E979086C225D10300024C830 /* zh-HK */,
+			);
+			name = Welcome.storyboard;
 			sourceTree = "<group>";
 		};
 		E9E824EF224CCFBB00A029F1 /* Localizable.strings */ = {

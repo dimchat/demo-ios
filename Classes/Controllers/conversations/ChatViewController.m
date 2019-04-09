@@ -405,7 +405,7 @@
     
     if ([segue.identifier isEqualToString:@"chatDetailSegue"]) {
         
-        ChatManageTableViewController *vc = (id)[segue visibleDestinationViewController];
+        ChatManageTableViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = _conversation;
     }
 }

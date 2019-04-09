@@ -22,4 +22,11 @@
     [self setImage:image];
 }
 
+- (void)setText:(NSString *)text color:(UIColor *)textColor backgroundImage:(UIImage *)backgroundImage {
+    
+    CGSize size = self.bounds.size;
+    UIImage *image = [UIImage imageWithText:text size:size color:textColor backgroundImage:backgroundImage];
+    [self setImage:image];
+}
+
 @end

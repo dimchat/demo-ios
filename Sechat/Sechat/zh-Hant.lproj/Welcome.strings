@@ -1,0 +1,36 @@
+
+/* Class = "UILabel"; text = "Username must be composed of letters, digits, underscores, or hyphens."; ObjectID = "84p-FK-EkK"; */
+"84p-FK-EkK.text" = "用戶名必須由字母、數字、下划線或連字符組成。";
+
+/* Class = "UINavigationItem"; title = "Welcome to DIM!"; ObjectID = "FsN-En-VS4"; */
+"FsN-En-VS4.title" = "歡迎使用 DIM!";
+
+/* Class = "UILabel"; text = "Number:"; ObjectID = "LVk-hL-9Uh"; */
+"LVk-hL-9Uh.text" = "檢索號:";
+
+/* Class = "UILabel"; text = "Please input your username"; ObjectID = "Neg-u6-tit"; */
+"Neg-u6-tit.text" = "請輸入您的用戶名";
+
+/* Class = "UITextField"; placeholder = "e.g.: moky"; ObjectID = "VJQ-4c-yzE"; */
+"VJQ-4c-yzE.placeholder" = "例如: moky";
+
+/* Class = "UIButton"; normalTitle = "user agreements and privacy clauses"; ObjectID = "VMW-kQ-06Y"; */
+"VMW-kQ-06Y.normalTitle" = "《DIM! 用戶協議與隱私條款》";
+
+/* Class = "UIButton"; normalTitle = "Next"; ObjectID = "dej-8p-gF7"; */
+"dej-8p-gF7.normalTitle" = "下一步";
+
+/* Class = "UIButton"; normalTitle = "Refresh"; ObjectID = "f1U-Dh-SEm"; */
+"f1U-Dh-SEm.normalTitle" = "刷新";
+
+/* Class = "UIButton"; normalTitle = "Start"; ObjectID = "u0t-BS-ler"; */
+"u0t-BS-ler.normalTitle" = "開始使用";
+
+/* Class = "UILabel"; text = "I have read and agreed to"; ObjectID = "vWt-Nx-iFd"; */
+"vWt-Nx-iFd.text" = "我已閱讀完畢，並完全同意";
+
+/* Class = "UILabel"; text = "Please input your name"; ObjectID = "xJl-Ky-OkY"; */
+"xJl-Ky-OkY.text" = "請輸入您的名字";
+
+/* Class = "UILabel"; text = "Address:"; ObjectID = "zjI-rQ-uMI"; */
+"zjI-rQ-uMI.text" = "地址:";

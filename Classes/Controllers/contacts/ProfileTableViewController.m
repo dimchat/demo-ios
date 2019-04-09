@@ -245,7 +245,7 @@
         
         DIMConversation *convers = DIMConversationWithID(_account.ID);
         
-        ChatViewController *vc = (id)[segue visibleDestinationViewController];
+        ChatViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = convers;
         
     } else if ([segue.identifier isEqualToString:@"addContact"]) {
@@ -272,7 +272,7 @@
         
         DIMConversation *convers = DIMConversationWithID(_account.ID);
         
-        ChatViewController *vc = (id)[segue visibleDestinationViewController];
+        ChatViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = convers;
         
         // refresh button 'Add Contact' to 'Send Message'

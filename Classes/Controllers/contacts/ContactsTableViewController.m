@@ -205,7 +205,7 @@ static inline void sort_array(NSMutableArray *array) {
         ContactCell *cell = sender;
         const DIMID *ID = cell.contact.ID;
         
-        ProfileTableViewController *vc = (id)[segue visibleDestinationViewController];
+        ProfileTableViewController *vc = [segue visibleDestinationViewController];
         vc.account = DIMAccountWithID(ID);
     }
     

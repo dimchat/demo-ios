@@ -63,6 +63,12 @@ extern const NSString *kNotificationName_UsersUpdated;
 
 @end
 
+@interface Client (Register)
+
+- (BOOL)saveUser:(const DIMID *)ID meta:(const DIMMeta *)meta privateKey:(const DIMPrivateKey *)SK name:(nullable NSString *)nickname;
+
+@end
+
 #pragma mark - DOS
 
 NSString *document_directory(void);

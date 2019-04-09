@@ -40,8 +40,8 @@ extern const NSString *kNotificationName_AvatarUpdated;
               name:(nullable const NSString *)filename
              forID:(const DIMID *)ID;
 
-- (UIImage *)loadAvatarWithURL:(NSString *)urlString
-                         forID:(const DIMID *)ID;
+- (nullable UIImage *)loadAvatarWithURL:(NSString *)urlString
+                                  forID:(const DIMID *)ID;
 
 @end
 

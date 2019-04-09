@@ -12,7 +12,6 @@
 
 #import "User.h"
 #import "Client.h"
-#import "Facebook+Register.h"
 
 #import "RegisterViewController.h"
 
@@ -49,13 +48,10 @@
         cnt = 20;
     }
     
-    Facebook *facebook = [Facebook sharedInstance];
-    
     NSDictionary *info;
     DIMPrivateKey *SK;
     const DIMMeta *meta;
     const DIMID *ID;
-    DIMUser *user;
     
     for (NSInteger index = 0; index < cnt; ++index) {
         // 1. generate private key
@@ -67,14 +63,10 @@
                                       publicKey:nil];
         // 3. generate ID
         ID = [meta buildIDWithNetworkID:MKMNetwork_Main];
-        // 4. create user
-        user = [[DIMUser alloc] initWithID:ID];
-        user.dataSource = facebook;
         
         // add register info
         info = @{@"ID": ID,
                  @"meta": meta,
-                 @"user": user,
                  @"privateKey": SK,
                  @"nickname": nickname,
                  };
@@ -110,14 +102,17 @@
     }
     // check username
     if (username.length == 0) {
-        [self showMessage:NSLocalizedString(@"Username cannot be empty.", nil)
-                withTitle:NSLocalizedString(@"Username Error!", nil)];
+        NSString *message = @"Username cannot be empty.";
+        NSString *title = @"Username Error!";
+        [self showMessage:NSLocalizedString(message, nil)
+                withTitle:NSLocalizedString(title, nil)];
         [_usernameTextField becomeFirstResponder];
         return ;
     } else if (!check_username(username)) {
-        NSString *msg = NSLocalizedString(@"Username must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'", nil);
-        [self showMessage:msg
-                withTitle:NSLocalizedString(@"Username Error!", nil)];
+        NSString *message = @"Username must be composed of letters, digits, underscores, or hyphens.";
+        NSString *title = @"Username Error!";
+        [self showMessage:NSLocalizedString(message, nil)
+                withTitle:NSLocalizedString(title, nil)];
         [_usernameTextField becomeFirstResponder];
         return ;
     }
@@ -176,11 +171,11 @@
     // Configure the cell...
     NSDictionary *info = [_registerInfos objectAtIndex:row];
     NSString *nickname = [info objectForKey:@"nickname"];
-    DIMUser *user = [info objectForKey:@"user"];
-    NSString *title =  [NSString stringWithFormat:@"%@ (%@)", nickname, search_number(user.number)];
+    DIMID *ID = [info objectForKey:@"ID"];
+    NSString *title =  [NSString stringWithFormat:@"%@ (%@)", nickname, search_number(ID.number)];
     
     cell.textLabel.text = title;
-    cell.detailTextLabel.text = (NSString *)user.ID;
+    cell.detailTextLabel.text = (NSString *)ID;
     
     return cell;
 }
@@ -193,7 +188,6 @@
     
     DIMID *ID = [info objectForKey:@"ID"];
     DIMMeta *meta = [info objectForKey:@"meta"];
-    DIMUser *user = [info objectForKey:@"user"];
     DIMPrivateKey *SK = [info objectForKey:@"privateKey"];
     NSString *nickname = _nicknameTextField.text;
     
@@ -202,16 +196,13 @@
     
     void (^handler)(UIAlertAction *);
     handler = ^(UIAlertAction *action) {
-        Client *client = [Client sharedInstance];
-        Facebook *facebook = [Facebook sharedInstance];
-        if ([facebook saveMeta:meta privateKey:SK forID:ID]) {
-            client.currentUser = user;
-        }
         
-        // save fullname in profile
-        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
-        [profile setName:nickname];
-        [facebook saveProfile:profile forEntityID:ID];
+        Client *client = [Client sharedInstance];
+        if (![client saveUser:ID meta:meta privateKey:SK name:nickname]) {
+            [self showMessage:NSLocalizedString(@"Failed to create user", nil)
+                    withTitle:NSLocalizedString(@"Error!", nil)];
+            return ;
+        }
         
         // post notice
         [NSNotificationCenter postNotificationName:kNotificationName_UsersUpdated object:self];

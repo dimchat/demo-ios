@@ -7,6 +7,7 @@
 //
 
 #import "NSNotificationCenter+Extension.h"
+#import "UIStoryboard+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 
 #import "User.h"
@@ -74,13 +75,9 @@
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     if (!user) {
-        NSLog(@"show accountNavigationController");
-        UIViewController *vc = self.parentViewController;
-        while (vc && ![vc isKindOfClass:[UITabBarController class]]) {
-            vc = vc.parentViewController;
-        }
-        UITabBarController *tbc = (UITabBarController *)vc;
-        tbc.selectedIndex = 2;
+        // show welcome
+        UIViewController *vc = [UIStoryboard instantiateInitialViewControllerWithStoryboardName:@"Welcome"];
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 
@@ -222,7 +219,7 @@
         const DIMID *ID = chatBox.ID;
         DIMConversation *convers = DIMConversationWithID(ID);
         
-        ChatViewController *vc = (id)[segue visibleDestinationViewController];
+        ChatViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = convers;
     }
 }

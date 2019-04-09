@@ -59,7 +59,7 @@
     
     if ([segue.identifier isEqualToString:@"addParticipantsSegue"]) {
         
-        ParticipantsManageTableViewController *vc = (id)[segue visibleDestinationViewController];
+        ParticipantsManageTableViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = _conversation;
     }
     

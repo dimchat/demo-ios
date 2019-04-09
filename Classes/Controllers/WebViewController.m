@@ -10,7 +10,10 @@
 
 #import "WebViewController.h"
 
-@interface WebViewController ()
+@interface WebViewController () {
+    
+    NSString *_originalTitle;
+}
 
 @end
 
@@ -19,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    _originalTitle = self.title;
     
     Client *client = [Client sharedInstance];
     self.webView.customUserAgent = client.userAgent;
@@ -51,11 +56,27 @@
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     
     [_activityIndicatorView stopAnimating];
+    
+    NSString *title = self.webView.title;
+    if (title.length > 0) {
+        self.title = title;
+    } else {
+        self.title = _originalTitle;
+    }
 }
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     
     [_activityIndicatorView stopAnimating];
+    
+    NSString *title = self.webView.title;
+    if (title.length > 0) {
+        self.title = title;
+    } else if (error.domain.length > 0) {
+        self.title = error.domain;
+    } else {
+        self.title = _originalTitle;
+    }
 }
 
 /*

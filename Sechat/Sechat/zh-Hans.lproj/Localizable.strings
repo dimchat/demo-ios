@@ -77,11 +77,11 @@
 "This operation is unrecoverable!" = "该操作无法撤回！";
 
 "Nickname Error!" = "昵称不正确";
-"Nickname cannot be empty." = "昵称不能为空";
+"Nickname cannot be empty." = "请输入昵称";
 
-"Username Error!" = "帐号名不正确";
-"Username cannot be empty." = "帐号名不能为空";
-"Username must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'" = "帐号名必须由英文字母（区分大小写）、数字，以及横线、下横线和小数点组成";
+"Username Error!" = "用户名不正确";
+"Username cannot be empty." = "请输入用户名";
+"Username must be composed of letters, digits, underscores, or hyphens." = "用户名必须由字母、数字、下划线或连字符组成。";
 
 "New Account" = "新的帐号";
 
@@ -102,3 +102,11 @@
 //  Message Cell
 //
 "Failed to send this message" = "发送信息失败";
+
+//
+//  Welcome
+//
+"Terms" = "条款";
+
+"Read the Agreements!" = "请阅读用户协议";
+"You must read and agree the user agreements and privacy clauses." = "您必须先阅读并同意《DIM! 用户协议与隐私政策》。";

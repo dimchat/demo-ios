@@ -10,7 +10,7 @@
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 
-#import "Facebook.h"
+#import "Facebook+Register.h"
 #import "MessageProcessor.h"
 
 #import "Client.h"
@@ -256,6 +256,38 @@ SingletonImplementations(Client, sharedInstance)
 
 - (NSString *)aboutAPI {
     return @"https://dim.chat/sechat";
+}
+
+@end
+
+@implementation Client (Register)
+
+- (BOOL)saveUser:(const MKMID *)ID meta:(const MKMMeta *)meta privateKey:(const MKMPrivateKey *)SK name:(nullable NSString *)nickname {
+    
+    Facebook *facebook = [Facebook sharedInstance];
+    
+    // 1. save meta & private key
+    if (![facebook saveMeta:meta privateKey:SK forID:ID]) {
+        NSAssert(false, @"failed to save meta & private key for new user: %@", ID);
+        return NO;
+    }
+    
+    // 2. save nickname in profile
+    if (nickname.length > 0) {
+        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
+        [profile setName:nickname];
+        if (![facebook saveProfile:profile forEntityID:ID]) {
+            NSAssert(false, @"failedo to save profile for new user: %@", ID);
+            return NO;
+        }
+    }
+    
+    // 3. create user for client
+    DIMUser *user = [[DIMUser alloc] initWithID:ID];
+    user.dataSource = facebook;
+    self.currentUser = user;
+    
+    return YES;
 }
 
 @end

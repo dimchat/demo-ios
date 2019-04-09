@@ -10,7 +10,7 @@
 
 @implementation UIStoryboardSegue (ViewController)
 
-- (UIViewController *)visibleDestinationViewController {
+- (__kindof UIViewController *)visibleDestinationViewController {
     UIViewController *vc = self.destinationViewController;
     if ([vc isKindOfClass:[UINavigationController class]]) {
         return [(UINavigationController *)vc visibleViewController];
