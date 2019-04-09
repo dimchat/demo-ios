@@ -212,7 +212,6 @@
             default:
                 break;
         }
-        NSLog(@"message content: %@", content);
         
         [self setNeedsLayout];
     }

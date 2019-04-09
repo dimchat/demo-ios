@@ -399,6 +399,8 @@ SingletonImplementations(MessageProcessor, sharedInstance)
             Client *client = [Client sharedInstance];
             DIMUser *user = client.currentUser;
             const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
+            NSAssert(user.ID != nil, @"current user error: %@", user);
+            NSAssert(sender != nil, @"sender error: %@", iMsg);
             
             DIMTransceiverCallback callback;
             callback = ^(const DKDReliableMessage *rMsg, const NSError *error) {

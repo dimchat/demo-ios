@@ -260,15 +260,15 @@ SingletonImplementations(Client, sharedInstance)
 @implementation Client (API)
 
 - (NSString *)uploadAPI {
-    return @"http://sechat.dim.chat:8081/{ID}/upload";
+    return @"https://sechat.dim.chat/{ID}/upload";
 }
 
 - (NSString *)downloadAPI {
-    return @"http://sechat.dim.chat:8081/download/{ID}/{filename}";
+    return @"https://sechat.dim.chat/download/{ID}/{filename}";
 }
 
 - (NSString *)avatarAPI {
-    return @"http://sechat.dim.chat:8081/avatar/{ID}/{filename}";
+    return @"https://sechat.dim.chat/avatar/{ID}/{filename}";
 }
 
 - (NSString *)reportAPI {
