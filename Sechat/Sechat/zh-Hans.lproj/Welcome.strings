@@ -12,7 +12,7 @@
 "Neg-u6-tit.text" = "请输入您的用户名";
 
 /* Class = "UITextField"; placeholder = "e.g.: Albert.Moky"; ObjectID = "zKa-Wv-Rgs"; */
-"zKa-Wv-Rgs.placeholder" = "例如: Albert.Moky";
+"zKa-Wv-Rgs.placeholder" = "例如: 章北海";
 
 /* Class = "UITextField"; placeholder = "e.g.: moky"; ObjectID = "VJQ-4c-yzE"; */
 "VJQ-4c-yzE.placeholder" = "例如: moky";

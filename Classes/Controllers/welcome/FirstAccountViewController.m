@@ -147,7 +147,7 @@
         
         Client *client = [Client sharedInstance];
         if (![client saveUser:ID meta:meta privateKey:SK name:nickname]) {
-            [self showMessage:NSLocalizedString(@"Failed to create user", nil)
+            [self showMessage:NSLocalizedString(@"Failed to create user.", nil)
                     withTitle:NSLocalizedString(@"Error!", nil)];
             return ;
         }

@@ -31,6 +31,12 @@
     [_logoImageView roundedCorner];
     
     //[_nextButton roundedCorner];
+    [self.view addClickTarget:self action:@selector(onBackgroundClick:)];
+}
+
+- (void)onBackgroundClick:(id)sender {
+    
+    [_nicknameTextField resignFirstResponder];
 }
 
 - (void)viewDidLayoutSubviews {

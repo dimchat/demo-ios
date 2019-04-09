@@ -15,6 +15,7 @@
 "Save" = "保存";
 
 "Success" = "成功";
+"Error!" = "出錯啦！";
 
 //
 //  Connection
@@ -110,3 +111,6 @@
 
 "Read the Agreements!" = "請閱讀用戶協議";
 "You must read and agree the user agreements and privacy clauses." = "你必須先閱讀並且同意《DIM! 用戶協議與隱私政策》。";
+
+"Generate account failed." = "生成賬號失敗。";
+"Failed to create user." = "無法創建用戶。";

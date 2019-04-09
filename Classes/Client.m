@@ -18,6 +18,13 @@
 const NSString *kNotificationName_MessageUpdated = @"MessageUpdated";
 const NSString *kNotificationName_UsersUpdated = @"UsersUpdated";
 
+@interface Client () {
+    
+    NSString *_userAgent;
+}
+
+@end
+
 @implementation Client
 
 SingletonImplementations(Client, sharedInstance)
@@ -29,6 +36,24 @@ SingletonImplementations(Client, sharedInstance)
         return name;
     }
     return @"DIM!";
+}
+
+- (NSString *)userAgent {
+    if (!_userAgent) {
+        // device model & system
+        UIDevice *device = [UIDevice currentDevice];
+        NSString *model = device.model;          // e.g. @"iPhone", @"iPod touch"
+        NSString *sysName = device.systemName;   // e.g. @"iOS"
+        NSString *sysVer = device.systemVersion; // e.g. @"4.0"
+        
+        // current language
+        NSString *lang = self.language;
+        
+        NSString *format = @"DIMP/1.0 (%@; U; %@ %@; %@) DIMCoreKit/1.0 (Terminal, like WeChat) DIM-by-GSP/1.0.1";
+        _userAgent = [[NSString alloc] initWithFormat:format, model, sysName, sysVer, lang];
+        NSLog(@"User-Agent: %@", _userAgent);
+    }
+    return _userAgent;
 }
 
 - (void)onHandshakeAccepted:(const NSString *)session {

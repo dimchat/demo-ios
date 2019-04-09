@@ -11,6 +11,9 @@
 /* Class = "UILabel"; text = "Please input your username"; ObjectID = "Neg-u6-tit"; */
 "Neg-u6-tit.text" = "請輸入您的用戶名";
 
+/* Class = "UITextField"; placeholder = "e.g.: Albert.Moky"; ObjectID = "zKa-Wv-Rgs"; */
+"zKa-Wv-Rgs.placeholder" = "例如: 章北海";
+
 /* Class = "UITextField"; placeholder = "e.g.: moky"; ObjectID = "VJQ-4c-yzE"; */
 "VJQ-4c-yzE.placeholder" = "例如: moky";
 
