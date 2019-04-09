@@ -8,7 +8,7 @@
 
 #import "DIMInstantMessage+Extension.h"
 
-@implementation DIMInstantMessage (Extension)
+@implementation DIMInstantMessage (Image)
 
 - (nullable UIImage *)image {
     DIMMessageContent *content = self.content;

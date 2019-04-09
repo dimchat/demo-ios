@@ -10,13 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIView (Extension)
-
-- (void)roundedCorner;
-
-@end
-
-@interface UIImageView (Extension)
+@interface UIImageView (Text)
 
 // set image with text
 - (void)setText:(NSString *)text;

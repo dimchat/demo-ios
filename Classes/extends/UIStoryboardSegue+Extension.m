@@ -8,7 +8,7 @@
 
 #import "UIStoryboardSegue+Extension.h"
 
-@implementation UIStoryboardSegue (Extension)
+@implementation UIStoryboardSegue (ViewController)
 
 - (UIViewController *)visibleDestinationViewController {
     UIViewController *vc = self.destinationViewController;

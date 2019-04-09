@@ -6,7 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "UIImageView+Extension.h"
+#import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 
 #import "User.h"

@@ -8,7 +8,7 @@
 
 #import "UIViewController+Extension.h"
 
-@implementation UIViewController (Extension)
+@implementation UIViewController (Alert)
 
 - (void)showMessage:(nullable NSString *)text withTitle:(nullable NSString *)title {
     

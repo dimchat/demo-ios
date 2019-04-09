@@ -9,7 +9,7 @@
 #import "NSNotificationCenter+Extension.h"
 
 #import "UIStoryboardSegue+Extension.h"
-#import "UIImageView+Extension.h"
+#import "UIView+Extension.h"
 #import "UIViewController+Extension.h"
 #import "DIMProfile+Extension.h"
 

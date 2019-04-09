@@ -48,10 +48,8 @@
     _imageView.center = CGPointMake(vSize.width * 0.5, vSize.height * 0.5);
     
     // click events
-    UITapGestureRecognizer *tap1, *tap2;
-    tap1 = [_scrollView addClickTarget:self action:@selector(onClick:)];
-    tap2 = [_imageView addDoubleClickTarget:self action:@selector(onDoubleClick:)];
-    [tap1 requireGestureRecognizerToFail:tap2];
+    [_scrollView addClickTarget:self action:@selector(onClick:)];
+    [_scrollView addDoubleClickTarget:self action:@selector(onDoubleClick:)];
 }
 
 - (void)onClick:(UITapGestureRecognizer *)sender {

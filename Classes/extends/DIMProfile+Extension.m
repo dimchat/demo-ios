@@ -18,16 +18,20 @@
 
 - (UIImage *)avatarImageWithSize:(const CGSize)size {
     UIImage *image = nil;
-    NSString *avatar = self.avatar;
-    if (avatar) {
-        if ([avatar containsString:@"://"]) {
-            Facebook *facebook = [Facebook sharedInstance];
-            image = [facebook loadAvatarWithURL:avatar forID:self.ID];
-        } else {
-            image = [UIImage imageNamed:avatar];
+    do {
+        // get image with avatar (URL)
+        NSString *avatar = self.avatar;
+        if (avatar) {
+            if ([avatar containsString:@"://"]) {
+                Facebook *facebook = [Facebook sharedInstance];
+                image = [facebook loadAvatarWithURL:avatar forID:self.ID];
+            } else {
+                image = [UIImage imageNamed:avatar];
+            }
+            break;
         }
-    }
-    if (!image) {
+        
+        // create image with first character of name
         NSString *name = self.name;
         if (name.length == 0) {
             name = self.ID.name;
@@ -44,21 +48,28 @@
             UIColor *bgColor = [UIColor colorWithHexString:@"1F1F0A"];
             image = [UIImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
         }
-    }
+        
+        break;
+    } while (YES);
     return image;
 }
 
 - (UIImage *)logoImageWithSize:(const CGSize)size {
     UIImage *image = nil;
-    NSString *avatar = self.avatar;
-    if (avatar) {
-        if ([avatar containsString:@"://"]) {
-            image = [UIImage imageWithURLString:avatar];
-        } else {
-            image = [UIImage imageNamed:avatar];
-        }
-    }
-    if (!image) {
+    do {
+//        // get image with logo (URL)
+//        NSString *logo = self.logo;
+//        if (logo) {
+//            if ([logo containsString:@"://"]) {
+//                NSURL *url = [NSURL URLWithString:logo];
+//                image = [UIImage imageWithContentsOfURL:url];
+//            } else {
+//                image = [UIImage imageNamed:logo];
+//            }
+//            break;
+//        }
+        
+        // create image with members' avatar(s)
         NSArray<const DIMID *> *members = DIMGroupWithID(self.ID).members;
         if (members.count > 0) {
             CGSize tileSize;
@@ -80,9 +91,11 @@
             }
             UIColor *bgColor = [UIColor colorWithHexString:@"E0E0F5"];
             image = [UIImage tiledImages:mArray size:size backgroundColor:bgColor];
+            break;
         }
-    }
-    if (!image) {
+        //NSAssert(false, @"group members cannot be empty");
+        
+        // create image with first character of name
         NSString *name = self.name;
         if (name.length == 0) {
             name = self.ID.name;
@@ -92,10 +105,12 @@
         }
         NSString *text = [name substringToIndex:1];
         //text = [NSString stringWithFormat:@"[%@]", text];
-        UIColor *textColor = [UIColor whiteColor];
+        UIColor *textColor = [UIColor blackColor];
         UIColor *bgColor = [UIColor colorWithHexString:@"E0E0F5"];
         image = [UIImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
-    }
+        
+        break;
+    } while (YES);
     return image;
 }
 

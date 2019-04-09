@@ -21,7 +21,7 @@ static inline char hex_char(char ch) {
     return 0;
 }
 
-@implementation UIColor (Extension)
+@implementation UIColor (Hex)
 
 + (UIColor *)colorWithHexString:(NSString *)hex {
     NSAssert(hex.length == 6, @"color string error %@", hex);

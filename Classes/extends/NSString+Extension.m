@@ -8,7 +8,7 @@
 
 #import "NSString+Extension.h"
 
-@implementation NSString (Extension)
+@implementation NSString (Size)
 
 - (CGSize)sizeWithFont:(UIFont *)font maxSize:(CGSize)maxSize {
     NSDictionary *attrs = @{NSFontAttributeName: font};

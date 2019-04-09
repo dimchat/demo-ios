@@ -8,42 +8,90 @@
 
 #import "UIView+Extension.h"
 
+@implementation UIView (Extension)
+
+- (void)roundedCorner {
+//    CGRect rect = self.bounds;
+//    UIBezierPath *maskPath;
+//    maskPath = [UIBezierPath bezierPathWithRoundedRect:rect
+//                                     byRoundingCorners:UIRectCornerAllCorners
+//                                           cornerRadii:CGSizeMake(10, 10)];
+//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+//    maskLayer.frame = rect;
+//    maskLayer.path = maskPath.CGPath;
+//    self.layer.mask = maskLayer;
+    self.layer.cornerRadius = 10;
+    self.layer.masksToBounds = YES;
+}
+
+@end
+
 @implementation UIView (Gesture)
 
-- (UITapGestureRecognizer *)addTapTarget:(nullable id)target
-                                  action:(nullable SEL)selector
-                                   count:(NSUInteger)tapsRequired {
-    UITapGestureRecognizer *tap;
+- (UITapGestureRecognizer *)tapGestureRecognizerWithTarget:(nullable id)target
+                                                    action:(nullable SEL)selector
+                                      numberOfTapsRequired:(NSUInteger)tapsRequired {
+    NSAssert(tapsRequired > 0, @"taps required must more than ZERO");
+    UITapGestureRecognizer *tapGestureRecognizer = nil;
     
     // check duplicated recognizer
     NSArray *gestureRecognizers = [self.gestureRecognizers copy];
+    UITapGestureRecognizer *tap;
     for (tap in gestureRecognizers) {
-        if ([tap isKindOfClass:[UITapGestureRecognizer class]] &&
-            tap.numberOfTapsRequired == tapsRequired) {
-            // same recognizer, add/reset target
+        if (![tap isKindOfClass:[UITapGestureRecognizer class]]) {
+            // not a tap gesture recognizer
+            continue;
+        }
+        if (tap.numberOfTapsRequired == tapsRequired) {
+            // same recognizer found, reuse it
             [tap removeTarget:target action:selector];
             [tap addTarget:target action:selector];
-            return tap;
+            tapGestureRecognizer = tap;
         }
     }
     
-    tap = [[UITapGestureRecognizer alloc] initWithTarget:target action:selector];
-    tap.numberOfTapsRequired = tapsRequired;
-    [self addGestureRecognizer:tap];
-    [self setUserInteractionEnabled:YES];
-    return tap;
+    if (tapGestureRecognizer == nil) {
+        // create a new one
+        tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:target action:selector];
+        tapGestureRecognizer.numberOfTapsRequired = tapsRequired;
+        [self addGestureRecognizer:tapGestureRecognizer];
+        [self setUserInteractionEnabled:YES];
+    }
+    
+    // update relationships
+    for (tap in gestureRecognizers) {
+        if (![tap isKindOfClass:[UITapGestureRecognizer class]]) {
+            // not a tap gesture recognizer
+            continue;
+        }
+        // the tap gesture recognizer with less taps required
+        // must depends on the failure of those that required more
+        if (tap.numberOfTapsRequired < tapsRequired) {
+            [tap requireGestureRecognizerToFail:tapGestureRecognizer];
+        } else if (tap.numberOfTapsRequired > tapsRequired) {
+            [tapGestureRecognizer requireGestureRecognizerToFail:tap];
+        }
+    }
+    
+    return tapGestureRecognizer;
 }
 
 - (UITapGestureRecognizer *)addClickTarget:(nullable id)target
                                     action:(nullable SEL)selector {
-    
-    return [self addTapTarget:target action:selector count:1];
+    UITapGestureRecognizer *tap;
+    tap = [self tapGestureRecognizerWithTarget:target
+                                        action:selector
+                          numberOfTapsRequired:1];
+    return tap;
 }
 
 - (UITapGestureRecognizer *)addDoubleClickTarget:(nullable id)target
                                           action:(nullable SEL)selector {
-    
-    return [self addTapTarget:target action:selector count:2];
+    UITapGestureRecognizer *tap;
+    tap = [self tapGestureRecognizerWithTarget:target
+                                        action:selector
+                          numberOfTapsRequired:2];
+    return tap;
 }
 
 @end

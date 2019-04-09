@@ -8,7 +8,7 @@
 
 #import "UIStoryboard+Extension.h"
 
-@implementation UIStoryboard (Extension)
+@implementation UIStoryboard (Identifier)
 
 + (__kindof UIViewController *)instantiateViewControllerWithIdentifier:(NSString *)identifier storyboardName:(NSString *)name bundle:(nullable NSBundle *)storyboardBundleOrNil {
     

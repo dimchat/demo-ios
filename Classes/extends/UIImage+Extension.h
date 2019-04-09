@@ -12,14 +12,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImage (Extension)
 
-+ (nullable UIImage *)imageWithURLString:(const NSString *)urlString;
+//+ (nullable UIImage *)imageWithContentsOfURL:(NSURL *)url;
+
+- (UIImage *)resizableImage;
 
 - (UIImage *)thumbnail;
 
 - (NSData *)jpegData;
 - (NSData *)pngData;
 
-#pragma mark Text
+@end
+
+@interface UIImage (Text)
 
 + (nullable UIImage *)imageWithText:(const NSString *)text size:(const CGSize)size;
 + (nullable UIImage *)imageWithText:(const NSString *)text
@@ -31,14 +35,14 @@ NS_ASSUME_NONNULL_BEGIN
                               color:(nullable UIColor *)textColor
                     backgroundImage:(nullable UIImage *)bgImage;
 
-#pragma mark Tiled Images
+@end
+
+@interface UIImage (Tiled)
 
 + (UIImage *)tiledImages:(NSArray<UIImage *> *)images size:(const CGSize)size;
 + (UIImage *)tiledImages:(NSArray<UIImage *> *)images
                     size:(const CGSize)size
          backgroundColor:(nullable UIColor *)bgColor;
-
-- (UIImage *)resizableImage;
 
 @end
 

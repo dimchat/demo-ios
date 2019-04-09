@@ -10,25 +10,7 @@
 
 #import "UIImageView+Extension.h"
 
-@implementation UIView (Extension)
-
-- (void)roundedCorner {
-//    CGRect rect = self.bounds;
-//    UIBezierPath *maskPath;
-//    maskPath = [UIBezierPath bezierPathWithRoundedRect:rect
-//                                     byRoundingCorners:UIRectCornerAllCorners
-//                                           cornerRadii:CGSizeMake(10, 10)];
-//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-//    maskLayer.frame = rect;
-//    maskLayer.path = maskPath.CGPath;
-//    self.layer.mask = maskLayer;
-    self.layer.cornerRadius = 10;
-    self.layer.masksToBounds = YES;
-}
-
-@end
-
-@implementation UIImageView (Extension)
+@implementation UIImageView (Text)
 
 - (void)setText:(NSString *)text {
     [self setText:text color:nil backgroundColor:nil];

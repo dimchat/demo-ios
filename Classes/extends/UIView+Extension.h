@@ -10,6 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface UIView (Extension)
+
+- (void)roundedCorner;
+
+@end
+
 @interface UIView (Gesture)
 
 // onClick:(UITapGestureRecognizer *)

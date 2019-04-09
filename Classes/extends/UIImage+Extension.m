@@ -12,15 +12,23 @@
 
 @implementation UIImage (Extension)
 
-+ (nullable UIImage *)imageWithURLString:(const NSString *)urlString {
-    NSURL *url = [NSURL URLWithString:[urlString copy]];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    if (data) {
-        return [UIImage imageWithData:data];
-    } else {
-        NSLog(@"failed to get image data from: %@", urlString);
-        return nil;
-    }
+//+ (nullable UIImage *)imageWithContentsOfURL:(NSURL *)url {
+//    NSData *data = [NSData dataWithContentsOfURL:url];
+//    if (data) {
+//        return [UIImage imageWithData:data];
+//    } else {
+//        NSLog(@"failed to get image data from: %@", url);
+//        return nil;
+//    }
+//}
+
+- (UIImage *)resizableImage {
+    CGSize size = self.size;
+    CGFloat x = size.width * 0.75;
+    CGFloat y = size.height * 0.75;
+    /* CGFloat top, CGFloat left, CGFloat bottom, CGFloat right */
+    UIEdgeInsets insets = UIEdgeInsetsMake(y, x, y + 1, x + 1);
+    return [self resizableImageWithCapInsets:insets];
 }
 
 // Returns an affine transform that takes into account the image orientation when drawing a scaled image
@@ -135,7 +143,9 @@
     return UIImagePNGRepresentation(self);
 }
 
-#pragma mark Text
+@end
+
+@implementation UIImage (Text)
 
 + (nullable UIImage *)imageWithText:(const NSString *)text size:(const CGSize)size {
     return [self imageWithText:text size:size color:nil backgroundColor:nil];
@@ -230,7 +240,9 @@
     return image;
 }
 
-#pragma mark Tiled Images
+@end
+
+@implementation UIImage (Tiled)
 
 + (UIImage *)tiledImages:(NSArray<UIImage *> *)images size:(const CGSize)size {
     return [self tiledImages:images size:size backgroundColor:nil];
@@ -351,15 +363,6 @@
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;
-}
-
-- (UIImage *)resizableImage {
-    CGSize size = self.size;
-    CGFloat x = size.width * 0.75;
-    CGFloat y = size.height * 0.75;
-    /* CGFloat top, CGFloat left, CGFloat bottom, CGFloat right */
-    UIEdgeInsets insets = UIEdgeInsetsMake(y, x, y + 1, x + 1);
-    return [self resizableImageWithCapInsets:insets];
 }
 
 @end

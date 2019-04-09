@@ -11,7 +11,7 @@
 #import "NSDate+Timestamp.h"
 
 #import "UIStoryboardSegue+Extension.h"
-#import "UIImageView+Extension.h"
+#import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 
 #import "Client.h"

@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIColor (Extension)
+@interface UIColor (Hex)
 
 + (UIColor *)colorWithHexString:(NSString *)hex;
 
