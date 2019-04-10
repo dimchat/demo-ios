@@ -53,8 +53,46 @@
         msg = [_conversation messageAtIndex:count];
         content = msg.content;
         switch (content.type) {
-            case DIMMessageType_Text:
+            case DIMMessageType_Text: {
                 last = content.text;
+            }
+                break;
+            
+            case DIMMessageType_File: {
+                NSString *format = NSLocalizedString(@"[File:%@]", nil);
+                last = [NSString stringWithFormat:format, content.filename];
+            }
+                break;
+                
+            case DIMMessageType_Image: {
+                NSString *format = NSLocalizedString(@"[Image:%@]", nil);
+                last = [NSString stringWithFormat:format, content.filename];
+            }
+                break;
+                
+            case DIMMessageType_Audio: {
+                NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
+                last = [NSString stringWithFormat:format, content.filename];
+            }
+                break;
+                
+            case DIMMessageType_Video: {
+                NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
+                last = [NSString stringWithFormat:format, content.filename];
+            }
+                break;
+                
+            case DIMMessageType_Page: {
+                NSString *text = content.title;
+                if (text.length == 0) {
+                    text = content.desc;
+                    if (text.length == 0) {
+                        text = [content.URL absoluteString];
+                    }
+                }
+                NSString *format = NSLocalizedString(@"[Web:%@]", nil);
+                last = [NSString stringWithFormat:format, text];
+            }
                 break;
                 
             default:

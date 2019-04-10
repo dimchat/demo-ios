@@ -56,6 +56,12 @@
 "Owner" = "群主";
 "Members" = "群成员";
 
+"[File:%@]" = "[文件:%@]";
+"[Image:%@]" = "[图片:%@]";
+"[Voice:%@]" = "[语音:%@]";
+"[Movie:%@]" = "[视频:%@]";
+"[Web:%@]" = "[网页:%@]";
+
 //
 //  Contacts
 //
@@ -103,6 +109,8 @@
 //  Message Cell
 //
 "Failed to send this message" = "发送信息失败";
+
+"This client doesn't support this message type: %u" = "当前客户端不支持此消息类型: %u";
 
 //
 //  Welcome

@@ -234,19 +234,28 @@
         DIMMessageContent *content = nil;
         if (image) {
             DIMFileServer *ftp = [DIMFileServer sharedInstance];
+            
+            CGSize maxSize = CGSizeMake(1024, 1024);
+            CGSize imgSize = image.size;
+            if (imgSize.width > maxSize.width || imgSize.height > maxSize.height) {
+                NSLog(@"original data length: %lu", [image pngData].length);
+                image = [image aspectFit:maxSize];
+            }
+            
             // image file
-            NSData *data = [image jpegData];
+            NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
             NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
             [ftp saveData:data filename:filename];
             
             // thumbnail
             UIImage *thumbnail = [image thumbnail];
-            NSData *small = [thumbnail jpegData];
+            NSData *small = [thumbnail jpegDataWithQuality:UIImage_JPEGCompressionQuality_Thumbnail];
+            NSLog(@"thumbnail data length: %lu < %lu, %lu", small.length, data.length, [image pngData].length);
             [ftp saveThumbnail:small filename:filename];
-            NSLog(@"thumbnail data length: %lu", small.length);
             
-            // message content
+            // add image data length & thumbnail into message content
             content = [[DIMMessageContent alloc] initWithImageData:data filename:filename];
+            [content setObject:@(data.length) forKey:@"length"];
             [content setObject:[small base64Encode] forKey:@"thumbnail"];
         } else {
             // movie message

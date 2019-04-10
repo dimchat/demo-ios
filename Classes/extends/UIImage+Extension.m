@@ -10,26 +10,19 @@
 
 #import "UIImage+Extension.h"
 
-@implementation UIImage (Extension)
+@implementation UIImage (Data)
 
-//+ (nullable UIImage *)imageWithContentsOfURL:(NSURL *)url {
-//    NSData *data = [NSData dataWithContentsOfURL:url];
-//    if (data) {
-//        return [UIImage imageWithData:data];
-//    } else {
-//        NSLog(@"failed to get image data from: %@", url);
-//        return nil;
-//    }
-//}
-
-- (UIImage *)resizableImage {
-    CGSize size = self.size;
-    CGFloat x = size.width * 0.75;
-    CGFloat y = size.height * 0.75;
-    /* CGFloat top, CGFloat left, CGFloat bottom, CGFloat right */
-    UIEdgeInsets insets = UIEdgeInsetsMake(y, x, y + 1, x + 1);
-    return [self resizableImageWithCapInsets:insets];
+- (NSData *)jpegDataWithQuality:(CGFloat)compressionQuality {
+    return UIImageJPEGRepresentation(self, compressionQuality);
 }
+
+- (NSData *)pngData {
+    return UIImagePNGRepresentation(self);
+}
+
+@end
+
+@implementation UIImage (Resize)
 
 // Returns an affine transform that takes into account the image orientation when drawing a scaled image
 - (CGAffineTransform)transformForOrientation:(CGSize)newSize {
@@ -92,17 +85,31 @@
 
 - (UIImage *)thumbnail {
     
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    CGFloat maxWidth = MIN(screenSize.width, screenSize.height) / 4;
-    if (maxWidth > 120) {
-        maxWidth = 120;
-    }
+    CGSize maxSize = CGSizeMake(96, 128);
     CGSize size = self.size;
-    if (maxWidth >= size.width) {
+    if (size.width <= maxSize.width && size.height <= maxSize.height) {
+        // too small, no need to thumbnail
         return self;
     }
-    CGFloat ratio = maxWidth / size.width;
+    return [self aspectFit:maxSize];
+}
+
+- (UIImage *)aspectFit:(CGSize)maxSize {
+    CGSize size = self.size;
+    CGFloat ratio = MIN(maxSize.width / size.width, maxSize.height / size.height);
     CGSize newSize = CGSizeMake(size.width * ratio, size.height * ratio);
+    return [self resize:newSize];
+}
+
+- (UIImage *)aspectFill:(CGSize)maxSize {
+    CGSize size = self.size;
+    CGFloat ratio = MAX(maxSize.width / size.width, maxSize.height / size.height);
+    CGSize newSize = CGSizeMake(size.width * ratio, size.height * ratio);
+    return [self resize:newSize];
+}
+
+- (UIImage *)resize:(CGSize)newSize {
+    
     CGRect newRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
     CGImageRef imageRef = self.CGImage;
     
@@ -133,14 +140,6 @@
     CGImageRelease(newImageRef);
     
     return newImage;
-}
-
-- (NSData *)jpegData {
-    return UIImageJPEGRepresentation(self, 1);
-}
-
-- (NSData *)pngData {
-    return UIImagePNGRepresentation(self);
 }
 
 @end

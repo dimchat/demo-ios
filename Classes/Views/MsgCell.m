@@ -16,6 +16,8 @@
 #import "DIMProfile+Extension.h"
 #import "DIMInstantMessage+Extension.h"
 
+#import "WebViewController.h"
+
 #import "User.h"
 
 #import "MessageProcessor.h"
@@ -177,13 +179,23 @@
         // message
         switch (content.type) {
             case DIMMessageType_Text: {
+                // show text
                 messageLabel.text = content.text;
+                // double click to zoom in
+                [messageLabel addDoubleClickTarget:self action:@selector(zoomIn:)];
+            }
+                break;
                 
-                [messageLabel addDoubleClickTarget:self action:@selector(zoomIn)];
+            case DIMMessageType_File: {
+                // TODO: show file info
+                NSString *format = NSLocalizedString(@"[File:%@]", nil);
+                NSString *filename = content.filename;
+                messageLabel.text = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
             case DIMMessageType_Image: {
+                // show image
                 if (_picture) {
                     CGSize size = [UIScreen mainScreen].bounds.size;
                     CGFloat max_width = MIN(size.width, size.height) * 0.382;
@@ -202,14 +214,85 @@
                     messageLabel.attributedText = as;
                     messageLabel.bounds = CGRectMake(0, 0, size.width, size.height);
                 } else {
-                    messageLabel.text = content.filename;
+                    NSString *format = NSLocalizedString(@"[Image:%@]", nil);
+                    NSString *filename = content.filename;
+                    messageLabel.text = [NSString stringWithFormat:format, filename];
                 }
                 
-                [messageLabel addClickTarget:self action:@selector(zoomIn)];
+                [messageLabel addClickTarget:self action:@selector(zoomIn:)];
             }
                 break;
                 
-            default:
+            case DIMMessageType_Audio: {
+                // TODO: show audio info
+                NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
+                NSString *filename = content.filename;
+                messageLabel.text = [NSString stringWithFormat:format, filename];
+            }
+                break;
+                
+            case DIMMessageType_Video: {
+                // TODO: show video info
+                NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
+                NSString *filename = content.filename;
+                messageLabel.text = [NSString stringWithFormat:format, filename];
+            }
+                break;
+                
+            case DIMMessageType_Page: {
+                // TODO: show web page
+                NSString *title = content.title;
+                NSString *desc = content.desc;
+                NSURL *url = content.URL;
+                NSData *icon = content.icon;
+                
+                // title
+                title = [title stringByAppendingString:@"\n"];
+                // desc
+                if (desc.length == 0) {
+                    NSString *format = NSLocalizedString(@"[Web:%@]", nil);
+                    desc = [NSString stringWithFormat:format, url];
+                }
+                // icon
+                UIImage *image = nil;
+                if (icon.length > 0) {
+                    image = [UIImage imageWithData:icon];
+                }
+                
+                NSMutableAttributedString *attrText;
+                attrText = [[NSMutableAttributedString alloc] init];
+                
+                if (image) {
+                    NSTextAttachment *att = [[NSTextAttachment alloc] init];
+                    att.image = image;
+                    att.bounds = CGRectMake(0, 0, 12, 12);
+                    
+                    NSAttributedString *head;
+                    head = [NSAttributedString attributedStringWithAttachment:att];
+                    [attrText appendAttributedString:head];
+                }
+                
+                NSMutableAttributedString *line1, *line2;
+                line1 = [[NSMutableAttributedString alloc] initWithString:title];
+                line2 = [[NSMutableAttributedString alloc] initWithString:desc];
+                [line2 addAttribute:NSForegroundColorAttributeName
+                             value:[UIColor lightGrayColor]
+                             range:NSMakeRange(0, desc.length)];
+                
+                [attrText appendAttributedString:line1];
+                [attrText appendAttributedString:line2];
+                
+                messageLabel.attributedText = attrText;
+                
+                [messageLabel addClickTarget:self action:@selector(openURL:)];
+            }
+                break;
+                
+            default: {
+                // unsupported message type
+                NSString *format = NSLocalizedString(@"This client doesn't support this message type: %u", nil);
+                messageLabel.text = [NSString stringWithFormat:format, content.type];
+            }
                 break;
         }
         
@@ -217,7 +300,7 @@
     }
 }
 
-- (void)zoomIn {
+- (void)zoomIn:(UITapGestureRecognizer *)sender {
     NSLog(@"zoomIn: %@", _msg.content);
     DIMMessageContent *content = _msg.content;
     switch (content.type) {
@@ -237,15 +320,45 @@
     }
 }
 
+- (void)openURL:(UITapGestureRecognizer *)sender {
+    
+    DIMMessageContent *content = _msg.content;
+    if (content.type != DIMMessageType_Page) {
+        return ;
+    }
+    NSURL *url = content.URL;
+    NSLog(@"opening URL: %@", url);
+    
+    WebViewController *vc;
+    vc = [UIStoryboard instantiateViewControllerWithIdentifier:@"webPage"
+                                                storyboardName:@"Main"];
+    vc.url = url;
+    
+    UIViewController *root;
+    root = [UIApplication sharedApplication].delegate.window.rootViewController;
+    [root.presentedViewController showViewController:vc sender:self];
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     
     id cell = self;
     // avatar
-    [[cell avatarImageView] roundedCorner];
+    UIImageView *avatarImageView = [cell avatarImageView];
+    [avatarImageView roundedCorner];
     
     // message
-    [cell messageImageView].image = [[cell messageImageView].image resizableImage];
+    UIImageView *messageImageView = [cell messageImageView];
+    UIImage *image = messageImageView.image;
+    if (image) {
+        CGSize size = image.size;
+        CGFloat x = size.width * 0.618;
+        CGFloat y = size.height * 0.618;
+        /* CGFloat top, CGFloat left, CGFloat bottom, CGFloat right */
+        UIEdgeInsets insets = UIEdgeInsetsMake(y, x, y + 1, x + 1);
+        image = [image resizableImageWithCapInsets:insets];
+    }
+    messageImageView.image = image;
 }
 
 @end

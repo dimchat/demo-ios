@@ -10,16 +10,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIImage (Extension)
+#define UIImage_JPEGCompressionQuality_Photo     0.5
+#define UIImage_JPEGCompressionQuality_Thumbnail 0
 
-//+ (nullable UIImage *)imageWithContentsOfURL:(NSURL *)url;
+@interface UIImage (Data)
 
-- (UIImage *)resizableImage;
-
-- (UIImage *)thumbnail;
-
-- (NSData *)jpegData;
+- (NSData *)jpegDataWithQuality:(CGFloat)compressionQuality;
 - (NSData *)pngData;
+
+@end
+
+@interface UIImage (Resize)
+
+- (UIImage *)resize:(CGSize)newSize;
+- (UIImage *)aspectFill:(CGSize)maxSize;
+- (UIImage *)aspectFit:(CGSize)maxSize;
+- (UIImage *)thumbnail;
 
 @end
 

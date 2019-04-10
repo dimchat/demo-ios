@@ -91,8 +91,9 @@
         NSLog(@"pick image: %@, path: %@", image, path);
         if (image) {
             // image file
-            NSData *data = [image jpegData];
+            NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
             NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
+            NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
             
             Client *client = [Client sharedInstance];
             DIMUser *user = client.currentUser;
