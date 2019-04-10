@@ -283,7 +283,7 @@
     CGRect tileRect;
     switch (count) {
         case 0:
-            NSAssert(false, @"tiled images cannot be empty");
+            //NSAssert(false, @"tiled images cannot be empty");
             break;
             
         case 1:

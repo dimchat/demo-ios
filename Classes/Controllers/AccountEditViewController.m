@@ -115,7 +115,7 @@
             profile.avatar = [url absoluteString];
             
             // save profile with new avatar
-            [facebook saveProfile:profile forEntityID:ID];
+            [facebook saveProfile:profile forID:ID];
             
             // submit to network
             [client postProfile:profile meta:nil];
@@ -151,7 +151,7 @@
     [profile setName:nickname];
     
     Facebook *facebook = [Facebook sharedInstance];
-    [facebook saveProfile:profile forEntityID:ID];
+    [facebook saveProfile:profile forID:ID];
     
     // submit to station
     [client postProfile:profile meta:nil];

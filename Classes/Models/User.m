@@ -82,7 +82,7 @@ BOOL check_username(const NSString *username) {
         if (!profile.ID) {
             [profile setObject:ID forKey:@"ID"];
         }
-        [[Facebook sharedInstance] saveProfile:profile forEntityID:ID];
+        [[Facebook sharedInstance] saveProfile:profile forID:ID];
     }
     
     return user;

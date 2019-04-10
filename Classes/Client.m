@@ -106,15 +106,14 @@ SingletonImplementations(Client, sharedInstance)
     
     // connect server
     DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
+    server.delegate = self;
+    [server startWithOptions:serverOptions];
     _currentStation = server;
-    
-    Facebook *facebook = [Facebook sharedInstance];
-    [facebook addStation:ID provider:sp];
     
     [MessageProcessor sharedInstance];
     
-    server.delegate = self;
-    [server startWithOptions:serverOptions];
+    Facebook *facebook = [Facebook sharedInstance];
+    [facebook addStation:ID provider:sp];
 }
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
@@ -301,7 +300,7 @@ SingletonImplementations(Client, sharedInstance)
     if (nickname.length > 0) {
         DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
         [profile setName:nickname];
-        if (![facebook saveProfile:profile forEntityID:ID]) {
+        if (![facebook saveProfile:profile forID:ID]) {
             NSAssert(false, @"failedo to save profile for new user: %@", ID);
             return NO;
         }
