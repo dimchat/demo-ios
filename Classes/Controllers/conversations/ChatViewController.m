@@ -187,30 +187,24 @@
     
     [self _hideKeyboard];
 
-    NSLog(@"send text: %@", text);
-    
-    Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMConversation *chatBox = _conversation;
+    const DIMID *receiver = chatBox.ID;
+    NSLog(@"send text: %@ -> %@", text, receiver);
     
     // create message content
     DIMMessageContent *content;
     content = [[DIMMessageContent alloc] initWithText:text];
     
-    if (MKMNetwork_IsGroup(_conversation.ID.type)) {
-        content.group = _conversation.ID;
+    if (MKMNetwork_IsGroup(receiver.type)) {
+        content.group = receiver;
     }
     
-    // pack message
-    DIMInstantMessage *iMsg;
-    iMsg = [[DIMInstantMessage alloc] initWithContent:content
-                                               sender:user.ID
-                                             receiver:_conversation.ID
-                                                 time:nil];
-    // send out
-    [client sendMessage:iMsg];
+    // pack message and send out
+    Client *client = [Client sharedInstance];
+    DIMInstantMessage *iMsg = [client sendContent:content to:receiver];
     
-    if (MKMNetwork_IsCommunicator(_conversation.ID.type)) {
-        [_conversation insertMessage:iMsg];
+    if (MKMNetwork_IsCommunicator(receiver.type)) {
+        [chatBox insertMessage:iMsg];
     }
     
     _inputTextField.text = @"";
@@ -219,6 +213,9 @@
 }
 
 - (void)_showImagePickerController:(ImagePickerController *)ipc {
+    DIMConversation *chatBox = _conversation;
+    const DIMID *receiver = chatBox.ID;
+    
     // completion handler
     ImagePickerControllerCompletionHandler handler;
     handler = ^(UIImage * _Nullable image,
@@ -227,8 +224,6 @@
                 UIImagePickerController *ipc) {
         
         NSLog(@"pick image: %@, path: %@", image, path);
-        Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
         
         // 1. build message content
         DIMMessageContent *content = nil;
@@ -264,23 +259,17 @@
             // TODO: snapshot
         }
         
-        if (MKMNetwork_IsGroup(self->_conversation.ID.type)) {
-            content.group = self->_conversation.ID;
+        if (MKMNetwork_IsGroup(receiver.type)) {
+            content.group = receiver;
         }
         
-        // 2. build instant message
-        DIMInstantMessage *iMsg;
-        iMsg = [[DIMInstantMessage alloc] initWithContent:content
-                                                   sender:user.ID
-                                                 receiver:self->_conversation.ID
-                                                     time:nil];
+        // 2. pack message and send out
+        Client *client = [Client sharedInstance];
+        DIMInstantMessage *iMsg = [client sendContent:content to:receiver];
         
-        // 3. send message
-        [client sendMessage:iMsg];
-        
-        if (MKMNetwork_IsCommunicator(self->_conversation.ID.type)) {
+        if (MKMNetwork_IsCommunicator(receiver.type)) {
             // personal message, save a copy
-            [self->_conversation insertMessage:iMsg];
+            [chatBox insertMessage:iMsg];
         }
     };
     

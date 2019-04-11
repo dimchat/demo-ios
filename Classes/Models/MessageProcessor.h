@@ -34,23 +34,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface MessageProcessor (Send)
-
-/**
- *  Pack and send message (secured + certified) to target station
- *
- *  @param content - message content
- *  @param sender - sender ID
- *  @param receiver - receiver ID
- *  @param callback - callback function
- *  @return NO on data/delegate error
- */
-- (BOOL)sendMessageContent:(const DIMMessageContent *)content
-                      from:(const DIMID *)sender
-                        to:(const DIMID *)receiver
-                      time:(nullable const NSDate *)time
-                  callback:(nullable DIMTransceiverCallback)callback;
-
-@end
-
 NS_ASSUME_NONNULL_END

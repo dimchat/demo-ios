@@ -396,21 +396,14 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (MKMNetwork_IsGroup(ID.type)) {
         DIMGroup *group = DIMGroupWithID(ID);
         if (group.founder == nil) {
-            Client *client = [Client sharedInstance];
-            DIMUser *user = client.currentUser;
             const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
-            NSAssert(user.ID != nil, @"current user error: %@", user);
             NSAssert(sender != nil, @"sender error: %@", iMsg);
             
-            DIMTransceiverCallback callback;
-            callback = ^(const DKDReliableMessage *rMsg, const NSError *error) {
-                if (error) {
-                    NSLog(@"failed to query for group members: %@", error);
-                }
-            };
             DIMQueryGroupCommand *query;
             query = [[DIMQueryGroupCommand alloc] initWithGroup:ID];
-            [self sendMessageContent:query from:user.ID to:sender time:nil callback:callback];
+            
+            Client *client = [Client sharedInstance];
+            [client sendContent:query to:sender];
         }
     }
     
@@ -422,28 +415,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     } else {
         return NO;
     }
-}
-
-@end
-
-@implementation MessageProcessor (Send)
-
-- (BOOL)sendMessageContent:(const DIMMessageContent *)content
-                      from:(const DIMID *)sender
-                        to:(const DIMID *)receiver
-                      time:(nullable const NSDate *)time
-                  callback:(nullable DIMTransceiverCallback)callback {
-    // make instant message
-    DIMInstantMessage *iMsg;
-    iMsg = [[DIMInstantMessage alloc] initWithContent:content
-                                               sender:sender
-                                             receiver:receiver
-                                                 time:time];
-    
-    DIMTransceiver *trans = [DIMTransceiver sharedInstance];
-    return [trans sendInstantMessage:iMsg
-                            callback:callback
-                         dispersedly:YES];
 }
 
 @end

@@ -26,20 +26,11 @@
         return NO;
     }
     
-    // 2. response
-    Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    
-    DIMTransceiverCallback callback;
-    callback = ^(const DKDReliableMessage *rMsg, const NSError *error) {
-        if (error) {
-            NSLog(@"failed to response group members to %@, error: %@", sender, error);
-        }
-    };
-    
+    // 2. pack command and send out
     NSArray *members = group.members;
     DIMInviteCommand *cmd = [[DIMInviteCommand alloc] initWithGroup:group.ID members:members];
-    [self sendMessageContent:cmd from:user.ID to:sender time:nil callback:callback];
+    Client *client = [Client sharedInstance];
+    [client sendContent:cmd to:sender];
     
     // 3. build message
     NSString *format = NSLocalizedString(@"%@ was querying group info, responsed.", nil);
