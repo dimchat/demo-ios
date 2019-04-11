@@ -17,9 +17,6 @@
 /* Class = "UITextField"; placeholder = "e.g.: moky"; ObjectID = "VJQ-4c-yzE"; */
 "VJQ-4c-yzE.placeholder" = "譬如: moky";
 
-/* Class = "UIButton"; normalTitle = "user agreements and privacy clauses"; ObjectID = "VMW-kQ-06Y"; */
-"VMW-kQ-06Y.normalTitle" = "《DIM! 用戶協議與隱私條款》";
-
 /* Class = "UIButton"; normalTitle = "Next"; ObjectID = "dej-8p-gF7"; */
 "dej-8p-gF7.normalTitle" = "下一步";
 
@@ -29,8 +26,8 @@
 /* Class = "UIButton"; normalTitle = "Start"; ObjectID = "u0t-BS-ler"; */
 "u0t-BS-ler.normalTitle" = "開始使用";
 
-/* Class = "UILabel"; text = "I have read and agreed to"; ObjectID = "vWt-Nx-iFd"; */
-"vWt-Nx-iFd.text" = "我已閱讀完畢，並完全認可";
+/* Class = "UILabel"; text = "I have read and agreed to the \"DIM! User Agreements and Privacy Clauses\"."; ObjectID = "vWt-Nx-iFd"; */
+"vWt-Nx-iFd.text" = "我已閱讀並同意《DIM! 用戶協議與隱私條款》";
 
 /* Class = "UILabel"; text = "Please input your name"; ObjectID = "xJl-Ky-OkY"; */
 "xJl-Ky-OkY.text" = "請問點稱呼？";

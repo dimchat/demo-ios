@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WelcomeViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *trayView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UITextField *nicknameTextField;

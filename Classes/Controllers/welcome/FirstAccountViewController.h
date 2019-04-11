@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FirstAccountViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *trayView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;

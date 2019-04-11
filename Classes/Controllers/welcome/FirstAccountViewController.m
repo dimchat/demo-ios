@@ -62,7 +62,19 @@
     [super viewDidLayoutSubviews];
     
     CGRect rect = _scrollView.frame;
-    _scrollView.contentSize = CGSizeMake(rect.size.width, 600);
+    UIEdgeInsets insets = _scrollView.adjustedContentInset;
+    
+    CGSize vSize = CGSizeMake(rect.size.width - insets.left - insets.right,
+                              rect.size.height - insets.top - insets.bottom);
+    
+    CGSize size = CGSizeMake(320, MAX(vSize.height, 520));
+    
+    _trayView.frame = CGRectMake((vSize.width - size.width) * 0.5, 0,
+                                 size.width, size.height);
+    _scrollView.frame = CGRectMake(0, 0,
+                                   rect.origin.x + rect.size.width,
+                                   rect.origin.y + rect.size.height);
+    _scrollView.contentSize = CGSizeMake(size.width, size.height);
 }
 
 - (void)_generate {
