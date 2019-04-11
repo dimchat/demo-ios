@@ -385,8 +385,9 @@
     _messageLabel.frame = msgLabelFrame;
     
     // error info button
-    NSError *error = [_msg objectForKey:@"error"];
-    if (error) {
+    DIMMessageState state = _msg.state;
+    NSString *error = _msg.error;
+    if (state == DIMMessageState_Error && error) {
         CGRect frame = _infoButton.frame;
         CGFloat x, y;
         x = msgImageFrame.origin.x - frame.size.width;
@@ -403,12 +404,13 @@
     [super setMsg:msg];
     
     // error info button
-    NSError *error = [_msg objectForKey:@"error"];
-    if (error) {
+    DIMMessageState state = _msg.state;
+    NSString *error = _msg.error;
+    if (state == DIMMessageState_Error && error) {
         // message
         MessageButton *btn = (MessageButton *)_infoButton;
         btn.title = NSLocalizedString(@"Failed to send this message", nil);
-        btn.message = error.localizedDescription;
+        btn.message = error;
     }
 }
 
