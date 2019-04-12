@@ -14,6 +14,7 @@
 #import "UIStoryboardSegue+Extension.h"
 #import "UIButton+Extension.h"
 #import "UIImage+Extension.h"
+#import "UIViewController+Extension.h"
 
 #import "ImagePickerController.h"
 
@@ -202,6 +203,13 @@
     // pack message and send out
     Client *client = [Client sharedInstance];
     DIMInstantMessage *iMsg = [client sendContent:content to:receiver];
+    if (!iMsg) {
+        NSLog(@"send content failed: %@ -> %@", content, receiver);
+        NSString *message = NSLocalizedString(@"Failed to send this message.", nil);
+        NSString *title = NSLocalizedString(@"Error!", nil);
+        [self showMessage:message withTitle:title];
+        return ;
+    }
     
     if (MKMNetwork_IsCommunicator(receiver.type)) {
         [chatBox insertMessage:iMsg];
@@ -266,6 +274,13 @@
         // 2. pack message and send out
         Client *client = [Client sharedInstance];
         DIMInstantMessage *iMsg = [client sendContent:content to:receiver];
+        if (!iMsg) {
+            NSLog(@"send content failed: %@ -> %@", content, receiver);
+            NSString *message = NSLocalizedString(@"Failed to send this file.", nil);
+            NSString *title = NSLocalizedString(@"Error!", nil);
+            [self showMessage:message withTitle:title];
+            return ;
+        }
         
         if (MKMNetwork_IsCommunicator(receiver.type)) {
             // personal message, save a copy
@@ -305,8 +320,6 @@
     NSError *error = [info objectForKey:@"error"];
     NSLog(@"%@: %@, error: %@", name, msg, error);
     // TODO: mark the message failed for trying again
-    NSAssert(error, @"notification error: %@", notification);
-    [msg setObject:error forKey:@"error"];
 }
 
 #pragma mark - Table view data source

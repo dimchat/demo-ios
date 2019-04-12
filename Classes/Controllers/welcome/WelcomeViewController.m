@@ -58,6 +58,14 @@
     _scrollView.contentSize = CGSizeMake(size.width, size.height);
 }
 
+- (void)onNicknameEditExit:(UITextField *)sender {
+    
+    NSString *identifier = @"next";
+    if ([self shouldPerformSegueWithIdentifier:identifier sender:self]) {
+        [self performSegueWithIdentifier:identifier sender:self];
+    }
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

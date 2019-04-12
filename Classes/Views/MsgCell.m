@@ -409,7 +409,7 @@
     if (state == DIMMessageState_Error && error) {
         // message
         MessageButton *btn = (MessageButton *)_infoButton;
-        btn.title = NSLocalizedString(@"Failed to send this message", nil);
+        btn.title = NSLocalizedString(@"Failed to send this message.", nil);
         btn.message = error;
     }
 }

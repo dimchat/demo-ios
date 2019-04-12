@@ -106,9 +106,10 @@
 "%@ has quitted group chat." = "%@ 退咗群。";
 
 //
-//  Message Cell
+//  Chat View
 //
-"Failed to send this message" = "訊息發唔出";
+"Failed to send this message." = "訊息發唔出";
+"Failed to send this file." = "文件發唔出";
 
 "This client doesn't support this message type: %u" = "本客戶端未嘗支持呢個消息類型: %u";
 
