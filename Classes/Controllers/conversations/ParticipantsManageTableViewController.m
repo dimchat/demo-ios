@@ -15,12 +15,11 @@
 #import "User.h"
 #import "Facebook+Register.h"
 #import "Client.h"
+#import "MessageProcessor+GroupCommand.h"
 
 #import "ParticipantManageCell.h"
 
 #import "ParticipantsManageTableViewController.h"
-
-const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 
 static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *group, const DIMUser *user) {
     const DIMID *founder = group.founder;

@@ -12,11 +12,10 @@
 
 #import "User.h"
 #import "Facebook.h"
-#import "MessageProcessor.h"
+#import "MessageProcessor+GroupCommand.h"
 #import "Client.h"
 
 #import "ChatViewController.h"
-#import "ParticipantsManageTableViewController.h"
 
 #import "ConversationCell.h"
 

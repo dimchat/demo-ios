@@ -13,11 +13,9 @@
 
 #import "WebViewController.h"
 
-#import "MessageProcessor.h"
+#import "MessageProcessor+GroupCommand.h"
 #import "Client.h"
 #import "User.h"
-
-#import "ParticipantsManageTableViewController.h"
 
 #import "ParticipantsCollectionViewController.h"
 

@@ -18,13 +18,12 @@
 
 #import "ImagePickerController.h"
 
-#import "MessageProcessor.h"
+#import "MessageProcessor+GroupCommand.h"
 #import "Client.h"
 
 #import "MsgCell.h"
 
 #import "ChatManageTableViewController.h"
-#import "ParticipantsManageTableViewController.h"
 
 #import "ChatViewController.h"
 

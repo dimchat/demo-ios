@@ -12,9 +12,9 @@
 #import "Client.h"
 #import "Facebook+Register.h"
 
-#import "ParticipantsManageTableViewController.h"
-
 #import "MessageProcessor+GroupCommand.h"
+
+const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 
 @implementation MessageProcessor (GroupCommand)
 
