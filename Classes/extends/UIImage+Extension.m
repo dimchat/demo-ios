@@ -24,68 +24,9 @@
 
 @implementation UIImage (Resize)
 
-// Returns an affine transform that takes into account the image orientation when drawing a scaled image
-- (CGAffineTransform)transformForOrientation:(CGSize)newSize {
-    CGAffineTransform transform = CGAffineTransformIdentity;
-    
-    switch (self.imageOrientation) {
-        case UIImageOrientationDown:           // EXIF = 3
-        case UIImageOrientationDownMirrored:   // EXIF = 4
-            transform = CGAffineTransformTranslate(transform, newSize.width, newSize.height);
-            transform = CGAffineTransformRotate(transform, M_PI);
-            break;
-            
-        case UIImageOrientationLeft:           // EXIF = 6
-        case UIImageOrientationLeftMirrored:   // EXIF = 5
-            transform = CGAffineTransformTranslate(transform, newSize.width, 0);
-            transform = CGAffineTransformRotate(transform, M_PI_2);
-            break;
-            
-        case UIImageOrientationRight:          // EXIF = 8
-        case UIImageOrientationRightMirrored:  // EXIF = 7
-            transform = CGAffineTransformTranslate(transform, 0, newSize.height);
-            transform = CGAffineTransformRotate(transform, -M_PI_2);
-            break;
-        case UIImageOrientationUp:
-            //
-            break;
-        case UIImageOrientationUpMirrored:
-            //
-            break;
-    }
-    
-    switch (self.imageOrientation) {
-        case UIImageOrientationUp:
-            //
-            break;
-        case UIImageOrientationDown:
-            //
-            break;
-        case UIImageOrientationLeft:
-            //
-            break;
-        case UIImageOrientationRight:
-            //
-            break;
-        case UIImageOrientationUpMirrored:     // EXIF = 2
-        case UIImageOrientationDownMirrored:   // EXIF = 4
-            transform = CGAffineTransformTranslate(transform, newSize.width, 0);
-            transform = CGAffineTransformScale(transform, -1, 1);
-            break;
-            
-        case UIImageOrientationLeftMirrored:   // EXIF = 5
-        case UIImageOrientationRightMirrored:  // EXIF = 7
-            transform = CGAffineTransformTranslate(transform, newSize.height, 0);
-            transform = CGAffineTransformScale(transform, -1, 1);
-            break;
-    }
-    
-    return transform;
-}
-
 - (UIImage *)thumbnail {
     
-    CGSize maxSize = CGSizeMake(96, 128);
+    CGSize maxSize = CGSizeMake(128, 128);
     CGSize size = self.size;
     if (size.width <= maxSize.width && size.height <= maxSize.height) {
         // too small, no need to thumbnail
@@ -121,15 +62,17 @@
                                                 0,
                                                 CGImageGetColorSpace(imageRef),
                                                 CGImageGetBitmapInfo(imageRef));
-    
-    // Rotate and/or flip the image if required by its orientation
-    CGContextConcatCTM(bitmap, [self transformForOrientation:newSize]);
-    
     // Set the quality level to use when rescaling
-    CGContextSetInterpolationQuality(bitmap, kCGInterpolationLow);
+    //CGContextSetInterpolationQuality(bitmap, kCGInterpolationLow);
     
-    // Draw into the context; this scales the image
-    CGContextDrawImage(bitmap, newRect, imageRef);
+    // Transform for UI coordinate system
+    CGContextTranslateCTM(bitmap, 0, newRect.size.height);
+    CGContextScaleCTM(bitmap, 1, -1);
+    
+    // Draw in rect
+    UIGraphicsPushContext(bitmap);
+    [self drawInRect:newRect];
+    UIGraphicsPopContext();
     
     // Get the resized image from the context and a UIImage
     CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
