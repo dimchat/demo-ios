@@ -67,7 +67,7 @@ BOOL check_username(const NSString *username) {
     
     DIMID *ID = [DIMID IDWithID:[dict objectForKey:@"ID"]];
     DIMMeta *meta = [DIMMeta metaWithMeta:[dict objectForKey:@"meta"]];
-    [[DIMBarrack sharedInstance] saveMeta:meta forEntityID:ID];
+    [[DIMBarrack sharedInstance] saveMeta:meta forID:ID];
     
     DIMPrivateKey *SK = [DIMPrivateKey keyWithKey:[dict objectForKey:@"privateKey"]];
     [SK saveKeyWithIdentifier:ID.address];

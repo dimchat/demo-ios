@@ -132,7 +132,7 @@
             value = [results objectForKey:key];
             if ([value isKindOfClass:[NSDictionary class]]) {
                 meta = [DIMMeta metaWithMeta:value];
-                [barrack saveMeta:meta forEntityID:ID];
+                [barrack saveMeta:meta forID:ID];
             }
         }
         

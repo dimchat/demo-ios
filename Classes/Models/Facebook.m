@@ -21,6 +21,12 @@
 
 #import "Facebook.h"
 
+@interface DIMBarrack (Hacking)
+
+- (nullable const DIMMeta *)loadMetaForID:(const DIMID *)ID;
+
+@end
+
 const NSString *kNotificationName_ContactsUpdated = @"ContactsUpdated";
 
 typedef NSMutableDictionary<const DIMAddress *, DIMProfile *> ProfileTableM;
@@ -54,6 +60,7 @@ SingletonImplementations(Facebook, sharedInstance)
         // delegates
         DIMBarrack *barrack = [DIMBarrack sharedInstance];
         barrack.metaDataSource     = self;
+        //barrack.metaDelegate       = self;
         barrack.entityDataSource   = self;
         barrack.accountDelegate    = self;
         barrack.userDataSource     = self;
