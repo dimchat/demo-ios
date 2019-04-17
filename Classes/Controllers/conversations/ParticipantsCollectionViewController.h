@@ -12,12 +12,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class ChatManageTableViewController;
+
 /**
  *  Collection view controller for Participants in Conversation Details
  */
 @interface ParticipantsCollectionViewController : UICollectionViewController
 
 @property (strong, nonatomic) DIMConversation *conversation;
+@property (strong, nonatomic) ChatManageTableViewController *manageViewController;
 
 - (void)reloadData;
 

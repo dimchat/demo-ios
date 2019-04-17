@@ -9,6 +9,8 @@
 #import "UIImageView+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 
+#import "ChatManageTableViewController.h"
+
 #import "ParticipantCollectionCell.h"
 #import "ParticipantsManageTableViewController.h"
 
@@ -92,6 +94,16 @@
 }
 
 #pragma mark <UICollectionViewDelegate>
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSInteger count = _participants.count;
+    NSInteger row = indexPath.row;
+    if (row < count) {
+        UICollectionViewCell *cell = [self collectionView:collectionView cellForItemAtIndexPath:indexPath];
+        [_manageViewController performSegueWithIdentifier:@"profileSegue" sender:cell];
+    }
+}
 
 /*
 // Uncomment this method to specify if the specified item should be highlighted during tracking

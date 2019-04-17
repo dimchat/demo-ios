@@ -280,7 +280,8 @@ SingletonImplementations(Client, sharedInstance)
 }
 
 - (NSString *)aboutAPI {
-    return @"https://dim.chat/sechat";
+    //return @"https://dim.chat/sechat";
+    return @"https://sechat.dim.chat/support";
 }
 
 @end

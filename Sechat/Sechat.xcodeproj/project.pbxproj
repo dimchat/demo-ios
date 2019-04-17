@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
 		E92255CD2222EC53006CADEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255CB2222EC53006CADEA /* Main.storyboard */; };
 		E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255D02222EC56006CADEA /* LaunchScreen.storyboard */; };
@@ -138,6 +139,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
+		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
 		E92255BF2222EC53006CADEA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E92255C22222EC53006CADEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E92255C32222EC53006CADEA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -542,6 +545,8 @@
 				E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */,
 				E979080B2259CDA10024C830 /* UIView+Extension.h */,
 				E979080C2259CDA10024C830 /* UIView+Extension.m */,
+				E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */,
+				E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */,
 				E9E8250D224F5BBD00A029F1 /* UIButton+Extension.h */,
 				E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */,
 				E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */,
@@ -746,6 +751,7 @@
 				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,
 				E92255D52222EC56006CADEA /* main.m in Sources */,
 				E922564A2222ED7C006CADEA /* Client.m in Sources */,
+				E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */,
 				E92256502222ED7C006CADEA /* RegisterViewController.m in Sources */,
 				E979079D225520AA0024C830 /* DIMInstantMessage+Extension.m in Sources */,
 				E99A5CCA222E577900EE6C86 /* ContactCell.m in Sources */,

@@ -346,6 +346,7 @@
     // avatar
     UIImageView *avatarImageView = [cell avatarImageView];
     [avatarImageView roundedCorner];
+    [avatarImageView addClickTarget:self action:@selector(onAvatarClicked:)];
     
     // message
     UIImageView *messageImageView = [cell messageImageView];
@@ -359,6 +360,11 @@
         image = [image resizableImageWithCapInsets:insets];
     }
     messageImageView.image = image;
+}
+
+- (void)onAvatarClicked:(UITapGestureRecognizer *)gestureRecognizer {
+    
+    [self.controller performSegueWithIdentifier:@"profileSegue" sender:self];
 }
 
 @end

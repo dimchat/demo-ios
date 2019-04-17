@@ -18,6 +18,8 @@
 #import "Client.h"
 #import "User.h"
 
+#import "ProfileTableViewController.h"
+#import "ParticipantCollectionCell.h"
 #import "ParticipantsCollectionViewController.h"
 
 #import "ChatManageTableViewController.h"
@@ -50,6 +52,7 @@
     ParticipantsCollectionViewController *vc;
     vc = [UIStoryboard instantiateViewControllerWithIdentifier:@"participantsCollectionViewController" storyboardName:@"Conversations"];
     vc.conversation = _conversation;
+    vc.manageViewController = self;
     _participantsCollectionViewController = vc;
     
     [NSNotificationCenter addObserver:self
@@ -249,7 +252,7 @@
     } else if (section == SECTION_FUNCTIONS) {
         // functions
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    } else if (section == SECTION_ACTIONS) {
+    } else /*if (section == SECTION_ACTIONS)*/ {
         // other actions
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
@@ -318,6 +321,15 @@
         
         WebViewController *web = [segue visibleDestinationViewController];
         web.url = [NSURL URLWithString:api];
+        
+    } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
+        
+        ParticipantCollectionCell *cell = sender;
+        const DIMID *ID = cell.participant;
+        
+        ProfileTableViewController *vc = [segue visibleDestinationViewController];
+        vc.account = DIMAccountWithID(ID);
+        
     }
 }
 

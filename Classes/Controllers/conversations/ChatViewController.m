@@ -14,6 +14,7 @@
 #import "UIStoryboardSegue+Extension.h"
 #import "UIButton+Extension.h"
 #import "UIImage+Extension.h"
+#import "UIScrollView+Extension.h"
 #import "UIViewController+Extension.h"
 
 #import "WebViewController.h"
@@ -24,6 +25,7 @@
 
 #import "MsgCell.h"
 
+#import "ProfileTableViewController.h"
 #import "ChatManageTableViewController.h"
 
 #import "ChatViewController.h"
@@ -32,6 +34,8 @@
     
     CGRect _tableFrame;
     CGRect _trayFrame;
+    
+    BOOL _scrolledToBottom;
 }
 
 @end
@@ -82,12 +86,17 @@
                              selector:@selector(onGroupMembersUpdated:)
                                  name:kNotificationName_GroupMembersUpdated
                                object:nil];
+    
+    _scrolledToBottom = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self scrollToBottom];
+    if (!_scrolledToBottom) {
+        [self.messagesTableView scrollsToBottom];
+        _scrolledToBottom = YES;
+    }
 }
 
 - (void)onMessageUpdated:(NSNotification *)notification {
@@ -98,7 +107,7 @@
         DIMID *ID = [info objectForKey:@"ID"];
         ID = [DIMID IDWithID:ID];
         if ([_conversation.ID isEqual:ID]) {
-            [self reloadData];
+            [self.messagesTableView reloadData];
         }
     }
 }
@@ -135,19 +144,6 @@
     }
 }
 
-- (void)reloadData {
-    [self.messagesTableView reloadData];
-    [self scrollToBottom];
-}
-
-- (void)scrollToBottom {
-    NSInteger row = [self messageCount];
-    if (row > 0) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(row - 1) inSection:0];
-        [self.messagesTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }
-}
-
 - (void)keyboardWillShow:(NSNotification *)notification {
     CGSize keyboardSize = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     
@@ -163,9 +159,6 @@
         self->_messagesTableView.frame = tableRect;
         self->_trayView.frame = trayRect;
     }];
-    
-    // scroll to bottom
-    [self scrollToBottom];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -194,7 +187,8 @@
 }
 
 - (IBAction)beginEditing:(id)sender {
-    [self scrollToBottom];
+    
+    [self.messagesTableView scrollsToBottom];
 }
 
 - (IBAction)send:(id)sender {
@@ -231,11 +225,12 @@
     
     if (MKMNetwork_IsCommunicator(receiver.type)) {
         [chatBox insertMessage:iMsg];
+        
+        [self.messagesTableView reloadData];
+        [self.messagesTableView scrollsToBottom];
     }
     
     _inputTextField.text = @"";
-    
-    [self reloadData];
 }
 
 - (void)_showImagePickerController:(ImagePickerController *)ipc {
@@ -477,6 +472,14 @@
         WebViewController *web = [segue visibleDestinationViewController];
         web.url = [NSURL URLWithString:urlString];
         web.title = NSLocalizedString(@"Terms", nil);
+        
+    } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
+        
+        MsgCell *cell = sender;
+        const DIMID *ID = [DIMID IDWithID:cell.msg.envelope.sender];
+        
+        ProfileTableViewController *vc = [segue visibleDestinationViewController];
+        vc.account = DIMAccountWithID(ID);
         
     }
 }

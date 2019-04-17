@@ -24,6 +24,16 @@
     self.layer.masksToBounds = YES;
 }
 
+- (nullable __kindof UIViewController *)controller {
+    UIResponder *responder = self.nextResponder;
+    for (; responder != nil; responder = responder.nextResponder) {
+        if ([responder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)responder;
+        }
+    }
+    return nil;
+}
+
 @end
 
 @implementation UIView (Gesture)

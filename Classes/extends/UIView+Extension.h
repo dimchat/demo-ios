@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (Extension)
 
+@property (readonly, nonatomic, nullable) __kindof UIViewController *controller;
+
 - (void)roundedCorner;
 
 @end
