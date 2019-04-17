@@ -141,7 +141,7 @@
 }
 
 - (void)scrollToBottom {
-    NSInteger row = [_conversation numberOfMessage];
+    NSInteger row = [self messageCount];
     if (row > 0) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(row - 1) inSection:0];
         [self.messagesTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
