@@ -286,7 +286,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (removed) {
         [_chatHistory removeObjectForKey:ID];
         [_chatList removeObject:ID];
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
                                             object:self
                                           userInfo:@{@"ID": ID}];
     }
@@ -304,7 +304,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     BOOL cleared = clear_messages(ID);
     if (cleared) {
         [[_chatHistory objectForKey:ID] removeAllObjects];
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+        [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
                                             object:self
                                           userInfo:@{@"ID": ID}];
     }

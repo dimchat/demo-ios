@@ -50,14 +50,23 @@
 /* Class = "UILabel"; text = "received message"; ObjectID = "dz5-N2-oTy"; */
 "dz5-N2-oTy.text" = "received message";
 
+/* Class = "UILabel"; text = "It is forbidden to send contents that violate the existing laws and regulations. If a violator is found, please click the button in the upper right corner and report it."; ObjectID = "nzl-E2-BcS"; */
+"nzl-E2-BcS.text" = "禁止發送違反現行法律、法規嘅訊息。如發現違反者，請立即點擊右上角按鈕並向我們舉報。";
+
+/* Class = "UIButton"; normalTitle = "user agreements and privacy clauses"; ObjectID = "8xa-fN-AoU"; */
+"8xa-fN-AoU.normalTitle" = "《DIM! 用戶協議與隱私條款》";
+
 /* Class = "UITextField"; placeholder = "seed to generate group ID"; ObjectID = "fVT-7q-maI"; */
 "fVT-7q-maI.placeholder" = "seed to generate group ID";
 
 /* Class = "UILabel"; text = "Report"; ObjectID = "kOe-GX-gYP"; */
-"kOe-GX-gYP.text" = "投訴";
+"kOe-GX-gYP.text" = "舉報";
 
 /* Class = "UILabel"; text = "Clear Chat History"; ObjectID = "DNV-sw-lJE"; */
 "DNV-sw-lJE.text" = "清空聊天紀錄";
+
+/* Class = "UILabel"; text = "Delete and Leave"; ObjectID = "Dxf-hA-Dzy"; */
+"Dxf-hA-Dzy.text" = "刪除並退出";
 
 /* Class = "UILabel"; text = "Address"; ObjectID = "kRq-yU-cC0"; */
 "kRq-yU-cC0.text" = "地址";

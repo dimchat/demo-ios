@@ -13,6 +13,7 @@
 
 #import "WebViewController.h"
 
+#import "Facebook.h"
 #import "MessageProcessor+GroupCommand.h"
 #import "Client.h"
 #import "User.h"
@@ -26,6 +27,13 @@
 @property (strong, nonatomic) ParticipantsCollectionViewController *participantsCollectionViewController;
 
 @end
+
+#define SECTION_COUNT     4
+
+#define SECTION_MEMBERS   0
+#define SECTION_PROFILES  1
+#define SECTION_FUNCTIONS 2
+#define SECTION_ACTIONS   3
 
 @implementation ChatManageTableViewController
 
@@ -80,23 +88,56 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
-    if (section == 3) {
-        // functions
+    if (section == SECTION_ACTIONS) {
+        // other actions
         if (row == 0) {
             // Clear Chat History
-            
             NSString *title = NSLocalizedString(@"Clear Chat History", nil);
             NSString *format = NSLocalizedString(@"Are you sure to clear all messages with %@ ?\nThis operation is unrecoverable!", nil);
-            NSString *text = [NSString stringWithFormat:format, _conversation.title];
+            NSString *text = [NSString stringWithFormat:format, _conversation.name];
             
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
+                // clear message in conversation
                 MessageProcessor *msgDB = [MessageProcessor sharedInstance];
                 [msgDB clearConversation:self->_conversation];
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
             };
             [self showMessage:text withTitle:title cancelHandler:nil defaultHandler:handler];
         } else if (row == 1) {
             // Delete and Leave
+            NSString *title = NSLocalizedString(@"Delete and Leave", nil);
+            NSString *format = NSLocalizedString(@"Are you sure to leave group %@ ?\nThis operation is unrecoverable!", nil);
+            NSString *text = [NSString stringWithFormat:format, _conversation.name];
+            
+            if (!MKMNetwork_IsGroup(_conversation.ID.type)) {
+                NSAssert(false, @"current conversation is not a group chat: %@", _conversation.ID);
+                return ;
+            }
+            DIMGroup *group = DIMGroupWithID(_conversation.ID);
+            Client *client = [Client sharedInstance];
+            DIMUser *user = client.currentUser;
+            
+            void (^handler)(UIAlertAction *);
+            handler = ^(UIAlertAction *action) {
+                // send quit group command
+                DIMQuitCommand *cmd = [[DIMQuitCommand alloc] initWithGroup:group.ID];
+                NSArray *members = group.members;
+                for (const DIMID *member in members) {
+                    [client sendContent:cmd to:member];
+                }
+                // remove myself
+                Facebook *facebook = [Facebook sharedInstance];
+                [facebook group:group removeMember:user.ID];
+                
+                // clear message in conversation
+                MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+                [msgDB removeConversation:self->_conversation];
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+            };
+            [self showMessage:text withTitle:title cancelHandler:nil defaultHandler:handler];
         }
     }
 }
@@ -106,7 +147,8 @@
     NSInteger section = indexPath.section;
     //NSInteger row = indexPath.row;
     
-    if (section == 0) {
+    if (section == SECTION_MEMBERS) {
+        // member list
         UICollectionViewController *cvc = _participantsCollectionViewController;
         UICollectionViewLayout *cvl = cvc.collectionViewLayout;
         CGSize size = cvl.collectionViewContentSize;
@@ -123,6 +165,21 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == SECTION_ACTIONS) {
+        // other actions
+        if (!MKMNetwork_IsGroup(_conversation.ID.type)) {
+            // not a group, only show 'Clear Chat History' action
+            return 1;
+        }
+        
+        Client *client = [Client sharedInstance];
+        DIMUser *user = client.currentUser;
+        DIMGroup *group = DIMGroupWithID(_conversation.ID);
+        if ([group isFounder:user.ID]) {
+            // founder cannot quit, only show 'Clear Chat History' action
+            return 1;
+        }
+    }
     return [super tableView:tableView numberOfRowsInSection:section];
 }
 
@@ -133,7 +190,7 @@
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
-    if (section == 0) {
+    if (section == SECTION_MEMBERS) {
         // member list
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
         UIView *view = _participantsCollectionViewController.view;
@@ -142,7 +199,7 @@
             cView.frame = cell.bounds;
             [cell addSubview:view];
         }
-    } else if (section == 1) {
+    } else if (section == SECTION_PROFILES) {
         // profile
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
         NSString *key = nil;
@@ -189,11 +246,11 @@
         }
         cell.textLabel.text = key;
         cell.detailTextLabel.text = value;
-    } else if (section == 2) {
+    } else if (section == SECTION_FUNCTIONS) {
         // functions
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    } else {
-        // others
+    } else if (section == SECTION_ACTIONS) {
+        // other actions
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     }
     

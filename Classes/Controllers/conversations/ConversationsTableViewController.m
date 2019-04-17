@@ -56,6 +56,10 @@
                              selector:@selector(reloadData)
                                  name:kNotificationName_MessageUpdated
                                object:nil];
+    [NSNotificationCenter addObserver:self.tableView
+                             selector:@selector(reloadData)
+                                 name:kNotificationName_MessageCleaned
+                               object:nil];
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(onServerStateChanged:)

@@ -16,6 +16,7 @@
 #import "UIImage+Extension.h"
 #import "UIViewController+Extension.h"
 
+#import "WebViewController.h"
 #import "ImagePickerController.h"
 
 #import "MessageProcessor+GroupCommand.h"
@@ -73,6 +74,11 @@
                                  name:kNotificationName_MessageUpdated
                                object:nil];
     [NSNotificationCenter addObserver:self
+                             selector:@selector(onMessageCleaned:)
+                                 name:kNotificationName_MessageCleaned
+                               object:nil];
+    
+    [NSNotificationCenter addObserver:self
                              selector:@selector(onGroupMembersUpdated:)
                                  name:kNotificationName_GroupMembersUpdated
                                object:nil];
@@ -93,6 +99,19 @@
         ID = [DIMID IDWithID:ID];
         if ([_conversation.ID isEqual:ID]) {
             [self reloadData];
+        }
+    }
+}
+
+- (void)onMessageCleaned:(NSNotification *)notification {
+    NSString *name = notification.name;
+    NSDictionary *info = notification.userInfo;
+    
+    if ([name isEqual:kNotificationName_MessageCleaned]) {
+        DIMID *ID = [info objectForKey:@"ID"];
+        ID = [DIMID IDWithID:ID];
+        if ([_conversation.ID isEqual:ID]) {
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
 }
@@ -321,6 +340,22 @@
     // TODO: mark the message failed for trying again
 }
 
+- (NSInteger)messageCount {
+    return [_conversation numberOfMessage] + 1;
+}
+
+- (DIMInstantMessage *)messageAtIndex:(NSInteger)index {
+    if (index == 0) {
+        DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
+        DIMID *admin = [DIMID IDWithID:@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ"];
+        return [[DIMInstantMessage alloc] initWithContent:guide
+                                                   sender:admin
+                                                 receiver:_conversation.ID
+                                                     time:nil];
+    }
+    return [_conversation messageAtIndex:(index - 1)];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -332,7 +367,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //#warning Incomplete implementation, return the number of rows
     
-    return [_conversation numberOfMessage];
+    return [self messageCount];
 }
 
 - (NSString *)_identifierForReusableCellAtIndexPath:(NSIndexPath *)indexPath {
@@ -341,14 +376,20 @@
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     
-    DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
+    DIMInstantMessage *iMsg = [self messageAtIndex:row];
+    DIMMessageContent *content = iMsg.content;
     const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
     
     NSString *identifier = @"receivedMsgCell";
-    DIMMessageType type = iMsg.content.type;
+    DIMMessageType type = content.type;
     if (type == DIMMessageType_History || type == DIMMessageType_Command) {
-        // command message
-        identifier = @"commandMsgCell";
+        if ([content.command isEqualToString:@"guide"]) {
+            // show guide
+            identifier = @"guideCell";
+        } else {
+            // command message
+            identifier = @"commandMsgCell";
+        }
     } else if ([sender isEqual:_conversation.ID]) {
         // message from conversation target
         identifier = @"receivedMsgCell";
@@ -369,13 +410,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    NSString *identifier = [self _identifierForReusableCellAtIndexPath:indexPath];
+    if ([identifier isEqualToString:@"guideCell"]) {
+        return [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    }
+    
     // Configure the cell...
     //    NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
-    DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
+    DIMInstantMessage *iMsg = [self messageAtIndex:row];
     
-    NSString *identifier = [self _identifierForReusableCellAtIndexPath:indexPath];
     MsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     cell.msg = iMsg;
     
@@ -389,11 +434,16 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger row = indexPath.row;
-    DIMInstantMessage *iMsg = [_conversation messageAtIndex:row];
-    CGRect bounds = tableView.bounds;
     
     NSString *identifier = [self _identifierForReusableCellAtIndexPath:indexPath];
+    if ([identifier isEqualToString:@"guideCell"]) {
+        return 80;
+    }
+    
+    NSInteger row = indexPath.row;
+    DIMInstantMessage *iMsg = [self messageAtIndex:row];
+    CGRect bounds = tableView.bounds;
+    
     if ([identifier isEqualToString:@"commandMsgCell"]) {
         CGSize size = [CommandMsgCell sizeWithMessage:iMsg bounds:bounds];
         return size.height;
@@ -417,6 +467,17 @@
         
         ChatManageTableViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = _conversation;
+        
+    } else if ([segue.identifier isEqualToString:@"termsSegue"]) {
+        
+        Client *client = [Client sharedInstance];
+        
+        // show terms
+        NSString *urlString = client.termsAPI;
+        WebViewController *web = [segue visibleDestinationViewController];
+        web.url = [NSURL URLWithString:urlString];
+        web.title = NSLocalizedString(@"Terms", nil);
+        
     }
 }
 

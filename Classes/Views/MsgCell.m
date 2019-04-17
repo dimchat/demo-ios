@@ -414,6 +414,13 @@
     }
 }
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    
+    // error info button
+    [_infoButton roundedCorner];
+}
+
 @end
 
 @implementation ReceivedMsgCell
