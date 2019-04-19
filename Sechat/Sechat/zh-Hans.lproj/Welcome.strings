@@ -29,8 +29,8 @@
 /* Class = "UILabel"; text = "I have read and agreed to the \"DIM! User Agreements and Privacy Clauses\"."; ObjectID = "vWt-Nx-iFd"; */
 "vWt-Nx-iFd.text" = "我已阅读并同意《DIM! 用户协议与隐私条款》";
 
-/* Class = "UILabel"; text = "Please input your name"; ObjectID = "xJl-Ky-OkY"; */
-"xJl-Ky-OkY.text" = "请输入您的名字";
+/* Class = "UILabel"; text = "Please input your nickname"; ObjectID = "xJl-Ky-OkY"; */
+"xJl-Ky-OkY.text" = "请输入您的昵称";
 
 /* Class = "UILabel"; text = "Address:"; ObjectID = "zjI-rQ-uMI"; */
 "zjI-rQ-uMI.text" = "地址:";

@@ -159,6 +159,8 @@
         self->_messagesTableView.frame = tableRect;
         self->_trayView.frame = trayRect;
     }];
+    
+    [self.messagesTableView scrollsToBottom];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
