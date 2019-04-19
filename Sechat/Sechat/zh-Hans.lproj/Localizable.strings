@@ -48,7 +48,7 @@
 "Input Error!" = "输入错误";
 "Group name cannot be empty." = "群名称不能为空";
 "Seed cannot be empty." = "Seed 不能为空";
-"Seed must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'" = "Seed 必须由英文字符（区分大小写）、数字, 以及横线、下横线、小数点组成";
+"Seed must be composed of letters, digits, underscores, or hyphens." = "Seed 必须由字母、数字、下划线或连字符组成。";
 
 "Group Member Error!" = "群成员错误";
 "Please select at least ONE contact." = "请至少选择一名成员！";

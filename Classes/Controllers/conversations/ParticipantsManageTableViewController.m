@@ -249,7 +249,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
         [_seedTextField becomeFirstResponder];
         return ;
     } else if (!check_username(groupSeed)) {
-        NSString *msg = NSLocalizedString(@"Seed must be composed by characters: 'A'-'Z', 'a'-'z', '0'-'9', '-', '_', '.'", nil);
+        NSString *msg = NSLocalizedString(@"Seed must be composed of letters, digits, underscores, or hyphens.", nil);
         [self showMessage:msg
                 withTitle:NSLocalizedString(@"Input Error!", nil)];
         [_seedTextField becomeFirstResponder];

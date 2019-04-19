@@ -77,7 +77,7 @@
     _scrollView.contentSize = CGSizeMake(size.width, size.height);
 }
 
-- (void)_generate {
+- (BOOL)_generate {
     NSLog(@"refreshing...");
     
     // clear
@@ -97,14 +97,14 @@
         [self showMessage:NSLocalizedString(message, nil)
                 withTitle:NSLocalizedString(title, nil)];
         [_usernameTextField becomeFirstResponder];
-        return ;
+        return NO;
     } else if (!check_username(username)) {
         NSString *message = @"Username must be composed of letters, digits, underscores, or hyphens.";
         NSString *title = @"Username Error!";
         [self showMessage:NSLocalizedString(message, nil)
                 withTitle:NSLocalizedString(title, nil)];
         [_usernameTextField becomeFirstResponder];
-        return ;
+        return NO;
     }
     
     // 1. generate private key
@@ -119,6 +119,8 @@
     
     _addressLabel.text = (NSString *)_ID.address;
     _numberLabel.text = search_number(_ID.number);
+    
+    return YES;
 }
 
 - (IBAction)onUsernameEditExit:(UITextField *)sender {
@@ -140,12 +142,21 @@
     NSLog(@"start chat");
     
     if (_SK == nil || _meta == nil || _ID == nil) {
-        NSString *message = @"Generate account failed.";
-        NSString *title = @"Error!";
-        [self showMessage:NSLocalizedString(message, nil)
-                withTitle:NSLocalizedString(title, nil)];
-        [_usernameTextField becomeFirstResponder];
-        return ;
+        
+        if (![self _generate]) {
+            // username error
+            return ;
+        }
+        
+        // check again
+        if (_SK == nil || _meta == nil || _ID == nil) {
+            NSString *message = @"Generate account failed.";
+            NSString *title = @"Error!";
+            [self showMessage:NSLocalizedString(message, nil)
+                    withTitle:NSLocalizedString(title, nil)];
+            [_usernameTextField becomeFirstResponder];
+            return ;
+        }
     }
     
     DIMPrivateKey *SK = _SK;
