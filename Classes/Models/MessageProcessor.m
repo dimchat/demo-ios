@@ -101,10 +101,10 @@ static inline NSMutableDictionary *scan_messages(void) {
         }
         addr = [path substringToIndex:(path.length - 15)];
         address = [DIMAddress addressWithAddress:addr];
-        if (MKMNetwork_IsStation(address.network)) {
-            // ignore station history
-            continue;
-        }
+//        if (MKMNetwork_IsStation(address.network)) {
+//            // ignore station history
+//            continue;
+//        }
         
         path = [dir stringByAppendingPathComponent:path];
         array = [NSMutableArray arrayWithContentsOfFile:path];
