@@ -40,7 +40,7 @@
             break;
         }
         
-        DIMSymmetricKey *scKey = [content objectForKey:@"key"];
+        DIMSymmetricKey *scKey = [content objectForKey:@"password"];
         if (!scKey) {
             // key not exists, it means the downloaded data is already decrypted
             break;
