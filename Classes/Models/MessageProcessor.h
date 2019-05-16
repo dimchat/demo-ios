@@ -6,7 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <DIMCore/DIMCore.h>
+#import <DIMClient/DIMClient.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
