@@ -300,7 +300,9 @@ SingletonImplementations(Client, sharedInstance)
     
     // 2. save nickname in profile
     if (nickname.length > 0) {
-        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
+        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID
+                                                        data:nil
+                                                   signature:nil];
         [profile setName:nickname];
         if (![facebook saveProfile:profile forID:ID]) {
             NSAssert(false, @"failedo to save profile for new user: %@", ID);

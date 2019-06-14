@@ -10,7 +10,7 @@
 #import "UIStoryboardSegue+Extension.h"
 
 #import "User.h"
-#import "Facebook.h"
+#import "Facebook+Relationship.h"
 
 #include "Client.h"
 
@@ -64,15 +64,15 @@ static inline void sort_array(NSMutableArray *array) {
     
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
-    Facebook *facebook = [Facebook sharedInstance];
-    NSInteger count = [facebook numberOfContactsInUser:user];
+    NSArray<const DIMID *> *contacts = user.contacts;
+    NSInteger count = [contacts count];
     
     NSMutableArray<const DIMID *> *mArray;
     const DIMID *contact;
     DIMProfile *profile;
     NSString *name;
     while (--count >= 0) {
-        contact = [facebook user:user contactAtIndex:count];
+        contact = [contacts objectAtIndex:count];
         profile = DIMProfileForID(contact);
         name = profile.name;
         if (name.length == 0) {

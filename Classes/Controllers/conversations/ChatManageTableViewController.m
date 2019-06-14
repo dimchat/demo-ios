@@ -13,7 +13,7 @@
 
 #import "WebViewController.h"
 
-#import "Facebook.h"
+#import "Facebook+Relationship.h"
 #import "MessageProcessor+GroupCommand.h"
 #import "Client.h"
 #import "User.h"

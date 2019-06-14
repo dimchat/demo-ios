@@ -11,6 +11,7 @@
 #import "User.h"
 #import "Client.h"
 #import "Facebook+Register.h"
+#import "Facebook+Relationship.h"
 
 #import "MessageProcessor+GroupCommand.h"
 

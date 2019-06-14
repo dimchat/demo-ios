@@ -17,7 +17,7 @@
 #import "Client.h"
 
 #import "User.h"
-#import "Facebook.h"
+#import "Facebook+Relationship.h"
 
 #import "ChatViewController.h"
 
@@ -257,7 +257,6 @@
         if (profile) {
             cmd = [[DIMProfileCommand alloc] initWithID:user.ID
                                                    meta:meta
-                                             privateKey:user.privateKey
                                                 profile:profile];
         } else {
             cmd = [[DIMMetaCommand alloc] initWithID:user.ID

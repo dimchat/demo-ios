@@ -268,7 +268,7 @@
         DIMUser *user = [client.users objectAtIndex:row];
         if (![user isEqual:client.currentUser]) {
             [client login:user];
-            [facebook reloadContactsWithUser:user];
+            [facebook reloadContactsWithUser:user.ID];
             [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
             [self reloadData];
             // update user ID list file

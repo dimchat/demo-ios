@@ -82,9 +82,8 @@
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
     Client *client = [Client sharedInstance];
     
-    DIMID *ID;
-    DIMMeta *meta;
-    DIMPublicKey *PK;
+    const DIMID *ID;
+    const DIMMeta *meta;
     
     if ([notification.name isEqual:kNotificationName_OnlineUsersUpdated]) {
         // online users
@@ -98,8 +97,8 @@
         
         for (NSString *item in users) {
             ID = [DIMID IDWithID:item];
-            PK = DIMPublicKeyForID(ID);
-            if (PK) {
+            meta = DIMMetaForID(ID);
+            if (meta) {
                 [_onlineUsers addObject:ID];
             } else {
                 [client queryMetaForID:ID];

@@ -35,8 +35,6 @@ typedef NSMutableDictionary<const DIMAddress *, DIMProfile *> ProfileTableM;
     
     MKMImmortals *_immortals;
     
-    NSMutableDictionary<const DIMAddress *, NSMutableArray<const DIMID *> *> *_contactsTable;
-    
     ProfileTableM *_profileTable;
 }
 
@@ -59,17 +57,10 @@ SingletonImplementations(Facebook, sharedInstance)
         
         // delegates
         DIMBarrack *barrack = [DIMBarrack sharedInstance];
-        barrack.metaDataSource     = self;
-        //barrack.metaDelegate       = self;
         barrack.entityDataSource   = self;
-        barrack.accountDelegate    = self;
         barrack.userDataSource     = self;
-        barrack.userDelegate       = self;
         barrack.groupDataSource    = self;
-        barrack.groupDelegate      = self;
-        barrack.memberDelegate     = self;
-        barrack.chatroomDataSource = self;
-        barrack.profileDataSource  = self;
+        barrack.delegate           = self;
         
         // scan users
         NSArray *users = [self scanUserIDList];
@@ -186,23 +177,9 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 // {document_directory}/.mkm/{address}/contacts.plist
-- (void)flushContactsWithUser:(const DIMUser *)user {
-    
-    NSMutableArray<const DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
-    if (contacts.count > 0) {
-        NSString *dir = document_directory();
-        NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
-        [contacts writeToFile:path atomically:YES];
-        NSLog(@"contacts updated: %@", contacts);
-    } else {
-        NSLog(@"no contacts");
-    }
-}
-
-// {document_directory}/.mkm/{address}/contacts.plist
-- (ContactTable *)reloadContactsWithUser:(DIMUser *)user {
+- (ContactTable *)reloadContactsWithUser:(const DIMID *)user {
     NSString *dir = document_directory();
-    NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
+    NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.address];
     
     NSMutableArray<const DIMID *> *contacts = nil;
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
@@ -210,9 +187,16 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     if (contacts) {
-        [_contactsTable setObject:contacts forKey:user.ID.address];
+        NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:contacts.count];
+        DIMID *ID;
+        for (NSString *item in contacts) {
+            ID = [DIMID IDWithID:item];
+            [mArray addObject:ID];
+        }
+        contacts = mArray;
+        [_contactsTable setObject:contacts forKey:user.address];
     } else {
-        [_contactsTable removeObjectForKey:user.ID.address];
+        [_contactsTable removeObjectForKey:user.address];
         contacts = [[NSMutableArray alloc] init];
     }
     return contacts;
@@ -259,242 +243,6 @@ SingletonImplementations(Facebook, sharedInstance)
     return [self metaForID:entity.ID];
 }
 
-- (NSString *)nameOfEntity:(const DIMEntity *)entity {
-    DIMProfile *profile = [self profileForID:entity.ID];
-    return profile.name;
-}
-
-#pragma mark - MKMAccountDelegate
-
-- (nullable DIMAccount *)accountWithID:(const DIMID *)ID {
-    DIMAccount *account = [_immortals accountWithID:ID];
-    if (account) {
-        account.dataSource = nil;//[DIMBarrack sharedInstance];
-        return account;
-    }
-    
-    NSArray *users = [Client sharedInstance].users;
-    for (account in users) {
-        if ([account.ID isEqual:ID]) {
-            return account;
-        }
-    }
-    
-    // check meta
-    const DIMMeta *meta = DIMMetaForID(ID);
-    if (!meta) {
-        NSLog(@"meta not found: %@", ID);
-    }
-    
-    account = [[DIMAccount alloc] initWithID:ID];
-    return account;
-}
-
-#pragma mark - MKMUserDataSource
-
-- (NSInteger)numberOfContactsInUser:(const DIMUser *)user {
-    const DIMID *ID = user.ID;
-    
-    NSArray *contacts = [_contactsTable objectForKey:ID.address];
-    if (!contacts) {
-        contacts = [self reloadContactsWithUser:user];
-        if (contacts.count > 0) {
-            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
-        }
-    }
-    
-    return contacts.count;
-}
-
-- (const DIMID *)user:(const DIMUser *)user contactAtIndex:(NSInteger)index {
-    const DIMID *ID = user.ID;
-    
-    NSArray *contacts = [_contactsTable objectForKey:ID.address];
-    if (!contacts) {
-        contacts = [self reloadContactsWithUser:user];
-        if (contacts.count > 0) {
-            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
-        }
-    }
-    
-    ID = [contacts objectAtIndex:index];
-    return [DIMID IDWithID:ID];
-}
-
-- (BOOL)user:(const DIMUser *)user addContact:(const DIMID *)contact {
-    NSLog(@"user %@ add contact %@", user, contact);
-    NSMutableArray<const DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
-    if (contacts) {
-        if ([contacts containsObject:contact]) {
-            NSLog(@"contact %@ already exists, user: %@", contact, user.ID);
-            return NO;
-        } else {
-            [contacts addObject:contact];
-        }
-    } else {
-        contacts = [[NSMutableArray alloc] initWithCapacity:1];
-        [contacts addObject:contact];
-        [_contactsTable setObject:contacts forKey:user.ID.address];
-    }
-    [self flushContactsWithUser:user];
-    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
-    return YES;
-}
-
-- (BOOL)user:(const DIMUser *)user removeContact:(const DIMID *)contact {
-    NSLog(@"user %@ remove contact %@", user, contact);
-    NSMutableArray<const DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
-    if (contacts) {
-        if ([contacts containsObject:contact]) {
-            [contacts removeObject:contact];
-        } else {
-            NSLog(@"contact %@ not exists, user: %@", contact, user.ID);
-            return NO;
-        }
-    } else {
-        NSLog(@"user %@ doesn't has contact yet", user.ID);
-        return NO;
-    }
-    [self flushContactsWithUser:user];
-    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
-    return YES;
-}
-
-#pragma mark MKMUserDelegate
-
-- (nullable DIMUser *)userWithID:(const DIMID *)ID {
-    DIMUser *user = [_immortals userWithID:ID];
-    if (user) {
-        user.dataSource = nil;//[DIMBarrack sharedInstance];
-        return user;
-    }
-    
-    NSArray *users = [Client sharedInstance].users;
-    for (user in users) {
-        if ([user.ID isEqual:ID]) {
-            return user;
-        }
-    }
-    
-    // check meta
-    const DIMMeta *meta = DIMMetaForID(ID);
-    if (!meta) {
-        NSLog(@"meta not found: %@", ID);
-    }
-    
-    user = [[DIMUser alloc] initWithID:ID];
-    return user;
-}
-
-#pragma mark - MKMGroupDataSource
-
-- (const DIMID *)founderOfGroup:(const DIMGroup *)grp {
-    const DIMMeta *meta = grp.meta;
-    NSInteger count = [self numberOfMembersInGroup:grp];
-    const DIMID *member;
-    for (NSInteger index = 0; index < count; ++index) {
-        member = [self group:grp memberAtIndex:index];
-        // if the user's public key matches with the group's meta,
-        // it means this meta was generate by the user's private key
-        if ([meta matchPublicKey:DIMPublicKeyForID(member)]) {
-            return member;
-        }
-    }
-    return nil;
-}
-
-- (nullable const DIMID *)ownerOfGroup:(const DIMGroup *)grp {
-    if (grp.ID.type == MKMNetwork_Polylogue) {
-        // the polylogue's owner is its founder
-        return [self founderOfGroup:grp];
-    }
-    // TODO:
-    return nil;
-}
-
-- (NSInteger)numberOfMembersInGroup:(const DIMGroup *)grp {
-    // TODO: cache it
-    NSArray<const DIMID *> *list = [self loadMembersWithGroupID:grp.ID];
-    return list.count;
-}
-
-- (const DIMID *)group:(const DIMGroup *)grp memberAtIndex:(NSInteger)index {
-    // TODO: cache it
-    NSArray<const DIMID *> *list = [self loadMembersWithGroupID:grp.ID];
-    NSAssert(index < list.count && index >= 0, @"index out of range: %ld, %@", index, list);
-    return [list objectAtIndex:index];
-}
-
-#pragma mark MKMGroupDelegate
-
-- (nullable DIMGroup *)groupWithID:(const DIMID *)ID {
-    DIMGroup *group = nil;
-    
-    // check meta
-    const DIMMeta *meta = DIMMetaForID(ID);
-    if (!meta) {
-        NSLog(@"meta not found: %@", ID);
-    }
-    
-    // create it
-    if (ID.type == MKMNetwork_Polylogue) {
-        group = [[DIMPolylogue alloc] initWithID:ID];
-    } else if (ID.type == MKMNetwork_Chatroom) {
-        group = [[DIMChatroom alloc] initWithID:ID];
-    } else {
-        NSAssert(false, @"group error: %@", ID);
-    }
-    return group;
-}
-
-- (BOOL)group:(const DIMGroup *)group addMember:(const DIMID *)member {
-    NSArray<const DIMID *> *members = group.members;
-    if ([members containsObject:member]) {
-        NSAssert(false, @"member already exists: %@, %@", member, group);
-        return NO;
-    }
-    NSMutableArray *mArray = [members mutableCopy];
-    [mArray addObject:members];
-    return [self saveMembers:mArray withGroupID:group.ID];
-}
-
-- (BOOL)group:(const DIMGroup *)group removeMember:(const DIMID *)member {
-    NSArray<const DIMID *> *members = group.members;
-    if (![members containsObject:member]) {
-        NSAssert(false, @"member not exists: %@, %@", member, group);
-        return NO;
-    }
-    NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:(members.count - 1)];
-    for (const DIMID *item in members) {
-        if ([item isEqual:member]) {
-            continue;
-        }
-        [mArray addObject:item];
-    }
-    return [self saveMembers:mArray withGroupID:group.ID];
-}
-
-#pragma mark MKMMemberDelegate
-
-- (DIMMember *)memberWithID:(const DIMID *)ID groupID:(const DIMID *)gID {
-    // TODO:
-    return nil;
-}
-
-#pragma mark MKMChatroomDataSource
-
-- (const DIMID *)chatroom:(const DIMChatroom *)grp adminAtIndex:(NSInteger)index {
-    // TODO:
-    return nil;
-}
-
-- (NSInteger)numberOfAdminsInChatroom:(const DIMChatroom *)grp {
-    // TODO:
-    return 0;
-}
-
-#pragma mark - MKMProfileDataSource
-
 - (DIMProfile *)profileForID:(const DIMID *)ID {
     // try from profile cache
     DIMProfile *profile = [_profileTable objectForKey:ID.address];;
@@ -534,13 +282,147 @@ SingletonImplementations(Facebook, sharedInstance)
         }
         
         // place an empty profile for cache
-        profile = [[DIMProfile alloc] initWithID:ID];
+        profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
         break;
     } while (YES);
     
     [profile removeObjectForKey:@"lastTime"];
     [self setProfile:profile forID:ID];
     return profile;
+}
+
+#pragma mark - MKMUserDataSource
+
+- (DIMPrivateKey *)privateKeyForSignatureOfUser:(const DIMID *)user {
+    return [DIMPrivateKey loadKeyWithIdentifier:user.address];
+}
+
+- (NSArray<DIMPrivateKey *> *)privateKeysForDecryptionOfUser:(const DIMID *)user {
+    DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.address];
+    if (key == nil) {
+        return nil;
+    }
+    return [[NSArray alloc] initWithObjects:key, nil];
+}
+
+- (NSArray<const DIMID *> *)contactsOfUser:(const DIMID *)user {
+    NSArray *contacts = [_contactsTable objectForKey:user.address];
+    if (!contacts) {
+        contacts = [self reloadContactsWithUser:user];
+        if (contacts.count > 0) {
+            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
+        }
+    }
+    return contacts;
+}
+
+#pragma mark - MKMGroupDataSource
+
+- (const DIMID *)founderOfGroup:(const DIMID *)grp {
+    const DIMMeta *meta = DIMMetaForID(grp);
+    NSArray<const DIMID *> *members = [self membersOfGroup:grp];
+    for (const DIMID *member in members) {
+        // if the user's public key matches with the group's meta,
+        // it means this meta was generate by the user's private key
+        if ([meta matchPublicKey:[DIMMetaForID(member) key]]) {
+            return member;
+        }
+    }
+    return nil;
+}
+
+- (nullable const DIMID *)ownerOfGroup:(const DIMID *)grp {
+    if (grp.type == MKMNetwork_Polylogue) {
+        // the polylogue's owner is its founder
+        return [self founderOfGroup:grp];
+    }
+    // TODO:
+    return nil;
+}
+
+- (NSArray<const DIMID *> *)membersOfGroup:(const DIMID *)group {
+    // TODO: cache it
+    return [self loadMembersWithGroupID:group];
+}
+
+#pragma mark - DIMBarrackDelegate
+
+- (BOOL)saveMeta:(const MKMMeta *)meta forID:(const MKMID *)ID {
+    // TODO: save meta
+    return NO;
+}
+
+- (nullable DIMAccount *)accountWithID:(const DIMID *)ID {
+    DIMAccount *account = [_immortals accountWithID:ID];
+    if (account) {
+        account.dataSource = nil;//[DIMBarrack sharedInstance];
+        return account;
+    }
+    
+    NSArray *users = [Client sharedInstance].users;
+    for (account in users) {
+        if ([account.ID isEqual:ID]) {
+            return account;
+        }
+    }
+    
+    // check meta
+    const DIMMeta *meta = DIMMetaForID(ID);
+    if (!meta) {
+        NSLog(@"meta not found: %@", ID);
+    }
+    
+    if (MKMNetwork_IsStation(ID.type)) {
+        account = [[DIMServer alloc] initWithID:ID];
+        return account;
+    }
+    
+    account = [[DIMAccount alloc] initWithID:ID];
+    return account;
+}
+
+- (nullable DIMUser *)userWithID:(const DIMID *)ID {
+    DIMUser *user = [_immortals userWithID:ID];
+    if (user) {
+        user.dataSource = nil;//[DIMBarrack sharedInstance];
+        return user;
+    }
+    
+    NSArray *users = [Client sharedInstance].users;
+    for (user in users) {
+        if ([user.ID isEqual:ID]) {
+            return user;
+        }
+    }
+    
+    // check meta
+    const DIMMeta *meta = DIMMetaForID(ID);
+    if (!meta) {
+        NSLog(@"meta not found: %@", ID);
+    }
+    
+    user = [[DIMUser alloc] initWithID:ID];
+    return user;
+}
+
+- (nullable DIMGroup *)groupWithID:(const DIMID *)ID {
+    DIMGroup *group = nil;
+    
+    // check meta
+    const DIMMeta *meta = DIMMetaForID(ID);
+    if (!meta) {
+        NSLog(@"meta not found: %@", ID);
+    }
+    
+    // create it
+    if (ID.type == MKMNetwork_Polylogue) {
+        group = [[DIMPolylogue alloc] initWithID:ID];
+    } else if (ID.type == MKMNetwork_Chatroom) {
+        group = [[DIMChatroom alloc] initWithID:ID];
+    } else {
+        NSAssert(false, @"group error: %@", ID);
+    }
+    return group;
 }
 
 @end
