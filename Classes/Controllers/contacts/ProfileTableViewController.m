@@ -53,7 +53,7 @@
     
     _profile = DIMProfileForID(_account.ID);
     
-    NSArray *keys = _profile.allKeys;
+    NSArray *keys = [_profile dataKeys];
     _keys = [[NSMutableArray alloc] initWithCapacity:keys.count];
     for (NSString *key in keys) {
         if ([key isEqualToString:@"ID"] ||
@@ -154,7 +154,7 @@
     if (section == SECTION_PROFILES) {
         // profiles
         NSString *key = [_keys objectAtIndex:row];
-        id value = [_profile objectForKey:key];
+        id value = [_profile dataForKey:key];
         if (![value isKindOfClass:[NSString class]]) {
             if ([value isKindOfClass:[NSArray class]]) {
                 value = [value componentsJoinedByString:@", "];
