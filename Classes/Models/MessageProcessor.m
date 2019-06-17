@@ -26,7 +26,7 @@
  @return "Documents/.dim/{address}/messages.plist"
  */
 static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
-    assert(ID.isValid);
+    assert([ID isValid]);
     // base directory: Documents/.dim/{address}
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".dim"];

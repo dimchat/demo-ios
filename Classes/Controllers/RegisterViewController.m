@@ -62,7 +62,7 @@
                                      privateKey:SK
                                       publicKey:nil];
         // 3. generate ID
-        ID = [meta buildIDWithNetworkID:MKMNetwork_Main];
+        ID = [meta generateID:MKMNetwork_Main];
         
         // add register info
         info = @{@"ID": ID,

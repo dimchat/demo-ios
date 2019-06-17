@@ -115,7 +115,7 @@
                                   privateKey:_SK
                                    publicKey:nil];
     // 3. generate ID
-    _ID = [_meta buildIDWithNetworkID:MKMNetwork_Main];
+    _ID = [_meta generateID:MKMNetwork_Main];
     
     _addressLabel.text = (NSString *)_ID.address;
     _numberLabel.text = search_number(_ID.number);

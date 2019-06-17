@@ -115,7 +115,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
     
     // 2. check & save private key
-    DIMPublicKey *PK = meta.key;
+    const DIMPublicKey *PK = meta.key;
     if ([PK isMatch:SK]) {
         if ([SK saveKeyWithIdentifier:ID.address]) {
             NSLog(@"private key saved: %@", SK);
