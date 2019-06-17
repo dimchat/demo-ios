@@ -48,41 +48,41 @@
     NSString *last = nil;
     NSInteger count = [_conversation numberOfMessage];
     DIMInstantMessage *msg;
-    DIMMessageContent *content;
+    DIMContent *content;
     while (--count >= 0) {
         msg = [_conversation messageAtIndex:count];
         content = msg.content;
         switch (content.type) {
-            case DIMMessageType_Text: {
+            case DIMContentType_Text: {
                 last = content.text;
             }
                 break;
             
-            case DIMMessageType_File: {
+            case DIMContentType_File: {
                 NSString *format = NSLocalizedString(@"[File:%@]", nil);
                 last = [NSString stringWithFormat:format, content.filename];
             }
                 break;
                 
-            case DIMMessageType_Image: {
+            case DIMContentType_Image: {
                 NSString *format = NSLocalizedString(@"[Image:%@]", nil);
                 last = [NSString stringWithFormat:format, content.filename];
             }
                 break;
                 
-            case DIMMessageType_Audio: {
+            case DIMContentType_Audio: {
                 NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
                 last = [NSString stringWithFormat:format, content.filename];
             }
                 break;
                 
-            case DIMMessageType_Video: {
+            case DIMContentType_Video: {
                 NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
                 last = [NSString stringWithFormat:format, content.filename];
             }
                 break;
                 
-            case DIMMessageType_Page: {
+            case DIMContentType_Page: {
                 NSString *text = content.title;
                 if (text.length == 0) {
                     text = content.desc;

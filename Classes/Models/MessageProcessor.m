@@ -373,19 +373,20 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     const DIMID *ID = chatBox.ID;
     
     // system command
-    DIMMessageContent *content = iMsg.content;
-    if (content.type == DIMMessageType_Command) {
+    DIMContent *content = iMsg.content;
+    if (content.type == DIMContentType_Command) {
         NSString *command = content.command;
         NSLog(@"command: %@", command);
         
         // TODO: parse & execute system command
         // ...
         return YES;
-    } else if (content.type == DIMMessageType_History) {
+    } else if (content.type == DIMContentType_History) {
         const DIMID *groupID = [DIMID IDWithID:content.group];
         if (groupID) {
             const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
-            if (![self processGroupCommand:content commander:sender]) {
+            DIMGroupCommand *cmd = [[DIMGroupCommand alloc] initWithDictionary:content];
+            if (![self processGroupCommand:cmd commander:sender]) {
                 NSLog(@"group comment error: %@", content);
                 return NO;
             }

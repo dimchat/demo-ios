@@ -11,8 +11,8 @@
 @implementation DIMInstantMessage (Image)
 
 - (nullable UIImage *)image {
-    DIMMessageContent *content = self.content;
-    if (content.type != DIMMessageType_Image) {
+    DIMContent *content = self.content;
+    if (content.type != DIMContentType_Image) {
         // not Image message
         return nil;
     }
@@ -68,8 +68,8 @@
 }
 
 - (UIImage *)thumbnail {
-    DIMMessageContent *content = self.content;
-    if (content.type != DIMMessageType_Image) {
+    DIMContent *content = self.content;
+    if (content.type != DIMContentType_Image) {
         // not Image message
         return nil;
     }

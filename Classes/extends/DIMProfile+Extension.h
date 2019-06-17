@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import <DIMCore/DIMCore.h>
+#import <DIMClient/DIMClient.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

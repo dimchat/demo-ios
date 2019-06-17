@@ -147,7 +147,7 @@
         
         DIMEnvelope *env = msg.envelope;
         const DIMID *sender = [DIMID IDWithID:env.sender];
-        DIMMessageContent *content = msg.content;
+        DIMContent *content = msg.content;
         DIMProfile *profile = DIMProfileForID(sender);
         
         // time
@@ -177,8 +177,8 @@
         [avatarImageView setImage:image];
         
         // message
-        switch (content.type) {
-            case DIMMessageType_Text: {
+        switch (msg.content.type) {
+            case DIMContentType_Text: {
                 // show text
                 messageLabel.text = content.text;
                 // double click to zoom in
@@ -186,7 +186,7 @@
             }
                 break;
                 
-            case DIMMessageType_File: {
+            case DIMContentType_File: {
                 // TODO: show file info
                 NSString *format = NSLocalizedString(@"[File:%@]", nil);
                 NSString *filename = content.filename;
@@ -194,7 +194,7 @@
             }
                 break;
                 
-            case DIMMessageType_Image: {
+            case DIMContentType_Image: {
                 // show image
                 if (_picture) {
                     CGSize size = [UIScreen mainScreen].bounds.size;
@@ -223,7 +223,7 @@
             }
                 break;
                 
-            case DIMMessageType_Audio: {
+            case DIMContentType_Audio: {
                 // TODO: show audio info
                 NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
                 NSString *filename = content.filename;
@@ -231,7 +231,7 @@
             }
                 break;
                 
-            case DIMMessageType_Video: {
+            case DIMContentType_Video: {
                 // TODO: show video info
                 NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
                 NSString *filename = content.filename;
@@ -239,7 +239,7 @@
             }
                 break;
                 
-            case DIMMessageType_Page: {
+            case DIMContentType_Page: {
                 // TODO: show web page
                 NSString *title = content.title;
                 NSString *desc = content.desc;
@@ -302,9 +302,9 @@
 
 - (void)zoomIn:(UITapGestureRecognizer *)sender {
     NSLog(@"zoomIn: %@", _msg.content);
-    DIMMessageContent *content = _msg.content;
+    DIMContent *content = _msg.content;
     switch (content.type) {
-        case DIMMessageType_Image: {
+        case DIMContentType_Image: {
             ZoomInViewController *zoomIn = [UIStoryboard instantiateViewControllerWithIdentifier:@"zoomInController" storyboardName:@"Conversations"];
             zoomIn.msg = _msg;
             
@@ -322,8 +322,8 @@
 
 - (void)openURL:(UITapGestureRecognizer *)sender {
     
-    DIMMessageContent *content = _msg.content;
-    if (content.type != DIMMessageType_Page) {
+    DIMContent *content = _msg.content;
+    if (content.type != DIMContentType_Page) {
         return ;
     }
     NSURL *url = content.URL;

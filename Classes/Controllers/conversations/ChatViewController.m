@@ -207,8 +207,8 @@
     NSLog(@"send text: %@ -> %@", text, receiver);
     
     // create message content
-    DIMMessageContent *content;
-    content = [[DIMMessageContent alloc] initWithText:text];
+    DIMContent *content;
+    content = [[DIMContent alloc] initWithText:text];
     
     if (MKMNetwork_IsGroup(receiver.type)) {
         content.group = receiver;
@@ -249,7 +249,7 @@
         NSLog(@"pick image: %@, path: %@", image, path);
         
         // 1. build message content
-        DIMMessageContent *content = nil;
+        DIMContent *content = nil;
         if (image) {
             DIMFileServer *ftp = [DIMFileServer sharedInstance];
             
@@ -272,13 +272,13 @@
             [ftp saveThumbnail:small filename:filename];
             
             // add image data length & thumbnail into message content
-            content = [[DIMMessageContent alloc] initWithImageData:data filename:filename];
+            content = [[DIMContent alloc] initWithImageData:data filename:filename];
             [content setObject:@(data.length) forKey:@"length"];
             [content setObject:[small base64Encode] forKey:@"thumbnail"];
         } else {
             // movie message
             NSData *data = [NSData dataWithContentsOfFile:path];
-            content = [[DIMMessageContent alloc] initWithVideoData:data filename:@"video.mp4"];
+            content = [[DIMContent alloc] initWithVideoData:data filename:@"video.mp4"];
             // TODO: snapshot
         }
         
@@ -374,12 +374,12 @@
     DIMUser *user = client.currentUser;
     
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
-    DIMMessageContent *content = iMsg.content;
+    DIMContent *content = iMsg.content;
     const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
     
     NSString *identifier = @"receivedMsgCell";
-    DIMMessageType type = content.type;
-    if (type == DIMMessageType_History || type == DIMMessageType_Command) {
+    DIMContentType type = content.type;
+    if (type == DIMContentType_History || type == DIMContentType_Command) {
         if ([content.command isEqualToString:@"guide"]) {
             // show guide
             identifier = @"guideCell";

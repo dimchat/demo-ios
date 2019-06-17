@@ -14,7 +14,8 @@ extern const NSString *kNotificationName_GroupMembersUpdated;
 
 @interface MessageProcessor (GroupCommand)
 
-- (BOOL)processGroupCommand:(DIMMessageContent *)content commander:(const DIMID *)sender;
+- (BOOL)processGroupCommand:(DIMGroupCommand *)cmd
+                  commander:(const DIMID *)sender;
 
 @end
 

@@ -6,7 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMCore/DIMCore.h>
+#import <DIMClient/DIMClient.h>
 
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"

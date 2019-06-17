@@ -243,7 +243,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return [self metaForID:entity.ID];
 }
 
-- (DIMProfile *)profileForID:(const DIMID *)ID {
+- (nullable DIMProfile *)profileForID:(const DIMID *)ID {
     // try from profile cache
     DIMProfile *profile = [_profileTable objectForKey:ID.address];;
     if (profile) {
