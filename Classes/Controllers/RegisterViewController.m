@@ -57,9 +57,10 @@
         // 1. generate private key
         SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
         // 2. generate meta
-        meta = [[MKMMetaDefault alloc] initWithSeed:username
-                                         privateKey:SK
-                                          publicKey:nil];
+        meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
+                                           seed:username
+                                     privateKey:SK
+                                      publicKey:nil];
         // 3. generate ID
         ID = [meta generateID:MKMNetwork_Main];
         
