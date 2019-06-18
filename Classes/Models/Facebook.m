@@ -132,7 +132,7 @@ SingletonImplementations(Facebook, sharedInstance)
     NSArray *tables = _contactsTable.allValues;
     for (NSArray *list in tables) {
         for (id item in list) {
-            ID = [DIMID IDWithID:item];
+            ID = MKMIDFromString(item);
             if ([ID.address isEqual:address]) {
                 return ID;
             }
@@ -151,7 +151,7 @@ SingletonImplementations(Facebook, sharedInstance)
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
         NSString *seed = [dict objectForKey:@"seed"];
         NSString *idstr = [NSString stringWithFormat:@"%@@%@", seed, address];
-        ID = [DIMID IDWithID:idstr];
+        ID = MKMIDFromString(idstr);
         NSLog(@"Address -> number: %@, ID: %@", search_number(ID.number), ID);
     } else {
         NSLog(@"meta file not exists: %@", path);
@@ -190,7 +190,7 @@ SingletonImplementations(Facebook, sharedInstance)
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:contacts.count];
         DIMID *ID;
         for (NSString *item in contacts) {
-            ID = [DIMID IDWithID:item];
+            ID = MKMIDFromString(item);
             [mArray addObject:ID];
         }
         contacts = mArray;

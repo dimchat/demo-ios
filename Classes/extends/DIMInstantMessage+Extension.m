@@ -47,7 +47,7 @@
         }
         
         // decrypt it
-        scKey = [DIMSymmetricKey keyWithKey:scKey];
+        scKey = MKMSymmetricKeyFromDictionary(scKey);
         imageData = [ftp decryptDataFromURL:url filename:filename wityKey:scKey];
         
         break;

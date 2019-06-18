@@ -176,6 +176,9 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
 
 - (BOOL)submitGroupInfo {
     Client *client = [Client sharedInstance];
+    DIMUser *user = client.currentUser;
+    id<DIMUserDataSource> dataSource = user.dataSource;
+    DIMPrivateKey *signKey = [dataSource privateKeyForSignatureOfUser:user.ID];
     
     const DIMID *ID = _conversation.ID;
     NSString *seed = _seedTextField.text;
@@ -187,13 +190,11 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
         // exists group
         _group = DIMGroupWithID(ID);
         profile = DIMProfileForID(ID);
-        if (profile) {
-            profile.name = name;
-        } else {
-            profile = [[DIMProfile alloc] initWithDictionary:@{@"ID":ID,
-                                                               @"name":name,
-                                                               }];
+        if (!profile) {
+            profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
         }
+        [profile setName:name];
+        [profile sign:signKey];
         BOOL success = [client updateGroupWithID:ID
                                          members:_selectedList
                                          profile:profile];
@@ -214,7 +215,9 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
             return NO;
         }
         ID = _group.ID;
-        profile = [[DIMProfile alloc] initWithDictionary:@{@"ID":ID, @"name":name}];
+        profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
+        [profile setName:name];
+        [profile sign:signKey];
         NSLog(@"new group: %@, profile: %@, members: %@", ID, profile, _selectedList);
     }
     

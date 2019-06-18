@@ -104,8 +104,7 @@
     NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:kNotificationName_MessageUpdated]) {
-        DIMID *ID = [info objectForKey:@"ID"];
-        ID = [DIMID IDWithID:ID];
+        DIMID *ID = MKMIDFromString([info objectForKey:@"ID"]);
         if ([_conversation.ID isEqual:ID]) {
             [self.messagesTableView reloadData];
         }
@@ -117,8 +116,7 @@
     NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:kNotificationName_MessageCleaned]) {
-        DIMID *ID = [info objectForKey:@"ID"];
-        ID = [DIMID IDWithID:ID];
+        DIMID *ID = MKMIDFromString([info objectForKey:@"ID"]);
         if ([_conversation.ID isEqual:ID]) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }
@@ -344,7 +342,7 @@
 - (DIMInstantMessage *)messageAtIndex:(NSInteger)index {
     if (index == 0) {
         DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
-        DIMID *admin = [DIMID IDWithID:@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ"];
+        DIMID *admin = MKMIDFromString(@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ");
         return [[DIMInstantMessage alloc] initWithContent:guide
                                                    sender:admin
                                                  receiver:_conversation.ID
@@ -375,7 +373,7 @@
     
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
     DIMContent *content = iMsg.content;
-    const DIMID *sender = [DIMID IDWithID:iMsg.envelope.sender];
+    const DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
     
     NSString *identifier = @"receivedMsgCell";
     DIMContentType type = content.type;
@@ -478,7 +476,7 @@
     } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
         
         MsgCell *cell = sender;
-        const DIMID *ID = [DIMID IDWithID:cell.msg.envelope.sender];
+        const DIMID *ID = MKMIDFromString(cell.msg.envelope.sender);
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
         vc.account = DIMAccountWithID(ID);

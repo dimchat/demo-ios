@@ -55,12 +55,11 @@
     
     for (NSInteger index = 0; index < cnt; ++index) {
         // 1. generate private key
-        SK = [[DIMPrivateKey alloc] init];
+        SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
         // 2. generate meta
-        meta = [[DIMMeta alloc] initWithVersion:MKMMetaDefaultVersion
-                                           seed:username
-                                     privateKey:SK
-                                      publicKey:nil];
+        meta = [[MKMMetaDefault alloc] initWithSeed:username
+                                         privateKey:SK
+                                          publicKey:nil];
         // 3. generate ID
         ID = [meta generateID:MKMNetwork_Main];
         

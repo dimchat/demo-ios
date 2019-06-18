@@ -150,7 +150,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     users = [[NSMutableArray alloc] initWithCapacity:[array count]];
     DIMID *ID;
     for (NSString *item in array) {
-        ID = [DIMID IDWithID:item];
+        ID = MKMIDFromString(item);
         if ([ID isValid]) {
             [users addObject:ID];
         } else {
@@ -226,7 +226,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     if (file_exists(path)) {
         NSLog(@"loaded profile from %@", path);
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        return [DIMProfile profileWithProfile:dict];
+        return MKMProfileFromDictionary(dict);
     } else {
         NSLog(@"profile not found: %@", path);
         return nil;
@@ -251,7 +251,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:list.count];
     DIMID *ID;
     for (NSString *item in list) {
-        ID = [DIMID IDWithID:item];
+        ID = MKMIDFromString(item);
         [mArray addObject:ID];
     }
     return mArray;

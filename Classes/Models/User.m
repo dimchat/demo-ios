@@ -65,11 +65,11 @@ BOOL check_username(const NSString *username) {
         return nil;
     }
     
-    DIMID *ID = [DIMID IDWithID:[dict objectForKey:@"ID"]];
-    DIMMeta *meta = [DIMMeta metaWithMeta:[dict objectForKey:@"meta"]];
+    DIMID *ID = MKMIDFromString([dict objectForKey:@"ID"]);
+    DIMMeta *meta = MKMMetaFromDictionary([dict objectForKey:@"meta"]);
     [[DIMBarrack sharedInstance] saveMeta:meta forID:ID];
     
-    DIMPrivateKey *SK = [DIMPrivateKey keyWithKey:[dict objectForKey:@"privateKey"]];
+    DIMPrivateKey *SK = MKMPrivateKeyFromDictionary([dict objectForKey:@"privateKey"]);
     [SK saveKeyWithIdentifier:ID.address];
     
     DIMUser *user = DIMUserWithID(ID);
@@ -77,11 +77,11 @@ BOOL check_username(const NSString *username) {
     // profile
     DIMProfile *profile = [dict objectForKey:@"profile"];
     if (profile) {
-        profile = [DIMProfile profileWithProfile:profile];
         // copy profile from config to local storage
-        if (!profile.ID) {
+        if (![profile objectForKey:@"ID"]) {
             [profile setObject:ID forKey:@"ID"];
         }
+        profile = MKMProfileFromDictionary(profile);
         [[Facebook sharedInstance] saveProfile:profile forID:ID];
     }
     
