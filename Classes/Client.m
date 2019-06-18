@@ -297,9 +297,7 @@ SingletonImplementations(Client, sharedInstance)
     
     // 2. save nickname in profile
     if (nickname.length > 0) {
-        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID
-                                                        data:nil
-                                                   signature:nil];
+        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
         [profile setName:nickname];
         [profile sign:SK];
         if (![facebook saveProfile:profile forID:ID]) {

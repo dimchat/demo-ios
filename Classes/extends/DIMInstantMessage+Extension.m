@@ -11,7 +11,7 @@
 @implementation DIMInstantMessage (Image)
 
 - (nullable UIImage *)image {
-    DIMContent *content = self.content;
+    DIMImageContent *content = (DIMImageContent *)self.content;
     if (content.type != DIMContentType_Image) {
         // not Image message
         return nil;
@@ -68,7 +68,7 @@
 }
 
 - (UIImage *)thumbnail {
-    DIMContent *content = self.content;
+    DIMImageContent *content = (DIMImageContent *)self.content;
     if (content.type != DIMContentType_Image) {
         // not Image message
         return nil;

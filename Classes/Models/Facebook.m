@@ -71,8 +71,8 @@ SingletonImplementations(Facebook, sharedInstance)
         } else {
             mArray = [[NSMutableArray alloc] initWithCapacity:2];
         }
-        [mArray addObject:[DIMID IDWithID:MKM_IMMORTAL_HULK_ID]];
-        [mArray addObject:[DIMID IDWithID:MKM_MONKEY_KING_ID]];
+        [mArray addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];
+        [mArray addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
         users = mArray;
 #endif
         // add users
@@ -282,7 +282,7 @@ SingletonImplementations(Facebook, sharedInstance)
         }
         
         // place an empty profile for cache
-        profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
+        profile = [[DIMProfile alloc] initWithID:ID];
         break;
     } while (YES);
     

@@ -35,7 +35,11 @@
 @implementation MsgCell
 
 + (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
-    NSString *text = iMsg.content.text;
+    NSString *text = nil;
+    if (iMsg.content.type == DIMContentType_Text) {
+        text = [(DIMTextContent *)iMsg.content text];
+    }
+    
     CGFloat cellWidth = rect.size.width;
     CGFloat msgWidth = cellWidth * 0.618;
     UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
@@ -180,7 +184,7 @@
         switch (msg.content.type) {
             case DIMContentType_Text: {
                 // show text
-                messageLabel.text = content.text;
+                messageLabel.text = [(DIMTextContent *)content text];
                 // double click to zoom in
                 [messageLabel addDoubleClickTarget:self action:@selector(zoomIn:)];
             }
@@ -188,8 +192,8 @@
                 
             case DIMContentType_File: {
                 // TODO: show file info
+                NSString *filename = [(DIMFileContent *)content filename];
                 NSString *format = NSLocalizedString(@"[File:%@]", nil);
-                NSString *filename = content.filename;
                 messageLabel.text = [NSString stringWithFormat:format, filename];
             }
                 break;
@@ -214,8 +218,8 @@
                     messageLabel.attributedText = as;
                     messageLabel.bounds = CGRectMake(0, 0, size.width, size.height);
                 } else {
+                    NSString *filename = [(DIMImageContent *)content filename];
                     NSString *format = NSLocalizedString(@"[Image:%@]", nil);
-                    NSString *filename = content.filename;
                     messageLabel.text = [NSString stringWithFormat:format, filename];
                 }
                 
@@ -225,26 +229,27 @@
                 
             case DIMContentType_Audio: {
                 // TODO: show audio info
+                NSString *filename = [(DIMAudioContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
-                NSString *filename = content.filename;
                 messageLabel.text = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
             case DIMContentType_Video: {
                 // TODO: show video info
+                NSString *filename = [(DIMVideoContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
-                NSString *filename = content.filename;
                 messageLabel.text = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
             case DIMContentType_Page: {
                 // TODO: show web page
-                NSString *title = content.title;
-                NSString *desc = content.desc;
-                NSURL *url = content.URL;
-                NSData *icon = content.icon;
+                DIMWebpageContent *page = (DIMWebpageContent *)content;
+                NSString *title = page.title;
+                NSString *desc = page.desc;
+                NSURL *url = page.URL;
+                NSData *icon = page.icon;
                 
                 // title
                 title = [title stringByAppendingString:@"\n"];
@@ -326,7 +331,7 @@
     if (content.type != DIMContentType_Page) {
         return ;
     }
-    NSURL *url = content.URL;
+    NSURL *url = [(DIMWebpageContent *)content URL];
     NSLog(@"opening URL: %@", url);
     
     WebViewController *vc;
@@ -452,7 +457,11 @@
 @implementation CommandMsgCell
 
 + (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
-    NSString *text = iMsg.content.text;
+    NSString *text = nil;
+    if (iMsg.content.type == DIMContentType_Text) {
+        text = [(DIMTextContent *)iMsg.content text];
+    }
+    
     CGFloat cellWidth = rect.size.width;
     CGFloat msgWidth = cellWidth * 0.618;
     UIEdgeInsets edges = UIEdgeInsetsMake(10, 10, 10, 10);
@@ -477,7 +486,10 @@
     
     CGRect timeFrame = timeLabel.frame;
     
-    NSString *text = _msg.content.text;
+    NSString *text = nil;
+    if (_msg.content.type == DIMContentType_Text) {
+        text = [(DIMTextContent *)_msg.content text];
+    }
     if (text.length > 0) {
         UIFont *font = messageLabel.font;
         CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
@@ -524,8 +536,12 @@
         }
         
         // message
+        NSString *text = nil;
+        if (msg.content.type == DIMContentType_Text) {
+            text = [(DIMTextContent *)msg.content text];
+        }
         UILabel *messageLabel = [self messageLabel];
-        messageLabel.text = msg.content.text;
+        messageLabel.text = text;
         
         [self setNeedsLayout];
     }

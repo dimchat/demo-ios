@@ -54,40 +54,45 @@
         content = msg.content;
         switch (content.type) {
             case DIMContentType_Text: {
-                last = content.text;
+                last = [(DIMTextContent *)content text];
             }
                 break;
             
             case DIMContentType_File: {
+                NSString *filename = [(DIMFileContent *)content filename];
                 NSString *format = NSLocalizedString(@"[File:%@]", nil);
-                last = [NSString stringWithFormat:format, content.filename];
+                last = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
             case DIMContentType_Image: {
+                NSString *filename = [(DIMImageContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Image:%@]", nil);
-                last = [NSString stringWithFormat:format, content.filename];
+                last = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
             case DIMContentType_Audio: {
+                NSString *filename = [(DIMAudioContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
-                last = [NSString stringWithFormat:format, content.filename];
+                last = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
             case DIMContentType_Video: {
+                NSString *filename = [(DIMVideoContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
-                last = [NSString stringWithFormat:format, content.filename];
+                last = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
             case DIMContentType_Page: {
-                NSString *text = content.title;
+                DIMWebpageContent *page = (DIMWebpageContent *)content;
+                NSString *text = page.title;
                 if (text.length == 0) {
-                    text = content.desc;
+                    text = page.desc;
                     if (text.length == 0) {
-                        text = [content.URL absoluteString];
+                        text = [page.URL absoluteString];
                     }
                 }
                 NSString *format = NSLocalizedString(@"[Web:%@]", nil);

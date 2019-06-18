@@ -191,7 +191,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
         _group = DIMGroupWithID(ID);
         profile = DIMProfileForID(ID);
         if (!profile) {
-            profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
+            profile = [[DIMProfile alloc] initWithID:ID];
         }
         [profile setName:name];
         [profile sign:signKey];
@@ -215,7 +215,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
             return NO;
         }
         ID = _group.ID;
-        profile = [[DIMProfile alloc] initWithID:ID data:nil signature:nil];
+        profile = [[DIMProfile alloc] initWithID:ID];
         [profile setName:name];
         [profile sign:signKey];
         NSLog(@"new group: %@, profile: %@, members: %@", ID, profile, _selectedList);

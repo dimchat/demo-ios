@@ -330,7 +330,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     DIMInstantMessage *iMsg = nil;
     if (list.count > index) {
         NSDictionary *item = [list objectAtIndex:index];
-        iMsg = [DIMInstantMessage messageWithMessage:item];
+        iMsg = DKDInstantMessageFromDictionary(item);
         if (iMsg != item) {
             // replace InstantMessage object for next access
             [list replaceObjectAtIndex:index withObject:iMsg];
@@ -375,7 +375,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     // system command
     DIMContent *content = iMsg.content;
     if (content.type == DIMContentType_Command) {
-        NSString *command = content.command;
+        NSString *command = [(DIMCommand *)content command];
         NSLog(@"command: %@", command);
         
         // TODO: parse & execute system command
@@ -384,8 +384,8 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     } else if (content.type == DIMContentType_History) {
         const DIMID *groupID = MKMIDFromString(content.group);
         if (groupID) {
+            DIMGroupCommand *cmd = (DIMGroupCommand *)content;
             const DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
-            DIMGroupCommand *cmd = [[DIMGroupCommand alloc] initWithDictionary:content];
             if (![self processGroupCommand:cmd commander:sender]) {
                 NSLog(@"group comment error: %@", content);
                 return NO;

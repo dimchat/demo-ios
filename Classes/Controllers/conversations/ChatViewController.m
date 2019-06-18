@@ -206,7 +206,7 @@
     
     // create message content
     DIMContent *content;
-    content = [[DIMContent alloc] initWithText:text];
+    content = [[DIMTextContent alloc] initWithText:text];
     
     if (MKMNetwork_IsGroup(receiver.type)) {
         content.group = receiver;
@@ -270,13 +270,13 @@
             [ftp saveThumbnail:small filename:filename];
             
             // add image data length & thumbnail into message content
-            content = [[DIMContent alloc] initWithImageData:data filename:filename];
+            content = [[DIMImageContent alloc] initWithImageData:data filename:filename];
             [content setObject:@(data.length) forKey:@"length"];
             [content setObject:[small base64Encode] forKey:@"thumbnail"];
         } else {
             // movie message
             NSData *data = [NSData dataWithContentsOfFile:path];
-            content = [[DIMContent alloc] initWithVideoData:data filename:@"video.mp4"];
+            content = [[DIMVideoContent alloc] initWithVideoData:data filename:@"video.mp4"];
             // TODO: snapshot
         }
         
@@ -320,7 +320,7 @@
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
     DIMInstantMessage *msg = [info objectForKey:@"message"];
-    msg = [DIMInstantMessage messageWithMessage:msg];
+    msg = DKDInstantMessageFromDictionary(msg);
     NSLog(@"%@: %@", name, msg);
     // TODO: mark the message sent
 }
@@ -329,7 +329,7 @@
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
     DIMInstantMessage *msg = [info objectForKey:@"message"];
-    msg = [DIMInstantMessage messageWithMessage:msg];
+    msg = DKDInstantMessageFromDictionary(msg);
     NSError *error = [info objectForKey:@"error"];
     NSLog(@"%@: %@, error: %@", name, msg, error);
     // TODO: mark the message failed for trying again
@@ -343,10 +343,7 @@
     if (index == 0) {
         DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
         DIMID *admin = MKMIDFromString(@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ");
-        return [[DIMInstantMessage alloc] initWithContent:guide
-                                                   sender:admin
-                                                 receiver:_conversation.ID
-                                                     time:nil];
+        return DKDInstantMessageCreate(guide, admin, _conversation.ID, nil);
     }
     return [_conversation messageAtIndex:(index - 1)];
 }
@@ -378,7 +375,7 @@
     NSString *identifier = @"receivedMsgCell";
     DIMContentType type = content.type;
     if (type == DIMContentType_History || type == DIMContentType_Command) {
-        if ([content.command isEqualToString:@"guide"]) {
+        if ([[(DIMCommand *)content command] isEqualToString:@"guide"]) {
             // show guide
             identifier = @"guideCell";
         } else {
