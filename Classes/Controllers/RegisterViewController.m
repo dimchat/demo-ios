@@ -50,14 +50,14 @@
     
     NSDictionary *info;
     DIMPrivateKey *SK;
-    const DIMMeta *meta;
-    const DIMID *ID;
+    DIMMeta *meta;
+    DIMID *ID;
     
     for (NSInteger index = 0; index < cnt; ++index) {
         // 1. generate private key
         SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
         // 2. generate meta
-        meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
+        meta = [[DIMMeta alloc] initWithVersion:MKMMetaDefaultVersion
                                            seed:username
                                      privateKey:SK
                                       publicKey:nil];

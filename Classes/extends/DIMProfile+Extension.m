@@ -70,7 +70,7 @@
 //        }
         
         // create image with members' avatar(s)
-        NSArray<const DIMID *> *members = DIMGroupWithID(self.ID).members;
+        NSArray<DIMID *> *members = DIMGroupWithID(self.ID).members;
         if (members.count > 0) {
             CGSize tileSize;
             if (members.count > 4) {
@@ -80,7 +80,7 @@
             }
             NSMutableArray<UIImage *> *mArray;
             mArray = [[NSMutableArray alloc] initWithCapacity:members.count];
-            for (const DIMID *ID in members) {
+            for (DIMID *ID in members) {
                 image = [DIMProfileForID(ID) avatarImageWithSize:tileSize];
                 if (image) {
                     [mArray addObject:image];

@@ -25,12 +25,12 @@
  @param filename - "messages.plist"
  @return "Documents/.dim/{address}/messages.plist"
  */
-static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
+static inline NSString *full_filepath(DIMID *ID, NSString *filename) {
     assert([ID isValid]);
     // base directory: Documents/.dim/{address}
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".dim"];
-    const DIMAddress *addr = ID.address;
+    DIMAddress *addr = ID.address;
     if (addr) {
         dir = [dir stringByAppendingPathComponent:(NSString *)addr];
     }
@@ -49,7 +49,7 @@ static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
     return [dir stringByAppendingPathComponent:filename];
 }
 
-//static inline NSArray *load_message(const DIMID *ID) {
+//static inline NSArray *load_message(DIMID *ID) {
 //    NSArray *array = nil;
 //    NSString *path = full_filepath(ID, @"messages.plist");
 //    if (file_exists(path)) {
@@ -58,19 +58,19 @@ static inline NSString *full_filepath(const DIMID *ID, NSString *filename) {
 //    return array;
 //}
 
-static inline BOOL save_message(NSArray *messages, const DIMID *ID) {
+static inline BOOL save_message(NSArray *messages, DIMID *ID) {
     messages = [messages copy];
     NSString *path = full_filepath(ID, @"messages.plist");
     NSLog(@"save path: %@", path);
     return [messages writeToFile:path atomically:YES];
 }
 
-static inline BOOL remove_messages(const DIMID *ID) {
+static inline BOOL remove_messages(DIMID *ID) {
     NSString *path = full_filepath(ID, @"messages.plist");
     return remove_file(path);
 }
 
-static inline BOOL clear_messages(const DIMID *ID) {
+static inline BOOL clear_messages(DIMID *ID) {
     NSString *path = full_filepath(ID, @"messages.plist");
     NSMutableArray *empty = [[NSMutableArray alloc] init];
     return [empty writeToFile:path atomically:YES];
@@ -90,7 +90,7 @@ static inline NSMutableDictionary *scan_messages(void) {
     NSString *addr;
     NSMutableArray *array;
     
-    const DIMID *ID;
+    DIMID *ID;
     DIMAddress *address;
     
     NSString *path;
@@ -143,16 +143,16 @@ static inline NSMutableArray *time_for_messages(NSArray *messages) {
     return mArray;
 }
 
-typedef NSMutableArray<const DIMInstantMessage *> MessageList;
-typedef NSMutableDictionary<const DIMID *, MessageList *> ConversationTable;
-typedef NSMutableArray<const DIMID *> ConversationIDList;
+typedef NSMutableArray<DIMInstantMessage *> MessageList;
+typedef NSMutableDictionary<DIMID *, MessageList *> ConversationTable;
+typedef NSMutableArray<DIMID *> ConversationIDList;
 
 @interface MessageProcessor () {
     
     ConversationTable *_chatHistory;
     ConversationIDList *_chatList;
     
-    NSMutableDictionary<const DIMID *, NSMutableArray<NSString *> *> *_timesTable;
+    NSMutableDictionary<DIMID *, NSMutableArray<NSString *> *> *_timesTable;
 }
 
 @end
@@ -189,8 +189,8 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     NSComparator comparator = ^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         MessageList *table1 = [self->_chatHistory objectForKey:obj1];
         MessageList *table2 = [self->_chatHistory objectForKey:obj2];
-        const DIMInstantMessage *msg1 = table1.lastObject;
-        const DIMInstantMessage *msg2 = table2.lastObject;
+        DIMInstantMessage *msg1 = table1.lastObject;
+        DIMInstantMessage *msg2 = table2.lastObject;
         NSNumber *time1 = [msg1 objectForKey:@"time"];
         NSNumber *time2 = [msg2 objectForKey:@"time"];
         NSTimeInterval t1 = [time1 doubleValue];
@@ -214,7 +214,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     _timesTable = [[NSMutableDictionary alloc] init];
 }
 
-- (BOOL)insertMessage:(const DIMInstantMessage *)iMsg forConversationID:(const DIMID *)ID {
+- (BOOL)insertMessage:(DIMInstantMessage *)iMsg forConversationID:(DIMID *)ID {
     
     MessageList *list = [_chatHistory objectForKey:ID];
     if (list.count == 0) {
@@ -246,7 +246,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     }
 }
 
-- (NSString *)timeTagAtIndex:(NSInteger)index forConversationID:(const DIMID *)ID {
+- (NSString *)timeTagAtIndex:(NSInteger)index forConversationID:(DIMID *)ID {
     
     NSMutableArray *timeList = [_timesTable objectForKey:ID];
     if (timeList.count <= index) {
@@ -270,7 +270,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (DIMConversation *)conversationAtIndex:(NSInteger)index {
-    const DIMID *ID = [_chatList objectAtIndex:index];
+    DIMID *ID = [_chatList objectAtIndex:index];
     return DIMConversationWithID(ID);
 }
 
@@ -280,7 +280,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (BOOL)removeConversation:(DIMConversation *)chatBox {
-    const DIMID *ID = chatBox.ID;
+    DIMID *ID = chatBox.ID;
     NSLog(@"remove conversation for %@", ID);
     BOOL removed = remove_messages(ID);
     if (removed) {
@@ -299,7 +299,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (BOOL)clearConversation:(DIMConversation *)chatBox {
-    const DIMID *ID = chatBox.ID;
+    DIMID *ID = chatBox.ID;
     NSLog(@"clear conversation for %@", ID);
     BOOL cleared = clear_messages(ID);
     if (cleared) {
@@ -314,16 +314,16 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 #pragma mark DIMConversationDataSource
 
 // get message count in the conversation
-- (NSInteger)numberOfMessagesInConversation:(const DIMConversation *)chatBox {
-    const DIMID *ID = chatBox.ID;
+- (NSInteger)numberOfMessagesInConversation:(DIMConversation *)chatBox {
+    DIMID *ID = chatBox.ID;
     
     NSArray *list = [_chatHistory objectForKey:ID];
     return list.count;
 }
 
 // get message at index of the conversation
-- (DIMInstantMessage *)conversation:(const DIMConversation *)chatBox messageAtIndex:(NSInteger)index {
-    const DIMID *ID = chatBox.ID;
+- (DIMInstantMessage *)conversation:(DIMConversation *)chatBox messageAtIndex:(NSInteger)index {
+    DIMID *ID = chatBox.ID;
     
     NSMutableArray *list = [_chatHistory objectForKey:ID];
     
@@ -348,7 +348,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 #pragma mark DIMConversationDelegate
 
 // Conversation factory
-- (DIMConversation *)conversationWithID:(const DIMID *)ID {
+- (DIMConversation *)conversationWithID:(DIMID *)ID {
     DIMEntity *entity = nil;
     if (MKMNetwork_IsCommunicator(ID.type)) {
         entity = DIMAccountWithID(ID);
@@ -369,8 +369,8 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 // save the new message to local storage
-- (BOOL)conversation:(const DIMConversation *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
-    const DIMID *ID = chatBox.ID;
+- (BOOL)conversation:(DIMConversation *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
+    DIMID *ID = chatBox.ID;
     
     // system command
     DIMContent *content = iMsg.content;
@@ -382,10 +382,10 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         // ...
         return YES;
     } else if (content.type == DIMContentType_History) {
-        const DIMID *groupID = MKMIDFromString(content.group);
+        DIMID *groupID = MKMIDFromString(content.group);
         if (groupID) {
             DIMGroupCommand *cmd = (DIMGroupCommand *)content;
-            const DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
+            DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
             if (![self processGroupCommand:cmd commander:sender]) {
                 NSLog(@"group comment error: %@", content);
                 return NO;
@@ -397,7 +397,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (MKMNetwork_IsGroup(ID.type)) {
         DIMGroup *group = DIMGroupWithID(ID);
         if (group.founder == nil) {
-            const DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
+            DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
             NSAssert(sender != nil, @"sender error: %@", iMsg);
             
             DIMQueryGroupCommand *query;

@@ -219,7 +219,7 @@
             NSAssert([sender isKindOfClass:[DIMConversation class]], @"sender error: %@", sender);
             chatBox = sender;
         }
-        const DIMID *ID = chatBox.ID;
+        DIMID *ID = chatBox.ID;
         DIMConversation *convers = DIMConversationWithID(ID);
         
         ChatViewController *vc = [segue visibleDestinationViewController];

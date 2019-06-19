@@ -10,12 +10,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern const NSString *kNotificationName_GroupMembersUpdated;
+extern NSString * const kNotificationName_GroupMembersUpdated;
 
 @interface MessageProcessor (GroupCommand)
 
 - (BOOL)processGroupCommand:(DIMGroupCommand *)cmd
-                  commander:(const DIMID *)sender;
+                  commander:(DIMID *)sender;
 
 @end
 

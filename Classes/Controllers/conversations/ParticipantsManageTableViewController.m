@@ -21,13 +21,13 @@
 
 #import "ParticipantsManageTableViewController.h"
 
-static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *group, const DIMUser *user) {
-    const DIMID *founder = group.founder;
-    NSArray<const DIMID *> *members = group.members;
-    const DIMID *current = user.ID;
-    NSArray<const DIMID *> *contacts = user.contacts;
+static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser *user) {
+    DIMID *founder = group.founder;
+    NSArray<DIMID *> *members = group.members;
+    DIMID *current = user.ID;
+    NSArray<DIMID *> *contacts = user.contacts;
     
-    const DIMID *ID;
+    DIMID *ID;
     NSMutableArray *candidates = [[NSMutableArray alloc] initWithCapacity:(members.count + contacts.count)];
     // add all members (except the founder & current user) as candidates
     for (ID in members) {
@@ -65,11 +65,11 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
 @interface ParticipantsManageTableViewController () {
     
     DIMGroup *_group;
-    const DIMID *_founder;
-    NSArray<const DIMID *> *_memberList;
+    DIMID *_founder;
+    NSArray<DIMID *> *_memberList;
     
-    NSArray<const DIMID *> *_candidateList;
-    NSMutableArray<const DIMID *> *_selectedList;
+    NSArray<DIMID *> *_candidateList;
+    NSMutableArray<DIMID *> *_selectedList;
 }
 
 @end
@@ -156,7 +156,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     }
     if (_memberList.count > 0) {
         NSArray *list = [_memberList copy];
-        for (const DIMID *item in list) {
+        for (DIMID *item in list) {
             if ([_selectedList containsObject:item]) {
                 continue;
             }
@@ -180,11 +180,11 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMPrivateKey *signKey = [dataSource privateKeyForSignatureOfUser:user.ID];
     
-    const DIMID *ID = _conversation.ID;
+    DIMID *ID = _conversation.ID;
     NSString *seed = _seedTextField.text;
     NSString *name = _nameTextField.text;
     DIMProfile *profile;
-//    NSMutableArray<const DIMID *> *members;
+//    NSMutableArray<DIMID *> *members;
     
     if (MKMNetwork_IsGroup(ID.type)) {
         // exists group
@@ -342,7 +342,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
         // founder
     } else if (section == 1) {
         // candidates
-        const DIMID *ID = [_candidateList objectAtIndex:row];
+        DIMID *ID = [_candidateList objectAtIndex:row];
         NSAssert(![_selectedList containsObject:ID], @"%@ should not in selected list: %@", ID, _selectedList);
         [_selectedList addObject:ID];
         NSLog(@"select: %@", ID);
@@ -361,7 +361,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
         // founder
     } else if (section == 1) {
         // candidates
-        const DIMID *ID = [_candidateList objectAtIndex:row];
+        DIMID *ID = [_candidateList objectAtIndex:row];
         NSAssert([_selectedList containsObject:ID], @"contact not selected: %@", ID);
         [_selectedList removeObject:ID];
         NSLog(@"deselect: %@", ID);
@@ -408,7 +408,7 @@ static inline NSArray<const DIMID *> *group_member_candidates(const DIMGroup *gr
         // candidates
         Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
-        const DIMID *contact;
+        DIMID *contact;
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;
         

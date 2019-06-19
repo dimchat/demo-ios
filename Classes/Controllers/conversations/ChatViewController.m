@@ -201,7 +201,7 @@
     [self _hideKeyboard];
 
     DIMConversation *chatBox = _conversation;
-    const DIMID *receiver = chatBox.ID;
+    DIMID *receiver = chatBox.ID;
     NSLog(@"send text: %@ -> %@", text, receiver);
     
     // create message content
@@ -235,7 +235,7 @@
 
 - (void)_showImagePickerController:(ImagePickerController *)ipc {
     DIMConversation *chatBox = _conversation;
-    const DIMID *receiver = chatBox.ID;
+    DIMID *receiver = chatBox.ID;
     
     // completion handler
     ImagePickerControllerCompletionHandler handler;
@@ -370,7 +370,7 @@
     
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
     DIMContent *content = iMsg.content;
-    const DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
+    DIMID *sender = MKMIDFromString(iMsg.envelope.sender);
     
     NSString *identifier = @"receivedMsgCell";
     DIMContentType type = content.type;
@@ -473,7 +473,7 @@
     } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
         
         MsgCell *cell = sender;
-        const DIMID *ID = MKMIDFromString(cell.msg.envelope.sender);
+        DIMID *ID = MKMIDFromString(cell.msg.envelope.sender);
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
         vc.account = DIMAccountWithID(ID);

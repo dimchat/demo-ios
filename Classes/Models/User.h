@@ -24,7 +24,7 @@ NSString *search_number(UInt32 code);
  @param account - account
  @return "Name (search number)"
  */
-NSString *account_title(const DIMAccount *account);
+NSString *account_title(DIMAccount *account);
 
 /**
  Group Title for Conversation
@@ -32,7 +32,7 @@ NSString *account_title(const DIMAccount *account);
  @param group - group
  @return "Name (members count)"
  */
-NSString *group_title(const DIMGroup *group);
+NSString *group_title(DIMGroup *group);
 
 /**
  Readable name for Entity ID
@@ -40,7 +40,7 @@ NSString *group_title(const DIMGroup *group);
  @param ID - entity ID
  @return "..."
  */
-NSString *readable_name(const DIMID *ID);
+NSString *readable_name(DIMID *ID);
 
 /**
  Check Username Valid
@@ -48,7 +48,7 @@ NSString *readable_name(const DIMID *ID);
  @param username - format: ^[A-Za-z0-9_-\.]+$
  @return YES on valid
  */
-BOOL check_username(const NSString *username);
+BOOL check_username(NSString *username);
 
 @interface DIMUser (Config)
 

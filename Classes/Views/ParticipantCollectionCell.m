@@ -15,7 +15,7 @@
 
 @implementation ParticipantCollectionCell
 
-- (void)setParticipant:(const DIMID *)participant {
+- (void)setParticipant:(DIMID *)participant {
     if (![_participant isEqual:participant]) {
         _participant = participant;
         

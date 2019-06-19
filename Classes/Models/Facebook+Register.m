@@ -14,7 +14,7 @@
 
 #import "Facebook+Register.h"
 
-static inline NSString *base_directory(const DIMID *ID) {
+static inline NSString *base_directory(DIMID *ID) {
     // base directory ("Documents/.mkm/{address}")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
@@ -27,7 +27,7 @@ static inline NSString *base_directory(const DIMID *ID) {
  @param ID - entity ID
  @return "Documents/.mkm/{address}/profile.plist"
  */
-static inline NSString *profile_filepath(const DIMID *ID, BOOL autoCreate) {
+static inline NSString *profile_filepath(DIMID *ID, BOOL autoCreate) {
     NSString *dir = base_directory(ID);
     // check base directory exists
     if (autoCreate && !file_exists(dir)) {
@@ -44,7 +44,7 @@ static inline NSString *profile_filepath(const DIMID *ID, BOOL autoCreate) {
  @param filename - "xxxx.png"
  @return "Documents/.mkm/{address}/avatars/xxxx.png"
  */
-static inline NSString *avatar_filepath(const DIMID *ID, NSString * _Nullable filename, BOOL autoCreate) {
+static inline NSString *avatar_filepath(DIMID *ID, NSString * _Nullable filename, BOOL autoCreate) {
     NSString *dir = base_directory(ID);
     dir = [dir stringByAppendingPathComponent:@"avatars"];
     // check base directory exists
@@ -64,7 +64,7 @@ static inline NSString *avatar_filepath(const DIMID *ID, NSString * _Nullable fi
  @param groupID - group ID
  @return "Documents/.mkm/{address}/members.plist"
  */
-static inline NSString *members_filepath(const DIMID *groupID, BOOL autoCreate) {
+static inline NSString *members_filepath(DIMID *groupID, BOOL autoCreate) {
     // base directory ("Documents/.mkm/{address}")
     NSString *dir = base_directory(groupID);
     // check base directory exists
@@ -95,9 +95,9 @@ static inline NSString *users_filepath(BOOL autoCreate) {
 
 @implementation Facebook (Register)
 
-- (BOOL)saveMeta:(const DIMMeta *)meta
-      privateKey:(const DIMPrivateKey *)SK
-           forID:(const DIMID *)ID {
+- (BOOL)saveMeta:(DIMMeta *)meta
+      privateKey:(DIMPrivateKey *)SK
+           forID:(DIMID *)ID {
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
     
     NSArray *array = [self scanUserIDList];
@@ -115,7 +115,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
     
     // 2. check & save private key
-    const DIMPublicKey *PK = meta.key;
+    DIMPublicKey *PK = meta.key;
     if ([PK isMatch:SK]) {
         if ([SK saveKeyWithIdentifier:ID.address]) {
             NSLog(@"private key saved: %@", SK);
@@ -141,8 +141,8 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     return [users writeToFile:path atomically:YES];
 }
 
-- (NSArray<const DIMID *> *)scanUserIDList {
-    NSMutableArray<const DIMID *> *users = nil;
+- (NSArray<DIMID *> *)scanUserIDList {
+    NSMutableArray<DIMID *> *users = nil;
     
     // load from ("Documents/.dim/users.plist")
     NSString *path = users_filepath(NO);
@@ -162,8 +162,8 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     return users;
 }
 
-- (BOOL)saveUserIDList:(const NSArray<const MKMID *> *)users
-         withCurrentID:(nullable const MKMID *)curr {
+- (BOOL)saveUserIDList:(NSArray<DIMID *> *)users
+         withCurrentID:(nullable DIMID *)curr {
     if (users.count == 0) {
         return NO;
     }
@@ -182,8 +182,8 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     return [users writeToFile:path atomically:YES];
 }
 
-- (BOOL)saveUserList:(const NSArray<const MKMUser *> *)users
-     withCurrentUser:(const MKMUser *)curr {
+- (BOOL)saveUserList:(NSArray<DIMUser *> *)users
+     withCurrentUser:(DIMUser *)curr {
     users = [users copy];
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
     for (DIMUser *user in users) {
@@ -192,8 +192,8 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     return [self saveUserIDList:list withCurrentID:curr.ID];
 }
 
-- (BOOL)removeUser:(const DIMUser *)user {
-    NSMutableArray<const DIMID *> *users = (NSMutableArray *)[self scanUserIDList];
+- (BOOL)removeUser:(DIMUser *)user {
+    NSMutableArray<DIMID *> *users = (NSMutableArray *)[self scanUserIDList];
     if ([users containsObject:user.ID]) {
         [users removeObject:user.ID];
         return [self saveUserIDList:users withCurrentID:nil];
@@ -203,7 +203,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
 }
 
-- (BOOL)saveProfile:(const DIMProfile *)profile forID:(const DIMID *)ID {
+- (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID {
     if (![profile.ID isEqual:ID]) {
         NSAssert(false, @"profile error: %@", profile);
         return NO;
@@ -221,7 +221,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
 }
 
-- (nullable DIMProfile *)loadProfileForID:(const DIMID *)ID {
+- (nullable DIMProfile *)loadProfileForID:(DIMID *)ID {
     NSString *path = profile_filepath(ID, NO);
     if (file_exists(path)) {
         NSLog(@"loaded profile from %@", path);
@@ -233,8 +233,8 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
 }
 
-- (BOOL)saveMembers:(const NSArray<const MKMID *> *)list
-        withGroupID:(const MKMID *)grp {
+- (BOOL)saveMembers:(NSArray<DIMID *> *)list
+        withGroupID:(DIMID *)grp {
     NSString *path = members_filepath(grp, YES);
     if ([list writeToFile:path atomically:YES]) {
         NSLog(@"members %@ of %@ has been saved to %@", list, grp, path);
@@ -245,7 +245,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
 }
 
-- (NSArray<const DIMID *> *)loadMembersWithGroupID:(const MKMID *)grp {
+- (NSArray<DIMID *> *)loadMembersWithGroupID:(DIMID *)grp {
     NSString *path = members_filepath(grp, NO);
     NSArray *list = [NSArray arrayWithContentsOfFile:path];
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:list.count];
@@ -261,13 +261,13 @@ static inline NSString *users_filepath(BOOL autoCreate) {
 
 #pragma mark - Avatar
 
-const NSString *kNotificationName_AvatarUpdated = @"AvatarUpdated";
+NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
 
 @implementation Facebook (Avatar)
 
-- (BOOL)saveAvatar:(const NSData *)data
+- (BOOL)saveAvatar:(NSData *)data
               name:(nullable NSString *)filename
-             forID:(const DIMID *)ID {
+             forID:(DIMID *)ID {
     
     UIImage *image = [UIImage imageWithData:(NSData *)data];
     if (image.size.width < 32) {
@@ -288,7 +288,7 @@ const NSString *kNotificationName_AvatarUpdated = @"AvatarUpdated";
     
     NSURL *url = [info objectForKey:@"URL"];
     NSString *path = [info objectForKey:@"Path"];
-    const DIMID *ID = [info objectForKey:@"ID"];
+    DIMID *ID = [info objectForKey:@"ID"];
     
     // check
     static NSMutableArray *s_downloadings = nil;
@@ -312,7 +312,7 @@ const NSString *kNotificationName_AvatarUpdated = @"AvatarUpdated";
 }
 
 // Cache directory: "Documents/.mkm/{address}/avatar.png"
-- (nullable UIImage *)loadAvatarWithURL:(NSString *)urlString forID:(const DIMID *)ID {
+- (nullable UIImage *)loadAvatarWithURL:(NSString *)urlString forID:(DIMID *)ID {
     
     NSURL *url = [NSURL URLWithString:urlString];
     NSString *filename = [url lastPathComponent];

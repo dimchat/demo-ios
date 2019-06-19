@@ -22,7 +22,7 @@
 
 @property (strong, nonatomic) DIMPrivateKey *SK;
 @property (strong, nonatomic) DIMMeta *meta;
-@property (strong, nonatomic) const DIMID *ID;
+@property (strong, nonatomic) DIMID *ID;
 
 @end
 
@@ -110,7 +110,7 @@
     // 1. generate private key
     _SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
     // 2. generate meta
-    _meta = [[MKMMeta alloc] initWithVersion:MKMMetaDefaultVersion
+    _meta = [[DIMMeta alloc] initWithVersion:MKMMetaDefaultVersion
                                         seed:username
                                   privateKey:_SK
                                    publicKey:nil];
@@ -161,7 +161,7 @@
     
     DIMPrivateKey *SK = _SK;
     DIMMeta *meta = _meta;
-    const DIMID *ID = _ID;
+    DIMID *ID = _ID;
     
     NSString *nickname = _nickname;
     

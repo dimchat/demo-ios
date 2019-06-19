@@ -31,12 +31,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIImage (Text)
 
-+ (nullable UIImage *)imageWithText:(const NSString *)text size:(const CGSize)size;
-+ (nullable UIImage *)imageWithText:(const NSString *)text
++ (nullable UIImage *)imageWithText:(NSString *)text size:(const CGSize)size;
++ (nullable UIImage *)imageWithText:(NSString *)text
                                size:(const CGSize)size
                               color:(nullable UIColor *)textColor
                     backgroundColor:(nullable UIColor *)bgColor;
-+ (nullable UIImage *)imageWithText:(const NSString *)text
++ (nullable UIImage *)imageWithText:(NSString *)text
                                size:(const CGSize)size
                               color:(nullable UIColor *)textColor
                     backgroundImage:(nullable UIImage *)bgImage;

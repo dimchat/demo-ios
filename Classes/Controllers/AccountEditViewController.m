@@ -38,7 +38,7 @@
     
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
-    const DIMID *ID = user.ID;
+    DIMID *ID = user.ID;
     
     DIMProfile *profile = DIMProfileForID(ID);
     
@@ -97,7 +97,7 @@
             
             Client *client = [Client sharedInstance];
             DIMUser *user = client.currentUser;
-            const DIMID *ID = user.ID;
+            DIMID *ID = user.ID;
             DIMProfile *profile = DIMProfileForID(ID);
             if (!profile) {
                 NSAssert(false, @"profile should not be empty");
@@ -146,7 +146,7 @@
     
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
-    const DIMID *ID = user.ID;
+    DIMID *ID = user.ID;
     
     DIMProfile *profile = DIMProfileForID(ID);
     [profile setName:nickname];

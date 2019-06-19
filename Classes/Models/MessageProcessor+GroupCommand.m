@@ -15,12 +15,12 @@
 
 #import "MessageProcessor+GroupCommand.h"
 
-const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
+NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 
 @implementation MessageProcessor (GroupCommand)
 
 - (BOOL)_processQueryCommand:(DIMGroupCommand *)gCmd
-                   commander:(const DIMID *)sender
+                   commander:(DIMID *)sender
                    polylogue:(DIMPolylogue *)group {
     
     // 1. check permission
@@ -46,7 +46,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 }
 
 - (BOOL)_processResetCommand:(DIMGroupCommand *)gCmd
-                   commander:(const DIMID *)sender
+                   commander:(DIMID *)sender
                    polylogue:(DIMPolylogue *)group {
     
     // 0. check permission
@@ -57,7 +57,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     
     NSArray *members = group.members;
     
-    const NSArray *newMembers = gCmd.members;
+    NSArray *newMembers = gCmd.members;
     if (newMembers.count > 0) {
         // replace item to ID objects
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:newMembers.count];
@@ -125,7 +125,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 }
 
 - (BOOL)_processInviteCommand:(DIMGroupCommand *)gCmd
-                    commander:(const DIMID *)sender
+                    commander:(DIMID *)sender
                     polylogue:(DIMPolylogue *)group {
     
     // 0. check permission
@@ -138,7 +138,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     
     NSMutableArray *newMembers = [[NSMutableArray alloc] initWithArray:members];
     
-    const NSArray *invites = gCmd.members;
+    NSArray *invites = gCmd.members;
     if (invites.count > 0) {
         // repace item to ID object
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:invites.count];
@@ -200,7 +200,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 }
 
 - (BOOL)_processExpelCommand:(DIMGroupCommand *)gCmd
-                   commander:(const DIMID *)sender
+                   commander:(DIMID *)sender
                    polylogue:(DIMPolylogue *)group {
     
     // 1. check permission
@@ -213,7 +213,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     
     NSMutableArray *newMembers = [[NSMutableArray alloc] initWithArray:members];
     
-    const NSArray *expels = gCmd.members;
+    NSArray *expels = gCmd.members;
     if (expels.count > 0) {
         // repace item to ID object
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:expels.count];
@@ -264,7 +264,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 }
 
 - (BOOL)_processQuitCommand:(DIMGroupCommand *)gCmd
-                  commander:(const DIMID *)sender
+                  commander:(DIMID *)sender
                   polylogue:(DIMPolylogue *)group {
     
     // 1. check permission
@@ -293,13 +293,13 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
 }
 
 - (BOOL)processGroupCommand:(DIMGroupCommand *)gCmd
-                  commander:(const DIMID *)sender {
+                  commander:(DIMID *)sender {
     BOOL OK = NO;
     
     NSString *command = gCmd.command;
     NSLog(@"command: %@", command);
     
-    const DIMID *groupID = MKMIDFromString(gCmd.group);
+    DIMID *groupID = MKMIDFromString(gCmd.group);
     if (groupID.type == MKMNetwork_Polylogue) {
         DIMPolylogue *group = (DIMPolylogue *)DIMGroupWithID(groupID);
         
@@ -322,7 +322,7 @@ const NSString *kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     
     if (OK) {
         // notice
-        const NSString *name = kNotificationName_GroupMembersUpdated;
+        NSString *name = kNotificationName_GroupMembersUpdated;
         NSDictionary *info = @{@"group": groupID};
         [NSNotificationCenter postNotificationName:name
                                             object:self

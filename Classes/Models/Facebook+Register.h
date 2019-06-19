@@ -14,35 +14,35 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Facebook (Register)
 
-- (BOOL)saveMeta:(const DIMMeta *)meta privateKey:(const DIMPrivateKey *)SK forID:(const DIMID *)ID;
+- (BOOL)saveMeta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK forID:(DIMID *)ID;
 
-- (NSArray<const DIMID *> *)scanUserIDList;
+- (NSArray<DIMID *> *)scanUserIDList;
 
-- (BOOL)saveUserIDList:(const NSArray<const DIMID *> *)users withCurrentID:(nullable const DIMID *)curr;
-- (BOOL)saveUserList:(const NSArray<const DIMUser *> *)users withCurrentUser:(nullable const DIMUser *)curr;
+- (BOOL)saveUserIDList:(NSArray<DIMID *> *)users withCurrentID:(nullable DIMID *)curr;
+- (BOOL)saveUserList:(NSArray<DIMUser *> *)users withCurrentUser:(nullable DIMUser *)curr;
 
-- (BOOL)removeUser:(const DIMUser *)user;
+- (BOOL)removeUser:(DIMUser *)user;
 
-- (BOOL)saveProfile:(const DIMProfile *)profile forID:(const DIMID *)ID;
-- (nullable DIMProfile *)loadProfileForID:(const DIMID *)ID;
+- (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID;
+- (nullable DIMProfile *)loadProfileForID:(DIMID *)ID;
 
-- (BOOL)saveMembers:(const NSArray<const DIMID *> *)list withGroupID:(const DIMID *)grp;
-- (NSArray<const DIMID *> *)loadMembersWithGroupID:(const DIMID *)grp;
+- (BOOL)saveMembers:(NSArray<DIMID *> *)list withGroupID:(DIMID *)grp;
+- (NSArray<DIMID *> *)loadMembersWithGroupID:(DIMID *)grp;
 
 @end
 
 #pragma mark - Avatar
 
-extern const NSString *kNotificationName_AvatarUpdated;
+extern NSString * const kNotificationName_AvatarUpdated;
 
 @interface Facebook (Avatar)
 
-- (BOOL)saveAvatar:(const NSData *)data
+- (BOOL)saveAvatar:(NSData *)data
               name:(nullable NSString *)filename
-             forID:(const DIMID *)ID;
+             forID:(DIMID *)ID;
 
 - (nullable UIImage *)loadAvatarWithURL:(NSString *)urlString
-                                  forID:(const DIMID *)ID;
+                                  forID:(DIMID *)ID;
 
 @end
 

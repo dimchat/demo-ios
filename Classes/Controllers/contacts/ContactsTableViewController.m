@@ -32,7 +32,7 @@ static inline void sort_array(NSMutableArray *array) {
 
 @interface ContactsTableViewController () {
     
-    NSMutableDictionary<NSString *, NSMutableArray<const DIMID *> *> *_contactsTable;
+    NSMutableDictionary<NSString *, NSMutableArray<DIMID *> *> *_contactsTable;
     NSMutableArray *_contactsKey;
 }
 
@@ -64,11 +64,11 @@ static inline void sort_array(NSMutableArray *array) {
     
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
-    NSArray<const DIMID *> *contacts = user.contacts;
+    NSArray<DIMID *> *contacts = user.contacts;
     NSInteger count = [contacts count];
     
-    NSMutableArray<const DIMID *> *mArray;
-    const DIMID *contact;
+    NSMutableArray<DIMID *> *mArray;
+    DIMID *contact;
     DIMProfile *profile;
     NSString *name;
     while (--count >= 0) {
@@ -203,7 +203,7 @@ static inline void sort_array(NSMutableArray *array) {
     
     if ([segue.identifier isEqualToString:@"profileSegue"]) {
         ContactCell *cell = sender;
-        const DIMID *ID = cell.contact.ID;
+        DIMID *ID = cell.contact.ID;
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
         vc.account = DIMAccountWithID(ID);

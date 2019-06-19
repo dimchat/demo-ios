@@ -16,9 +16,9 @@
 @implementation Facebook (Contacts)
 
 // {document_directory}/.mkm/{address}/contacts.plist
-- (void)flushContactsWithUser:(const DIMUser *)user {
+- (void)flushContactsWithUser:(DIMUser *)user {
     
-    NSMutableArray<const DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
+    NSMutableArray<DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts.count > 0) {
         NSString *dir = document_directory();
         NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/contacts.plist", dir, user.ID.address];
@@ -29,9 +29,9 @@
     }
 }
 
-- (BOOL)user:(const DIMUser *)user addContact:(const DIMID *)contact {
+- (BOOL)user:(DIMUser *)user addContact:(DIMID *)contact {
     NSLog(@"user %@ add contact %@", user, contact);
-    NSMutableArray<const DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
+    NSMutableArray<DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts) {
         if ([contacts containsObject:contact]) {
             NSLog(@"contact %@ already exists, user: %@", contact, user.ID);
@@ -49,9 +49,9 @@
     return YES;
 }
 
-- (BOOL)user:(const DIMUser *)user removeContact:(const DIMID *)contact {
+- (BOOL)user:(DIMUser *)user removeContact:(DIMID *)contact {
     NSLog(@"user %@ remove contact %@", user, contact);
-    NSMutableArray<const DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
+    NSMutableArray<DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts) {
         if ([contacts containsObject:contact]) {
             [contacts removeObject:contact];
@@ -72,8 +72,8 @@
 
 @implementation Facebook (Members)
 
-- (BOOL)group:(const DIMGroup *)group addMember:(const DIMID *)member {
-    NSArray<const DIMID *> *members = group.members;
+- (BOOL)group:(DIMGroup *)group addMember:(DIMID *)member {
+    NSArray<DIMID *> *members = group.members;
     if ([members containsObject:member]) {
         NSAssert(false, @"member already exists: %@, %@", member, group);
         return NO;
@@ -83,14 +83,14 @@
     return [self saveMembers:mArray withGroupID:group.ID];
 }
 
-- (BOOL)group:(const DIMGroup *)group removeMember:(const DIMID *)member {
-    NSArray<const DIMID *> *members = group.members;
+- (BOOL)group:(DIMGroup *)group removeMember:(DIMID *)member {
+    NSArray<DIMID *> *members = group.members;
     if (![members containsObject:member]) {
         NSAssert(false, @"member not exists: %@, %@", member, group);
         return NO;
     }
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:(members.count - 1)];
-    for (const DIMID *item in members) {
+    for (DIMID *item in members) {
         if ([item isEqual:member]) {
             continue;
         }

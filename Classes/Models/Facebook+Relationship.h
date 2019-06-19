@@ -12,15 +12,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Facebook (Contacts)
 
-- (BOOL)user:(const DIMUser *)user addContact:(const DIMID *)contact;
-- (BOOL)user:(const DIMUser *)user removeContact:(const DIMID *)contact;
+- (BOOL)user:(DIMUser *)user addContact:(DIMID *)contact;
+- (BOOL)user:(DIMUser *)user removeContact:(DIMID *)contact;
 
 @end
 
 @interface Facebook (Members)
 
-- (BOOL)group:(const DIMGroup *)group addMember:(const DIMID *)member;
-- (BOOL)group:(const DIMGroup *)group removeMember:(const DIMID *)member;
+- (BOOL)group:(DIMGroup *)group addMember:(DIMID *)member;
+- (BOOL)group:(DIMGroup *)group removeMember:(DIMID *)member;
 
 @end
 

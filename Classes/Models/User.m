@@ -20,19 +20,19 @@ NSString *search_number(UInt32 code) {
     return number;
 }
 
-NSString *account_title(const DIMAccount *account) {
+NSString *account_title(DIMAccount *account) {
     NSString *name = account.name;
     NSString *number = search_number(account.number);
     return [NSString stringWithFormat:@"%@ (%@)", name, number];
 }
 
-NSString *group_title(const DIMGroup *group) {
+NSString *group_title(DIMGroup *group) {
     NSString *name = group.name;
     NSUInteger count = group.members.count;
     return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];
 }
 
-NSString *readable_name(const DIMID *ID) {
+NSString *readable_name(DIMID *ID) {
     DIMProfile *profile = DIMProfileForID(ID);
     NSString *nickname = profile.name;
     NSString *username = ID.name;
@@ -49,7 +49,7 @@ NSString *readable_name(const DIMID *ID) {
     }
 }
 
-BOOL check_username(const NSString *username) {
+BOOL check_username(NSString *username) {
     NSString *pattern = @"^[A-Za-z0-9._-]+$";
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
     return [pred evaluateWithObject:username];

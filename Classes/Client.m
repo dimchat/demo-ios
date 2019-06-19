@@ -15,9 +15,9 @@
 
 #import "Client.h"
 
-const NSString *kNotificationName_MessageUpdated = @"MessageUpdated";
-const NSString *kNotificationName_MessageCleaned = @"MessageCleaned";
-const NSString *kNotificationName_UsersUpdated = @"UsersUpdated";
+NSString * const kNotificationName_MessageUpdated = @"MessageUpdated";
+NSString * const kNotificationName_MessageCleaned = @"MessageCleaned";
+NSString * const kNotificationName_UsersUpdated = @"UsersUpdated";
 
 @interface Client () {
     
@@ -57,7 +57,7 @@ SingletonImplementations(Client, sharedInstance)
     return _userAgent;
 }
 
-- (void)onHandshakeAccepted:(const NSString *)session {
+- (void)onHandshakeAccepted:(NSString *)session {
     [super onHandshakeAccepted:session];
     
     // post device token
@@ -285,7 +285,7 @@ SingletonImplementations(Client, sharedInstance)
 
 @implementation Client (Register)
 
-- (BOOL)saveUser:(const MKMID *)ID meta:(const MKMMeta *)meta privateKey:(const MKMPrivateKey *)SK name:(nullable NSString *)nickname {
+- (BOOL)saveUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname {
     
     Facebook *facebook = [Facebook sharedInstance];
     

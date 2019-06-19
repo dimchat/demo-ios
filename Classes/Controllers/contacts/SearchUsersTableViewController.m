@@ -82,8 +82,8 @@
     DIMBarrack *barrack = [DIMBarrack sharedInstance];
     Client *client = [Client sharedInstance];
     
-    const DIMID *ID;
-    const DIMMeta *meta;
+    DIMID *ID;
+    DIMMeta *meta;
     
     if ([notification.name isEqual:kNotificationName_OnlineUsersUpdated]) {
         // online users

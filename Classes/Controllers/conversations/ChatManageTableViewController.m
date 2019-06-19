@@ -127,7 +127,7 @@
                 // send quit group command
                 DIMQuitCommand *cmd = [[DIMQuitCommand alloc] initWithGroup:group.ID];
                 NSArray *members = group.members;
-                for (const DIMID *member in members) {
+                for (DIMID *member in members) {
                     [client sendContent:cmd to:member];
                 }
                 // remove myself
@@ -325,7 +325,7 @@
     } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
         
         ParticipantCollectionCell *cell = sender;
-        const DIMID *ID = cell.participant;
+        DIMID *ID = cell.participant;
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
         vc.account = DIMAccountWithID(ID);
