@@ -23,7 +23,7 @@
 #import "User.h"
 #import "Client.h"
 #import "Facebook+Register.h"
-
+#import "dimMacros.h"
 #import "AccountEditViewController.h"
 
 @interface AccountEditViewController ()
@@ -172,7 +172,7 @@
         // avatar & nickname
     } else if (section == 1) {
         // profiles
-    } else {
+    } else if (section == 2){
         // function
         if (row == 0) {
             // Save
@@ -182,6 +182,25 @@
                         withTitle:nil];
             }
         }
+    } else if(section == 3){
+        //Export Account
+        Client *client = [Client sharedInstance];
+        DIMUser *user = client.currentUser;
+        
+        DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
+        [key setObject:user.ID.name forKey:@"username"];
+        [key setObject:user.profile.name forKey:@"nickname"];
+        NSLog(@"The private key is : %@", key);
+        
+        Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
+        NSData *jsonData = [nativeJsonParser dataWithJSONObject:key options:0 error:NULL];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+        //Copy to clipboard
+        [[UIPasteboard generalPasteboard] setString:jsonString];
+        
+        [self showMessage:NSLocalizedString(@"Your account infomation has been saved to clipboard, please save it to Notes", nil)
+                withTitle:NSLocalizedString(@"Success", @"title")];
     }
 }
 

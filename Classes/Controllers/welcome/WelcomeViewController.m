@@ -10,6 +10,7 @@
 #import "UIView+Extension.h"
 #import "UIViewController+Extension.h"
 #import "WebViewController.h"
+#import "ImportAccountViewController.h"
 
 #import "User.h"
 #import "Client.h"
@@ -113,6 +114,12 @@
         }
     }
     return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
+}
+
+- (IBAction)didPressImportButton:(id)sender {
+    
+    ImportAccountViewController *controller = [[ImportAccountViewController alloc] initWithNibName:@"ImportAccountViewController" bundle:nil];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end
