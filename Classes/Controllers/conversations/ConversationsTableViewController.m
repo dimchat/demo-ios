@@ -33,12 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     while (_fixedTitle.length == 0) {
         _fixedTitle = self.navigationItem.title;
         if (_fixedTitle.length > 0) {
@@ -102,19 +96,19 @@
     if ([name isEqual:kNotificationName_ServerStateChanged]) {
         NSString *state = [info objectForKey:@"state"];
         if ([state isEqualToString:kDIMServerState_Default]) {
-            self.title = NSLocalizedString(@"Disconnected!", nil);
+            self.navigationItem.title = NSLocalizedString(@"Disconnected!", nil);
         } else if ([state isEqualToString:kDIMServerState_Connecting]) {
-            self.title = NSLocalizedString(@"Connecting ...", nil);
+            self.navigationItem.title = NSLocalizedString(@"Connecting ...", nil);
         } else if ([state isEqualToString:kDIMServerState_Connected]) {
-            self.title = NSLocalizedString(@"Connected!", nil);
+            self.navigationItem.title = NSLocalizedString(@"Connected!", nil);
         } else if ([state isEqualToString:kDIMServerState_Handshaking]) {
-            self.title = NSLocalizedString(@"Authenticating ...", nil);
+            self.navigationItem.title = NSLocalizedString(@"Authenticating ...", nil);
         } else if ([state isEqualToString:kDIMServerState_Running]) {
-            self.title = _fixedTitle;
+            self.navigationItem.title = _fixedTitle;
         } else if ([state isEqualToString:kDIMServerState_Error]) {
-            self.title = NSLocalizedString(@"Network error!", nil);
+            self.navigationItem.title = NSLocalizedString(@"Network error!", nil);
         } else if ([state isEqualToString:kDIMServerState_Stopped]) {
-            self.title = NSLocalizedString(@"Connection stopped!", nil);
+            self.navigationItem.title = NSLocalizedString(@"Connection stopped!", nil);
         } else {
             NSAssert(false, @"unexpected state: %@", state);
         }
