@@ -150,8 +150,12 @@
     DIMUser *user = client.currentUser;
     DIMID *ID = user.ID;
     
+    id<DIMUserDataSource> dataSource = user.dataSource;
+    DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
+    
     DIMProfile *profile = DIMProfileForID(ID);
     [profile setName:nickname];
+    [profile sign:SK];
     
     Facebook *facebook = [Facebook sharedInstance];
     [facebook saveProfile:profile forID:ID];
