@@ -300,7 +300,7 @@ SingletonImplementations(Client, sharedInstance)
         DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
         [profile setName:nickname];
         [profile sign:SK];
-        if (![facebook saveProfile:profile forID:ID]) {
+        if (![facebook saveProfile:profile]) {
             NSAssert(false, @"failedo to save profile for new user: %@", ID);
             return NO;
         }

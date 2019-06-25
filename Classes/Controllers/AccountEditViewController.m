@@ -118,7 +118,7 @@
             profile.avatar = [url absoluteString];
             
             // save profile with new avatar
-            [facebook saveProfile:profile forID:ID];
+            [facebook saveProfile:profile];
             
             // submit to network
             [client postProfile:profile meta:nil];
@@ -158,7 +158,7 @@
     [profile sign:SK];
     
     Facebook *facebook = [Facebook sharedInstance];
-    [facebook saveProfile:profile forID:ID];
+    [facebook saveProfile:profile];
     
     // submit to station
     [client postProfile:profile meta:nil];
