@@ -51,7 +51,7 @@
                                     <outlet property="avatarImageView" destination="FoR-8N-9Ij" id="0Z6-EU-6aw"/>
                                     <outlet property="lastMsgLabel" destination="GtS-XW-P7O" id="tNW-QG-QVz"/>
                                     <outlet property="nameLabel" destination="wDE-R4-Soc" id="y5o-GY-M8y"/>
-                                    <segue destination="VO3-x5-g0J" kind="presentation" identifier="startChat" id="USF-1K-iXV"/>
+                                    <segue destination="VO3-x5-g0J" kind="show" identifier="startChat" id="USF-1K-iXV"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -80,6 +80,7 @@
         <!--Navigation Controller-->
         <scene sceneID="3tY-dQ-VPi">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J8S-R9-uAP" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="chatBox" id="VO3-x5-g0J" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bYc-wm-r2c">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -89,7 +90,6 @@
                         <segue destination="bP7-p2-KZv" kind="relationship" relationship="rootViewController" id="6bu-B0-j4V"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="J8S-R9-uAP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2422" y="-245"/>
         </scene>
