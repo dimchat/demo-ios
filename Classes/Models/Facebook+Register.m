@@ -203,30 +203,18 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
 }
 
-- (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID {
-    if (![profile.ID isEqual:ID]) {
-        NSAssert(false, @"profile error: %@", profile);
-        return NO;
-    }
-    // update memory cache
-    [self setProfile:profile forID:ID];
-    
-    NSString *path = profile_filepath(ID, YES);
-    if ([profile writeToBinaryFile:path]) {
-        NSLog(@"profile %@ of %@ has been saved to %@", profile, ID, path);
-        return YES;
-    } else {
-        NSAssert(false, @"failed to save profile for ID: %@, %@", ID, profile);
-        return NO;
-    }
-}
-
 - (nullable DIMProfile *)loadProfileForID:(DIMID *)ID {
     NSString *path = profile_filepath(ID, NO);
     if (file_exists(path)) {
         NSLog(@"loaded profile from %@", path);
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        return MKMProfileFromDictionary(dict);
+        DIMProfile *profile = MKMProfileFromDictionary(dict);
+        // try to verify it
+        DIMBarrack *barrack = [DIMBarrack sharedInstance];
+        if (![barrack verifyProfile:profile]) {
+            //return NO;
+        }
+        return profile;
     } else {
         NSLog(@"profile not found: %@", path);
         return nil;

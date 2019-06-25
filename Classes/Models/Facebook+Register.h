@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)removeUser:(DIMUser *)user;
 
-- (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID;
 - (nullable DIMProfile *)loadProfileForID:(DIMID *)ID;
 
 - (BOOL)saveMembers:(NSArray<DIMID *> *)list withGroupID:(DIMID *)grp;

@@ -8,6 +8,7 @@
 
 #import "NSObject+Singleton.h"
 #import "NSDate+Timestamp.h"
+#import "NSDictionary+Binary.h"
 #import "NSNotificationCenter+Extension.h"
 
 #import "MKMImmortals.h"
@@ -124,7 +125,7 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     // update profile
-    [self saveProfile:profile forID:profile.ID];
+    [self saveProfile:profile];
 }
 
 - (nullable DIMID *)IDWithAddress:(DIMAddress *)address {
@@ -350,6 +351,29 @@ SingletonImplementations(Facebook, sharedInstance)
 - (BOOL)saveMeta:(DIMMeta *)meta forID:(DIMID *)ID {
     // TODO: save meta
     return NO;
+}
+
+- (BOOL)saveProfile:(MKMProfile *)profile {
+    DIMID *ID = profile.ID;
+    if (![profile.ID isEqual:ID]) {
+        NSAssert(false, @"profile error: %@", profile);
+        return NO;
+    }
+    // update memory cache
+    [self setProfile:profile forID:ID];
+    
+    NSString *dir = document_directory();
+    dir = [dir stringByAppendingPathComponent:@".mkm"];
+    
+    NSString *path = [NSString stringWithFormat:@"%@/profile.plist", ID.address];
+    path = [dir stringByAppendingPathComponent:path];
+    if ([profile writeToBinaryFile:path]) {
+        NSLog(@"profile %@ of %@ has been saved to %@", profile, ID, path);
+        return YES;
+    } else {
+        NSAssert(false, @"failed to save profile for ID: %@, %@", ID, profile);
+        return NO;
+    }
 }
 
 - (nullable DIMAccount *)accountWithID:(DIMID *)ID {
