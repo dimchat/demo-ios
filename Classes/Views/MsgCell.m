@@ -91,8 +91,6 @@
     [super layoutSubviews];
     
     id cell = self;
-    //UILabel *timeLabel = [cell timeLabel];
-    //UIImageView *avatarImageView = [cell avatarImageView];
     UIImageView *messageImageView = [cell messageImageView];
     UILabel *messageLabel = [cell messageLabel];
     
@@ -119,12 +117,14 @@
         size = [text sizeWithFont:font maxSize:size];
     }
     
+    CGFloat labelHeight = MAX(size.height, 26.0);
+    
     CGRect imageFrame = messageImageView.frame;
-    imageFrame.size = CGSizeMake(size.width + edges.left + edges.right,
-                                 size.height + edges.top + edges.bottom);
     CGRect labelFrame = CGRectMake(imageFrame.origin.x + edges.left,
                                    imageFrame.origin.y + edges.top,
-                                   size.width + 16, size.height);
+                                   size.width, labelHeight);
+    imageFrame.size = CGSizeMake(labelFrame.size.width + edges.left + edges.right,
+                                 labelFrame.size.height + edges.top + edges.bottom);
     messageImageView.frame = imageFrame;
     messageLabel.frame = labelFrame;
     
@@ -188,7 +188,7 @@
                 // double click to zoom in
                 [messageLabel addDoubleClickTarget:self action:@selector(zoomIn:)];
             }
-                break;
+            break;
                 
             case DIMContentType_File: {
                 // TODO: show file info
@@ -196,7 +196,7 @@
                 NSString *format = NSLocalizedString(@"[File:%@]", nil);
                 messageLabel.text = [NSString stringWithFormat:format, filename];
             }
-                break;
+            break;
                 
             case DIMContentType_Image: {
                 // show image
@@ -225,7 +225,7 @@
                 
                 [messageLabel addClickTarget:self action:@selector(zoomIn:)];
             }
-                break;
+            break;
                 
             case DIMContentType_Audio: {
                 // TODO: show audio info
@@ -233,7 +233,7 @@
                 NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
                 messageLabel.text = [NSString stringWithFormat:format, filename];
             }
-                break;
+            break;
                 
             case DIMContentType_Video: {
                 // TODO: show video info
@@ -241,7 +241,7 @@
                 NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
                 messageLabel.text = [NSString stringWithFormat:format, filename];
             }
-                break;
+            break;
                 
             case DIMContentType_Page: {
                 // TODO: show web page
@@ -291,14 +291,14 @@
                 
                 [messageLabel addClickTarget:self action:@selector(openURL:)];
             }
-                break;
+            break;
                 
             default: {
                 // unsupported message type
                 NSString *format = NSLocalizedString(@"This client doesn't support this message type: %u", nil);
                 messageLabel.text = [NSString stringWithFormat:format, content.type];
             }
-                break;
+            break;
         }
         
         [self setNeedsLayout];
