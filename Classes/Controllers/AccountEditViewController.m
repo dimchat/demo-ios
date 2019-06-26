@@ -93,6 +93,7 @@
         NSLog(@"pick image: %@, path: %@", image, path);
         if (image) {
             // image file
+            image = [image aspectFit:CGSizeMake(320, 320)];
             NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
             NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
             NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
@@ -106,6 +107,9 @@
                 return ;
             }
             
+            id<DIMUserDataSource> dataSource = user.dataSource;
+            DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
+            
             // save to local storage
             Facebook *facebook = [Facebook sharedInstance];
             [facebook saveAvatar:data name:filename forID:profile.ID];
@@ -116,6 +120,7 @@
             
             // got avatar URL
             profile.avatar = [url absoluteString];
+            [profile sign:SK];
             
             // save profile with new avatar
             [facebook saveProfile:profile];
