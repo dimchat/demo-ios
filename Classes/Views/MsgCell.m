@@ -12,6 +12,7 @@
 #import "UIButton+Extension.h"
 #import "UIView+Extension.h"
 #import "UIStoryboard+Extension.h"
+#import "NSDate+Extension.h"
 
 #import "DIMProfile+Extension.h"
 #import "DIMInstantMessage+Extension.h"
@@ -33,6 +34,15 @@
 @end
 
 @implementation MsgCell
+
++(NSString *)timeString:(DKDInstantMessage *)msg{
+    
+    // time
+    NSTimeInterval timestamp = [[msg objectForKey:@"time"] doubleValue];
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
+    NSString *time = NSStringFromDate(date);
+    return time;
+}
 
 + (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
     NSString *text = nil;
@@ -63,7 +73,7 @@
     
     CGFloat cellHeight = size.height + edges.top + edges.bottom + 16;
     
-    NSString *time = [iMsg objectForKey:@"timeTag"];
+    NSString *time = [MsgCell timeString:iMsg];
     if (time.length > 0) {
         cellHeight += 20;
     }
@@ -112,17 +122,27 @@
         } else {
             size = _picture.size;
         }
+        
+        messageImageView.hidden = YES;
     } else {
         size = CGSizeMake(msgWidth - edges.left - edges.right, MAXFLOAT);
         size = [text sizeWithFont:font maxSize:size];
+        messageImageView.hidden = NO;
     }
     
-    CGFloat labelHeight = MAX(size.height, 26.0);
+    CGFloat labelHeight = size.height;
     
     CGRect imageFrame = messageImageView.frame;
     CGRect labelFrame = CGRectMake(imageFrame.origin.x + edges.left,
                                    imageFrame.origin.y + edges.top,
                                    size.width, labelHeight);
+    
+    if(messageImageView.hidden){
+        labelFrame = CGRectMake(imageFrame.origin.x + edges.left / 2.0,
+                                imageFrame.origin.y + edges.top,
+                                size.width, labelHeight);
+    }
+    
     imageFrame.size = CGSizeMake(labelFrame.size.width + edges.left + edges.right,
                                  labelFrame.size.height + edges.top + edges.bottom);
     messageImageView.frame = imageFrame;
@@ -155,7 +175,7 @@
         DIMProfile *profile = DIMProfileForID(sender);
         
         // time
-        NSString *time = [msg objectForKey:@"timeTag"];
+        NSString *time = [MsgCell timeString:msg];
         if (time.length > 0) {
             timeLabel.text = time;
             // resize
@@ -167,9 +187,11 @@
                                      size.width, size.height);
             timeLabel.bounds = rect;
             [timeLabel roundedCorner];
+            timeLabel.hidden = NO;
         } else {
             timeLabel.bounds = CGRectMake(0, 0, 0, 0);
             timeLabel.text = @"";
+            timeLabel.hidden = YES;
         }
         
         // avatar
@@ -392,6 +414,10 @@
     msgImageFrame.origin.x = avatarFrame.origin.x - space - msgImageFrame.size.width;
     msgLabelFrame.origin.x = msgImageFrame.origin.x + edges.left;
     
+    if(self.messageImageView.hidden){
+        msgLabelFrame.origin.x = msgImageFrame.origin.x + edges.left + edges.right / 2.0;
+    }
+    
     _messageImageView.frame = msgImageFrame;
     _messageLabel.frame = msgLabelFrame;
     
@@ -518,7 +544,7 @@
         CGFloat msgWidth = cellWidth * 0.618;
         
         // time
-        NSString *time = [msg objectForKey:@"timeTag"];
+        NSString *time = [MsgCell timeString:msg];
         UILabel *timeLabel = [self timeLabel];
         if (time.length > 0) {
             timeLabel.text = time;
@@ -530,9 +556,11 @@
             CGRect rect = CGRectMake(0, 0, size.width, size.height);
             timeLabel.bounds = rect;
             [timeLabel roundedCorner];
+            timeLabel.hidden = NO;
         } else {
             timeLabel.bounds = CGRectMake(0, 0, 0, 0);
             timeLabel.text = @"";
+            timeLabel.hidden = YES;
         }
         
         // message

@@ -106,7 +106,19 @@
     if ([name isEqual:kNotificationName_MessageUpdated]) {
         DIMID *ID = MKMIDFromString([info objectForKey:@"ID"]);
         if ([_conversation.ID isEqual:ID]) {
-            [self.messagesTableView reloadData];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.messagesTableView reloadData];
+                
+                
+//                NSLog(@"Content off set y : %f", self.messagesTableView.contentOffset.y);
+//
+//                if(self.messagesTableView.contentOffset.y + self.messagesTableView.bounds.size.height > self.messagesTableView.contentSize.height - 100){
+//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                        [self.messagesTableView scrollsToBottom:YES];
+//                    });
+//                }
+            });
         }
     }
 }
@@ -197,8 +209,6 @@
         NSLog(@"empty");
         return;
     }
-    
-    [self _hideKeyboard];
 
     DIMConversation *chatBox = _conversation;
     DIMID *receiver = chatBox.ID;
@@ -407,8 +417,6 @@
         return [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     }
     
-    // Configure the cell...
-    //    NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
@@ -436,16 +444,19 @@
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
     CGRect bounds = tableView.bounds;
     
+    CGFloat height = 0.0;
     if ([identifier isEqualToString:@"commandMsgCell"]) {
         CGSize size = [CommandMsgCell sizeWithMessage:iMsg bounds:bounds];
-        return size.height;
+        height = size.height;
     } else if ([identifier isEqualToString:@"receivedMsgCell"]) {
         CGSize size = [ReceivedMsgCell sizeWithMessage:iMsg bounds:bounds];
-        return size.height;
+        height = size.height;
     } else {
         CGSize size = [SentMsgCell sizeWithMessage:iMsg bounds:bounds];
-        return size.height;
+        height = size.height;
     }
+    
+    return height;
 }
 
 #pragma mark - Navigation
