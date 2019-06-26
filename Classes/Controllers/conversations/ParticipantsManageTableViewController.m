@@ -99,9 +99,8 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser
         _memberList = _group.members;
         
         // 1.1. logo
-        DIMProfile *profile = DIMProfileForID(_group.ID);
-        NSString *name = profile.name;
-        UIImage *logoImage = [profile logoImageWithSize:_logoImageView.bounds.size];
+        NSString *name = _group.name;
+        UIImage *logoImage = [_group.profile logoImageWithSize:_logoImageView.bounds.size];
         if (logoImage) {
             [_logoImageView setImage:logoImage];
         } else {
@@ -155,8 +154,7 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser
         }
     }
     if (_memberList.count > 0) {
-        NSArray *list = [_memberList copy];
-        for (DIMID *item in list) {
+        for (DIMID *item in _memberList) {
             if ([_selectedList containsObject:item]) {
                 continue;
             }
@@ -189,7 +187,7 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser
     if (MKMNetwork_IsGroup(ID.type)) {
         // exists group
         _group = DIMGroupWithID(ID);
-        profile = DIMProfileForID(ID);
+        profile = _conversation.profile;
         if (!profile) {
             profile = [[DIMProfile alloc] initWithID:ID];
         }

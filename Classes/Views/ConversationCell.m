@@ -26,15 +26,13 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    DIMProfile *profile = DIMProfileForID(_conversation.ID);
-    
     // avatar
     CGRect frame = _avatarImageView.frame;
     UIImage *image;
     if (MKMNetwork_IsGroup(_conversation.ID.type)) {
-        image = [profile logoImageWithSize:frame.size];
+        image = [_conversation.profile logoImageWithSize:frame.size];
     } else {
-        image = [profile avatarImageWithSize:frame.size];
+        image = [_conversation.profile avatarImageWithSize:frame.size];
     }
     if (!image) {
         image = [UIImage imageNamed:@"AppIcon"];

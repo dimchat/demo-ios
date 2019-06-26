@@ -98,7 +98,6 @@ static inline NSString *users_filepath(BOOL autoCreate) {
 - (BOOL)saveMeta:(DIMMeta *)meta
       privateKey:(DIMPrivateKey *)SK
            forID:(DIMID *)ID {
-    DIMBarrack *barrack = [DIMBarrack sharedInstance];
     
     NSArray *array = [self scanUserIDList];
     if ([array containsObject:ID]) {
@@ -107,7 +106,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
     
     // 1. check & save meta
-    if ([barrack saveMeta:meta forID:ID]) {
+    if ([self saveMeta:meta forID:ID]) {
         NSLog(@"meta saved: %@", meta);
     } else {
         NSAssert(false, @"save meta failed: %@, %@", ID, meta);
@@ -184,7 +183,6 @@ static inline NSString *users_filepath(BOOL autoCreate) {
 
 - (BOOL)saveUserList:(NSArray<DIMUser *> *)users
      withCurrentUser:(DIMUser *)curr {
-    users = [users copy];
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
     for (DIMUser *user in users) {
         [list addObject:user.ID];
@@ -203,22 +201,49 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     }
 }
 
+- (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID {
+    if (![profile.ID isEqual:ID]) {
+        NSAssert(false, @"profile error: %@", profile);
+        return NO;
+    }
+    // update memory cache
+    [self setProfile:profile forID:ID];
+    
+    NSString *path = profile_filepath(ID, YES);
+    if ([profile writeToBinaryFile:path]) {
+        NSLog(@"profile %@ of %@ has been saved to %@", profile, ID, path);
+        return YES;
+    } else {
+        NSAssert(false, @"failed to save profile for ID: %@, %@", ID, profile);
+        return NO;
+    }
+}
+
 - (nullable DIMProfile *)loadProfileForID:(DIMID *)ID {
     NSString *path = profile_filepath(ID, NO);
-    if (file_exists(path)) {
-        NSLog(@"loaded profile from %@", path);
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        DIMProfile *profile = MKMProfileFromDictionary(dict);
-        // try to verify it
-        DIMBarrack *barrack = [DIMBarrack sharedInstance];
-        if (![barrack verifyProfile:profile]) {
-            //return NO;
-        }
-        return profile;
-    } else {
+    if (!file_exists(path)) {
         NSLog(@"profile not found: %@", path);
         return nil;
     }
+    NSLog(@"loaded profile from %@", path);
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
+    DIMProfile *profile = MKMProfileFromDictionary(dict);
+    // try to verify it
+    if (MKMNetwork_IsCommunicator(ID.type)) {
+        // verify with meta.key
+        DIMMeta *meta = [self metaForID:ID];
+        if ([profile verify:meta.key]) {
+            return profile;
+        }
+    } else if (MKMNetwork_IsGroup(ID.type)) {
+        // verify with group owner's meta.key
+        DIMGroup *group = DIMGroupWithID(ID);
+        DIMMeta *meta = [self metaForID:group.owner];
+        if ([profile verify:meta.key]) {
+            return profile;
+        }
+    }
+    return profile;
 }
 
 - (BOOL)saveMembers:(NSArray<DIMID *> *)list

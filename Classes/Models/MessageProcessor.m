@@ -59,7 +59,6 @@ static inline NSString *full_filepath(DIMID *ID, NSString *filename) {
 //}
 
 static inline BOOL save_message(NSArray *messages, DIMID *ID) {
-    messages = [messages copy];
     NSString *path = full_filepath(ID, @"messages.plist");
     NSLog(@"save path: %@", path);
     return [messages writeToFile:path atomically:YES];
@@ -128,8 +127,7 @@ static inline NSMutableArray *time_for_messages(NSArray *messages) {
     NSDate *date;
     NSDate *lastDate = nil;
     NSString *text;
-    NSArray *list = [messages copy];
-    for (NSDictionary *msg in list) {
+    for (NSDictionary *msg in messages) {
         timestamp = [msg objectForKey:@"time"];
         date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.doubleValue];
         if (lastDate == nil || [date timeIntervalSinceDate:lastDate] > 300) {

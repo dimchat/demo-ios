@@ -51,7 +51,7 @@
     
     self.title = account_title(_account);
     
-    _profile = DIMProfileForID(_account.ID);
+    _profile = _account.profile;
     
     NSArray *keys = [_profile dataKeys];
     _keys = [[NSMutableArray alloc] initWithCapacity:keys.count];
@@ -123,11 +123,9 @@
                 }
             }
             
-            DIMProfile *profile = DIMProfileForID(_account.ID);
-            
             // avatar
             CGRect avatarFrame = avatarImageView.frame;
-            UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
+            UIImage *image = [_account.profile avatarImageWithSize:avatarFrame.size];
             if (!image) {
                 image = [UIImage imageNamed:@"AppIcon"];
             }
@@ -252,7 +250,7 @@
         
         // send meta & profile first as handshake
         DIMMeta *meta = DIMMetaForID(user.ID);
-        DIMProfile *profile = DIMProfileForID(user.ID);
+        DIMProfile *profile = user.profile;
         DIMCommand *cmd;
         if (profile) {
             cmd = [[DIMProfileCommand alloc] initWithID:user.ID

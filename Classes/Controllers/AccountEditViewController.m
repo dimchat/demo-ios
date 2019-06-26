@@ -40,12 +40,10 @@
     DIMUser *user = client.currentUser;
     DIMID *ID = user.ID;
     
-    DIMProfile *profile = DIMProfileForID(ID);
-    
     CGSize avatarSize = _avatarImageView.bounds.size;
     
-    UIImage *image = [profile avatarImageWithSize:avatarSize];
-    NSString *nickname = profile.name;
+    UIImage *image = [user.profile avatarImageWithSize:avatarSize];
+    NSString *nickname = user.name;
     
     [_avatarImageView roundedCorner];
     _avatarImageView.image = image;
@@ -101,7 +99,7 @@
             Client *client = [Client sharedInstance];
             DIMUser *user = client.currentUser;
             DIMID *ID = user.ID;
-            DIMProfile *profile = DIMProfileForID(ID);
+            DIMProfile *profile = user.profile;
             if (!profile) {
                 NSAssert(false, @"profile should not be empty");
                 return ;
@@ -153,12 +151,11 @@
     
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
-    DIMID *ID = user.ID;
     
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
     
-    DIMProfile *profile = DIMProfileForID(ID);
+    DIMProfile *profile = user.profile;
     [profile setName:nickname];
     [profile sign:SK];
     

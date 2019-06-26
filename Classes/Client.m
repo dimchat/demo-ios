@@ -9,6 +9,7 @@
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
+#import "NSNotificationCenter+Extension.h"
 
 #import "Facebook+Register.h"
 #import "MessageProcessor.h"
@@ -78,7 +79,9 @@ SingletonImplementations(Client, sharedInstance)
     // save meta for server ID
     DIMID *ID = MKMIDFromString([station objectForKey:@"ID"]);
     DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
-    [[DIMBarrack sharedInstance] saveMeta:meta forID:ID];
+    
+    Facebook *facebook = [Facebook sharedInstance];
+    [facebook saveMeta:meta forID:ID];
     
     // prepare for launch star
     NSMutableDictionary *serverOptions = [[NSMutableDictionary alloc] init];
@@ -111,8 +114,71 @@ SingletonImplementations(Client, sharedInstance)
     
     [MessageProcessor sharedInstance];
     
-    Facebook *facebook = [Facebook sharedInstance];
     [facebook addStation:ID provider:sp];
+    
+    // scan users
+    NSArray *users = [facebook scanUserIDList];
+#if DEBUG && 0
+    NSMutableArray *mArray;
+    if (users.count > 0) {
+        mArray = [users mutableCopy];
+    } else {
+        mArray = [[NSMutableArray alloc] initWithCapacity:2];
+    }
+    [mArray addObject:[DIMID IDWithID:MKM_IMMORTAL_HULK_ID]];
+    [mArray addObject:[DIMID IDWithID:MKM_MONKEY_KING_ID]];
+    users = mArray;
+#endif
+    // add users
+    Client *client = [Client sharedInstance];
+    DIMUser *user;
+    for (DIMID *ID in users) {
+        NSLog(@"[client] add user: %@", ID);
+        user = DIMUserWithID(ID);
+        [client addUser:user];
+    }
+    
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(onProfileUpdated:)
+                                 name:kNotificationName_ProfileUpdated
+                               object:client];
+
+}
+
+- (void)onProfileUpdated:(NSNotification *)notification {
+    if (![notification.name isEqual:kNotificationName_ProfileUpdated]) {
+        return ;
+    }
+    DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
+    DIMProfile *profile = cmd.profile;
+    NSAssert([profile.ID isEqual:cmd.ID], @"profile command error: %@", cmd);
+    [profile removeObjectForKey:@"lastTime"];
+    
+    // check avatar
+    NSString *avatar = profile.avatar;
+    if (avatar) {
+//        // if old avatar exists, remove it
+//        DIMID *ID = profile.ID;
+//        DIMProfile *old = [self profileForID:ID];
+//        NSString *ext = [old.avatar pathExtension];
+//        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
+//            // Cache directory: "Documents/.mkm/{address}/avatar.png"
+//            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
+//            NSFileManager *fm = [NSFileManager defaultManager];
+//            if ([fm fileExistsAtPath:path]) {
+//                NSError *error = nil;
+//                if (![fm removeItemAtPath:path error:&error]) {
+//                    NSLog(@"failed to remove old avatar: %@", error);
+//                } else {
+//                    NSLog(@"old avatar removed: %@", path);
+//                }
+//            }
+//        }
+    }
+    
+    // update profile
+    Facebook *facebook = [Facebook sharedInstance];
+    [facebook saveProfile:profile forID:profile.ID];
 }
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {

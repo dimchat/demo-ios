@@ -22,12 +22,6 @@
 
 #import "Facebook.h"
 
-@interface DIMBarrack (Hacking)
-
-- (nullable DIMMeta *)loadMetaForID:(DIMID *)ID;
-
-@end
-
 NSString * const kNotificationName_ContactsUpdated = @"ContactsUpdated";
 
 typedef NSMutableDictionary<DIMAddress *, DIMProfile *> ProfileTableM;
@@ -57,7 +51,7 @@ SingletonImplementations(Facebook, sharedInstance)
         _profileTable = [[ProfileTableM alloc] init];
         
         // delegates
-        DIMBarrack *barrack = [DIMBarrack sharedInstance];
+        DIMBarrack *barrack = [DIMFacebook sharedInstance];
         barrack.entityDataSource   = self;
         barrack.userDataSource     = self;
         barrack.groupDataSource    = self;
@@ -203,10 +197,59 @@ SingletonImplementations(Facebook, sharedInstance)
     return contacts;
 }
 
+- (BOOL)saveMeta:(DIMMeta *)meta forID:(DIMID *)ID {
+    if (![meta matchID:ID]) {
+        NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
+        return NO;
+    }
+    NSString *dir = document_directory();
+    dir = [dir stringByAppendingPathComponent:@".mkm"];
+    dir = [dir stringByAppendingPathComponent:ID.address];
+    if (!file_exists(dir)) {
+        // make sure directory exists
+        make_dirs(dir);
+    }
+    NSString *path = [dir stringByAppendingPathComponent:@"meta.plist"];
+    if (file_exists(path)) {
+        // no need to update meta file
+        return YES;
+    }
+    if ([meta writeToBinaryFile:path]) {
+        NSLog(@"meta %@ of %@ has been saved to %@", meta, ID, path);
+        return YES;
+    } else {
+        NSAssert(false, @"failed to save meta for ID: %@, %@", ID, meta);
+        return NO;
+    }
+}
+
+- (BOOL)saveProfile:(MKMProfile *)profile {
+    DIMID *ID = profile.ID;
+    if (![profile.ID isEqual:ID]) {
+        NSAssert(false, @"profile error: %@", profile);
+        return NO;
+    }
+    // update memory cache
+    [self setProfile:profile forID:ID];
+    
+    NSString *dir = document_directory();
+    dir = [dir stringByAppendingPathComponent:@".mkm"];
+    
+    NSString *path = [NSString stringWithFormat:@"%@/profile.plist", ID.address];
+    path = [dir stringByAppendingPathComponent:path];
+    if ([profile writeToBinaryFile:path]) {
+        NSLog(@"profile %@ of %@ has been saved to %@", profile, ID, path);
+        return YES;
+    } else {
+        NSAssert(false, @"failed to save profile for ID: %@, %@", ID, profile);
+        return NO;
+    }
+}
+
 - (void)setProfile:(DIMProfile *)profile forID:(DIMID *)ID {
     if (profile) {
         NSAssert([profile.ID isEqual:ID], @"profile error: %@, ID = %@", profile, ID);
-        [_profileTable setObject:[profile copy] forKey:ID.address];
+        [_profileTable setObject:profile forKey:ID.address];
     } else {
         [_profileTable removeObjectForKey:ID.address];
     }
@@ -225,7 +268,7 @@ SingletonImplementations(Facebook, sharedInstance)
     }
     
     // TODO: load meta from database
-    DIMBarrack *barrack = [DIMBarrack sharedInstance];
+    DIMFacebook *barrack = [DIMFacebook sharedInstance];
     meta = [barrack loadMetaForID:ID];
     
     if (!meta) {
@@ -347,34 +390,6 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 #pragma mark - DIMBarrackDelegate
-
-- (BOOL)saveMeta:(DIMMeta *)meta forID:(DIMID *)ID {
-    // TODO: save meta
-    return NO;
-}
-
-- (BOOL)saveProfile:(MKMProfile *)profile {
-    DIMID *ID = profile.ID;
-    if (![profile.ID isEqual:ID]) {
-        NSAssert(false, @"profile error: %@", profile);
-        return NO;
-    }
-    // update memory cache
-    [self setProfile:profile forID:ID];
-    
-    NSString *dir = document_directory();
-    dir = [dir stringByAppendingPathComponent:@".mkm"];
-    
-    NSString *path = [NSString stringWithFormat:@"%@/profile.plist", ID.address];
-    path = [dir stringByAppendingPathComponent:path];
-    if ([profile writeToBinaryFile:path]) {
-        NSLog(@"profile %@ of %@ has been saved to %@", profile, ID, path);
-        return YES;
-    } else {
-        NSAssert(false, @"failed to save profile for ID: %@, %@", ID, profile);
-        return NO;
-    }
-}
 
 - (nullable DIMAccount *)accountWithID:(DIMID *)ID {
     DIMAccount *account = [_immortals accountWithID:ID];

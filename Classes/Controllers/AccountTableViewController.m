@@ -34,11 +34,9 @@
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     if (user) {
-        DIMProfile *profile = DIMProfileForID(user.ID);
-        
         // avatar
         CGRect avatarFrame = _avatarImageView.frame;
-        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
+        UIImage *image = [user.profile avatarImageWithSize:avatarFrame.size];
         if (!image) {
             image = [UIImage imageNamed:@"AppIcon"];
         }
@@ -83,11 +81,10 @@
 - (void)reloadData {
     // TODO: update client.users
     DIMUser *user = [Client sharedInstance].currentUser;
-    DIMProfile *profile = DIMProfileForID(user.ID);
     
     // avatar
     CGRect avatarFrame = _avatarImageView.frame;
-    UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
+    UIImage *image = [user.profile avatarImageWithSize:avatarFrame.size];
     if (!image) {
         image = [UIImage imageNamed:@"AppIcon"];
     }

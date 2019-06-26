@@ -214,11 +214,7 @@
                 } else {
                     key = NSLocalizedString(@"Nickname", nil);
                 }
-                DIMProfile *profile = DIMProfileForID(_conversation.ID);
-                value = profile.name;
-                if (!value) {
-                    value = _conversation.ID.name;
-                }
+                value = _conversation.name;
             }
                 break;
                 

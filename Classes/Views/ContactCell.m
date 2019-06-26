@@ -26,11 +26,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    DIMProfile *profile = DIMProfileForID(_contact.ID);
-    
     // avatar
     CGRect frame = _avatarImageView.frame;
-    UIImage *image = [profile avatarImageWithSize:frame.size];
+    UIImage *image = [_contact.profile avatarImageWithSize:frame.size];
     if (!image) {
         image = [UIImage imageNamed:@"AppIcon"];
     }
