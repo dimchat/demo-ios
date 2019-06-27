@@ -8,7 +8,7 @@
 
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
-
+#import "NSDate+Extension.h"
 #import "User.h"
 
 #import "ConversationCell.h"
@@ -107,6 +107,39 @@
         }
     }
     _lastMsgLabel.text = last;
+    
+    NSTimeInterval timestamp = [[msg objectForKey:@"time"] doubleValue];
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
+    
+    self.lastTimeLabel.text = [self dateString:date];
+}
+
+-(NSString *)dateString:(NSDate *)date{
+    
+    NSString *timeString = @"";
+    NSDate *days_ago = [[[NSDate date] dateBySubtractingDays:7] dateAtStartOfDay];
+    
+    if([date isYesterday]){
+        timeString = NSLocalizedString(@"Yesterday", @"title");
+    } else if([date isToday]){
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"a HH:mm"];
+        timeString = [dateFormatter stringFromDate:date];
+        
+    } else if([date isLaterThanDate:days_ago]){
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"EEEE"];
+        timeString = [dateFormatter stringFromDate:date];
+    } else {
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
+        timeString = [dateFormatter stringFromDate:date];
+    }
+    
+    return timeString;
 }
 
 - (void)awakeFromNib {

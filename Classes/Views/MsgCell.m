@@ -40,8 +40,35 @@
     // time
     NSTimeInterval timestamp = [[msg objectForKey:@"time"] doubleValue];
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
-    NSString *time = NSStringFromDate(date);
-    return time;
+    
+    NSString *timeString = @"";
+    NSDate *days_ago = [[[NSDate date] dateBySubtractingDays:7] dateAtStartOfDay];
+    
+    if([date isToday]){
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"a HH:mm"];
+        timeString = [dateFormatter stringFromDate:date];
+        
+    } else if([date isYesterday]){
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"a HH:mm"];
+        timeString = [NSString stringWithFormat:NSLocalizedString(@"Yesterday %@" ,@"title"),  [dateFormatter stringFromDate:date]];
+        
+    } else if([date isLaterThanDate:days_ago]){
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"EEEE HH:mm"];
+        timeString = [dateFormatter stringFromDate:date];
+    } else {
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy/MM/dd HH:mm"];
+        timeString = [dateFormatter stringFromDate:date];
+    }
+    
+    return timeString;
 }
 
 + (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {

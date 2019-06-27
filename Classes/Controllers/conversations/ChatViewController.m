@@ -84,16 +84,11 @@
                                  name:kNotificationName_GroupMembersUpdated
                                object:nil];
     
-    _scrolledToBottom = NO;
+    [self.messagesTableView scrollsToBottom];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+-(void)beginEditing:(id)sender{
     
-    if (!_scrolledToBottom) {
-        [self.messagesTableView scrollsToBottom];
-        _scrolledToBottom = YES;
-    }
 }
 
 - (void)onMessageUpdated:(NSNotification *)notification {

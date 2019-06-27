@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *lastMsgLabel;
+@property (strong, nonatomic) IBOutlet UILabel *lastTimeLabel;
 
 @property (strong, nonatomic) DIMConversation *conversation;
 
