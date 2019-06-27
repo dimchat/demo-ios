@@ -364,8 +364,7 @@
             
             UIWindow *window = [UIApplication sharedApplication].delegate.window;
             UIViewController *root = window.rootViewController;
-            UIViewController *top = root.presentedViewController;
-            [top presentViewController:zoomIn animated:NO completion:nil];
+            [root presentViewController:zoomIn animated:NO completion:nil];
         }
             break;
             

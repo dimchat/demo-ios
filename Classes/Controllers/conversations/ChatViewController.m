@@ -84,7 +84,18 @@
                                  name:kNotificationName_GroupMembersUpdated
                                object:nil];
     
-    [self.messagesTableView scrollsToBottom];
+    _scrolledToBottom = NO;
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [super viewDidAppear:animated];
+    
+    if (!_scrolledToBottom) {
+        [self.messagesTableView scrollsToBottom];
+        _scrolledToBottom = YES;
+    }
+
 }
 
 -(void)beginEditing:(id)sender{
