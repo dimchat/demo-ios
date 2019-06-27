@@ -16,6 +16,7 @@
 #import "WebViewController.h"
 
 #import "User.h"
+#import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 
 #import "Client.h"

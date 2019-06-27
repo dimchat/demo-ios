@@ -6,7 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "Facebook+Register.h"
+#import "Facebook+Profile.h"
 
 #import "User.h"
 

@@ -11,6 +11,7 @@
 #import "NSData+Crypto.h"
 #import "NSNotificationCenter+Extension.h"
 
+#import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "MessageProcessor.h"
 
@@ -178,7 +179,7 @@ SingletonImplementations(Client, sharedInstance)
     
     // update profile
     Facebook *facebook = [Facebook sharedInstance];
-    [facebook saveProfile:profile forID:profile.ID];
+    [facebook saveProfile:profile];
 }
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {

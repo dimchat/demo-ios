@@ -6,8 +6,6 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "Facebook.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,26 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)removeUser:(DIMUser *)user;
 
-- (BOOL)saveProfile:(DIMProfile *)profile forID:(DIMID *)ID;
-- (nullable DIMProfile *)loadProfileForID:(DIMID *)ID;
-
 - (BOOL)saveMembers:(NSArray<DIMID *> *)list withGroupID:(DIMID *)grp;
 - (NSArray<DIMID *> *)loadMembersWithGroupID:(DIMID *)grp;
-
-@end
-
-#pragma mark - Avatar
-
-extern NSString * const kNotificationName_AvatarUpdated;
-
-@interface Facebook (Avatar)
-
-- (BOOL)saveAvatar:(NSData *)data
-              name:(nullable NSString *)filename
-             forID:(DIMID *)ID;
-
-- (nullable UIImage *)loadAvatarWithURL:(NSString *)urlString
-                                  forID:(DIMID *)ID;
 
 @end
 

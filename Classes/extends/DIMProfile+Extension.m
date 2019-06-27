@@ -10,6 +10,7 @@
 #import "UIColor+Extension.h"
 
 #import "Client.h"
+#import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 
 #import "DIMProfile+Extension.h"

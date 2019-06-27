@@ -22,6 +22,7 @@
 
 #import "User.h"
 #import "Client.h"
+#import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "dimMacros.h"
 #import "AccountEditViewController.h"
