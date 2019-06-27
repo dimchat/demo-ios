@@ -483,10 +483,8 @@
 @implementation CommandMsgCell
 
 + (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
-    NSString *text = nil;
-    if (iMsg.content.type == DIMContentType_Text) {
-        text = [(DIMTextContent *)iMsg.content text];
-    }
+    
+    NSString *text = [iMsg.content objectForKey:@"text"];
     
     CGFloat cellWidth = rect.size.width;
     CGFloat msgWidth = cellWidth * 0.618;
@@ -512,10 +510,7 @@
     
     CGRect timeFrame = timeLabel.frame;
     
-    NSString *text = nil;
-    if (_msg.content.type == DIMContentType_Text) {
-        text = [(DIMTextContent *)_msg.content text];
-    }
+    NSString *text = messageLabel.text;
     if (text.length > 0) {
         UIFont *font = messageLabel.font;
         CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
@@ -564,10 +559,7 @@
         }
         
         // message
-        NSString *text = nil;
-        if (msg.content.type == DIMContentType_Text) {
-            text = [(DIMTextContent *)msg.content text];
-        }
+        NSString *text = [msg.content objectForKey:@"text"];
         UILabel *messageLabel = [self messageLabel];
         messageLabel.text = text;
         
