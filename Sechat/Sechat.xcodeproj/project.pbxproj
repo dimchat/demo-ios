@@ -10,6 +10,7 @@
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
+		E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
 		E92255CD2222EC53006CADEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255CB2222EC53006CADEA /* Main.storyboard */; };
 		E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255D02222EC56006CADEA /* LaunchScreen.storyboard */; };
@@ -147,6 +148,8 @@
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
 		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
 		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
+		E918E01922C4A4D4007A3803 /* Facebook+Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Profile.h"; sourceTree = "<group>"; };
+		E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Profile.m"; sourceTree = "<group>"; };
 		E92255BF2222EC53006CADEA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E92255C22222EC53006CADEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E92255C32222EC53006CADEA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -417,6 +420,8 @@
 				E922561A2222ED7C006CADEA /* User.m */,
 				E922561C2222ED7C006CADEA /* Facebook.h */,
 				E92256212222ED7C006CADEA /* Facebook.m */,
+				E918E01922C4A4D4007A3803 /* Facebook+Profile.h */,
+				E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */,
 				E93D436C22A6B63A00422EDF /* Facebook+Relationship.h */,
 				E93D436D22A6B63A00422EDF /* Facebook+Relationship.m */,
 				E92256202222ED7C006CADEA /* Facebook+Register.h */,
@@ -785,6 +790,7 @@
 				E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */,
 				E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */,
 				E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */,
+				E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */,
 				E99A5CB2222D8B3400EE6C86 /* ParticipantsManageTableViewController.m in Sources */,
 				E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */,
 				E99A5CB1222D8B3400EE6C86 /* ParticipantsCollectionViewController.m in Sources */,
@@ -1047,7 +1053,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9HSB54Q9R6;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1060,7 +1066,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ivera.sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1074,7 +1080,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9HSB54Q9R6;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1087,7 +1093,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ivera.sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
