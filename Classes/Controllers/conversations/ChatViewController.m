@@ -30,7 +30,7 @@
 
 #import "ChatViewController.h"
 
-@interface ChatViewController () {
+@interface ChatViewController ()<UITextFieldDelegate> {
     
     CGRect _tableFrame;
     CGRect _trayFrame;
@@ -48,9 +48,6 @@
     
     self.title = _conversation.title;
     NSLog(@"title: %@", self.title);
-    
-    // TODO: if group members info not found, disable sending and
-    //       managing functions (disable the 'chatDetailSegue')
     
     _tableFrame = _messagesTableView.frame;
     _trayFrame = _trayView.frame;
@@ -106,19 +103,7 @@
     if ([name isEqual:kNotificationName_MessageUpdated]) {
         DIMID *ID = MKMIDFromString([info objectForKey:@"ID"]);
         if ([_conversation.ID isEqual:ID]) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.messagesTableView reloadData];
-                
-                
-//                NSLog(@"Content off set y : %f", self.messagesTableView.contentOffset.y);
-//
-//                if(self.messagesTableView.contentOffset.y + self.messagesTableView.bounds.size.height > self.messagesTableView.contentSize.height - 100){
-//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                        [self.messagesTableView scrollsToBottom:YES];
-//                    });
-//                }
-            });
+            [self scrollAfterInsertNewMessage];
         }
     }
 }
@@ -168,9 +153,12 @@
     [UIView animateWithDuration:duration animations:^{
         self->_messagesTableView.frame = tableRect;
         self->_trayView.frame = trayRect;
+    } completion:^(BOOL finished) {
+        
+        if(finished){
+            [self.messagesTableView scrollsToBottom];
+        }
     }];
-    
-    [self.messagesTableView scrollsToBottom];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -190,17 +178,11 @@
 }
 
 - (void)_hideKeyboard {
-    [self.view endEditing:YES];
+    [self.inputTextField resignFirstResponder];
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     [self _hideKeyboard];
-}
-
-- (IBAction)beginEditing:(id)sender {
-    
-    [self.messagesTableView scrollsToBottom];
 }
 
 - (IBAction)send:(id)sender {
@@ -234,10 +216,7 @@
     }
     
     if (MKMNetwork_IsCommunicator(receiver.type)) {
-        [chatBox insertMessage:iMsg];
-        
-        [self.messagesTableView reloadData];
-        [self.messagesTableView scrollsToBottom];
+        [self.conversation insertMessage:iMsg];
     }
     
     _inputTextField.text = @"";
@@ -489,6 +468,27 @@
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
         vc.account = DIMAccountWithID(ID);
         
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [self send:textField];
+    return YES;
+}
+
+-(void)scrollAfterInsertNewMessage{
+
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.conversation numberOfMessage] inSection:0];
+    
+    [self.messagesTableView beginUpdates];
+    [self.messagesTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.messagesTableView endUpdates];
+
+    if(self.messagesTableView.contentOffset.y + self.messagesTableView.bounds.size.height > self.messagesTableView.contentSize.height - 100){
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.messagesTableView scrollsToBottom:YES];
+        });
     }
 }
 

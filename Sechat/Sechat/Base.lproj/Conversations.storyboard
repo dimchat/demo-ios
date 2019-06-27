@@ -276,8 +276,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
-                                            <action selector="beginEditing:" destination="bP7-p2-KZv" eventType="editingDidBegin" id="zJR-5D-xA2"/>
-                                            <action selector="send:" destination="bP7-p2-KZv" eventType="editingDidEndOnExit" id="U1g-Fy-1ey"/>
+                                            <outlet property="delegate" destination="bP7-p2-KZv" id="6GF-at-3aF"/>
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWN-83-F4u">
