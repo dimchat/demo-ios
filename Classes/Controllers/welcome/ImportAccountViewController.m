@@ -44,10 +44,16 @@
     NSString *username = [returnValue objectForKey:@"username"];
     NSString *nickname = [returnValue objectForKey:@"nickname"];
     
+    NSUInteger version = MKMMetaDefaultVersion;
+    
+    if([returnValue objectForKey:@"version"] != nil){
+        version = [[returnValue objectForKey:@"version"] unsignedIntegerValue];
+    }
+    
     // 1. generate private key
-    DIMPrivateKey *SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
+    DIMPrivateKey *SK = MKMPrivateKeyFromDictionary(returnValue);
     // 2. generate meta
-    DIMMeta *meta = MKMMetaGenerate(MKMMetaDefaultVersion, SK, username);
+    DIMMeta *meta = MKMMetaGenerate(version, SK, username);
     // 3. generate ID
     DIMID *ID = [meta generateID:MKMNetwork_Main];
     

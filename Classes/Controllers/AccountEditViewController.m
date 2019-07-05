@@ -195,10 +195,12 @@
         //Export Account
         Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
+        NSUInteger version = user.meta.version;
         
         DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
         [key setObject:user.ID.name forKey:@"username"];
         [key setObject:user.profile.name forKey:@"nickname"];
+        [key setObject:[NSNumber numberWithUnsignedInteger:version] forKey:@"version"];
         NSLog(@"The private key is : %@", key);
         
         Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");

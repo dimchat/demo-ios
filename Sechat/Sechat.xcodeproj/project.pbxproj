@@ -143,6 +143,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		524F5E7C22CDDE0000A84DF9 /* ethers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ethers.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Sechat-cwfdihfwyufdtfaysjjmmexlsrue/Build/Products/Debug-iphoneos/ethers.framework"; sourceTree = "<group>"; };
 		52876E0022C20217006F0655 /* ImportAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportAccountViewController.h; sourceTree = "<group>"; };
 		52876E0122C20217006F0655 /* ImportAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImportAccountViewController.m; sourceTree = "<group>"; };
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
@@ -474,6 +475,7 @@
 		E92256782222EE25006CADEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				524F5E7C22CDDE0000A84DF9 /* ethers.framework */,
 				E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */,
 				E978172422254CC900BCE3AD /* MingKeMing.framework */,
 				E978172222254CC600BCE3AD /* DaoKeDao.framework */,
@@ -1053,7 +1055,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 64J35P7HJ6;
+				DEVELOPMENT_TEAM = 9HSB54Q9R6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1066,7 +1068,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivera.sechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1080,7 +1082,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 64J35P7HJ6;
+				DEVELOPMENT_TEAM = 9HSB54Q9R6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1093,7 +1095,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivera.sechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
