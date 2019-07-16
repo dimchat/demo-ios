@@ -6,7 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSData+Crypto.h"
+#import "NSData+Extension.h"
 
 #import "NSString+Extension.h"
 #import "NSNotificationCenter+Extension.h"

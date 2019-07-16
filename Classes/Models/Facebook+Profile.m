@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Singleton.h"
 #import "NSDictionary+Binary.h"
 
 #import "NSNotificationCenter+Extension.h"
@@ -85,11 +86,12 @@ static inline NSString *avatar_filepath(DIMID *ID, NSString * _Nullable filename
     return MKMProfileFromDictionary(dict);
 }
 
-- (void)cacheProfile:(DIMProfile *)profile {
-    if (!profile) {
-        return ;
+- (BOOL)cacheProfile:(DIMProfile *)profile {
+    if ([profile.ID isValid]) {
+        [_profileTable setObject:profile forKey:profile.ID.address];
+        return YES;
     }
-    [_profileTable setObject:profile forKey:profile.ID.address];
+    return NO;
 }
 
 @end
@@ -125,8 +127,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     
     // check
     static NSMutableArray *s_downloadings = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
+    SingletonDispatchOnce(^{
         s_downloadings = [[NSMutableArray alloc] init];
     });
     if ([s_downloadings containsObject:url]) {

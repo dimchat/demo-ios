@@ -8,7 +8,7 @@
 
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
-#import "NSData+Crypto.h"
+#import "NSData+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 
 #import "Facebook+Profile.h"
@@ -131,18 +131,17 @@ SingletonImplementations(Client, sharedInstance)
     users = mArray;
 #endif
     // add users
-    Client *client = [Client sharedInstance];
     DIMUser *user;
     for (DIMID *ID in users) {
         NSLog(@"[client] add user: %@", ID);
         user = DIMUserWithID(ID);
-        [client addUser:user];
+        [self addUser:user];
     }
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(onProfileUpdated:)
                                  name:kNotificationName_ProfileUpdated
-                               object:client];
+                               object:self];
 
 }
 

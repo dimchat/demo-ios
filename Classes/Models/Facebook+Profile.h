@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)saveProfile:(DIMProfile *)profile;
 - (nullable DIMProfile *)loadProfileForID:(DIMID *)ID;
-- (void)cacheProfile:(DIMProfile *)profile;
+- (BOOL)cacheProfile:(DIMProfile *)profile;
 
 @end
 

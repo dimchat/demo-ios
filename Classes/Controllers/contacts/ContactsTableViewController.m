@@ -12,7 +12,7 @@
 #import "User.h"
 #import "Facebook+Relationship.h"
 
-#include "Client.h"
+#import "Client.h"
 
 #import "ContactCell.h"
 

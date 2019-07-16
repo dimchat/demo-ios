@@ -9,7 +9,7 @@
 #import <DIMClient/DIMClient.h>
 
 #import "NSObject+JsON.h"
-#import "NSData+Crypto.h"
+#import "NSData+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 
 #import "UIViewController+Extension.h"

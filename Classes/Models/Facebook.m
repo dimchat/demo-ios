@@ -232,7 +232,7 @@ SingletonImplementations(Facebook, sharedInstance)
         }
     }
     
-    // TODO: load meta from database
+    // load meta from database
     DIMFacebook *barrack = [DIMFacebook sharedInstance];
     meta = [barrack loadMetaForID:ID];
     
@@ -247,10 +247,6 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 #pragma mark - MKMEntityDataSource
-
-- (nullable DIMMeta *)metaForEntity:(DIMEntity *)entity {
-    return [self metaForID:entity.ID];
-}
 
 - (nullable DIMProfile *)profileForID:(DIMID *)ID {
     // try from profile cache
