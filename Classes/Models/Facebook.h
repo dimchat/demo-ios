@@ -16,8 +16,7 @@ typedef NSArray<DIMID *> ContactTable;
 
 @interface Facebook : NSObject <DIMEntityDataSource,
                                 DIMUserDataSource,
-                                DIMGroupDataSource,
-                                DIMBarrackDelegate> {
+                                DIMGroupDataSource> {
     
     NSMutableDictionary<DIMAddress *, NSMutableArray<DIMID *> *> *_contactsTable;
                                     

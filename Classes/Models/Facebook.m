@@ -52,7 +52,6 @@ SingletonImplementations(Facebook, sharedInstance)
         barrack.entityDataSource   = self;
         barrack.userDataSource     = self;
         barrack.groupDataSource    = self;
-        barrack.delegate           = self;
         
         // scan users
         NSArray *users = [self scanUserIDList];
@@ -63,8 +62,8 @@ SingletonImplementations(Facebook, sharedInstance)
         } else {
             mArray = [[NSMutableArray alloc] initWithCapacity:2];
         }
-        [mArray addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];
-        [mArray addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
+        [mArray addObject:DIMIDWithString(MKM_IMMORTAL_HULK_ID)];
+        [mArray addObject:DIMIDWithString(MKM_MONKEY_KING_ID)];
         users = mArray;
 #endif
         // add users
@@ -124,7 +123,7 @@ SingletonImplementations(Facebook, sharedInstance)
     NSArray *tables = _contactsTable.allValues;
     for (NSArray *list in tables) {
         for (id item in list) {
-            ID = MKMIDFromString(item);
+            ID = DIMIDWithString(item);
             if ([ID.address isEqual:address]) {
                 return ID;
             }
@@ -143,7 +142,7 @@ SingletonImplementations(Facebook, sharedInstance)
         NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
         NSString *seed = [dict objectForKey:@"seed"];
         NSString *idstr = [NSString stringWithFormat:@"%@@%@", seed, address];
-        ID = MKMIDFromString(idstr);
+        ID = DIMIDWithString(idstr);
         NSLog(@"Address -> number: %@, ID: %@", search_number(ID.number), ID);
     } else {
         NSLog(@"meta file not exists: %@", path);
@@ -182,7 +181,7 @@ SingletonImplementations(Facebook, sharedInstance)
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:contacts.count];
         DIMID *ID;
         for (NSString *item in contacts) {
-            ID = MKMIDFromString(item);
+            ID = DIMIDWithString(item);
             [mArray addObject:ID];
         }
         contacts = mArray;

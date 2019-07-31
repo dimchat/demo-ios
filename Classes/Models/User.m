@@ -65,7 +65,7 @@ BOOL check_username(NSString *username) {
         return nil;
     }
     
-    DIMID *ID = MKMIDFromString([dict objectForKey:@"ID"]);
+    DIMID *ID = DIMIDWithString([dict objectForKey:@"ID"]);
     DIMMeta *meta = MKMMetaFromDictionary([dict objectForKey:@"meta"]);
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];

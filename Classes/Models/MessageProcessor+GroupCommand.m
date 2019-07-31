@@ -62,7 +62,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         // replace item to ID objects
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:newMembers.count];
         for (NSString *item in newMembers) {
-            [mArray addObject:MKMIDFromString(item)];
+            [mArray addObject:DIMIDWithString(item)];
         }
         newMembers = mArray;
     }
@@ -143,7 +143,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         // repace item to ID object
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:invites.count];
         for (NSString *item in invites) {
-            [mArray addObject:MKMIDFromString(item)];
+            [mArray addObject:DIMIDWithString(item)];
         }
         invites = mArray;
     }
@@ -187,7 +187,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     // 4. build message
     NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:invites.count];
     for (DIMID *item in invites) {
-        [mArr addObject:readable_name(MKMIDFromString(item))];
+        [mArr addObject:readable_name(DIMIDWithString(item))];
     }
     NSString *str = [mArr componentsJoinedByString:@",\n"];
     NSString *format = NSLocalizedString(@"%@ has invited member(s):\n%@.", nil);
@@ -218,7 +218,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         // repace item to ID object
         NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:expels.count];
         for (NSString *item in expels) {
-            [mArray addObject:MKMIDFromString(item)];
+            [mArray addObject:DIMIDWithString(item)];
         }
         expels = mArray;
     }
@@ -251,7 +251,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     // 4. build message
     NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:expels.count];
     for (DIMID *item in expels) {
-        [mArr addObject:readable_name(MKMIDFromString(item))];
+        [mArr addObject:readable_name(DIMIDWithString(item))];
     }
     NSString *str = [mArr componentsJoinedByString:@",\n"];
     NSString *format = NSLocalizedString(@"%@ has removed member(s):\n%@.", nil);
@@ -299,7 +299,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     NSString *command = gCmd.command;
     NSLog(@"command: %@", command);
     
-    DIMID *groupID = MKMIDFromString(gCmd.group);
+    DIMID *groupID = DIMIDWithString(gCmd.group);
     if (groupID.type == MKMNetwork_Polylogue) {
         DIMPolylogue *group = (DIMPolylogue *)DIMGroupWithID(groupID);
         

@@ -197,7 +197,7 @@
         UILabel *messageLabel = [cell messageLabel];
         
         DIMEnvelope *env = msg.envelope;
-        DIMID *sender = MKMIDFromString(env.sender);
+        DIMID *sender = DIMIDWithString(env.sender);
         DIMContent *content = msg.content;
         DIMProfile *profile = DIMProfileForID(sender);
         
@@ -498,7 +498,7 @@
     [super setMsg:msg];
     
     DIMEnvelope *env = msg.envelope;
-    DIMID *sender = MKMIDFromString(env.sender);
+    DIMID *sender = DIMIDWithString(env.sender);
     
     // name
     _nameLabel.text = readable_name(sender);

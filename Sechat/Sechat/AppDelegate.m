@@ -53,7 +53,7 @@
 #if DEBUG && 0
     {
         // monkey king
-        DIMID *ID = MKMIDFromString(MKM_MONKEY_KING_ID);
+        DIMID *ID = DIMIDWithString(MKM_MONKEY_KING_ID);
         DIMUser *user = DIMUserWithID(ID);
         [[Client sharedInstance] addUser:user];
 //        // reset the immortal account's profile
@@ -66,7 +66,7 @@
 #if DEBUG && 0
     {
         // hulk
-        DIMID *ID = MKMIDFromString(MKM_IMMORTAL_HULK_ID);
+        DIMID *ID = DIMIDWithString(MKM_IMMORTAL_HULK_ID);
         DIMUser *user = DIMUserWithID(ID);
         [[Client sharedInstance] addUser:user];
 //        // reset the immortal account's profile
