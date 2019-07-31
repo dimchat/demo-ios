@@ -65,8 +65,8 @@ SingletonImplementations(Client, sharedInstance)
     // post device token
     NSString *token = [self.deviceToken hexEncode];
     if (token) {
-        DIMBroadcastCommand *cmd;
-        cmd = [[DIMBroadcastCommand alloc] initWithTitle:@"apns"];
+        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
+        [cmd setObject:@"apns" forKey:@"title"];
         [cmd setObject:token forKey:@"device_token"];
         [self sendCommand:cmd];
     }
@@ -236,8 +236,8 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)didEnterBackground {
     // report client state
-    DIMBroadcastCommand *cmd;
-    cmd = [[DIMBroadcastCommand alloc] initWithTitle:@"report"];
+    DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
+    [cmd setObject:@"report" forKey:@"title"];
     [cmd setObject:@"background" forKey:@"state"];
     [self sendCommand:cmd];
     
@@ -254,8 +254,8 @@ SingletonImplementations(Client, sharedInstance)
     [nc removeAllPendingNotificationRequests];
     
     // report client state
-    DIMBroadcastCommand *cmd;
-    cmd = [[DIMBroadcastCommand alloc] initWithTitle:@"report"];
+    DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
+    [cmd setObject:@"report" forKey:@"title"];
     [cmd setObject:@"foreground" forKey:@"state"];
     [self sendCommand:cmd];
 }
