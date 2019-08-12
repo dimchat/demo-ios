@@ -472,7 +472,7 @@
         DIMID *ID = DIMIDWithString(cell.msg.envelope.sender);
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
-        vc.contact = DIMUserWithID(ID);
+        vc.contact = ID;
         
     }
 }

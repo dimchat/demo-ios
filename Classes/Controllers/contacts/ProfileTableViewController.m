@@ -17,7 +17,6 @@
 #import "Client.h"
 
 #import "User.h"
-#import "Facebook+Relationship.h"
 
 #import "ChatViewController.h"
 
@@ -51,7 +50,7 @@
     
     self.title = user_title(_contact);
     
-    _profile = _contact.profile;
+    _profile = DIMProfileForID(_contact);
     
     NSArray *keys = [_profile dataKeys];
     _keys = [[NSMutableArray alloc] initWithCapacity:keys.count];
@@ -125,7 +124,7 @@
             
             // avatar
             CGRect avatarFrame = avatarImageView.frame;
-            UIImage *image = [_contact.profile avatarImageWithSize:avatarFrame.size];
+            UIImage *image = [DIMProfileForID(_contact) avatarImageWithSize:avatarFrame.size];
             if (!image) {
                 image = [UIImage imageNamed:@"AppIcon"];
             }
@@ -139,13 +138,13 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"IDCell" forIndexPath:indexPath];
         if (row == 0) {
             cell.textLabel.text = NSLocalizedString(@"Username", nil);
-            cell.detailTextLabel.text = _contact.ID.name;
+            cell.detailTextLabel.text = _contact.name;
         } else if (row == 1) {
             cell.textLabel.text = NSLocalizedString(@"Address", nil);
-            cell.detailTextLabel.text = (NSString *)_contact.ID.address;
+            cell.detailTextLabel.text = (NSString *)_contact.address;
         } else if (row == 2) {
             cell.textLabel.text = NSLocalizedString(@"Search No.", nil);
-            cell.detailTextLabel.text = search_number(_contact.ID.number);
+            cell.detailTextLabel.text = search_number(_contact.number);
         }
         return cell;
     }
@@ -171,7 +170,7 @@
     if (section == SECTION_FUNCTIONS) {
         // functions
         DIMLocalUser *user = [Client sharedInstance].currentUser;
-        if ([user existsContact:_contact.ID]) {
+        if ([user existsContact:_contact]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"AddFriendCell" forIndexPath:indexPath];
@@ -234,14 +233,14 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    NSLog(@"contact: %@", _contact.ID);
+    NSLog(@"contact: %@", _contact);
     
     Client *client = [Client sharedInstance];
     DIMLocalUser *user = client.currentUser;
     
     if ([segue.identifier isEqualToString:@"startChat"]) {
         
-        DIMConversation *convers = DIMConversationWithID(_contact.ID);
+        DIMConversation *convers = DIMConversationWithID(_contact);
         
         ChatViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = convers;
@@ -260,14 +259,13 @@
             cmd = [[DIMMetaCommand alloc] initWithID:user.ID
                                                 meta:meta];
         }
-        [client sendContent:cmd to:_contact.ID];
+        [client sendContent:cmd to:_contact];
         
         // add to contacts
-        Facebook *facebook = [Facebook sharedInstance];
-        [facebook user:user addContact:_contact.ID];
+        [[DIMFacebook sharedInstance] user:user addContact:_contact];
         NSLog(@"contact %@ added to user %@", _contact, user);
         
-        DIMConversation *convers = DIMConversationWithID(_contact.ID);
+        DIMConversation *convers = DIMConversationWithID(_contact);
         
         ChatViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = convers;

@@ -45,7 +45,7 @@
         [_avatarImageView roundedCorner];
         
         // name
-        _nameLabel.text = user_title(user);
+        _nameLabel.text = user_title(user.ID);
         
         // desc
         _descLabel.text = (NSString *)user.ID;
@@ -93,7 +93,7 @@
     //[_avatarImageView roundedCorner];
     
     // name
-    _nameLabel.text = user_title(user);
+    _nameLabel.text = user_title(user.ID);
     
     // desc
     _descLabel.text = (NSString *)user.ID;
@@ -145,7 +145,7 @@
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
-        cell.textLabel.text = user_title(user);
+        cell.textLabel.text = user_title(user.ID);
         return cell;
     }
     
@@ -246,7 +246,6 @@
         DIMLocalUser *user = [client.users objectAtIndex:row];
         if (![user isEqual:client.currentUser]) {
             [client login:user];
-            [facebook reloadContactsWithUser:user.ID];
             [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
             [self reloadData];
             // update user ID list file

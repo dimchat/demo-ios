@@ -24,7 +24,7 @@ NSString *search_number(UInt32 code);
  * @param user - user
  * @return "Name (search number)"
  */
-NSString *user_title(DIMUser *user);
+NSString *user_title(DIMID *user);
 
 /**
  *  Group Title for Conversation
@@ -32,7 +32,7 @@ NSString *user_title(DIMUser *user);
  * @param group - group
  * @return "Name (members count)"
  */
-NSString *group_title(DIMGroup *group);
+NSString *group_title(DIMID *group);
 
 /**
  *  Readable name for Entity ID
@@ -49,11 +49,5 @@ NSString *readable_name(DIMID *ID);
  * @return YES on valid
  */
 BOOL check_username(NSString *username);
-
-@interface DIMLocalUser (Config)
-
-+ (nullable instancetype)userWithConfigFile:(NSString *)config;
-
-@end
 
 NS_ASSUME_NONNULL_END

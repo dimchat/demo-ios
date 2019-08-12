@@ -21,9 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)removeUser:(DIMLocalUser *)user;
 
-- (BOOL)saveMembers:(NSArray<DIMID *> *)list withGroupID:(DIMID *)grp;
-- (NSArray<DIMID *> *)loadMembersWithGroupID:(DIMID *)grp;
-
 @end
 
 NS_ASSUME_NONNULL_END

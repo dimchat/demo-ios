@@ -82,7 +82,7 @@ SingletonImplementations(Client, sharedInstance)
     DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
     Facebook *facebook = [Facebook sharedInstance];
-    [facebook saveMeta:meta forID:ID];
+    [[DIMFacebook sharedInstance] saveMeta:meta forID:ID];
     
     // prepare for launch star
     NSMutableDictionary *serverOptions = [[NSMutableDictionary alloc] init];

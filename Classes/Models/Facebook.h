@@ -12,24 +12,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const kNotificationName_ContactsUpdated;
 
-typedef NSArray<DIMID *> ContactTable;
-
 @interface Facebook : NSObject <DIMEntityDataSource,
                                 DIMUserDataSource,
-                                DIMGroupDataSource> {
-    
-    NSMutableDictionary<DIMAddress *, NSMutableArray<DIMID *> *> *_contactsTable;
-                                    
-    NSMutableDictionary<DIMAddress *, DIMProfile *> *_profileTable;
-}
+                                DIMGroupDataSource>
 
 + (instancetype)sharedInstance;
 
 - (nullable DIMID *)IDWithAddress:(DIMAddress *)address;
 
 - (void)addStation:(DIMID *)stationID provider:(DIMServiceProvider *)sp;
-
-- (ContactTable *)reloadContactsWithUser:(DIMID *)user;
 
 @end
 

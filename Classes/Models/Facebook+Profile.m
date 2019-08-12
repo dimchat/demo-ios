@@ -23,22 +23,6 @@ static inline NSString *base_directory(DIMID *ID) {
 }
 
 /**
- Get profile filepath in Documents Directory
- 
- @param ID - entity ID
- @return "Documents/.mkm/{address}/profile.plist"
- */
-static inline NSString *profile_filepath(DIMID *ID, BOOL autoCreate) {
-    NSString *dir = base_directory(ID);
-    // check base directory exists
-    if (autoCreate && !file_exists(dir)) {
-        // make sure directory exists
-        make_dirs(dir);
-    }
-    return [dir stringByAppendingPathComponent:@"profile.plist"];
-}
-
-/**
  Get avatar filepath in Documents Directory
  
  @param ID - user ID
@@ -58,43 +42,6 @@ static inline NSString *avatar_filepath(DIMID *ID, NSString * _Nullable filename
     }
     return [dir stringByAppendingPathComponent:filename];
 }
-
-@implementation Facebook (Profile)
-
-- (BOOL)saveProfile:(DIMProfile *)profile {
-    // update memory cache
-    [self cacheProfile:profile];
-    
-    NSString *path = profile_filepath(profile.ID, YES);
-    if ([profile writeToBinaryFile:path]) {
-        NSLog(@"profile %@ of %@ saved to %@", profile, profile.ID, path);
-        return YES;
-    } else {
-        NSAssert(false, @"failed to save profile: %@, %@", profile.ID, profile);
-        return NO;
-    }
-}
-
-- (nullable __kindof DIMProfile *)loadProfileForID:(DIMID *)ID {
-    NSString *path = profile_filepath(ID, NO);
-    if (!file_exists(path)) {
-        NSLog(@"profile not found: %@", path);
-        return nil;
-    }
-    NSLog(@"loaded profile from %@", path);
-    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-    return MKMProfileFromDictionary(dict);
-}
-
-- (BOOL)cacheProfile:(DIMProfile *)profile {
-    if ([profile.ID isValid]) {
-        [_profileTable setObject:profile forKey:profile.ID.address];
-        return YES;
-    }
-    return NO;
-}
-
-@end
 
 NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
 

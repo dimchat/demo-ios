@@ -10,8 +10,7 @@
 #import "UIStoryboardSegue+Extension.h"
 
 #import "User.h"
-#import "Facebook+Relationship.h"
-
+#import "Facebook.h"
 #import "Client.h"
 
 #import "ContactCell.h"
@@ -131,10 +130,8 @@ static inline void sort_array(NSMutableArray *array) {
     NSArray *list = [_contactsTable objectForKey:key];
     DIMID *ID = [list objectAtIndex:row];
     
-    DIMUser *contact = DIMUserWithID(ID);
-    
     ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
-    cell.contact = contact;
+    cell.contact = ID;
     
     return cell;
 }
@@ -161,8 +158,7 @@ static inline void sort_array(NSMutableArray *array) {
         
         Client *client = [Client sharedInstance];
         DIMLocalUser *user = client.currentUser;
-        Facebook *facebook = [Facebook sharedInstance];
-        [facebook user:user removeContact:ID];
+        [[DIMFacebook sharedInstance] user:user removeContact:ID];
         
         [list removeObjectAtIndex:row];
         if (list.count == 0) {

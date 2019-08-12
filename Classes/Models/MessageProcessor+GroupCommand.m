@@ -11,7 +11,6 @@
 #import "User.h"
 #import "Client.h"
 #import "Facebook+Register.h"
-#import "Facebook+Relationship.h"
 
 #import "MessageProcessor+GroupCommand.h"
 
@@ -91,8 +90,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         NSLog(@"reset group members: %@, from %@ to %@", group.ID, members, newMembers);
         
         // 3. save new members list
-        Facebook *facebook = [Facebook sharedInstance];
-        if (![facebook saveMembers:newMembers withGroupID:group.ID]) {
+        if (![[DIMFacebook sharedInstance] saveMembers:newMembers forGroup:group]) {
             return NO;
         }
     }
@@ -178,8 +176,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         NSLog(@"invite members: %@ to group: %@", addeds, group.ID);
         
         // 3. save new members list
-        Facebook *facebook = [Facebook sharedInstance];
-        if (![facebook saveMembers:newMembers withGroupID:group.ID]) {
+        if (![[DIMFacebook sharedInstance] saveMembers:newMembers forGroup:group]) {
             return NO;
         }
     }
@@ -242,8 +239,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         NSLog(@"expel members: %@ from group: %@", removeds, group.ID);
         
         // 3. save new members list
-        Facebook *facebook = [Facebook sharedInstance];
-        if (![facebook saveMembers:newMembers withGroupID:group.ID]) {
+        if (![[DIMFacebook sharedInstance] saveMembers:newMembers forGroup:group]) {
             return NO;
         }
     }
@@ -278,8 +274,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     }
     
     // 2. remove member
-    Facebook *facebook = [Facebook sharedInstance];
-    if (![facebook group:group removeMember:sender]) {
+    if (![[DIMFacebook sharedInstance] group:group removeMember:sender]) {
         return NO;
     }
     

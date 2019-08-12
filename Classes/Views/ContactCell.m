@@ -15,7 +15,7 @@
 
 @implementation ContactCell
 
-- (void)setContact:(DIMUser *)contact {
+- (void)setContact:(DIMID *)contact {
     if (![_contact isEqual:contact]) {
         _contact = contact;
         
@@ -28,7 +28,7 @@
     
     // avatar
     CGRect frame = _avatarImageView.frame;
-    UIImage *image = [_contact.profile avatarImageWithSize:frame.size];
+    UIImage *image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
     if (!image) {
         image = [UIImage imageNamed:@"AppIcon"];
     }
@@ -38,7 +38,7 @@
     _nameLabel.text = user_title(_contact);
     
     // desc
-    _descLabel.text = (NSString *)_contact.ID;
+    _descLabel.text = (NSString *)_contact;
 }
 
 - (void)awakeFromNib {

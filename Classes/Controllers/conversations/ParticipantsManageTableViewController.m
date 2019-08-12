@@ -221,9 +221,9 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
     }
     
     // save profile & members
-    Facebook *facebook = [Facebook sharedInstance];
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
     [facebook saveProfile:profile];
-    [facebook saveMembers:_selectedList withGroupID:ID];
+    [facebook saveMembers:_selectedList forGroup:_group];
     
     // notice
     NSDictionary *info = @{@"group": ID};
@@ -267,12 +267,10 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
     
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:_selectedList.count];
     DIMID *ID;
-    DIMUser *contact;
     NSString *name;
     NSArray *list = [_selectedList copy];
     for (ID in list) {
-        contact = DIMUserWithID(ID);
-        name = user_title(contact);
+        name = user_title(ID);
         [mArray addObject:name];
     }
     NSString *message = [mArray componentsJoinedByString:@"\n"];

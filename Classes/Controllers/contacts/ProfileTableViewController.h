@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface ProfileTableViewController : UITableViewController
 
-@property (strong, nonatomic) DIMUser *contact;
+@property (strong, nonatomic) DIMID *contact;
 
 @end
 

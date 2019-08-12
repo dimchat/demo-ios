@@ -33,7 +33,6 @@
 		E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256372222ED7C006CADEA /* AccountEditViewController.m */; };
 		E922565A2222ED7C006CADEA /* MsgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256432222ED7C006CADEA /* MsgCell.m */; };
 		E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
-		E93D436E22A6B63A00422EDF /* Facebook+Relationship.m in Sources */ = {isa = PBXBuildFile; fileRef = E93D436D22A6B63A00422EDF /* Facebook+Relationship.m */; };
 		E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97816CD2223EAA700BCE3AD /* Assets.xcassets */; };
 		E978171122254AB000BCE3AD /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
 		E978171222254AB000BCE3AD /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -189,8 +188,6 @@
 		E922563E2222ED7C006CADEA /* MsgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MsgCell.h; sourceTree = "<group>"; };
 		E92256432222ED7C006CADEA /* MsgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MsgCell.m; sourceTree = "<group>"; };
 		E922567E2222EF3D006CADEA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		E93D436C22A6B63A00422EDF /* Facebook+Relationship.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Relationship.h"; sourceTree = "<group>"; };
-		E93D436D22A6B63A00422EDF /* Facebook+Relationship.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Relationship.m"; sourceTree = "<group>"; };
 		E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMClient.xcodeproj; path = "../../client-objc/DIMClient/DIMClient.xcodeproj"; sourceTree = "<group>"; };
 		E97816CD2223EAA700BCE3AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E978171E22254CBB00BCE3AD /* MarsGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarsGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -423,8 +420,6 @@
 				E92256212222ED7C006CADEA /* Facebook.m */,
 				E918E01922C4A4D4007A3803 /* Facebook+Profile.h */,
 				E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */,
-				E93D436C22A6B63A00422EDF /* Facebook+Relationship.h */,
-				E93D436D22A6B63A00422EDF /* Facebook+Relationship.m */,
 				E92256202222ED7C006CADEA /* Facebook+Register.h */,
 				E92256192222ED7C006CADEA /* Facebook+Register.m */,
 				E92256182222ED7C006CADEA /* MessageProcessor.h */,
@@ -770,7 +765,6 @@
 				E9790856225CD4C50024C830 /* FirstAccountViewController.m in Sources */,
 				E99A5CD3222ED9B600EE6C86 /* UserCell.m in Sources */,
 				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,
-				E93D436E22A6B63A00422EDF /* Facebook+Relationship.m in Sources */,
 				E92255D52222EC56006CADEA /* main.m in Sources */,
 				E922564A2222ED7C006CADEA /* Client.m in Sources */,
 				E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */,

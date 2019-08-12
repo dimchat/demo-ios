@@ -71,7 +71,6 @@
     
     NSArray *users = [notification.userInfo objectForKey:@"users"];
     
-    Facebook *facebook = [Facebook sharedInstance];
     Client *client = [Client sharedInstance];
     
     DIMID *ID;
@@ -124,6 +123,7 @@
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
         [_users sortUsingDescriptors:@[sortDescriptor]];
         
+        DIMFacebook *facebook = [DIMFacebook sharedInstance];
         NSDictionary *results = [notification.userInfo objectForKey:@"results"];
         id value;
         for (NSString *key in results) {
@@ -200,7 +200,7 @@
         // online users
         ID = [_onlineUsers objectAtIndex:row];
     }
-    cell.contact = DIMUserWithID(ID);
+    cell.contact = ID;
     
     return cell;
 }

@@ -13,7 +13,6 @@
 
 #import "WebViewController.h"
 
-#import "Facebook+Relationship.h"
 #import "MessageProcessor+GroupCommand.h"
 #import "Client.h"
 #import "User.h"
@@ -131,8 +130,7 @@
                     [client sendContent:cmd to:member];
                 }
                 // remove myself
-                Facebook *facebook = [Facebook sharedInstance];
-                [facebook group:group removeMember:user.ID];
+                [[DIMFacebook sharedInstance] group:group removeMember:user.ID];
                 
                 // clear message in conversation
                 MessageProcessor *msgDB = [MessageProcessor sharedInstance];
@@ -324,7 +322,7 @@
         DIMID *ID = cell.participant;
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
-        vc.contact = DIMUserWithID(ID);
+        vc.contact = ID;
         
     }
 }

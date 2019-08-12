@@ -12,14 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Facebook (Profile)
-
-- (BOOL)saveProfile:(DIMProfile *)profile;
-- (nullable __kindof DIMProfile *)loadProfileForID:(DIMID *)ID;
-- (BOOL)cacheProfile:(DIMProfile *)profile;
-
-@end
-
 extern NSString * const kNotificationName_AvatarUpdated;
 
 @interface Facebook (Avatar)
