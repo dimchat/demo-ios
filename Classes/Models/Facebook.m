@@ -68,7 +68,7 @@ SingletonImplementations(Facebook, sharedInstance)
 #endif
         // add users
         Client *client = [Client sharedInstance];
-        DIMUser *user;
+        DIMLocalUser *user;
         for (DIMID *ID in users) {
             NSLog(@"[client] add user: %@", ID);
             user = DIMUserWithID(ID);
@@ -193,6 +193,8 @@ SingletonImplementations(Facebook, sharedInstance)
     return contacts;
 }
 
+#pragma mark - MKMEntityDataSource
+
 - (BOOL)saveMeta:(DIMMeta *)meta forID:(DIMID *)ID {
     if (![meta matchID:ID]) {
         NSAssert(false, @"meta not match ID: %@, %@", ID, meta);
@@ -219,8 +221,6 @@ SingletonImplementations(Facebook, sharedInstance)
     }
 }
 
-#pragma mark - MKMMetaDataSource
-
 - (nullable DIMMeta *)metaForID:(DIMID *)ID {
     DIMMeta *meta = nil;
     
@@ -245,9 +245,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return meta;
 }
 
-#pragma mark - MKMEntityDataSource
-
-- (nullable DIMProfile *)profileForID:(DIMID *)ID {
+- (nullable __kindof DIMProfile *)profileForID:(DIMID *)ID {
     // try from profile cache
     DIMProfile *profile = [_profileTable objectForKey:ID.address];;
     if (profile) {
@@ -297,11 +295,11 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMUserDataSource
 
-- (DIMPrivateKey *)privateKeyForSignatureOfUser:(DIMID *)user {
+- (nullable DIMPrivateKey *)privateKeyForSignatureOfUser:(DIMID *)user {
     return [DIMPrivateKey loadKeyWithIdentifier:user.address];
 }
 
-- (NSArray<DIMPrivateKey *> *)privateKeysForDecryptionOfUser:(DIMID *)user {
+- (nullable NSArray<DIMPrivateKey *> *)privateKeysForDecryptionOfUser:(DIMID *)user {
     DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.address];
     if (key == nil) {
         return nil;
@@ -309,7 +307,7 @@ SingletonImplementations(Facebook, sharedInstance)
     return [[NSArray alloc] initWithObjects:key, nil];
 }
 
-- (NSArray<DIMID *> *)contactsOfUser:(DIMID *)user {
+- (nullable NSArray<DIMID *> *)contactsOfUser:(DIMID *)user {
     NSArray *contacts = [_contactsTable objectForKey:user.address];
     if (!contacts) {
         contacts = [self reloadContactsWithUser:user];
@@ -322,7 +320,7 @@ SingletonImplementations(Facebook, sharedInstance)
 
 #pragma mark - MKMGroupDataSource
 
-- (DIMID *)founderOfGroup:(DIMID *)grp {
+- (nullable DIMID *)founderOfGroup:(DIMID *)grp {
     DIMMeta *meta = DIMMetaForID(grp);
     NSArray<DIMID *> *members = [self membersOfGroup:grp];
     for (DIMID *member in members) {
@@ -344,54 +342,9 @@ SingletonImplementations(Facebook, sharedInstance)
     return nil;
 }
 
-- (NSArray<DIMID *> *)membersOfGroup:(DIMID *)group {
+- (nullable NSArray<DIMID *> *)membersOfGroup:(DIMID *)group {
     // TODO: cache it
     return [self loadMembersWithGroupID:group];
-}
-
-#pragma mark - DIMBarrackDelegate
-
-- (nullable DIMAccount *)accountWithID:(DIMID *)ID {
-    DIMAccount *account;
-    // try from client.users
-    NSArray *users = [Client sharedInstance].users;
-    for (account in users) {
-        if ([account.ID isEqual:ID]) {
-            return account;
-        }
-    }
-    // try immortals
-    account = [_immortals accountWithID:ID];
-    if (account) {
-        account.dataSource = nil;//[DIMBarrack sharedInstance];
-        return account;
-    }
-    // let DIMFacebook to do the job
-    return nil;
-}
-
-- (nullable DIMUser *)userWithID:(DIMID *)ID {
-    DIMUser *user;
-    // try from client.users
-    NSArray *users = [Client sharedInstance].users;
-    for (user in users) {
-        if ([user.ID isEqual:ID]) {
-            return user;
-        }
-    }
-    // try immortals
-    user = [_immortals userWithID:ID];
-    if (user) {
-        user.dataSource = nil;//[DIMBarrack sharedInstance];
-        return user;
-    }
-    // let DIMFacebook to do the job
-    return nil;
-}
-
-- (nullable DIMGroup *)groupWithID:(DIMID *)ID {
-    // let DIMFacebook to do the job
-    return nil;
 }
 
 @end

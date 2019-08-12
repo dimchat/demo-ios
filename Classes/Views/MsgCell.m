@@ -35,7 +35,7 @@
 
 @implementation MsgCell
 
-+(NSString *)timeString:(DKDInstantMessage *)msg{
++(NSString *)timeString:(DIMInstantMessage *)msg{
     
     // time
     NSTimeInterval timestamp = [[msg objectForKey:@"time"] doubleValue];
@@ -71,7 +71,7 @@
     return timeString;
 }
 
-+ (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
     NSString *text = nil;
     if (iMsg.content.type == DIMContentType_Text) {
         text = [(DIMTextContent *)iMsg.content text];
@@ -185,7 +185,7 @@
     self.contentView.frame = rect;
 }
 
-- (void)setMsg:(DKDInstantMessage *)msg {
+- (void)setMsg:(DIMInstantMessage *)msg {
     if (![_msg isEqual:msg]) {
         _msg = msg;
         
@@ -463,7 +463,7 @@
     }
 }
 
-- (void)setMsg:(DKDInstantMessage *)msg {
+- (void)setMsg:(DIMInstantMessage *)msg {
     [super setMsg:msg];
     
     // error info button
@@ -488,13 +488,13 @@
 
 @implementation ReceivedMsgCell
 
-+ (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
     CGSize size = [super sizeWithMessage:iMsg bounds:rect];
     size.height += 24;
     return size;
 }
 
-- (void)setMsg:(DKDInstantMessage *)msg {
+- (void)setMsg:(DIMInstantMessage *)msg {
     [super setMsg:msg];
     
     DIMEnvelope *env = msg.envelope;
@@ -508,7 +508,7 @@
 
 @implementation CommandMsgCell
 
-+ (CGSize)sizeWithMessage:(DKDInstantMessage *)iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
     
     NSString *text = [iMsg.content objectForKey:@"text"];
     
@@ -557,7 +557,7 @@
     self.contentView.frame = rect;
 }
 
-- (void)setMsg:(DKDInstantMessage *)msg {
+- (void)setMsg:(DIMInstantMessage *)msg {
     if (![_msg isEqual:msg]) {
         _msg = msg;
         

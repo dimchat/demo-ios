@@ -21,7 +21,7 @@
 /**
  Get full filepath to Documents Directory
  
- @param ID - account ID
+ @param ID - user ID
  @param filename - "messages.plist"
  @return "Documents/.dim/{address}/messages.plist"
  */
@@ -348,14 +348,14 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 // Conversation factory
 - (DIMConversation *)conversationWithID:(DIMID *)ID {
     DIMEntity *entity = nil;
-    if (MKMNetwork_IsCommunicator(ID.type)) {
-        entity = DIMAccountWithID(ID);
+    if (MKMNetwork_IsUser(ID.type)) {
+        entity = DIMUserWithID(ID);
     } else if (MKMNetwork_IsGroup(ID.type)) {
         entity = DIMGroupWithID(ID);
     }
     
     if (entity) {
-        // create new conversation with entity (Account/Group)
+        // create new conversation with entity (User/Group)
         DIMConversation *chatBox;
         chatBox = [[DIMConversation alloc] initWithEntity:entity];
         chatBox.dataSource = self;

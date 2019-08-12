@@ -140,16 +140,16 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     return [users writeToFile:path atomically:YES];
 }
 
-- (BOOL)saveUserList:(NSArray<DIMUser *> *)users
-     withCurrentUser:(DIMUser *)curr {
+- (BOOL)saveUserList:(NSArray<DIMLocalUser *> *)users
+     withCurrentUser:(DIMLocalUser *)curr {
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
-    for (DIMUser *user in users) {
+    for (DIMLocalUser *user in users) {
         [list addObject:user.ID];
     }
     return [self saveUserIDList:list withCurrentID:curr.ID];
 }
 
-- (BOOL)removeUser:(DIMUser *)user {
+- (BOOL)removeUser:(DIMLocalUser *)user {
     NSMutableArray<DIMID *> *users = (NSMutableArray *)[self scanUserIDList];
     if ([users containsObject:user.ID]) {
         [users removeObject:user.ID];

@@ -11,46 +11,46 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Search Number String
- 
- @param code - check code
- @return "123-456-7890"
+ *  Search Number String
+ *
+ * @param code - check code
+ * @return "123-456-7890"
  */
 NSString *search_number(UInt32 code);
 
 /**
- Account Title for Conversation
- 
- @param account - account
- @return "Name (search number)"
+ *  User Title for Conversation
+ *
+ * @param user - user
+ * @return "Name (search number)"
  */
-NSString *account_title(DIMAccount *account);
+NSString *user_title(DIMUser *user);
 
 /**
- Group Title for Conversation
- 
- @param group - group
- @return "Name (members count)"
+ *  Group Title for Conversation
+ *
+ * @param group - group
+ * @return "Name (members count)"
  */
 NSString *group_title(DIMGroup *group);
 
 /**
- Readable name for Entity ID
- 
- @param ID - entity ID
- @return "..."
+ *  Readable name for Entity ID
+ *
+ * @param ID - entity ID
+ * @return "..."
  */
 NSString *readable_name(DIMID *ID);
 
 /**
- Check Username Valid
- 
- @param username - format: ^[A-Za-z0-9_-\.]+$
- @return YES on valid
+ *  Check Username Valid
+ *
+ * @param username - format: ^[A-Za-z0-9_-\.]+$
+ * @return YES on valid
  */
 BOOL check_username(NSString *username);
 
-@interface DIMUser (Config)
+@interface DIMLocalUser (Config)
 
 + (nullable instancetype)userWithConfigFile:(NSString *)config;
 

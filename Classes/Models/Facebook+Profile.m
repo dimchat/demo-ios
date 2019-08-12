@@ -75,7 +75,7 @@ static inline NSString *avatar_filepath(DIMID *ID, NSString * _Nullable filename
     }
 }
 
-- (nullable DIMProfile *)loadProfileForID:(DIMID *)ID {
+- (nullable __kindof DIMProfile *)loadProfileForID:(DIMID *)ID {
     NSString *path = profile_filepath(ID, NO);
     if (!file_exists(path)) {
         NSLog(@"profile not found: %@", path);

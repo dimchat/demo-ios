@@ -20,9 +20,9 @@ NSString *search_number(UInt32 code) {
     return number;
 }
 
-NSString *account_title(DIMAccount *account) {
-    NSString *name = account.name;
-    NSString *number = search_number(account.number);
+NSString *user_title(DIMUser *user) {
+    NSString *name = user.name;
+    NSString *number = search_number(user.number);
     return [NSString stringWithFormat:@"%@ (%@)", name, number];
 }
 
@@ -37,7 +37,7 @@ NSString *readable_name(DIMID *ID) {
     NSString *nickname = profile.name;
     NSString *username = ID.name;
     if (nickname) {
-        if (username && MKMNetwork_IsCommunicator(ID.type)) {
+        if (username && MKMNetwork_IsUser(ID.type)) {
             return [NSString stringWithFormat:@"%@ (%@)", nickname, username];
         }
         return nickname;
@@ -55,7 +55,7 @@ BOOL check_username(NSString *username) {
     return [pred evaluateWithObject:username];
 }
 
-@implementation DIMUser (Config)
+@implementation DIMLocalUser (Config)
 
 + (nullable instancetype)userWithConfigFile:(NSString *)config {
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:config];
@@ -74,7 +74,7 @@ BOOL check_username(NSString *username) {
     DIMPrivateKey *SK = MKMPrivateKeyFromDictionary([dict objectForKey:@"privateKey"]);
     [SK saveKeyWithIdentifier:ID.address];
     
-    DIMUser *user = DIMUserWithID(ID);
+    DIMLocalUser *user = DIMUserWithID(ID);
     
     // profile
     DIMProfile *profile = [dict objectForKey:@"profile"];

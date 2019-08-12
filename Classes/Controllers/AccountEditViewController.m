@@ -38,7 +38,7 @@
     // Do any additional setup after loading the view.
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     DIMID *ID = user.ID;
     
     CGSize avatarSize = _avatarImageView.bounds.size;
@@ -67,7 +67,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];
-    DIMUser *user = [Client sharedInstance].currentUser;
+    DIMLocalUser *user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
         return ;
@@ -98,7 +98,7 @@
             NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
             
             Client *client = [Client sharedInstance];
-            DIMUser *user = client.currentUser;
+            DIMLocalUser *user = client.currentUser;
             DIMID *ID = user.ID;
             DIMProfile *profile = user.profile;
             if (!profile) {
@@ -151,7 +151,7 @@
     }
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
@@ -194,7 +194,7 @@
     } else if(section == 3){
         //Export Account
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        DIMLocalUser *user = client.currentUser;
         NSUInteger version = user.meta.version;
         
         DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];

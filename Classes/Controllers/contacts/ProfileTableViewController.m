@@ -49,9 +49,9 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.title = account_title(_account);
+    self.title = user_title(_contact);
     
-    _profile = _account.profile;
+    _profile = _contact.profile;
     
     NSArray *keys = [_profile dataKeys];
     _keys = [[NSMutableArray alloc] initWithCapacity:keys.count];
@@ -125,7 +125,7 @@
             
             // avatar
             CGRect avatarFrame = avatarImageView.frame;
-            UIImage *image = [_account.profile avatarImageWithSize:avatarFrame.size];
+            UIImage *image = [_contact.profile avatarImageWithSize:avatarFrame.size];
             if (!image) {
                 image = [UIImage imageNamed:@"AppIcon"];
             }
@@ -139,13 +139,13 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"IDCell" forIndexPath:indexPath];
         if (row == 0) {
             cell.textLabel.text = NSLocalizedString(@"Username", nil);
-            cell.detailTextLabel.text = _account.ID.name;
+            cell.detailTextLabel.text = _contact.ID.name;
         } else if (row == 1) {
             cell.textLabel.text = NSLocalizedString(@"Address", nil);
-            cell.detailTextLabel.text = (NSString *)_account.ID.address;
+            cell.detailTextLabel.text = (NSString *)_contact.ID.address;
         } else if (row == 2) {
             cell.textLabel.text = NSLocalizedString(@"Search No.", nil);
-            cell.detailTextLabel.text = search_number(_account.ID.number);
+            cell.detailTextLabel.text = search_number(_contact.ID.number);
         }
         return cell;
     }
@@ -170,8 +170,8 @@
     }
     if (section == SECTION_FUNCTIONS) {
         // functions
-        DIMUser *user = [Client sharedInstance].currentUser;
-        if ([user existsContact:_account.ID]) {
+        DIMLocalUser *user = [Client sharedInstance].currentUser;
+        if ([user existsContact:_contact.ID]) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"MessageCell" forIndexPath:indexPath];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"AddFriendCell" forIndexPath:indexPath];
@@ -234,14 +234,14 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    NSLog(@"contact: %@", _account.ID);
+    NSLog(@"contact: %@", _contact.ID);
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     
     if ([segue.identifier isEqualToString:@"startChat"]) {
         
-        DIMConversation *convers = DIMConversationWithID(_account.ID);
+        DIMConversation *convers = DIMConversationWithID(_contact.ID);
         
         ChatViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = convers;
@@ -260,14 +260,14 @@
             cmd = [[DIMMetaCommand alloc] initWithID:user.ID
                                                 meta:meta];
         }
-        [client sendContent:cmd to:_account.ID];
+        [client sendContent:cmd to:_contact.ID];
         
         // add to contacts
         Facebook *facebook = [Facebook sharedInstance];
-        [facebook user:user addContact:_account.ID];
-        NSLog(@"contact %@ added to user %@", _account, user);
+        [facebook user:user addContact:_contact.ID];
+        NSLog(@"contact %@ added to user %@", _contact, user);
         
-        DIMConversation *convers = DIMConversationWithID(_account.ID);
+        DIMConversation *convers = DIMConversationWithID(_contact.ID);
         
         ChatViewController *vc = [segue visibleDestinationViewController];
         vc.conversation = convers;

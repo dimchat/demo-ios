@@ -42,7 +42,7 @@
 - (void)reloadData {
     _participants = [[NSMutableArray alloc] init];
     
-    if (MKMNetwork_IsCommunicator(_conversation.ID.type)) {
+    if (MKMNetwork_IsUser(_conversation.ID.type)) {
         // personal conversation
         [_participants addObject:_conversation.ID];
     } else if (MKMNetwork_IsGroup(_conversation.ID.type)) {

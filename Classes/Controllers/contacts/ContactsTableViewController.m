@@ -63,7 +63,7 @@ static inline void sort_array(NSMutableArray *array) {
     _contactsTable = [[NSMutableDictionary alloc] init];
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     NSArray<DIMID *> *contacts = user.contacts;
     NSInteger count = [contacts count];
     
@@ -131,7 +131,7 @@ static inline void sort_array(NSMutableArray *array) {
     NSArray *list = [_contactsTable objectForKey:key];
     DIMID *ID = [list objectAtIndex:row];
     
-    DIMAccount *contact = DIMAccountWithID(ID);
+    DIMUser *contact = DIMUserWithID(ID);
     
     ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
     cell.contact = contact;
@@ -160,7 +160,7 @@ static inline void sort_array(NSMutableArray *array) {
         DIMID *ID = [list objectAtIndex:row];
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        DIMLocalUser *user = client.currentUser;
         Facebook *facebook = [Facebook sharedInstance];
         [facebook user:user removeContact:ID];
         
@@ -203,10 +203,9 @@ static inline void sort_array(NSMutableArray *array) {
     
     if ([segue.identifier isEqualToString:@"profileSegue"]) {
         ContactCell *cell = sender;
-        DIMID *ID = cell.contact.ID;
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
-        vc.account = DIMAccountWithID(ID);
+        vc.contact = cell.contact;
     }
     
 }

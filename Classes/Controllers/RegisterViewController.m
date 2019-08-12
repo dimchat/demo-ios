@@ -33,7 +33,7 @@
     _registerInfos = [[NSMutableArray alloc] init];
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     if (!user) {
         [_doneButton setEnabled:NO];
     }

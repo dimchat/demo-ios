@@ -221,7 +221,7 @@
         return ;
     }
     
-    if (MKMNetwork_IsCommunicator(receiver.type)) {
+    if (MKMNetwork_IsUser(receiver.type)) {
         [self.conversation insertMessage:iMsg];
     }
     
@@ -290,7 +290,7 @@
             return ;
         }
         
-        if (MKMNetwork_IsCommunicator(receiver.type)) {
+        if (MKMNetwork_IsUser(receiver.type)) {
             // personal message, save a copy
             [chatBox insertMessage:iMsg];
         }
@@ -361,7 +361,7 @@
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
     DIMContent *content = iMsg.content;
@@ -472,7 +472,7 @@
         DIMID *ID = DIMIDWithString(cell.msg.envelope.sender);
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
-        vc.account = DIMAccountWithID(ID);
+        vc.contact = DIMUserWithID(ID);
         
     }
 }

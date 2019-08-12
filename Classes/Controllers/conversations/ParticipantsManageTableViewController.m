@@ -22,7 +22,7 @@
 
 #import "ParticipantsManageTableViewController.h"
 
-static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser *user) {
+static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLocalUser *user) {
     DIMID *founder = group.founder;
     NSArray<DIMID *> *members = group.members;
     DIMID *current = user.ID;
@@ -89,7 +89,7 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser
     [_logoImageView roundedCorner];
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     
     // 1. group info
     if (MKMNetwork_IsGroup(_conversation.ID.type)) {
@@ -149,7 +149,7 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser
     if (_founder && ![_founder isEqual:user.ID]) {
         [_selectedList addObject:_founder];
     }
-    if (!_group && MKMNetwork_IsCommunicator(_conversation.ID.type)) {
+    if (!_group && MKMNetwork_IsUser(_conversation.ID.type)) {
         if (![_selectedList containsObject:_conversation.ID]) {
             [_selectedList addObject:_conversation.ID];
         }
@@ -175,7 +175,7 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser
 
 - (BOOL)submitGroupInfo {
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMPrivateKey *signKey = [dataSource privateKeyForSignatureOfUser:user.ID];
     
@@ -267,12 +267,12 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser
     
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:_selectedList.count];
     DIMID *ID;
-    DIMAccount *contact;
+    DIMUser *contact;
     NSString *name;
     NSArray *list = [_selectedList copy];
     for (ID in list) {
-        contact = DIMAccountWithID(ID);
-        name = account_title(contact);
+        contact = DIMUserWithID(ID);
+        name = user_title(contact);
         [mArray addObject:name];
     }
     NSString *message = [mArray componentsJoinedByString:@"\n"];
@@ -406,7 +406,7 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMUser
     } else if (section == 1) {
         // candidates
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        DIMLocalUser *user = client.currentUser;
         DIMID *contact;
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;

@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descLabel;
 
-@property (strong, nonatomic) DIMAccount *contact;
+@property (strong, nonatomic) DIMUser *contact;
 
 @end
 

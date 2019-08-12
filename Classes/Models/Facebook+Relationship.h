@@ -12,8 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Facebook (Contacts)
 
-- (BOOL)user:(DIMUser *)user addContact:(DIMID *)contact;
-- (BOOL)user:(DIMUser *)user removeContact:(DIMID *)contact;
+- (BOOL)user:(DIMLocalUser *)user addContact:(DIMID *)contact;
+- (BOOL)user:(DIMLocalUser *)user removeContact:(DIMID *)contact;
 
 @end
 

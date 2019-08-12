@@ -15,7 +15,7 @@
 
 @implementation ContactCell
 
-- (void)setContact:(DIMAccount *)contact {
+- (void)setContact:(DIMUser *)contact {
     if (![_contact isEqual:contact]) {
         _contact = contact;
         
@@ -35,7 +35,7 @@
     [_avatarImageView setImage:image];
     
     // name
-    _nameLabel.text = account_title(_contact);
+    _nameLabel.text = user_title(_contact);
     
     // desc
     _descLabel.text = (NSString *)_contact.ID;

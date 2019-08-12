@@ -16,7 +16,7 @@
 @implementation Facebook (Contacts)
 
 // {document_directory}/.mkm/{address}/contacts.plist
-- (void)flushContactsWithUser:(DIMUser *)user {
+- (void)flushContactsWithUser:(DIMLocalUser *)user {
     
     NSMutableArray<DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts.count > 0) {
@@ -29,7 +29,7 @@
     }
 }
 
-- (BOOL)user:(DIMUser *)user addContact:(DIMID *)contact {
+- (BOOL)user:(DIMLocalUser *)user addContact:(DIMID *)contact {
     NSLog(@"user %@ add contact %@", user, contact);
     NSMutableArray<DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts) {
@@ -49,7 +49,7 @@
     return YES;
 }
 
-- (BOOL)user:(DIMUser *)user removeContact:(DIMID *)contact {
+- (BOOL)user:(DIMLocalUser *)user removeContact:(DIMID *)contact {
     NSLog(@"user %@ remove contact %@", user, contact);
     NSMutableArray<DIMID *> *contacts = [_contactsTable objectForKey:user.ID.address];
     if (contacts) {

@@ -38,7 +38,7 @@
     {
         // moky
         NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-moky" ofType:@"plist"];
-        DIMUser *user = [DIMUser userWithConfigFile:path];
+        DIMLocalUser *user = [DIMLocalUser userWithConfigFile:path];
         [[Client sharedInstance] addUser:user];
     }
 #endif
@@ -46,7 +46,7 @@
     {
         // selina
         NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-selina" ofType:@"plist"];
-        DIMUser *user = [DIMUser userWithConfigFile:path];
+        DIMLocalUser *user = [DIMLocalUser userWithConfigFile:path];
         [[Client sharedInstance] addUser:user];
     }
 #endif
@@ -54,7 +54,7 @@
     {
         // monkey king
         DIMID *ID = DIMIDWithString(MKM_MONKEY_KING_ID);
-        DIMUser *user = DIMUserWithID(ID);
+        DIMLocalUser *user = DIMUserWithID(ID);
         [[Client sharedInstance] addUser:user];
 //        // reset the immortal account's profile
 //        MKMImmortals *immortals = [[MKMImmortals alloc] init];
@@ -67,7 +67,7 @@
     {
         // hulk
         DIMID *ID = DIMIDWithString(MKM_IMMORTAL_HULK_ID);
-        DIMUser *user = DIMUserWithID(ID);
+        DIMLocalUser *user = DIMUserWithID(ID);
         [[Client sharedInstance] addUser:user];
 //        // reset the immortal account's profile
 //        MKMImmortals *immortals = [[MKMImmortals alloc] init];

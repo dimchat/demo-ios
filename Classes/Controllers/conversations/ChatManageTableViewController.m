@@ -120,7 +120,7 @@
             }
             DIMGroup *group = DIMGroupWithID(_conversation.ID);
             Client *client = [Client sharedInstance];
-            DIMUser *user = client.currentUser;
+            DIMLocalUser *user = client.currentUser;
             
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
@@ -176,7 +176,7 @@
         }
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        DIMLocalUser *user = client.currentUser;
         DIMGroup *group = DIMGroupWithID(_conversation.ID);
         if ([group isFounder:user.ID]) {
             // founder cannot quit, only show 'Clear Chat History' action
@@ -301,7 +301,7 @@
     if ([segue.identifier isEqualToString:@"reportSegue"]) {
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        DIMLocalUser *user = client.currentUser;
         
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
         NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
@@ -324,7 +324,7 @@
         DIMID *ID = cell.participant;
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
-        vc.account = DIMAccountWithID(ID);
+        vc.contact = DIMUserWithID(ID);
         
     }
 }

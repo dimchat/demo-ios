@@ -33,7 +33,7 @@
     [super viewDidLoad];
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     if (user) {
         // avatar
         CGRect avatarFrame = _avatarImageView.frame;
@@ -45,7 +45,7 @@
         [_avatarImageView roundedCorner];
         
         // name
-        _nameLabel.text = account_title(user);
+        _nameLabel.text = user_title(user);
         
         // desc
         _descLabel.text = (NSString *)user.ID;
@@ -70,7 +70,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];
-    DIMUser *user = [Client sharedInstance].currentUser;
+    DIMLocalUser *user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
         return ;
@@ -81,7 +81,7 @@
 
 - (void)reloadData {
     // TODO: update client.users
-    DIMUser *user = [Client sharedInstance].currentUser;
+    DIMLocalUser *user = [Client sharedInstance].currentUser;
     
     // avatar
     CGRect avatarFrame = _avatarImageView.frame;
@@ -93,7 +93,7 @@
     //[_avatarImageView roundedCorner];
     
     // name
-    _nameLabel.text = account_title(user);
+    _nameLabel.text = user_title(user);
     
     // desc
     _descLabel.text = (NSString *)user.ID;
@@ -128,7 +128,7 @@
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = nil;
+    DIMLocalUser *user = nil;
     
     if (section == 1) {
         // Accounts
@@ -145,7 +145,7 @@
             cell.accessoryType = UITableViewCellAccessoryNone;
         }
         
-        cell.textLabel.text = account_title(user);
+        cell.textLabel.text = user_title(user);
         return cell;
     }
     
@@ -180,7 +180,7 @@
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = nil;
+    DIMLocalUser *user = nil;
     
     if (section == 1) {
         // All account(s)
@@ -200,7 +200,7 @@
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = [client.users objectAtIndex:row];
+    DIMLocalUser *user = [client.users objectAtIndex:row];
     
     NSString *unrecoverable = NSLocalizedString(@"This operation is unrecoverable!", nil);
     NSString *text = [NSString stringWithFormat:@"%@\n(%@)\n%@\n\n%@",
@@ -243,7 +243,7 @@
         // Account
     } else if (section == 1) {
         // Users
-        DIMUser *user = [client.users objectAtIndex:row];
+        DIMLocalUser *user = [client.users objectAtIndex:row];
         if (![user isEqual:client.currentUser]) {
             [client login:user];
             [facebook reloadContactsWithUser:user.ID];

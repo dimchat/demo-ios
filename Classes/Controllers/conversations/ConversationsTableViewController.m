@@ -70,7 +70,7 @@
     [super viewDidAppear:animated];
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     if (!user) {
         // show welcome
         UIViewController *vc = [UIStoryboard instantiateInitialViewControllerWithStoryboardName:@"Welcome"];

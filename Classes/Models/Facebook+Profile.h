@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Facebook (Profile)
 
 - (BOOL)saveProfile:(DIMProfile *)profile;
-- (nullable DIMProfile *)loadProfileForID:(DIMID *)ID;
+- (nullable __kindof DIMProfile *)loadProfileForID:(DIMID *)ID;
 - (BOOL)cacheProfile:(DIMProfile *)profile;
 
 @end

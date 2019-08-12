@@ -200,7 +200,7 @@
         // online users
         ID = [_onlineUsers objectAtIndex:row];
     }
-    cell.contact = DIMAccountWithID(ID);
+    cell.contact = DIMUserWithID(ID);
     
     return cell;
 }
@@ -214,10 +214,9 @@
     
     if ([segue.identifier isEqualToString:@"profileSegue"]) {
         UserCell *cell = sender;
-        DIMAccount *contact = cell.contact;
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
-        vc.account = contact;
+        vc.contact = cell.contact;
     }
 }
 
