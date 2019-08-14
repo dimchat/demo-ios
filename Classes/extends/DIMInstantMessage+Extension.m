@@ -12,7 +12,7 @@
 
 - (nullable UIImage *)image {
     DIMImageContent *content = (DIMImageContent *)self.content;
-    if (content.type != DIMContentType_Image) {
+    if (content.type != DKDContentType_Image) {
         // not Image message
         return nil;
     }
@@ -69,7 +69,7 @@
 
 - (UIImage *)thumbnail {
     DIMImageContent *content = (DIMImageContent *)self.content;
-    if (content.type != DIMContentType_Image) {
+    if (content.type != DKDContentType_Image) {
         // not Image message
         return nil;
     }

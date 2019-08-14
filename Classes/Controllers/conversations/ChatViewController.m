@@ -368,8 +368,8 @@
     DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
     
     NSString *identifier = @"receivedMsgCell";
-    DIMContentType type = content.type;
-    if (type == DIMContentType_History || type == DIMContentType_Command) {
+    DKDContentType type = content.type;
+    if (type == DKDContentType_History || type == DKDContentType_Command) {
         if ([[(DIMCommand *)content command] isEqualToString:@"guide"]) {
             // show guide
             identifier = @"guideCell";

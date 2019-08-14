@@ -110,8 +110,7 @@
             DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
             
             // save to local storage
-            Facebook *facebook = [Facebook sharedInstance];
-            [facebook saveAvatar:data name:filename forID:profile.ID];
+            [[Facebook sharedInstance] saveAvatar:data name:filename forID:profile.ID];
             
             // upload to CDN
             DIMFileServer *ftp = [DIMFileServer sharedInstance];
@@ -122,7 +121,7 @@
             [profile sign:SK];
             
             // save profile with new avatar
-            [facebook saveProfile:profile];
+            [[DIMFacebook sharedInstance] saveProfile:profile];
             
             // submit to network
             [client postProfile:profile meta:nil];
@@ -160,8 +159,7 @@
     [profile setName:nickname];
     [profile sign:SK];
     
-    Facebook *facebook = [Facebook sharedInstance];
-    [facebook saveProfile:profile];
+    [[DIMFacebook sharedInstance] saveProfile:profile];
     
     // submit to station
     [client postProfile:profile meta:nil];

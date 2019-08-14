@@ -42,7 +42,7 @@ SingletonImplementations(Facebook, sharedInstance)
         _immortals = [[MKMImmortals alloc] init];
         
         // delegates
-        DIMBarrack *barrack = [DIMFacebook sharedInstance];
+        DIMFacebook *barrack = [DIMFacebook sharedInstance];
         barrack.entityDataSource   = self;
         barrack.userDataSource     = self;
         barrack.groupDataSource    = self;
@@ -152,16 +152,6 @@ SingletonImplementations(Facebook, sharedInstance)
 }
 
 #pragma mark - DIMEntityDataSource
-
-- (BOOL)saveMeta:(DIMMeta *)meta forID:(DIMID *)ID {
-    // let DIMFacebook to do the job
-    return NO;
-}
-
-- (BOOL)saveProfile:(DIMProfile *)profile {
-    // let DIMFacebook to do the job
-    return NO;
-}
 
 - (nullable DIMMeta *)metaForID:(DIMID *)ID {
     DIMMeta *meta = nil;

@@ -51,40 +51,40 @@
         msg = [_conversation messageAtIndex:count];
         content = msg.content;
         switch (content.type) {
-            case DIMContentType_Text: {
+            case DKDContentType_Text: {
                 last = [(DIMTextContent *)content text];
             }
                 break;
             
-            case DIMContentType_File: {
+            case DKDContentType_File: {
                 NSString *filename = [(DIMFileContent *)content filename];
                 NSString *format = NSLocalizedString(@"[File:%@]", nil);
                 last = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
-            case DIMContentType_Image: {
+            case DKDContentType_Image: {
                 NSString *filename = [(DIMImageContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Image:%@]", nil);
                 last = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
-            case DIMContentType_Audio: {
+            case DKDContentType_Audio: {
                 NSString *filename = [(DIMAudioContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
                 last = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
-            case DIMContentType_Video: {
+            case DKDContentType_Video: {
                 NSString *filename = [(DIMVideoContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
                 last = [NSString stringWithFormat:format, filename];
             }
                 break;
                 
-            case DIMContentType_Page: {
+            case DKDContentType_Page: {
                 DIMWebpageContent *page = (DIMWebpageContent *)content;
                 NSString *text = page.title;
                 if (text.length == 0) {

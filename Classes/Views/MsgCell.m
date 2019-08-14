@@ -73,7 +73,7 @@
 
 + (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
     NSString *text = nil;
-    if (iMsg.content.type == DIMContentType_Text) {
+    if (iMsg.content.type == DKDContentType_Text) {
         text = [(DIMTextContent *)iMsg.content text];
     }
     
@@ -231,7 +231,7 @@
         
         // message
         switch (msg.content.type) {
-            case DIMContentType_Text: {
+            case DKDContentType_Text: {
                 // show text
                 messageLabel.text = [(DIMTextContent *)content text];
                 // double click to zoom in
@@ -239,7 +239,7 @@
             }
             break;
                 
-            case DIMContentType_File: {
+            case DKDContentType_File: {
                 // TODO: show file info
                 NSString *filename = [(DIMFileContent *)content filename];
                 NSString *format = NSLocalizedString(@"[File:%@]", nil);
@@ -247,7 +247,7 @@
             }
             break;
                 
-            case DIMContentType_Image: {
+            case DKDContentType_Image: {
                 // show image
                 if (_picture) {
                     CGSize size = [UIScreen mainScreen].bounds.size;
@@ -276,7 +276,7 @@
             }
             break;
                 
-            case DIMContentType_Audio: {
+            case DKDContentType_Audio: {
                 // TODO: show audio info
                 NSString *filename = [(DIMAudioContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
@@ -284,7 +284,7 @@
             }
             break;
                 
-            case DIMContentType_Video: {
+            case DKDContentType_Video: {
                 // TODO: show video info
                 NSString *filename = [(DIMVideoContent *)content filename];
                 NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
@@ -292,7 +292,7 @@
             }
             break;
                 
-            case DIMContentType_Page: {
+            case DKDContentType_Page: {
                 // TODO: show web page
                 DIMWebpageContent *page = (DIMWebpageContent *)content;
                 NSString *title = page.title;
@@ -358,7 +358,7 @@
     NSLog(@"zoomIn: %@", _msg.content);
     DIMContent *content = _msg.content;
     switch (content.type) {
-        case DIMContentType_Image: {
+        case DKDContentType_Image: {
             ZoomInViewController *zoomIn = [UIStoryboard instantiateViewControllerWithIdentifier:@"zoomInController" storyboardName:@"Conversations"];
             zoomIn.msg = _msg;
             
@@ -376,7 +376,7 @@
 - (void)openURL:(UITapGestureRecognizer *)sender {
     
     DIMContent *content = _msg.content;
-    if (content.type != DIMContentType_Page) {
+    if (content.type != DKDContentType_Page) {
         return ;
     }
     NSURL *url = [(DIMWebpageContent *)content URL];

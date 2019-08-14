@@ -177,7 +177,7 @@ SingletonImplementations(Client, sharedInstance)
     }
     
     // update profile
-    Facebook *facebook = [Facebook sharedInstance];
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
     [facebook saveProfile:profile];
 }
 
@@ -353,14 +353,18 @@ SingletonImplementations(Client, sharedInstance)
 
 - (BOOL)saveUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname {
     
-    Facebook *facebook = [Facebook sharedInstance];
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
     // 1. save meta & private key
-    if (![facebook saveMeta:meta privateKey:SK forID:ID]) {
-        NSAssert(false, @"failed to save meta & private key for new user: %@", ID);
+    if (![facebook savePrivateKey:SK forID:ID]) {
+        NSAssert(false, @"failed to save private key for new user: %@", ID);
         return NO;
     }
-    
+    if (![facebook saveMeta:meta forID:ID]) {
+        NSAssert(false, @"failed to save meta for new user: %@", ID);
+        return NO;
+    }
+
     // 2. save nickname in profile
     if (nickname.length > 0) {
         DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];

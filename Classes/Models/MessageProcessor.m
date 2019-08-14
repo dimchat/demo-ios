@@ -372,14 +372,14 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     
     // system command
     DIMContent *content = iMsg.content;
-    if (content.type == DIMContentType_Command) {
+    if (content.type == DKDContentType_Command) {
         NSString *command = [(DIMCommand *)content command];
         NSLog(@"command: %@", command);
         
         // TODO: parse & execute system command
         // ...
         return YES;
-    } else if (content.type == DIMContentType_History) {
+    } else if (content.type == DKDContentType_History) {
         DIMID *groupID = DIMIDWithString(content.group);
         if (groupID) {
             DIMGroupCommand *cmd = (DIMGroupCommand *)content;
