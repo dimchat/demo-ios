@@ -9,11 +9,13 @@
 #import "NSObject+JsON.h"
 #import "NSData+Crypto.h"
 #import "NSDate+Timestamp.h"
+#import "NSNotificationCenter+Extension.h"
 
 #import "UIStoryboardSegue+Extension.h"
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 
+#import "Facebook.h"
 #import "Client.h"
 
 #import "User.h"
@@ -264,7 +266,8 @@
         // add to contacts
         [[DIMFacebook sharedInstance] user:user addContact:_contact];
         NSLog(@"contact %@ added to user %@", _contact, user);
-        
+        [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
+
         DIMConversation *convers = DIMConversationWithID(_contact);
         
         ChatViewController *vc = [segue visibleDestinationViewController];
