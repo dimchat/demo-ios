@@ -381,6 +381,9 @@ SingletonImplementations(Client, sharedInstance)
     user.dataSource = facebook;
     self.currentUser = user;
     
+    Facebook *book = [Facebook sharedInstance];
+    [book saveUserList:self.users withCurrentUser:user];
+    
     return YES;
 }
 

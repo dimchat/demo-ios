@@ -18,7 +18,7 @@
 "VJQ-4c-yzE.placeholder" = "譬如: moky";
 
 /* Class = "UIButton"; normalTitle = "Next"; ObjectID = "dej-8p-gF7"; */
-"dej-8p-gF7.normalTitle" = "下一步";
+"dej-8p-gF7.normalTitle" = "注册";
 
 /* Class = "UIButton"; normalTitle = "Refresh"; ObjectID = "f1U-Dh-SEm"; */
 "f1U-Dh-SEm.normalTitle" = "刷新";

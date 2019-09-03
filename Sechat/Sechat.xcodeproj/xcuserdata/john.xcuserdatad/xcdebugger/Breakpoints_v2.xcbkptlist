@@ -27,6 +27,38 @@
             endingLineNumber = "27"
             landmarkName = "-_processQueryCommand:commander:polylogue:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MessageProcessor(GroupCommand) _processQueryCommand:commander:polylogue:]"
+                  moduleName = "Sechat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/john/Documents/workspace/iphone/dimchat/demo-ios/Classes/Models/MessageProcessor+GroupCommand.m"
+                  timestampString = "589179580.398122"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "132">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MessageProcessor(GroupCommand) _processQueryCommand:commander:polylogue:]"
+                  moduleName = "Sechat"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/john/Documents/workspace/iphone/dimchat/demo-ios/Classes/Models/MessageProcessor+GroupCommand.m"
+                  timestampString = "589179580.400555"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "160">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -99,13 +131,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../mkm-objc/Classes/entity/MKMAddress.m"
-            timestampString = "583921519.065776"
+            filePath = "../../client-objc/Classes/DIMTerminal.m"
+            timestampString = "589168503.196259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
-            landmarkName = "-initWithData:network:"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "-addUser:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -115,14 +147,30 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../mkm-objc/Classes/entity/MKMAddress.m"
-            timestampString = "583921519.065832"
+            filePath = "../../client-objc/Classes/DIMTerminal.m"
+            timestampString = "589168503.196328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
-            landmarkName = "-initWithString:"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "-addUser:"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../Classes/Models/Facebook+Register.m"
+            timestampString = "589179580.129635"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "users_filepath()"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -3,7 +3,7 @@
 "84p-FK-EkK.text" = "用户名必须由字母、数字、下划线或连字符组成。";
 
 /* Class = "UINavigationItem"; title = "Welcome to DIM!"; ObjectID = "FsN-En-VS4"; */
-"FsN-En-VS4.title" = "欢迎使用 DIM!";
+"FsN-En-VS4.title" = "欢迎使用点讯";
 
 /* Class = "UILabel"; text = "Number:"; ObjectID = "LVk-hL-9Uh"; */
 "LVk-hL-9Uh.text" = "搜索号:";
@@ -18,7 +18,7 @@
 "VJQ-4c-yzE.placeholder" = "例如: moky";
 
 /* Class = "UIButton"; normalTitle = "Next"; ObjectID = "dej-8p-gF7"; */
-"dej-8p-gF7.normalTitle" = "下一步";
+"dej-8p-gF7.normalTitle" = "注册";
 
 /* Class = "UIButton"; normalTitle = "Refresh"; ObjectID = "f1U-Dh-SEm"; */
 "f1U-Dh-SEm.normalTitle" = "刷新";

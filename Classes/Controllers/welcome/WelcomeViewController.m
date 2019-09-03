@@ -93,16 +93,16 @@
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     
     if ([identifier isEqualToString:@"next"]) {
-        // check nickname
-        NSString *nickname = _nicknameTextField.text;
-        if (nickname.length == 0) {
-            NSString *message = @"Nickname cannot be empty.";
-            NSString *title = @"Nickname Error!";
-            [self showMessage:NSLocalizedString(message, nil)
-                    withTitle:NSLocalizedString(title, nil)];
-            [_nicknameTextField becomeFirstResponder];
-            return NO;
-        }
+//        // check nickname
+//        NSString *nickname = _nicknameTextField.text;
+//        if (nickname.length == 0) {
+//            NSString *message = @"Nickname cannot be empty.";
+//            NSString *title = @"Nickname Error!";
+//            [self showMessage:NSLocalizedString(message, nil)
+//                    withTitle:NSLocalizedString(title, nil)];
+//            [_nicknameTextField becomeFirstResponder];
+//            return NO;
+//        }
         
         // check agreement
         if (_agreedButton.selected == NO) {
