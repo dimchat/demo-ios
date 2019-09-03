@@ -249,7 +249,8 @@
             [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
             [self reloadData];
             // update user ID list file
-            [facebook saveUserList:client.users withCurrentUser:client.currentUser];
+            BOOL saved = [facebook saveUserList:client.users withCurrentUser:client.currentUser];
+            NSAssert(saved, @"failed to save users: %@, current user: %@", client.users, client.currentUser);
         }
         
     } else if (section == 2) {

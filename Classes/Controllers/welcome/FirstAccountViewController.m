@@ -294,9 +294,9 @@
         }
     }
     
-    DIMPrivateKey *SK = _SK;
-    DIMMeta *meta = _meta;
-    const DIMID *ID = _ID;
+//    DIMPrivateKey *SK = _SK;
+//    DIMMeta *meta = _meta;
+    DIMID *ID = _ID;
     
     DIMProfile *profile = DIMProfileForID(ID);
     if(profile.avatar == nil || profile.avatar.length == 0){
@@ -307,7 +307,7 @@
         return;
     }
     
-    NSString *nickname = _nickname;
+//    NSString *nickname = _nickname;
     
     void (^handler)(UIAlertAction *);
     handler = ^(UIAlertAction *action) {

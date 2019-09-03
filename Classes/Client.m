@@ -382,9 +382,9 @@ SingletonImplementations(Client, sharedInstance)
     self.currentUser = user;
     
     Facebook *book = [Facebook sharedInstance];
-    [book saveUserList:self.users withCurrentUser:user];
-    
-    return YES;
+    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
+    NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
+    return saved;
 }
 
 @end

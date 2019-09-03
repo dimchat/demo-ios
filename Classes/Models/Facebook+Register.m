@@ -112,7 +112,7 @@ static inline NSString *users_filepath(BOOL autoCreate) {
         }
     }
     // save to ("Documents/.dim/users.plist")
-    NSString *path = users_filepath(NO);
+    NSString *path = users_filepath(YES);
     NSLog(@"saving %ld user(s) to %@", users.count, path);
     return [users writeToFile:path atomically:YES];
 }
