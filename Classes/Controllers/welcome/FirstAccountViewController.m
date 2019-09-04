@@ -342,10 +342,8 @@
     Client *client = [Client sharedInstance];
     
     DIMID *ID = DIMIDWithString(itemString);
-    DIMLocalUser *user = DIMUserWithID(ID);
-    [client addUser:user];
     
-    user = client.currentUser;
+    DIMLocalUser *user = client.currentUser;
     DIMMeta *meta = DIMMetaForID(user.ID);
     DIMProfile *profile = user.profile;
     DIMCommand *cmd;
