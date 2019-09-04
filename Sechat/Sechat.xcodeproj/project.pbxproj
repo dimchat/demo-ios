@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */; };
+		5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
@@ -142,6 +144,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"; sourceTree = "<group>"; };
+		5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"; sourceTree = "<group>"; };
 		524F5E7C22CDDE0000A84DF9 /* ethers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ethers.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Sechat-cwfdihfwyufdtfaysjjmmexlsrue/Build/Products/Debug-iphoneos/ethers.framework"; sourceTree = "<group>"; };
 		52876E0022C20217006F0655 /* ImportAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportAccountViewController.h; sourceTree = "<group>"; };
 		52876E0122C20217006F0655 /* ImportAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImportAccountViewController.m; sourceTree = "<group>"; };
@@ -384,6 +388,8 @@
 		E92256072222ED6B006CADEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */,
+				5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */,
 				E922560B2222ED6B006CADEA /* gsp.plist */,
 				E9E824FF224D198200A029F1 /* avatar-bg.png */,
 				E979084A225CA8E20024C830 /* logo.png */,
@@ -716,6 +722,7 @@
 				E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */,
 				E9E82501224D198200A029F1 /* avatar-bg.png in Resources */,
 				E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */,
+				5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */,
 				E92256102222ED6B006CADEA /* gsp.plist in Resources */,
 				E979084E225CB4D60024C830 /* checkbox_on.png in Resources */,
 				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,
@@ -726,6 +733,7 @@
 				E92256042222ED5A006CADEA /* Profile.storyboard in Resources */,
 				E92256062222ED5A006CADEA /* Account.storyboard in Resources */,
 				E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */,
+				5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */,
 				E979084F225CB4D60024C830 /* checkbox_off.png in Resources */,
 				E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */,
 			);

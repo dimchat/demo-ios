@@ -33,6 +33,9 @@
     [mDict setObject:path forKey:@"ConfigFilePath"];
     
     [[Client sharedInstance] didFinishLaunchingWithOptions:mDict];
+
+    [self addDefaultUser:@"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"];
+    [self addDefaultUser:@"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"];
     
 #if DEBUG && 0
     {
@@ -78,6 +81,26 @@
 #endif
 
     return YES;
+}
+
+-(void)addDefaultUser:(NSString *)address{
+    
+    DIMID *ID = DIMIDWithString(address);
+    
+    NSString *metaPath = [NSString stringWithFormat:@"%@/meta", address];
+    NSString *path = [[NSBundle mainBundle] pathForResource:metaPath ofType:@"plist"];
+    
+    NSDictionary *metaData = [[NSDictionary alloc] initWithContentsOfFile:path];
+    DIMMeta *meta = MKMMetaFromDictionary(metaData);
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    [facebook saveMeta:meta forID:ID];
+    
+    NSString *profilePath = [NSString stringWithFormat:@"%@/profile", address];
+    path = [[NSBundle mainBundle] pathForResource:profilePath ofType:@"plist"];
+    
+    NSDictionary *profileData = [[NSDictionary alloc] initWithContentsOfFile:path];
+    DIMProfile *profile = MKMProfileFromDictionary(profileData);
+    [facebook saveProfile:profile];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -339,11 +339,13 @@
 
 -(void)addUserToContact:(NSString *)itemString{
     
-    DIMID *ID = DIMIDWithString(itemString);
-    
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
     
+    DIMID *ID = DIMIDWithString(itemString);
+    DIMLocalUser *user = DIMUserWithID(ID);
+    [client addUser:user];
+    
+    user = client.currentUser;
     DIMMeta *meta = DIMMetaForID(user.ID);
     DIMProfile *profile = user.profile;
     DIMCommand *cmd;
@@ -352,13 +354,13 @@
                                                meta:meta
                                             profile:profile];
     } else {
-        cmd = [[DIMMetaCommand alloc] initWithID:user.ID
-                                            meta:meta];
+        cmd = [[DIMMetaCommand alloc] initWithID:user.ID meta:meta];
     }
     [client sendContent:cmd to:ID];
     
     // add to contacts
     [[DIMFacebook sharedInstance] user:user addContact:ID];
+    
     NSLog(@"contact %@ added to user %@", ID, user);
     [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
 }
