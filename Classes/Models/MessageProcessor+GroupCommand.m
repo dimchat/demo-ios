@@ -127,7 +127,10 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
                     polylogue:(DIMPolylogue *)group {
     
     // 0. check permission
-    if (![group isFounder:sender] && ![group existsMember:sender]) {
+    if (group.founder == nil && group.members.count == 0) {
+        // FIXME: group profile lost?
+        // FIXME: how to avoid strangers impersonating group members?
+    } else if (![group isFounder:sender] && ![group existsMember:sender]) {
         NSAssert(false, @"%@ is not a member of polylogue: %@, cannot invite.", sender, group);
         return NO;
     }

@@ -369,11 +369,12 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 // save the new message to local storage
 - (BOOL)conversation:(DIMConversation *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
     DIMID *ID = chatBox.ID;
+    NSString *command = nil;
     
     // system command
     DIMContent *content = iMsg.content;
     if (content.type == DKDContentType_Command) {
-        NSString *command = [(DIMCommand *)content command];
+        command = [(DIMCommand *)content command];
         NSLog(@"command: %@", command);
         
         // TODO: parse & execute system command
@@ -383,6 +384,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         DIMID *groupID = DIMIDWithString(content.group);
         if (groupID) {
             DIMGroupCommand *cmd = (DIMGroupCommand *)content;
+            command = cmd.command;
             DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
             if (![self processGroupCommand:cmd commander:sender]) {
                 NSLog(@"group comment error: %@", content);
@@ -394,7 +396,13 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     // check whether the group members info is updated
     if (MKMNetwork_IsGroup(ID.type)) {
         DIMGroup *group = DIMGroupWithID(ID);
-        if (group.founder == nil) {
+        // if the group info not found, and this is not an 'invite' command
+        //     query group info from the sender
+        BOOL needsUpdate = group.founder == nil;
+        if ([command isEqualToString:DIMGroupCommand_Invite]) {
+            needsUpdate = NO;
+        }
+        if (needsUpdate) {
             DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
             NSAssert(sender != nil, @"sender error: %@", iMsg);
             
