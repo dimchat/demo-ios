@@ -40,7 +40,8 @@
     }
     
     Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
-    NSDictionary *returnValue = [nativeJsonParser JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:NULL];
+    NSError *error;
+    NSDictionary *returnValue = [nativeJsonParser JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
     NSString *username = [returnValue objectForKey:@"username"];
     NSString *nickname = [returnValue objectForKey:@"nickname"];
     

@@ -36,12 +36,12 @@
                   moduleName = "Sechat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/john/Documents/workspace/iphone/dimchat/demo-ios/Classes/Models/MessageProcessor+GroupCommand.m"
-                  timestampString = "589179580.398122"
+                  timestampString = "589254826.018939"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "27"
                   endingLineNumber = "27"
-                  offsetFromSymbolStart = "132">
+                  offsetFromSymbolStart = "153">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -51,12 +51,12 @@
                   moduleName = "Sechat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/john/Documents/workspace/iphone/dimchat/demo-ios/Classes/Models/MessageProcessor+GroupCommand.m"
-                  timestampString = "589179580.400555"
+                  timestampString = "589254826.022819"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "27"
                   endingLineNumber = "27"
-                  offsetFromSymbolStart = "160">
+                  offsetFromSymbolStart = "158">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -131,46 +131,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../../client-objc/Classes/DIMTerminal.m"
-            timestampString = "589168503.196259"
+            filePath = "../Classes/Controllers/contacts/SearchUsersTableViewController.m"
+            timestampString = "589254095.98491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "-addUser:"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "-reloadData:"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../client-objc/Classes/DIMTerminal.m"
-            timestampString = "589168503.196328"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "-addUser:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../Classes/Models/Facebook+Register.m"
-            timestampString = "589179580.129635"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "users_filepath()"
-            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

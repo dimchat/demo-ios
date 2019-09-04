@@ -58,8 +58,7 @@
     self.avatarLabel.layer.cornerRadius = 10;
     self.avatarLabel.layer.masksToBounds = YES;
     
-    //[_refreshButton roundedCorner];
-    //[_startButton roundedCorner];
+    self.navigationItem.backBarButtonItem = nil;
     
     [self.changeButton addTarget:self action:@selector(changeAvatar:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addClickTarget:self action:@selector(onBackgroundClick:)];
@@ -318,6 +317,13 @@
             return ;
         }
         
+        //New User add Moky as contact
+        NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";
+        [self addUserToContact:itemString];
+        
+        itemString = @"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf";
+        [self addUserToContact:itemString];
+        
         // dismiss the welcome page
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     };
@@ -329,6 +335,32 @@
          cancelButton:NSLocalizedString(@"Cancel", nil)
        defaultHandler:handler
         defaultButton:NSLocalizedString(@"OK", nil)];
+}
+
+-(void)addUserToContact:(NSString *)itemString{
+    
+    DIMID *ID = DIMIDWithString(itemString);
+    
+    Client *client = [Client sharedInstance];
+    DIMLocalUser *user = client.currentUser;
+    
+    DIMMeta *meta = DIMMetaForID(user.ID);
+    DIMProfile *profile = user.profile;
+    DIMCommand *cmd;
+    if (profile) {
+        cmd = [[DIMProfileCommand alloc] initWithID:user.ID
+                                               meta:meta
+                                            profile:profile];
+    } else {
+        cmd = [[DIMMetaCommand alloc] initWithID:user.ID
+                                            meta:meta];
+    }
+    [client sendContent:cmd to:ID];
+    
+    // add to contacts
+    [[DIMFacebook sharedInstance] user:user addContact:ID];
+    NSLog(@"contact %@ added to user %@", ID, user);
+    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
 }
 
 @end
