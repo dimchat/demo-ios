@@ -367,7 +367,9 @@ SingletonImplementations(Client, sharedInstance)
 
     // 2. save nickname in profile
     if (nickname.length > 0) {
+        
         DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
+
         [profile setName:nickname];
         [profile sign:SK];
         if (![facebook saveProfile:profile]) {
@@ -384,6 +386,32 @@ SingletonImplementations(Client, sharedInstance)
     Facebook *book = [Facebook sharedInstance];
     BOOL saved = [book saveUserList:self.users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
+    return saved;
+}
+
+- (BOOL)importUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname {
+    
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    
+    // 1. save meta & private key
+    if (![facebook savePrivateKey:SK forID:ID]) {
+        NSAssert(false, @"failed to save private key for new user: %@", ID);
+        return NO;
+    }
+    if (![facebook saveMeta:meta forID:ID]) {
+        NSAssert(false, @"failed to save meta for new user: %@", ID);
+        return NO;
+    }
+    
+    MKMLocalUser *user = DIMUserWithID(ID);
+    [self login:user];
+    
+    DIMProfile *profile = [facebook profileForID:ID];
+    
+    Facebook *book = [Facebook sharedInstance];
+    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
+    NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
+    
     return saved;
 }
 

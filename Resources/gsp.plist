@@ -18,9 +18,9 @@
 			<key>ID</key>
 			<string>gsp-s001@x5Zh9ixt8ECr59XLye1y5WWfaX4fcoaaSC</string>
 			<key>host</key>
-			<string>124.156.108.150</string>
+			<string>134.175.87.98</string>
 			<key>port</key>
-			<real>9394</real>
+			<integer>9394</integer>
 			<key>meta</key>
 			<dict>
 				<key>version</key>
@@ -50,9 +50,9 @@ DLfdznLfuTg8w5Ug+dysJfbrmB1G7nbqDYEyXQXNRWpQsLHYSD/ihaSKWNnOuV0c
 			<key>ID</key>
 			<string>gsp-s001@x5Zh9ixt8ECr59XLye1y5WWfaX4fcoaaSC</string>
 			<key>host</key>
-			<string>127.0.0.1</string>
+			<string>124.156.108.150</string>
 			<key>port</key>
-			<integer>9394</integer>
+			<real>9394</real>
 			<key>meta</key>
 			<dict>
 				<key>version</key>

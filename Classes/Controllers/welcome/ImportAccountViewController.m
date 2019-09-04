@@ -59,10 +59,13 @@
     DIMID *ID = [meta generateID:MKMNetwork_Main];
     
     Client *client = [Client sharedInstance];
-    if (![client saveUser:ID meta:meta privateKey:SK name:nickname]) {
+    if (![client importUser:ID meta:meta privateKey:SK name:nickname]) {
+
         [self showMessage:NSLocalizedString(@"Failed to import user.", nil)
                 withTitle:NSLocalizedString(@"Error!", nil)];
     } else {
+
+
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
 }
