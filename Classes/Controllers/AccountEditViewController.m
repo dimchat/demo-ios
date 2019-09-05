@@ -164,6 +164,7 @@
     // submit to station
     [client postProfile:profile meta:nil];
     
+    [NSNotificationCenter postNotificationName:kNotificationName_UsersUpdated object:self];
     return YES;
 }
 
