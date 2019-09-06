@@ -10,31 +10,13 @@
 
 #import "Facebook+Register.h"
 
-/**
- Get group members filepath in Documents Directory
- 
- @return "Documents/.dim/users.plist"
- */
-static inline NSString *users_filepath(BOOL autoCreate) {
-    NSString *dir = document_directory();
-    dir = [dir stringByAppendingPathComponent:@".dim"];
-    // check base directory exists
-    if (autoCreate && !file_exists(dir)) {
-        // make sure directory exists
-        make_dirs(dir);
-    }
-    return [dir stringByAppendingPathComponent:@"users.plist"];
-}
-
-#pragma mark -
-
 @implementation Facebook (Register)
 
 - (BOOL)saveMeta:(DIMMeta *)meta
       privateKey:(DIMPrivateKey *)SK
            forID:(DIMID *)ID {
     
-    NSArray *array = [self scanUserIDList];
+    NSArray *array = [self allUsers];
     if ([array containsObject:ID]) {
         NSLog(@"User ID already exists: %@", ID);
         return NO;
@@ -70,71 +52,21 @@ static inline NSString *users_filepath(BOOL autoCreate) {
     [users addObject:ID];
     [users addObjectsFromArray:array];
     
-    // save ("Documents/.dim/users.plist")
-    NSString *path = users_filepath(YES);
-    NSLog(@"saving new user ID: %@", ID);
-    return [users writeToFile:path atomically:YES];
-}
-
-- (NSArray<DIMID *> *)scanUserIDList {
-    NSMutableArray<DIMID *> *users = nil;
-    
-    // load from ("Documents/.dim/users.plist")
-    NSString *path = users_filepath(NO);
-    NSArray *array = [NSArray arrayWithContentsOfFile:path];
-    users = [[NSMutableArray alloc] initWithCapacity:[array count]];
-    DIMID *ID;
-    for (NSString *item in array) {
-        ID = DIMIDWithString(item);
-        if ([ID isValid]) {
-            [users addObject:ID];
-        } else {
-            NSAssert(false, @"invalid user ID: %@", item);
-        }
-    }
-    NSLog(@"loaded %ld user(s) from %@", users.count, path);
-    
-    return users;
-}
-
-- (BOOL)saveUserIDList:(NSArray<DIMID *> *)users
-         withCurrentID:(nullable DIMID *)curr {
-    if (users.count == 0) {
-        return NO;
-    }
-    if (curr && [users containsObject:curr]) {
-        // exchange the current user to the first
-        NSUInteger index = [users indexOfObject:curr];
-        if (index > 0) {
-            NSMutableArray *mArray = [users mutableCopy];
-            [mArray exchangeObjectAtIndex:index withObjectAtIndex:0];
-            users = mArray;
-        }
-    }
-    // save to ("Documents/.dim/users.plist")
-    NSString *path = users_filepath(YES);
-    NSLog(@"saving %ld user(s) to %@", users.count, path);
-    return [users writeToFile:path atomically:YES];
+    return [self saveUsers:users];
 }
 
 - (BOOL)saveUserList:(NSArray<DIMLocalUser *> *)users
      withCurrentUser:(DIMLocalUser *)curr {
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
+    [list addObject:curr.ID];
     for (DIMLocalUser *user in users) {
-        [list addObject:user.ID];
+        if ([list containsObject:user.ID]) {
+            // ignore
+        } else {
+            [list addObject:user.ID];
+        }
     }
-    return [self saveUserIDList:list withCurrentID:curr.ID];
-}
-
-- (BOOL)removeUser:(DIMLocalUser *)user {
-    NSMutableArray<DIMID *> *users = (NSMutableArray *)[self scanUserIDList];
-    if ([users containsObject:user.ID]) {
-        [users removeObject:user.ID];
-        return [self saveUserIDList:users withCurrentID:nil];
-    } else {
-        NSLog(@"user not exists: %@", user);
-        return NO;
-    }
+    return [self saveUsers:list];
 }
 
 @end

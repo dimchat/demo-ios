@@ -217,7 +217,7 @@
             [client removeUser:user];
             
             Facebook *facebook = [Facebook sharedInstance];
-            [facebook removeUser:user];
+            [facebook removeUser:user.ID];
             
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         } else if (editingStyle == UITableViewCellEditingStyleInsert) {

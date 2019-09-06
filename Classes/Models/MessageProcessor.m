@@ -14,112 +14,9 @@
 #import "Client.h"
 #import "Facebook+Register.h"
 
-#import "MessageProcessor+GroupCommand.h"
-
 #import "MessageProcessor.h"
 
-/**
- Get full filepath to Documents Directory
- 
- @param ID - user ID
- @param filename - "messages.plist"
- @return "Documents/.dim/{address}/messages.plist"
- */
-static inline NSString *full_filepath(DIMID *ID, NSString *filename) {
-    assert([ID isValid]);
-    // base directory: Documents/.dim/{address}
-    NSString *dir = document_directory();
-    dir = [dir stringByAppendingPathComponent:@".dim"];
-    DIMAddress *addr = ID.address;
-    if (addr) {
-        dir = [dir stringByAppendingPathComponent:(NSString *)addr];
-    }
-    
-    // check base directory exists
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if (![fm fileExistsAtPath:dir isDirectory:nil]) {
-        NSError *error = nil;
-        // make sure directory exists
-        [fm createDirectoryAtPath:dir withIntermediateDirectories:YES
-                       attributes:nil error:&error];
-        assert(!error);
-    }
-    
-    // build filepath
-    return [dir stringByAppendingPathComponent:filename];
-}
-
-//static inline NSArray *load_message(DIMID *ID) {
-//    NSArray *array = nil;
-//    NSString *path = full_filepath(ID, @"messages.plist");
-//    if (file_exists(path)) {
-//        array = [NSArray arrayWithContentsOfFile:path];
-//    }
-//    return array;
-//}
-
-static inline BOOL save_message(NSArray *messages, DIMID *ID) {
-    NSString *path = full_filepath(ID, @"messages.plist");
-    NSLog(@"save path: %@", path);
-    return [messages writeToFile:path atomically:YES];
-}
-
-static inline BOOL remove_messages(DIMID *ID) {
-    NSString *path = full_filepath(ID, @"messages.plist");
-    return remove_file(path);
-}
-
-static inline BOOL clear_messages(DIMID *ID) {
-    NSString *path = full_filepath(ID, @"messages.plist");
-    NSMutableArray *empty = [[NSMutableArray alloc] init];
-    return [empty writeToFile:path atomically:YES];
-}
-
-static inline NSMutableDictionary *scan_messages(void) {
-    NSMutableDictionary *mDict = [[NSMutableDictionary alloc] init];
-    
-    NSString *dir = document_directory();
-    dir = [dir stringByAppendingPathComponent:@".dim"];
-    
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *de = [fm enumeratorAtPath:dir];
-    
-    Facebook *fb = [Facebook sharedInstance];
-    
-    NSString *addr;
-    NSMutableArray *array;
-    
-    DIMID *ID;
-    DIMAddress *address;
-    
-    NSString *path;
-    while (path = [de nextObject]) {
-        if (![path hasSuffix:@"/messages.plist"]) {
-            // no messages
-            continue;
-        }
-        addr = [path substringToIndex:(path.length - 15)];
-        address = MKMAddressFromString(addr);
-//        if (MKMNetwork_IsStation(address.network)) {
-//            // ignore station history
-//            continue;
-//        }
-        
-        path = [dir stringByAppendingPathComponent:path];
-        array = [NSMutableArray arrayWithContentsOfFile:path];
-        NSLog(@"loaded %lu message(s) from %@", array.count, path);
-        
-        ID = [fb IDWithAddress:address];
-        if (array && ID) {
-            NSLog(@"ID: %@", ID);
-            [mDict setObject:array forKey:ID];
-        } else {
-            NSLog(@"failed to load message in path: %@", path);
-        }
-    }
-    
-    return mDict;
-}
+#import "MessageProcessor.h"
 
 static inline NSMutableArray *time_for_messages(NSArray *messages) {
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:messages.count];
@@ -127,6 +24,7 @@ static inline NSMutableArray *time_for_messages(NSArray *messages) {
     NSDate *date;
     NSDate *lastDate = nil;
     NSString *text;
+    messages = [messages copy];
     for (NSDictionary *msg in messages) {
         timestamp = [msg objectForKey:@"time"];
         date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.doubleValue];
@@ -212,38 +110,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     _timesTable = [[NSMutableDictionary alloc] init];
 }
 
-- (BOOL)insertMessage:(DIMInstantMessage *)iMsg forConversationID:(DIMID *)ID {
-    
-    MessageList *list = [_chatHistory objectForKey:ID];
-    if (list.count == 0) {
-        // message list empty, create new one, even '_NSArray0'
-        list = [[MessageList alloc] init];
-        [_chatHistory setObject:list forKey:ID];
-    }
-    [list addObject:iMsg];
-    
-//    // Burn After Reading
-//    NSMutableArray *timeList = [_timesTable objectForKey:ID];
-//    while (list.count > MAX_MESSAGES_SAVED_COUNT) {
-//        [list removeObjectAtIndex:0];
-//        if (timeList.count > 0) {
-//            [timeList removeObjectAtIndex:0];
-//        } else {
-//            // FIXME: sometimes this would happen
-//            //NSAssert(false, @"time list should not be empty here");
-//        }
-//    }
-    
-    if (save_message(list, ID)) {
-        NSLog(@"new message for %@ saved", ID);
-        [self sortConversationList];
-        return YES;
-    } else {
-        NSLog(@"failed to save new message for ID: %@", ID);
-        return NO;
-    }
-}
-
 - (NSString *)timeTagAtIndex:(NSInteger)index forConversationID:(DIMID *)ID {
     
     NSMutableArray *timeList = [_timesTable objectForKey:ID];
@@ -258,8 +124,18 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (BOOL)reloadData {
-    NSMutableDictionary *dict = scan_messages();
-    [self setChatHistory:dict];
+    NSArray<DIMConversation *> *conversations = [self allConversations];
+    NSMutableDictionary *mDict;
+    mDict = [[NSMutableDictionary alloc] initWithCapacity:conversations.count];
+    
+    NSArray<DIMInstantMessage *> *messages;
+    for (DIMConversation *chatBox in conversations) {
+        messages = [self messagesInConversation:chatBox];
+        NSAssert(messages, @"failed to get messages: %@", chatBox.ID);
+        [mDict setObject:messages forKey:chatBox.ID];
+    }
+    
+    [self setChatHistory:mDict];
     return YES;
 }
 
@@ -278,10 +154,10 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (BOOL)removeConversation:(DIMConversation *)chatBox {
-    DIMID *ID = chatBox.ID;
-    NSLog(@"remove conversation for %@", ID);
-    BOOL removed = remove_messages(ID);
+    BOOL removed = [super removeConversation:chatBox];
     if (removed) {
+        DIMID *ID = chatBox.ID;
+        NSLog(@"conversation removed: %@", ID);
         [_chatHistory removeObjectForKey:ID];
         [_chatList removeObject:ID];
         [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
@@ -297,10 +173,10 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (BOOL)clearConversation:(DIMConversation *)chatBox {
-    DIMID *ID = chatBox.ID;
-    NSLog(@"clear conversation for %@", ID);
-    BOOL cleared = clear_messages(ID);
+    BOOL cleared = [super clearConversation:chatBox];
     if (cleared) {
+        DIMID *ID = chatBox.ID;
+        NSLog(@"conversation cleaned: %@", ID);
         [[_chatHistory objectForKey:ID] removeAllObjects];
         [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
                                             object:self
@@ -311,33 +187,11 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 #pragma mark DIMConversationDataSource
 
-// get message count in the conversation
-- (NSInteger)numberOfMessagesInConversation:(DIMConversation *)chatBox {
-    DIMID *ID = chatBox.ID;
-    
-    NSArray *list = [_chatHistory objectForKey:ID];
-    return list.count;
-}
-
 // get message at index of the conversation
 - (DIMInstantMessage *)conversation:(DIMConversation *)chatBox messageAtIndex:(NSInteger)index {
-    DIMID *ID = chatBox.ID;
+    DIMInstantMessage *iMsg = [super conversation:chatBox messageAtIndex:index];
     
-    NSMutableArray *list = [_chatHistory objectForKey:ID];
-    
-    DIMInstantMessage *iMsg = nil;
-    if (list.count > index) {
-        NSDictionary *item = [list objectAtIndex:index];
-        iMsg = DKDInstantMessageFromDictionary(item);
-        if (iMsg != item) {
-            // replace InstantMessage object for next access
-            [list replaceObjectAtIndex:index withObject:iMsg];
-        }
-    } else {
-        NSAssert(false, @"out of data");
-    }
-    
-    NSString *timeTag = [self timeTagAtIndex:index forConversationID:ID];
+    NSString *timeTag = [self timeTagAtIndex:index forConversationID:chatBox.ID];
     [iMsg setObject:timeTag forKey:@"timeTag"];
     
     return iMsg;
@@ -345,62 +199,25 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 #pragma mark DIMConversationDelegate
 
-// Conversation factory
-- (DIMConversation *)conversationWithID:(DIMID *)ID {
-    DIMEntity *entity = nil;
-    if (MKMNetwork_IsUser(ID.type)) {
-        entity = DIMUserWithID(ID);
-    } else if (MKMNetwork_IsGroup(ID.type)) {
-        entity = DIMGroupWithID(ID);
-    }
-    
-    if (entity) {
-        // create new conversation with entity (User/Group)
-        DIMConversation *chatBox;
-        chatBox = [[DIMConversation alloc] initWithEntity:entity];
-        chatBox.dataSource = self;
-        chatBox.delegate = self;
-        return chatBox;
-    }
-    NSAssert(false, @"failed to create conversation with ID: %@", ID);
-    return nil;
-}
-
 // save the new message to local storage
 - (BOOL)conversation:(DIMConversation *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
-    DIMID *ID = chatBox.ID;
-    NSString *command = nil;
-    
-    // system command
-    DIMContent *content = iMsg.content;
-    if (content.type == DKDContentType_Command) {
-        command = [(DIMCommand *)content command];
-        NSLog(@"command: %@", command);
-        
-        // TODO: parse & execute system command
-        // ...
-        return YES;
-    } else if (content.type == DKDContentType_History) {
-        DIMID *groupID = DIMIDWithString(content.group);
-        if (groupID) {
-            DIMGroupCommand *cmd = (DIMGroupCommand *)content;
-            command = cmd.command;
-            DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
-            if (![self processGroupCommand:cmd commander:sender]) {
-                NSLog(@"group comment error: %@", content);
-                return NO;
-            }
-        }
+    if (![super conversation:chatBox insertMessage:iMsg]) {
+        return NO;
     }
     
     // check whether the group members info is updated
+    DIMID *ID = chatBox.ID;
     if (MKMNetwork_IsGroup(ID.type)) {
         DIMGroup *group = DIMGroupWithID(ID);
+        DIMContent *content = iMsg.content;
         // if the group info not found, and this is not an 'invite' command
         //     query group info from the sender
         BOOL needsUpdate = group.founder == nil;
-        if ([command isEqualToString:DIMGroupCommand_Invite]) {
-            needsUpdate = NO;
+        if (content.type == DKDContentType_History) {
+            NSString *command = [(DIMGroupCommand *)content command];
+            if ([command isEqualToString:DIMGroupCommand_Invite]) {
+                needsUpdate = NO;
+            }
         }
         if (needsUpdate) {
             DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
@@ -414,14 +231,10 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         }
     }
     
-    if ([self insertMessage:iMsg forConversationID:ID]) {
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
-                                            object:self
-                                          userInfo:@{@"ID": ID}];
-        return YES;
-    } else {
-        return NO;
-    }
+    [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
+                                        object:self
+                                      userInfo:@{@"ID": ID}];
+    return YES;
 }
 
 @end

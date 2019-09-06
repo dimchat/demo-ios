@@ -46,7 +46,7 @@ SingletonImplementations(Facebook, sharedInstance)
         barrack.database   = self;
         
         // scan users
-        NSArray *users = [self scanUserIDList];
+        NSArray *users = [self allUsers];
 #if DEBUG && 0
         NSMutableArray *mArray;
         if (users.count > 0) {
@@ -108,29 +108,6 @@ SingletonImplementations(Facebook, sharedInstance)
     
     // update profile
     [[DIMFacebook sharedInstance] saveProfile:profile];
-}
-
-- (nullable DIMID *)IDWithAddress:(DIMAddress *)address {
-    DIMID *ID = nil;
-    
-    NSString *dir = document_directory();
-    dir = [dir stringByAppendingPathComponent:@".mkm"];
-    
-    NSString *path = [NSString stringWithFormat:@"%@/meta.plist", address];
-    path = [dir stringByAppendingPathComponent:path];
-    
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:path]) {
-        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
-        NSString *seed = [dict objectForKey:@"seed"];
-        NSString *idstr = [NSString stringWithFormat:@"%@@%@", seed, address];
-        ID = DIMIDWithString(idstr);
-        NSLog(@"Address -> number: %@, ID: %@", search_number(ID.number), ID);
-    } else {
-        NSLog(@"meta file not exists: %@", path);
-    }
-    
-    return ID;
 }
 
 - (void)addStation:(DIMID *)stationID provider:(DIMServiceProvider *)sp {

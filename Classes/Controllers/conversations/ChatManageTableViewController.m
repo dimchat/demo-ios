@@ -13,7 +13,7 @@
 
 #import "WebViewController.h"
 
-#import "MessageProcessor+GroupCommand.h"
+#import "MessageProcessor.h"
 #import "Client.h"
 #import "User.h"
 

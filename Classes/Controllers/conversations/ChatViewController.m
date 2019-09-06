@@ -20,7 +20,7 @@
 #import "WebViewController.h"
 #import "ImagePickerController.h"
 
-#import "MessageProcessor+GroupCommand.h"
+#import "MessageProcessor.h"
 #import "Client.h"
 
 #import "MsgCell.h"

@@ -12,11 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const kNotificationName_ContactsUpdated;
 
-@interface Facebook : DIMDatabase
+@interface Facebook : DIMSocialNetworkDatabase
 
 + (instancetype)sharedInstance;
-
-- (nullable DIMID *)IDWithAddress:(DIMAddress *)address;
 
 - (void)addStation:(DIMID *)stationID provider:(DIMServiceProvider *)sp;
 

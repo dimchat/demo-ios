@@ -16,7 +16,7 @@
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "Client.h"
-#import "MessageProcessor+GroupCommand.h"
+#import "MessageProcessor.h"
 
 #import "ParticipantManageCell.h"
 

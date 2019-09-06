@@ -118,7 +118,7 @@ SingletonImplementations(Client, sharedInstance)
     [facebook addStation:ID provider:sp];
     
     // scan users
-    NSArray *users = [facebook scanUserIDList];
+    NSArray *users = [facebook allUsers];
 #if DEBUG && 0
     NSMutableArray *mArray;
     if (users.count > 0) {
