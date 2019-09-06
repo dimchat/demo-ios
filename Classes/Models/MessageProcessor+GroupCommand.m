@@ -130,7 +130,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     if (group.founder == nil && group.members.count == 0) {
         // FIXME: group profile lost?
         // FIXME: how to avoid strangers impersonating group members?
-    } else if (![group isFounder:sender] && ![group existsMember:sender]) {
+    } else if (![group existsMember:sender]) {
         NSAssert(false, @"%@ is not a member of polylogue: %@, cannot invite.", sender, group);
         return NO;
     }
@@ -186,7 +186,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
     
     // 4. build message
     NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:invites.count];
-    for (DIMID *item in invites) {
+    for (DIMID *item in addeds) {
         [mArr addObject:readable_name(DIMIDWithString(item))];
     }
     NSString *str = [mArr componentsJoinedByString:@",\n"];
