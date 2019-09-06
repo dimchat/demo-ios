@@ -223,7 +223,7 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
     // save profile & members
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     [facebook saveProfile:profile];
-    [facebook saveMembers:_selectedList forGroup:_group];
+    [facebook saveMembers:_selectedList group:_group.ID];
     
     // notice
     NSDictionary *info = @{@"group": ID};

@@ -406,7 +406,7 @@ SingletonImplementations(Client, sharedInstance)
     MKMLocalUser *user = DIMUserWithID(ID);
     [self login:user];
     
-    DIMProfile *profile = [facebook profileForID:ID];
+//    DIMProfile *profile = [facebook profileForID:ID];
     
     Facebook *book = [Facebook sharedInstance];
     BOOL saved = [book saveUserList:self.users withCurrentUser:user];

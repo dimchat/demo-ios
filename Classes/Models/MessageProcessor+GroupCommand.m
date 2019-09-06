@@ -90,7 +90,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         NSLog(@"reset group members: %@, from %@ to %@", group.ID, members, newMembers);
         
         // 3. save new members list
-        if (![[DIMFacebook sharedInstance] saveMembers:newMembers forGroup:group]) {
+        if (![[DIMFacebook sharedInstance] saveMembers:newMembers group:group.ID]) {
             return NO;
         }
     }
@@ -179,7 +179,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         NSLog(@"invite members: %@ to group: %@", addeds, group.ID);
         
         // 3. save new members list
-        if (![[DIMFacebook sharedInstance] saveMembers:newMembers forGroup:group]) {
+        if (![[DIMFacebook sharedInstance] saveMembers:newMembers group:group.ID]) {
             return NO;
         }
     }
@@ -242,7 +242,7 @@ NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
         NSLog(@"expel members: %@ from group: %@", removeds, group.ID);
         
         // 3. save new members list
-        if (![[DIMFacebook sharedInstance] saveMembers:newMembers forGroup:group]) {
+        if (![[DIMFacebook sharedInstance] saveMembers:newMembers group:group.ID]) {
             return NO;
         }
     }

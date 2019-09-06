@@ -43,9 +43,7 @@ SingletonImplementations(Facebook, sharedInstance)
         
         // delegates
         DIMFacebook *barrack = [DIMFacebook sharedInstance];
-        barrack.entityDataSource   = self;
-        barrack.userDataSource     = self;
-        barrack.groupDataSource    = self;
+        barrack.database   = self;
         
         // scan users
         NSArray *users = [self scanUserIDList];
@@ -154,7 +152,10 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - DIMEntityDataSource
 
 - (nullable DIMMeta *)metaForID:(DIMID *)ID {
-    DIMMeta *meta = nil;
+    DIMMeta *meta = [super metaForID:ID];
+    if (meta) {
+        return meta;
+    }
     
     if (MKMNetwork_IsPerson(ID.type)) {
         meta = [_immortals metaForID:ID];
@@ -163,28 +164,17 @@ SingletonImplementations(Facebook, sharedInstance)
         }
     }
     
-    // TODO: load meta from database
-    meta = [[DIMFacebook sharedInstance] loadMetaForID:ID];
-    
-    if (!meta) {
-        // query from DIM network
-        Client *client = [Client sharedInstance];
-        [client queryMetaForID:ID];
-        NSLog(@"querying meta for ID: %@", ID);
-    }
+    // query from DIM network
+    Client *client = [Client sharedInstance];
+    [client queryMetaForID:ID];
+    NSLog(@"querying meta from DIM network for ID: %@", ID);
     
     return meta;
 }
 
 - (nullable __kindof DIMProfile *)profileForID:(DIMID *)ID {
-    DIMProfile *profile = nil;
-    
-    // send query for updating from network
-    [[Client sharedInstance] queryProfileForID:ID];
-    
-    // TODO: load profile from database
-    profile = [[DIMFacebook sharedInstance] loadProfileForID:ID];
-    if (!profile) {
+    DIMProfile *profile = [super profileForID:ID];
+    if (![profile objectForKey:@"data"]) {
         // try immortals
         if (MKMNetwork_IsPerson(ID.type)) {
             profile = [_immortals profileForID:ID];
@@ -194,41 +184,12 @@ SingletonImplementations(Facebook, sharedInstance)
         }
     }
     
+    if (![profile objectForKey:@"lastTime"]) {
+        // send query for updating from DIM network
+        [[Client sharedInstance] queryProfileForID:ID];
+    }
+
     return profile;
-}
-
-#pragma mark - MKMUserDataSource
-
-- (nullable DIMPrivateKey *)privateKeyForSignatureOfUser:(DIMID *)user {
-    // let DIMFacebook to do the job
-    return nil;
-}
-
-- (nullable NSArray<DIMPrivateKey *> *)privateKeysForDecryptionOfUser:(DIMID *)user {
-    // let DIMFacebook to do the job
-    return nil;
-}
-
-- (nullable NSArray<DIMID *> *)contactsOfUser:(DIMID *)user {
-    // let DIMFacebook to do the job
-    return nil;
-}
-
-#pragma mark - MKMGroupDataSource
-
-- (nullable DIMID *)founderOfGroup:(DIMID *)grp {
-    // let DIMBarrack to do the job
-    return nil;
-}
-
-- (nullable DIMID *)ownerOfGroup:(DIMID *)grp {
-    // let DIMBarrack to do the job
-    return nil;
-}
-
-- (nullable NSArray<DIMID *> *)membersOfGroup:(DIMID *)group {
-    // let DIMBarrack to do the job
-    return nil;
 }
 
 @end
