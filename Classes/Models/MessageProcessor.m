@@ -117,7 +117,8 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         // new message appended, update 'timeTag'
         MessageList *list = [_chatHistory objectForKey:ID];
         timeList = time_for_messages(list);
-        NSAssert(timeList.count == list.count, @"time tags error: %@", timeList);
+        // FIXME:
+        //NSAssert(timeList.count == list.count, @"time tags error: %@", timeList);
         [_timesTable setObject:timeList forKey:ID];
     }
     return [timeList objectAtIndex:index];

@@ -154,9 +154,9 @@ SingletonImplementations(Facebook, sharedInstance)
     if (![profile objectForKey:@"data"]) {
         // try immortals
         if (MKMNetwork_IsPerson(ID.type)) {
-            profile = [_immortals profileForID:ID];
-            if (profile) {
-                return profile;
+            DIMProfile *tai = [_immortals profileForID:ID];
+            if (tai) {
+                return tai;
             }
         }
     }
