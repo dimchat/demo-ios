@@ -339,7 +339,7 @@ SingletonImplementations(Client, sharedInstance)
 }
 
 - (NSString *)termsAPI {
-    return @"https://dim.chat/sechat/terms.html";
+    return @"https://wallet.dim.chat/dimchat/sechat/privacy.html";
 }
 
 - (NSString *)aboutAPI {
