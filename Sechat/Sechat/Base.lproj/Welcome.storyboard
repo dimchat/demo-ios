@@ -44,10 +44,13 @@
                                                 <rect key="frame" x="121" y="96" width="131" height="128"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dej-8p-gF7">
-                                                <rect key="frame" x="37" y="475" width="120" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dej-8p-gF7">
+                                                <rect key="frame" x="37" y="474" width="120" height="30"/>
                                                 <color key="backgroundColor" red="0.11019916087388992" green="0.72231465578079224" blue="0.085971198976039886" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="OBM-pR-aY0"/>
+                                                    <constraint firstAttribute="width" constant="120" id="xIj-3J-S1i"/>
+                                                </constraints>
                                                 <state key="normal" title="Register">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -55,9 +58,8 @@
                                                     <segue destination="uMV-9Y-TiD" kind="show" identifier="next" id="ELr-Iy-7N8"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VMW-kQ-06Y">
-                                                <rect key="frame" x="85" y="518" width="266" height="67"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VMW-kQ-06Y">
+                                                <rect key="frame" x="85" y="517" width="267" height="68"/>
                                                 <state key="normal">
                                                     <attributedString key="attributedTitle"/>
                                                 </state>
@@ -65,25 +67,34 @@
                                                     <segue destination="fAq-42-OHi" kind="show" identifier="terms" id="OsJ-ow-bb4"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="I have read and agreed to the &quot;DIM! User Agreements and Privacy Clauses&quot;." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="vWt-Nx-iFd">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I have read and agreed to the &quot;DIM! User Agreements and Privacy Clauses&quot;." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="vWt-Nx-iFd">
                                                 <rect key="frame" x="90" y="526" width="257" height="50"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="QyA-A2-WlB"/>
+                                                    <constraint firstAttribute="width" constant="257" id="ch8-Ia-ror"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                                 <color key="textColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ykl-S8-jWj" customClass="SwitchButton">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ykl-S8-jWj" customClass="SwitchButton">
                                                 <rect key="frame" x="36" y="533" width="40" height="38"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="40" id="6mp-vO-doS"/>
+                                                    <constraint firstAttribute="height" constant="38" id="OnD-1s-xLS"/>
+                                                </constraints>
                                                 <state key="normal" image="checkbox_off.png"/>
                                                 <state key="selected" image="checkbox_on.png">
                                                     <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yOX-S2-sS2">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yOX-S2-sS2">
                                                 <rect key="frame" x="212" y="475" width="122" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" red="0.1101991609" green="0.72231465579999998" blue="0.085971198979999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="28F-RD-uKD"/>
+                                                    <constraint firstAttribute="width" constant="122" id="ysa-fw-acj"/>
+                                                </constraints>
                                                 <state key="normal" title="Import">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
@@ -93,6 +104,20 @@
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="VMW-kQ-06Y" firstAttribute="top" secondItem="yOX-S2-sS2" secondAttribute="bottom" constant="12" id="5s4-cT-zf0"/>
+                                            <constraint firstItem="VMW-kQ-06Y" firstAttribute="centerY" secondItem="vWt-Nx-iFd" secondAttribute="centerY" id="A8U-Q2-MZw"/>
+                                            <constraint firstAttribute="bottom" secondItem="VMW-kQ-06Y" secondAttribute="bottom" constant="18" id="Hym-O1-Sng"/>
+                                            <constraint firstItem="VMW-kQ-06Y" firstAttribute="top" secondItem="dej-8p-gF7" secondAttribute="bottom" constant="13" id="Q0r-Q9-e4W"/>
+                                            <constraint firstAttribute="bottom" secondItem="vWt-Nx-iFd" secondAttribute="bottom" constant="27" id="e8x-LY-1Lf"/>
+                                            <constraint firstItem="Ykl-S8-jWj" firstAttribute="leading" secondItem="j4O-Fo-dEp" secondAttribute="leading" constant="36" id="gAn-Yc-85x"/>
+                                            <constraint firstAttribute="trailing" secondItem="yOX-S2-sS2" secondAttribute="trailing" constant="41" id="gqC-sL-s11"/>
+                                            <constraint firstItem="VMW-kQ-06Y" firstAttribute="centerX" secondItem="vWt-Nx-iFd" secondAttribute="centerX" id="jCI-4n-9KW"/>
+                                            <constraint firstAttribute="trailing" secondItem="vWt-Nx-iFd" secondAttribute="trailing" constant="28" id="jDz-J3-xB9"/>
+                                            <constraint firstItem="dej-8p-gF7" firstAttribute="leading" secondItem="j4O-Fo-dEp" secondAttribute="leading" constant="37" id="lBu-BH-ocT"/>
+                                            <constraint firstAttribute="bottom" secondItem="Ykl-S8-jWj" secondAttribute="bottom" constant="32" id="nsa-f7-0nu"/>
+                                            <constraint firstItem="VMW-kQ-06Y" firstAttribute="leading" secondItem="Ykl-S8-jWj" secondAttribute="trailing" constant="9" id="vW0-kX-8p1"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                                 <constraints>
