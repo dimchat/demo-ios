@@ -147,7 +147,8 @@ SingletonImplementations(Facebook, sharedInstance)
 - (nullable __kindof DIMProfile *)profileForID:(DIMID *)ID {
     DIMProfile *profile = [super profileForID:ID];
     NSAssert(profile, @"profile would not be empty here");
-    if (![profile objectForKey:@"data"]) {
+    BOOL isEmpty = ![profile objectForKey:@"data"];
+    if (isEmpty) {
         if (MKMNetwork_IsPerson(ID.type)) {
             // try immortals
             DIMProfile *tai = [_immortals profileForID:ID];
@@ -157,21 +158,37 @@ SingletonImplementations(Facebook, sharedInstance)
         }
     }
     // check last update time
+    BOOL needsUpdate = isEmpty;
     NSNumber *timestamp = [profile objectForKey:@"lastTime"];
     if (timestamp) {
         NSDate *lastTime = NSDateFromNumber(timestamp);
         NSTimeInterval ti = [lastTime timeIntervalSinceNow];
-        if (fabs(ti) > 3600) {
-            // expired, send query for updating from DIM network
-            [[Client sharedInstance] queryProfileForID:ID];
-            NSLog(@"profile expired: %@, querying for ID: %@", lastTime, ID);
-        }
+        needsUpdate = fabs(ti) > 3600;
     } else {
-        // set last update time
+        // first loaded, set last update time
         NSDate *now = [[NSDate alloc] init];
         [profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
     }
+    if (needsUpdate) {
+        // not found or expired? send query for updating from DIM network
+        [[Client sharedInstance] queryProfileForID:ID];
+        NSLog(@"querying profile for ID: %@", ID);
+    }
     return profile;
+}
+
+- (BOOL)saveProfile:(DIMProfile *)profile {
+    // TODO: [discuss]
+    //       should the expired time be calculated from the launch time?
+    
+    // erase last update time
+    [profile removeObjectForKey:@"lastTime"];
+    
+    // set last update time
+    //NSDate *now = [[NSDate alloc] init];
+    //[profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
+    
+    return [super saveProfile:profile];
 }
 
 @end
