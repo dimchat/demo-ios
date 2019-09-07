@@ -71,8 +71,6 @@
     
     NSArray *users = [notification.userInfo objectForKey:@"users"];
     
-    Client *client = [Client sharedInstance];
-    
     DIMID *ID;
     DIMMeta *meta;
     

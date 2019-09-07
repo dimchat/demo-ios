@@ -129,48 +129,48 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - DIMEntityDataSource
 
 - (nullable DIMMeta *)metaForID:(DIMID *)ID {
-    DIMMeta *meta;
-    // try immortals first
-    if (MKMNetwork_IsPerson(ID.type)) {
-        meta = [_immortals metaForID:ID];
-        if (meta) {
-            return meta;
+    DIMMeta *meta = [super metaForID:ID];
+    if (!meta) {
+        if (MKMNetwork_IsPerson(ID.type)) {
+            // try immortals
+            meta = [_immortals metaForID:ID];
+        }
+        if (!meta) {
+            // query from DIM network
+            [[Client sharedInstance] queryMetaForID:ID];
+            NSLog(@"querying meta from DIM network for ID: %@", ID);
         }
     }
-    
-    // get from local storage
-    meta = [super metaForID:ID];
-    if (meta) {
-        return meta;
-    }
-    
-    // query from DIM network
-    [[Client sharedInstance] queryMetaForID:ID];
-    NSLog(@"querying meta from DIM network for ID: %@", ID);
-    
     return meta;
 }
 
 - (nullable __kindof DIMProfile *)profileForID:(DIMID *)ID {
-    DIMProfile *profile;
-    // try immortals first
-    if (MKMNetwork_IsPerson(ID.type)) {
-        profile = [_immortals profileForID:ID];
-        if (profile) {
-            return profile;
+    DIMProfile *profile = [super profileForID:ID];
+    NSAssert(profile, @"profile would not be empty here");
+    if (![profile objectForKey:@"data"]) {
+        if (MKMNetwork_IsPerson(ID.type)) {
+            // try immortals
+            DIMProfile *tai = [_immortals profileForID:ID];
+            if (tai) {
+                profile = tai;
+            }
         }
     }
-    
-    // get from local storage
-    profile = [super profileForID:ID];
-    if ([profile objectForKey:@"lastTime"]) {
-        return profile;
+    // check last update time
+    NSNumber *timestamp = [profile objectForKey:@"lastTime"];
+    if (timestamp) {
+        NSDate *lastTime = NSDateFromNumber(timestamp);
+        NSTimeInterval ti = [lastTime timeIntervalSinceNow];
+        if (fabs(ti) > 3600) {
+            // expired, send query for updating from DIM network
+            [[Client sharedInstance] queryProfileForID:ID];
+            NSLog(@"profile expired: %@, querying for ID: %@", lastTime, ID);
+        }
+    } else {
+        // set last update time
+        NSDate *now = [[NSDate alloc] init];
+        [profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
     }
-
-    // send query for updating from DIM network
-    [[Client sharedInstance] queryProfileForID:ID];
-    NSLog(@"querying profile from DIM network for ID: %@", ID);
-    
     return profile;
 }
 
