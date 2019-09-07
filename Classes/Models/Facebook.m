@@ -129,11 +129,8 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - DIMEntityDataSource
 
 - (nullable DIMMeta *)metaForID:(DIMID *)ID {
-    DIMMeta *meta = [super metaForID:ID];
-    if (meta) {
-        return meta;
-    }
-    
+    DIMMeta *meta;
+    // try immortals first
     if (MKMNetwork_IsPerson(ID.type)) {
         meta = [_immortals metaForID:ID];
         if (meta) {
@@ -141,31 +138,39 @@ SingletonImplementations(Facebook, sharedInstance)
         }
     }
     
+    // get from local storage
+    meta = [super metaForID:ID];
+    if (meta) {
+        return meta;
+    }
+    
     // query from DIM network
-    Client *client = [Client sharedInstance];
-    [client queryMetaForID:ID];
+    [[Client sharedInstance] queryMetaForID:ID];
     NSLog(@"querying meta from DIM network for ID: %@", ID);
     
     return meta;
 }
 
 - (nullable __kindof DIMProfile *)profileForID:(DIMID *)ID {
-    DIMProfile *profile = [super profileForID:ID];
-    if (![profile objectForKey:@"data"]) {
-        // try immortals
-        if (MKMNetwork_IsPerson(ID.type)) {
-            DIMProfile *tai = [_immortals profileForID:ID];
-            if (tai) {
-                return tai;
-            }
+    DIMProfile *profile;
+    // try immortals first
+    if (MKMNetwork_IsPerson(ID.type)) {
+        profile = [_immortals profileForID:ID];
+        if (profile) {
+            return profile;
         }
     }
     
-    if (![profile objectForKey:@"lastTime"]) {
-        // send query for updating from DIM network
-        [[Client sharedInstance] queryProfileForID:ID];
+    // get from local storage
+    profile = [super profileForID:ID];
+    if ([profile objectForKey:@"lastTime"]) {
+        return profile;
     }
 
+    // send query for updating from DIM network
+    [[Client sharedInstance] queryProfileForID:ID];
+    NSLog(@"querying profile from DIM network for ID: %@", ID);
+    
     return profile;
 }
 
