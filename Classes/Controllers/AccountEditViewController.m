@@ -124,7 +124,7 @@
             [[DIMFacebook sharedInstance] saveProfile:profile];
             
             // submit to network
-            [client postProfile:profile meta:nil];
+            [client postProfile:profile];
             
             [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
                                                 object:self
@@ -162,7 +162,9 @@
     [[DIMFacebook sharedInstance] saveProfile:profile];
     
     // submit to station
-    [client postProfile:profile meta:nil];
+    [client postProfile:profile];
+    // broadcast to all contacts
+    [client broadcastProfile:profile];
     
     [NSNotificationCenter postNotificationName:kNotificationName_UsersUpdated object:self];
     return YES;

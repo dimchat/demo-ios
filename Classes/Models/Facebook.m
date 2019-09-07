@@ -182,11 +182,11 @@ SingletonImplementations(Facebook, sharedInstance)
     //       should the expired time be calculated from the launch time?
     
     // erase last update time
-    [profile removeObjectForKey:@"lastTime"];
+    //[profile removeObjectForKey:@"lastTime"];
     
     // set last update time
-    //NSDate *now = [[NSDate alloc] init];
-    //[profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
+    NSDate *now = [[NSDate alloc] init];
+    [profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
     
     return [super saveProfile:profile];
 }
