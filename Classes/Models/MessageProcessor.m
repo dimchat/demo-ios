@@ -77,6 +77,9 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (NSInteger)numberOfConversations {
+    if (!_conversationList) {
+        [self sortConversationList];
+    }
     return [_conversationList count];
 }
 
