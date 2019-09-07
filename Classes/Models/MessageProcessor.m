@@ -8,7 +8,6 @@
 
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
-#import "NSDate+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 
 #import "Client.h"
@@ -17,27 +16,6 @@
 #import "MessageProcessor.h"
 
 #import "MessageProcessor.h"
-
-static inline NSMutableArray *time_for_messages(NSArray *messages) {
-    NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:messages.count];
-    NSNumber *timestamp;
-    NSDate *date;
-    NSDate *lastDate = nil;
-    NSString *text;
-    messages = [messages copy];
-    for (NSDictionary *msg in messages) {
-        timestamp = [msg objectForKey:@"time"];
-        date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp.doubleValue];
-        if (lastDate == nil || [date timeIntervalSinceDate:lastDate] > 300) {
-            text = NSStringFromDate(date);
-            lastDate = date;
-        } else {
-            text = @"";
-        }
-        [mArray addObject:text];
-    }
-    return mArray;
-}
 
 typedef NSMutableArray<DIMConversation *> ConversationListM;
 

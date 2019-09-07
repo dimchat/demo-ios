@@ -12,7 +12,6 @@
 #import "UIButton+Extension.h"
 #import "UIView+Extension.h"
 #import "UIStoryboard+Extension.h"
-#import "NSDate+Extension.h"
 
 #import "DIMProfile+Extension.h"
 #import "DIMInstantMessage+Extension.h"
@@ -27,6 +26,15 @@
 
 #import "MsgCell.h"
 
+@implementation DIMInstantMessage (TimeTag)
+
+- (NSString *)timeTag {
+    // NOTICE: which will be created in 'ChatViewController'
+    return [self objectForKey:@"timeTag"];
+}
+
+@end
+
 @interface MsgCell ()
 
 @property (strong, nonatomic) UIImage *picture;
@@ -34,42 +42,6 @@
 @end
 
 @implementation MsgCell
-
-+(NSString *)timeString:(DIMInstantMessage *)msg{
-    
-    // time
-    NSTimeInterval timestamp = [[msg objectForKey:@"time"] doubleValue];
-    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
-    
-    NSString *timeString = @"";
-    NSDate *days_ago = [[[NSDate date] dateBySubtractingDays:7] dateAtStartOfDay];
-    
-    if([date isToday]){
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"a HH:mm"];
-        timeString = [dateFormatter stringFromDate:date];
-        
-    } else if([date isYesterday]){
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"a HH:mm"];
-        timeString = [NSString stringWithFormat:NSLocalizedString(@"Yesterday %@" ,@"title"),  [dateFormatter stringFromDate:date]];
-        
-    } else if([date isLaterThanDate:days_ago]){
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"EEEE HH:mm"];
-        timeString = [dateFormatter stringFromDate:date];
-    } else {
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy/MM/dd HH:mm"];
-        timeString = [dateFormatter stringFromDate:date];
-    }
-    
-    return timeString;
-}
 
 + (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
     NSString *text = nil;
@@ -100,7 +72,7 @@
     
     CGFloat cellHeight = size.height + edges.top + edges.bottom + 16;
     
-    NSString *time = [MsgCell timeString:iMsg];
+    NSString *time = [iMsg timeTag];
     if (time.length > 0) {
         cellHeight += 20;
     }
@@ -202,7 +174,7 @@
         DIMProfile *profile = DIMProfileForID(sender);
         
         // time
-        NSString *time = [MsgCell timeString:msg];
+        NSString *time = [msg timeTag];
         if (time.length > 0) {
             timeLabel.text = time;
             // resize
@@ -565,7 +537,7 @@
         CGFloat msgWidth = cellWidth * 0.618;
         
         // time
-        NSString *time = [MsgCell timeString:msg];
+        NSString *time = [msg timeTag];
         UILabel *timeLabel = [self timeLabel];
         if (time.length > 0) {
             timeLabel.text = time;

@@ -7,6 +7,7 @@
 //
 
 #import "NSData+Extension.h"
+#import "NSDate+Extension.h"
 
 #import "NSString+Extension.h"
 #import "NSNotificationCenter+Extension.h"
@@ -29,6 +30,25 @@
 #import "ChatManageTableViewController.h"
 
 #import "ChatViewController.h"
+
+static inline NSString *time_string(NSTimeInterval timestamp) {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
+    NSDate *days_ago = [[[NSDate date] dateBySubtractingDays:7] dateAtStartOfDay];
+    if ([date isToday]) {
+        [dateFormatter setDateFormat:@"a HH:mm"];
+    } else if ([date isYesterday]) {
+        [dateFormatter setDateFormat:@"a HH:mm"];
+        NSString *string = [dateFormatter stringFromDate:date];
+        NSString *format = NSLocalizedString(@"Yesterday %@" ,@"title");
+        return [NSString stringWithFormat:format, string];
+    } else if ([date isLaterThanDate:days_ago]) {
+        [dateFormatter setDateFormat:@"EEEE HH:mm"];
+    } else {
+        [dateFormatter setDateFormat:@"yyyy/MM/dd HH:mm"];
+    }
+    return [dateFormatter stringFromDate:date];
+}
 
 @interface ChatViewController ()<UITextFieldDelegate> {
     
@@ -331,7 +351,39 @@
 }
 
 - (NSInteger)messageCount {
-    return [_conversation numberOfMessage] + 1;
+    NSInteger count = [_conversation numberOfMessage];
+    // create time tag
+    DIMInstantMessage *iMsg;
+    NSString *timeTag;
+    NSTimeInterval lastTime = 0, msgTime;
+    // 1. search last tag
+    NSInteger index = count - 1;
+    for (; index >= 0; --index) {
+        iMsg = [_conversation messageAtIndex:index];
+        timeTag = [iMsg objectForKey:@"timeTag"];
+        if (timeTag) {
+//            lastTime = [[iMsg objectForKey:@"time"] doubleValue];
+//            break;
+            // FIXME: some time tags needs to be update when the day passed
+            [iMsg removeObjectForKey:@"timeTag"];
+        }
+    }
+    if (index < 0) {
+        // not found
+        index = 0;
+    }
+    // 2. create tag for the rest messages
+    for (; index < count; ++index) {
+        iMsg = [_conversation messageAtIndex:index];
+        msgTime = [[iMsg objectForKey:@"time"] doubleValue];
+        if (msgTime - lastTime > 300) {
+            timeTag = time_string(msgTime);
+            [iMsg setObject:timeTag forKey:@"timeTag"];
+            lastTime = msgTime;
+        }
+    }
+    // the first message is 'guide'
+    return count + 1;
 }
 
 - (DIMInstantMessage *)messageAtIndex:(NSInteger)index {
