@@ -92,7 +92,8 @@
             if (meta) {
                 [_onlineUsers addObject:ID];
             } else {
-                [client queryMetaForID:ID];
+                // NOTICE: if meta for sender not found,
+                //         the client will query it automatically
             }
         }
         
