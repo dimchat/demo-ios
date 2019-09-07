@@ -39,16 +39,11 @@ static inline NSMutableArray *time_for_messages(NSArray *messages) {
     return mArray;
 }
 
-typedef NSMutableArray<DIMInstantMessage *> MessageList;
-typedef NSMutableDictionary<DIMID *, MessageList *> ConversationTable;
-typedef NSMutableArray<DIMID *> ConversationIDList;
+typedef NSMutableArray<DIMConversation *> ConversationListM;
 
 @interface MessageProcessor () {
     
-    ConversationTable *_chatHistory;
-    ConversationIDList *_chatList;
-    
-    NSMutableDictionary<DIMID *, NSMutableArray<NSString *> *> *_timesTable;
+    ConversationListM *_conversationList;
 }
 
 @end
@@ -59,7 +54,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 - (instancetype)init {
     if (self = [super init]) {
-        [self reloadData];
         
         DIMAmanuensis *clerk = [DIMAmanuensis sharedInstance];
         clerk.conversationDataSource = self;
@@ -83,10 +77,8 @@ SingletonImplementations(MessageProcessor, sharedInstance)
      a == b  then return NSOrderedSame.
      */
     NSComparator comparator = ^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        MessageList *table1 = [self->_chatHistory objectForKey:obj1];
-        MessageList *table2 = [self->_chatHistory objectForKey:obj2];
-        DIMInstantMessage *msg1 = table1.lastObject;
-        DIMInstantMessage *msg2 = table2.lastObject;
+        DIMInstantMessage *msg1 = [obj1 lastMessage];
+        DIMInstantMessage *msg2 = [obj2 lastMessage];
         NSNumber *time1 = [msg1 objectForKey:@"time"];
         NSNumber *time2 = [msg2 objectForKey:@"time"];
         NSTimeInterval t1 = [time1 doubleValue];
@@ -99,54 +91,19 @@ SingletonImplementations(MessageProcessor, sharedInstance)
             return NSOrderedSame;
         }
     };
-    _chatList = [_chatHistory.allKeys mutableCopy];
-    [_chatList sortUsingComparator:comparator];
-}
-
-- (void)setChatHistory:(NSMutableDictionary *)dict {
-    _chatHistory = dict;
-    [self sortConversationList];
-    
-    _timesTable = [[NSMutableDictionary alloc] init];
-}
-
-- (NSString *)timeTagAtIndex:(NSInteger)index forConversationID:(DIMID *)ID {
-    
-    NSMutableArray *timeList = [_timesTable objectForKey:ID];
-    if (timeList.count <= index) {
-        // new message appended, update 'timeTag'
-        MessageList *list = [_chatHistory objectForKey:ID];
-        timeList = time_for_messages(list);
-        // FIXME:
-        //NSAssert(timeList.count == list.count, @"time tags error: %@", timeList);
-        [_timesTable setObject:timeList forKey:ID];
-    }
-    return [timeList objectAtIndex:index];
-}
-
-- (BOOL)reloadData {
-    NSArray<DIMConversation *> *conversations = [self allConversations];
-    NSMutableDictionary *mDict;
-    mDict = [[NSMutableDictionary alloc] initWithCapacity:conversations.count];
-    
-    NSArray<DIMInstantMessage *> *messages;
-    for (DIMConversation *chatBox in conversations) {
-        messages = [self messagesInConversation:chatBox];
-        NSAssert(messages, @"failed to get messages: %@", chatBox.ID);
-        [mDict setObject:messages forKey:chatBox.ID];
-    }
-    
-    [self setChatHistory:mDict];
-    return YES;
+    // sort all conversations
+    NSArray *array = [self allConversations];
+    NSMutableArray *mArray = [array mutableCopy];
+    [mArray sortUsingComparator:comparator];
+    _conversationList = mArray;
 }
 
 - (NSInteger)numberOfConversations {
-    return _chatList.count;
+    return [_conversationList count];
 }
 
 - (DIMConversation *)conversationAtIndex:(NSInteger)index {
-    DIMID *ID = [_chatList objectAtIndex:index];
-    return DIMConversationWithID(ID);
+    return [_conversationList objectAtIndex:index];
 }
 
 - (BOOL)removeConversationAtIndex:(NSInteger)index {
@@ -157,13 +114,11 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (BOOL)removeConversation:(DIMConversation *)chatBox {
     BOOL removed = [super removeConversation:chatBox];
     if (removed) {
-        DIMID *ID = chatBox.ID;
-        NSLog(@"conversation removed: %@", ID);
-        [_chatHistory removeObjectForKey:ID];
-        [_chatList removeObject:ID];
+        [_conversationList removeObject:chatBox];
+        NSLog(@"conversation removed: %@", chatBox.ID);
         [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
                                             object:self
-                                          userInfo:@{@"ID": ID}];
+                                          userInfo:@{@"ID": chatBox.ID}];
     }
     return removed;
 }
@@ -176,26 +131,12 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 - (BOOL)clearConversation:(DIMConversation *)chatBox {
     BOOL cleared = [super clearConversation:chatBox];
     if (cleared) {
-        DIMID *ID = chatBox.ID;
-        NSLog(@"conversation cleaned: %@", ID);
-        [[_chatHistory objectForKey:ID] removeAllObjects];
+        NSLog(@"conversation cleaned: %@", chatBox.ID);
         [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
                                             object:self
-                                          userInfo:@{@"ID": ID}];
+                                          userInfo:@{@"ID": chatBox.ID}];
     }
     return cleared;
-}
-
-#pragma mark DIMConversationDataSource
-
-// get message at index of the conversation
-- (DIMInstantMessage *)conversation:(DIMConversation *)chatBox messageAtIndex:(NSInteger)index {
-    DIMInstantMessage *iMsg = [super conversation:chatBox messageAtIndex:index];
-    
-    NSString *timeTag = [self timeTagAtIndex:index forConversationID:chatBox.ID];
-    [iMsg setObject:timeTag forKey:@"timeTag"];
-    
-    return iMsg;
 }
 
 #pragma mark DIMConversationDelegate
@@ -203,10 +144,13 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 // save the new message to local storage
 - (BOOL)conversation:(DIMConversation *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
     if (![super conversation:chatBox insertMessage:iMsg]) {
+        NSLog(@"failed to save message: %@", iMsg);
         return NO;
     }
+    // sort conversation list
+    [self sortConversationList];
     
-    // check whether the group members info is updated
+    // check whether the group members info needs update
     DIMID *ID = chatBox.ID;
     if (MKMNetwork_IsGroup(ID.type)) {
         DIMGroup *group = DIMGroupWithID(ID);
@@ -217,6 +161,11 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         if (content.type == DKDContentType_History) {
             NSString *command = [(DIMGroupCommand *)content command];
             if ([command isEqualToString:DIMGroupCommand_Invite]) {
+                // FIXME: can we trust this stranger?
+                //        may be we should keep this members list temporary,
+                //        and send 'query' to the founder immediately.
+                // TODO: check whether the members list is a full list,
+                //       it should contain the group owner(founder)
                 needsUpdate = NO;
             }
         }

@@ -29,8 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)clearConversationAtIndex:(NSInteger)index;
 - (BOOL)clearConversation:(DIMConversation *)chatBox;
 
-- (BOOL)reloadData;
-
 @end
 
 #pragma mark -

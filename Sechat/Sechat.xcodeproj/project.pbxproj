@@ -251,7 +251,6 @@
 		E99A5CD1222ED9B600EE6C86 /* UserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCell.h; sourceTree = "<group>"; };
 		E99A5CD2222ED9B600EE6C86 /* UserCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserCell.m; sourceTree = "<group>"; };
 		E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FiniteStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9AFAB6222352E09001F95C6 /* MessageProcessor+GroupCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MessageProcessor+GroupCommand.h"; sourceTree = "<group>"; };
 		E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MessageProcessor+GroupCommand.m"; sourceTree = "<group>"; };
 		E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMProfile+Extension.h"; sourceTree = "<group>"; };
 		E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
@@ -430,7 +429,6 @@
 				E92256192222ED7C006CADEA /* Facebook+Register.m */,
 				E92256182222ED7C006CADEA /* MessageProcessor.h */,
 				E922561D2222ED7C006CADEA /* MessageProcessor.m */,
-				E9AFAB6222352E09001F95C6 /* MessageProcessor+GroupCommand.h */,
 				E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */,
 			);
 			path = Models;
