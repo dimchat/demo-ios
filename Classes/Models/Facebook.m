@@ -129,6 +129,9 @@ SingletonImplementations(Facebook, sharedInstance)
 #pragma mark - DIMEntityDataSource
 
 - (nullable DIMMeta *)metaForID:(DIMID *)ID {
+    if ([ID isBroadcast]) {
+        return nil;
+    }
     DIMMeta *meta = [super metaForID:ID];
     if (!meta) {
         if (MKMNetwork_IsPerson(ID.type)) {
