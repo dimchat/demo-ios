@@ -6,117 +6,66 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "UIStoryboardSegue+Extension.h"
 #import "UIView+Extension.h"
+#import "UIButton+Extension.h"
 #import "UIViewController+Extension.h"
-#import "WebViewController.h"
 #import "ImportAccountViewController.h"
-
-#import "User.h"
-#import "Client.h"
-
-#import "FirstAccountViewController.h"
-
+#import "RegisterViewController.h"
 #import "WelcomeViewController.h"
 
 @interface WelcomeViewController ()
+
+@property(nonatomic, strong) UIButton *registerButton;
+@property(nonatomic, strong) UIButton *importButton;
+@property(nonatomic, strong) UIImageView *logoImageView;
 
 @end
 
 @implementation WelcomeViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+-(void)loadView{
     
-    [_logoImageView roundedCorner];
+    [super loadView];
     
-    //[_nextButton roundedCorner];
-    [self.view addClickTarget:self action:@selector(onBackgroundClick:)];
+    self.navigationItem.title = NSLocalizedString(@"Welcome", @"title");
+    
+    CGFloat height = 44.0;
+    CGFloat x = 20.0;
+    CGFloat y = self.view.bounds.size.height - height - 50.0;
+    CGFloat width = self.view.bounds.size.width - x * 2.0;
+    
+    self.importButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.importButton.frame = CGRectMake(x, y, width, height);
+    [self.importButton setTitle:NSLocalizedString(@"Import", @"title") forState:UIControlStateNormal];
+    [self.importButton addTarget:self action:@selector(didPressImportButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.importButton];
+    
+    y = y - 22.0 - height;
+    
+    self.registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.registerButton.frame = CGRectMake(x, y, width, height);
+    [self.registerButton setTitle:NSLocalizedString(@"Register", @"title") forState:UIControlStateNormal];
+    [self.registerButton addTarget:self action:@selector(didPressRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.registerButton];
+    
+    width = 128.0;
+    height = 128.0;
+    x = (self.view.bounds.size.width - width) / 2.0;
+    y = (y - height) / 2.0;
+    
+    self.logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"DimLogo"]];
+    self.logoImageView.frame = CGRectMake(x, y, width, height);
+    [self.logoImageView roundedCorner];
+    [self.view addSubview:self.logoImageView];
 }
 
-- (void)onBackgroundClick:(id)sender {
+- (void)didPressRegisterButton:(id)sender {
     
-    [_nicknameTextField resignFirstResponder];
+    RegisterViewController *registerController = [[RegisterViewController alloc] init];
+    [self.navigationController pushViewController:registerController animated:YES];
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    CGRect rect = _scrollView.frame;
-    UIEdgeInsets insets = _scrollView.adjustedContentInset;
-    
-    CGSize vSize = CGSizeMake(rect.size.width - insets.left - insets.right,
-                              rect.size.height - insets.top - insets.bottom);
-    
-    CGSize size = CGSizeMake(320, MAX(vSize.height, 520));
-    
-    _trayView.frame = CGRectMake((vSize.width - size.width) * 0.5, 0,
-                                 size.width, size.height);
-    _scrollView.frame = CGRectMake(0, 0,
-                                   rect.origin.x + rect.size.width,
-                                   rect.origin.y + rect.size.height);
-    _scrollView.contentSize = CGSizeMake(size.width, size.height);
-}
-
-- (void)onNicknameEditExit:(UITextField *)sender {
-    
-    NSString *identifier = @"next";
-    if ([self shouldPerformSegueWithIdentifier:identifier sender:self]) {
-        [self performSegueWithIdentifier:identifier sender:self];
-    }
-}
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-    Client *client = [Client sharedInstance];
-    
-    if ([segue.identifier isEqualToString:@"terms"]) {
-        // show terms
-        NSString *urlString = client.termsAPI;
-        WebViewController *web = [segue visibleDestinationViewController];
-        web.url = [NSURL URLWithString:urlString];
-        web.title = NSLocalizedString(@"Terms", nil);
-    } else if ([segue.identifier isEqualToString:@"next"]) {
-        // next step
-        FirstAccountViewController *first = [segue visibleDestinationViewController];
-        first.nickname = _nicknameTextField.text;
-    }
-    
-}
-
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    
-    if ([identifier isEqualToString:@"next"]) {
-//        // check nickname
-//        NSString *nickname = _nicknameTextField.text;
-//        if (nickname.length == 0) {
-//            NSString *message = @"Nickname cannot be empty.";
-//            NSString *title = @"Nickname Error!";
-//            [self showMessage:NSLocalizedString(message, nil)
-//                    withTitle:NSLocalizedString(title, nil)];
-//            [_nicknameTextField becomeFirstResponder];
-//            return NO;
-//        }
-        
-        // check agreement
-        if (_agreedButton.selected == NO) {
-            NSString *title = @"Read the Agreements!";
-            NSString *message = @"You must read and agree the user agreements and privacy clauses.";
-            [self showMessage:NSLocalizedString(message, nil)
-                    withTitle:NSLocalizedString(title, nil)];
-            return NO;
-        }
-    }
-    return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
-}
-
-- (IBAction)didPressImportButton:(id)sender {
+- (void)didPressImportButton:(id)sender {
     
     ImportAccountViewController *controller = [[ImportAccountViewController alloc] initWithNibName:@"ImportAccountViewController" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];

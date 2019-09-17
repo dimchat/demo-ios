@@ -7,14 +7,21 @@
 //
 
 #import "MKMImmortals.h"
-
 #import "User.h"
 #import "Client.h"
 #import "Facebook.h"
-
 #import "AppDelegate.h"
+#import "ConversationsTableViewController.h"
+#import "ContactsTableViewController.h"
+#import "AccountTableViewController.h"
+#import "WelcomeViewController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<UITabBarControllerDelegate>
+
+@property(nonatomic, strong) UITabBarController *tabbarController;
+@property(nonatomic, strong) ConversationsTableViewController *conversationController;
+@property(nonatomic, strong) ContactsTableViewController *contactController;
+@property(nonatomic, strong) AccountTableViewController *accountController;
 
 @end
 
@@ -37,48 +44,21 @@
     [self addDefaultUser:@"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"];
     [self addDefaultUser:@"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"];
     
-#if DEBUG && 0
-    {
-        // moky
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-moky" ofType:@"plist"];
-        DIMLocalUser *user = [DIMLocalUser userWithConfigFile:path];
-        [[Client sharedInstance] addUser:user];
+    self.tabbarController = [self createTabBarController];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = self.tabbarController;
+    [self.window makeKeyAndVisible];
+    
+    Client *client = [Client sharedInstance];
+    DIMLocalUser *user = client.currentUser;
+    if (!user) {
+        
+        WelcomeViewController *vc = [[WelcomeViewController alloc] init];
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self.tabbarController presentViewController:nc animated:NO completion:nil];
     }
-#endif
-#if DEBUG && 0
-    {
-        // selina
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-selina" ofType:@"plist"];
-        DIMLocalUser *user = [DIMLocalUser userWithConfigFile:path];
-        [[Client sharedInstance] addUser:user];
-    }
-#endif
-#if DEBUG && 0
-    {
-        // monkey king
-        DIMID *ID = DIMIDWithString(MKM_MONKEY_KING_ID);
-        DIMLocalUser *user = DIMUserWithID(ID);
-        [[Client sharedInstance] addUser:user];
-//        // reset the immortal account's profile
-//        MKMImmortals *immortals = [[MKMImmortals alloc] init];
-//        DIMProfile * profile = [immortals profileForID:ID];
-//        Facebook *facebook = [Facebook sharedInstance];
-//        [facebook setProfile:profile forID:ID];
-    }
-#endif
-#if DEBUG && 0
-    {
-        // hulk
-        DIMID *ID = DIMIDWithString(MKM_IMMORTAL_HULK_ID);
-        DIMLocalUser *user = DIMUserWithID(ID);
-        [[Client sharedInstance] addUser:user];
-//        // reset the immortal account's profile
-//        MKMImmortals *immortals = [[MKMImmortals alloc] init];
-//        DIMProfile * profile = [immortals profileForID:ID];
-//        Facebook *facebook = [Facebook sharedInstance];
-//        [facebook setProfile:profile forID:ID];
-    }
-#endif
 
     return YES;
 }
@@ -101,6 +81,32 @@
     NSDictionary *profileData = [[NSDictionary alloc] initWithContentsOfFile:path];
     DIMProfile *profile = MKMProfileFromDictionary(profileData);
     [facebook saveProfile:profile];
+}
+
+- (UITabBarController *)createTabBarController {
+    
+    self.conversationController = [[ConversationsTableViewController alloc] init];
+    self.contactController = [[ContactsTableViewController alloc] init];
+    self.accountController = [[AccountTableViewController alloc] init];
+    
+    UINavigationController *conversationNavigationController = [[UINavigationController alloc] initWithRootViewController:self.conversationController];
+    UINavigationController *contactNavigationController = [[UINavigationController alloc] initWithRootViewController:self.contactController];
+    UINavigationController *accountNavigationController = [[UINavigationController alloc] initWithRootViewController:self.accountController];
+    
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    tabBarController.delegate = self;
+    tabBarController.viewControllers = @[conversationNavigationController, contactNavigationController, accountNavigationController];
+    
+    UITabBarItem *tabBarItem = tabBarController.tabBar.items[0];
+    tabBarItem.title = NSLocalizedString(@"Chats", @"title");
+    
+    tabBarItem = tabBarController.tabBar.items[1];
+    tabBarItem.title = NSLocalizedString(@"Contacts", @"title");
+    
+    tabBarItem = tabBarController.tabBar.items[2];
+    tabBarItem.title = NSLocalizedString(@"Settings", @"title");
+    
+    return tabBarController;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

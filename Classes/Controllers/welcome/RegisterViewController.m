@@ -13,7 +13,6 @@
 #import "UIViewController+Extension.h"
 #import "NSData+Crypto.h"
 #import "NSData+Extension.h"
-
 #import "DIMProfile+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 #import "ImagePickerController.h"
@@ -22,19 +21,37 @@
 #import "Facebook+Register.h"
 #import "Facebook+Profile.h"
 
-#import "FirstAccountViewController.h"
+#import "RegisterViewController.h"
 
-@interface FirstAccountViewController ()
+@interface RegisterViewController ()
 
 @property (strong, nonatomic) DIMPrivateKey *SK;
 @property (strong, nonatomic) DIMMeta *meta;
 @property (strong, nonatomic) DIMID *ID;
-@property (weak, nonatomic) IBOutlet UIButton *changeButton;
-@property (weak, nonatomic) IBOutlet UILabel *avatarLabel;
+
+@property (strong, nonatomic) UIButton *changeButton;
+@property (strong, nonatomic) UILabel *avatarLabel;
+@property (strong, nonatomic) UIImageView *avatarImageView;
+@property (strong, nonatomic) UITextField *nicknameTextField;
+@property (strong, nonatomic) UIButton *startButton;
+@property (strong, nonatomic) UIButton *checkBoxButton;
+@property (strong, nonatomic) UIButton *agreementButton;
+@property (strong, nonatomic) UIButton *agreementLabel;
 
 @end
 
-@implementation FirstAccountViewController
+@implementation RegisterViewController
+
+-(void)loadView{
+    
+    [super loadView];
+    
+    CGFloat x = 20.0;
+    CGFloat width = 44.0;
+    CGFloat height = 44.0;
+    CGFloat y = self.view.bounds.size.height - height - 50.0;
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

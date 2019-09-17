@@ -27,38 +27,6 @@
             endingLineNumber = "27"
             landmarkName = "-_processQueryCommand:commander:polylogue:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[MessageProcessor(GroupCommand) _processQueryCommand:commander:polylogue:]"
-                  moduleName = "Sechat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/john/Documents/workspace/iphone/dimchat/demo-ios/Classes/Models/MessageProcessor+GroupCommand.m"
-                  timestampString = "589254826.018939"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "153">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[MessageProcessor(GroupCommand) _processQueryCommand:commander:polylogue:]"
-                  moduleName = "Sechat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/john/Documents/workspace/iphone/dimchat/demo-ios/Classes/Models/MessageProcessor+GroupCommand.m"
-                  timestampString = "589254826.022819"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "158">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

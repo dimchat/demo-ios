@@ -11,6 +11,7 @@
 		5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
+		52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BED8F72330C78A00886CCD /* RegisterViewController.m */; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
 		E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
@@ -56,7 +57,6 @@
 		E979084E225CB4D60024C830 /* checkbox_on.png in Resources */ = {isa = PBXBuildFile; fileRef = E979084C225CB4D60024C830 /* checkbox_on.png */; };
 		E979084F225CB4D60024C830 /* checkbox_off.png in Resources */ = {isa = PBXBuildFile; fileRef = E979084D225CB4D60024C830 /* checkbox_off.png */; };
 		E9790853225CB8300024C830 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790852225CB8300024C830 /* WelcomeViewController.m */; };
-		E9790856225CD4C50024C830 /* FirstAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790855225CD4C50024C830 /* FirstAccountViewController.m */; };
 		E9790863225D10240024C830 /* Welcome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9790865225D10240024C830 /* Welcome.storyboard */; };
 		E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
 		E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */; };
@@ -150,6 +150,8 @@
 		52876E0022C20217006F0655 /* ImportAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportAccountViewController.h; sourceTree = "<group>"; };
 		52876E0122C20217006F0655 /* ImportAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImportAccountViewController.m; sourceTree = "<group>"; };
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
+		52BED8F72330C78A00886CCD /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		52BED8F82330C78A00886CCD /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
 		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
 		E918E01922C4A4D4007A3803 /* Facebook+Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Profile.h"; sourceTree = "<group>"; };
@@ -218,8 +220,6 @@
 		E979084D225CB4D60024C830 /* checkbox_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox_off.png; sourceTree = "<group>"; };
 		E9790851225CB8300024C830 /* WelcomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WelcomeViewController.h; sourceTree = "<group>"; };
 		E9790852225CB8300024C830 /* WelcomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WelcomeViewController.m; sourceTree = "<group>"; };
-		E9790854225CD4C50024C830 /* FirstAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstAccountViewController.h; sourceTree = "<group>"; };
-		E9790855225CD4C50024C830 /* FirstAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstAccountViewController.m; sourceTree = "<group>"; };
 		E9790864225D10240024C830 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Welcome.storyboard; sourceTree = "<group>"; };
 		E9790868225D102B0024C830 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Welcome.strings"; sourceTree = "<group>"; };
 		E979086A225D102E0024C830 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Welcome.strings"; sourceTree = "<group>"; };
@@ -506,10 +506,10 @@
 		E9790850225CB8030024C830 /* welcome */ = {
 			isa = PBXGroup;
 			children = (
+				52BED8F82330C78A00886CCD /* RegisterViewController.h */,
+				52BED8F72330C78A00886CCD /* RegisterViewController.m */,
 				E9790851225CB8300024C830 /* WelcomeViewController.h */,
 				E9790852225CB8300024C830 /* WelcomeViewController.m */,
-				E9790854225CD4C50024C830 /* FirstAccountViewController.h */,
-				E9790855225CD4C50024C830 /* FirstAccountViewController.m */,
 				52876E0022C20217006F0655 /* ImportAccountViewController.h */,
 				52876E0122C20217006F0655 /* ImportAccountViewController.m */,
 				52876E0222C20217006F0655 /* ImportAccountViewController.xib */,
@@ -651,7 +651,7 @@
 						CreatedOnToolsVersion = 10.1;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -768,8 +768,8 @@
 				E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */,
 				E979080D2259CDA10024C830 /* UIView+Extension.m in Sources */,
 				E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */,
-				E9790856225CD4C50024C830 /* FirstAccountViewController.m in Sources */,
 				E99A5CD3222ED9B600EE6C86 /* UserCell.m in Sources */,
+				52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */,
 				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,
 				E92255D52222EC56006CADEA /* main.m in Sources */,
 				E922564A2222ED7C006CADEA /* Client.m in Sources */,
@@ -1052,10 +1052,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9HSB54Q9R6;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1069,7 +1069,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ivera.sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1080,10 +1080,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9HSB54Q9R6;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1097,7 +1097,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ivera.sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

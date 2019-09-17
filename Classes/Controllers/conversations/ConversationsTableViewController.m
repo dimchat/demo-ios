@@ -9,22 +9,20 @@
 #import "NSNotificationCenter+Extension.h"
 #import "UIStoryboard+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
-
 #import "User.h"
 #import "Facebook.h"
 #import "MessageProcessor.h"
 #import "Client.h"
-
 #import "ChatViewController.h"
-
 #import "ConversationCell.h"
-
 #import "ConversationsTableViewController.h"
 
-@interface ConversationsTableViewController () {
+@interface ConversationsTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
     NSString *_fixedTitle;
 }
+
+@property(nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -69,13 +67,13 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
-    if (!user) {
-        // show welcome
-        UIViewController *vc = [UIStoryboard instantiateInitialViewControllerWithStoryboardName:@"Welcome"];
-        [self presentViewController:vc animated:YES completion:nil];
-    }
+//    Client *client = [Client sharedInstance];
+//    DIMLocalUser *user = client.currentUser;
+//    if (!user) {
+//        // show welcome
+//        UIViewController *vc = [UIStoryboard instantiateInitialViewControllerWithStoryboardName:@"Welcome"];
+//        [self presentViewController:vc animated:YES completion:nil];
+//    }
 }
 
 - (void)onGroupMembersUpdated:(NSNotification *)notification {
