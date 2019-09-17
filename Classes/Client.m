@@ -9,6 +9,7 @@
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
 #import "NSData+Extension.h"
+#import "NSDate+Timestamp.h"
 #import "NSNotificationCenter+Extension.h"
 
 #import "AccountDatabase.h"
@@ -40,6 +41,11 @@ SingletonImplementations(Client, sharedInstance)
     return @"DIM!";
 }
 
+- (NSString *)version {
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    return [info valueForKey:@"CFBundleShortVersionString"];
+}
+
 - (NSString *)userAgent {
     if (!_userAgent) {
         // device model & system
@@ -64,11 +70,42 @@ SingletonImplementations(Client, sharedInstance)
     // post device token
     NSString *token = [self.deviceToken hexEncode];
     if (token) {
-        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
+        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"report"];
         [cmd setObject:@"apns" forKey:@"title"];
         [cmd setObject:token forKey:@"device_token"];
         [self sendCommand:cmd];
     }
+    
+    // broadcast POD
+    NSDate *now = [[NSDate alloc] init];
+    NSString *spid = _currentStation.SP.ID;
+    NSString *sid = _currentStation.ID;
+    NSString *host = _currentStation.host;
+    UInt32 port = _currentStation.port;
+    
+    NSString *uid = self.currentUser.ID;
+    NSString *terminal = self.version;
+    NSString *userAgent = self.userAgent;
+    
+    // FIXME: get SP ID
+    if (!spid) {
+        spid = @"";
+    }
+    
+    NSDictionary *login = @{
+                            @"provider": spid,
+                            @"station": sid,
+                            @"host": host,
+                            @"port": @(port),
+                            @"time": NSNumberFromDate(now),
+                            
+                            @"account": uid,
+                            @"terminal": terminal,
+                            @"userAgent": userAgent,
+                            };
+    DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"login"];
+    [cmd setObject:login forKey:@"login"];
+    [self broadcastContent:cmd];
 }
 
 @end
@@ -236,9 +273,8 @@ SingletonImplementations(Client, sharedInstance)
 - (void)didEnterBackground {
     // report client state
     DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
-    [cmd setObject:@"report" forKey:@"title"];
-    [cmd setObject:@"background" forKey:@"state"];
-    [self sendCommand:cmd];
+    [cmd setObject:@"offline" forKey:@"title"];
+    [self broadcastContent:cmd];
     
     [_currentStation pause];
 }
@@ -254,9 +290,8 @@ SingletonImplementations(Client, sharedInstance)
     
     // report client state
     DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
-    [cmd setObject:@"report" forKey:@"title"];
-    [cmd setObject:@"foreground" forKey:@"state"];
-    [self sendCommand:cmd];
+    [cmd setObject:@"online" forKey:@"title"];
+    [self broadcastContent:cmd];
 }
 
 - (void)willTerminate {

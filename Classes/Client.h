@@ -22,6 +22,7 @@ extern NSString * const kNotificationName_UsersUpdated;
 @property (strong, nonatomic) NSData *deviceToken;
 
 @property (readonly, nonatomic) NSString *displayName;
+@property (readonly, nonatomic) NSString *version;
 
 + (instancetype)sharedInstance;
 

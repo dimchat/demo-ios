@@ -164,7 +164,13 @@ SingletonImplementations(AccountDatabase, sharedInstance)
     if (timestamp) {
         NSDate *lastTime = NSDateFromNumber(timestamp);
         NSTimeInterval ti = [lastTime timeIntervalSinceNow];
-        needsUpdate = fabs(ti) > 3600;
+        if (fabs(ti) > 3600) {
+            // expired
+            needsUpdate = YES;
+            [profile removeObjectForKey:@"lastTime"];
+        } else {
+            needsUpdate = NO;
+        }
     } else {
         // first loaded, set last update time
         NSDate *now = [[NSDate alloc] init];
