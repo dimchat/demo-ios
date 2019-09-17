@@ -11,8 +11,7 @@
 #import "NSData+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 
-#import "Facebook+Profile.h"
-#import "Facebook+Register.h"
+#import "AccountDatabase.h"
 #import "MessageProcessor.h"
 
 #import "Client.h"
@@ -81,7 +80,7 @@ SingletonImplementations(Client, sharedInstance)
     DIMID *ID = DIMIDWithString([station objectForKey:@"ID"]);
     DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
-    Facebook *facebook = [Facebook sharedInstance];
+    AccountDatabase *userDB = [AccountDatabase sharedInstance];
     [[DIMFacebook sharedInstance] saveMeta:meta forID:ID];
     
     // prepare for launch star
@@ -115,10 +114,10 @@ SingletonImplementations(Client, sharedInstance)
     
     [MessageProcessor sharedInstance];
     
-    [facebook addStation:ID provider:sp];
+    [userDB addStation:ID provider:sp];
     
     // scan users
-    NSArray *users = [facebook allUsers];
+    NSArray *users = [userDB allUsers];
 #if DEBUG && 0
     NSMutableArray *mArray;
     if (users.count > 0) {
@@ -383,8 +382,8 @@ SingletonImplementations(Client, sharedInstance)
     user.dataSource = facebook;
     self.currentUser = user;
     
-    Facebook *book = [Facebook sharedInstance];
-    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
+    AccountDatabase *userDB = [AccountDatabase sharedInstance];
+    BOOL saved = [userDB saveUserList:self.users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
     return saved;
 }
@@ -408,8 +407,8 @@ SingletonImplementations(Client, sharedInstance)
     
 //    DIMProfile *profile = [facebook profileForID:ID];
     
-    Facebook *book = [Facebook sharedInstance];
-    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
+    AccountDatabase *userDB = [AccountDatabase sharedInstance];
+    BOOL saved = [userDB saveUserList:self.users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
     
     return saved;

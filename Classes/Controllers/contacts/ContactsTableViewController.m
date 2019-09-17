@@ -10,8 +10,8 @@
 #import "UIStoryboardSegue+Extension.h"
 
 #import "User.h"
-#import "Facebook.h"
 #import "Client.h"
+#import "AccountDatabase.h"
 
 #import "ContactCell.h"
 

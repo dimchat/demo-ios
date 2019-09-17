@@ -16,10 +16,8 @@
 #import "WebViewController.h"
 
 #import "User.h"
-#import "Facebook+Profile.h"
-#import "Facebook+Register.h"
-
 #import "Client.h"
+#import "AccountDatabase.h"
 
 #import "AccountTableViewController.h"
 
@@ -216,8 +214,8 @@
             // Delete the row from the data source
             [client removeUser:user];
             
-            Facebook *facebook = [Facebook sharedInstance];
-            [facebook removeUser:user.ID];
+            AccountDatabase *userDB = [AccountDatabase sharedInstance];
+            [userDB removeUser:user.ID];
             
             [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         } else if (editingStyle == UITableViewCellEditingStyleInsert) {
@@ -237,7 +235,7 @@
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
     Client *client = [Client sharedInstance];
-    Facebook *facebook = [Facebook sharedInstance];
+    AccountDatabase *userDB = [AccountDatabase sharedInstance];
     
     if (section == 0) {
         // Account
@@ -249,7 +247,7 @@
             [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
             [self reloadData];
             // update user ID list file
-            BOOL saved = [facebook saveUserList:client.users withCurrentUser:client.currentUser];
+            BOOL saved = [userDB saveUserList:client.users withCurrentUser:client.currentUser];
             NSAssert(saved, @"failed to save users: %@, current user: %@", client.users, client.currentUser);
         }
         

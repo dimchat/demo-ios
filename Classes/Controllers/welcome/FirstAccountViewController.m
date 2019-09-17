@@ -17,10 +17,10 @@
 #import "DIMProfile+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 #import "ImagePickerController.h"
+
 #import "User.h"
 #import "Client.h"
-#import "Facebook+Register.h"
-#import "Facebook+Profile.h"
+#import "AccountDatabase.h"
 
 #import "FirstAccountViewController.h"
 
@@ -113,7 +113,7 @@
             DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
             
             // save to local storage
-            [[Facebook sharedInstance] saveAvatar:data name:filename forID:profile.ID];
+            [[AccountDatabase sharedInstance] saveAvatar:data name:filename forID:profile.ID];
             
             // upload to CDN
             DIMFileServer *ftp = [DIMFileServer sharedInstance];

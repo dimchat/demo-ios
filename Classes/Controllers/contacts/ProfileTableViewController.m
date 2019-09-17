@@ -15,10 +15,9 @@
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 
-#import "Facebook.h"
-#import "Client.h"
-
 #import "User.h"
+#import "Client.h"
+#import "AccountDatabase.h"
 
 #import "ChatViewController.h"
 

@@ -12,7 +12,7 @@
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
-		E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
+		E918E01B22C4A4D4007A3803 /* AccountDatabase+Avatar.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* AccountDatabase+Avatar.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
 		E92255CD2222EC53006CADEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255CB2222EC53006CADEA /* Main.storyboard */; };
 		E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255D02222EC56006CADEA /* LaunchScreen.storyboard */; };
@@ -25,10 +25,10 @@
 		E92256062222ED5A006CADEA /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92256012222ED59006CADEA /* Account.storyboard */; };
 		E92256102222ED6B006CADEA /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E922560B2222ED6B006CADEA /* gsp.plist */; };
 		E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
-		E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* Facebook+Register.m */; };
+		E92256452222ED7C006CADEA /* AccountDatabase+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* AccountDatabase+Register.m */; };
 		E92256462222ED7C006CADEA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561A2222ED7C006CADEA /* User.m */; };
 		E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561D2222ED7C006CADEA /* MessageProcessor.m */; };
-		E92256492222ED7C006CADEA /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256212222ED7C006CADEA /* Facebook.m */; };
+		E92256492222ED7C006CADEA /* AccountDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256212222ED7C006CADEA /* AccountDatabase.m */; };
 		E922564A2222ED7C006CADEA /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256222222ED7C006CADEA /* Client.m */; };
 		E92256502222ED7C006CADEA /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E922562F2222ED7C006CADEA /* RegisterViewController.m */; };
 		E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256312222ED7C006CADEA /* AccountTableViewController.m */; };
@@ -73,7 +73,6 @@
 		E99A5CD3222ED9B600EE6C86 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CD2222ED9B600EE6C86 /* UserCell.m */; };
 		E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
 		E9AFAAE122310B49001F95C6 /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */; };
 		E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */; };
 		E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */; };
 		E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */; };
@@ -152,8 +151,7 @@
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
 		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
 		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
-		E918E01922C4A4D4007A3803 /* Facebook+Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Profile.h"; sourceTree = "<group>"; };
-		E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Profile.m"; sourceTree = "<group>"; };
+		E918E01A22C4A4D4007A3803 /* AccountDatabase+Avatar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AccountDatabase+Avatar.m"; sourceTree = "<group>"; };
 		E92255BF2222EC53006CADEA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E92255C22222EC53006CADEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E92255C32222EC53006CADEA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -175,13 +173,12 @@
 		E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatViewImages.xcassets; sourceTree = "<group>"; };
 		E92256162222ED7C006CADEA /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		E92256182222ED7C006CADEA /* MessageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageProcessor.h; sourceTree = "<group>"; };
-		E92256192222ED7C006CADEA /* Facebook+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
+		E92256192222ED7C006CADEA /* AccountDatabase+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AccountDatabase+Register.m"; sourceTree = "<group>"; };
 		E922561A2222ED7C006CADEA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		E922561C2222ED7C006CADEA /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
+		E922561C2222ED7C006CADEA /* AccountDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDatabase.h; sourceTree = "<group>"; };
 		E922561D2222ED7C006CADEA /* MessageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageProcessor.m; sourceTree = "<group>"; };
 		E922561F2222ED7C006CADEA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		E92256202222ED7C006CADEA /* Facebook+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
-		E92256212222ED7C006CADEA /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
+		E92256212222ED7C006CADEA /* AccountDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountDatabase.m; sourceTree = "<group>"; };
 		E92256222222ED7C006CADEA /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		E92256282222ED7C006CADEA /* AccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTableViewController.h; sourceTree = "<group>"; };
 		E922562C2222ED7C006CADEA /* AccountEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountEditViewController.h; sourceTree = "<group>"; };
@@ -251,7 +248,6 @@
 		E99A5CD1222ED9B600EE6C86 /* UserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserCell.h; sourceTree = "<group>"; };
 		E99A5CD2222ED9B600EE6C86 /* UserCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserCell.m; sourceTree = "<group>"; };
 		E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FiniteStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MessageProcessor+GroupCommand.m"; sourceTree = "<group>"; };
 		E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMProfile+Extension.h"; sourceTree = "<group>"; };
 		E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
 		E9BBC3732242B21200E6ACDA /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
@@ -421,15 +417,12 @@
 			children = (
 				E922561F2222ED7C006CADEA /* User.h */,
 				E922561A2222ED7C006CADEA /* User.m */,
-				E922561C2222ED7C006CADEA /* Facebook.h */,
-				E92256212222ED7C006CADEA /* Facebook.m */,
-				E918E01922C4A4D4007A3803 /* Facebook+Profile.h */,
-				E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */,
-				E92256202222ED7C006CADEA /* Facebook+Register.h */,
-				E92256192222ED7C006CADEA /* Facebook+Register.m */,
+				E922561C2222ED7C006CADEA /* AccountDatabase.h */,
+				E92256212222ED7C006CADEA /* AccountDatabase.m */,
+				E918E01A22C4A4D4007A3803 /* AccountDatabase+Avatar.m */,
+				E92256192222ED7C006CADEA /* AccountDatabase+Register.m */,
 				E92256182222ED7C006CADEA /* MessageProcessor.h */,
 				E922561D2222ED7C006CADEA /* MessageProcessor.m */,
-				E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -762,7 +755,7 @@
 				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
 				E9790817225A6E2C0024C830 /* ZoomInViewController.m in Sources */,
 				E92256462222ED7C006CADEA /* User.m in Sources */,
-				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
+				E92256452222ED7C006CADEA /* AccountDatabase+Register.m in Sources */,
 				E9790853225CB8300024C830 /* WelcomeViewController.m in Sources */,
 				E92255C42222EC53006CADEA /* AppDelegate.m in Sources */,
 				E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */,
@@ -785,14 +778,13 @@
 				E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */,
 				E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */,
 				E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */,
-				E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
 				E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
 				E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */,
 				E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */,
 				E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */,
-				E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */,
+				E918E01B22C4A4D4007A3803 /* AccountDatabase+Avatar.m in Sources */,
 				E99A5CB2222D8B3400EE6C86 /* ParticipantsManageTableViewController.m in Sources */,
 				E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */,
 				E99A5CB1222D8B3400EE6C86 /* ParticipantsCollectionViewController.m in Sources */,
@@ -801,7 +793,7 @@
 				E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */,
 				E9790836225B666F0024C830 /* WebViewController.m in Sources */,
 				E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */,
-				E92256492222ED7C006CADEA /* Facebook.m in Sources */,
+				E92256492222ED7C006CADEA /* AccountDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1055,7 +1047,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9HSB54Q9R6;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1083,7 +1075,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sechat/Sechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9HSB54Q9R6;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",

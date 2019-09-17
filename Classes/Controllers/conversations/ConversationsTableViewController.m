@@ -11,9 +11,9 @@
 #import "UIStoryboardSegue+Extension.h"
 
 #import "User.h"
-#import "Facebook.h"
-#import "MessageProcessor.h"
 #import "Client.h"
+#import "AccountDatabase.h"
+#import "MessageProcessor.h"
 
 #import "ChatViewController.h"
 

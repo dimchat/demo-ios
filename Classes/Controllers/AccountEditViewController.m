@@ -22,9 +22,8 @@
 
 #import "User.h"
 #import "Client.h"
-#import "Facebook+Profile.h"
-#import "Facebook+Register.h"
-#import "dimMacros.h"
+#import "AccountDatabase.h"
+
 #import "AccountEditViewController.h"
 
 @interface AccountEditViewController ()
@@ -110,7 +109,7 @@
             DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
             
             // save to local storage
-            [[Facebook sharedInstance] saveAvatar:data name:filename forID:profile.ID];
+            [[AccountDatabase sharedInstance] saveAvatar:data name:filename forID:profile.ID];
             
             // upload to CDN
             DIMFileServer *ftp = [DIMFileServer sharedInstance];

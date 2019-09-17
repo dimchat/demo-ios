@@ -1,5 +1,5 @@
 //
-//  Facebook+Register.m
+//  AccountDatabase+Register.m
 //  DIMClient
 //
 //  Created by Albert Moky on 2019/1/28.
@@ -8,9 +8,9 @@
 
 #import "Client.h"
 
-#import "Facebook+Register.h"
+#import "AccountDatabase.h"
 
-@implementation Facebook (Register)
+@implementation AccountDatabase (Register)
 
 - (BOOL)saveMeta:(DIMMeta *)meta
       privateKey:(DIMPrivateKey *)SK

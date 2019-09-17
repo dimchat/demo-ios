@@ -13,9 +13,8 @@
 #import "DIMProfile+Extension.h"
 
 #import "User.h"
-#import "Facebook+Profile.h"
-#import "Facebook+Register.h"
 #import "Client.h"
+#import "AccountDatabase.h"
 #import "MessageProcessor.h"
 
 #import "ParticipantManageCell.h"

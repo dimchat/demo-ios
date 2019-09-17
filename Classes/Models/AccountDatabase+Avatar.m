@@ -1,5 +1,5 @@
 //
-//  Facebook+Profile.m
+//  AccountDatabase+Avatar.m
 //  Sechat
 //
 //  Created by Albert Moky on 2019/6/27.
@@ -13,7 +13,7 @@
 
 #import "Client.h"
 
-#import "Facebook+Profile.h"
+#import "AccountDatabase.h"
 
 static inline NSString *base_directory(DIMID *ID) {
     // base directory ("Documents/.mkm/{address}")
@@ -45,7 +45,7 @@ static inline NSString *avatar_filepath(DIMID *ID, NSString * _Nullable filename
 
 NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
 
-@implementation Facebook (Avatar)
+@implementation AccountDatabase (Avatar)
 
 - (BOOL)saveAvatar:(NSData *)data
               name:(nullable NSString *)filename

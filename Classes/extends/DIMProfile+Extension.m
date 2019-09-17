@@ -10,8 +10,7 @@
 #import "UIColor+Extension.h"
 
 #import "Client.h"
-#import "Facebook+Profile.h"
-#import "Facebook+Register.h"
+#import "AccountDatabase.h"
 
 #import "DIMProfile+Extension.h"
 
@@ -24,8 +23,8 @@
         NSString *avatar = self.avatar;
         if (avatar) {
             if ([avatar containsString:@"://"]) {
-                Facebook *facebook = [Facebook sharedInstance];
-                image = [facebook loadAvatarWithURL:avatar forID:self.ID];
+                AccountDatabase *userDB = [AccountDatabase sharedInstance];
+                image = [userDB loadAvatarWithURL:avatar forID:self.ID];
             } else {
                 image = [UIImage imageNamed:avatar];
             }

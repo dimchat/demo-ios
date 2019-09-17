@@ -6,10 +6,12 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "ImportAccountViewController.h"
 #import "User.h"
 #import "Client.h"
-#import "Facebook+Register.h"
+#import "AccountDatabase.h"
+
+#import "ImportAccountViewController.h"
+
 #import "UIViewController+Extension.h"
 
 @interface ImportAccountViewController ()

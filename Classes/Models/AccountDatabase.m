@@ -1,5 +1,5 @@
 //
-//  Facebook.m
+//  AccountDatabase.m
 //  DIMClient
 //
 //  Created by Albert Moky on 2018/11/11.
@@ -18,23 +18,21 @@
 #import "User.h"
 
 #import "Client.h"
-#import "Facebook+Profile.h"
-#import "Facebook+Register.h"
 
-#import "Facebook.h"
+#import "AccountDatabase.h"
 
 NSString * const kNotificationName_ContactsUpdated = @"ContactsUpdated";
 
-@interface Facebook () {
+@interface AccountDatabase () {
     
     MKMImmortals *_immortals;
 }
 
 @end
 
-@implementation Facebook
+@implementation AccountDatabase
 
-SingletonImplementations(Facebook, sharedInstance)
+SingletonImplementations(AccountDatabase, sharedInstance)
 
 - (instancetype)init {
     if (self = [super init]) {
