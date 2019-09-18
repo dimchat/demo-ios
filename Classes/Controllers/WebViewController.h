@@ -13,8 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WebViewController : UIViewController <WKNavigationDelegate>
 
-@property (weak, nonatomic) IBOutlet WKWebView *webView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+@property (strong, nonatomic) IBOutlet WKWebView *webView;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
 
 @property (strong, nonatomic) NSURL *url;
 

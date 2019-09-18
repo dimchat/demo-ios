@@ -15,6 +15,7 @@
 #import "ContactsTableViewController.h"
 #import "AccountTableViewController.h"
 #import "WelcomeViewController.h"
+#import "UIColor+Extension.h"
 
 @interface AppDelegate ()<UITabBarControllerDelegate>
 
@@ -44,6 +45,7 @@
     [self addDefaultUser:@"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"];
     [self addDefaultUser:@"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"];
     
+    [self setAppApearence];
     self.tabbarController = [self createTabBarController];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -61,6 +63,20 @@
     }
 
     return YES;
+}
+
+-(void)setAppApearence{
+    
+    UIColor *tintColor = [UIColor colorWithHexString:@"0a81ff"];
+    
+    [[UIButton appearance] setTitleColor:tintColor forState:UIControlStateNormal];
+    [[UIActivityIndicatorView appearance] setColor:tintColor];
+    
+    //[[UITabBar appearance] setTintColor:tintColor];
+    //[[UIToolbar appearance] setTintColor:tintColor];
+    //[[UITextField appearance] setTintColor:tintColor];
+    //[UISwitch appearance].onTintColor = tintColor;
+    //[[UITableView appearance] setBackgroundColor:APP_MAIN_BACKGROUND_COLOR];
 }
 
 -(void)addDefaultUser:(NSString *)address{

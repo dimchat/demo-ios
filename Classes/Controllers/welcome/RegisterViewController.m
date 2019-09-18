@@ -20,10 +20,10 @@
 #import "Client.h"
 #import "Facebook+Register.h"
 #import "Facebook+Profile.h"
-
+#import "WebViewController.h"
 #import "RegisterViewController.h"
 
-@interface RegisterViewController ()
+@interface RegisterViewController ()<UITextFieldDelegate>
 
 @property (strong, nonatomic) DIMPrivateKey *SK;
 @property (strong, nonatomic) DIMMeta *meta;
@@ -33,10 +33,9 @@
 @property (strong, nonatomic) UILabel *avatarLabel;
 @property (strong, nonatomic) UIImageView *avatarImageView;
 @property (strong, nonatomic) UITextField *nicknameTextField;
-@property (strong, nonatomic) UIButton *startButton;
-@property (strong, nonatomic) UIButton *checkBoxButton;
-@property (strong, nonatomic) UIButton *agreementButton;
-@property (strong, nonatomic) UIButton *agreementLabel;
+@property (strong, nonatomic) NSData *imageData;
+
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -46,59 +45,77 @@
     
     [super loadView];
     
-    CGFloat x = 20.0;
-    CGFloat width = 44.0;
-    CGFloat height = 44.0;
-    CGFloat y = self.view.bounds.size.height - height - 50.0;
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationItem.title = NSLocalizedString(@"", @"title");
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", @"title") style:UIBarButtonItemStylePlain target:self action:@selector(didPressStartButton:)];
     
+    CGFloat width = 56.0;
+    CGFloat height = 56.0;
+    CGFloat x = (self.view.bounds.size.width - width) / 2.0;
+    CGFloat y = 108.0;
+    
+    self.avatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"default_avatar"]];
+    self.avatarImageView.frame = CGRectMake(x, y, width, height);
+    self.avatarImageView.backgroundColor = [UIColor lightGrayColor];
+    self.avatarImageView.layer.cornerRadius = width / 2;
+    self.avatarImageView.layer.masksToBounds = YES;
+    [self.view addSubview:self.avatarImageView];
+    
+    height = 18.0;
+    x = 0.0;
+    y = self.avatarImageView.bounds.size.height - height;
+    
+    self.avatarLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    self.avatarLabel.backgroundColor = [UIColor blackColor];
+    self.avatarLabel.text = NSLocalizedString(@"Edit", @"title");
+    self.avatarLabel.font = [UIFont systemFontOfSize:10.0];
+    self.avatarLabel.textColor = [UIColor whiteColor];
+    self.avatarLabel.textAlignment = NSTextAlignmentCenter;
+    [self.avatarImageView addSubview:self.avatarLabel];
+    
+    self.changeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.changeButton.frame = self.avatarImageView.frame;
+    [self.changeButton addTarget:self action:@selector(changeAvatar:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.changeButton];
+    
+    y = self.avatarImageView.frame.origin.y + self.avatarImageView.frame.size.height + 20.0;
+    x = 35.0;
+    width = self.view.bounds.size.width - x * 2.0;
+    height = 0.5;
+    
+    UIView *seperator = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    seperator.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:seperator];
+    
+    height = 44.0;
+    width = 100.0;
+    UILabel *nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    nicknameLabel.text = NSLocalizedString(@"Nickname", @"title");
+    [self.view addSubview:nicknameLabel];
+    
+    x = nicknameLabel.frame.origin.x + width + 10.0;
+    width = seperator.frame.origin.x + seperator.frame.size.width - x;
+    self.nicknameTextField = [[UITextField alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    self.nicknameTextField.placeholder = NSLocalizedString(@"e.g moky", @"title");
+    self.nicknameTextField.delegate = self;
+    [self.view addSubview:self.nicknameTextField];
+    
+    y = nicknameLabel.frame.origin.y + nicknameLabel.frame.size.height;
+    x = 35.0;
+    width = self.view.bounds.size.width - x * 2.0;
+    height = 0.5;
+    
+    seperator = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    seperator.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:seperator];
+    
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
-    if (_nickname.length > 0) {
-        self.title = _nickname;
-        CGSize size = _avatarImageView.frame.size;
-        NSString *text = [_nickname substringToIndex:1];
-        UIColor *textColor = [UIColor whiteColor];
-        UIImage *bgImage = [UIImage imageNamed:@"avatar-bg"];
-        if (bgImage) {
-            _avatarImageView.image = [UIImage imageWithText:text size:size color:textColor backgroundImage:bgImage];
-        } else {
-            UIColor *bgColor = [UIColor colorWithHexString:@"1F1F0A"];
-            _avatarImageView.image = [UIImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
-        }
-    }
-    [_avatarImageView roundedCorner];
-    
-    self.avatarLabel.layer.cornerRadius = 10;
-    self.avatarLabel.layer.masksToBounds = YES;
-    
-    self.navigationItem.backBarButtonItem = nil;
-    
-    [self.changeButton addTarget:self action:@selector(changeAvatar:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addClickTarget:self action:@selector(onBackgroundClick:)];
-    [NSNotificationCenter addObserver:self selector:@selector(onAvatarUpdated:) name:kNotificationName_AvatarUpdated object:nil];
-    
-    [self _generate];
-}
-
-- (void)onAvatarUpdated:(NSNotification *)notification {
-    
-    DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];
-    DIMUser *user = [Client sharedInstance].currentUser;
-    if (![profile.ID isEqual:user.ID]) {
-        // not my profile
-        return ;
-    }
-    
-    // avatar
-    CGRect avatarFrame = _avatarImageView.frame;
-    UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
-    if (image) {
-        [_avatarImageView setImage:image];
-    }
+    [self.nicknameTextField becomeFirstResponder];
 }
 
 - (void)changeAvatar:(id)sender {
@@ -114,41 +131,7 @@
             // image file
             image = [image aspectFit:CGSizeMake(320, 320)];
             NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
-            NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
-            NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
-            
-            Client *client = [Client sharedInstance];
-            DIMLocalUser *user = client.currentUser;
-            DIMID *ID = user.ID;
-            DIMProfile *profile = user.profile;
-            if (!profile) {
-                NSAssert(false, @"profile should not be empty");
-                return ;
-            }
-            
-            id<DIMUserDataSource> dataSource = user.dataSource;
-            DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
-            
-            // save to local storage
-            [[Facebook sharedInstance] saveAvatar:data name:filename forID:profile.ID];
-            
-            // upload to CDN
-            DIMFileServer *ftp = [DIMFileServer sharedInstance];
-            NSURL *url = [ftp uploadAvatar:data filename:filename sender:ID];
-            
-            // got avatar URL
-            profile.avatar = [url absoluteString];
-            [profile sign:SK];
-            
-            // save profile with new avatar
-            [[DIMFacebook sharedInstance] saveProfile:profile];
-            
-            // submit to network
-            [client postProfile:profile];
-            
-            [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
-                                                object:self
-                                              userInfo:@{@"ID": profile.ID, @"profile": profile}];
+            self.imageData = data;
         }
     };
     
@@ -157,25 +140,34 @@
     [album showWithViewController:self completionHandler:handler];
 }
 
-- (BOOL)saveAndSubmit {
+-(NSError *)saveAndSubmit {
     
-    NSString *nickname = _usernameTextField.text;
-    
-    // check nickname
-    if (nickname.length == 0) {
-        [self showMessage:NSLocalizedString(@"Nickname cannot be empty.", nil)
-                withTitle:NSLocalizedString(@"Nickname Error!", nil)];
-        [_usernameTextField becomeFirstResponder];
-        return NO;
-    }
+    NSString *nickname = self.nicknameTextField.text;
     
     Client *client = [Client sharedInstance];
     DIMLocalUser *user = client.currentUser;
+    DIMID *ID = user.ID;
     
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
     
     DIMProfile *profile = user.profile;
+    
+    if(self.imageData != nil){
+        
+        NSString *filename = [[[self.imageData md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
+        
+        // save to local storage
+        [[Facebook sharedInstance] saveAvatar:self.imageData name:filename forID:profile.ID];
+        
+        // upload to CDN
+        DIMFileServer *ftp = [DIMFileServer sharedInstance];
+        NSURL *url = [ftp uploadAvatar:self.imageData filename:filename sender:ID];
+        
+        // got avatar URL
+        profile.avatar = [url absoluteString];
+    }
+    
     [profile setName:nickname];
     [profile sign:SK];
     
@@ -184,154 +176,75 @@
     // submit to station
     [client postProfile:profile];
     
-    return YES;
+    return nil;
 }
 
-- (void)onBackgroundClick:(id)sender {
-    
-    [_usernameTextField resignFirstResponder];
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-    
-    CGRect rect = _scrollView.frame;
-    UIEdgeInsets insets = _scrollView.adjustedContentInset;
-    
-    CGSize vSize = CGSizeMake(rect.size.width - insets.left - insets.right,
-                              rect.size.height - insets.top - insets.bottom);
-    
-    CGSize size = CGSizeMake(320, MAX(vSize.height, 520));
-    
-    _trayView.frame = CGRectMake((vSize.width - size.width) * 0.5, 0,
-                                 size.width, size.height);
-    _scrollView.frame = CGRectMake(0, 0,
-                                   rect.origin.x + rect.size.width,
-                                   rect.origin.y + rect.size.height);
-    _scrollView.contentSize = CGSizeMake(size.width, size.height);
-}
-
-- (BOOL)_generate {
+-(NSError *)generate{
     NSLog(@"refreshing...");
     
-    // clear
-    _addressLabel.text = @"";
-    _numberLabel.text = @"";
-    
-    _SK = nil;
-    _meta = nil;
-    _ID = nil;
-    
     NSString *username = @"dim";
-    
-    if(_usernameTextField.text == nil || _usernameTextField.text.length == 0){
-        self.nickname = @"dim_user";
-    }else{
-        self.nickname = _usernameTextField.text;
-    }
-    
-    // check username
-    if (username.length == 0) {
-        NSString *message = @"Username cannot be empty.";
-        NSString *title = @"Username Error!";
-        [self showMessage:NSLocalizedString(message, nil)
-                withTitle:NSLocalizedString(title, nil)];
-        [_usernameTextField becomeFirstResponder];
-        return NO;
-    } else if (!check_username(username)) {
-        NSString *message = @"Username must be composed of letters, digits, underscores, or hyphens.";
-        NSString *title = @"Username Error!";
-        [self showMessage:NSLocalizedString(message, nil)
-                withTitle:NSLocalizedString(title, nil)];
-        [_usernameTextField becomeFirstResponder];
-        return NO;
-    }
+    NSString *nickname = self.nicknameTextField.text;
     
     // 1. generate private key
-    _SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
+    self.SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
+    
+    if(self.SK == nil){
+        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate private key"}];
+    }
+    
     // 2. generate meta
-    _meta = MKMMetaGenerate(MKMMetaDefaultVersion, _SK, username);
+    self.meta = MKMMetaGenerate(MKMMetaDefaultVersion, _SK, username);
+    
+    if(self.meta == nil){
+        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate meta"}];
+    }
+    
     // 3. generate ID
-    _ID = [_meta generateID:MKMNetwork_Main];
+    self.ID = [self.meta generateID:MKMNetwork_Main];
     
-    _addressLabel.text = (NSString *)_ID.address;
-    _numberLabel.text = search_number(_ID.number);
-    
-    if(_ID != nil && _meta != nil && _SK != nil){
-        Client *client = [Client sharedInstance];
-        [client saveUser:_ID meta:_meta privateKey:_SK name:self.nickname];
+    if(self.ID == nil){
+        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate ID"}];
     }
     
-    return YES;
+    Client *client = [Client sharedInstance];
+    if(![client saveUser:self.ID meta:self.meta privateKey:self.SK name:nickname]){
+        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not save user to client"}];
+    }
+    
+    return nil;
 }
 
-- (IBAction)onUsernameEditExit:(UITextField *)sender {
+-(void)didPressStartButton:(id)sender{
     
-    [_usernameTextField resignFirstResponder];
-}
-
-- (IBAction)onUsernameEditEnd:(UITextField *)sender {
+    NSString *nickname = self.nicknameTextField.text;
     
-    //[self _generate];
-}
-
-- (IBAction)onRefreshClick:(UIButton *)sender {
-    
-    //[self _generate];
-}
-
-- (IBAction)onStartClick:(UIButton *)sender {
-    NSLog(@"start chat");
-    
-    if(_usernameTextField.text == nil || _usernameTextField.text.length == 0){
+    if(nickname == nil || nickname.length == 0){
         NSString *message = @"Please Input your nickname";
-        NSString *title = @"Error!";
-        [self showMessage:NSLocalizedString(message, nil)
-                withTitle:NSLocalizedString(title, nil)];
-        return;
-    }
-    self.nickname = _usernameTextField.text;
-    
-    if (_SK == nil || _meta == nil || _ID == nil) {
-        
-        if (![self _generate]) {
-            // username error
-            return ;
-        }
-        
-        // check again
-        if (_SK == nil || _meta == nil || _ID == nil) {
-            NSString *message = @"Generate account failed.";
-            NSString *title = @"Error!";
-            [self showMessage:NSLocalizedString(message, nil)
-                    withTitle:NSLocalizedString(title, nil)];
-            [_usernameTextField becomeFirstResponder];
-            return ;
-        }
-    }
-    
-//    DIMPrivateKey *SK = _SK;
-//    DIMMeta *meta = _meta;
-    DIMID *ID = _ID;
-    
-    DIMProfile *profile = DIMProfileForID(ID);
-    if(profile.avatar == nil || profile.avatar.length == 0){
-        NSString *message = @"Please choose your avatar";
-        NSString *title = @"Error!";
+        NSString *title = @"Dim!";
         [self showMessage:NSLocalizedString(message, nil)
                 withTitle:NSLocalizedString(title, nil)];
         return;
     }
     
-//    NSString *nickname = _nickname;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
+    self.navigationController.navigationBar.userInteractionEnabled = NO;
+    [self.activityIndicator startAnimating];
     
-    void (^handler)(UIAlertAction *);
-    handler = ^(UIAlertAction *action) {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    
+        NSError *error = [self generate];
         
-        if (![self saveAndSubmit]) {
-            [self showMessage:NSLocalizedString(@"Failed to create user.", nil)
-                    withTitle:NSLocalizedString(@"Error!", nil)];
-            return ;
+        if(error != nil){
+            [self showError:error];
+            [self restoreUI];
+            return;
+        }
+        
+        error = [self saveAndSubmit];
+        if(error != nil){
+            [self showError:error];
+            [self restoreUI];
+            return;
         }
         
         //New User add Moky as contact
@@ -341,17 +254,16 @@
         itemString = @"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf";
         [self addUserToContact:itemString];
         
-        // dismiss the welcome page
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    };
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        });
+    });
+}
+
+-(void)restoreUI{
     
-    NSString *message = [NSString stringWithFormat:@"%@ (%@)", _nickname, search_number(_ID.number)];
-    [self showMessage:message
-            withTitle:NSLocalizedString(@"New Account", nil)
-        cancelHandler:nil
-         cancelButton:NSLocalizedString(@"Cancel", nil)
-       defaultHandler:handler
-        defaultButton:NSLocalizedString(@"OK", nil)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", @"title") style:UIBarButtonItemStylePlain target:self action:@selector(didPressStartButton:)];
+    self.navigationController.navigationBar.userInteractionEnabled = YES;
 }
 
 -(void)addUserToContact:(NSString *)itemString{

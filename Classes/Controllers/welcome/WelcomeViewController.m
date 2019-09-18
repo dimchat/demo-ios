@@ -12,11 +12,12 @@
 #import "ImportAccountViewController.h"
 #import "RegisterViewController.h"
 #import "WelcomeViewController.h"
+#import "WebViewController.h"
+#import "Client.h"
 
 @interface WelcomeViewController ()
 
-@property(nonatomic, strong) UIButton *registerButton;
-@property(nonatomic, strong) UIButton *importButton;
+@property(nonatomic, strong) UIButton *agreeButton;
 @property(nonatomic, strong) UIImageView *logoImageView;
 
 @end
@@ -27,36 +28,55 @@
     
     [super loadView];
     
-    self.navigationItem.title = NSLocalizedString(@"Welcome", @"title");
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     
-    CGFloat height = 44.0;
-    CGFloat x = 20.0;
-    CGFloat y = self.view.bounds.size.height - height - 50.0;
-    CGFloat width = self.view.bounds.size.width - x * 2.0;
-    
-    self.importButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.importButton.frame = CGRectMake(x, y, width, height);
-    [self.importButton setTitle:NSLocalizedString(@"Import", @"title") forState:UIControlStateNormal];
-    [self.importButton addTarget:self action:@selector(didPressImportButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.importButton];
-    
-    y = y - 22.0 - height;
-    
-    self.registerButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.registerButton.frame = CGRectMake(x, y, width, height);
-    [self.registerButton setTitle:NSLocalizedString(@"Register", @"title") forState:UIControlStateNormal];
-    [self.registerButton addTarget:self action:@selector(didPressRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.registerButton];
-    
-    width = 128.0;
-    height = 128.0;
-    x = (self.view.bounds.size.width - width) / 2.0;
-    y = (y - height) / 2.0;
+    CGFloat width = 128.0;
+    CGFloat height = 128.0;
+    CGFloat x = (self.view.bounds.size.width - width) / 2.0;
+    CGFloat y = 150.0;
     
     self.logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"DimLogo"]];
     self.logoImageView.frame = CGRectMake(x, y, width, height);
     [self.logoImageView roundedCorner];
     [self.view addSubview:self.logoImageView];
+    
+    x = 10.0;
+    y = y + height + 150.0;
+    height = 44.0;
+    width = self.view.bounds.size.width - x * 2;
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    titleLabel.text = NSLocalizedString(@"Thanks for using DIM Chat", @"title");
+    titleLabel.font = [UIFont boldSystemFontOfSize:28.0];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:titleLabel];
+    
+    y = y + height + 10.0;
+    UILabel *agreementLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    agreementLabel.text = NSLocalizedString(@"Please read the privacy policy, click \"Agree and Continue\" to accept the agreement.", @"title");
+    agreementLabel.font = [UIFont systemFontOfSize:14.0];
+    agreementLabel.numberOfLines = 2;
+    agreementLabel.textColor = [UIColor grayColor];
+    agreementLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:agreementLabel];
+    
+    UIButton *agreementButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [agreementButton addTarget:self action:@selector(didPressAgreementButton:) forControlEvents:UIControlEventTouchUpInside];
+    agreementButton.frame = agreementLabel.frame;
+    [self.view addSubview:agreementButton];
+    
+    y = y + height + 60.0;
+    height = 44.0;
+    x = 35.0;
+    width = self.view.bounds.size.width - x * 2.0;
+    
+    self.agreeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.agreeButton.frame = CGRectMake(x, y, width, height);
+    [self.agreeButton setTitle:NSLocalizedString(@"Agree and Continue", @"title") forState:UIControlStateNormal];
+    self.agreeButton.titleLabel.font = [UIFont boldSystemFontOfSize:24.0];
+    [self.agreeButton addTarget:self action:@selector(didPressRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.agreeButton];
 }
 
 - (void)didPressRegisterButton:(id)sender {
@@ -69,6 +89,16 @@
     
     ImportAccountViewController *controller = [[ImportAccountViewController alloc] initWithNibName:@"ImportAccountViewController" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+-(void)didPressAgreementButton:(id)sender{
+    
+    Client *client = [Client sharedInstance];
+    NSString *urlString = client.termsAPI;
+    WebViewController *web = [[WebViewController alloc] init];
+    web.url = [NSURL URLWithString:urlString];
+    web.title = NSLocalizedString(@"Terms", nil);
+    [self.navigationController pushViewController:web animated:YES];
 }
 
 @end
