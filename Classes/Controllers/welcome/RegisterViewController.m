@@ -49,10 +49,10 @@
     self.navigationItem.title = NSLocalizedString(@"", @"title");
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", @"title") style:UIBarButtonItemStylePlain target:self action:@selector(didPressStartButton:)];
     
-    CGFloat width = 56.0;
-    CGFloat height = 56.0;
+    CGFloat width = 50.0;
+    CGFloat height = 50.0;
     CGFloat x = (self.view.bounds.size.width - width) / 2.0;
-    CGFloat y = 108.0;
+    CGFloat y = 128.0;
     
     self.avatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"default_avatar"]];
     self.avatarImageView.frame = CGRectMake(x, y, width, height);
@@ -61,7 +61,7 @@
     self.avatarImageView.layer.masksToBounds = YES;
     [self.view addSubview:self.avatarImageView];
     
-    height = 18.0;
+    height = 16.0;
     x = 0.0;
     y = self.avatarImageView.bounds.size.height - height;
     

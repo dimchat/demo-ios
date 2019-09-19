@@ -33,7 +33,6 @@
 @end
 
 #define SECTION_COUNT     4
-
 #define SECTION_AVATAR    0
 #define SECTION_ID        1
 #define SECTION_PROFILES  2

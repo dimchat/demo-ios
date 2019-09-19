@@ -67,6 +67,12 @@
                                object:nil];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.prefersLargeTitles = YES;
+}
+
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];

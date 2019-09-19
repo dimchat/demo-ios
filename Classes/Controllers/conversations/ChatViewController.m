@@ -8,27 +8,21 @@
 
 #import "NSData+Extension.h"
 #import "NSDate+Extension.h"
-
+#import "UIColor+Extension.h"
 #import "NSString+Extension.h"
 #import "NSNotificationCenter+Extension.h"
-
 #import "UIStoryboardSegue+Extension.h"
 #import "UIButton+Extension.h"
 #import "UIImage+Extension.h"
 #import "UIScrollView+Extension.h"
 #import "UIViewController+Extension.h"
-
 #import "WebViewController.h"
 #import "ImagePickerController.h"
-
 #import "MessageProcessor.h"
 #import "Client.h"
-
 #import "MsgCell.h"
-
 #import "ProfileTableViewController.h"
 #import "ChatManageTableViewController.h"
-
 #import "ChatViewController.h"
 
 static inline NSString *time_string(NSTimeInterval timestamp) {
@@ -50,17 +44,124 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     return [dateFormatter stringFromDate:date];
 }
 
-@interface ChatViewController ()<UITextFieldDelegate> {
+@interface ChatViewController ()<UITextViewDelegate> {
     
     CGRect _tableFrame;
-    CGRect _trayFrame;
+    CGRect _containerFrame;
+    UIView *_textViewBg;
+    UITextView *_textView;
+    CATextLayer *_textViewPlaceholderLayer;
+    UIButton *_addButton;
+    UIButton *_submitButton;
+    CGRect _keyboardFrame;
     
     BOOL _scrolledToBottom;
 }
 
+@property(nonatomic, strong) UIView *textViewContainer;
+
 @end
 
 @implementation ChatViewController
+
+-(void)loadView{
+    
+    [super loadView];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"•••" style:UIBarButtonItemStylePlain target:self action:@selector(didPressMoreButton:)];
+    
+    CGFloat x = 0.0;
+    CGFloat width = self.view.bounds.size.width;
+    CGFloat height = [self textViewContainerHeight];
+    CGFloat y = self.view.bounds.size.height - height;
+    
+    [self initInputContainer];
+    
+    height = y;
+    y = 0.0;
+    self.messagesTableView = [[UITableView alloc] initWithFrame:CGRectMake(x, y, width, height) style:UITableViewStylePlain];
+    self.messagesTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.messagesTableView.delegate = self;
+    self.messagesTableView.dataSource = self;
+    self.messagesTableView.backgroundColor = [UIColor grayColor];
+    self.messagesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.messagesTableView registerClass:[SentMsgCell class] forCellReuseIdentifier:@"sentMsgCell"];
+    [self.messagesTableView registerClass:[ReceivedMsgCell class] forCellReuseIdentifier:@"receivedMsgCell"];
+    [self.messagesTableView registerClass:[CommandMsgCell class] forCellReuseIdentifier:@"commandMsgCell"];
+    [self.messagesTableView registerClass:[TimeCell class] forCellReuseIdentifier:@"timeCell"];
+    [self.messagesTableView registerClass:[GuideCell class] forCellReuseIdentifier:@"guideCell"];
+    [self.view addSubview:self.messagesTableView];
+}
+
+-(CGFloat)textViewContainerHeight{
+    return 50.0;
+}
+
+-(void)initInputContainer{
+    
+    CGFloat textViewContainerHeight = [self textViewContainerHeight];
+    _keyboardFrame = CGRectMake(0, CGRectGetHeight(self.view.bounds), 0, 0);
+    
+    _textViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds) - textViewContainerHeight, CGRectGetWidth(self.view.bounds), textViewContainerHeight)];
+    _textViewContainer.backgroundColor = [UIColor colorWithHexString:@"f8f8f8"];
+    _textViewContainer.userInteractionEnabled = YES;
+    [self.view addSubview:_textViewContainer];
+    
+    CGFloat width = 26.0;
+    CGFloat height = textViewContainerHeight;
+    CGFloat x = self.view.bounds.size.width - 10.0 - width;
+    CGFloat y = (CGRectGetHeight(_textViewContainer.bounds) - height) / 2;
+    
+    _addButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    _addButton.frame = CGRectMake(x, y, width, height);
+    [_addButton addTarget:self action:@selector(addButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_textViewContainer addSubview:_addButton];
+    
+    x = 10.0;
+    width = CGRectGetMinX(_addButton.frame) - x * 2;
+    height = 36.0;
+    y = (_textViewContainer.bounds.size.height - height) / 2;
+    _textViewBg = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    _textViewBg.backgroundColor = [UIColor whiteColor];
+    _textViewBg.layer.cornerRadius = height / 2;
+    _textViewBg.layer.masksToBounds = YES;
+    _textViewBg.layer.borderColor = [UIColor colorWithHexString:@"cdcdcd"].CGColor;
+    _textViewBg.layer.borderWidth = 0.5;
+    [_textViewContainer addSubview:_textViewBg];
+    
+    x = CGRectGetMinX(_textViewBg.frame) + 10.0;
+    width = _textViewBg.bounds.size.width - 20.0;
+    _textView = [[UITextView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    _textView.returnKeyType = UIReturnKeySend;
+    _textView.enablesReturnKeyAutomatically = YES;
+    _textView.showsVerticalScrollIndicator = NO;
+    _textView.autocorrectionType = UITextAutocorrectionTypeNo;
+    _textView.backgroundColor = [UIColor clearColor];
+    _textView.scrollsToTop = NO;
+    _textView.font = [UIFont systemFontOfSize:17.0];
+    _textView.delegate = self;
+    [_textViewContainer addSubview:_textView];
+    
+    _textViewPlaceholderLayer = [[CATextLayer alloc] init];
+    _textViewPlaceholderLayer.string = NSLocalizedString(@"", @"title");
+    _textViewPlaceholderLayer.frame = CGRectMake(8, 8, 220, 20);
+    _textViewPlaceholderLayer.fontSize = 14.0;
+    _textViewPlaceholderLayer.foregroundColor = [[UIColor colorWithHexString:@"999999"] CGColor];
+    _textViewPlaceholderLayer.contentsScale = [UIScreen mainScreen].scale;
+    [_textView.layer addSublayer:_textViewPlaceholderLayer];
+    
+    [_textView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
+    
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, _textViewContainer.frame.size.width, 0.5)];
+    line.backgroundColor = [UIColor colorWithHexString:@"aaaaaa"];
+    [_textViewContainer addSubview:line];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.prefersLargeTitles = NO;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -70,7 +171,7 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     NSLog(@"title: %@", self.title);
     
     _tableFrame = _messagesTableView.frame;
-    _trayFrame = _trayView.frame;
+    _containerFrame = _textViewContainer.frame;
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(onMessageSent:)
@@ -116,10 +217,6 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
         _scrolledToBottom = YES;
     }
 
-}
-
--(void)beginEditing:(id)sender{
-    
 }
 
 - (void)onMessageUpdated:(NSNotification *)notification {
@@ -171,14 +268,14 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     CGRect tableRect = _tableFrame;
     tableRect.size.height -= keyboardSize.height;
     
-    CGRect trayRect = _trayFrame;
+    CGRect trayRect = _textViewContainer.frame;
     trayRect.origin.y -= keyboardSize.height;
     
     double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     [UIView animateWithDuration:duration animations:^{
-        self->_messagesTableView.frame = tableRect;
-        self->_trayView.frame = trayRect;
+        self.messagesTableView.frame = tableRect;
+        self.textViewContainer.frame = trayRect;
     } completion:^(BOOL finished) {
         
         if(finished){
@@ -191,20 +288,13 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     [UIView animateWithDuration:duration animations:^{
-        self->_messagesTableView.frame = self->_tableFrame;
-        self->_trayView.frame = self->_trayFrame;
-    }];
-}
-
-- (IBAction)unwindForSegue:(UIStoryboardSegue *)unwindSegue towardsViewController:(UIViewController *)subsequentVC {
-    [super unwindForSegue:unwindSegue towardsViewController:subsequentVC];
-    [self dismissViewControllerAnimated:YES completion:^{
-        //
+        self.messagesTableView.frame = self->_tableFrame;
+        self.textViewContainer.frame = self->_containerFrame;
     }];
 }
 
 - (void)_hideKeyboard {
-    [self.inputTextField resignFirstResponder];
+    [_textView resignFirstResponder];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -212,7 +302,7 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
 }
 
 - (IBAction)send:(id)sender {
-    NSString *text = _inputTextField.text;
+    NSString *text = _textView.text;
     if (text.length == 0) {
         NSLog(@"empty");
         return;
@@ -245,7 +335,7 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
         [self.conversation insertMessage:iMsg];
     }
     
-    _inputTextField.text = @"";
+    _textView.text = @"";
 }
 
 - (void)_showImagePickerController:(ImagePickerController *)ipc {
@@ -319,13 +409,13 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     [ipc showWithViewController:self completionHandler:handler];
 }
 
-- (IBAction)camera:(id)sender {
+- (void)camera:(id)sender {
     NSLog(@"open camera");
     CameraController *camera = [[CameraController alloc] init];
     [self _showImagePickerController:camera];
 }
 
-- (IBAction)album:(id)sender {
+- (void)album:(id)sender {
     NSLog(@"open album");
     AlbumController *album = [[AlbumController alloc] init];
     [self _showImagePickerController:album];
@@ -473,9 +563,6 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *identifier = [self _identifierForReusableCellAtIndexPath:indexPath];
-    if ([identifier isEqualToString:@"guideCell"]) {
-        return 80;
-    }
     
     NSInteger row = indexPath.row;
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
@@ -488,6 +575,9 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     } else if ([identifier isEqualToString:@"receivedMsgCell"]) {
         CGSize size = [ReceivedMsgCell sizeWithMessage:iMsg bounds:bounds];
         height = size.height;
+    } else if ([identifier isEqualToString:@"guideCell"]) {
+        CGSize size = [GuideCell sizeWithMessage:iMsg bounds:bounds];
+        height = size.height;
     } else {
         CGSize size = [SentMsgCell sizeWithMessage:iMsg bounds:bounds];
         height = size.height;
@@ -497,6 +587,35 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
 }
 
 #pragma mark - Navigation
+
+-(void)addButtonAction:(id)sender{
+    
+    UIAlertController *actionsheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Camera", @"title") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self camera:actionsheet];
+    }];
+    
+    UIAlertAction *albumAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Album", @"title") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self album:actionsheet];
+    }];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"title") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [albumAction setValue:[UIImage imageNamed:@"sharemore_pic"] forKey:@"image"];
+    [cameraAction setValue:[UIImage imageNamed:@"sharemore_video"] forKey:@"image"];
+    
+    [actionsheet addAction:cameraAction];
+    [actionsheet addAction:albumAction];
+    [actionsheet addAction:cancelAction];
+    [self presentViewController:actionsheet animated:YES completion:nil];
+}
+
+-(void)didPressMoreButton:(id)sender{
+    
+    
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

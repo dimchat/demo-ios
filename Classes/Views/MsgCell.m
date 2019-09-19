@@ -566,3 +566,109 @@
 }
 
 @end
+
+@implementation TimeCell
+
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
+    
+    NSString *text = [iMsg.content objectForKey:@"text"];
+    
+    CGFloat cellWidth = rect.size.width;
+    CGFloat msgWidth = cellWidth * 0.618;
+    UIEdgeInsets edges = UIEdgeInsetsMake(10, 10, 10, 10);
+    
+    CGSize size = CGSizeMake(msgWidth - edges.left - edges.right,
+                             MAXFLOAT);
+    UIFont *font = [UIFont systemFontOfSize:14];
+    size = [text sizeWithFont:font maxSize:size];
+    CGFloat cellHeight = size.height + edges.top + edges.bottom + 24;
+    return CGSizeMake(cellWidth, cellHeight);
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGFloat cellWidth = self.bounds.size.width;
+    CGFloat msgWidth = cellWidth * 0.618;
+    UIEdgeInsets edges = UIEdgeInsetsMake(10, 10, 10, 10);
+    
+    UILabel *timeLabel = [self timeLabel];
+    CGRect timeFrame = timeLabel.frame;
+}
+
+- (void)setMsg:(DIMInstantMessage *)msg {
+    if (![_msg isEqual:msg]) {
+        _msg = msg;
+        
+        CGFloat cellWidth = self.bounds.size.width;
+        CGFloat msgWidth = cellWidth * 0.618;
+        
+        // time
+        NSString *time = [msg timeTag];
+        UILabel *timeLabel = [self timeLabel];
+        if (time.length > 0) {
+            timeLabel.text = time;
+            // resize
+            UIFont *font = timeLabel.font;
+            CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
+            size = [time sizeWithFont:font maxSize:size];
+            size = CGSizeMake(size.width + 16, 16);
+            CGRect rect = CGRectMake(0, 0, size.width, size.height);
+            timeLabel.bounds = rect;
+            [timeLabel roundedCorner];
+            timeLabel.hidden = NO;
+        } else {
+            timeLabel.bounds = CGRectMake(0, 0, 0, 0);
+            timeLabel.text = @"";
+            timeLabel.hidden = YES;
+        }
+        
+        [self setNeedsLayout];
+    }
+}
+
+@end
+
+@implementation GuideCell
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    
+    if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
+        
+        self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(25.0, 0.0, 320.0, 50.0)];
+        self.messageLabel.font = [UIFont systemFontOfSize:14.0];
+        self.messageLabel.textColor = [UIColor lightGrayColor];
+        self.messageLabel.numberOfLines = 4;
+        self.messageLabel.textAlignment = NSTextAlignmentCenter;
+        self.messageLabel.text = NSLocalizedString(@"It is forbidden to send contents that violate the existing laws and regulations. If a violator is found, please click the button in the upper right corner and report it.", @"title");
+        [self.contentView addSubview:self.messageLabel];
+        
+        self.agreementButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.agreementButton setTitle:NSLocalizedString(@"user agreements and privacy clauses", @"title") forState:UIControlStateNormal];
+        self.agreementButton.titleLabel.font = [UIFont systemFontOfSize:14.0];
+        [self.contentView addSubview:self.agreementButton];
+    }
+    
+    return self;
+}
+
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
+    return CGSizeMake(rect.size.width, 100.0);
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGFloat x = 10.0;
+    CGFloat y = 10.0;
+    CGFloat width = self.bounds.size.width - x * 2;
+    CGFloat height = 70.0;
+    
+    self.messageLabel.frame = CGRectMake(x, y, width, height);
+    
+    y = y + height;
+    height = 20.0;
+    self.agreementButton.frame = CGRectMake(x, y, width, height);
+}
+
+@end

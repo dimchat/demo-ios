@@ -271,10 +271,9 @@
                                             <outlet property="delegate" destination="bP7-p2-KZv" id="6GF-at-3aF"/>
                                         </connections>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWN-83-F4u">
-                                        <rect key="frame" x="315" y="0.0" width="52" height="52"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWN-83-F4u">
+                                        <rect key="frame" x="330" y="15" width="22" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                        <state key="normal" image="sharemore_video"/>
                                         <connections>
                                             <action selector="camera:" destination="bP7-p2-KZv" eventType="touchUpInside" id="Dvi-uU-K3O"/>
                                         </connections>
@@ -770,7 +769,6 @@
         <image name="message_sender_background_highlight" width="66" height="49"/>
         <image name="message_sender_background_normal" width="66" height="49"/>
         <image name="sharemore_pic" width="59" height="59"/>
-        <image name="sharemore_video" width="59.5" height="59"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="0Zt-B5-0XO"/>

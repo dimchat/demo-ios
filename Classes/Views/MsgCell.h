@@ -30,23 +30,23 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SentMsgCell : MsgCell
 
-@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet UIImageView *messageImageView;
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
-@property (weak, nonatomic) IBOutlet UIButton *infoButton;
+@property (strong, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (strong, nonatomic) IBOutlet UIImageView *messageImageView;
+@property (strong, nonatomic) IBOutlet UILabel *messageLabel;
+@property (strong, nonatomic) IBOutlet UIButton *infoButton;
 
 @end
 
 @interface ReceivedMsgCell : MsgCell
 
-@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *messageImageView;
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *avatarImageView;
+@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *messageImageView;
+@property (strong, nonatomic) IBOutlet UILabel *messageLabel;
 
 @end
 
@@ -59,8 +59,32 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect;
 
-@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *messageLabel;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *messageLabel;
+
+@end
+
+@interface TimeCell : UITableViewCell {
+    
+    DIMInstantMessage *_msg;
+}
+
+@property (strong, nonatomic) DIMInstantMessage *msg;
+
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect;
+
+@property (strong, nonatomic) UILabel *timeLabel;
+
+@end
+
+@interface GuideCell : UITableViewCell {
+
+}
+
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect;
+
+@property (strong, nonatomic) UILabel *messageLabel;
+@property (strong, nonatomic) UIButton *agreementButton;
 
 @end
 

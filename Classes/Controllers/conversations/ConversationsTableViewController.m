@@ -64,16 +64,10 @@
                                object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+-(void)viewWillAppear:(BOOL)animated{
     
-//    Client *client = [Client sharedInstance];
-//    DIMLocalUser *user = client.currentUser;
-//    if (!user) {
-//        // show welcome
-//        UIViewController *vc = [UIStoryboard instantiateInitialViewControllerWithStoryboardName:@"Welcome"];
-//        [self presentViewController:vc animated:YES completion:nil];
-//    }
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.prefersLargeTitles = YES;
 }
 
 - (void)onGroupMembersUpdated:(NSNotification *)notification {

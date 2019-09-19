@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */; };
 		5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
+		523FC36423331EEF0022B088 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 523FC36123331EEF0022B088 /* Main.storyboard */; };
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
 		52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BED8F72330C78A00886CCD /* RegisterViewController.m */; };
+		8605AC2285EE87DA05E0322A /* libPods-Sechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
 		E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
-		E92255CD2222EC53006CADEA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255CB2222EC53006CADEA /* Main.storyboard */; };
 		E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255D02222EC56006CADEA /* LaunchScreen.storyboard */; };
 		E92255D52222EC56006CADEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255D42222EC56006CADEA /* main.m */; };
 		E92255DF2222EC56006CADEA /* SechatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255DE2222EC56006CADEA /* SechatTests.m */; };
@@ -141,12 +142,16 @@
 /* Begin PBXFileReference section */
 		5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"; sourceTree = "<group>"; };
 		5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"; sourceTree = "<group>"; };
+		523FC36223331EEF0022B088 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		524F5E7C22CDDE0000A84DF9 /* ethers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ethers.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Sechat-cwfdihfwyufdtfaysjjmmexlsrue/Build/Products/Debug-iphoneos/ethers.framework"; sourceTree = "<group>"; };
 		52876E0022C20217006F0655 /* ImportAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportAccountViewController.h; sourceTree = "<group>"; };
 		52876E0122C20217006F0655 /* ImportAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImportAccountViewController.m; sourceTree = "<group>"; };
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
 		52BED8F72330C78A00886CCD /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		52BED8F82330C78A00886CCD /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		5C502F6BFBE8CBDEAA93139E /* Pods-Sechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sechat.release.xcconfig"; path = "Target Support Files/Pods-Sechat/Pods-Sechat.release.xcconfig"; sourceTree = "<group>"; };
+		8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sechat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B7BA34EAF15D960DA1DA53D2 /* Pods-Sechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sechat.debug.xcconfig"; path = "Target Support Files/Pods-Sechat/Pods-Sechat.debug.xcconfig"; sourceTree = "<group>"; };
 		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
 		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
 		E918E01922C4A4D4007A3803 /* Facebook+Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Profile.h"; sourceTree = "<group>"; };
@@ -154,7 +159,6 @@
 		E92255BF2222EC53006CADEA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E92255C22222EC53006CADEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E92255C32222EC53006CADEA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E92255CC2222EC53006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E92255D12222EC56006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E92255D32222EC56006CADEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E92255D42222EC56006CADEA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -253,17 +257,14 @@
 		E9E824592245539100A029F1 /* Sechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sechat.entitlements; sourceTree = "<group>"; };
 		E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
 		E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
-		E9E824D8224CBDF700A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		E9E824D9224CBDF800A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Account.strings"; sourceTree = "<group>"; };
 		E9E824DA224CBDF800A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Contacts.strings"; sourceTree = "<group>"; };
 		E9E824DB224CBDF800A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Conversations.strings"; sourceTree = "<group>"; };
 		E9E824DE224CBDF900A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		E9E824DF224CBE0800A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		E9E824E0224CBE0800A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account.strings"; sourceTree = "<group>"; };
 		E9E824E1224CBE0800A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Contacts.strings"; sourceTree = "<group>"; };
 		E9E824E2224CBE0800A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Conversations.strings"; sourceTree = "<group>"; };
 		E9E824E4224CBE0900A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		E9E824E5224CBE1200A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Main.strings"; sourceTree = "<group>"; };
 		E9E824E6224CBE1200A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Account.strings"; sourceTree = "<group>"; };
 		E9E824E7224CBE1200A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Contacts.strings"; sourceTree = "<group>"; };
 		E9E824E8224CBE1200A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Conversations.strings"; sourceTree = "<group>"; };
@@ -288,6 +289,7 @@
 				E978171F22254CBB00BCE3AD /* MarsGate.framework in Frameworks */,
 				E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */,
 				E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */,
+				8605AC2285EE87DA05E0322A /* libPods-Sechat.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +310,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C38D9C8146186DDE1F06B4EC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B7BA34EAF15D960DA1DA53D2 /* Pods-Sechat.debug.xcconfig */,
+				5C502F6BFBE8CBDEAA93139E /* Pods-Sechat.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E92255B62222EC53006CADEA = {
 			isa = PBXGroup;
 			children = (
@@ -319,6 +331,7 @@
 				E92255E82222EC56006CADEA /* SechatUITests */,
 				E92255C02222EC53006CADEA /* Products */,
 				E92256782222EE25006CADEA /* Frameworks */,
+				C38D9C8146186DDE1F06B4EC /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -335,10 +348,10 @@
 		E92255C12222EC53006CADEA /* Sechat */ = {
 			isa = PBXGroup;
 			children = (
+				523FC36123331EEF0022B088 /* Main.storyboard */,
 				E9E824592245539100A029F1 /* Sechat.entitlements */,
 				E92255C22222EC53006CADEA /* AppDelegate.h */,
 				E92255C32222EC53006CADEA /* AppDelegate.m */,
-				E92255CB2222EC53006CADEA /* Main.storyboard */,
 				E92256012222ED59006CADEA /* Account.storyboard */,
 				E92255FF2222ED59006CADEA /* Contacts.storyboard */,
 				E92255FB2222ED59006CADEA /* Conversations.storyboard */,
@@ -461,6 +474,7 @@
 				E978172022254CC000BCE3AD /* DIMCore.framework */,
 				E978171E22254CBB00BCE3AD /* MarsGate.framework */,
 				E922567E2222EF3D006CADEA /* WebKit.framework */,
+				8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -567,10 +581,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E92255EE2222EC56006CADEA /* Build configuration list for PBXNativeTarget "Sechat" */;
 			buildPhases = (
+				CB7C1C5B40341E060B681601 /* [CP] Check Pods Manifest.lock */,
 				E92255BB2222EC53006CADEA /* Sources */,
 				E92255BC2222EC53006CADEA /* Frameworks */,
 				E92255BD2222EC53006CADEA /* Resources */,
 				E978171522254AB000BCE3AD /* Embed Frameworks */,
+				28F9B272848FAABEEF449288 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -703,7 +719,7 @@
 				E92256102222ED6B006CADEA /* gsp.plist in Resources */,
 				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,
 				52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */,
-				E92255CD2222EC53006CADEA /* Main.storyboard in Resources */,
+				523FC36423331EEF0022B088 /* Main.storyboard in Resources */,
 				E92256052222ED5A006CADEA /* Contacts.storyboard in Resources */,
 				E92256042222ED5A006CADEA /* Profile.storyboard in Resources */,
 				E92256062222ED5A006CADEA /* Account.storyboard in Resources */,
@@ -728,6 +744,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		28F9B272848FAABEEF449288 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sechat/Pods-Sechat-resources.sh",
+				"${PODS_ROOT}/SGQRCode/SGQRCode/SGQRCode.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SGQRCode.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sechat/Pods-Sechat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CB7C1C5B40341E060B681601 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sechat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E92255BB2222EC53006CADEA /* Sources */ = {
@@ -817,13 +880,10 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E92255CB2222EC53006CADEA /* Main.storyboard */ = {
+		523FC36123331EEF0022B088 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E92255CC2222EC53006CADEA /* Base */,
-				E9E824D8224CBDF700A029F1 /* zh-Hans */,
-				E9E824DF224CBE0800A029F1 /* zh-Hant */,
-				E9E824E5224CBE1200A029F1 /* zh-HK */,
+				523FC36223331EEF0022B088 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1014,6 +1074,7 @@
 		};
 		E92255EF2222EC56006CADEA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B7BA34EAF15D960DA1DA53D2 /* Pods-Sechat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1042,6 +1103,7 @@
 		};
 		E92255F02222EC56006CADEA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C502F6BFBE8CBDEAA93139E /* Pods-Sechat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

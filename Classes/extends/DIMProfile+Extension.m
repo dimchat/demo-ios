@@ -18,40 +18,19 @@
 @implementation DIMProfile (Extension)
 
 - (UIImage *)avatarImageWithSize:(const CGSize)size {
-    UIImage *image = nil;
-    do {
-        // get image with avatar (URL)
-        NSString *avatar = self.avatar;
-        if (avatar) {
-            if ([avatar containsString:@"://"]) {
-                Facebook *facebook = [Facebook sharedInstance];
-                image = [facebook loadAvatarWithURL:avatar forID:self.ID];
-            } else {
-                image = [UIImage imageNamed:avatar];
-            }
-            break;
-        }
-        
-        // create image with first character of name
-        NSString *name = self.name;
-        if (name.length == 0) {
-            name = self.ID.name;
-            if (name.length == 0) {
-                name = @"Đ"; // BTC Address: ฿
-            }
-        }
-        NSString *text = [name substringToIndex:1];
-        UIColor *textColor = [UIColor whiteColor];
-        UIImage *bgImage = [UIImage imageNamed:@"avatar-bg"];
-        if (bgImage) {
-            image = [UIImage imageWithText:text size:size color:textColor backgroundImage:bgImage];
+    
+    UIImage *image = [UIImage imageNamed:@"default_avatar"];
+    
+    NSString *avatar = self.avatar;
+    if (avatar) {
+        if ([avatar containsString:@"://"]) {
+            Facebook *facebook = [Facebook sharedInstance];
+            image = [facebook loadAvatarWithURL:avatar forID:self.ID];
         } else {
-            UIColor *bgColor = [UIColor colorWithHexString:@"1F1F0A"];
-            image = [UIImage imageWithText:text size:size color:textColor backgroundColor:bgColor];
+            image = [UIImage imageNamed:avatar];
         }
-        
-        break;
-    } while (YES);
+    }
+    
     return image;
 }
 
