@@ -20,49 +20,53 @@
 #import "ImagePickerController.h"
 #import "MessageProcessor.h"
 #import "Client.h"
-#import "MsgCell.h"
+#import "GuideCell.h"
+#import "TimeCell.h"
+#import "ReceiveMessageCell.h"
+#import "SentMessageCell.h"
+#import "CommandMessageCell.h"
 #import "ProfileTableViewController.h"
 #import "ChatManageTableViewController.h"
 #import "ChatViewController.h"
+#import "ZoomInViewController.h"
 
-static inline NSString *time_string(NSTimeInterval timestamp) {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
-    NSDate *days_ago = [[[NSDate date] dateBySubtractingDays:7] dateAtStartOfDay];
-    if ([date isToday]) {
-        [dateFormatter setDateFormat:@"a HH:mm"];
-    } else if ([date isYesterday]) {
-        [dateFormatter setDateFormat:@"a HH:mm"];
-        NSString *string = [dateFormatter stringFromDate:date];
-        NSString *format = NSLocalizedString(@"Yesterday %@" ,@"title");
-        return [NSString stringWithFormat:format, string];
-    } else if ([date isLaterThanDate:days_ago]) {
-        [dateFormatter setDateFormat:@"EEEE HH:mm"];
-    } else {
-        [dateFormatter setDateFormat:@"yyyy/MM/dd HH:mm"];
-    }
-    return [dateFormatter stringFromDate:date];
-}
+#define TOP_NAVIGATION_BAR_HEIGHT 64.0
+#define BOTTOM_TAB_BAR_HEIGHT 46.0
 
 @interface ChatViewController ()<UITextViewDelegate> {
     
-    CGRect _tableFrame;
-    CGRect _containerFrame;
     UIView *_textViewBg;
     UITextView *_textView;
     CATextLayer *_textViewPlaceholderLayer;
     UIButton *_addButton;
     UIButton *_submitButton;
-    CGRect _keyboardFrame;
     
     BOOL _scrolledToBottom;
+    BOOL _adjustingTableViewFrame;
 }
 
 @property(nonatomic, strong) UIView *textViewContainer;
+@property(nonatomic, readwrite) CGRect keyboardFrame;
 
 @end
 
 @implementation ChatViewController
+
+- (void)dealloc{
+    
+    self.messagesTableView.delegate = nil;
+    self.messagesTableView.dataSource = nil;
+    
+    @try {
+        [_textView removeObserver:self forKeyPath:@"contentSize"];
+    }
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }
+}
 
 -(void)loadView{
     
@@ -71,26 +75,24 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"•••" style:UIBarButtonItemStylePlain target:self action:@selector(didPressMoreButton:)];
     
     CGFloat x = 0.0;
+    CGFloat y = 0.0;
     CGFloat width = self.view.bounds.size.width;
-    CGFloat height = [self textViewContainerHeight];
-    CGFloat y = self.view.bounds.size.height - height;
+    CGFloat height = self.view.bounds.size.height - [self textViewContainerHeight];
     
-    [self initInputContainer];
-    
-    height = y;
-    y = 0.0;
     self.messagesTableView = [[UITableView alloc] initWithFrame:CGRectMake(x, y, width, height) style:UITableViewStylePlain];
-    self.messagesTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.messagesTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.messagesTableView.delegate = self;
     self.messagesTableView.dataSource = self;
-    self.messagesTableView.backgroundColor = [UIColor grayColor];
+    self.messagesTableView.backgroundColor = [UIColor whiteColor];
     self.messagesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.messagesTableView registerClass:[SentMsgCell class] forCellReuseIdentifier:@"sentMsgCell"];
-    [self.messagesTableView registerClass:[ReceivedMsgCell class] forCellReuseIdentifier:@"receivedMsgCell"];
-    [self.messagesTableView registerClass:[CommandMsgCell class] forCellReuseIdentifier:@"commandMsgCell"];
+    [self.messagesTableView registerClass:[SentMessageCell class] forCellReuseIdentifier:@"sentMsgCell"];
+    [self.messagesTableView registerClass:[ReceiveMessageCell class] forCellReuseIdentifier:@"receivedMsgCell"];
+    [self.messagesTableView registerClass:[CommandMessageCell class] forCellReuseIdentifier:@"commandMsgCell"];
     [self.messagesTableView registerClass:[TimeCell class] forCellReuseIdentifier:@"timeCell"];
     [self.messagesTableView registerClass:[GuideCell class] forCellReuseIdentifier:@"guideCell"];
     [self.view addSubview:self.messagesTableView];
+    
+    [self initInputContainer];
 }
 
 -(CGFloat)textViewContainerHeight{
@@ -168,10 +170,16 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     // Do any additional setup after loading the view.
     
     self.title = _conversation.title;
+    _adjustingTableViewFrame = NO;
     NSLog(@"title: %@", self.title);
     
-    _tableFrame = _messagesTableView.frame;
-    _containerFrame = _textViewContainer.frame;
+    [self addKeyboardObserver];
+    [self addDataObserver];
+    
+    _scrolledToBottom = NO;
+}
+
+-(void)addDataObserver{
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(onMessageSent:)
@@ -181,15 +189,6 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
                              selector:@selector(onSendMessageFailed:)
                                  name:kNotificationName_SendMessageFailed
                                object:nil];;
-    
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(keyboardWillShow:)
-                                 name:UIKeyboardWillShowNotification
-                               object:nil];
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(keyboardWillHide:)
-                                 name:UIKeyboardWillHideNotification
-                               object:nil];
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(onMessageUpdated:)
@@ -204,8 +203,29 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
                              selector:@selector(onGroupMembersUpdated:)
                                  name:kNotificationName_GroupMembersUpdated
                                object:nil];
+}
+
+-(void)removeDataObserver{
     
-    _scrolledToBottom = NO;
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageSent object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_SendMessageFailed object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageCleaned object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_GroupMembersUpdated object:nil];
+}
+
+-(void)addKeyboardObserver{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+-(void)removeKeyboardObserver{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -262,49 +282,154 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     }
 }
 
-- (void)keyboardWillShow:(NSNotification *)notification {
-    CGSize keyboardSize = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+#pragma mark - kvo
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == _textView && [keyPath isEqualToString:@"contentSize"]) {
+        [self adjustTextViewFrameWhenContentSizeChanged];
+    }
+}
+
+- (void)adjustTextViewFrameWhenContentSizeChanged {
     
-    CGRect tableRect = _tableFrame;
-    tableRect.size.height -= keyboardSize.height;
+    CGFloat containerHeight = [self textViewContainerHeight];
+    CGSize size = _textView.contentSize;
+    size.height += 10;
+    if (size.height < containerHeight) {
+        size.height = containerHeight;
+    }
+    else if (size.height > 100) {
+        size.height = 100;
+    }
+    CGRect rect = _textViewContainer.frame;
+    rect.size.height = size.height;
     
-    CGRect trayRect = _textViewContainer.frame;
-    trayRect.origin.y -= keyboardSize.height;
+    if (CGRectGetMinY(_keyboardFrame) < CGRectGetHeight(self.view.bounds)) {
+        rect.origin.y = CGRectGetMinY(_keyboardFrame) - CGRectGetHeight(rect);
+    }
     
-    double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    _textViewContainer.frame = rect;
     
-    [UIView animateWithDuration:duration animations:^{
-        self.messagesTableView.frame = tableRect;
-        self.textViewContainer.frame = trayRect;
-    } completion:^(BOOL finished) {
+    CGFloat height = rect.size.height - _textViewBg.frame.origin.y * 2;
+    _textViewBg.frame = CGRectMake(_textViewBg.frame.origin.x, _textViewBg.frame.origin.y, _textViewBg.frame.size.width, height);
+    _textView.frame = CGRectMake(_textView.frame.origin.x, _textView.frame.origin.y, _textView.frame.size.width, height);
+}
+
+
+#pragma mark - UIKeyboard Notification
+- (void)keyboardWillShow:(NSNotification *)o {
+    [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
+}
+
+- (void)keyboardWillHide:(NSNotification *)o {
+    [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
+}
+
+- (void)keyboardWillChangeFrame:(NSNotification *)o {
+    [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
+}
+
+- (void)adjustTextViewFrameWhenRecieveKeyboardNotification:(NSNotification *)o {
+    
+    CGFloat duration = [[[o userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    UIViewAnimationOptions curve = [[[o userInfo] objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
+    _keyboardFrame = [[[o userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    _keyboardFrame = [self.view convertRect:_keyboardFrame fromView:self.view.window];
+    [self adjustTextViewFrame:duration animationOptions:curve];
+}
+
+- (void)adjustTextViewFrame:(CGFloat)duration animationOptions:(UIViewAnimationOptions)options {
+    
+    NSLog(@"Adjust text view frame");
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopAjustTableView) object:nil];
+    _adjustingTableViewFrame = YES;
+    
+    CGRect tableViewRect = self.messagesTableView.frame;
+    CGRect textViewRect = _textViewContainer.frame;
+    if (CGRectGetMinY(_keyboardFrame) >= CGRectGetHeight(self.view.bounds)) {
+        textViewRect.origin.y = CGRectGetHeight(self.view.bounds) - _textViewContainer.frame.size.height;
+        tableViewRect.size.height = CGRectGetHeight(self.view.bounds) - _textViewContainer.frame.size.height;
+    } else {
+        textViewRect.origin.y = CGRectGetMinY(_keyboardFrame) - CGRectGetHeight(textViewRect);
+        tableViewRect.size.height = CGRectGetMinY(textViewRect);
+    }
+    
+    if(!CGRectEqualToRect(_textViewContainer.frame, textViewRect)){
         
-        if(finished){
-            [self.messagesTableView scrollsToBottom];
-        }
-    }];
+        [UIView animateWithDuration:duration delay:0 options:options animations:^{
+            self.textViewContainer.frame = textViewRect;
+            self.messagesTableView.frame = tableViewRect;
+            
+        } completion:^(BOOL finished) {
+            
+            NSLog(@"%.2f, %.2f", self.messagesTableView.contentOffset.x, self.messagesTableView.contentOffset.y);
+            if (CGRectGetMinY(self.keyboardFrame) < CGRectGetHeight(self.view.bounds)) {
+                [self scrollToBottom:YES];
+            }
+            
+            [self performSelector:@selector(stopAjustTableView) withObject:nil afterDelay:0.5];
+        }];
+    }
 }
 
-- (void)keyboardWillHide:(NSNotification *)notification {
-    double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+-(void)stopAjustTableView{
     
-    [UIView animateWithDuration:duration animations:^{
-        self.messagesTableView.frame = self->_tableFrame;
-        self.textViewContainer.frame = self->_containerFrame;
-    }];
+    _adjustingTableViewFrame = NO;
 }
 
-- (void)_hideKeyboard {
-    [_textView resignFirstResponder];
+-(void)scrollToBottom:(BOOL)animated{
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopAjustTableView) object:nil];
+    
+    _adjustingTableViewFrame = YES;
+    CGFloat offsetY = self.messagesTableView.contentSize.height - self.messagesTableView.bounds.size.height;
+    
+    if(offsetY <= 0){
+        return;
+    }
+    
+    if(offsetY < TOP_NAVIGATION_BAR_HEIGHT * -1){
+        offsetY = TOP_NAVIGATION_BAR_HEIGHT * -1;
+    }
+    
+    [self.messagesTableView setContentOffset:CGPointMake(0.0, offsetY) animated:animated];
+    
+    [self performSelector:@selector(stopAjustTableView) withObject:nil afterDelay:1.0];
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    [self _hideKeyboard];
+#pragma mark - scroll view delegate
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    if(scrollView == self.messagesTableView && _adjustingTableViewFrame == NO && [_textView isFirstResponder]){
+        [_textView resignFirstResponder];
+    }
 }
 
-- (IBAction)send:(id)sender {
+#pragma mark - UITextView delegate
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    
+    if([text isEqualToString:@"\n"]){
+        [self send];
+        return NO;
+    }
+    
+    return YES;
+}
+
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    return YES;
+}
+
+-(BOOL)textViewShouldEndEditing:(UITextView *)textView{
+    return YES;
+}
+
+-(void)send{
+    
     NSString *text = _textView.text;
-    if (text.length == 0) {
-        NSLog(@"empty");
+    if (text == nil || text.length == 0) {
         return;
     }
 
@@ -463,15 +588,15 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
         index = 0;
     }
     // 2. create tag for the rest messages
-    for (; index < count; ++index) {
-        iMsg = [_conversation messageAtIndex:index];
-        msgTime = [[iMsg objectForKey:@"time"] doubleValue];
-        if (msgTime - lastTime > 300) {
-            timeTag = time_string(msgTime);
-            [iMsg setObject:timeTag forKey:@"timeTag"];
-            lastTime = msgTime;
-        }
-    }
+//    for (; index < count; ++index) {
+//        iMsg = [_conversation messageAtIndex:index];
+//        msgTime = [[iMsg objectForKey:@"time"] doubleValue];
+//        if (msgTime - lastTime > 300) {
+//            timeTag = time_string(msgTime);
+//            [iMsg setObject:timeTag forKey:@"timeTag"];
+//            lastTime = msgTime;
+//        }
+//    }
     // the first message is 'guide'
     return count + 1;
 }
@@ -488,14 +613,10 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    //#warning Incomplete implementation, return the number of sections
-    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //#warning Incomplete implementation, return the number of rows
-    
     return [self messageCount];
 }
 
@@ -541,23 +662,41 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     
     NSString *identifier = [self _identifierForReusableCellAtIndexPath:indexPath];
     if ([identifier isEqualToString:@"guideCell"]) {
-        return [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+        GuideCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+        cell.delegate = self;
+        return cell;
+    }
+    
+    if([identifier isEqualToString:@"timeCell"]){
+        TimeCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+        return cell;
     }
     
     NSInteger row = indexPath.row;
-    
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
     
-    MsgCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    cell.msg = iMsg;
-    
-    if ([identifier isEqualToString:@"sentMsgCell"]) {
-        SentMsgCell * sentMsgCell = (SentMsgCell *)cell;
-        MessageButton *btn = (MessageButton *)sentMsgCell.infoButton;
-        btn.controller = self;
+    if([identifier isEqualToString:@"commandMsgCell"]){
+        CommandMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+        cell.msg = iMsg;
+        cell.delegate = self;
+        return cell;
     }
     
-    return cell;
+    if ([identifier isEqualToString:@"sentMsgCell"]) {
+        SentMessageCell *cell  = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+        cell.msg = iMsg;
+        cell.delegate = self;
+        return cell;
+    }
+    
+    if ([identifier isEqualToString:@"receivedMsgCell"]) {
+        ReceiveMessageCell *cell  = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+        cell.msg = iMsg;
+        cell.delegate = self;
+        return cell;
+    }
+    
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -570,16 +709,19 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     
     CGFloat height = 0.0;
     if ([identifier isEqualToString:@"commandMsgCell"]) {
-        CGSize size = [CommandMsgCell sizeWithMessage:iMsg bounds:bounds];
+        CGSize size = [CommandMessageCell sizeWithMessage:iMsg bounds:bounds];
         height = size.height;
     } else if ([identifier isEqualToString:@"receivedMsgCell"]) {
-        CGSize size = [ReceivedMsgCell sizeWithMessage:iMsg bounds:bounds];
+        CGSize size = [ReceiveMessageCell sizeWithMessage:iMsg bounds:bounds];
         height = size.height;
     } else if ([identifier isEqualToString:@"guideCell"]) {
         CGSize size = [GuideCell sizeWithMessage:iMsg bounds:bounds];
         height = size.height;
+    } else if ([identifier isEqualToString:@"timeCell"]) {
+        CGSize size = [TimeCell sizeWithMessage:iMsg bounds:bounds];
+        height = size.height;
     } else {
-        CGSize size = [SentMsgCell sizeWithMessage:iMsg bounds:bounds];
+        CGSize size = [SentMessageCell sizeWithMessage:iMsg bounds:bounds];
         height = size.height;
     }
     
@@ -617,41 +759,14 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
     
 }
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)didPressAgreementButton:(id)sender{
     
-    if ([segue.identifier isEqualToString:@"chatDetailSegue"]) {
-        
-        ChatManageTableViewController *vc = [segue visibleDestinationViewController];
-        vc.conversation = _conversation;
-        
-    } else if ([segue.identifier isEqualToString:@"termsSegue"]) {
-        
-        Client *client = [Client sharedInstance];
-        
-        // show terms
-        NSString *urlString = client.termsAPI;
-        WebViewController *web = [segue visibleDestinationViewController];
-        web.url = [NSURL URLWithString:urlString];
-        web.title = NSLocalizedString(@"Terms", nil);
-        
-    } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
-        
-        MsgCell *cell = sender;
-        DIMID *ID = DIMIDWithString(cell.msg.envelope.sender);
-        
-        ProfileTableViewController *vc = [segue visibleDestinationViewController];
-        vc.contact = ID;
-        
-    }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    
-    [self send:textField];
-    return YES;
+    Client *client = [Client sharedInstance];
+    NSString *urlString = client.termsAPI;
+    WebViewController *web = [[WebViewController alloc] init];
+    web.url = [NSURL URLWithString:urlString];
+    web.title = NSLocalizedString(@"Terms", nil);
+    [self.navigationController pushViewController:web animated:YES];
 }
 
 -(void)scrollAfterInsertNewMessage{
@@ -667,6 +782,23 @@ static inline NSString *time_string(NSTimeInterval timestamp) {
             [self.messagesTableView scrollsToBottom:YES];
         });
     }
+}
+
+#pragma mark MessageCellDelegate
+
+-(void)messageCell:(MessageCell *)cell showImage:(UIImage *)image{
+    
+    ZoomInViewController *controller = [[ZoomInViewController alloc] init];
+    controller.image = image;
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
+}
+
+-(void)messageCell:(MessageCell *)cell openUrl:(NSURL *)url{
+    
+    WebViewController *web = [[WebViewController alloc] init];
+    web.hidesBottomBarWhenPushed = YES;
+    web.url = url;
+    [self.navigationController pushViewController:web animated:YES];
 }
 
 @end

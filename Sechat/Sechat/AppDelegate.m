@@ -115,12 +115,15 @@
     
     UITabBarItem *tabBarItem = tabBarController.tabBar.items[0];
     tabBarItem.title = NSLocalizedString(@"Chats", @"title");
+    tabBarItem.image = [UIImage imageNamed:@"tabbar_chat"];
     
     tabBarItem = tabBarController.tabBar.items[1];
     tabBarItem.title = NSLocalizedString(@"Contacts", @"title");
+    tabBarItem.image = [UIImage imageNamed:@"tabbar_contact"];
     
     tabBarItem = tabBarController.tabBar.items[2];
     tabBarItem.title = NSLocalizedString(@"Settings", @"title");
+    tabBarItem.image = [UIImage imageNamed:@"tabbar_setting"];
     
     return tabBarController;
 }

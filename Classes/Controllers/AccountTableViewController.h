@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Table view controller for Account (More information tab)
  */
-@interface AccountTableViewController : UITableViewController
+@interface AccountTableViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;

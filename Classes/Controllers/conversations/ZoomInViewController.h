@@ -8,16 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import <DIMClient/DIMClient.h>
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZoomInViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-
-@property (strong, nonatomic) DIMInstantMessage *msg;
+@property (strong, nonatomic) UIImage *image;
 
 @end
 

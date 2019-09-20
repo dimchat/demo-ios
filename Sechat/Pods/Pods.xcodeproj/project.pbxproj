@@ -40,11 +40,11 @@
 		62B1BA4E70050F46C5CEFF9E3180E1CA /* SGQRCodeObtain.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SGQRCodeObtain.h; path = SGQRCode/SGQRCodeObtain.h; sourceTree = "<group>"; };
 		817EDE30F270102DFEBE07433F259902 /* SGQRCodeScanView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SGQRCodeScanView.h; path = SGQRCode/SGQRCodeScanView.h; sourceTree = "<group>"; };
 		8820ED14C28626223B9ADA9E5F09CACF /* SGQRCode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SGQRCode.h; path = SGQRCode/SGQRCode.h; sourceTree = "<group>"; };
-		9BA8F45E6A57E11D3BA78EA84995A864 /* libSGQRCode.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libSGQRCode.a; path = libSGQRCode.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9BA8F45E6A57E11D3BA78EA84995A864 /* libSGQRCode.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSGQRCode.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		BA639E7CD20666F9B8F69ED5A2914B08 /* Pods-Sechat-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Sechat-resources.sh"; sourceTree = "<group>"; };
 		C0C1B1AC89007B335105F4105877B9D8 /* SGQRCode-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SGQRCode-dummy.m"; sourceTree = "<group>"; };
-		CA4CB1A3965CF74036573A2946072823 /* libPods-Sechat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-Sechat.a"; path = "libPods-Sechat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA4CB1A3965CF74036573A2946072823 /* libPods-Sechat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sechat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D485716827DBEA364BA26CED38BC53EB /* Pods-Sechat-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Sechat-acknowledgements.markdown"; sourceTree = "<group>"; };
 		F882E4549DFEF270EA317E071267B603 /* Pods-Sechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Sechat.release.xcconfig"; sourceTree = "<group>"; };
 		FAA3D476330A920A8864E50DA1DC6118 /* SGQRCodeObtainConfigure.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SGQRCodeObtainConfigure.m; path = SGQRCode/SGQRCodeObtainConfigure.m; sourceTree = "<group>"; };
@@ -101,7 +101,6 @@
 				FDCA6BE54C30F4D045F385730D893033 /* Resources */,
 				100C458D2D8D700D45043EC0AC56167B /* Support Files */,
 			);
-			name = SGQRCode;
 			path = SGQRCode;
 			sourceTree = "<group>";
 		};
@@ -236,6 +235,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
 			productRefGroup = D2918E91BAE99A17D0264CDA48827449 /* Products */;

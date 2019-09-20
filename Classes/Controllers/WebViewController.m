@@ -41,6 +41,13 @@
     [self.webView loadRequest:request];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.prefersLargeTitles = NO;
+}
+
 #pragma mark - WKNavigationDelegate
 
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation {

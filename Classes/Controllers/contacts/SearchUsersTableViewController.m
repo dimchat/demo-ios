@@ -8,16 +8,13 @@
 
 #import "NSNotificationCenter+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
-
+#import "UIViewController+Extension.h"
 #import "User.h"
 #import "Facebook.h"
-
 #import "Client.h"
-
 #import "ContactCell.h"
-#import "ProfileTableViewController.h"
-
 #import "SearchUsersTableViewController.h"
+#import "ChatViewController.h"
 
 @interface SearchUsersTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
@@ -232,12 +229,49 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ContactCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    ProfileTableViewController *controller = [[ProfileTableViewController alloc] init];
-    controller.contact = selectedCell.contact;
-    [self.navigationController pushViewController:controller animated:YES];
+    Client *client = [Client sharedInstance];
+    DIMLocalUser *user = client.currentUser;
+    DIMUser *selectedUser = DIMUserWithID(selectedCell.contact);
+    NSString *name = !selectedUser ? selectedCell.contact.name : selectedUser.name;
+    
+    if(![[DIMFacebook sharedInstance] user:user hasContact:selectedCell.contact]){
+    
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Do you want to add %@ to your contact list?", @"title"), name];
+        [self showMessage:message withTitle:NSLocalizedString(@"Add To Contact List", @"title") cancelHandler:nil defaultHandler:^(UIAlertAction * _Nonnull action) {
+            
+            DIMMeta *meta = DIMMetaForID(user.ID);
+            DIMProfile *profile = user.profile;
+            DIMCommand *cmd;
+            if (profile) {
+                cmd = [[DIMProfileCommand alloc] initWithID:user.ID
+                                                       meta:meta
+                                                    profile:profile];
+            } else {
+                cmd = [[DIMMetaCommand alloc] initWithID:user.ID
+                                                    meta:meta];
+            }
+            [client sendContent:cmd to:selectedCell.contact];
+            
+            // add to contacts
+            [[DIMFacebook sharedInstance] user:user addContact:selectedCell.contact];
+            NSLog(@"contact %@ added to user %@", selectedCell.contact, user);
+            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
+            
+            DIMConversation *convers = DIMConversationWithID(selectedCell.contact);
+            ChatViewController *vc = [[ChatViewController alloc] init];
+            vc.conversation = convers;
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+    } else {
+        
+        DIMConversation *convers = DIMConversationWithID(selectedCell.contact);
+        ChatViewController *vc = [[ChatViewController alloc] init];
+        vc.conversation = convers;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+
 }
 
 @end

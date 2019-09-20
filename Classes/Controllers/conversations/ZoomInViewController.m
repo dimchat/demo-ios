@@ -7,19 +7,31 @@
 //
 
 #import "UIView+Extension.h"
-
-#import "DIMInstantMessage+Extension.h"
-
 #import "ZoomInViewController.h"
 
 @interface ZoomInViewController ()
 
 @property (nonatomic) CGSize realSize; // image real size
 @property (nonatomic) CGSize fitSize;  // zoomed image size aspect fit to the window
+@property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) UIImageView *imageView;
 
 @end
 
 @implementation ZoomInViewController
+
+-(void)loadView{
+    
+    [super loadView];
+    
+    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.view addSubview:self.scrollView];
+    
+    self.imageView = [[UIImageView alloc] initWithFrame:self.scrollView.bounds];
+    self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.scrollView addSubview:self.imageView];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,7 +39,7 @@
     
     CGSize vSize = self.view.frame.size;
     
-    UIImage *image = _msg.image;
+    UIImage *image = self.image;
     _realSize = image.size;
     
     if (_realSize.width > 0 && _realSize.height > 0) {
