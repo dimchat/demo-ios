@@ -24,6 +24,8 @@
     
     [super loadView];
     
+    self.view.backgroundColor = [UIColor colorNamed:@"ViewBackgroundColor"];
+    
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.scrollView];
@@ -64,9 +66,12 @@
     [_scrollView addDoubleClickTarget:self action:@selector(onDoubleClick:)];
 }
 
+- (UIModalPresentationStyle)modalPresentationStyle {
+    return UIModalPresentationFullScreen;
+}
+
 - (void)onClick:(UITapGestureRecognizer *)sender {
-    
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)onDoubleClick:(UITapGestureRecognizer *)sender {

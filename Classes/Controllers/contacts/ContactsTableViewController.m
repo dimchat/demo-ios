@@ -202,11 +202,16 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    DIMConversation *convers = DIMConversationWithID(selectedCell.contact);
-    ChatViewController *vc = [[ChatViewController alloc] init];
-    vc.conversation = convers;
-    vc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+//    DIMConversation *convers = DIMConversationWithID(selectedCell.contact);
+//    ChatViewController *vc = [[ChatViewController alloc] init];
+//    vc.conversation = convers;
+//    vc.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+    ProfileTableViewController *controller = [[ProfileTableViewController alloc] init];
+    controller.contact = selectedCell.contact;
+    controller.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 -(void)didPressSearchButton:(id)sender{
