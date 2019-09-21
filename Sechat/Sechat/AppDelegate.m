@@ -49,7 +49,6 @@
     self.tabbarController = [self createTabBarController];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = self.tabbarController;
     [self.window makeKeyAndVisible];
     
@@ -59,6 +58,7 @@
         
         WelcomeViewController *vc = [[WelcomeViewController alloc] init];
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+        nc.modalPresentationStyle = UIModalPresentationFullScreen;
         [self.tabbarController presentViewController:nc animated:NO completion:nil];
     }
 
@@ -71,6 +71,7 @@
     
     [[UIButton appearance] setTitleColor:tintColor forState:UIControlStateNormal];
     [[UIActivityIndicatorView appearance] setColor:tintColor];
+    //[[UIView appearance] setBackgroundColor:[UIColor colorNamed:@"ViewBackgroundColor"]];
     
     //[[UITabBar appearance] setTintColor:tintColor];
     //[[UIToolbar appearance] setTintColor:tintColor];

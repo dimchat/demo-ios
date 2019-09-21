@@ -36,6 +36,7 @@
 @property (strong, nonatomic) NSData *imageData;
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) NSString *nickname;
 
 @end
 
@@ -45,9 +46,9 @@
     
     [super loadView];
     
-    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = NSLocalizedString(@"", @"title");
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", @"title") style:UIBarButtonItemStylePlain target:self action:@selector(didPressStartButton:)];
+    self.view.backgroundColor = [UIColor colorNamed:@"ViewBackgroundColor"];
     
     CGFloat width = 50.0;
     CGFloat height = 50.0;
@@ -142,8 +143,6 @@
 
 -(NSError *)saveAndSubmit {
     
-    NSString *nickname = self.nicknameTextField.text;
-    
     Client *client = [Client sharedInstance];
     DIMLocalUser *user = client.currentUser;
     DIMID *ID = user.ID;
@@ -168,7 +167,7 @@
         profile.avatar = [url absoluteString];
     }
     
-    [profile setName:nickname];
+    [profile setName:self.nickname];
     [profile sign:SK];
     
     [[DIMFacebook sharedInstance] saveProfile:profile];
@@ -183,7 +182,6 @@
     NSLog(@"refreshing...");
     
     NSString *username = @"dim";
-    NSString *nickname = self.nicknameTextField.text;
     
     // 1. generate private key
     self.SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
@@ -207,7 +205,7 @@
     }
     
     Client *client = [Client sharedInstance];
-    if(![client saveUser:self.ID meta:self.meta privateKey:self.SK name:nickname]){
+    if(![client saveUser:self.ID meta:self.meta privateKey:self.SK name:self.nickname]){
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not save user to client"}];
     }
     
@@ -226,6 +224,7 @@
         return;
     }
     
+    self.nickname = nickname;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     self.navigationController.navigationBar.userInteractionEnabled = NO;
     [self.activityIndicator startAnimating];

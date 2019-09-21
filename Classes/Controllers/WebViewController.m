@@ -19,33 +19,30 @@
 
 @implementation WebViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+-(void)loadView{
+    
+    [super loadView];
     
     self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self.view addSubview:self.activityIndicatorView];
     
     self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
+    self.webView.navigationDelegate = self;
     [self.view addSubview:self.webView];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
     
     _originalTitle = self.title;
     
     Client *client = [Client sharedInstance];
     self.webView.customUserAgent = client.userAgent;
     
-    self.webView.navigationDelegate = self;
-    
     NSAssert(_url, @"entrance URL not set yet");
     NSURLRequest *request = [NSURLRequest requestWithURL:_url];
     [self.webView loadRequest:request];
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
-    
-    self.navigationController.navigationBar.prefersLargeTitles = NO;
 }
 
 #pragma mark - WKNavigationDelegate

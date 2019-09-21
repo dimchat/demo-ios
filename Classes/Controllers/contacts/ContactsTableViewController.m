@@ -62,6 +62,12 @@
     self.navigationController.navigationBar.prefersLargeTitles = YES;
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.prefersLargeTitles = NO;
+}
+
 - (void)reloadData {
     _contactsTable = [[NSMutableDictionary alloc] init];
     

@@ -70,6 +70,12 @@
     self.navigationController.navigationBar.prefersLargeTitles = YES;
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.prefersLargeTitles = NO;
+}
+
 - (void)onGroupMembersUpdated:(NSNotification *)notification {
     NSString *name = notification.name;
 //    NSDictionary *info = notification.userInfo;

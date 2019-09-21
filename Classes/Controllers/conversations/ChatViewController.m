@@ -73,6 +73,7 @@
     [super loadView];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"•••" style:UIBarButtonItemStylePlain target:self action:@selector(didPressMoreButton:)];
+    self.view.backgroundColor = [UIColor colorNamed:@"ViewBackgroundColor"];
     
     CGFloat x = 0.0;
     CGFloat y = 0.0;
@@ -83,7 +84,6 @@
     self.messagesTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     self.messagesTableView.delegate = self;
     self.messagesTableView.dataSource = self;
-    self.messagesTableView.backgroundColor = [UIColor whiteColor];
     self.messagesTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.messagesTableView registerClass:[SentMessageCell class] forCellReuseIdentifier:@"sentMsgCell"];
     [self.messagesTableView registerClass:[ReceiveMessageCell class] forCellReuseIdentifier:@"receivedMsgCell"];
@@ -124,7 +124,6 @@
     height = 36.0;
     y = (_textViewContainer.bounds.size.height - height) / 2;
     _textViewBg = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
-    _textViewBg.backgroundColor = [UIColor whiteColor];
     _textViewBg.layer.cornerRadius = height / 2;
     _textViewBg.layer.masksToBounds = YES;
     _textViewBg.layer.borderColor = [UIColor colorWithHexString:@"cdcdcd"].CGColor;
