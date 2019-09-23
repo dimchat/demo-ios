@@ -7,18 +7,15 @@
 //
 
 #import "NSNotificationCenter+Extension.h"
-
 #import "UIStoryboardSegue+Extension.h"
 #import "UIView+Extension.h"
 #import "UIViewController+Extension.h"
 #import "DIMProfile+Extension.h"
-
 #import "WebViewController.h"
-
 #import "User.h"
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
-
+#import "AccountEditViewController.h"
 #import "Client.h"
 #import "ContactCell.h"
 #import "AccountTableViewController.h"
@@ -48,7 +45,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.prefersLargeTitles = YES;
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
 }
 
 - (void)viewDidLoad {
@@ -132,8 +129,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     if (section == 1) {
-        //Client *client = [Client sharedInstance];
-        // return client.users.count;
         return 2;
     }
     
@@ -141,42 +136,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    UITableViewCell *cell;
-//    NSString *identifier = nil;
-//
-//    // Configure the cell...
-//    NSInteger section = indexPath.section;
-//    NSInteger row = indexPath.row;
-//
-//    Client *client = [Client sharedInstance];
-//    DIMLocalUser *user = nil;
-//
-//    if (section == 1) {
-//        // Accounts
-//        user = [client.users objectAtIndex:row];
-//
-//        identifier = @"AccountCell";
-//        cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-//        if (!cell) {
-//            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AccountCell"];
-//        }
-//        if ([user isEqual:client.currentUser]) {
-//            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-//        } else {
-//            cell.accessoryType = UITableViewCellAccessoryNone;
-//        }
-//
-//        cell.textLabel.text = user_title(user.ID);
-//    } else {
-//
-//        ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
-//        cell.contact = client.currentUser.ID;
-//    }
     
     if(indexPath.section == 0){
         Client *client = [Client sharedInstance];
         ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
         cell.contact = client.currentUser.ID;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
     
@@ -297,7 +262,13 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if(indexPath.section == 1){
+    if(indexPath.section == 0){
+        
+        AccountEditViewController *controller = [[AccountEditViewController alloc] init];
+        controller.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:controller animated:YES];
+        
+    } else if(indexPath.section == 1){
         
         Client *client = [Client sharedInstance];
         WebViewController *web = [[WebViewController alloc] init];

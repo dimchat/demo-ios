@@ -107,8 +107,11 @@
     self.accountController = [[AccountTableViewController alloc] init];
     
     UINavigationController *conversationNavigationController = [[UINavigationController alloc] initWithRootViewController:self.conversationController];
+    conversationNavigationController.navigationBar.prefersLargeTitles = YES;
     UINavigationController *contactNavigationController = [[UINavigationController alloc] initWithRootViewController:self.contactController];
+    contactNavigationController.navigationBar.prefersLargeTitles = YES;
     UINavigationController *accountNavigationController = [[UINavigationController alloc] initWithRootViewController:self.accountController];
+    accountNavigationController.navigationBar.prefersLargeTitles = YES;
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.delegate = self;

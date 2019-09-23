@@ -74,15 +74,13 @@
         self.avatarImageView = [[UIImageView alloc] init];
         [self.contentView addSubview:self.avatarImageView];
         
-        UIImage *chatBackgroundImage = [UIImage imageNamed:@"message_receiver_background_normal"];
-        CGSize size = chatBackgroundImage.size;
-        CGFloat x = size.width * 0.618;
-        CGFloat y = size.height * 0.618;
-        UIEdgeInsets insets = UIEdgeInsetsMake(y, x, y + 1, x + 1);
+        UIImage *chatBackgroundImage = [UIImage imageNamed:@"receiver_bubble"];
+        UIEdgeInsets insets = UIEdgeInsetsMake(17.0, 26.0, 17.0, 22.0);
         self.messageImageView = [[UIImageView alloc] initWithImage:[chatBackgroundImage resizableImageWithCapInsets:insets]];
         [self.contentView addSubview:self.messageImageView];
         
         self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.messageLabel.numberOfLines = -1;
         [self.contentView addSubview:self.messageLabel];
         
         self.picImageView = [[UIImageView alloc] init];
@@ -299,7 +297,7 @@
         height = imageSize.height;
         self.messageImageView.frame = CGRectMake(x, y, width, height);
         
-        x = x + edges.left;
+        x = x + edges.left + 5.0;
         y = y + edges.top;
         width = contentSize.width;
         height = contentSize.height;

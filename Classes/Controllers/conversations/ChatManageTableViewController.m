@@ -10,21 +10,19 @@
 #import "UIViewController+Extension.h"
 #import "UIStoryboard+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
-
 #import "WebViewController.h"
-
 #import "MessageProcessor.h"
 #import "Client.h"
 #import "User.h"
-
 #import "ProfileTableViewController.h"
 #import "ParticipantCollectionCell.h"
 #import "ParticipantsCollectionViewController.h"
 
 #import "ChatManageTableViewController.h"
 
-@interface ChatManageTableViewController ()
+@interface ChatManageTableViewController ()<UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, strong) UITableView *tableView;
 @property (strong, nonatomic) ParticipantsCollectionViewController *participantsCollectionViewController;
 
 @end
@@ -38,21 +36,29 @@
 
 @implementation ChatManageTableViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+-(void)loadView{
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [super loadView];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    NSLog(@"manage conversation: %@", _conversation.ID);
     ParticipantsCollectionViewController *vc;
     vc = [UIStoryboard instantiateViewControllerWithIdentifier:@"participantsCollectionViewController" storyboardName:@"Conversations"];
     vc.conversation = _conversation;
     vc.manageViewController = self;
     _participantsCollectionViewController = vc;
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"NormalCell"];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Profile"];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    NSLog(@"manage conversation: %@", _conversation.ID);
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(onGroupMembersUpdated:)
@@ -80,14 +86,12 @@
     }
 }
 
-//- (void)systemLayoutFittingSizeDidChangeForChildContentContainer:(id<UIContentContainer>)container {
-//    [_participantsCollectionViewController.collectionView reloadData];
-//    [super systemLayoutFittingSizeDidChangeForChildContentContainer:container];
-//}
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     if (section == SECTION_ACTIONS) {
@@ -140,13 +144,32 @@
             };
             [self showMessage:text withTitle:title cancelHandler:nil defaultHandler:handler];
         }
+    } else if(section == SECTION_FUNCTIONS){
+        
+        Client *client = [Client sharedInstance];
+        DIMLocalUser *user = client.currentUser;
+        
+        NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
+        NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
+        NSString *type = @"individual";
+        if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+            type = @"group";
+        }
+        NSString *api = client.reportAPI;
+        api = [api stringByReplacingOccurrencesOfString:@"{sender}" withString:sender];
+        api = [api stringByReplacingOccurrencesOfString:@"{ID}" withString:identifier];
+        api = [api stringByReplacingOccurrencesOfString:@"{type}" withString:type];
+        NSLog(@"report to URL: %@", api);
+        
+        WebViewController *web = [[WebViewController alloc] init];
+        web.url = [NSURL URLWithString:api];
+        [self.navigationController pushViewController:web animated:YES];
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSInteger section = indexPath.section;
-    //NSInteger row = indexPath.row;
     
     if (section == SECTION_MEMBERS) {
         // member list
@@ -156,13 +179,13 @@
         return size.height;
     }
     
-    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    return 44.0;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [super numberOfSectionsInTableView:tableView];
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -181,28 +204,37 @@
             return 1;
         }
     }
-    return [super tableView:tableView numberOfRowsInSection:section];
+    
+    if(section == SECTION_PROFILES){
+        return 4;
+    }
+    
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;//[tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     
+    UITableViewCell *cell = nil;
     // Configure the cell...
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
     if (section == SECTION_MEMBERS) {
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:@"NormalCell" forIndexPath:indexPath];
         // member list
-        cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
         UIView *view = _participantsCollectionViewController.view;
         UICollectionView *cView = _participantsCollectionViewController.collectionView;
         if (view.superview == nil) {
             cView.frame = cell.bounds;
             [cell addSubview:view];
         }
+        
     } else if (section == SECTION_PROFILES) {
+        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"ProfileCell"];
+        
         // profile
-        cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
         NSString *key = nil;
         NSString *value = nil;
         switch (row) {
@@ -243,50 +275,27 @@
         }
         cell.textLabel.text = key;
         cell.detailTextLabel.text = value;
-    } else if (section == SECTION_FUNCTIONS) {
-        // functions
-        cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    } else /*if (section == SECTION_ACTIONS)*/ {
-        // other actions
-        cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+        
+    } else if(section == SECTION_FUNCTIONS){
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:@"NormalCell" forIndexPath:indexPath];
+        cell.textLabel.textAlignment = NSTextAlignmentLeft;
+        cell.textLabel.text = NSLocalizedString(@"Report", @"title");
+        
+    } else if(section == SECTION_ACTIONS){
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:@"NormalCell" forIndexPath:indexPath];
+        cell.textLabel.textColor = [UIColor redColor];
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        if(row == 0){
+            cell.textLabel.text = NSLocalizedString(@"Clear Chat History", @"title");
+        }else{
+            cell.textLabel.text = NSLocalizedString(@"Delete And Leave", @"title");
+        }
     }
     
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Navigation
 

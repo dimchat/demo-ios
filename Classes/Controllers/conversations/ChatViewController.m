@@ -161,7 +161,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.prefersLargeTitles = NO;
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
 }
 
 - (void)viewDidLoad {
@@ -755,7 +755,9 @@
 
 -(void)didPressMoreButton:(id)sender{
     
-    
+    ChatManageTableViewController *controller = [[ChatManageTableViewController alloc] init];
+    controller.conversation = self.conversation;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 -(void)didPressAgreementButton:(id)sender{

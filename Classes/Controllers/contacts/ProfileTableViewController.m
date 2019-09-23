@@ -106,6 +106,12 @@
     [self.tableView reloadData];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+}
+
 -(void)loadData{
     
     DIMLocalUser *user = [Client sharedInstance].currentUser;

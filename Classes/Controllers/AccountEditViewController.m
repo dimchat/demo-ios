@@ -27,11 +27,76 @@
 #import "dimMacros.h"
 #import "AccountEditViewController.h"
 
-@interface AccountEditViewController ()
+@interface AccountEditViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+
+@property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong) UIView *headerView;
+@property (strong, nonatomic) UIImageView *avatarImageView;
+@property (strong, nonatomic) UIButton *changeButton;
+@property (strong, nonatomic) UILabel *avatarLabel;
+@property (strong, nonatomic) UITextField *nicknameTextField;
 
 @end
 
 @implementation AccountEditViewController
+
+-(void)loadView{
+    
+    [super loadView];
+    
+    self.view.backgroundColor = [UIColor colorNamed:@"ViewBackgroundColor"];
+    
+    CGFloat x = 0.0;
+    CGFloat y = 0.0;
+    CGFloat width = self.view.bounds.size.width;
+    CGFloat height = 235.0;
+    
+    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    
+    width = 120.0;
+    height = 120.0;
+    x = (self.view.bounds.size.width - width) / 2;
+    y = 15.0;
+    self.avatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"default_avatar"]];
+    self.avatarImageView.frame = CGRectMake(x, y, width, height);
+    self.avatarImageView.layer.cornerRadius = width / 2;
+    self.avatarImageView.layer.masksToBounds = YES;
+    [self.headerView addSubview:self.avatarImageView];
+    
+    height = 14.0;
+    x = 0.0;
+    y = self.avatarImageView.bounds.size.height - height;
+    
+    self.avatarLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    self.avatarLabel.backgroundColor = [UIColor blackColor];
+    self.avatarLabel.text = NSLocalizedString(@"Edit", @"title");
+    self.avatarLabel.font = [UIFont systemFontOfSize:10.0];
+    self.avatarLabel.textColor = [UIColor whiteColor];
+    self.avatarLabel.textAlignment = NSTextAlignmentCenter;
+    [self.avatarImageView addSubview:self.avatarLabel];
+    
+    self.changeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.changeButton.frame = self.avatarImageView.frame;
+    [self.changeButton addTarget:self action:@selector(changeAvatar:) forControlEvents:UIControlEventTouchUpInside];
+    [self.headerView addSubview:self.changeButton];
+    
+    width = self.view.bounds.size.width;
+    height = 38.0;
+    x = 0.0;
+    y = self.avatarImageView.frame.origin.y + self.avatarImageView.frame.size.height + 13.0;
+    self.nicknameTextField = [[UITextField alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    self.nicknameTextField.textAlignment = NSTextAlignmentCenter;
+    self.nicknameTextField.font = [UIFont systemFontOfSize:34.0];
+    self.nicknameTextField.returnKeyType = UIReturnKeyDone;
+    self.nicknameTextField.delegate = self;
+    [self.headerView addSubview:self.nicknameTextField];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.tableHeaderView = self.headerView;
+    [self.view addSubview:self.tableView];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,22 +104,14 @@
     
     Client *client = [Client sharedInstance];
     DIMLocalUser *user = client.currentUser;
-    DIMID *ID = user.ID;
     
     CGSize avatarSize = _avatarImageView.bounds.size;
     
     UIImage *image = [user.profile avatarImageWithSize:avatarSize];
     NSString *nickname = user.name;
     
-    [_avatarImageView roundedCorner];
     _avatarImageView.image = image;
-    
-    [_changeButton addTarget:self action:@selector(changeAvatar:) forControlEvents:UIControlEventTouchUpInside];
-    
     _nicknameTextField.text = nickname;
-    _usernameLabel.text = ID.name;
-    _addressLabel.text = (NSString *)ID.address;
-    _numberLabel.text = search_number(ID.number);
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(onAvatarUpdated:)
@@ -62,6 +119,12 @@
                                object:nil];
     
     self.navigationItem.title = nickname;
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
 }
 
 - (void)onAvatarUpdated:(NSNotification *)notification {
@@ -170,6 +233,74 @@
     return YES;
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    if(section == 0){
+        return 3;
+    }
+    
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    Client *client = [Client sharedInstance];
+    DIMLocalUser *user = client.currentUser;
+    DIMID *ID = user.ID;
+    
+    UITableViewCell *cell = nil;
+    
+    if(indexPath.section == 0){
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell"];
+        if(cell == nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"ProfileCell"];
+        }
+        
+        if(indexPath.row == 0){
+            
+            cell.textLabel.text = NSLocalizedString(@"Username", @"title");
+            cell.detailTextLabel.text = ID.name;
+            
+        } else if(indexPath.row == 1){
+            
+            cell.textLabel.text = NSLocalizedString(@"Number", @"title");
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", ID.number];
+            
+        } else if(indexPath.row == 2){
+            
+            cell.textLabel.text = NSLocalizedString(@"Address", @"title");
+            cell.detailTextLabel.text = ID.address;
+        }
+        
+    } else if(indexPath.section == 1){
+        
+        cell = [tableView dequeueReusableCellWithIdentifier:@"ActionCell"];
+        if(cell == nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ActionCell"];
+        }
+        
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        
+        if(indexPath.row == 0){
+            cell.textLabel.text = NSLocalizedString(@"Save", @"title");
+        } else if(indexPath.row == 1){
+            cell.textLabel.text = NSLocalizedString(@"Export", @"title");
+        }
+    }
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44.0;
+}
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -178,11 +309,7 @@
     NSInteger row = indexPath.row;
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
-    if (section == 0) {
-        // avatar & nickname
-    } else if (section == 1) {
-        // profiles
-    } else if (section == 2){
+    if (section == 1){
         // function
         if (row == 0) {
             // Save
@@ -191,29 +318,35 @@
                 [self showMessage:NSLocalizedString(@"Success", nil)
                         withTitle:nil];
             }
+        } else if(row == 1){
+            //Export Account
+            Client *client = [Client sharedInstance];
+            DIMLocalUser *user = client.currentUser;
+            NSUInteger version = user.meta.version;
+            
+            DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
+            [key setObject:user.ID.name forKey:@"username"];
+            [key setObject:user.profile.name forKey:@"nickname"];
+            [key setObject:[NSNumber numberWithUnsignedInteger:version] forKey:@"version"];
+            NSLog(@"The private key is : %@", key);
+            
+            Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
+            NSData *jsonData = [nativeJsonParser dataWithJSONObject:key options:0 error:NULL];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            
+            //Copy to clipboard
+            [[UIPasteboard generalPasteboard] setString:jsonString];
+            
+            [self showMessage:NSLocalizedString(@"Your account infomation has been saved to clipboard, please save it to Notes", nil)
+                    withTitle:NSLocalizedString(@"Success", @"title")];
         }
-    } else if(section == 3){
-        //Export Account
-        Client *client = [Client sharedInstance];
-        DIMLocalUser *user = client.currentUser;
-        NSUInteger version = user.meta.version;
-        
-        DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
-        [key setObject:user.ID.name forKey:@"username"];
-        [key setObject:user.profile.name forKey:@"nickname"];
-        [key setObject:[NSNumber numberWithUnsignedInteger:version] forKey:@"version"];
-        NSLog(@"The private key is : %@", key);
-        
-        Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
-        NSData *jsonData = [nativeJsonParser dataWithJSONObject:key options:0 error:NULL];
-        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        
-        //Copy to clipboard
-        [[UIPasteboard generalPasteboard] setString:jsonString];
-        
-        [self showMessage:NSLocalizedString(@"Your account infomation has been saved to clipboard, please save it to Notes", nil)
-                withTitle:NSLocalizedString(@"Success", @"title")];
     }
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [self.nicknameTextField resignFirstResponder];
+    return YES;
 }
 
 @end
