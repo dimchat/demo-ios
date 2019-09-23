@@ -56,13 +56,8 @@
     // Initialization code
     
     // avatar
-    [_avatarImageView roundedCorner];
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+    _avatarImageView.layer.cornerRadius = 25.0;
+    _avatarImageView.layer.masksToBounds = YES;
 }
 
 @end

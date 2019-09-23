@@ -46,12 +46,12 @@
     
     [super loadView];
     
-    self.navigationItem.title = NSLocalizedString(@"", @"title");
+    self.navigationItem.title = NSLocalizedString(@"Register", @"title");
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", @"title") style:UIBarButtonItemStylePlain target:self action:@selector(didPressStartButton:)];
     self.view.backgroundColor = [UIColor colorNamed:@"ViewBackgroundColor"];
     
-    CGFloat width = 50.0;
-    CGFloat height = 50.0;
+    CGFloat width = 120.0;
+    CGFloat height = 120.0;
     CGFloat x = (self.view.bounds.size.width - width) / 2.0;
     CGFloat y = 128.0;
     
@@ -62,14 +62,14 @@
     self.avatarImageView.layer.masksToBounds = YES;
     [self.view addSubview:self.avatarImageView];
     
-    height = 16.0;
+    height = 24.0;
     x = 0.0;
     y = self.avatarImageView.bounds.size.height - height;
     
     self.avatarLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
     self.avatarLabel.backgroundColor = [UIColor blackColor];
     self.avatarLabel.text = NSLocalizedString(@"Edit", @"title");
-    self.avatarLabel.font = [UIFont systemFontOfSize:10.0];
+    self.avatarLabel.font = [UIFont systemFontOfSize:14.0];
     self.avatarLabel.textColor = [UIColor whiteColor];
     self.avatarLabel.textAlignment = NSTextAlignmentCenter;
     [self.avatarImageView addSubview:self.avatarLabel];
@@ -133,6 +133,7 @@
             image = [image aspectFit:CGSizeMake(320, 320)];
             NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
             self.imageData = data;
+            self.avatarImageView.image = image;
         }
     };
     

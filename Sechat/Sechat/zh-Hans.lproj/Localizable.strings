@@ -123,3 +123,24 @@
 
 "Generate account failed." = "生成账号失败。";
 "Failed to create user." = "无法创建用户。";
+
+"Chats" = "聊天";
+"Contacts" = "通讯录";
+"Settings" = "设置";
+"About" = "关于";
+"Export" = "导出";
+"Edit" = "编辑";
+
+"It is forbidden to send contents that violate the existing laws and regulations. If a violator is found, please click the button in the upper right corner and report it." = "禁止发送违反现行法律、法规的讯息。如发现违反者，请立即点击右上角按钮并向我们举报。";
+
+"user agreements and privacy clauses" = "《DIM! 用户协议与隐私条款》";
+
+"Thanks for using DIM Chat" = "欢迎使用DIM Chat";
+"Please read the privacy policy, click \"Agree and Continue\" to accept the agreement." = "请阅读隐私条款，点击\"同意并继续\"来接受条款";
+"Agree and Continue" = "同意并继续";
+"Next" = "下一步";
+"Register" = "注册新用户";
+"Chat" = "聊天";
+"Add To Contact" = "添加到通讯录";
+"Search User" = "搜索用户";
+"Copy Search Number Success" = "成功复制搜索号";

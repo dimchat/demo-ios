@@ -49,7 +49,7 @@
     CGFloat x = 0.0;
     CGFloat y = 0.0;
     CGFloat width = self.view.bounds.size.width;
-    CGFloat height = 235.0;
+    CGFloat height = 215.0;
     
     self.headerView = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
     
@@ -63,14 +63,14 @@
     self.avatarImageView.layer.masksToBounds = YES;
     [self.headerView addSubview:self.avatarImageView];
     
-    height = 14.0;
+    height = 24.0;
     x = 0.0;
     y = self.avatarImageView.bounds.size.height - height;
     
     self.avatarLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
     self.avatarLabel.backgroundColor = [UIColor blackColor];
     self.avatarLabel.text = NSLocalizedString(@"Edit", @"title");
-    self.avatarLabel.font = [UIFont systemFontOfSize:10.0];
+    self.avatarLabel.font = [UIFont systemFontOfSize:14.0];
     self.avatarLabel.textColor = [UIColor whiteColor];
     self.avatarLabel.textAlignment = NSTextAlignmentCenter;
     [self.avatarImageView addSubview:self.avatarLabel];
@@ -268,8 +268,8 @@
             
         } else if(indexPath.row == 1){
             
-            cell.textLabel.text = NSLocalizedString(@"Number", @"title");
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", ID.number];
+            cell.textLabel.text = NSLocalizedString(@"Search NO.", @"title");
+            cell.detailTextLabel.text = search_number(ID.number);
             
         } else if(indexPath.row == 2){
             
@@ -309,6 +309,19 @@
     NSInteger row = indexPath.row;
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
+    Client *client = [Client sharedInstance];
+    DIMLocalUser *user = client.currentUser;
+    
+    if(section == 0){
+        
+        if(row == 1){
+            //Copy search number
+            [[UIPasteboard generalPasteboard] setString:search_number(user.number)];
+            
+            [self showMessage:NSLocalizedString(@"Copy Search Number Success", nil) withTitle:nil];
+        }
+    }
+    
     if (section == 1){
         // function
         if (row == 0) {
@@ -320,8 +333,6 @@
             }
         } else if(row == 1){
             //Export Account
-            Client *client = [Client sharedInstance];
-            DIMLocalUser *user = client.currentUser;
             NSUInteger version = user.meta.version;
             
             DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];

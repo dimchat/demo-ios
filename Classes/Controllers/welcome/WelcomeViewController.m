@@ -30,6 +30,7 @@
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    self.view.backgroundColor = [UIColor colorNamed:@"ViewBackgroundColor"];
     
     CGFloat width = 128.0;
     CGFloat height = 128.0;

@@ -595,10 +595,10 @@
                                     <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" id="ju0-gP-IkS">
-                                            <rect key="frame" x="20" y="20" width="25" height="24"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="add_member" translatesAutoresizingMaskIntoConstraints="NO" id="ocQ-vC-N4B">
+                                            <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </button>
+                                        </imageView>
                                     </subviews>
                                 </view>
                                 <connections>
@@ -704,7 +704,6 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="rll-Kg-war">
-                            <color key="tintColor" red="0.11019916087388992" green="0.72231465578079224" blue="0.085971198976039886" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="addParticipants:" destination="4ss-lF-Jnu" id="dqm-Lw-xZP"/>
                             </connections>
@@ -757,6 +756,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add_member" width="40" height="40"/>
         <image name="chat" width="22" height="19"/>
         <image name="message_receiver_background_highlight" width="66" height="49"/>
         <image name="message_receiver_background_normal" width="66" height="49"/>
