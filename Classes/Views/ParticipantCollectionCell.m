@@ -32,9 +32,11 @@
     CGRect frame = _avatarImageView.frame;
     UIImage *image = [profile avatarImageWithSize:frame.size];
     if (!image) {
-        image = [UIImage imageNamed:@"AppIcon"];
+        image = [UIImage imageNamed:@"default_avatar"];
     }
     [_avatarImageView setImage:image];
+    _avatarImageView.layer.cornerRadius = frame.size.width / 2;
+    _avatarImageView.layer.masksToBounds = YES;
     
     // name
     NSString *name = profile.name;
@@ -53,7 +55,8 @@
     // Initialization code
     
     // avatar
-    [_avatarImageView roundedCorner];
+    [_nameLabel removeFromSuperview];
+    [self.avatarImageView addSubview:_nameLabel];
 }
 
 @end

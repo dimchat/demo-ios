@@ -81,6 +81,7 @@
         
         self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.messageLabel.numberOfLines = -1;
+        self.messageLabel.textColor = [UIColor colorNamed:@"ReceiveMessageColor"];
         [self.contentView addSubview:self.messageLabel];
         
         self.picImageView = [[UIImageView alloc] init];
