@@ -12,7 +12,7 @@
 #import "UIButton+Extension.h"
 #import "UIView+Extension.h"
 #import "UIStoryboard+Extension.h"
-
+#import "Facebook+Profile.h"
 #import "DIMProfile+Extension.h"
 #import "DIMInstantMessage+Extension.h"
 
@@ -30,7 +30,8 @@
 
 @implementation ReceiveMessageCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect showName:(BOOL)showName{
+    
     NSString *text = nil;
     if (iMsg.content.type == DKDContentType_Text) {
         text = [(DIMTextContent *)iMsg.content text];
@@ -59,10 +60,19 @@
     
     CGFloat cellHeight = size.height + edges.top + edges.bottom + 16;
     
-    if (cellHeight < 60) {
-        cellHeight = 60;
+    if (cellHeight < 55) {
+        cellHeight = 55;
     }
+    
+    if(showName){
+        cellHeight += 12.0;
+    }
+    
     return CGSizeMake(cellWidth, cellHeight);
+}
+
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
+    return [ReceiveMessageCell sizeWithMessage:iMsg bounds:rect showName:NO];
 }
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -72,7 +82,13 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         self.avatarImageView = [[UIImageView alloc] init];
+        [self.avatarImageView addClickTarget:self action:@selector(showProfile:)];
         [self.contentView addSubview:self.avatarImageView];
+        
+        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.nameLabel.font = [UIFont systemFontOfSize:12.0];
+        self.nameLabel.textColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:self.nameLabel];
         
         UIImage *chatBackgroundImage = [UIImage imageNamed:@"receiver_bubble"];
         UIEdgeInsets insets = UIEdgeInsetsMake(17.0, 26.0, 17.0, 22.0);
@@ -82,14 +98,21 @@
         self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.messageLabel.numberOfLines = -1;
         self.messageLabel.textColor = [UIColor colorNamed:@"ReceiveMessageColor"];
+        self.messageLabel.font = [UIFont systemFontOfSize:16.0];
         [self.contentView addSubview:self.messageLabel];
         
         self.picImageView = [[UIImageView alloc] init];
         self.picImageView.contentMode = UIViewContentModeScaleAspectFit;
         [self.contentView addSubview:self.picImageView];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAvatarUpdated:) name:kNotificationName_AvatarUpdated object:nil];
     }
     
     return self;
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (UIImage *)picture {
@@ -97,6 +120,26 @@
         _picture = _msg.image;
     }
     return _picture;
+}
+
+-(void)didAvatarUpdated:(NSNotification *)o{
+    
+    NSDictionary *userInfo = [o userInfo];
+    DIMID *ID = [userInfo objectForKey:@"ID"];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        DIMEnvelope *env = self.msg.envelope;
+        DIMID *sender = DIMIDWithString(env.sender);
+        
+        if([ID isEqual:sender]){
+            
+            DIMProfile *profile = DIMProfileForID(sender);
+            CGRect avatarFrame = self.avatarImageView.frame;
+            UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
+            [self.avatarImageView setImage:image];
+        }
+    });
 }
 
 - (void)setMsg:(DIMInstantMessage *)msg {
@@ -114,12 +157,11 @@
         DIMContent *content = msg.content;
         DIMProfile *profile = DIMProfileForID(sender);
         
+        self.nameLabel.text = profile.name;
+        
         // avatar
         CGRect avatarFrame = avatarImageView.frame;
         UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"AppIcon"];
-        }
         [avatarImageView setImage:image];
         
         // message
@@ -251,6 +293,17 @@
     self.avatarImageView.layer.cornerRadius = width / 2.0;
     self.avatarImageView.layer.masksToBounds = YES;
     
+    if(self.showName){
+        self.nameLabel.hidden = NO;
+        x = self.avatarImageView.frame.origin.x + self.avatarImageView.frame.size.width + 15.0;
+        width = self.contentView.bounds.size.width - x;
+        height = 14.0;
+        self.nameLabel.frame = CGRectMake(x, y, width, height);
+    }else{
+        self.nameLabel.hidden = YES;
+        self.nameLabel.frame = CGRectZero;
+    }
+    
     CGFloat messageMaxWidth = self.contentView.bounds.size.width * 0.618;
     UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
     
@@ -276,7 +329,7 @@
         
         //Show Image
         x = self.avatarImageView.frame.origin.x + self.avatarImageView.frame.size.width + 10.0;
-        y = self.avatarImageView.frame.origin.y + 5.0;
+        y = self.avatarImageView.frame.origin.y + 5.0 + self.nameLabel.bounds.size.height;
         width = contentSize.width;
         height = contentSize.height;
         self.picImageView.frame = CGRectMake(x, y, width, height);
@@ -293,7 +346,7 @@
         CGSize imageSize = CGSizeMake(contentSize.width + edges.left + edges.right,
                                       contentSize.height + edges.top + edges.bottom);
         x = self.avatarImageView.frame.origin.x + self.avatarImageView.frame.size.width + 10.0;
-        y = self.avatarImageView.frame.origin.y + 3.0;
+        y = self.avatarImageView.frame.origin.y + 3.0 + self.nameLabel.bounds.size.height;
         width = imageSize.width;
         height = imageSize.height;
         self.messageImageView.frame = CGRectMake(x, y, width, height);
@@ -303,6 +356,15 @@
         width = contentSize.width;
         height = contentSize.height;
         self.messageLabel.frame = CGRectMake(x, y, width, height);
+    }
+}
+
+-(void)showProfile:(id)sender{
+    
+    if(self.delegate != nil){
+        DIMEnvelope *env = self.msg.envelope;
+        DIMID *sender = DIMIDWithString(env.sender);
+        [self.delegate messageCell:self showProfile:sender];
     }
 }
 

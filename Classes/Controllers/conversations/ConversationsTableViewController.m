@@ -44,12 +44,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [NSNotificationCenter addObserver:self.tableView
-                             selector:@selector(reloadData)
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(loadData)
                                  name:kNotificationName_MessageUpdated
                                object:nil];
-    [NSNotificationCenter addObserver:self.tableView
-                             selector:@selector(reloadData)
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(loadData)
                                  name:kNotificationName_MessageCleaned
                                object:nil];
     
@@ -62,6 +62,13 @@
                              selector:@selector(onGroupMembersUpdated:)
                                  name:kNotificationName_GroupMembersUpdated
                                object:nil];
+}
+
+-(void)loadData{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 -(void)viewWillAppear:(BOOL)animated{

@@ -8,6 +8,7 @@
 
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
+#import "Facebook+Profile.h"
 #import "User.h"
 #import "ContactCell.h"
 #import "UIColor+Extension.h"
@@ -33,31 +34,50 @@
         [self.contentView addSubview:self.descLabel];
         
         self.separatorInset = UIEdgeInsetsMake(0.0, 70.0, 0.0, 0.0);
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didProfileUpdated:) name:kNotificationName_AvatarUpdated object:nil];
     }
     
     return self;
+}
+
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setContact:(DIMID *)contact {
     if (![_contact isEqual:contact]) {
         
         _contact = contact;
-        
-        CGRect frame = self.avatarImageView.frame;
-        UIImage *image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"default_avatar"];
-        }
-        
-        [self.avatarImageView setImage:image];
-        
-        DIMUser *user = DIMUserWithID(_contact);
-        NSString *name = !user ? _contact.name : user.name;
-        self.nameLabel.text = name;
-        self.descLabel.text = search_number(_contact.number);
-        
+        [self setData];
         [self setNeedsLayout];
     }
+}
+
+-(void)setData{
+    
+    CGRect frame = self.avatarImageView.frame;
+    UIImage *image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
+    [self.avatarImageView setImage:image];
+    
+    DIMUser *user = DIMUserWithID(_contact);
+    NSString *name = !user ? _contact.name : user.name;
+    self.nameLabel.text = name;
+    self.descLabel.text = search_number(_contact.number);
+}
+
+-(void)didProfileUpdated:(NSNotification *)o{
+    
+    NSDictionary *userInfo = [o userInfo];
+    DIMID *ID = [userInfo objectForKey:@"ID"];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([ID isEqual:self.contact]){
+            [self setData];
+            [self setNeedsLayout];
+        }
+    });
 }
 
 - (void)layoutSubviews {

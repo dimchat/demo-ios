@@ -14,7 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CommandMessageCell : MessageCell
 
 @property (strong, nonatomic) DIMInstantMessage *msg;
-@property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UILabel *messageLabel;
 
 @end

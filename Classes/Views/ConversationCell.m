@@ -84,8 +84,6 @@
                     break;
                     
                 case DKDContentType_Image: {
-//                    NSString *filename = [(DIMImageContent *)content filename];
-//                    NSString *format = NSLocalizedString(@"[Image:%@]", nil);
                     last = NSLocalizedString(@"[Image]", @"title");
                 }
                     break;

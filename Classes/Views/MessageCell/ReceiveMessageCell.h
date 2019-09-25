@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIImageView *picImageView;
 @property (strong, nonatomic) UILabel *messageLabel;
 
+@property(nonatomic, readwrite) BOOL showName;
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect showName:(BOOL)showName;
+
 @end
 
 NS_ASSUME_NONNULL_END

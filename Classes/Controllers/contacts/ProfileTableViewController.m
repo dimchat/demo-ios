@@ -97,9 +97,6 @@
     
     CGRect frame = self.avatarView.frame;
     UIImage *image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
-    if (!image) {
-        image = [UIImage imageNamed:@"default_avatar"];
-    }
     self.avatarView.image = image;
     
     [self loadData];

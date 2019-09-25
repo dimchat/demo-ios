@@ -35,8 +35,6 @@
 
 @interface ChatViewController ()<UITextViewDelegate> {
     
-    UIView *_textViewBg;
-    UITextView *_textView;
     CATextLayer *_textViewPlaceholderLayer;
     UIButton *_addButton;
     UIButton *_submitButton;
@@ -47,6 +45,8 @@
 
 @property(nonatomic, strong) UIView *textViewContainer;
 @property(nonatomic, readwrite) CGRect keyboardFrame;
+@property(nonatomic, strong) UIView *textViewBg;
+@property(nonatomic, strong) UITextView *textView;
 
 @end
 
@@ -291,6 +291,9 @@
 
 - (void)adjustTextViewFrameWhenContentSizeChanged {
     
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopAjustTableView) object:nil];
+    _adjustingTableViewFrame = YES;
+    
     CGFloat containerHeight = [self textViewContainerHeight];
     CGSize size = _textView.contentSize;
     size.height += 10;
@@ -310,10 +313,28 @@
     _textViewContainer.frame = rect;
     
     CGFloat height = rect.size.height - _textViewBg.frame.origin.y * 2;
-    _textViewBg.frame = CGRectMake(_textViewBg.frame.origin.x, _textViewBg.frame.origin.y, _textViewBg.frame.size.width, height);
-    _textView.frame = CGRectMake(_textView.frame.origin.x, _textView.frame.origin.y, _textView.frame.size.width, height);
+    CGRect textViewBgRect = CGRectMake(_textViewBg.frame.origin.x, _textViewBg.frame.origin.y, _textViewBg.frame.size.width, height);
+    CGRect textViewRect = CGRectMake(_textView.frame.origin.x, _textView.frame.origin.y, _textView.frame.size.width, height);
+    
+    CGRect tableViewRect = self.messagesTableView.frame;
+    tableViewRect.size.height = CGRectGetMinY(rect);
+    
+    [UIView animateWithDuration:0.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.messagesTableView.frame = tableViewRect;
+        self.textViewContainer.frame = rect;
+        self.textViewBg.frame = textViewBgRect;
+        _textView.frame = textViewRect;
+        
+    } completion:^(BOOL finished) {
+        
+        //NSLog(@"%.2f, %.2f", self.messagesTableView.contentOffset.x, self.messagesTableView.contentOffset.y);
+        if (CGRectGetMinY(self.keyboardFrame) < CGRectGetHeight(self.view.bounds)) {
+            [self scrollToBottom:YES];
+        }
+        
+        [self performSelector:@selector(stopAjustTableView) withObject:nil afterDelay:0.5];
+    }];
 }
-
 
 #pragma mark - UIKeyboard Notification
 - (void)keyboardWillShow:(NSNotification *)o {
@@ -361,7 +382,7 @@
             
         } completion:^(BOOL finished) {
             
-            NSLog(@"%.2f, %.2f", self.messagesTableView.contentOffset.x, self.messagesTableView.contentOffset.y);
+            //NSLog(@"%.2f, %.2f", self.messagesTableView.contentOffset.x, self.messagesTableView.contentOffset.y);
             if (CGRectGetMinY(self.keyboardFrame) < CGRectGetHeight(self.view.bounds)) {
                 [self scrollToBottom:YES];
             }
@@ -619,7 +640,7 @@
     return [self messageCount];
 }
 
-- (NSString *)_identifierForReusableCellAtIndexPath:(NSIndexPath *)indexPath {
+- (NSString *)identifierForReusableCellAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
@@ -659,7 +680,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString *identifier = [self _identifierForReusableCellAtIndexPath:indexPath];
+    NSString *identifier = [self identifierForReusableCellAtIndexPath:indexPath];
     if ([identifier isEqualToString:@"guideCell"]) {
         GuideCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         cell.delegate = self;
@@ -690,6 +711,7 @@
     
     if ([identifier isEqualToString:@"receivedMsgCell"]) {
         ReceiveMessageCell *cell  = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+        cell.showName = YES;
         cell.msg = iMsg;
         cell.delegate = self;
         return cell;
@@ -700,7 +722,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString *identifier = [self _identifierForReusableCellAtIndexPath:indexPath];
+    NSString *identifier = [self identifierForReusableCellAtIndexPath:indexPath];
     
     NSInteger row = indexPath.row;
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
@@ -711,7 +733,7 @@
         CGSize size = [CommandMessageCell sizeWithMessage:iMsg bounds:bounds];
         height = size.height;
     } else if ([identifier isEqualToString:@"receivedMsgCell"]) {
-        CGSize size = [ReceiveMessageCell sizeWithMessage:iMsg bounds:bounds];
+        CGSize size = [ReceiveMessageCell sizeWithMessage:iMsg bounds:bounds showName:YES];
         height = size.height;
     } else if ([identifier isEqualToString:@"guideCell"]) {
         CGSize size = [GuideCell sizeWithMessage:iMsg bounds:bounds];
@@ -800,6 +822,13 @@
     web.hidesBottomBarWhenPushed = YES;
     web.url = url;
     [self.navigationController pushViewController:web animated:YES];
+}
+
+-(void)messageCell:(MessageCell *)cell showProfile:(DIMID *)profile{
+    
+    ProfileTableViewController *vc = [[ProfileTableViewController alloc] init];
+    vc.contact = profile;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

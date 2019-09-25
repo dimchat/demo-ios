@@ -27,81 +27,52 @@
     NSString *text = [iMsg.content objectForKey:@"text"];
     
     CGFloat cellWidth = rect.size.width;
-    CGFloat msgWidth = cellWidth * 0.618;
-    UIEdgeInsets edges = UIEdgeInsetsMake(10, 10, 10, 10);
+    CGFloat msgWidth = [UIScreen mainScreen].bounds.size.width;
+    UIEdgeInsets edges = UIEdgeInsetsMake(0, 10, 0, 10);
     
     CGSize size = CGSizeMake(msgWidth - edges.left - edges.right,
                              MAXFLOAT);
-    UIFont *font = [UIFont systemFontOfSize:14];
+    UIFont *font = [UIFont systemFontOfSize:12];
     size = [text sizeWithFont:font maxSize:size];
-    CGFloat cellHeight = size.height + edges.top + edges.bottom + 24;
+    CGFloat cellHeight = size.height + edges.top + edges.bottom + 10.0;
     return CGSizeMake(cellWidth, cellHeight);
+}
+
+-(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+    
+    if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
+        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.messageLabel.textAlignment = NSTextAlignmentCenter;
+        self.messageLabel.font = [UIFont systemFontOfSize:12.0];
+        self.messageLabel.textColor = [UIColor lightGrayColor];
+        self.messageLabel.numberOfLines = -1;
+        [self.contentView addSubview:self.messageLabel];
+    }
+    
+    return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat cellWidth = self.bounds.size.width;
-    CGFloat msgWidth = cellWidth * 0.618;
-    UIEdgeInsets edges = UIEdgeInsetsMake(10, 10, 10, 10);
+    CGFloat x = 10.0;
+    CGFloat y = 5.0;
+    CGFloat width = self.contentView.bounds.size.width - x * 2;
+    CGFloat height = self.contentView.bounds.size.height - 5.0;
     
-    UILabel *timeLabel = [self timeLabel];
-    UILabel *messageLabel = [self messageLabel];
-    
-    CGRect timeFrame = timeLabel.frame;
-    
-    NSString *text = messageLabel.text;
-    if (text.length > 0) {
-        UIFont *font = messageLabel.font;
-        CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
-        size = [text sizeWithFont:font maxSize:size];
-        size.width += edges.left + edges.right;
-        size.height += edges.top + edges.bottom;
-        CGRect frame = CGRectMake((cellWidth - size.width) * 0.5,
-                                  timeFrame.origin.y + timeFrame.size.height,
-                                  size.width, size.height);
-        messageLabel.frame = frame;
-    }
-    
-    // resize content view
-    CGRect msgFrame = messageLabel.frame;
-    CGFloat cellHeight = msgFrame.origin.y + msgFrame.size.height + edges.bottom;
-    CGRect rect = CGRectMake(0, 0, cellWidth, cellHeight);
-    self.bounds = rect;
-    self.contentView.frame = rect;
+    self.messageLabel.frame = CGRectMake(x, y, width, height);
 }
 
 - (void)setMsg:(DIMInstantMessage *)msg {
     if (![_msg isEqual:msg]) {
         _msg = msg;
         
-        CGFloat cellWidth = self.bounds.size.width;
-        CGFloat msgWidth = cellWidth * 0.618;
-        
-        // time
-        NSString *time = @"";
-        UILabel *timeLabel = [self timeLabel];
-        if (time.length > 0) {
-            timeLabel.text = time;
-            // resize
-            UIFont *font = timeLabel.font;
-            CGSize size = CGSizeMake(msgWidth, MAXFLOAT);
-            size = [time sizeWithFont:font maxSize:size];
-            size = CGSizeMake(size.width + 16, 16);
-            CGRect rect = CGRectMake(0, 0, size.width, size.height);
-            timeLabel.bounds = rect;
-            [timeLabel roundedCorner];
-            timeLabel.hidden = NO;
-        } else {
-            timeLabel.bounds = CGRectMake(0, 0, 0, 0);
-            timeLabel.text = @"";
-            timeLabel.hidden = YES;
-        }
-        
         // message
         NSString *text = [msg.content objectForKey:@"text"];
-        UILabel *messageLabel = [self messageLabel];
-        messageLabel.text = text;
+        self.messageLabel.text = text;
         
         [self setNeedsLayout];
     }

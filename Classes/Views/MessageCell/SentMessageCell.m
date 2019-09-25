@@ -57,8 +57,8 @@
     
     CGFloat cellHeight = size.height + edges.top + edges.bottom + 16;
     
-    if (cellHeight < 60) {
-        cellHeight = 60;
+    if (cellHeight < 55) {
+        cellHeight = 55;
     }
     return CGSizeMake(cellWidth, cellHeight);
 }
@@ -80,6 +80,7 @@
         self.messageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.messageLabel.numberOfLines = -1;
         self.messageLabel.textColor = [UIColor whiteColor];
+        self.messageLabel.font = [UIFont systemFontOfSize:16.0];
         [self.contentView addSubview:self.messageLabel];
         
         self.picImageView = [[UIImageView alloc] init];
@@ -185,9 +186,6 @@
         // avatar
         CGRect avatarFrame = avatarImageView.frame;
         UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"default_avatar"];
-        }
         [avatarImageView setImage:image];
         
         // message

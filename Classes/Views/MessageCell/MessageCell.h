@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)messageCell:(MessageCell *)cell showImage:(UIImage *)image;
 -(void)messageCell:(MessageCell *)cell openUrl:(NSURL *)url;
+-(void)messageCell:(MessageCell *)cell showProfile:(DIMID *)profile;
 
 @end
 

@@ -57,9 +57,6 @@
         // avatar
         CGRect avatarFrame = _avatarImageView.frame;
         UIImage *image = [user.profile avatarImageWithSize:avatarFrame.size];
-        if (!image) {
-            image = [UIImage imageNamed:@"AppIcon"];
-        }
         [_avatarImageView setImage:image];
         [_avatarImageView roundedCorner];
         
@@ -102,19 +99,10 @@
     // TODO: update client.users
     DIMLocalUser *user = [Client sharedInstance].currentUser;
     
-    // avatar
     CGRect avatarFrame = _avatarImageView.frame;
     UIImage *image = [user.profile avatarImageWithSize:avatarFrame.size];
-    if (!image) {
-        image = [UIImage imageNamed:@"AppIcon"];
-    }
     [_avatarImageView setImage:image];
-    //[_avatarImageView roundedCorner];
-    
-    // name
     _nameLabel.text = user_title(user.ID);
-    
-    // desc
     _descLabel.text = (NSString *)user.ID;
     
     [self.tableView reloadData];

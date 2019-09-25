@@ -31,9 +31,6 @@
     // avatar
     CGRect frame = _avatarImageView.frame;
     UIImage *image = [profile avatarImageWithSize:frame.size];
-    if (!image) {
-        image = [UIImage imageNamed:@"default_avatar"];
-    }
     [_avatarImageView setImage:image];
     _avatarImageView.layer.cornerRadius = frame.size.width / 2;
     _avatarImageView.layer.masksToBounds = YES;
