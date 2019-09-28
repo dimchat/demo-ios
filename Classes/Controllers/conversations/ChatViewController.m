@@ -235,10 +235,9 @@
     [super viewDidAppear:animated];
     
     if (!_scrolledToBottom) {
-        [self.messagesTableView scrollsToBottom];
+        [self scrollToBottom:NO];
         _scrolledToBottom = YES;
     }
-
 }
 
 - (void)onMessageUpdated:(NSNotification *)notification {
@@ -248,10 +247,9 @@
     if ([name isEqual:kNotificationName_MessageUpdated]) {
         DIMID *ID = DIMIDWithString([info objectForKey:@"ID"]);
         if ([_conversation.ID isEqual:ID]) {
-            [self groupMessage];
-            
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self scrollAfterInsertNewMessage];
+                NSInteger new_count = [self groupMessage];
+                [self scrollAfterInsertNewMessage:new_count];
             });
         }
     }
@@ -389,12 +387,14 @@
             
         } completion:^(BOOL finished) {
             
-            //NSLog(@"%.2f, %.2f", self.messagesTableView.contentOffset.x, self.messagesTableView.contentOffset.y);
-            if (CGRectGetMinY(self.keyboardFrame) < CGRectGetHeight(self.view.bounds)) {
-                [self scrollToBottom:YES];
+            if(finished){
+                NSLog(@"%.2f, %.2f", self.messagesTableView.contentOffset.x, self.messagesTableView.contentOffset.y);
+                if (CGRectGetMinY(self.keyboardFrame) < CGRectGetHeight(self.view.bounds)) {
+                    [self scrollToBottom:YES];
+                }
+                
+                [self performSelector:@selector(stopAjustTableView) withObject:nil afterDelay:0.5];
             }
-            
-            [self performSelector:@selector(stopAjustTableView) withObject:nil afterDelay:0.5];
         }];
     }
 }
@@ -410,14 +410,11 @@
     _adjustingTableViewFrame = YES;
     CGFloat offsetY = self.messagesTableView.contentSize.height - self.messagesTableView.bounds.size.height;
     
-    if(offsetY <= 0){
-        return;
+    if(offsetY <= -88.0){
+        offsetY = -88.0;
     }
     
-    if(offsetY < TOP_NAVIGATION_BAR_HEIGHT * -1){
-        offsetY = TOP_NAVIGATION_BAR_HEIGHT * -1;
-    }
-    
+    NSLog(@"The scroll to bottom offset y is : %.2f", offsetY);
     [self.messagesTableView setContentOffset:CGPointMake(0.0, offsetY) animated:animated];
     
     [self performSelector:@selector(stopAjustTableView) withObject:nil afterDelay:1.0];
@@ -591,8 +588,9 @@
     // TODO: mark the message failed for trying again
 }
 
--(void)groupMessage{
+-(NSInteger)groupMessage{
     
+    NSInteger originalCount = [_messageArray count];
     [_messageArray removeAllObjects];
     
     DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
@@ -618,6 +616,8 @@
         [_messageArray addObject:iMsg];
         i++;
     }
+    
+    return [_messageArray count] - originalCount;
 }
 
 - (NSInteger)messageCount {
@@ -802,13 +802,20 @@
     [self.navigationController pushViewController:web animated:YES];
 }
 
--(void)scrollAfterInsertNewMessage{
+-(void)scrollAfterInsertNewMessage:(NSInteger)newCount{
 
     _adjustingTableViewFrame = YES;
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self messageCount] - 1 inSection:0];
+    
+    NSMutableArray *newIndexPath = [[NSMutableArray alloc] init];
+    NSInteger messageCount = [self messageCount];
+    
+    for(NSInteger i=1;i<=newCount;i++){
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:messageCount - i inSection:0];
+        [newIndexPath addObject:indexPath];
+    }
 
     [self.messagesTableView beginUpdates];
-    [self.messagesTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [self.messagesTableView insertRowsAtIndexPaths:newIndexPath withRowAnimation:UITableViewRowAnimationNone];
     [self.messagesTableView endUpdates];
 
     if(self.messagesTableView.contentOffset.y + self.messagesTableView.bounds.size.height > self.messagesTableView.contentSize.height - 100){
