@@ -64,8 +64,6 @@
         [self showMessage:NSLocalizedString(@"Failed to import user.", nil)
                 withTitle:NSLocalizedString(@"Error!", nil)];
     } else {
-
-
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
 }

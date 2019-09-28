@@ -336,6 +336,7 @@
             NSUInteger version = user.meta.version;
             
             DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
+            //[key setObject:user.ID forKey:@"ID"];
             [key setObject:user.ID.name forKey:@"username"];
             [key setObject:user.profile.name forKey:@"nickname"];
             [key setObject:[NSNumber numberWithUnsignedInteger:version] forKey:@"version"];

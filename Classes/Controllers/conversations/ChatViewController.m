@@ -41,6 +41,8 @@
     
     BOOL _scrolledToBottom;
     BOOL _adjustingTableViewFrame;
+    
+    NSMutableArray *_messageArray;
 }
 
 @property(nonatomic, strong) UIView *textViewContainer;
@@ -170,7 +172,8 @@
     
     self.title = _conversation.title;
     _adjustingTableViewFrame = NO;
-    NSLog(@"title: %@", self.title);
+    _messageArray = [[NSMutableArray alloc] init];
+    [self groupMessage];
     
     [self addKeyboardObserver];
     [self addDataObserver];
@@ -245,7 +248,11 @@
     if ([name isEqual:kNotificationName_MessageUpdated]) {
         DIMID *ID = DIMIDWithString([info objectForKey:@"ID"]);
         if ([_conversation.ID isEqual:ID]) {
-            [self scrollAfterInsertNewMessage];
+            [self groupMessage];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self scrollAfterInsertNewMessage];
+            });
         }
     }
 }
@@ -323,7 +330,7 @@
         self.messagesTableView.frame = tableViewRect;
         self.textViewContainer.frame = rect;
         self.textViewBg.frame = textViewBgRect;
-        _textView.frame = textViewRect;
+        self.textView.frame = textViewRect;
         
     } completion:^(BOOL finished) {
         
@@ -393,7 +400,6 @@
 }
 
 -(void)stopAjustTableView{
-    
     _adjustingTableViewFrame = NO;
 }
 
@@ -585,49 +591,42 @@
     // TODO: mark the message failed for trying again
 }
 
-- (NSInteger)messageCount {
-    NSInteger count = [_conversation numberOfMessage];
-    // create time tag
-    DIMInstantMessage *iMsg;
-    NSString *timeTag;
-    NSTimeInterval lastTime = 0, msgTime;
-    // 1. search last tag
-    NSInteger index = count - 1;
-    for (; index >= 0; --index) {
-        iMsg = [_conversation messageAtIndex:index];
-        timeTag = [iMsg objectForKey:@"timeTag"];
-        if (timeTag) {
-//            lastTime = [[iMsg objectForKey:@"time"] doubleValue];
-//            break;
-            // FIXME: some time tags needs to be update when the day passed
-            [iMsg removeObjectForKey:@"timeTag"];
+-(void)groupMessage{
+    
+    [_messageArray removeAllObjects];
+    
+    DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
+    DIMID *admin = DIMIDWithString(@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ");
+    DKDInstantMessage *guideMessage = DKDInstantMessageCreate(guide, admin, _conversation.ID, nil);
+    
+    [_messageArray addObject:guideMessage];
+    
+    NSUInteger i = 0;
+    NSUInteger messageCount = [_conversation numberOfMessage];
+    NSTimeInterval currentTime = 0;
+    
+    while(i < messageCount){
+        
+        DKDInstantMessage *iMsg = [_conversation messageAtIndex:i];
+        NSTimeInterval msgTime = [[iMsg objectForKey:@"time"] doubleValue];
+        
+        if(msgTime > currentTime + 15 * 60){
+            [_messageArray addObject:[NSDate dateWithTimeIntervalSince1970:msgTime]];
+            currentTime = msgTime;
         }
+        
+        [_messageArray addObject:iMsg];
+        i++;
     }
-    if (index < 0) {
-        // not found
-        index = 0;
-    }
-    // 2. create tag for the rest messages
-//    for (; index < count; ++index) {
-//        iMsg = [_conversation messageAtIndex:index];
-//        msgTime = [[iMsg objectForKey:@"time"] doubleValue];
-//        if (msgTime - lastTime > 300) {
-//            timeTag = time_string(msgTime);
-//            [iMsg setObject:timeTag forKey:@"timeTag"];
-//            lastTime = msgTime;
-//        }
-//    }
-    // the first message is 'guide'
-    return count + 1;
 }
 
-- (DIMInstantMessage *)messageAtIndex:(NSInteger)index {
-    if (index == 0) {
-        DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
-        DIMID *admin = DIMIDWithString(@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ");
-        return DKDInstantMessageCreate(guide, admin, _conversation.ID, nil);
-    }
-    return [_conversation messageAtIndex:(index - 1)];
+- (NSInteger)messageCount {
+    NSInteger count = [_messageArray count];
+    return count;
+}
+
+- (id)messageAtIndex:(NSInteger)index {
+    return [_messageArray objectAtIndex:index];
 }
 
 #pragma mark - Table view data source
@@ -646,32 +645,40 @@
     Client *client = [Client sharedInstance];
     DIMLocalUser *user = client.currentUser;
     
-    DIMInstantMessage *iMsg = [self messageAtIndex:row];
-    DIMContent *content = iMsg.content;
-    DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
+    id obj = [self messageAtIndex:row];
     
     NSString *identifier = @"receivedMsgCell";
-    DKDContentType type = content.type;
-    if (type == DKDContentType_History || type == DKDContentType_Command) {
-        if ([[(DIMCommand *)content command] isEqualToString:@"guide"]) {
-            // show guide
-            identifier = @"guideCell";
-        } else {
-            // command message
-            identifier = @"commandMsgCell";
-        }
-    } else if ([sender isEqual:_conversation.ID]) {
-        // message from conversation target
-        identifier = @"receivedMsgCell";
-    } else if ([sender isEqual:user.ID]) {
-        // message from current user
-        identifier = @"sentMsgCell";
+    
+    if([obj isKindOfClass:[NSDate class]]){
+        identifier = @"timeCell";
     } else {
-        NSArray *users = client.users;
-        for (user in users) {
-            if ([user.ID isEqual:sender]) {
-                // message from my account
-                identifier = @"sentMsgCell";
+    
+        DIMInstantMessage *iMsg = [self messageAtIndex:row];
+        DIMContent *content = iMsg.content;
+        DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
+        
+        DKDContentType type = content.type;
+        if (type == DKDContentType_History || type == DKDContentType_Command) {
+            if ([[(DIMCommand *)content command] isEqualToString:@"guide"]) {
+                // show guide
+                identifier = @"guideCell";
+            } else {
+                // command message
+                identifier = @"commandMsgCell";
+            }
+        } else if ([sender isEqual:_conversation.ID]) {
+            // message from conversation target
+            identifier = @"receivedMsgCell";
+        } else if ([sender isEqual:user.ID]) {
+            // message from current user
+            identifier = @"sentMsgCell";
+        } else {
+            NSArray *users = client.users;
+            for (user in users) {
+                if ([user.ID isEqual:sender]) {
+                    // message from my account
+                    identifier = @"sentMsgCell";
+                }
             }
         }
     }
@@ -681,6 +688,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *identifier = [self identifierForReusableCellAtIndexPath:indexPath];
+    NSInteger row = indexPath.row;
+    
     if ([identifier isEqualToString:@"guideCell"]) {
         GuideCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         cell.delegate = self;
@@ -689,10 +698,11 @@
     
     if([identifier isEqualToString:@"timeCell"]){
         TimeCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+        NSDate *d = [self messageAtIndex:row];
+        [cell setTime:[d timeIntervalSince1970]];
         return cell;
     }
     
-    NSInteger row = indexPath.row;
     DIMInstantMessage *iMsg = [self messageAtIndex:row];
     
     if([identifier isEqualToString:@"commandMsgCell"]){
@@ -794,15 +804,16 @@
 
 -(void)scrollAfterInsertNewMessage{
 
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.conversation numberOfMessage] inSection:0];
-    
+    _adjustingTableViewFrame = YES;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self messageCount] - 1 inSection:0];
+
     [self.messagesTableView beginUpdates];
-    [self.messagesTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.messagesTableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     [self.messagesTableView endUpdates];
 
     if(self.messagesTableView.contentOffset.y + self.messagesTableView.bounds.size.height > self.messagesTableView.contentSize.height - 100){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.messagesTableView scrollsToBottom:YES];
+            [self scrollToBottom:YES];
         });
     }
 }

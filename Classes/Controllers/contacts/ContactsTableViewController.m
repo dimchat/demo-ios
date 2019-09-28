@@ -172,6 +172,10 @@
         DIMLocalUser *user = client.currentUser;
         [[DIMFacebook sharedInstance] user:user removeContact:ID];
         
+        //Post contacts to server
+        NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+        [client postContacts:allContacts];
+        
         [list removeObjectAtIndex:row];
         if (list.count == 0) {
             [_contactsKey removeObject:key];
@@ -195,12 +199,6 @@
     ContactCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-//    DIMConversation *convers = DIMConversationWithID(selectedCell.contact);
-//    ChatViewController *vc = [[ChatViewController alloc] init];
-//    vc.conversation = convers;
-//    vc.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:vc animated:YES];
     
     ProfileTableViewController *controller = [[ProfileTableViewController alloc] init];
     controller.contact = selectedCell.contact;

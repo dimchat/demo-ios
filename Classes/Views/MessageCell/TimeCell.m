@@ -44,7 +44,12 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.timeLabel.frame = self.contentView.bounds;
+    
+    CGFloat x = 0.0;
+    CGFloat y = 7.0;
+    CGFloat width = self.contentView.bounds.size.width;
+    CGFloat height = 13.0;
+    self.timeLabel.frame = CGRectMake(x, y, width, height);
 }
 
 -(NSString *)timeString:(NSTimeInterval)timestamp{

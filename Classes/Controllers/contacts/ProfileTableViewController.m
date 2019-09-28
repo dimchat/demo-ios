@@ -155,9 +155,9 @@
         
         DIMUser *selectedUser = DIMUserWithID(self.contact);
         NSString *name = !selectedUser ? self.contact.name : selectedUser.name;
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Do you want to add %@ to your contact list?", @"title"), name];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Do you want to add %@ to your contact?", @"title"), name];
         
-        [self showMessage:message withTitle:NSLocalizedString(@"Add To Contact List", @"title") cancelHandler:nil defaultHandler:^(UIAlertAction * _Nonnull action) {
+        [self showMessage:message withTitle:NSLocalizedString(@"Add To Contact", @"title") cancelHandler:nil defaultHandler:^(UIAlertAction * _Nonnull action) {
             
             DIMMeta *meta = DIMMetaForID(user.ID);
             DIMProfile *profile = user.profile;
@@ -174,6 +174,11 @@
             
             // add to contacts
             [[DIMFacebook sharedInstance] user:user addContact:self.contact];
+            
+            //Post contacts to server
+            NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+            [client postContacts:allContacts];
+            
             NSLog(@"contact %@ added to user %@", self.contact, user);
             [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
             
@@ -193,54 +198,6 @@
         vc.conversation = convers;
         [self.navigationController pushViewController:vc animated:YES];
         
-    }
-}
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-    NSLog(@"contact: %@", _contact);
-    
-    Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
-    
-    if ([segue.identifier isEqualToString:@"startChat"]) {
-        
-        DIMConversation *convers = DIMConversationWithID(_contact);
-        
-        ChatViewController *vc = [segue visibleDestinationViewController];
-        vc.conversation = convers;
-        
-    } else if ([segue.identifier isEqualToString:@"addContact"]) {
-        
-        // send meta & profile first as handshake
-        DIMMeta *meta = DIMMetaForID(user.ID);
-        DIMProfile *profile = user.profile;
-        DIMCommand *cmd;
-        if (profile) {
-            cmd = [[DIMProfileCommand alloc] initWithID:user.ID
-                                                   meta:meta
-                                                profile:profile];
-        } else {
-            cmd = [[DIMMetaCommand alloc] initWithID:user.ID
-                                                meta:meta];
-        }
-        [client sendContent:cmd to:_contact];
-        
-        // add to contacts
-        [[DIMFacebook sharedInstance] user:user addContact:_contact];
-        NSLog(@"contact %@ added to user %@", _contact, user);
-        [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
-
-        DIMConversation *convers = DIMConversationWithID(_contact);
-        
-        ChatViewController *vc = [segue visibleDestinationViewController];
-        vc.conversation = convers;
-        
-        // refresh button 'Add Contact' to 'Send Message'
-        [self.tableView reloadData];
     }
 }
 
