@@ -44,10 +44,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(loadData)
-                                 name:kNotificationName_MessageUpdated
-                               object:nil];
+//    [NSNotificationCenter addObserver:self
+//                             selector:@selector(loadData)
+//                                 name:kNotificationName_MessageUpdated
+//                               object:nil];
     [NSNotificationCenter addObserver:self
                              selector:@selector(loadData)
                                  name:kNotificationName_MessageCleaned

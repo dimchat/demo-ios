@@ -9,11 +9,6 @@
 /* Begin PBXBuildFile section */
 		5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */; };
 		5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
-		522B080E233F9AC800E4ED10 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B0804233F9AC800E4ED10 /* FMDatabaseQueue.m */; };
-		522B080F233F9AC800E4ED10 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B0807233F9AC800E4ED10 /* FMDatabaseAdditions.m */; };
-		522B0810233F9AC800E4ED10 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B0808233F9AC800E4ED10 /* FMDatabase.m */; };
-		522B0811233F9AC800E4ED10 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B080C233F9AC800E4ED10 /* FMDatabasePool.m */; };
-		522B0812233F9AC800E4ED10 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B080D233F9AC800E4ED10 /* FMResultSet.m */; };
 		523FC36423331EEF0022B088 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 523FC36123331EEF0022B088 /* Main.storyboard */; };
 		5242949923347ED300E8DA05 /* SentMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949523347ED300E8DA05 /* SentMessageCell.m */; };
 		5242949A23347ED300E8DA05 /* ReceiveMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949623347ED300E8DA05 /* ReceiveMessageCell.m */; };
@@ -24,8 +19,7 @@
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
 		52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BED8F72330C78A00886CCD /* RegisterViewController.m */; };
-		52C2239D233F848300BC477E /* LocalDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C2239B233F848300BC477E /* LocalDatabaseManager.m */; };
-		52C223A1233F84B800BC477E /* FolderUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 52C2239F233F84B800BC477E /* FolderUtility.m */; };
+		52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
 		E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
@@ -152,17 +146,6 @@
 /* Begin PBXFileReference section */
 		5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"; sourceTree = "<group>"; };
 		5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"; sourceTree = "<group>"; };
-		522B0803233F9AC800E4ED10 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		522B0804233F9AC800E4ED10 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
-		522B0805233F9AC800E4ED10 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		522B0806233F9AC800E4ED10 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
-		522B0807233F9AC800E4ED10 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		522B0808233F9AC800E4ED10 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		522B0809233F9AC800E4ED10 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
-		522B080A233F9AC800E4ED10 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
-		522B080B233F9AC800E4ED10 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		522B080C233F9AC800E4ED10 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
-		522B080D233F9AC800E4ED10 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		523FC36223331EEF0022B088 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5242949123347ED300E8DA05 /* SentMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentMessageCell.h; sourceTree = "<group>"; };
 		5242949223347ED300E8DA05 /* ReceiveMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveMessageCell.h; sourceTree = "<group>"; };
@@ -182,10 +165,7 @@
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
 		52BED8F72330C78A00886CCD /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		52BED8F82330C78A00886CCD /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
-		52C2239B233F848300BC477E /* LocalDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalDatabaseManager.m; sourceTree = "<group>"; };
-		52C2239C233F848300BC477E /* LocalDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalDatabaseManager.h; sourceTree = "<group>"; };
-		52C2239F233F84B800BC477E /* FolderUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderUtility.m; sourceTree = "<group>"; };
-		52C223A0233F84B800BC477E /* FolderUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderUtility.h; sourceTree = "<group>"; };
+		52DBA317234037590000C2B4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sechat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
 		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
@@ -315,6 +295,7 @@
 			files = (
 				E978171122254AB000BCE3AD /* DIMClient.framework in Frameworks */,
 				E978172622254D2400BCE3AD /* DIMCore.framework in Frameworks */,
+				52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */,
 				E978172322254CC600BCE3AD /* DaoKeDao.framework in Frameworks */,
 				E978172522254CC900BCE3AD /* MingKeMing.framework in Frameworks */,
 				E978171F22254CBB00BCE3AD /* MarsGate.framework in Frameworks */,
@@ -340,24 +321,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		522B0802233F9AC800E4ED10 /* fmdb */ = {
-			isa = PBXGroup;
-			children = (
-				522B0803233F9AC800E4ED10 /* FMDatabase.h */,
-				522B0804233F9AC800E4ED10 /* FMDatabaseQueue.m */,
-				522B0805233F9AC800E4ED10 /* FMResultSet.h */,
-				522B0806233F9AC800E4ED10 /* FMDatabasePool.h */,
-				522B0807233F9AC800E4ED10 /* FMDatabaseAdditions.m */,
-				522B0808233F9AC800E4ED10 /* FMDatabase.m */,
-				522B0809233F9AC800E4ED10 /* FMDatabaseQueue.h */,
-				522B080A233F9AC800E4ED10 /* FMDB.h */,
-				522B080B233F9AC800E4ED10 /* FMDatabaseAdditions.h */,
-				522B080C233F9AC800E4ED10 /* FMDatabasePool.m */,
-				522B080D233F9AC800E4ED10 /* FMResultSet.m */,
-			);
-			path = fmdb;
-			sourceTree = "<group>";
-		};
 		5242949023347ED300E8DA05 /* MessageCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -380,21 +343,8 @@
 		52C2239A233F848300BC477E /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				522B0802233F9AC800E4ED10 /* fmdb */,
-				52C2239E233F84B800BC477E /* Utility */,
-				52C2239C233F848300BC477E /* LocalDatabaseManager.h */,
-				52C2239B233F848300BC477E /* LocalDatabaseManager.m */,
 			);
 			path = Modules;
-			sourceTree = "<group>";
-		};
-		52C2239E233F84B800BC477E /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				52C223A0233F84B800BC477E /* FolderUtility.h */,
-				52C2239F233F84B800BC477E /* FolderUtility.m */,
-			);
-			path = Utility;
 			sourceTree = "<group>";
 		};
 		E92255B62222EC53006CADEA = {
@@ -541,6 +491,7 @@
 		E92256782222EE25006CADEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52DBA317234037590000C2B4 /* libsqlite3.tbd */,
 				524F5E7C22CDDE0000A84DF9 /* ethers.framework */,
 				E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */,
 				E978172422254CC900BCE3AD /* MingKeMing.framework */,
@@ -834,10 +785,8 @@
 				E979080D2259CDA10024C830 /* UIView+Extension.m in Sources */,
 				E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */,
 				52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */,
-				52C2239D233F848300BC477E /* LocalDatabaseManager.m in Sources */,
 				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,
 				E92255D52222EC56006CADEA /* main.m in Sources */,
-				522B0810233F9AC800E4ED10 /* FMDatabase.m in Sources */,
 				E922564A2222ED7C006CADEA /* Client.m in Sources */,
 				E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */,
 				5242949923347ED300E8DA05 /* SentMessageCell.m in Sources */,
@@ -858,13 +807,9 @@
 				E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
 				524294A22334B7E600E8DA05 /* MessageCell.m in Sources */,
-				522B080E233F9AC800E4ED10 /* FMDatabaseQueue.m in Sources */,
 				5242949C23347ED300E8DA05 /* TimeCell.m in Sources */,
 				E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */,
-				522B080F233F9AC800E4ED10 /* FMDatabaseAdditions.m in Sources */,
-				52C223A1233F84B800BC477E /* FolderUtility.m in Sources */,
 				E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */,
-				522B0812233F9AC800E4ED10 /* FMResultSet.m in Sources */,
 				E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */,
 				E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */,
 				E99A5CB2222D8B3400EE6C86 /* ParticipantsManageTableViewController.m in Sources */,
@@ -872,7 +817,6 @@
 				E99A5CB1222D8B3400EE6C86 /* ParticipantsCollectionViewController.m in Sources */,
 				E99A5CCD222ECDBE00EE6C86 /* ParticipantCollectionCell.m in Sources */,
 				E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */,
-				522B0811233F9AC800E4ED10 /* FMDatabasePool.m in Sources */,
 				E9790836225B666F0024C830 /* WebViewController.m in Sources */,
 				E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */,
 				E92256492222ED7C006CADEA /* Facebook.m in Sources */,

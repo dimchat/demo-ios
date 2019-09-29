@@ -159,21 +159,7 @@
         
         [self showMessage:message withTitle:NSLocalizedString(@"Add To Contact", @"title") cancelHandler:nil defaultHandler:^(UIAlertAction * _Nonnull action) {
             
-            DIMMeta *meta = DIMMetaForID(user.ID);
-            DIMProfile *profile = user.profile;
-            DIMCommand *cmd;
-            if (profile) {
-                cmd = [[DIMProfileCommand alloc] initWithID:user.ID
-                                                       meta:meta
-                                                    profile:profile];
-            } else {
-                cmd = [[DIMMetaCommand alloc] initWithID:user.ID
-                                                    meta:meta];
-            }
-            [client sendContent:cmd to:self.contact];
-            
-            // add to contacts
-            [[DIMFacebook sharedInstance] user:user addContact:self.contact];
+            [client addUserToContact:self.contact];
             
             //Post contacts to server
             NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];

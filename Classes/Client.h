@@ -71,6 +71,12 @@ extern NSString * const kNotificationName_UsersUpdated;
 
 @end
 
+@interface Client (Contacts)
+
+-(void)addUserToContact:(NSString *)itemString;
+
+@end
+
 #pragma mark - DOS
 
 NSString *document_directory(void);

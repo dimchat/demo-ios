@@ -108,7 +108,7 @@
                 MessageProcessor *msgDB = [MessageProcessor sharedInstance];
                 [msgDB clearConversation:self->_conversation];
                 
-                [self dismissViewControllerAnimated:YES completion:nil];
+                [self.navigationController popToRootViewControllerAnimated:YES];
             };
             [self showMessage:text withTitle:title cancelHandler:nil defaultHandler:handler];
         } else if (row == 1) {

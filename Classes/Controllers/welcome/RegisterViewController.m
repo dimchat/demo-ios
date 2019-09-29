@@ -22,6 +22,7 @@
 #import "Facebook+Profile.h"
 #import "WebViewController.h"
 #import "RegisterViewController.h"
+#import "ImportAccountViewController.h"
 
 @interface RegisterViewController ()<UITextFieldDelegate>
 
@@ -33,6 +34,7 @@
 @property (strong, nonatomic) UILabel *avatarLabel;
 @property (strong, nonatomic) UIImageView *avatarImageView;
 @property (strong, nonatomic) UITextField *nicknameTextField;
+@property (strong, nonatomic) UIButton *importButton;
 @property (strong, nonatomic) NSData *imageData;
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
@@ -110,12 +112,24 @@
     seperator.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:seperator];
     
+    y = seperator.frame.origin.y;
+    height = 44.0;
+    self.importButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.importButton.frame = CGRectMake(x, y, width, height);
+    [self.importButton setTitle:NSLocalizedString(@"Import Existing Account", @"title") forState:UIControlStateNormal];
+    [self.importButton addTarget:self action:@selector(importAccount:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.importButton];
+    
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
     
+    [super viewDidAppear:animated];
     [self.nicknameTextField becomeFirstResponder];
 }
 
@@ -247,12 +261,13 @@
             return;
         }
         
+        Client *client = [Client sharedInstance];
         //New User add Moky as contact
         NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";
-        [self addUserToContact:itemString];
+        [client addUserToContact:itemString];
         
         itemString = @"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf";
-        [self addUserToContact:itemString];
+        [client addUserToContact:itemString];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -266,30 +281,10 @@
     self.navigationController.navigationBar.userInteractionEnabled = YES;
 }
 
--(void)addUserToContact:(NSString *)itemString{
+-(void)importAccount:(id)sender{
     
-    Client *client = [Client sharedInstance];
-    
-    DIMID *ID = DIMIDWithString(itemString);
-    
-    DIMLocalUser *user = client.currentUser;
-    DIMMeta *meta = DIMMetaForID(user.ID);
-    DIMProfile *profile = user.profile;
-    DIMCommand *cmd;
-    if (profile) {
-        cmd = [[DIMProfileCommand alloc] initWithID:user.ID
-                                               meta:meta
-                                            profile:profile];
-    } else {
-        cmd = [[DIMMetaCommand alloc] initWithID:user.ID meta:meta];
-    }
-    [client sendContent:cmd to:ID];
-    
-    // add to contacts
-    [[DIMFacebook sharedInstance] user:user addContact:ID];
-    
-    NSLog(@"contact %@ added to user %@", ID, user);
-    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
+    ImportAccountViewController *vc = [[ImportAccountViewController alloc] initWithNibName:@"ImportAccountViewController" bundle:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

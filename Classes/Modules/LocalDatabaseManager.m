@@ -45,7 +45,7 @@
 -(void)createTables{
     
     [self.db open];
-    NSString *sql = @"CREATE TABLE IF NOT EXISTS messages (id integer primary key autoincrement, conversation_id text, type integer, msg_text text, content text, sender text, receiver text, time integer, status integer);";
+    NSString *sql = @"CREATE TABLE IF NOT EXISTS messages (id integer primary key autoincrement, conversation_id text, sn integer, type integer, msg_text text, content text, sender text, receiver text, time integer, status integer);";
     BOOL success = [self.db executeStatements:sql];
     
     if(!success){

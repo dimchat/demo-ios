@@ -10,7 +10,7 @@
 #import "NSObject+JsON.h"
 #import "NSData+Extension.h"
 #import "NSNotificationCenter+Extension.h"
-
+#import "NSString+Crypto.h"
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "MessageProcessor.h"
@@ -413,6 +413,59 @@ SingletonImplementations(Client, sharedInstance)
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
     
     return saved;
+}
+
+@end
+
+@implementation Client (Contacts)
+
+- (void)processContactsCommand:(DIMCommand *)cmd{
+    
+    DIMLocalUser *user = [self currentUser];
+    
+    NSString *dataStr = [cmd objectForKey:@"data"];
+    NSString *keyStr = [cmd objectForKey:@"key"];
+    
+    NSData *data = [dataStr base64Decode];
+    NSData *key = [keyStr base64Decode];
+    
+    key = [user decrypt:key];
+    DIMSymmetricKey *password = MKMSymmetricKeyFromDictionary([key jsonDictionary]);
+    
+    data = [password decrypt:data];
+    NSArray *contacts = [data jsonArray];
+    
+    for(NSString *address in contacts){
+        [self addUserToContact:address];
+    }
+    
+    NSDictionary *mDict = @{@"contacts": contacts};
+    
+    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self userInfo:mDict];
+}
+
+-(void)addUserToContact:(NSString *)itemString{
+    
+    DIMID *ID = DIMIDWithString(itemString);
+    
+    DIMLocalUser *user = self.currentUser;
+    DIMMeta *meta = DIMMetaForID(user.ID);
+    DIMProfile *profile = user.profile;
+    DIMCommand *cmd;
+    if (profile) {
+        cmd = [[DIMProfileCommand alloc] initWithID:user.ID
+                                               meta:meta
+                                            profile:profile];
+    } else {
+        cmd = [[DIMMetaCommand alloc] initWithID:user.ID meta:meta];
+    }
+    [self sendContent:cmd to:ID];
+    
+    // add to contacts
+    [[DIMFacebook sharedInstance] user:user addContact:ID];
+    
+    NSLog(@"contact %@ added to user %@", ID, user);
+    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
 }
 
 @end

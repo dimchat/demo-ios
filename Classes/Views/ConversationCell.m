@@ -12,6 +12,7 @@
 #import "User.h"
 #import "ConversationCell.h"
 #import "UIColor+Extension.h"
+#import "Client.h"
 
 @implementation ConversationCell
 
@@ -40,99 +41,123 @@
         [self.contentView addSubview:self.lastTimeLabel];
         
         self.separatorInset = UIEdgeInsetsMake(0.0, 70.0, 0.0, 0.0);
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:kNotificationName_MessageUpdated object:nil];
     }
     
     return self;
 }
 
+-(void)dealloc{
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)setConversation:(DIMConversation *)conversation {
     if (![_conversation.ID isEqual:conversation.ID]) {
         _conversation = conversation;
-        
-        // avatar
-        CGRect frame = _avatarImageView.frame;
-        UIImage *image;
-        if (MKMNetwork_IsGroup(_conversation.ID.type)) {
-            image = [_conversation.profile logoImageWithSize:frame.size];
-        } else {
-            image = [_conversation.profile avatarImageWithSize:frame.size];
-        }
-        
-        [_avatarImageView setImage:image];
-        
-        _nameLabel.text = readable_name(_conversation.ID);
-
-        // last message
-        NSString *last = nil;
-        NSInteger count = [_conversation numberOfMessage];
-        DIMInstantMessage *msg;
-        DIMContent *content;
-        while (--count >= 0) {
-            msg = [_conversation messageAtIndex:count];
-            content = msg.content;
-            switch (content.type) {
-                case DKDContentType_Text: {
-                    last = [(DIMTextContent *)content text];
-                }
-                    break;
-                    
-                case DKDContentType_File: {
-                    NSString *filename = [(DIMFileContent *)content filename];
-                    NSString *format = NSLocalizedString(@"[File:%@]", nil);
-                    last = [NSString stringWithFormat:format, filename];
-                }
-                    break;
-                    
-                case DKDContentType_Image: {
-                    last = NSLocalizedString(@"[Image]", @"title");
-                }
-                    break;
-                    
-                case DKDContentType_Audio: {
-                    NSString *filename = [(DIMAudioContent *)content filename];
-                    NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
-                    last = [NSString stringWithFormat:format, filename];
-                }
-                    break;
-                    
-                case DKDContentType_Video: {
-                    NSString *filename = [(DIMVideoContent *)content filename];
-                    NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
-                    last = [NSString stringWithFormat:format, filename];
-                }
-                    break;
-                    
-                case DKDContentType_Page: {
-                    DIMWebpageContent *page = (DIMWebpageContent *)content;
-                    NSString *text = page.title;
-                    if (text.length == 0) {
-                        text = page.desc;
-                        if (text.length == 0) {
-                            text = [page.URL absoluteString];
-                        }
-                    }
-                    NSString *format = NSLocalizedString(@"[Web:%@]", nil);
-                    last = [NSString stringWithFormat:format, text];
-                }
-                    break;
-                    
-                default:
-                    break;
-            }
-            if (last.length > 0) {
-                // got it
-                break;
-            }
-        }
-        _lastMsgLabel.text = last;
-        
-        NSTimeInterval timestamp = [[msg objectForKey:@"time"] doubleValue];
-        NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
-        
-        self.lastTimeLabel.text = [self dateString:date];
-        
+        [self loadData];
         [self setNeedsLayout];
     }
+}
+
+-(void)onConversationUpdated:(NSNotification *)o{
+    
+    NSDictionary *info = [o userInfo];
+    DIMID *ID = DIMIDWithString([info objectForKey:@"ID"]);
+    if ([_conversation.ID isEqual:ID]) {
+    
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self loadData];
+            [self setNeedsLayout];
+        });
+    }
+}
+
+-(void)loadData{
+    
+    // avatar
+    CGRect frame = _avatarImageView.frame;
+    UIImage *image;
+    if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+        image = [_conversation.profile logoImageWithSize:frame.size];
+    } else {
+        image = [_conversation.profile avatarImageWithSize:frame.size];
+    }
+    
+    [_avatarImageView setImage:image];
+    
+    _nameLabel.text = readable_name(_conversation.ID);
+
+    // last message
+    NSString *last = nil;
+    NSInteger count = [_conversation numberOfMessage];
+    DIMInstantMessage *msg;
+    DIMContent *content;
+    while (--count >= 0) {
+        msg = [_conversation messageAtIndex:count];
+        content = msg.content;
+        switch (content.type) {
+            case DKDContentType_Text: {
+                last = [(DIMTextContent *)content text];
+            }
+                break;
+                
+            case DKDContentType_File: {
+                NSString *filename = [(DIMFileContent *)content filename];
+                NSString *format = NSLocalizedString(@"[File:%@]", nil);
+                last = [NSString stringWithFormat:format, filename];
+            }
+                break;
+                
+            case DKDContentType_Image: {
+                last = NSLocalizedString(@"[Image]", @"title");
+            }
+                break;
+                
+            case DKDContentType_Audio: {
+                NSString *filename = [(DIMAudioContent *)content filename];
+                NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
+                last = [NSString stringWithFormat:format, filename];
+            }
+                break;
+                
+            case DKDContentType_Video: {
+                NSString *filename = [(DIMVideoContent *)content filename];
+                NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
+                last = [NSString stringWithFormat:format, filename];
+            }
+                break;
+                
+            case DKDContentType_Page: {
+                DIMWebpageContent *page = (DIMWebpageContent *)content;
+                NSString *text = page.title;
+                if (text.length == 0) {
+                    text = page.desc;
+                    if (text.length == 0) {
+                        text = [page.URL absoluteString];
+                    }
+                }
+                NSString *format = NSLocalizedString(@"[Web:%@]", nil);
+                last = [NSString stringWithFormat:format, text];
+            }
+                break;
+                
+            default:
+                break;
+        }
+        if (last.length > 0) {
+            // got it
+            break;
+        }
+    }
+    _lastMsgLabel.text = last;
+    
+    NSTimeInterval timestamp = [[msg objectForKey:@"time"] doubleValue];
+    NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
+    
+    self.lastTimeLabel.text = [self dateString:date];
 }
 
 - (void)layoutSubviews {

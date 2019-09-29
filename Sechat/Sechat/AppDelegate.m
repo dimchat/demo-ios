@@ -16,6 +16,8 @@
 #import "AccountTableViewController.h"
 #import "WelcomeViewController.h"
 #import "UIColor+Extension.h"
+#import "LocalDatabaseManager.h"
+#import "FolderUtility.h"
 
 @interface AppDelegate ()<UITabBarControllerDelegate>
 
@@ -45,6 +47,9 @@
     [self addDefaultUser:@"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"];
     [self addDefaultUser:@"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"];
     
+    [[LocalDatabaseManager sharedInstance] createTables];
+    [self convertOldTables];
+    
     [self setAppApearence];
     self.tabbarController = [self createTabBarController];
     
@@ -71,13 +76,6 @@
     
     [[UIButton appearance] setTitleColor:tintColor forState:UIControlStateNormal];
     [[UIActivityIndicatorView appearance] setColor:tintColor];
-    //[[UIView appearance] setBackgroundColor:[UIColor colorNamed:@"ViewBackgroundColor"]];
-    
-    //[[UITabBar appearance] setTintColor:tintColor];
-    //[[UIToolbar appearance] setTintColor:tintColor];
-    //[[UITextField appearance] setTintColor:tintColor];
-    //[UISwitch appearance].onTintColor = tintColor;
-    //[[UITableView appearance] setBackgroundColor:APP_MAIN_BACKGROUND_COLOR];
 }
 
 -(void)addDefaultUser:(NSString *)address{
@@ -175,6 +173,68 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     // APNs receive notification
     [[Client sharedInstance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
+
+#pragma mark - Convert old tables
+
+-(void)convertOldTables{
+    
+    LocalDatabaseManager *sqliteManager = [LocalDatabaseManager sharedInstance];
+    
+    NSString *dir = [[FolderUtility sharedInstance] applicationDocumentsDirectory];
+    dir = [dir stringByAppendingPathComponent:@".dim"];
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *de = [fm enumeratorAtPath:dir];
+        
+    DIMID *ID;
+    DIMAddress *address;
+    NSString *string;
+
+    NSString *path;
+    
+    while (path = [de nextObject]) {
+        if (![path hasSuffix:@"/messages.plist"]) {
+            continue;
+        }
+        
+        string = [path substringToIndex:(path.length - 15)];
+        address = MKMAddressFromString(string);
+            
+        ID = DIMIDWithAddress(address);
+        NSString *plistPath = [NSString stringWithFormat:@"%@/%@", dir, path];
+        
+        if ([ID isValid]) {
+            
+            [sqliteManager insertConversation:ID];
+            
+            //Get All Conversation Messages
+            NSArray *array = [NSArray arrayWithContentsOfFile:plistPath];
+            if (!array) {
+                NSLog(@"messages not found: %@", plistPath);
+                continue;
+            }
+            
+            NSLog(@"messages from %@", plistPath);
+            for (NSDictionary *item in array) {
+                DIMInstantMessage *msg = DKDInstantMessageFromDictionary(item);
+                if (!msg) {
+                    NSAssert(false, @"message invalid: %@", item);
+                    continue;
+                }
+                
+                [sqliteManager addMessage:msg toConversation:ID];
+            }
+            
+            NSError *error;
+            [fm removeItemAtPath:plistPath error:&error];
+            
+        } else {
+            NSLog(@"failed to load message in path: %@", plistPath);
+        }
+    }
+    
+    NSLog(@"Convert Finish");
 }
 
 @end

@@ -248,8 +248,8 @@
         DIMID *ID = DIMIDWithString([info objectForKey:@"ID"]);
         if ([_conversation.ID isEqual:ID]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                NSInteger new_count = [self groupMessage];
-                [self scrollAfterInsertNewMessage:new_count];
+                [self groupMessage];
+                [self scrollAfterInsertNewMessage];
             });
         }
     }
@@ -588,9 +588,8 @@
     // TODO: mark the message failed for trying again
 }
 
--(NSInteger)groupMessage{
+-(void)groupMessage{
     
-    NSInteger originalCount = [_messageArray count];
     [_messageArray removeAllObjects];
     
     DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
@@ -616,8 +615,6 @@
         [_messageArray addObject:iMsg];
         i++;
     }
-    
-    return [_messageArray count] - originalCount;
 }
 
 - (NSInteger)messageCount {
@@ -802,21 +799,10 @@
     [self.navigationController pushViewController:web animated:YES];
 }
 
--(void)scrollAfterInsertNewMessage:(NSInteger)newCount{
+-(void)scrollAfterInsertNewMessage{
 
     _adjustingTableViewFrame = YES;
-    
-    NSMutableArray *newIndexPath = [[NSMutableArray alloc] init];
-    NSInteger messageCount = [self messageCount];
-    
-    for(NSInteger i=1;i<=newCount;i++){
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:messageCount - i inSection:0];
-        [newIndexPath addObject:indexPath];
-    }
-
-    [self.messagesTableView beginUpdates];
-    [self.messagesTableView insertRowsAtIndexPaths:newIndexPath withRowAnimation:UITableViewRowAnimationNone];
-    [self.messagesTableView endUpdates];
+    [self.messagesTableView reloadData];
 
     if(self.messagesTableView.contentOffset.y + self.messagesTableView.bounds.size.height > self.messagesTableView.contentSize.height - 100){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
