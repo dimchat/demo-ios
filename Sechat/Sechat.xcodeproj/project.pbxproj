@@ -20,6 +20,81 @@
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
 		52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BED8F72330C78A00886CCD /* RegisterViewController.m */; };
 		52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
+		52DBA3232340F2F90000C2B4 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907712254A3970024C830 /* ImagePickerController.m */; };
+		52DBA3242340F2F90000C2B4 /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
+		52DBA3252340F2F90000C2B4 /* ZoomInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790816225A6E2C0024C830 /* ZoomInViewController.m */; };
+		52DBA3262340F2F90000C2B4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561A2222ED7C006CADEA /* User.m */; };
+		52DBA3272340F2F90000C2B4 /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* Facebook+Register.m */; };
+		52DBA3282340F2F90000C2B4 /* CommandMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949D2334829900E8DA05 /* CommandMessageCell.m */; };
+		52DBA3292340F2F90000C2B4 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790852225CB8300024C830 /* WelcomeViewController.m */; };
+		52DBA32A2340F2F90000C2B4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
+		52DBA32B2340F2F90000C2B4 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
+		52DBA32C2340F2F90000C2B4 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979080C2259CDA10024C830 /* UIView+Extension.m */; };
+		52DBA32D2340F2F90000C2B4 /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */; };
+		52DBA32E2340F2F90000C2B4 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BED8F72330C78A00886CCD /* RegisterViewController.m */; };
+		52DBA32F2340F2F90000C2B4 /* ProfileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CAB222D8B3400EE6C86 /* ProfileTableViewController.m */; };
+		52DBA3302340F2F90000C2B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255D42222EC56006CADEA /* main.m */; };
+		52DBA3312340F2F90000C2B4 /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256222222ED7C006CADEA /* Client.m */; };
+		52DBA3322340F2F90000C2B4 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
+		52DBA3332340F2F90000C2B4 /* SentMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949523347ED300E8DA05 /* SentMessageCell.m */; };
+		52DBA3342340F2F90000C2B4 /* GuideCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949723347ED300E8DA05 /* GuideCell.m */; };
+		52DBA3352340F2F90000C2B4 /* DIMInstantMessage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */; };
+		52DBA3362340F2F90000C2B4 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CC9222E577900EE6C86 /* ContactCell.m */; };
+		52DBA3372340F2F90000C2B4 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CC6222E576300EE6C86 /* ConversationCell.m */; };
+		52DBA3382340F2F90000C2B4 /* UIStoryboard+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979081A225A6F390024C830 /* UIStoryboard+Extension.m */; };
+		52DBA3392340F2F90000C2B4 /* ContactsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CAC222D8B3400EE6C86 /* ContactsTableViewController.m */; };
+		52DBA33A2340F2F90000C2B4 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
+		52DBA33B2340F2F90000C2B4 /* ReceiveMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949623347ED300E8DA05 /* ReceiveMessageCell.m */; };
+		52DBA33C2340F2F90000C2B4 /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256312222ED7C006CADEA /* AccountTableViewController.m */; };
+		52DBA33D2340F2F90000C2B4 /* MessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561D2222ED7C006CADEA /* MessageProcessor.m */; };
+		52DBA33E2340F2F90000C2B4 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */; };
+		52DBA33F2340F2F90000C2B4 /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */; };
+		52DBA3402340F2F90000C2B4 /* MessageProcessor+GroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */; };
+		52DBA3412340F2F90000C2B4 /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256372222ED7C006CADEA /* AccountEditViewController.m */; };
+		52DBA3422340F2F90000C2B4 /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */; };
+		52DBA3432340F2F90000C2B4 /* SearchUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CBD222DA24B00EE6C86 /* SearchUsersTableViewController.m */; };
+		52DBA3442340F2F90000C2B4 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 524294A12334B7E600E8DA05 /* MessageCell.m */; };
+		52DBA3452340F2F90000C2B4 /* TimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949823347ED300E8DA05 /* TimeCell.m */; };
+		52DBA3462340F2F90000C2B4 /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */; };
+		52DBA3472340F2F90000C2B4 /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3792242B21200E6ACDA /* NSString+Extension.m */; };
+		52DBA3482340F2F90000C2B4 /* ParticipantManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */; };
+		52DBA3492340F2F90000C2B4 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
+		52DBA34A2340F2F90000C2B4 /* ParticipantsManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA4222D8B3400EE6C86 /* ParticipantsManageTableViewController.m */; };
+		52DBA34B2340F2F90000C2B4 /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9F222D8B3400EE6C86 /* ConversationsTableViewController.m */; };
+		52DBA34C2340F2F90000C2B4 /* ParticipantsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA2222D8B3400EE6C86 /* ParticipantsCollectionViewController.m */; };
+		52DBA34D2340F2F90000C2B4 /* ParticipantCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCC222ECDBE00EE6C86 /* ParticipantCollectionCell.m */; };
+		52DBA34E2340F2F90000C2B4 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */; };
+		52DBA34F2340F2F90000C2B4 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790835225B666F0024C830 /* WebViewController.m */; };
+		52DBA3502340F2F90000C2B4 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
+		52DBA3512340F2F90000C2B4 /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256212222ED7C006CADEA /* Facebook.m */; };
+		52DBA3532340F2F90000C2B4 /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
+		52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; };
+		52DBA3552340F2F90000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
+		52DBA3562340F2F90000C2B4 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; };
+		52DBA3572340F2F90000C2B4 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; };
+		52DBA3582340F2F90000C2B4 /* MarsGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; };
+		52DBA3592340F2F90000C2B4 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
+		52DBA35A2340F2F90000C2B4 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
+		52DBA35C2340F2F90000C2B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255D02222EC56006CADEA /* LaunchScreen.storyboard */; };
+		52DBA35D2340F2F90000C2B4 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
+		52DBA35E2340F2F90000C2B4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
+		52DBA35F2340F2F90000C2B4 /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */; };
+		52DBA3602340F2F90000C2B4 /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E922560B2222ED6B006CADEA /* gsp.plist */; };
+		52DBA3612340F2F90000C2B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97816CD2223EAA700BCE3AD /* Assets.xcassets */; };
+		52DBA3622340F2F90000C2B4 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
+		52DBA3632340F2F90000C2B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 523FC36123331EEF0022B088 /* Main.storyboard */; };
+		52DBA3642340F2F90000C2B4 /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FF2222ED59006CADEA /* Contacts.storyboard */; };
+		52DBA3652340F2F90000C2B4 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FD2222ED59006CADEA /* Profile.storyboard */; };
+		52DBA3662340F2F90000C2B4 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92256012222ED59006CADEA /* Account.storyboard */; };
+		52DBA3672340F2F90000C2B4 /* Conversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FB2222ED59006CADEA /* Conversations.storyboard */; };
+		52DBA3682340F2F90000C2B4 /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
+		52DBA3692340F2F90000C2B4 /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
+		52DBA36B2340F2F90000C2B4 /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52DBA36C2340F2F90000C2B4 /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52DBA36D2340F2F90000C2B4 /* DIMCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52DBA36E2340F2F90000C2B4 /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52DBA36F2340F2F90000C2B4 /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		52DBA3702340F2F90000C2B4 /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
 		E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
@@ -87,6 +162,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		52DBA3212340F2F90000C2B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E978167F2223E7F200BCE3AD;
+			remoteInfo = DIMClient;
+		};
 		E92255DB2222EC56006CADEA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E92255B72222EC53006CADEA /* Project object */;
@@ -125,6 +207,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		52DBA36A2340F2F90000C2B4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				52DBA36B2340F2F90000C2B4 /* DaoKeDao.framework in Embed Frameworks */,
+				52DBA36C2340F2F90000C2B4 /* FiniteStateMachine.framework in Embed Frameworks */,
+				52DBA36D2340F2F90000C2B4 /* DIMCore.framework in Embed Frameworks */,
+				52DBA36E2340F2F90000C2B4 /* MingKeMing.framework in Embed Frameworks */,
+				52DBA36F2340F2F90000C2B4 /* MarsGate.framework in Embed Frameworks */,
+				52DBA3702340F2F90000C2B4 /* DIMClient.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E978171522254AB000BCE3AD /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -166,6 +264,8 @@
 		52BED8F72330C78A00886CCD /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		52BED8F82330C78A00886CCD /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		52DBA317234037590000C2B4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		52DBA3742340F2F90000C2B4 /* SechatAppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SechatAppStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		52DBA3752340F2F90000C2B4 /* Sechat copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Sechat copy-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/demo-ios/Sechat/Sechat copy-Info.plist"; sourceTree = "<absolute>"; };
 		8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sechat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
 		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
@@ -289,6 +389,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		52DBA3522340F2F90000C2B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52DBA3532340F2F90000C2B4 /* DIMClient.framework in Frameworks */,
+				52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */,
+				52DBA3552340F2F90000C2B4 /* libsqlite3.tbd in Frameworks */,
+				52DBA3562340F2F90000C2B4 /* DaoKeDao.framework in Frameworks */,
+				52DBA3572340F2F90000C2B4 /* MingKeMing.framework in Frameworks */,
+				52DBA3582340F2F90000C2B4 /* MarsGate.framework in Frameworks */,
+				52DBA3592340F2F90000C2B4 /* FiniteStateMachine.framework in Frameworks */,
+				52DBA35A2340F2F90000C2B4 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E92255BC2222EC53006CADEA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -358,6 +473,7 @@
 				E92255E82222EC56006CADEA /* SechatUITests */,
 				E92255C02222EC53006CADEA /* Products */,
 				E92256782222EE25006CADEA /* Frameworks */,
+				52DBA3752340F2F90000C2B4 /* Sechat copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -367,6 +483,7 @@
 				E92255BF2222EC53006CADEA /* Sechat.app */,
 				E92255DA2222EC56006CADEA /* SechatTests.xctest */,
 				E92255E52222EC56006CADEA /* SechatUITests.xctest */,
+				52DBA3742340F2F90000C2B4 /* SechatAppStore.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -602,6 +719,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		52DBA31F2340F2F90000C2B4 /* SechatAppStore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 52DBA3712340F2F90000C2B4 /* Build configuration list for PBXNativeTarget "SechatAppStore" */;
+			buildPhases = (
+				52DBA3222340F2F90000C2B4 /* Sources */,
+				52DBA3522340F2F90000C2B4 /* Frameworks */,
+				52DBA35B2340F2F90000C2B4 /* Resources */,
+				52DBA36A2340F2F90000C2B4 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				52DBA3202340F2F90000C2B4 /* PBXTargetDependency */,
+			);
+			name = SechatAppStore;
+			productName = Sechat;
+			productReference = 52DBA3742340F2F90000C2B4 /* SechatAppStore.app */;
+			productType = "com.apple.product-type.application";
+		};
 		E92255BE2222EC53006CADEA /* Sechat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E92255EE2222EC56006CADEA /* Build configuration list for PBXNativeTarget "Sechat" */;
@@ -709,6 +845,7 @@
 				E92255BE2222EC53006CADEA /* Sechat */,
 				E92255D92222EC56006CADEA /* SechatTests */,
 				E92255E42222EC56006CADEA /* SechatUITests */,
+				52DBA31F2340F2F90000C2B4 /* SechatAppStore */,
 			);
 		};
 /* End PBXProject section */
@@ -731,6 +868,27 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		52DBA35B2340F2F90000C2B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52DBA35C2340F2F90000C2B4 /* LaunchScreen.storyboard in Resources */,
+				52DBA35D2340F2F90000C2B4 /* avatar-bg.png in Resources */,
+				52DBA35E2340F2F90000C2B4 /* Localizable.strings in Resources */,
+				52DBA35F2340F2F90000C2B4 /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */,
+				52DBA3602340F2F90000C2B4 /* gsp.plist in Resources */,
+				52DBA3612340F2F90000C2B4 /* Assets.xcassets in Resources */,
+				52DBA3622340F2F90000C2B4 /* ImportAccountViewController.xib in Resources */,
+				52DBA3632340F2F90000C2B4 /* Main.storyboard in Resources */,
+				52DBA3642340F2F90000C2B4 /* Contacts.storyboard in Resources */,
+				52DBA3652340F2F90000C2B4 /* Profile.storyboard in Resources */,
+				52DBA3662340F2F90000C2B4 /* Account.storyboard in Resources */,
+				52DBA3672340F2F90000C2B4 /* Conversations.storyboard in Resources */,
+				52DBA3682340F2F90000C2B4 /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */,
+				52DBA3692340F2F90000C2B4 /* ChatViewImages.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E92255BD2222EC53006CADEA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -769,6 +927,60 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		52DBA3222340F2F90000C2B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				52DBA3232340F2F90000C2B4 /* ImagePickerController.m in Sources */,
+				52DBA3242340F2F90000C2B4 /* UIStoryboardSegue+Extension.m in Sources */,
+				52DBA3252340F2F90000C2B4 /* ZoomInViewController.m in Sources */,
+				52DBA3262340F2F90000C2B4 /* User.m in Sources */,
+				52DBA3272340F2F90000C2B4 /* Facebook+Register.m in Sources */,
+				52DBA3282340F2F90000C2B4 /* CommandMessageCell.m in Sources */,
+				52DBA3292340F2F90000C2B4 /* WelcomeViewController.m in Sources */,
+				52DBA32A2340F2F90000C2B4 /* AppDelegate.m in Sources */,
+				52DBA32B2340F2F90000C2B4 /* UIColor+Extension.m in Sources */,
+				52DBA32C2340F2F90000C2B4 /* UIView+Extension.m in Sources */,
+				52DBA32D2340F2F90000C2B4 /* UIViewController+Extension.m in Sources */,
+				52DBA32E2340F2F90000C2B4 /* RegisterViewController.m in Sources */,
+				52DBA32F2340F2F90000C2B4 /* ProfileTableViewController.m in Sources */,
+				52DBA3302340F2F90000C2B4 /* main.m in Sources */,
+				52DBA3312340F2F90000C2B4 /* Client.m in Sources */,
+				52DBA3322340F2F90000C2B4 /* UIScrollView+Extension.m in Sources */,
+				52DBA3332340F2F90000C2B4 /* SentMessageCell.m in Sources */,
+				52DBA3342340F2F90000C2B4 /* GuideCell.m in Sources */,
+				52DBA3352340F2F90000C2B4 /* DIMInstantMessage+Extension.m in Sources */,
+				52DBA3362340F2F90000C2B4 /* ContactCell.m in Sources */,
+				52DBA3372340F2F90000C2B4 /* ConversationCell.m in Sources */,
+				52DBA3382340F2F90000C2B4 /* UIStoryboard+Extension.m in Sources */,
+				52DBA3392340F2F90000C2B4 /* ContactsTableViewController.m in Sources */,
+				52DBA33A2340F2F90000C2B4 /* ImportAccountViewController.m in Sources */,
+				52DBA33B2340F2F90000C2B4 /* ReceiveMessageCell.m in Sources */,
+				52DBA33C2340F2F90000C2B4 /* AccountTableViewController.m in Sources */,
+				52DBA33D2340F2F90000C2B4 /* MessageProcessor.m in Sources */,
+				52DBA33E2340F2F90000C2B4 /* UIImage+Extension.m in Sources */,
+				52DBA33F2340F2F90000C2B4 /* DIMProfile+Extension.m in Sources */,
+				52DBA3402340F2F90000C2B4 /* MessageProcessor+GroupCommand.m in Sources */,
+				52DBA3412340F2F90000C2B4 /* AccountEditViewController.m in Sources */,
+				52DBA3422340F2F90000C2B4 /* UIButton+Extension.m in Sources */,
+				52DBA3432340F2F90000C2B4 /* SearchUsersTableViewController.m in Sources */,
+				52DBA3442340F2F90000C2B4 /* MessageCell.m in Sources */,
+				52DBA3452340F2F90000C2B4 /* TimeCell.m in Sources */,
+				52DBA3462340F2F90000C2B4 /* UIImageView+Extension.m in Sources */,
+				52DBA3472340F2F90000C2B4 /* NSString+Extension.m in Sources */,
+				52DBA3482340F2F90000C2B4 /* ParticipantManageCell.m in Sources */,
+				52DBA3492340F2F90000C2B4 /* Facebook+Profile.m in Sources */,
+				52DBA34A2340F2F90000C2B4 /* ParticipantsManageTableViewController.m in Sources */,
+				52DBA34B2340F2F90000C2B4 /* ConversationsTableViewController.m in Sources */,
+				52DBA34C2340F2F90000C2B4 /* ParticipantsCollectionViewController.m in Sources */,
+				52DBA34D2340F2F90000C2B4 /* ParticipantCollectionCell.m in Sources */,
+				52DBA34E2340F2F90000C2B4 /* ChatViewController.m in Sources */,
+				52DBA34F2340F2F90000C2B4 /* WebViewController.m in Sources */,
+				52DBA3502340F2F90000C2B4 /* ChatManageTableViewController.m in Sources */,
+				52DBA3512340F2F90000C2B4 /* Facebook.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E92255BB2222EC53006CADEA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -842,6 +1054,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		52DBA3202340F2F90000C2B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DIMClient;
+			targetProxy = 52DBA3212340F2F90000C2B4 /* PBXContainerItemProxy */;
+		};
 		E92255DC2222EC56006CADEA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E92255BE2222EC53006CADEA /* Sechat */;
@@ -936,6 +1153,64 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		52DBA3722340F2F90000C2B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
+				ENABLE_BITCODE = YES;
+				HEADER_SEARCH_PATHS = (
+					"../../client-objc/Classes/**",
+					"../../core-objc/Classes/**",
+					"../../dkd-objc/Classes/**",
+					"../../mkm-objc/Classes/**",
+				);
+				INFOPLIST_FILE = "Sechat copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.6;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		52DBA3732340F2F90000C2B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EQ22GS36XN;
+				ENABLE_BITCODE = YES;
+				HEADER_SEARCH_PATHS = (
+					"../../client-objc/Classes/**",
+					"../../core-objc/Classes/**",
+					"../../dkd-objc/Classes/**",
+					"../../mkm-objc/Classes/**",
+				);
+				INFOPLIST_FILE = "Sechat copy-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.6;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		E92255EC2222EC56006CADEA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1057,9 +1332,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = EQ22GS36XN;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = GL2VUTHN95;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1073,9 +1348,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
+				MARKETING_VERSION = 0.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jy.sechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = sechat;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1085,9 +1361,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = EQ22GS36XN;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = GL2VUTHN95;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1101,9 +1377,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
+				MARKETING_VERSION = 0.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jy.sechat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = sechat;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1185,6 +1462,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		52DBA3712340F2F90000C2B4 /* Build configuration list for PBXNativeTarget "SechatAppStore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52DBA3722340F2F90000C2B4 /* Debug */,
+				52DBA3732340F2F90000C2B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E92255BA2222EC53006CADEA /* Build configuration list for PBXProject "Sechat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
