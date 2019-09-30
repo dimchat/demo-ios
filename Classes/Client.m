@@ -18,6 +18,7 @@
 #import "Client.h"
 
 NSString * const kNotificationName_MessageUpdated = @"MessageUpdated";
+NSString * const kNotificationName_ConversationUpdated = @"ConversationUpdated";
 NSString * const kNotificationName_MessageCleaned = @"MessageCleaned";
 NSString * const kNotificationName_UsersUpdated = @"UsersUpdated";
 

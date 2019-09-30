@@ -43,6 +43,13 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)dealloc{
+
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -54,6 +61,7 @@
                              selector:@selector(reloadData)
                                  name:kNotificationName_ContactsUpdated
                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:kNotificationName_ProfileUpdated object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{

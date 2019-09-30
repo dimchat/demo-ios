@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BadgeView.h"
 #import <DIMClient/DIMClient.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *lastMsgLabel;
 @property (strong, nonatomic) UILabel *lastTimeLabel;
+@property (strong, nonatomic) BadgeView *badgeView;
 
 @property (strong, nonatomic) DIMConversation *conversation;
 

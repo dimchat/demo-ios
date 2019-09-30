@@ -29,9 +29,7 @@
 #import "ChatManageTableViewController.h"
 #import "ChatViewController.h"
 #import "ZoomInViewController.h"
-
-#define TOP_NAVIGATION_BAR_HEIGHT 64.0
-#define BOTTOM_TAB_BAR_HEIGHT 46.0
+#import "LocalDatabaseManager.h"
 
 @interface ChatViewController ()<UITextViewDelegate> {
     
@@ -107,7 +105,7 @@
     _keyboardFrame = CGRectMake(0, CGRectGetHeight(self.view.bounds), 0, 0);
     
     _textViewContainer = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.view.bounds) - textViewContainerHeight, CGRectGetWidth(self.view.bounds), textViewContainerHeight)];
-    _textViewContainer.backgroundColor = [UIColor colorWithHexString:@"f8f8f8"];
+    _textViewContainer.backgroundColor = [UIColor colorNamed:@"InputBackgroundColor"];
     _textViewContainer.userInteractionEnabled = YES;
     [self.view addSubview:_textViewContainer];
     
@@ -156,7 +154,7 @@
     [_textView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:NULL];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, _textViewContainer.frame.size.width, 0.5)];
-    line.backgroundColor = [UIColor colorWithHexString:@"aaaaaa"];
+    line.backgroundColor = [UIColor colorNamed:@"SeperatorColor"];
     [_textViewContainer addSubview:line];
 }
 
@@ -179,6 +177,14 @@
     [self addDataObserver];
     
     _scrolledToBottom = NO;
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [super viewWillDisappear:animated];
+    
+    [[LocalDatabaseManager sharedInstance] markMessageRead:_conversation.ID];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationName_ConversationUpdated object:nil userInfo:@{@"ID": _conversation.ID}];
 }
 
 -(void)addDataObserver{

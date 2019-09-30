@@ -13,6 +13,7 @@
 #import "ConversationCell.h"
 #import "UIColor+Extension.h"
 #import "Client.h"
+#import "LocalDatabaseManager.h"
 
 @implementation ConversationCell
 
@@ -40,16 +41,26 @@
         self.lastTimeLabel.textAlignment = NSTextAlignmentRight;
         [self.contentView addSubview:self.lastTimeLabel];
         
+        self.badgeView = [[BadgeView alloc] init];
+        self.badgeView.font = [UIFont systemFontOfSize:14.0];
+        [self.badgeView setBackgroundColor:[UIColor redColor]];
+        [self.badgeView setMaxBounds:CGRectMake(0.0, 0.0, 20.0, 20.0)];
+        self.badgeView.badgeValue = @"";
+        [self.contentView addSubview:self.badgeView];
+        
         self.separatorInset = UIEdgeInsetsMake(0.0, 70.0, 0.0, 0.0);
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:kNotificationName_MessageUpdated object:nil];
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConversationUpdated:) name:kNotificationName_MessageUpdated object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConversationUpdated:) name:kNotificationName_ConversationUpdated object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:kNotificationName_ProfileUpdated object:nil];
     }
     
     return self;
 }
 
 -(void)dealloc{
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -158,6 +169,17 @@
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
     
     self.lastTimeLabel.text = [self dateString:date];
+    
+    //Unread Message
+    NSInteger unreadCount = [[LocalDatabaseManager sharedInstance] getUnreadMessageCount:_conversation.ID];
+    
+    if(unreadCount > 0 && unreadCount <= 99){
+        self.badgeView.badgeValue = [NSString stringWithFormat:@"%zd", unreadCount];
+    }else if(unreadCount > 99){
+        self.badgeView.badgeValue = @"99+";
+    }else{
+        self.badgeView.badgeValue = @"";
+    }
 }
 
 - (void)layoutSubviews {
@@ -170,9 +192,27 @@
     
     self.avatarImageView.frame = CGRectMake(x, y, width, height);
     
+    if(self.badgeView.badgeValue == nil || [self.badgeView.badgeValue isEqualToString:@""]){
+        
+        width = 0.0;
+        height = 0.0;
+        self.badgeView.hidden = YES;
+        
+    }else{
+    
+        [self.badgeView sizeToFit];
+        width = self.badgeView.bounds.size.width;
+        height = self.badgeView.bounds.size.height;
+        self.badgeView.hidden = NO;
+    }
+    
+    x = self.contentView.bounds.size.width - width - 13.0;
+    y = (self.contentView.bounds.size.height - height) / 2.0;
+    self.badgeView.frame = CGRectMake(x, y, width, height);
+    
     width = 70.0;
     y = 13.0;
-    x = self.contentView.bounds.size.width - width - 13.0;
+    x = self.badgeView.frame.origin.x - width - 13.0;
     height = 19.0;
     self.lastTimeLabel.frame = CGRectMake(x, y, width, height);
     
@@ -184,7 +224,7 @@
     
     y = y + height + 5.0;
     height = 15.0;
-    width = self.bounds.size.width - 13.0 - x;
+    width = self.badgeView.frame.origin.x - 13.0 - x;
     self.lastMsgLabel.frame = CGRectMake(x, y, width, height);
 }
 
@@ -198,7 +238,7 @@
     } else if([date isToday]){
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"HH:mm a"];
+        [dateFormatter setDateFormat:NSLocalizedString(@"HH:mm a", @"title")];
         timeString = [dateFormatter stringFromDate:date];
         
     } else if([date isLaterThanDate:days_ago]){

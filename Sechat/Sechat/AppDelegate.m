@@ -66,8 +66,34 @@
         nc.modalPresentationStyle = UIModalPresentationFullScreen;
         [self.tabbarController presentViewController:nc animated:NO completion:nil];
     }
+    
+    [self updateBadge:nil];
+    [self addObservers];
 
     return YES;
+}
+
+-(void)addObservers{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadge:) name:kNotificationName_MessageUpdated object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadge:) name:kNotificationName_ConversationUpdated object:nil];
+}
+
+-(void)updateBadge:(NSNotification *)o{
+    
+    NSInteger unreadCount = [[LocalDatabaseManager sharedInstance] getUnreadMessageCount:nil];
+    
+    NSString *badgeValue = nil;
+    if(unreadCount > 0 && unreadCount <= 99){
+        badgeValue = [NSString stringWithFormat:@"%zd", unreadCount];
+    }else if(unreadCount > 99){
+        badgeValue = @"99+";
+    }
+    
+    UITabBarItem *tabBarItem = self.tabbarController.tabBar.items[0];
+    tabBarItem.badgeValue = badgeValue;
+    
+    [UIApplication sharedApplication].applicationIconBadgeNumber = unreadCount;
 }
 
 -(void)setAppApearence{
@@ -146,6 +172,8 @@
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     
     [[Client sharedInstance] willEnterForeground];
+    [self updateBadge:nil];
+    [self addObservers];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

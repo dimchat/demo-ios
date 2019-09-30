@@ -14,6 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const kNotificationName_MessageUpdated;
+extern NSString * const kNotificationName_ConversationUpdated;
 extern NSString * const kNotificationName_MessageCleaned;
 extern NSString * const kNotificationName_UsersUpdated;
 

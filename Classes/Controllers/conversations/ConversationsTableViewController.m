@@ -41,13 +41,20 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)dealloc{
+
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [NSNotificationCenter addObserver:self
-//                             selector:@selector(loadData)
-//                                 name:kNotificationName_MessageUpdated
-//                               object:nil];
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(loadData)
+                                 name:kNotificationName_MessageUpdated
+                               object:nil];
     [NSNotificationCenter addObserver:self
                              selector:@selector(loadData)
                                  name:kNotificationName_MessageCleaned
@@ -139,7 +146,6 @@
     MessageProcessor *msgDB = [MessageProcessor sharedInstance];
     DIMConversation *chat = [msgDB conversationAtIndex:row];
     cell.conversation = chat;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }

@@ -7,19 +7,14 @@
 //
 
 #import <DIMClient/DIMClient.h>
-
 #import "NSObject+JsON.h"
 #import "NSData+Extension.h"
 #import "NSNotificationCenter+Extension.h"
-
 #import "UIViewController+Extension.h"
 #import "UIView+Extension.h"
 #import "UIImage+Extension.h"
-
 #import "DIMProfile+Extension.h"
-
 #import "ImagePickerController.h"
-
 #import "User.h"
 #import "Client.h"
 #import "Facebook+Profile.h"
@@ -238,11 +233,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    if(section == 0){
-        return 3;
-    }
-    
     return 2;
 }
 
@@ -263,15 +253,10 @@
         
         if(indexPath.row == 0){
             
-            cell.textLabel.text = NSLocalizedString(@"Username", @"title");
-            cell.detailTextLabel.text = ID.name;
-            
-        } else if(indexPath.row == 1){
-            
             cell.textLabel.text = NSLocalizedString(@"Search NO.", @"title");
             cell.detailTextLabel.text = search_number(ID.number);
             
-        } else if(indexPath.row == 2){
+        } else if(indexPath.row == 1){
             
             cell.textLabel.text = NSLocalizedString(@"Address", @"title");
             cell.detailTextLabel.text = ID.address;
@@ -314,11 +299,16 @@
     
     if(section == 0){
         
-        if(row == 1){
+        if(row == 0){
             //Copy search number
             [[UIPasteboard generalPasteboard] setString:search_number(user.number)];
             
             [self showMessage:NSLocalizedString(@"Copy Search Number Success", nil) withTitle:nil];
+        } else if (row == 1){
+            //Copy address
+            [[UIPasteboard generalPasteboard] setString:user.ID.address];
+            
+            [self showMessage:NSLocalizedString(@"Copy Address Success", nil) withTitle:nil];
         }
     }
     
@@ -328,8 +318,7 @@
             // Save
             if ([self saveAndSubmit]) {
                 // saved
-                [self showMessage:NSLocalizedString(@"Success", nil)
-                        withTitle:nil];
+                [self showMessage:NSLocalizedString(@"Success", nil) withTitle:nil];
             }
         } else if(row == 1){
             //Export Account

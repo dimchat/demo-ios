@@ -56,10 +56,11 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSDate *date = [[NSDate alloc] initWithTimeIntervalSince1970:timestamp];
     NSDate *days_ago = [[[NSDate date] dateBySubtractingDays:7] dateAtStartOfDay];
+    
     if ([date isToday]) {
-        [dateFormatter setDateFormat:@"a HH:mm"];
+        [dateFormatter setDateFormat:NSLocalizedString(@"HH:mm a", @"title")];
     } else if ([date isYesterday]) {
-        [dateFormatter setDateFormat:@"a HH:mm"];
+        [dateFormatter setDateFormat:NSLocalizedString(@"HH:mm a", @"title")];
         NSString *string = [dateFormatter stringFromDate:date];
         NSString *format = NSLocalizedString(@"Yesterday %@" ,@"title");
         return [NSString stringWithFormat:format, string];

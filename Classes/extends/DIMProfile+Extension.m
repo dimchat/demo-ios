@@ -19,7 +19,7 @@
 
 - (UIImage *)avatarImageWithSize:(const CGSize)size {
     
-    UIImage *image = [UIImage imageNamed:@"default_avatar"];
+    UIImage *image = nil;
     
     NSString *avatar = self.avatar;
     if (avatar) {
@@ -29,6 +29,10 @@
         } else {
             image = [UIImage imageNamed:avatar];
         }
+    }
+    
+    if(image == nil){
+        image = [UIImage imageNamed:@"default_avatar"];
     }
     
     return image;

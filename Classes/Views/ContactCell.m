@@ -35,7 +35,8 @@
         
         self.separatorInset = UIEdgeInsetsMake(0.0, 70.0, 0.0, 0.0);
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didProfileUpdated:) name:kNotificationName_AvatarUpdated object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAvatarUpdated:) name:kNotificationName_AvatarUpdated object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didProfileUpdated:) name:kNotificationName_ProfileUpdated object:nil];
     }
     
     return self;
@@ -67,10 +68,23 @@
     self.descLabel.text = search_number(_contact.number);
 }
 
--(void)didProfileUpdated:(NSNotification *)o{
+-(void)didAvatarUpdated:(NSNotification *)o{
     
     NSDictionary *userInfo = [o userInfo];
     DIMID *ID = [userInfo objectForKey:@"ID"];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([ID isEqual:self.contact]){
+            [self setData];
+            [self setNeedsLayout];
+        }
+    });
+}
+
+-(void)didProfileUpdated:(NSNotification *)o{
+    
+    DIMProfileCommand *cmd = (DIMProfileCommand *)[o userInfo];
+    DIMID *ID = cmd.ID;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         if([ID isEqual:self.contact]){

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */; };
 		5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
+		522EA28E2341953D00FC3BB8 /* BadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522EA28C2341953C00FC3BB8 /* BadgeView.m */; };
+		522EA28F2341953D00FC3BB8 /* BadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522EA28C2341953C00FC3BB8 /* BadgeView.m */; };
 		523FC36423331EEF0022B088 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 523FC36123331EEF0022B088 /* Main.storyboard */; };
 		5242949923347ED300E8DA05 /* SentMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949523347ED300E8DA05 /* SentMessageCell.m */; };
 		5242949A23347ED300E8DA05 /* ReceiveMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949623347ED300E8DA05 /* ReceiveMessageCell.m */; };
@@ -244,6 +246,8 @@
 /* Begin PBXFileReference section */
 		5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"; sourceTree = "<group>"; };
 		5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"; sourceTree = "<group>"; };
+		522EA28C2341953C00FC3BB8 /* BadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BadgeView.m; sourceTree = "<group>"; };
+		522EA28D2341953D00FC3BB8 /* BadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadgeView.h; sourceTree = "<group>"; };
 		523FC36223331EEF0022B088 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5242949123347ED300E8DA05 /* SentMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentMessageCell.h; sourceTree = "<group>"; };
 		5242949223347ED300E8DA05 /* ReceiveMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveMessageCell.h; sourceTree = "<group>"; };
@@ -592,6 +596,8 @@
 		E922563B2222ED7C006CADEA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				522EA28D2341953D00FC3BB8 /* BadgeView.h */,
+				522EA28C2341953C00FC3BB8 /* BadgeView.m */,
 				5242949023347ED300E8DA05 /* MessageCell */,
 				E99A5CC5222E576300EE6C86 /* ConversationCell.h */,
 				E99A5CC6222E576300EE6C86 /* ConversationCell.m */,
@@ -843,9 +849,9 @@
 			projectRoot = "";
 			targets = (
 				E92255BE2222EC53006CADEA /* Sechat */,
+				52DBA31F2340F2F90000C2B4 /* SechatAppStore */,
 				E92255D92222EC56006CADEA /* SechatTests */,
 				E92255E42222EC56006CADEA /* SechatUITests */,
-				52DBA31F2340F2F90000C2B4 /* SechatAppStore */,
 			);
 		};
 /* End PBXProject section */
@@ -935,6 +941,7 @@
 				52DBA3242340F2F90000C2B4 /* UIStoryboardSegue+Extension.m in Sources */,
 				52DBA3252340F2F90000C2B4 /* ZoomInViewController.m in Sources */,
 				52DBA3262340F2F90000C2B4 /* User.m in Sources */,
+				522EA28F2341953D00FC3BB8 /* BadgeView.m in Sources */,
 				52DBA3272340F2F90000C2B4 /* Facebook+Register.m in Sources */,
 				52DBA3282340F2F90000C2B4 /* CommandMessageCell.m in Sources */,
 				52DBA3292340F2F90000C2B4 /* WelcomeViewController.m in Sources */,
@@ -989,6 +996,7 @@
 				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
 				E9790817225A6E2C0024C830 /* ZoomInViewController.m in Sources */,
 				E92256462222ED7C006CADEA /* User.m in Sources */,
+				522EA28E2341953D00FC3BB8 /* BadgeView.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
 				5242949F2334829900E8DA05 /* CommandMessageCell.m in Sources */,
 				E9790853225CB8300024C830 /* WelcomeViewController.m in Sources */,
@@ -1334,6 +1342,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GL2VUTHN95;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1363,6 +1372,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GL2VUTHN95;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
