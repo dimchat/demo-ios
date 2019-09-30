@@ -24,6 +24,7 @@
     
     self.navigationItem.title = NSLocalizedString(@"Import Account", @"title");
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", @"title") style:UIBarButtonItemStylePlain target:self action:@selector(didPressSaveButton:)];
+    self.view.backgroundColor = [UIColor colorNamed:@"ViewBackgroundColor"];
     
     [self.accountTextView becomeFirstResponder];
 }

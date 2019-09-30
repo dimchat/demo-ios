@@ -54,8 +54,15 @@
     
     CGFloat width = 120.0;
     CGFloat height = 120.0;
-    CGFloat x = (self.view.bounds.size.width - width) / 2.0;
     CGFloat y = 128.0;
+    
+    if([UIScreen mainScreen].bounds.size.width == 320.0){
+        y = 64.0;
+        width = 80.0;
+        height = 80.0;
+    }
+    
+    CGFloat x = (self.view.bounds.size.width - width) / 2.0;
     
     self.avatarImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"default_avatar"]];
     self.avatarImageView.frame = CGRectMake(x, y, width, height);
@@ -101,6 +108,7 @@
     self.nicknameTextField = [[UITextField alloc] initWithFrame:CGRectMake(x, y, width, height)];
     self.nicknameTextField.placeholder = NSLocalizedString(@"e.g moky", @"title");
     self.nicknameTextField.delegate = self;
+    self.nicknameTextField.returnKeyType = UIReturnKeyDone;
     [self.view addSubview:self.nicknameTextField];
     
     y = nicknameLabel.frame.origin.y + nicknameLabel.frame.size.height;
@@ -285,6 +293,13 @@
     
     ImportAccountViewController *vc = [[ImportAccountViewController alloc] initWithNibName:@"ImportAccountViewController" bundle:nil];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    
+    [self.nicknameTextField resignFirstResponder];
+    
+    return YES;
 }
 
 @end

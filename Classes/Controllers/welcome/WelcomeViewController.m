@@ -37,6 +37,10 @@
     CGFloat x = (self.view.bounds.size.width - width) / 2.0;
     CGFloat y = 150.0;
     
+    if([UIScreen mainScreen].bounds.size.width == 320.0){
+        y = 50.0;
+    }
+    
     self.logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"DimLogo"]];
     self.logoImageView.frame = CGRectMake(x, y, width, height);
     [self.logoImageView roundedCorner];
@@ -44,12 +48,18 @@
     
     x = 10.0;
     y = y + height + 150.0;
-    height = 44.0;
+    height = 40.0;
     width = self.view.bounds.size.width - x * 2;
+    
+    if([UIScreen mainScreen].bounds.size.width == 320.0){
+        y = y - 100.0;
+        height = 70.0;
+    }
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
     titleLabel.text = NSLocalizedString(@"Thanks for using DIM Chat", @"title");
     titleLabel.font = [UIFont boldSystemFontOfSize:28.0];
+    titleLabel.numberOfLines = 2;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:titleLabel];
     
@@ -67,7 +77,7 @@
     agreementButton.frame = agreementLabel.frame;
     [self.view addSubview:agreementButton];
     
-    y = y + height + 60.0;
+    y = y + height + 30.0;
     height = 44.0;
     x = 35.0;
     width = self.view.bounds.size.width - x * 2.0;
