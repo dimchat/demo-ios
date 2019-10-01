@@ -225,6 +225,7 @@
     [client broadcastProfile:profile];
     
     [NSNotificationCenter postNotificationName:kNotificationName_UsersUpdated object:self];
+    [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated object:self userInfo:@{@"ID": user.ID}];
     return YES;
 }
 
