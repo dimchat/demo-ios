@@ -96,7 +96,7 @@
 //  Message Processor
 //
 
-"%@ was querying group info, responsing..." = "%@ 問緊最新嘅群信息，答咗。";
+"%@ was querying group info, responding..." = "%@ 問緊最新嘅群信息，答咗。";
 "%@ has updated group members" = "%@ 更新咗群信息";
 "removed" = "刪咗成員";
 "invited" = "加咗成員";
