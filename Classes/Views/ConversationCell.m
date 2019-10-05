@@ -54,7 +54,7 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConversationUpdated:) name:kNotificationName_MessageUpdated object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConversationUpdated:) name:kNotificationName_ConversationUpdated object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:kNotificationName_ProfileUpdated object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProfileUpdate:) name:kNotificationName_ProfileUpdated object:nil];
     }
     
     return self;
@@ -70,6 +70,19 @@
         [self loadData];
         [self setNeedsLayout];
     }
+}
+
+-(void)onProfileUpdate:(NSNotification *)o{
+    
+    DIMProfileCommand *cmd = (DIMProfileCommand *)[o userInfo];
+    DIMID *ID = cmd.ID;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if([ID isEqual:self.conversation.profile.ID]){
+            [self loadData];
+            [self setNeedsLayout];
+        }
+    });
 }
 
 -(void)onConversationUpdated:(NSNotification *)o{
