@@ -11,7 +11,6 @@
 		5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
 		522EA28E2341953D00FC3BB8 /* BadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522EA28C2341953C00FC3BB8 /* BadgeView.m */; };
 		522EA28F2341953D00FC3BB8 /* BadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522EA28C2341953C00FC3BB8 /* BadgeView.m */; };
-		523FC36423331EEF0022B088 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 523FC36123331EEF0022B088 /* Main.storyboard */; };
 		5242949923347ED300E8DA05 /* SentMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949523347ED300E8DA05 /* SentMessageCell.m */; };
 		5242949A23347ED300E8DA05 /* ReceiveMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949623347ED300E8DA05 /* ReceiveMessageCell.m */; };
 		5242949B23347ED300E8DA05 /* GuideCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949723347ED300E8DA05 /* GuideCell.m */; };
@@ -20,6 +19,14 @@
 		524294A22334B7E600E8DA05 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 524294A12334B7E600E8DA05 /* MessageCell.m */; };
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
+		529CFEA82349908F00CFCCEF /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA22349908E00CFCCEF /* Account.storyboard */; };
+		529CFEA92349908F00CFCCEF /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA22349908E00CFCCEF /* Account.storyboard */; };
+		529CFEAA2349908F00CFCCEF /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA42349908F00CFCCEF /* Contacts.storyboard */; };
+		529CFEAB2349908F00CFCCEF /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA42349908F00CFCCEF /* Contacts.storyboard */; };
+		529CFEAC2349908F00CFCCEF /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA62349908F00CFCCEF /* Profile.storyboard */; };
+		529CFEAD2349908F00CFCCEF /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA62349908F00CFCCEF /* Profile.storyboard */; };
+		529CFEB0234990B000CFCCEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEAE234990B000CFCCEF /* Main.storyboard */; };
+		529CFEB1234990B000CFCCEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEAE234990B000CFCCEF /* Main.storyboard */; };
 		52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BED8F72330C78A00886CCD /* RegisterViewController.m */; };
 		52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
 		52DBA3232340F2F90000C2B4 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907712254A3970024C830 /* ImagePickerController.m */; };
@@ -77,17 +84,12 @@
 		52DBA3582340F2F90000C2B4 /* MarsGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; };
 		52DBA3592340F2F90000C2B4 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
 		52DBA35A2340F2F90000C2B4 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
-		52DBA35C2340F2F90000C2B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255D02222EC56006CADEA /* LaunchScreen.storyboard */; };
 		52DBA35D2340F2F90000C2B4 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
 		52DBA35E2340F2F90000C2B4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
 		52DBA35F2340F2F90000C2B4 /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */; };
 		52DBA3602340F2F90000C2B4 /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E922560B2222ED6B006CADEA /* gsp.plist */; };
 		52DBA3612340F2F90000C2B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97816CD2223EAA700BCE3AD /* Assets.xcassets */; };
 		52DBA3622340F2F90000C2B4 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
-		52DBA3632340F2F90000C2B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 523FC36123331EEF0022B088 /* Main.storyboard */; };
-		52DBA3642340F2F90000C2B4 /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FF2222ED59006CADEA /* Contacts.storyboard */; };
-		52DBA3652340F2F90000C2B4 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FD2222ED59006CADEA /* Profile.storyboard */; };
-		52DBA3662340F2F90000C2B4 /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92256012222ED59006CADEA /* Account.storyboard */; };
 		52DBA3672340F2F90000C2B4 /* Conversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FB2222ED59006CADEA /* Conversations.storyboard */; };
 		52DBA3682340F2F90000C2B4 /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
 		52DBA3692340F2F90000C2B4 /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
@@ -100,14 +102,10 @@
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
 		E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
-		E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255D02222EC56006CADEA /* LaunchScreen.storyboard */; };
 		E92255D52222EC56006CADEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255D42222EC56006CADEA /* main.m */; };
 		E92255DF2222EC56006CADEA /* SechatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255DE2222EC56006CADEA /* SechatTests.m */; };
 		E92255EA2222EC56006CADEA /* SechatUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255E92222EC56006CADEA /* SechatUITests.m */; };
 		E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FB2222ED59006CADEA /* Conversations.storyboard */; };
-		E92256042222ED5A006CADEA /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FD2222ED59006CADEA /* Profile.storyboard */; };
-		E92256052222ED5A006CADEA /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FF2222ED59006CADEA /* Contacts.storyboard */; };
-		E92256062222ED5A006CADEA /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92256012222ED59006CADEA /* Account.storyboard */; };
 		E92256102222ED6B006CADEA /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E922560B2222ED6B006CADEA /* gsp.plist */; };
 		E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
 		E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* Facebook+Register.m */; };
@@ -248,7 +246,6 @@
 		5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"; sourceTree = "<group>"; };
 		522EA28C2341953C00FC3BB8 /* BadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BadgeView.m; sourceTree = "<group>"; };
 		522EA28D2341953D00FC3BB8 /* BadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadgeView.h; sourceTree = "<group>"; };
-		523FC36223331EEF0022B088 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5242949123347ED300E8DA05 /* SentMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentMessageCell.h; sourceTree = "<group>"; };
 		5242949223347ED300E8DA05 /* ReceiveMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveMessageCell.h; sourceTree = "<group>"; };
 		5242949323347ED300E8DA05 /* GuideCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideCell.h; sourceTree = "<group>"; };
@@ -265,6 +262,10 @@
 		52876E0022C20217006F0655 /* ImportAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportAccountViewController.h; sourceTree = "<group>"; };
 		52876E0122C20217006F0655 /* ImportAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImportAccountViewController.m; sourceTree = "<group>"; };
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
+		529CFEA32349908E00CFCCEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account.storyboard; sourceTree = "<group>"; };
+		529CFEA52349908F00CFCCEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Contacts.storyboard; sourceTree = "<group>"; };
+		529CFEA72349908F00CFCCEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
+		529CFEAF234990B000CFCCEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52BED8F72330C78A00886CCD /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		52BED8F82330C78A00886CCD /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		52BF13582341D02B0016371B /* SechatAppStore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SechatAppStore.entitlements; sourceTree = "<group>"; };
@@ -279,7 +280,6 @@
 		E92255BF2222EC53006CADEA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E92255C22222EC53006CADEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E92255C32222EC53006CADEA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E92255D12222EC56006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E92255D32222EC56006CADEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E92255D42222EC56006CADEA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E92255DA2222EC56006CADEA /* SechatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SechatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,9 +289,6 @@
 		E92255E92222EC56006CADEA /* SechatUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SechatUITests.m; sourceTree = "<group>"; };
 		E92255EB2222EC56006CADEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E92255FC2222ED59006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Conversations.storyboard; sourceTree = "<group>"; };
-		E92255FE2222ED59006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
-		E92256002222ED59006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Contacts.storyboard; sourceTree = "<group>"; };
-		E92256022222ED59006CADEA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account.storyboard; sourceTree = "<group>"; };
 		E922560B2222ED6B006CADEA /* gsp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gsp.plist; sourceTree = "<group>"; };
 		E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatViewImages.xcassets; sourceTree = "<group>"; };
 		E92256162222ED7C006CADEA /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
@@ -319,9 +316,6 @@
 		E97907712254A3970024C830 /* ImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickerController.m; sourceTree = "<group>"; };
 		E979079B225520AA0024C830 /* DIMInstantMessage+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DIMInstantMessage+Extension.h"; sourceTree = "<group>"; };
 		E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DIMInstantMessage+Extension.m"; sourceTree = "<group>"; };
-		E97907B9225668B90024C830 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Profile.strings"; sourceTree = "<group>"; };
-		E97907BB225668BC0024C830 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Profile.strings"; sourceTree = "<group>"; };
-		E97907BD225668BE0024C830 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Profile.strings"; sourceTree = "<group>"; };
 		E979080B2259CDA10024C830 /* UIView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		E979080C2259CDA10024C830 /* UIView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		E9790815225A6E2C0024C830 /* ZoomInViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZoomInViewController.h; sourceTree = "<group>"; };
@@ -373,18 +367,9 @@
 		E9E824592245539100A029F1 /* Sechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sechat.entitlements; sourceTree = "<group>"; };
 		E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
 		E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
-		E9E824D9224CBDF800A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Account.strings"; sourceTree = "<group>"; };
-		E9E824DA224CBDF800A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Contacts.strings"; sourceTree = "<group>"; };
 		E9E824DB224CBDF800A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Conversations.strings"; sourceTree = "<group>"; };
-		E9E824DE224CBDF900A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		E9E824E0224CBE0800A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Account.strings"; sourceTree = "<group>"; };
-		E9E824E1224CBE0800A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Contacts.strings"; sourceTree = "<group>"; };
 		E9E824E2224CBE0800A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Conversations.strings"; sourceTree = "<group>"; };
-		E9E824E4224CBE0900A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
-		E9E824E6224CBE1200A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Account.strings"; sourceTree = "<group>"; };
-		E9E824E7224CBE1200A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Contacts.strings"; sourceTree = "<group>"; };
 		E9E824E8224CBE1200A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Conversations.strings"; sourceTree = "<group>"; };
-		E9E824EA224CBE1200A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		E9E824F0224CCFFB00A029F1 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E9E824F1224CCFFF00A029F1 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		E9E824F2224CD00000A029F1 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
@@ -497,15 +482,14 @@
 		E92255C12222EC53006CADEA /* Sechat */ = {
 			isa = PBXGroup;
 			children = (
-				523FC36123331EEF0022B088 /* Main.storyboard */,
+				529CFEAE234990B000CFCCEF /* Main.storyboard */,
+				529CFEA22349908E00CFCCEF /* Account.storyboard */,
+				529CFEA42349908F00CFCCEF /* Contacts.storyboard */,
+				529CFEA62349908F00CFCCEF /* Profile.storyboard */,
 				E9E824592245539100A029F1 /* Sechat.entitlements */,
 				E92255C22222EC53006CADEA /* AppDelegate.h */,
 				E92255C32222EC53006CADEA /* AppDelegate.m */,
-				E92256012222ED59006CADEA /* Account.storyboard */,
-				E92255FF2222ED59006CADEA /* Contacts.storyboard */,
 				E92255FB2222ED59006CADEA /* Conversations.storyboard */,
-				E92255FD2222ED59006CADEA /* Profile.storyboard */,
-				E92255D02222EC56006CADEA /* LaunchScreen.storyboard */,
 				E92255D32222EC56006CADEA /* Info.plist */,
 				E9E824EF224CCFBB00A029F1 /* Localizable.strings */,
 				E92255D42222EC56006CADEA /* main.m */,
@@ -880,17 +864,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52DBA35C2340F2F90000C2B4 /* LaunchScreen.storyboard in Resources */,
 				52DBA35D2340F2F90000C2B4 /* avatar-bg.png in Resources */,
 				52DBA35E2340F2F90000C2B4 /* Localizable.strings in Resources */,
+				529CFEA92349908F00CFCCEF /* Account.storyboard in Resources */,
 				52DBA35F2340F2F90000C2B4 /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */,
 				52DBA3602340F2F90000C2B4 /* gsp.plist in Resources */,
+				529CFEAB2349908F00CFCCEF /* Contacts.storyboard in Resources */,
+				529CFEAD2349908F00CFCCEF /* Profile.storyboard in Resources */,
+				529CFEB1234990B000CFCCEF /* Main.storyboard in Resources */,
 				52DBA3612340F2F90000C2B4 /* Assets.xcassets in Resources */,
 				52DBA3622340F2F90000C2B4 /* ImportAccountViewController.xib in Resources */,
-				52DBA3632340F2F90000C2B4 /* Main.storyboard in Resources */,
-				52DBA3642340F2F90000C2B4 /* Contacts.storyboard in Resources */,
-				52DBA3652340F2F90000C2B4 /* Profile.storyboard in Resources */,
-				52DBA3662340F2F90000C2B4 /* Account.storyboard in Resources */,
 				52DBA3672340F2F90000C2B4 /* Conversations.storyboard in Resources */,
 				52DBA3682340F2F90000C2B4 /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */,
 				52DBA3692340F2F90000C2B4 /* ChatViewImages.xcassets in Resources */,
@@ -901,17 +884,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E92255D22222EC56006CADEA /* LaunchScreen.storyboard in Resources */,
 				E9E82501224D198200A029F1 /* avatar-bg.png in Resources */,
 				E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */,
+				529CFEA82349908F00CFCCEF /* Account.storyboard in Resources */,
 				5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */,
 				E92256102222ED6B006CADEA /* gsp.plist in Resources */,
+				529CFEAA2349908F00CFCCEF /* Contacts.storyboard in Resources */,
+				529CFEAC2349908F00CFCCEF /* Profile.storyboard in Resources */,
+				529CFEB0234990B000CFCCEF /* Main.storyboard in Resources */,
 				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,
 				52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */,
-				523FC36423331EEF0022B088 /* Main.storyboard in Resources */,
-				E92256052222ED5A006CADEA /* Contacts.storyboard in Resources */,
-				E92256042222ED5A006CADEA /* Profile.storyboard in Resources */,
-				E92256062222ED5A006CADEA /* Account.storyboard in Resources */,
 				E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */,
 				5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */,
 				E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */,
@@ -1087,23 +1069,36 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		523FC36123331EEF0022B088 /* Main.storyboard */ = {
+		529CFEA22349908E00CFCCEF /* Account.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				523FC36223331EEF0022B088 /* Base */,
+				529CFEA32349908E00CFCCEF /* Base */,
 			);
-			name = Main.storyboard;
+			name = Account.storyboard;
 			sourceTree = "<group>";
 		};
-		E92255D02222EC56006CADEA /* LaunchScreen.storyboard */ = {
+		529CFEA42349908F00CFCCEF /* Contacts.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				E92255D12222EC56006CADEA /* Base */,
-				E9E824DE224CBDF900A029F1 /* zh-Hans */,
-				E9E824E4224CBE0900A029F1 /* zh-Hant */,
-				E9E824EA224CBE1200A029F1 /* zh-HK */,
+				529CFEA52349908F00CFCCEF /* Base */,
 			);
-			name = LaunchScreen.storyboard;
+			name = Contacts.storyboard;
+			sourceTree = "<group>";
+		};
+		529CFEA62349908F00CFCCEF /* Profile.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				529CFEA72349908F00CFCCEF /* Base */,
+			);
+			name = Profile.storyboard;
+			sourceTree = "<group>";
+		};
+		529CFEAE234990B000CFCCEF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				529CFEAF234990B000CFCCEF /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		E92255FB2222ED59006CADEA /* Conversations.storyboard */ = {
@@ -1115,39 +1110,6 @@
 				E9E824E8224CBE1200A029F1 /* zh-HK */,
 			);
 			name = Conversations.storyboard;
-			sourceTree = "<group>";
-		};
-		E92255FD2222ED59006CADEA /* Profile.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E92255FE2222ED59006CADEA /* Base */,
-				E97907B9225668B90024C830 /* zh-Hans */,
-				E97907BB225668BC0024C830 /* zh-Hant */,
-				E97907BD225668BE0024C830 /* zh-HK */,
-			);
-			name = Profile.storyboard;
-			sourceTree = "<group>";
-		};
-		E92255FF2222ED59006CADEA /* Contacts.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E92256002222ED59006CADEA /* Base */,
-				E9E824DA224CBDF800A029F1 /* zh-Hans */,
-				E9E824E1224CBE0800A029F1 /* zh-Hant */,
-				E9E824E7224CBE1200A029F1 /* zh-HK */,
-			);
-			name = Contacts.storyboard;
-			sourceTree = "<group>";
-		};
-		E92256012222ED59006CADEA /* Account.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E92256022222ED59006CADEA /* Base */,
-				E9E824D9224CBDF800A029F1 /* zh-Hans */,
-				E9E824E0224CBE0800A029F1 /* zh-Hant */,
-				E9E824E6224CBE1200A029F1 /* zh-HK */,
-			);
-			name = Account.storyboard;
 			sourceTree = "<group>";
 		};
 		E9E824EF224CCFBB00A029F1 /* Localizable.strings */ = {
@@ -1171,7 +1133,7 @@
 				CODE_SIGN_ENTITLEMENTS = SechatAppStore.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1202,7 +1164,7 @@
 				CODE_SIGN_ENTITLEMENTS = SechatAppStore.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
