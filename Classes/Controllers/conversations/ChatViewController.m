@@ -31,7 +31,7 @@
 #import "ZoomInViewController.h"
 #import "LocalDatabaseManager.h"
 
-@interface ChatViewController ()<UITextViewDelegate> {
+@interface ChatViewController ()<UITextViewDelegate, UIDocumentPickerDelegate> {
     
     CATextLayer *_textViewPlaceholderLayer;
     UIButton *_addButton;
@@ -493,9 +493,6 @@
 }
 
 - (void)_showImagePickerController:(ImagePickerController *)ipc {
-    DIMConversation *chatBox = _conversation;
-    DIMID *receiver = chatBox.ID;
-    
     // completion handler
     ImagePickerControllerCompletionHandler handler;
     handler = ^(UIImage * _Nullable image,
@@ -504,63 +501,78 @@
                 UIImagePickerController *ipc) {
         
         NSLog(@"pick image: %@, path: %@", image, path);
-        
-        // 1. build message content
-        DIMContent *content = nil;
-        if (image) {
-            DIMFileServer *ftp = [DIMFileServer sharedInstance];
-            
-            CGSize maxSize = CGSizeMake(1024, 1024);
-            CGSize imgSize = image.size;
-            if (imgSize.width > maxSize.width || imgSize.height > maxSize.height) {
-                NSLog(@"original data length: %lu", [image pngData].length);
-                image = [image aspectFit:maxSize];
-            }
-            
-            // image file
-            NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
-            NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
-            [ftp saveData:data filename:filename];
-            
-            // thumbnail
-            UIImage *thumbnail = [image thumbnail];
-            NSData *small = [thumbnail jpegDataWithQuality:UIImage_JPEGCompressionQuality_Thumbnail];
-            NSLog(@"thumbnail data length: %lu < %lu, %lu", small.length, data.length, [image pngData].length);
-            [ftp saveThumbnail:small filename:filename];
-            
-            // add image data length & thumbnail into message content
-            content = [[DIMImageContent alloc] initWithImageData:data filename:filename];
-            [content setObject:@(data.length) forKey:@"length"];
-            [content setObject:[small base64Encode] forKey:@"thumbnail"];
-        } else {
-            // movie message
-            NSData *data = [NSData dataWithContentsOfFile:path];
-            content = [[DIMVideoContent alloc] initWithVideoData:data filename:@"video.mp4"];
-            // TODO: snapshot
-        }
-        
-        if (MKMNetwork_IsGroup(receiver.type)) {
-            content.group = receiver;
-        }
-        
-        // 2. pack message and send out
-        Client *client = [Client sharedInstance];
-        DIMInstantMessage *iMsg = [client sendContent:content to:receiver];
-        if (!iMsg) {
-            NSLog(@"send content failed: %@ -> %@", content, receiver);
-            NSString *message = NSLocalizedString(@"Failed to send this file.", nil);
-            NSString *title = NSLocalizedString(@"Error!", nil);
-            [self showMessage:message withTitle:title];
-            return ;
-        }
-        
-        if (MKMNetwork_IsUser(receiver.type)) {
-            // personal message, save a copy
-            [chatBox insertMessage:iMsg];
-        }
+        [self sendImage:image];
     };
     
     [ipc showWithViewController:self completionHandler:handler];
+}
+
+-(void)sendImage:(UIImage *)image{
+    
+    DIMConversation *chatBox = _conversation;
+    DIMID *receiver = chatBox.ID;
+    
+    // 1. build message content
+    DIMContent *content = nil;
+    if (image) {
+        DIMFileServer *ftp = [DIMFileServer sharedInstance];
+        
+        CGSize maxSize = CGSizeMake(1024, 1024);
+        CGSize imgSize = image.size;
+        if (imgSize.width > maxSize.width || imgSize.height > maxSize.height) {
+            NSLog(@"original data length: %lu", [image pngData].length);
+            image = [image aspectFit:maxSize];
+        }
+        
+        // image file
+        NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
+        NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
+        [ftp saveData:data filename:filename];
+        
+        // thumbnail
+        UIImage *thumbnail = [image thumbnail];
+        NSData *small = [thumbnail jpegDataWithQuality:UIImage_JPEGCompressionQuality_Thumbnail];
+        NSLog(@"thumbnail data length: %lu < %lu, %lu", small.length, data.length, [image pngData].length);
+        [ftp saveThumbnail:small filename:filename];
+        
+        // add image data length & thumbnail into message content
+        content = [[DIMImageContent alloc] initWithImageData:data filename:filename];
+        [content setObject:@(data.length) forKey:@"length"];
+        [content setObject:[small base64Encode] forKey:@"thumbnail"];
+    }
+    
+    if (MKMNetwork_IsGroup(receiver.type)) {
+        content.group = receiver;
+    }
+    
+    // 2. pack message and send out
+    Client *client = [Client sharedInstance];
+    DIMInstantMessage *iMsg = [client sendContent:content to:receiver];
+    if (!iMsg) {
+        NSLog(@"send content failed: %@ -> %@", content, receiver);
+        NSString *message = NSLocalizedString(@"Failed to send this file.", nil);
+        NSString *title = NSLocalizedString(@"Error!", nil);
+        [self showMessage:message withTitle:title];
+        return;
+    }
+    
+    if (MKMNetwork_IsUser(receiver.type)) {
+        // personal message, save a copy
+        [chatBox insertMessage:iMsg];
+    }
+}
+
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls{
+    
+    NSLog(@"The urls is %@", urls);
+    
+    if(urls.count == 0){
+        return;
+    }
+    
+    NSURL *url = [urls objectAtIndex:0];
+    UIImage *image = [[UIImage alloc] initWithContentsOfFile:[url path]];
+    [self sendImage:image];
 }
 
 - (void)camera:(id)sender {
@@ -766,26 +778,49 @@
 
 -(void)addButtonAction:(id)sender{
     
-    UIAlertController *actionsheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Camera", @"title") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self camera:actionsheet];
-    }];
-    
-    UIAlertAction *albumAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Album", @"title") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self album:actionsheet];
-    }];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"title") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    if([[UIDevice currentDevice].systemName hasPrefix:@"Mac"]){
         
-    }];
+        UIDocumentPickerViewController *picController = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[@"public.image"] inMode:UIDocumentPickerModeOpen];
+        picController.delegate = self;
+        [self presentViewController:picController animated:YES completion:nil];
+        
+    } else {
     
-    [albumAction setValue:[UIImage imageNamed:@"sharemore_pic"] forKey:@"image"];
-    [cameraAction setValue:[UIImage imageNamed:@"sharemore_video"] forKey:@"image"];
-    
-    [actionsheet addAction:cameraAction];
-    [actionsheet addAction:albumAction];
-    [actionsheet addAction:cancelAction];
-    [self presentViewController:actionsheet animated:YES completion:nil];
+        UIAlertController *actionsheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Camera", @"title") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self camera:actionsheet];
+        }];
+        
+        UIAlertAction *albumAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Album", @"title") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self album:actionsheet];
+        }];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"title") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
+        [albumAction setValue:[UIImage imageNamed:@"sharemore_pic"] forKey:@"image"];
+        [cameraAction setValue:[UIImage imageNamed:@"sharemore_video"] forKey:@"image"];
+        
+        [actionsheet addAction:cameraAction];
+        [actionsheet addAction:albumAction];
+        [actionsheet addAction:cancelAction];
+        
+        if([[UIDevice currentDevice].model hasPrefix:@"iPhone"]){
+            [self presentViewController:actionsheet animated:YES completion:nil];
+        } else {
+            UIPopoverPresentationController *popover = actionsheet.popoverPresentationController;
+
+            if (popover) {
+
+                popover.sourceView = _addButton;
+                popover.sourceRect = _addButton.bounds;
+                popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
+            }
+            
+            [self presentViewController:actionsheet animated:YES completion:nil];
+        }
+    }
 }
 
 -(void)didPressMoreButton:(id)sender{

@@ -270,7 +270,7 @@
 		52BED8F82330C78A00886CCD /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		52BF13582341D02B0016371B /* SechatAppStore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SechatAppStore.entitlements; sourceTree = "<group>"; };
 		52DBA317234037590000C2B4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		52DBA3742340F2F90000C2B4 /* SechatAppStore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SechatAppStore.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		52DBA3742340F2F90000C2B4 /* DIM Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DIM Chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52DBA3752340F2F90000C2B4 /* Sechat copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Sechat copy-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/demo-ios/Sechat/Sechat copy-Info.plist"; sourceTree = "<absolute>"; };
 		8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sechat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
@@ -474,7 +474,7 @@
 				E92255BF2222EC53006CADEA /* Sechat.app */,
 				E92255DA2222EC56006CADEA /* SechatTests.xctest */,
 				E92255E52222EC56006CADEA /* SechatUITests.xctest */,
-				52DBA3742340F2F90000C2B4 /* SechatAppStore.app */,
+				52DBA3742340F2F90000C2B4 /* DIM Chat.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -711,9 +711,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		52DBA31F2340F2F90000C2B4 /* SechatAppStore */ = {
+		52DBA31F2340F2F90000C2B4 /* DIM Chat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 52DBA3712340F2F90000C2B4 /* Build configuration list for PBXNativeTarget "SechatAppStore" */;
+			buildConfigurationList = 52DBA3712340F2F90000C2B4 /* Build configuration list for PBXNativeTarget "DIM Chat" */;
 			buildPhases = (
 				52DBA3222340F2F90000C2B4 /* Sources */,
 				52DBA3522340F2F90000C2B4 /* Frameworks */,
@@ -725,9 +725,9 @@
 			dependencies = (
 				52DBA3202340F2F90000C2B4 /* PBXTargetDependency */,
 			);
-			name = SechatAppStore;
+			name = "DIM Chat";
 			productName = Sechat;
-			productReference = 52DBA3742340F2F90000C2B4 /* SechatAppStore.app */;
+			productReference = 52DBA3742340F2F90000C2B4 /* DIM Chat.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E92255BE2222EC53006CADEA /* Sechat */ = {
@@ -835,7 +835,7 @@
 			projectRoot = "";
 			targets = (
 				E92255BE2222EC53006CADEA /* Sechat */,
-				52DBA31F2340F2F90000C2B4 /* SechatAppStore */,
+				52DBA31F2340F2F90000C2B4 /* DIM Chat */,
 				E92255D92222EC56006CADEA /* SechatTests */,
 				E92255E42222EC56006CADEA /* SechatUITests */,
 			);
@@ -1133,7 +1133,8 @@
 				CODE_SIGN_ENTITLEMENTS = SechatAppStore.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1152,6 +1153,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1164,7 +1166,8 @@
 				CODE_SIGN_ENTITLEMENTS = SechatAppStore.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
+				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1183,6 +1186,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1440,7 +1444,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		52DBA3712340F2F90000C2B4 /* Build configuration list for PBXNativeTarget "SechatAppStore" */ = {
+		52DBA3712340F2F90000C2B4 /* Build configuration list for PBXNativeTarget "DIM Chat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52DBA3722340F2F90000C2B4 /* Debug */,

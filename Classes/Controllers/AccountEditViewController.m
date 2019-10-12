@@ -22,7 +22,7 @@
 #import "dimMacros.h"
 #import "AccountEditViewController.h"
 
-@interface AccountEditViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface AccountEditViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIDocumentPickerDelegate>
 
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) UIView *headerView;
@@ -141,58 +141,89 @@
 
 - (void)changeAvatar:(id)sender {
     
-    ImagePickerControllerCompletionHandler handler;
-    handler = ^(UIImage * _Nullable image,
-                NSString *path,
-                NSDictionary<UIImagePickerControllerInfoKey,id> *info,
-                UIImagePickerController *ipc) {
+    if([[UIDevice currentDevice].systemName hasPrefix:@"Mac"]){
         
-        NSLog(@"pick image: %@, path: %@", image, path);
-        if (image) {
-            // image file
-            image = [image aspectFit:CGSizeMake(320, 320)];
-            NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
-            NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
-            NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
-            
-            Client *client = [Client sharedInstance];
-            DIMLocalUser *user = client.currentUser;
-            DIMID *ID = user.ID;
-            DIMProfile *profile = user.profile;
-            if (!profile) {
-                NSAssert(false, @"profile should not be empty");
-                return ;
-            }
-            
-            id<DIMUserDataSource> dataSource = user.dataSource;
-            DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
-            
-            // save to local storage
-            [[Facebook sharedInstance] saveAvatar:data name:filename forID:profile.ID];
-            
-            // upload to CDN
-            DIMFileServer *ftp = [DIMFileServer sharedInstance];
-            NSURL *url = [ftp uploadAvatar:data filename:filename sender:ID];
-            
-            // got avatar URL
-            profile.avatar = [url absoluteString];
-            [profile sign:SK];
-            
-            // save profile with new avatar
-            [[DIMFacebook sharedInstance] saveProfile:profile];
-            
-            // submit to network
-            [client postProfile:profile];
-            
-            [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
-                                                object:self
-                                              userInfo:@{@"ID": profile.ID, @"profile": profile}];
-        }
-    };
+        UIDocumentPickerViewController *picController = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[@"public.image"] inMode:UIDocumentPickerModeOpen];
+        picController.delegate = self;
+        [self presentViewController:picController animated:YES completion:nil];
+        
+    } else {
     
-    AlbumController *album = [[AlbumController alloc] init];
-    album.allowsEditing = YES;
-    [album showWithViewController:self completionHandler:handler];
+        ImagePickerControllerCompletionHandler handler;
+        handler = ^(UIImage * _Nullable image,
+                    NSString *path,
+                    NSDictionary<UIImagePickerControllerInfoKey,id> *info,
+                    UIImagePickerController *ipc) {
+            
+            NSLog(@"pick image: %@, path: %@", image, path);
+            [self handleAvatarImage:image];
+        };
+        
+        AlbumController *album = [[AlbumController alloc] init];
+        album.allowsEditing = YES;
+        [album showWithViewController:self completionHandler:handler];
+    }
+}
+
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls{
+    
+    NSLog(@"The urls is %@", urls);
+    
+    if(urls.count == 0){
+        return;
+    }
+    
+    NSURL *url = [urls objectAtIndex:0];
+    UIImage *image = [[UIImage alloc] initWithContentsOfFile:[url path]];
+    [self handleAvatarImage:image];
+}
+
+-(void)handleAvatarImage:(UIImage *)image{
+    
+    if (image) {
+        // image file
+        
+        if(image.size.width > 320){
+            image = [image aspectFit:CGSizeMake(320, 320)];
+        }
+        
+        NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
+        NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
+        NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
+        
+        Client *client = [Client sharedInstance];
+        DIMLocalUser *user = client.currentUser;
+        DIMID *ID = user.ID;
+        DIMProfile *profile = user.profile;
+        if (!profile) {
+            NSAssert(false, @"profile should not be empty");
+            return ;
+        }
+        
+        id<DIMUserDataSource> dataSource = user.dataSource;
+        DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
+        
+        // save to local storage
+        [[Facebook sharedInstance] saveAvatar:data name:filename forID:profile.ID];
+        
+        // upload to CDN
+        DIMFileServer *ftp = [DIMFileServer sharedInstance];
+        NSURL *url = [ftp uploadAvatar:data filename:filename sender:ID];
+        
+        // got avatar URL
+        profile.avatar = [url absoluteString];
+        [profile sign:SK];
+        
+        // save profile with new avatar
+        [[DIMFacebook sharedInstance] saveProfile:profile];
+        
+        // submit to network
+        [client postProfile:profile];
+        
+        [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
+                                            object:self
+                                          userInfo:@{@"ID": profile.ID, @"profile": profile}];
+    }
 }
 
 - (BOOL)saveAndSubmit {

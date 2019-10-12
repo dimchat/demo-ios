@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "52DBA31F2340F2F90000C2B4"
-               BuildableName = "SechatAppStore.app"
-               BlueprintName = "SechatAppStore"
+               BuildableName = "DIM Chat.app"
+               BlueprintName = "DIM Chat"
                ReferencedContainer = "container:Sechat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "52DBA31F2340F2F90000C2B4"
-            BuildableName = "SechatAppStore.app"
-            BlueprintName = "SechatAppStore"
+            BuildableName = "DIM Chat.app"
+            BlueprintName = "DIM Chat"
             ReferencedContainer = "container:Sechat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "52DBA31F2340F2F90000C2B4"
-            BuildableName = "SechatAppStore.app"
-            BlueprintName = "SechatAppStore"
+            BuildableName = "DIM Chat.app"
+            BlueprintName = "DIM Chat"
             ReferencedContainer = "container:Sechat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

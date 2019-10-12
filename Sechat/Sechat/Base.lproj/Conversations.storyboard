@@ -67,19 +67,8 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Secure Chat" id="Bzi-Yl-bNu"/>
-                    <connections>
-                        <outlet property="searchDisplayController" destination="nJr-4v-GOk" id="61H-fF-nKV"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ASx-2i-VW3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="nJr-4v-GOk">
-                    <connections>
-                        <outlet property="delegate" destination="xcy-Go-HfB" id="jsm-WC-N8x"/>
-                        <outlet property="searchContentsController" destination="xcy-Go-HfB" id="Ngp-XV-VzZ"/>
-                        <outlet property="searchResultsDataSource" destination="xcy-Go-HfB" id="a31-l8-oc5"/>
-                        <outlet property="searchResultsDelegate" destination="xcy-Go-HfB" id="hrC-dC-FXL"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="973.60000000000002" y="-245.12743628185908"/>
         </scene>
@@ -765,7 +754,7 @@
         <image name="sharemore_pic" width="59" height="59"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="R8e-vw-iIv"/>
-        <segue reference="AgF-La-Gdt"/>
+        <segue reference="0Zt-B5-0XO"/>
+        <segue reference="RBJ-wo-HMM"/>
     </inferredMetricsTieBreakers>
 </document>

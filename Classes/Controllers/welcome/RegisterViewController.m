@@ -24,7 +24,7 @@
 #import "RegisterViewController.h"
 #import "ImportAccountViewController.h"
 
-@interface RegisterViewController ()<UITextFieldDelegate>
+@interface RegisterViewController ()<UITextFieldDelegate, UIDocumentPickerDelegate>
 
 @property (strong, nonatomic) DIMPrivateKey *SK;
 @property (strong, nonatomic) DIMMeta *meta;
@@ -143,25 +143,54 @@
 
 - (void)changeAvatar:(id)sender {
     
-    ImagePickerControllerCompletionHandler handler;
-    handler = ^(UIImage * _Nullable image,
-                NSString *path,
-                NSDictionary<UIImagePickerControllerInfoKey,id> *info,
-                UIImagePickerController *ipc) {
+    if([[UIDevice currentDevice].systemName hasPrefix:@"Mac"]){
         
-        NSLog(@"pick image: %@, path: %@", image, path);
-        if (image) {
-            // image file
-            image = [image aspectFit:CGSizeMake(320, 320)];
-            NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
-            self.imageData = data;
-            self.avatarImageView.image = image;
-        }
-    };
+        UIDocumentPickerViewController *picController = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[@"public.image"] inMode:UIDocumentPickerModeOpen];
+        picController.delegate = self;
+        [self presentViewController:picController animated:YES completion:nil];
+        
+    } else {
+        
+        ImagePickerControllerCompletionHandler handler;
+        handler = ^(UIImage * _Nullable image,
+                    NSString *path,
+                    NSDictionary<UIImagePickerControllerInfoKey,id> *info,
+                    UIImagePickerController *ipc) {
+            
+            NSLog(@"pick image: %@, path: %@", image, path);
+            if (image) {
+                // image file
+                image = [image aspectFit:CGSizeMake(320, 320)];
+                NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
+                self.imageData = data;
+                self.avatarImageView.image = image;
+            }
+        };
+        
+        AlbumController *album = [[AlbumController alloc] init];
+        album.allowsEditing = YES;
+        [album showWithViewController:self completionHandler:handler];
+    }
+}
+
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls{
     
-    AlbumController *album = [[AlbumController alloc] init];
-    album.allowsEditing = YES;
-    [album showWithViewController:self completionHandler:handler];
+    NSLog(@"The urls is %@", urls);
+    
+    if(urls.count == 0){
+        return;
+    }
+    
+    NSURL *url = [urls objectAtIndex:0];
+    UIImage *image = [[UIImage alloc] initWithContentsOfFile:[url path]];
+    
+    if(image.size.width > 320.0){
+        image = [image aspectFit:CGSizeMake(320.0, 320.0)];
+    }
+    
+    NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
+    self.imageData = data;
+    self.avatarImageView.image = image;
 }
 
 -(NSError *)saveAndSubmit {
