@@ -54,6 +54,20 @@
     CGRect newRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
     CGImageRef imageRef = self.CGImage;
     
+    CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(imageRef) & kCGBitmapAlphaInfoMask;
+    
+    BOOL hasAlpha = NO;
+    if (alphaInfo == kCGImageAlphaPremultipliedLast ||
+        alphaInfo == kCGImageAlphaPremultipliedFirst ||
+        alphaInfo == kCGImageAlphaLast ||
+        alphaInfo == kCGImageAlphaFirst) {
+        hasAlpha = YES;
+    }
+    // BGRA8888 (premultiplied) or BGRX8888
+    // same as UIGraphicsBeginImageContext() and -[UIView drawRect:]
+    CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Host;
+    bitmapInfo |= hasAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst;
+    
     // Build a context that's the same dimensions as the new size
     CGContextRef bitmap = CGBitmapContextCreate(NULL,
                                                 newRect.size.width,
@@ -61,7 +75,7 @@
                                                 CGImageGetBitsPerComponent(imageRef),
                                                 0,
                                                 CGImageGetColorSpace(imageRef),
-                                                CGImageGetBitmapInfo(imageRef));
+                                                bitmapInfo);
     // Set the quality level to use when rescaling
     //CGContextSetInterpolationQuality(bitmap, kCGInterpolationLow);
     
