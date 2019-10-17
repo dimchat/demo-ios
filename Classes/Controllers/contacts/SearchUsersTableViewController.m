@@ -110,7 +110,7 @@
         for (NSString *item in users) {
             ID = DIMIDWithString(item);
             if (!MKMNetwork_IsPerson(ID.type) &&
-                !MKMNetwork_IsGroup(ID.type)) {
+                !MKMNetwork_IsRobot(ID.type)) {
                 // ignore
                 continue;
             }
