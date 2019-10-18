@@ -72,9 +72,9 @@
     CGContextRef bitmap = CGBitmapContextCreate(NULL,
                                                 newRect.size.width,
                                                 newRect.size.height,
-                                                CGImageGetBitsPerComponent(imageRef),
+                                                8,
                                                 0,
-                                                CGImageGetColorSpace(imageRef),
+                                                CGColorSpaceCreateDeviceRGB(),
                                                 bitmapInfo);
     // Set the quality level to use when rescaling
     //CGContextSetInterpolationQuality(bitmap, kCGInterpolationLow);

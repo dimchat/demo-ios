@@ -19,14 +19,6 @@
 		524294A22334B7E600E8DA05 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 524294A12334B7E600E8DA05 /* MessageCell.m */; };
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
-		529CFEA82349908F00CFCCEF /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA22349908E00CFCCEF /* Account.storyboard */; };
-		529CFEA92349908F00CFCCEF /* Account.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA22349908E00CFCCEF /* Account.storyboard */; };
-		529CFEAA2349908F00CFCCEF /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA42349908F00CFCCEF /* Contacts.storyboard */; };
-		529CFEAB2349908F00CFCCEF /* Contacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA42349908F00CFCCEF /* Contacts.storyboard */; };
-		529CFEAC2349908F00CFCCEF /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA62349908F00CFCCEF /* Profile.storyboard */; };
-		529CFEAD2349908F00CFCCEF /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEA62349908F00CFCCEF /* Profile.storyboard */; };
-		529CFEB0234990B000CFCCEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEAE234990B000CFCCEF /* Main.storyboard */; };
-		529CFEB1234990B000CFCCEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 529CFEAE234990B000CFCCEF /* Main.storyboard */; };
 		52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BED8F72330C78A00886CCD /* RegisterViewController.m */; };
 		52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
 		52DBA3232340F2F90000C2B4 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907712254A3970024C830 /* ImagePickerController.m */; };
@@ -262,10 +254,6 @@
 		52876E0022C20217006F0655 /* ImportAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportAccountViewController.h; sourceTree = "<group>"; };
 		52876E0122C20217006F0655 /* ImportAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImportAccountViewController.m; sourceTree = "<group>"; };
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
-		529CFEA32349908E00CFCCEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Account.storyboard; sourceTree = "<group>"; };
-		529CFEA52349908F00CFCCEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Contacts.storyboard; sourceTree = "<group>"; };
-		529CFEA72349908F00CFCCEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
-		529CFEAF234990B000CFCCEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52BED8F72330C78A00886CCD /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		52BED8F82330C78A00886CCD /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		52BF13582341D02B0016371B /* SechatAppStore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SechatAppStore.entitlements; sourceTree = "<group>"; };
@@ -482,10 +470,6 @@
 		E92255C12222EC53006CADEA /* Sechat */ = {
 			isa = PBXGroup;
 			children = (
-				529CFEAE234990B000CFCCEF /* Main.storyboard */,
-				529CFEA22349908E00CFCCEF /* Account.storyboard */,
-				529CFEA42349908F00CFCCEF /* Contacts.storyboard */,
-				529CFEA62349908F00CFCCEF /* Profile.storyboard */,
 				E9E824592245539100A029F1 /* Sechat.entitlements */,
 				E92255C22222EC53006CADEA /* AppDelegate.h */,
 				E92255C32222EC53006CADEA /* AppDelegate.m */,
@@ -866,12 +850,8 @@
 			files = (
 				52DBA35D2340F2F90000C2B4 /* avatar-bg.png in Resources */,
 				52DBA35E2340F2F90000C2B4 /* Localizable.strings in Resources */,
-				529CFEA92349908F00CFCCEF /* Account.storyboard in Resources */,
 				52DBA35F2340F2F90000C2B4 /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */,
 				52DBA3602340F2F90000C2B4 /* gsp.plist in Resources */,
-				529CFEAB2349908F00CFCCEF /* Contacts.storyboard in Resources */,
-				529CFEAD2349908F00CFCCEF /* Profile.storyboard in Resources */,
-				529CFEB1234990B000CFCCEF /* Main.storyboard in Resources */,
 				52DBA3612340F2F90000C2B4 /* Assets.xcassets in Resources */,
 				52DBA3622340F2F90000C2B4 /* ImportAccountViewController.xib in Resources */,
 				52DBA3672340F2F90000C2B4 /* Conversations.storyboard in Resources */,
@@ -886,12 +866,8 @@
 			files = (
 				E9E82501224D198200A029F1 /* avatar-bg.png in Resources */,
 				E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */,
-				529CFEA82349908F00CFCCEF /* Account.storyboard in Resources */,
 				5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */,
 				E92256102222ED6B006CADEA /* gsp.plist in Resources */,
-				529CFEAA2349908F00CFCCEF /* Contacts.storyboard in Resources */,
-				529CFEAC2349908F00CFCCEF /* Profile.storyboard in Resources */,
-				529CFEB0234990B000CFCCEF /* Main.storyboard in Resources */,
 				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,
 				52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */,
 				E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */,
@@ -1069,38 +1045,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		529CFEA22349908E00CFCCEF /* Account.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				529CFEA32349908E00CFCCEF /* Base */,
-			);
-			name = Account.storyboard;
-			sourceTree = "<group>";
-		};
-		529CFEA42349908F00CFCCEF /* Contacts.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				529CFEA52349908F00CFCCEF /* Base */,
-			);
-			name = Contacts.storyboard;
-			sourceTree = "<group>";
-		};
-		529CFEA62349908F00CFCCEF /* Profile.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				529CFEA72349908F00CFCCEF /* Base */,
-			);
-			name = Profile.storyboard;
-			sourceTree = "<group>";
-		};
-		529CFEAE234990B000CFCCEF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				529CFEAF234990B000CFCCEF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E92255FB2222ED59006CADEA /* Conversations.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1133,7 +1077,7 @@
 				CODE_SIGN_ENTITLEMENTS = SechatAppStore.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
@@ -1166,7 +1110,7 @@
 				CODE_SIGN_ENTITLEMENTS = SechatAppStore.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;

@@ -486,6 +486,7 @@
     }
     
     if (MKMNetwork_IsUser(receiver.type)) {
+        iMsg.state = DIMMessageState_Read;
         [self.conversation insertMessage:iMsg];
     }
     
