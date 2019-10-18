@@ -113,7 +113,7 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
         
         // 1.2. name
         _nameTextField.text = name;
-        if (![_group isFounder:user.ID]) {
+        if (![_group isOwner:user.ID]) {
             _nameTextField.enabled = NO;
         }
         
@@ -408,12 +408,12 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;
         
-        if (_group && ![_group isFounder:user.ID] && [_memberList containsObject:contact]) {
+        if (_group && ![_group isOwner:user.ID] && [_memberList containsObject:contact]) {
             // fixed
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             cell.userInteractionEnabled = NO;
-        } else if ([contact isEqual:_founder] || [_group isFounder:contact] || [contact isEqual:user.ID]) {
+        } else if ([contact isEqual:_founder] || [_group isOwner:contact] || [contact isEqual:user.ID]) {
             // fixed
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;

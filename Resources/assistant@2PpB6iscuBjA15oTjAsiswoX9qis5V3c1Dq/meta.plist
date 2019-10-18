@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fingerprint</key>
+	<string>uECbBOfxGdI7MYibvO/+XgJm2BUOeC80YyDJXGJBVvdiDaGvb/3TdUY3/84QnfmpWNc1UwwQeeUhltB/NzM19gBm4tgxyEAB2xhDBI6SVbG/0FPDvjvpQ6M6epEGDSZ/rQdgaD5CsnzO9LzZ0C7Zm8Ozd2RtOAIHEf2zWEb+pb8=</string>
+	<key>key</key>
+	<dict>
+		<key>algorithm</key>
+		<string>RSA</string>
+		<key>data</key>
+		<string>-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/6PG0DCIsT8+3yDMyXt3ou1Kk
+8iKvcHegnXLCco6Wr3eMyUks7+Zl1Kp+yThq3qkgrcEJMX6SSZVdtcDwABwQ+MI3
+IbFKLPmSOjO6BSsGiHrnowmbMuHEEO4K4Q9vpeIlhzNdZ+VBUqmz8vfxtgXIcKGf
+SPCj2SuQvy1sWQKw5QIDAQAB
+-----END PUBLIC KEY-----</string>
+		<key>digest</key>
+		<string>SHA256</string>
+		<key>mode</key>
+		<string>ECB</string>
+		<key>padding</key>
+		<string>PKCS1</string>
+	</dict>
+	<key>seed</key>
+	<string>assistant</string>
+	<key>version</key>
+	<integer>1</integer>
+</dict>
+</plist>

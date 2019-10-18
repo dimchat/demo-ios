@@ -176,8 +176,8 @@
         Client *client = [Client sharedInstance];
         DIMLocalUser *user = client.currentUser;
         DIMGroup *group = DIMGroupWithID(_conversation.ID);
-        if ([group isFounder:user.ID]) {
-            // founder cannot quit, only show 'Clear Chat History' action
+        if ([group isOwner:user.ID]) {
+            // owner cannot quit, only show 'Clear Chat History' action
             return 1;
         }
     }
