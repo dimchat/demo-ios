@@ -21,6 +21,8 @@
 		524294A22334B7E600E8DA05 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 524294A12334B7E600E8DA05 /* MessageCell.m */; };
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
+		52B958012359D874009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq in Resources */ = {isa = PBXBuildFile; fileRef = 52B957FF2359D873009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq */; };
+		52B958022359D874009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq in Resources */ = {isa = PBXBuildFile; fileRef = 52B957FF2359D873009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq */; };
 		52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52BED8F72330C78A00886CCD /* RegisterViewController.m */; };
 		52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
 		52DBA3232340F2F90000C2B4 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907712254A3970024C830 /* ImagePickerController.m */; };
@@ -258,6 +260,7 @@
 		52876E0022C20217006F0655 /* ImportAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportAccountViewController.h; sourceTree = "<group>"; };
 		52876E0122C20217006F0655 /* ImportAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImportAccountViewController.m; sourceTree = "<group>"; };
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
+		52B957FF2359D873009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq"; sourceTree = "<group>"; };
 		52BED8F72330C78A00886CCD /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		52BED8F82330C78A00886CCD /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		52BF13582341D02B0016371B /* SechatAppStore.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SechatAppStore.entitlements; sourceTree = "<group>"; };
@@ -506,6 +509,7 @@
 		E92256072222ED6B006CADEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				52B957FF2359D873009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq */,
 				5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */,
 				5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */,
 				E922560B2222ED6B006CADEA /* gsp.plist */,
@@ -858,6 +862,7 @@
 				52DBA35E2340F2F90000C2B4 /* Localizable.strings in Resources */,
 				52DBA35F2340F2F90000C2B4 /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */,
 				52DBA3602340F2F90000C2B4 /* gsp.plist in Resources */,
+				52B958022359D874009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq in Resources */,
 				52DBA3612340F2F90000C2B4 /* Assets.xcassets in Resources */,
 				52DBA3622340F2F90000C2B4 /* ImportAccountViewController.xib in Resources */,
 				52DBA3672340F2F90000C2B4 /* Conversations.storyboard in Resources */,
@@ -874,6 +879,7 @@
 				E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */,
 				5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */,
 				E92256102222ED6B006CADEA /* gsp.plist in Resources */,
+				52B958012359D874009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq in Resources */,
 				E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */,
 				52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */,
 				E92256032222ED5A006CADEA /* Conversations.storyboard in Resources */,
@@ -1085,7 +1091,7 @@
 				CODE_SIGN_ENTITLEMENTS = SechatAppStore.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
@@ -1101,7 +1107,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1118,7 +1124,7 @@
 				CODE_SIGN_ENTITLEMENTS = SechatAppStore.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
@@ -1134,7 +1140,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

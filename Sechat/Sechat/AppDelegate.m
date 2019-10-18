@@ -46,6 +46,7 @@
 
     [self addDefaultUser:@"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"];
     [self addDefaultUser:@"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"];
+    [self addDefaultUser:@"assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq"];
     
     [[LocalDatabaseManager sharedInstance] createTables];
     [self convertOldTables];

@@ -183,8 +183,8 @@
     
     [super viewWillDisappear:animated];
     
-    [[LocalDatabaseManager sharedInstance] markMessageRead:_conversation.ID];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationName_ConversationUpdated object:nil userInfo:@{@"ID": _conversation.ID}];
+    //[[LocalDatabaseManager sharedInstance] markMessageRead:_conversation.ID];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:kNotificationName_ConversationUpdated object:nil userInfo:@{@"ID": _conversation.ID}];
 }
 
 -(void)addDataObserver{
@@ -256,6 +256,8 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self groupMessage];
                 [self scrollAfterInsertNewMessage];
+                [[LocalDatabaseManager sharedInstance] markMessageRead:self.conversation.ID];
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationName_ConversationUpdated object:nil userInfo:@{@"ID": self.conversation.ID}];
             });
         }
     }
@@ -485,10 +487,10 @@
         return ;
     }
     
-    if (MKMNetwork_IsUser(receiver.type)) {
-        iMsg.state = DIMMessageState_Read;
-        [self.conversation insertMessage:iMsg];
-    }
+    //if (MKMNetwork_IsUser(receiver.type)) {
+    iMsg.state = DIMMessageState_Read;
+    [self.conversation insertMessage:iMsg];
+   // }
     
     _textView.text = @"";
 }
