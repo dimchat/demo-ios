@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520A0ED12359BC1D00493E2F /* UILabel+Copyable.m in Sources */ = {isa = PBXBuildFile; fileRef = 520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */; };
+		520A0ED22359BC1D00493E2F /* UILabel+Copyable.m in Sources */ = {isa = PBXBuildFile; fileRef = 520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */; };
 		5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */; };
 		5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
 		522EA28E2341953D00FC3BB8 /* BadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522EA28C2341953C00FC3BB8 /* BadgeView.m */; };
@@ -234,6 +236,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		520A0ECE2359BC1D00493E2F /* UILabel+Copyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Copyable.h"; sourceTree = "<group>"; };
+		520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Copyable.m"; sourceTree = "<group>"; };
 		5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"; sourceTree = "<group>"; };
 		5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"; sourceTree = "<group>"; };
 		522EA28C2341953C00FC3BB8 /* BadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BadgeView.m; sourceTree = "<group>"; };
@@ -664,6 +668,8 @@
 		E9BBC3702242B21200E6ACDA /* extends */ = {
 			isa = PBXGroup;
 			children = (
+				520A0ECE2359BC1D00493E2F /* UILabel+Copyable.h */,
+				520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */,
 				E9BBC3732242B21200E6ACDA /* NSString+Extension.h */,
 				E9BBC3792242B21200E6ACDA /* NSString+Extension.m */,
 				E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */,
@@ -931,6 +937,7 @@
 				52DBA3412340F2F90000C2B4 /* AccountEditViewController.m in Sources */,
 				52DBA3422340F2F90000C2B4 /* UIButton+Extension.m in Sources */,
 				52DBA3432340F2F90000C2B4 /* SearchUsersTableViewController.m in Sources */,
+				520A0ED22359BC1D00493E2F /* UILabel+Copyable.m in Sources */,
 				52DBA3442340F2F90000C2B4 /* MessageCell.m in Sources */,
 				52DBA3452340F2F90000C2B4 /* TimeCell.m in Sources */,
 				52DBA3462340F2F90000C2B4 /* UIImageView+Extension.m in Sources */,
@@ -986,6 +993,7 @@
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
 				E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
+				520A0ED12359BC1D00493E2F /* UILabel+Copyable.m in Sources */,
 				524294A22334B7E600E8DA05 /* MessageCell.m in Sources */,
 				5242949C23347ED300E8DA05 /* TimeCell.m in Sources */,
 				E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */,

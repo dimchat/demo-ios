@@ -25,6 +25,7 @@
 @interface ReceiveMessageCell ()
 
 @property (strong, nonatomic) UIImage *picture;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGuesture;
 
 @end
 
@@ -104,6 +105,9 @@
         self.picImageView = [[UIImageView alloc] init];
         self.picImageView.contentMode = UIViewContentModeScaleAspectFit;
         [self.contentView addSubview:self.picImageView];
+        
+        self.longPressGuesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPressHappen:)];
+        [self.contentView addGestureRecognizer:self.longPressGuesture];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAvatarUpdated:) name:kNotificationName_AvatarUpdated object:nil];
     }
@@ -366,6 +370,54 @@
         DIMID *sender = DIMIDWithString(env.sender);
         [self.delegate messageCell:self showProfile:sender];
     }
+}
+
+-(void)didLongPressHappen:(id)sender{
+    
+    if (sender == self.longPressGuesture){
+        
+        if (self.longPressGuesture.state == UIGestureRecognizerStateBegan){
+            
+            if(!self.messageLabel.hidden){
+            
+                [self becomeFirstResponder];
+                [self popMemu];
+            }
+        }
+    }
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    if (action == @selector(copyClick) )
+    {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)popMemu
+{
+    UIMenuItem *menuItem_1 = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Copy", @"title") action:@selector(copyClick)];
+    
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    menuController.menuItems = [NSArray arrayWithObjects:menuItem_1, nil];
+    
+    CGFloat width = 40.0;
+    CGFloat height = 40.0;
+    CGFloat x = self.messageLabel.frame.origin.x;
+    CGFloat y = self.frame.origin.y + 10.0;
+    [menuController setTargetRect:CGRectMake(x, y, width, height) inView:self.superview];
+    [menuController setMenuVisible:YES animated:YES];
+}
+
+- (void)copyClick{
+    [[UIPasteboard generalPasteboard] setString:self.messageLabel.text];
 }
 
 @end

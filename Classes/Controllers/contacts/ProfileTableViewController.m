@@ -14,7 +14,7 @@
 #import "UIStoryboardSegue+Extension.h"
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
-
+#import "UILabel+Copyable.h"
 #import "Facebook.h"
 #import "Client.h"
 
@@ -77,6 +77,7 @@
     self.searchNumberLabel.textAlignment = NSTextAlignmentCenter;
     self.searchNumberLabel.textColor = [UIColor lightGrayColor];
     self.searchNumberLabel.font = [UIFont systemFontOfSize:14.0];
+    self.searchNumberLabel.copyingEnabled = YES;
     [self.headerView addSubview:self.searchNumberLabel];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];

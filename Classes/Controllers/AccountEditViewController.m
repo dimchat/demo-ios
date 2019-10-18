@@ -317,6 +317,36 @@
     return 44.0;
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+-(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    return (action == @selector(copy:));
+}
+
+- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+    
+    if(action == @selector(copy:)){
+        
+        NSInteger section = indexPath.section;
+        NSInteger row = indexPath.row;
+        
+        Client *client = [Client sharedInstance];
+        DIMLocalUser *user = client.currentUser;
+        
+        if(section == 0){
+
+            if(row == 0){
+                //Copy search number
+                [[UIPasteboard generalPasteboard] setString:search_number(user.number)];
+            } else if (row == 1){
+                //Copy address
+                [[UIPasteboard generalPasteboard] setString:user.ID.address];
+            }
+        }
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -329,20 +359,20 @@
     Client *client = [Client sharedInstance];
     DIMLocalUser *user = client.currentUser;
     
-    if(section == 0){
-        
-        if(row == 0){
-            //Copy search number
-            [[UIPasteboard generalPasteboard] setString:search_number(user.number)];
-            
-            [self showMessage:NSLocalizedString(@"Copy Search Number Success", nil) withTitle:nil];
-        } else if (row == 1){
-            //Copy address
-            [[UIPasteboard generalPasteboard] setString:user.ID.address];
-            
-            [self showMessage:NSLocalizedString(@"Copy Address Success", nil) withTitle:nil];
-        }
-    }
+//    if(section == 0){
+//
+//        if(row == 0){
+//            //Copy search number
+//            [[UIPasteboard generalPasteboard] setString:search_number(user.number)];
+//
+//            [self showMessage:NSLocalizedString(@"Copy Search Number Success", nil) withTitle:nil];
+//        } else if (row == 1){
+//            //Copy address
+//            [[UIPasteboard generalPasteboard] setString:user.ID.address];
+//
+//            [self showMessage:NSLocalizedString(@"Copy Address Success", nil) withTitle:nil];
+//        }
+//    }
     
     if (section == 1){
         // function
