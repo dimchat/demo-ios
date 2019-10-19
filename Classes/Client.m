@@ -437,12 +437,18 @@ SingletonImplementations(Client, sharedInstance)
     NSArray *contacts = [data jsonArray];
     
     for(NSString *address in contacts){
-        [self addUserToContact:address];
+        
+        DIMID *ID = DIMIDWithString(address);
+        
+        if(ID.type == MKMNetwork_Group){
+            
+            //Request Group Meta and save to local
+            DIMMetaForID(ID);
+            [[DIMFacebook sharedInstance] user:user addContact:ID];
+        }else{
+            [self addUserToContact:address];
+        }
     }
-    
-    NSDictionary *mDict = @{@"contacts": contacts};
-    
-    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self userInfo:mDict];
 }
 
 -(void)addUserToContact:(NSString *)itemString{

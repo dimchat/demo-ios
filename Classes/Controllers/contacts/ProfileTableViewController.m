@@ -173,9 +173,6 @@
             NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
             [client postContacts:allContacts];
             
-            NSLog(@"contact %@ added to user %@", self.contact, user);
-            [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
-            
             [self loadData];
             [self.tableView reloadData];
             

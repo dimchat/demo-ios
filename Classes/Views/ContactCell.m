@@ -59,13 +59,32 @@
 -(void)setData{
     
     CGRect frame = self.avatarImageView.frame;
-    UIImage *image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
-    [self.avatarImageView setImage:image];
     
-    DIMUser *user = DIMUserWithID(_contact);
-    NSString *name = !user ? _contact.name : user.name;
-    self.nameLabel.text = name;
-    self.descLabel.text = search_number(_contact.number);
+    UIImage *image;
+    if (MKMNetwork_IsGroup(_contact.type)) {
+        image = [DIMProfileForID(_contact) logoImageWithSize:frame.size];
+    } else {
+        image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
+    }
+    
+    [_avatarImageView setImage:image];
+    
+//    UIImage *image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
+//    [self.avatarImageView setImage:image];
+    
+    if(_contact.type == MKMNetwork_Group){
+        
+        DIMGroup *group = DIMGroupWithID(_contact);
+        NSString *name = !group ? _contact.name : group.name;
+        self.nameLabel.text = name;
+        self.descLabel.text = search_number(_contact.number);
+        
+    }else{
+        DIMUser *user = DIMUserWithID(_contact);
+        NSString *name = !user ? _contact.name : user.name;
+        self.nameLabel.text = name;
+        self.descLabel.text = search_number(_contact.number);
+    }
 }
 
 -(void)didAvatarUpdated:(NSNotification *)o{

@@ -244,6 +244,9 @@
         [self scrollToBottom:NO];
         _scrolledToBottom = YES;
     }
+    
+    [[LocalDatabaseManager sharedInstance] markMessageRead:self.conversation.ID];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationName_ConversationUpdated object:nil userInfo:@{@"ID": self.conversation.ID}];
 }
 
 - (void)onMessageUpdated:(NSNotification *)notification {

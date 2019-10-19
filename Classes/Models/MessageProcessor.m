@@ -41,19 +41,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (void)sortConversationList {
-    /*
-     These constants are used to indicate how items in a request are ordered,
-     from the first one given in a method invocation or function call
-     to the last (that is, left to right in code).
-     
-     Given the function:
-     NSComparisonResult f(int a, int b)
-     
-     If:
-     a < b   then return NSOrderedAscending.
-     a > b   then return NSOrderedDescending.
-     a == b  then return NSOrderedSame.
-     */
     NSComparator comparator = ^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         DIMInstantMessage *msg1 = [obj1 lastMessage];
         DIMInstantMessage *msg2 = [obj2 lastMessage];

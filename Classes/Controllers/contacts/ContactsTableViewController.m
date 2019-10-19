@@ -7,7 +7,6 @@
 //
 
 #import "NSNotificationCenter+Extension.h"
-#import "UIStoryboardSegue+Extension.h"
 #import "User.h"
 #import "Facebook.h"
 #import "Client.h"
@@ -16,6 +15,7 @@
 #import "ContactsTableViewController.h"
 #import "SearchUsersTableViewController.h"
 #import "ChatViewController.h"
+#import "MessageProcessor.h"
 
 @interface ContactsTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
@@ -62,12 +62,40 @@
                                  name:kNotificationName_ContactsUpdated
                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:kNotificationName_ProfileUpdated object:nil];
+    [NSNotificationCenter addObserver:self selector:@selector(onGroupMembersUpdated:) name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
     self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
+}
+
+- (void)onGroupMembersUpdated:(NSNotification *)notification {
+    NSString *name = notification.name;
+    
+    if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
+        
+        NSDictionary *userInfo = notification.userInfo;
+        DIMID *groupID = [userInfo objectForKey:@"group"];
+        
+        Client *client = [Client sharedInstance];
+        DIMLocalUser *user = client.currentUser;
+        NSArray<DIMID *> *contacts = user.contacts;
+        
+        if(![contacts containsObject:groupID]){
+            
+            [[DIMFacebook sharedInstance] user:user addContact:groupID];
+            
+            //Post contacts to server
+            NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+            [client postContacts:allContacts];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self reloadData];
+            });
+        }
+    }
 }
 
 - (void)reloadData {
@@ -208,10 +236,23 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    ProfileTableViewController *controller = [[ProfileTableViewController alloc] init];
-    controller.contact = selectedCell.contact;
-    controller.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:controller animated:YES];
+    DIMID *contact = selectedCell.contact;
+    
+    if(contact.type == MKMNetwork_Group){
+        
+        DIMConversation *convers = DIMConversationWithID(contact);
+        ChatViewController *vc = [[ChatViewController alloc] init];
+        vc.conversation = convers;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }else{
+    
+        ProfileTableViewController *controller = [[ProfileTableViewController alloc] init];
+        controller.contact = contact;
+        controller.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
 }
 
 -(void)didPressSearchButton:(id)sender{
