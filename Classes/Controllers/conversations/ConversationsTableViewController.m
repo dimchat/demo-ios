@@ -7,20 +7,16 @@
 //
 
 #import "NSNotificationCenter+Extension.h"
-#import "UIStoryboard+Extension.h"
-#import "UIStoryboardSegue+Extension.h"
 #import "User.h"
 #import "Facebook.h"
 #import "MessageProcessor.h"
 #import "Client.h"
+#import "DIMClientConstants.h"
 #import "ChatViewController.h"
 #import "ConversationCell.h"
 #import "ConversationsTableViewController.h"
 
-@interface ConversationsTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
-    
-    NSString *_fixedTitle;
-}
+@interface ConversationsTableViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property(nonatomic, strong) UITableView *tableView;
 
@@ -51,15 +47,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(loadData)
-                                 name:kNotificationName_MessageUpdated
-                               object:nil];
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(loadData)
-                                 name:kNotificationName_MessageCleaned
-                               object:nil];
+    [self addDataObserver];
+}
+
+-(void)addDataObserver{
     
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(loadData)
+                                 name:kNotificationName_ConversationUpdated
+                               object:nil];
     [NSNotificationCenter addObserver:self
                              selector:@selector(onServerStateChanged:)
                                  name:kNotificationName_ServerStateChanged

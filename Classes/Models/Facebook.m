@@ -10,20 +10,13 @@
 #import "NSDate+Timestamp.h"
 #import "NSDictionary+Binary.h"
 #import "NSNotificationCenter+Extension.h"
-
 #import "MKMImmortals.h"
-
 #import "DIMProfile+Extension.h"
-
 #import "User.h"
-
 #import "Client.h"
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
-
 #import "Facebook.h"
-
-NSString * const kNotificationName_ContactsUpdated = @"ContactsUpdated";
 
 @interface Facebook () {
     
@@ -66,48 +59,8 @@ SingletonImplementations(Facebook, sharedInstance)
             user = DIMUserWithID(ID);
             [client addUser:user];
         }
-        
-        [NSNotificationCenter addObserver:self
-                                 selector:@selector(onProfileUpdated:)
-                                     name:kNotificationName_ProfileUpdated
-                                   object:client];
     }
     return self;
-}
-
-- (void)onProfileUpdated:(NSNotification *)notification {
-    if (![notification.name isEqual:kNotificationName_ProfileUpdated]) {
-        return ;
-    }
-    DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
-    DIMProfile *profile = cmd.profile;
-    NSAssert([profile.ID isEqual:cmd.ID], @"profile command error: %@", cmd);
-    [profile removeObjectForKey:@"lastTime"];
-    
-    // check avatar
-    NSString *avatar = profile.avatar;
-    if (avatar) {
-//        // if old avatar exists, remove it
-//        DIMID *ID = profile.ID;
-//        DIMProfile *old = [self profileForID:ID];
-//        NSString *ext = [old.avatar pathExtension];
-//        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
-//            // Cache directory: "Documents/.mkm/{address}/avatar.png"
-//            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
-//            NSFileManager *fm = [NSFileManager defaultManager];
-//            if ([fm fileExistsAtPath:path]) {
-//                NSError *error = nil;
-//                if (![fm removeItemAtPath:path error:&error]) {
-//                    NSLog(@"failed to remove old avatar: %@", error);
-//                } else {
-//                    NSLog(@"old avatar removed: %@", path);
-//                }
-//            }
-//        }
-    }
-    
-    // update profile
-    [[DIMFacebook sharedInstance] saveProfile:profile];
 }
 
 - (void)addStation:(DIMID *)stationID provider:(DIMServiceProvider *)sp {
@@ -192,6 +145,24 @@ SingletonImplementations(Facebook, sharedInstance)
     [profile setObject:NSNumberFromDate(now) forKey:@"lastTime"];
     
     return [super saveProfile:profile];
+}
+
+#pragma mark - MKMGroupDataSource
+
+- (nullable NSArray<MKMID *> *)membersOfGroup:(MKMID *)group {
+    NSArray<DIMID *> *members = [super membersOfGroup:group];
+    if ([members count] == 0) {
+        DIMGroup *grp = DIMGroupWithID(group);
+        Client *client = [Client sharedInstance];
+        // query from DIM network
+        DIMQueryGroupCommand *query = [[DIMQueryGroupCommand alloc] initWithGroup:group];
+        // query assistant
+        NSArray<DIMID *> *assistants = grp.assistants;
+        for (DIMID *ass in assistants) {
+            [client sendContent:query to:ass];
+        }
+    }
+    return members;
 }
 
 @end

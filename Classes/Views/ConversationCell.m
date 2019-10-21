@@ -14,6 +14,7 @@
 #import "UIColor+Extension.h"
 #import "Client.h"
 #import "LocalDatabaseManager.h"
+#import "DIMClientConstants.h"
 
 @implementation ConversationCell
 
@@ -49,10 +50,7 @@
         [self.contentView addSubview:self.badgeView];
         
         self.separatorInset = UIEdgeInsetsMake(0.0, 70.0, 0.0, 0.0);
-        
-        
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConversationUpdated:) name:kNotificationName_MessageUpdated object:nil];
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConversationUpdated:) name:kNotificationName_ConversationUpdated object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProfileUpdate:) name:kNotificationName_ProfileUpdated object:nil];
     }
@@ -74,15 +72,15 @@
 
 -(void)onProfileUpdate:(NSNotification *)o{
     
-    DIMProfileCommand *cmd = (DIMProfileCommand *)[o userInfo];
-    DIMID *ID = cmd.ID;
+    NSDictionary *profileDic = [o userInfo];
+    DIMID *ID = [profileDic objectForKey:@"ID"];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([ID isEqual:self.conversation.profile.ID]){
+    if([ID isEqual:self.conversation.profile.ID]){
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self loadData];
             [self setNeedsLayout];
-        }
-    });
+        });
+    }
 }
 
 -(void)onConversationUpdated:(NSNotification *)o{

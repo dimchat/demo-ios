@@ -64,9 +64,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (NSInteger)numberOfConversations {
-    if (!_conversationList) {
-        [self sortConversationList];
-    }
+    [self sortConversationList];
     return [_conversationList count];
 }
 
@@ -84,9 +82,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (removed) {
         [_conversationList removeObject:chatBox];
         NSLog(@"conversation removed: %@", chatBox.ID);
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
-                                            object:self
-                                          userInfo:@{@"ID": chatBox.ID}];
     }
     return removed;
 }
@@ -98,12 +93,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 - (BOOL)clearConversation:(DIMConversation *)chatBox {
     BOOL cleared = [super clearConversation:chatBox];
-    if (cleared) {
-        NSLog(@"conversation cleaned: %@", chatBox.ID);
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
-                                            object:self
-                                          userInfo:@{@"ID": chatBox.ID}];
-    }
     return cleared;
 }
 
@@ -149,9 +138,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
         }
     }
     
-    [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
-                                        object:self
-                                      userInfo:@{@"ID": ID}];
     return YES;
 }
 

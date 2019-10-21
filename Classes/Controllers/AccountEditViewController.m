@@ -255,7 +255,6 @@
     // broadcast to all contacts
     [client broadcastProfile:profile];
     
-    [NSNotificationCenter postNotificationName:kNotificationName_UsersUpdated object:self];
     [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated object:self userInfo:@{@"ID": user.ID}];
     return YES;
 }
@@ -358,21 +357,6 @@
     
     Client *client = [Client sharedInstance];
     DIMLocalUser *user = client.currentUser;
-    
-//    if(section == 0){
-//
-//        if(row == 0){
-//            //Copy search number
-//            [[UIPasteboard generalPasteboard] setString:search_number(user.number)];
-//
-//            [self showMessage:NSLocalizedString(@"Copy Search Number Success", nil) withTitle:nil];
-//        } else if (row == 1){
-//            //Copy address
-//            [[UIPasteboard generalPasteboard] setString:user.ID.address];
-//
-//            [self showMessage:NSLocalizedString(@"Copy Address Success", nil) withTitle:nil];
-//        }
-//    }
     
     if (section == 1){
         // function

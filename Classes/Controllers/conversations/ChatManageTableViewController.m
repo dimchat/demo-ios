@@ -17,7 +17,7 @@
 #import "ProfileTableViewController.h"
 #import "ParticipantCollectionCell.h"
 #import "ParticipantsCollectionViewController.h"
-
+#import "DIMClientConstants.h"
 #import "ChatManageTableViewController.h"
 
 @interface ChatManageTableViewController ()<UITableViewDataSource, UITableViewDelegate>

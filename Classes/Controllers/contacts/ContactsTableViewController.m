@@ -16,6 +16,7 @@
 #import "SearchUsersTableViewController.h"
 #import "ChatViewController.h"
 #import "MessageProcessor.h"
+#import "DIMClientConstants.h"
 
 @interface ContactsTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
@@ -34,7 +35,7 @@
     [super loadView];
     
     self.navigationItem.title = NSLocalizedString(@"Contacts", @"title");
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(didPressAddButton:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(didPressSearchButton:)];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [self.tableView registerClass:[ContactCell class] forCellReuseIdentifier:@"ContactCell"];
@@ -61,7 +62,6 @@
                              selector:@selector(reloadData)
                                  name:kNotificationName_ContactsUpdated
                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:kNotificationName_ProfileUpdated object:nil];
     [NSNotificationCenter addObserver:self selector:@selector(onGroupMembersUpdated:) name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
@@ -256,13 +256,6 @@
 }
 
 -(void)didPressSearchButton:(id)sender{
-    
-    SearchUsersTableViewController *controller = [[SearchUsersTableViewController alloc] init];
-    controller.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:controller animated:YES];
-}
-
--(void)didPressAddButton:(id)sender{
     
     SearchUsersTableViewController *controller = [[SearchUsersTableViewController alloc] init];
     controller.hidesBottomBarWhenPushed = YES;

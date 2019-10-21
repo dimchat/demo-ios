@@ -18,6 +18,7 @@
 #import "UIColor+Extension.h"
 #import "LocalDatabaseManager.h"
 #import "FolderUtility.h"
+#import "DIMClientConstants.h"
 
 @interface AppDelegate ()<UITabBarControllerDelegate>
 
@@ -76,25 +77,27 @@
 
 -(void)addObservers{
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadge:) name:kNotificationName_MessageUpdated object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadge:) name:kNotificationName_ConversationUpdated object:nil];
 }
 
 -(void)updateBadge:(NSNotification *)o{
-    
-    NSInteger unreadCount = [[LocalDatabaseManager sharedInstance] getUnreadMessageCount:nil];
-    
-    NSString *badgeValue = nil;
-    if(unreadCount > 0 && unreadCount <= 99){
-        badgeValue = [NSString stringWithFormat:@"%zd", unreadCount];
-    }else if(unreadCount > 99){
-        badgeValue = @"99+";
-    }
-    
-    UITabBarItem *tabBarItem = self.tabbarController.tabBar.items[0];
-    tabBarItem.badgeValue = badgeValue;
-    
-    [UIApplication sharedApplication].applicationIconBadgeNumber = unreadCount;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSInteger unreadCount = [[LocalDatabaseManager sharedInstance] getUnreadMessageCount:nil];
+        
+        NSString *badgeValue = nil;
+        if(unreadCount > 0 && unreadCount <= 99){
+            badgeValue = [NSString stringWithFormat:@"%zd", unreadCount];
+        }else if(unreadCount > 99){
+            badgeValue = @"99+";
+        }
+        
+        UITabBarItem *tabBarItem = self.tabbarController.tabBar.items[0];
+        tabBarItem.badgeValue = badgeValue;
+        
+        [UIApplication sharedApplication].applicationIconBadgeNumber = unreadCount;
+        
+    });
 }
 
 -(void)setAppApearence{

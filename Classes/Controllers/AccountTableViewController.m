@@ -19,6 +19,7 @@
 #import "Client.h"
 #import "ContactCell.h"
 #import "AccountTableViewController.h"
+#import "DIMClientConstants.h"
 
 @interface AccountTableViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -51,31 +52,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
-    if (user) {
-        // avatar
-        CGRect avatarFrame = _avatarImageView.frame;
-        UIImage *image = [user.profile avatarImageWithSize:avatarFrame.size];
-        [_avatarImageView setImage:image];
-        [_avatarImageView roundedCorner];
-        
-        // name
-        _nameLabel.text = user_title(user.ID);
-        
-        // desc
-        _descLabel.text = (NSString *)user.ID;
-    } else {
-        _nameLabel.text = NSLocalizedString(@"USER NOT FOUND", nil);
-        _descLabel.text = NSLocalizedString(@"Please register/login first.", nil);
-        
-        // show register view controller
-        [self performSegueWithIdentifier:@"registerSegue" sender:self];
-    }
+    [self reloadData];
     
     [NSNotificationCenter addObserver:self
-                             selector:@selector(reloadData)
-                                 name:kNotificationName_UsersUpdated
+                             selector:@selector(didProfileUpdated:)
+                                 name:kNotificationName_ProfileUpdated
                                object:nil];
     [NSNotificationCenter addObserver:self
                              selector:@selector(onAvatarUpdated:)
@@ -87,25 +68,35 @@
     
     DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];
     DIMLocalUser *user = [Client sharedInstance].currentUser;
-    if (![profile.ID isEqual:user.ID]) {
-        // not my profile
-        return ;
+    if ([profile.ID isEqual:user.ID]) {
+        [self reloadData];
     }
+}
+
+-(void)didProfileUpdated:(NSNotification *)o{
     
-    [self reloadData];
+    NSDictionary *userInfo = [o userInfo];
+    DIMID *userID = [userInfo objectForKey:@"ID"];
+    DIMLocalUser *user = [Client sharedInstance].currentUser;
+    
+    if([userID isEqual:user.ID]){
+        [self reloadData];
+    }
 }
 
 - (void)reloadData {
-    // TODO: update client.users
-    DIMLocalUser *user = [Client sharedInstance].currentUser;
-    
-    CGRect avatarFrame = _avatarImageView.frame;
-    UIImage *image = [user.profile avatarImageWithSize:avatarFrame.size];
-    [_avatarImageView setImage:image];
-    _nameLabel.text = user_title(user.ID);
-    _descLabel.text = (NSString *)user.ID;
-    
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        DIMLocalUser *user = [Client sharedInstance].currentUser;
+        
+        CGRect avatarFrame = self.avatarImageView.frame;
+        UIImage *image = [user.profile avatarImageWithSize:avatarFrame.size];
+        [self.avatarImageView setImage:image];
+        self.nameLabel.text = user_title(user.ID);
+        self.descLabel.text = (NSString *)user.ID;
+        
+        [self.tableView reloadData];
+    });
 }
 
 #pragma mark - Table view data source
@@ -191,7 +182,6 @@
         
         [self.navigationController pushViewController:web animated:YES];
     }
-    
 }
 
 @end

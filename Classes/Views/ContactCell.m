@@ -12,6 +12,7 @@
 #import "User.h"
 #import "ContactCell.h"
 #import "UIColor+Extension.h"
+#import "DIMClientConstants.h"
 
 @implementation ContactCell
 
@@ -37,23 +38,20 @@
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAvatarUpdated:) name:kNotificationName_AvatarUpdated object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didProfileUpdated:) name:kNotificationName_ProfileUpdated object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didGroupMemberUpdated:) name:kNotificationName_GroupMembersUpdated object:nil];
     }
     
     return self;
 }
 
 -(void)dealloc{
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)setContact:(DIMID *)contact {
-    if (![_contact isEqual:contact]) {
-        
-        _contact = contact;
-        [self setData];
-        [self setNeedsLayout];
-    }
+    _contact = contact;
+    [self setData];
+    [self setNeedsLayout];
 }
 
 -(void)setData{
@@ -68,9 +66,6 @@
     }
     
     [_avatarImageView setImage:image];
-    
-//    UIImage *image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
-//    [self.avatarImageView setImage:image];
     
     if(_contact.type == MKMNetwork_Group){
         
@@ -102,15 +97,28 @@
 
 -(void)didProfileUpdated:(NSNotification *)o{
     
-    DIMProfileCommand *cmd = (DIMProfileCommand *)[o userInfo];
-    DIMID *ID = cmd.ID;
+    NSDictionary *profileDic = [o userInfo];
+    DIMID *ID = [profileDic objectForKey:@"ID"];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([ID isEqual:self.contact]){
+    if([ID isEqual:self.contact]){
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self setData];
             [self setNeedsLayout];
-        }
-    });
+        });
+    }
+}
+
+-(void)didGroupMemberUpdated:(NSNotification *)o{
+    
+    NSDictionary *profileDic = [o userInfo];
+    DIMID *ID = [profileDic objectForKey:@"group"];
+    
+    if([ID isEqual:self.contact]){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setData];
+            [self setNeedsLayout];
+        });
+    }
 }
 
 - (void)layoutSubviews {

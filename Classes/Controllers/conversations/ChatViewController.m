@@ -30,6 +30,7 @@
 #import "ChatViewController.h"
 #import "ZoomInViewController.h"
 #import "LocalDatabaseManager.h"
+#import "DIMClientConstants.h"
 
 @interface ChatViewController ()<UITextViewDelegate, UIDocumentPickerDelegate> {
     
@@ -179,14 +180,6 @@
     _scrolledToBottom = NO;
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    
-    [super viewWillDisappear:animated];
-    
-    //[[LocalDatabaseManager sharedInstance] markMessageRead:_conversation.ID];
-    //[[NSNotificationCenter defaultCenter] postNotificationName:kNotificationName_ConversationUpdated object:nil userInfo:@{@"ID": _conversation.ID}];
-}
-
 -(void)addDataObserver{
     
     [NSNotificationCenter addObserver:self
@@ -199,12 +192,8 @@
                                object:nil];;
     
     [NSNotificationCenter addObserver:self
-                             selector:@selector(onMessageUpdated:)
-                                 name:kNotificationName_MessageUpdated
-                               object:nil];
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onMessageCleaned:)
-                                 name:kNotificationName_MessageCleaned
+                             selector:@selector(onMessageInserted:)
+                                 name:kNotificationName_MessageInserted
                                object:nil];
     
     [NSNotificationCenter addObserver:self
@@ -217,8 +206,7 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageSent object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_SendMessageFailed object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageUpdated object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageCleaned object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageInserted object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
@@ -245,35 +233,21 @@
         _scrolledToBottom = YES;
     }
     
-    [[LocalDatabaseManager sharedInstance] markMessageRead:self.conversation.ID];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationName_ConversationUpdated object:nil userInfo:@{@"ID": self.conversation.ID}];
+    [[MessageProcessor sharedInstance] markConversationMessageRead:self.conversation];
 }
 
-- (void)onMessageUpdated:(NSNotification *)notification {
+- (void)onMessageInserted:(NSNotification *)notification {
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
     
-    if ([name isEqual:kNotificationName_MessageUpdated]) {
-        DIMID *ID = DIMIDWithString([info objectForKey:@"ID"]);
+    if ([name isEqual:kNotificationName_MessageInserted]) {
+        DIMID *ID = DIMIDWithString([info objectForKey:@"Conversation"]);
         if ([_conversation.ID isEqual:ID]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self groupMessage];
                 [self scrollAfterInsertNewMessage];
-                [[LocalDatabaseManager sharedInstance] markMessageRead:self.conversation.ID];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationName_ConversationUpdated object:nil userInfo:@{@"ID": self.conversation.ID}];
+                [[MessageProcessor sharedInstance] markConversationMessageRead:self.conversation];
             });
-        }
-    }
-}
-
-- (void)onMessageCleaned:(NSNotification *)notification {
-    NSString *name = notification.name;
-    NSDictionary *info = notification.userInfo;
-    
-    if ([name isEqual:kNotificationName_MessageCleaned]) {
-        DIMID *ID = DIMIDWithString([info objectForKey:@"ID"]);
-        if ([_conversation.ID isEqual:ID]) {
-            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }
 }
@@ -285,14 +259,10 @@
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
         DIMID *groupID = [info objectForKey:@"group"];
         if ([groupID isEqual:_conversation.ID]) {
-            // the same group, refresh title
-            self.title = _conversation.title;
-            NSLog(@"new title: %@", self.title);
-        } else {
-            // dismiss the personal chat box
-            [self dismissViewControllerAnimated:YES completion:^{
-                //
-            }];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.navigationItem.title = self.conversation.title;
+            });
         }
     }
 }
@@ -490,11 +460,8 @@
         return ;
     }
     
-    //if (MKMNetwork_IsUser(receiver.type)) {
     iMsg.state = DIMMessageState_Read;
     [self.conversation insertMessage:iMsg];
-   // }
-    
     _textView.text = @"";
 }
 
@@ -562,10 +529,8 @@
         return;
     }
     
-    if (MKMNetwork_IsUser(receiver.type)) {
-        // personal message, save a copy
-        [chatBox insertMessage:iMsg];
-    }
+    iMsg.state = DIMMessageState_Read;
+    [chatBox insertMessage:iMsg];
 }
 
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls{

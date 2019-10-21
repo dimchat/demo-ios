@@ -17,11 +17,6 @@
 
 #import "Client.h"
 
-NSString * const kNotificationName_MessageUpdated = @"MessageUpdated";
-NSString * const kNotificationName_ConversationUpdated = @"ConversationUpdated";
-NSString * const kNotificationName_MessageCleaned = @"MessageCleaned";
-NSString * const kNotificationName_UsersUpdated = @"UsersUpdated";
-
 @interface Client () {
     
     NSString *_userAgent;
@@ -138,59 +133,12 @@ SingletonImplementations(Client, sharedInstance)
         user = DIMUserWithID(ID);
         [self addUser:user];
     }
-    
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onProfileUpdated:)
-                                 name:kNotificationName_ProfileUpdated
-                               object:self];
-
-}
-
-- (void)onProfileUpdated:(NSNotification *)notification {
-    if (![notification.name isEqual:kNotificationName_ProfileUpdated]) {
-        return ;
-    }
-    DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
-    DIMProfile *profile = cmd.profile;
-    NSAssert([profile.ID isEqual:cmd.ID], @"profile command error: %@", cmd);
-    [profile removeObjectForKey:@"lastTime"];
-    
-    // check avatar
-    NSString *avatar = profile.avatar;
-    if (avatar) {
-//        // if old avatar exists, remove it
-//        DIMID *ID = profile.ID;
-//        DIMProfile *old = [self profileForID:ID];
-//        NSString *ext = [old.avatar pathExtension];
-//        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
-//            // Cache directory: "Documents/.mkm/{address}/avatar.png"
-//            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
-//            NSFileManager *fm = [NSFileManager defaultManager];
-//            if ([fm fileExistsAtPath:path]) {
-//                NSError *error = nil;
-//                if (![fm removeItemAtPath:path error:&error]) {
-//                    NSLog(@"failed to remove old avatar: %@", error);
-//                } else {
-//                    NSLog(@"old avatar removed: %@", path);
-//                }
-//            }
-//        }
-    }
-    
-    // update profile
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    [facebook saveProfile:profile];
 }
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
-    DIMServiceProvider *sp = nil;
-    {
-        DIMID *ID = DIMIDWithString([config objectForKey:@"ID"]);
-//        DIMID *founder = [config objectForKey:@"founder"];
-//        founder = DIMIDWithString(founder);
-        
-        sp = [[DIMServiceProvider alloc] initWithID:ID];
-    }
+    
+    DIMID *ID = DIMIDWithString([config objectForKey:@"ID"]);
+    DIMServiceProvider *sp = [[DIMServiceProvider alloc] initWithID:ID];
     
     // choose the fast station
     NSArray *stations = [config objectForKey:@"stations"];
@@ -407,72 +355,11 @@ SingletonImplementations(Client, sharedInstance)
     MKMLocalUser *user = DIMUserWithID(ID);
     [self login:user];
     
-//    DIMProfile *profile = [facebook profileForID:ID];
-    
     Facebook *book = [Facebook sharedInstance];
     BOOL saved = [book saveUserList:self.users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
     
     return saved;
-}
-
-@end
-
-@implementation Client (Contacts)
-
-- (void)processContactsCommand:(DIMCommand *)cmd{
-    
-    DIMLocalUser *user = [self currentUser];
-    
-    NSString *dataStr = [cmd objectForKey:@"data"];
-    NSString *keyStr = [cmd objectForKey:@"key"];
-    
-    NSData *data = [dataStr base64Decode];
-    NSData *key = [keyStr base64Decode];
-    
-    key = [user decrypt:key];
-    DIMSymmetricKey *password = MKMSymmetricKeyFromDictionary([key jsonDictionary]);
-    
-    data = [password decrypt:data];
-    NSArray *contacts = [data jsonArray];
-    
-    for(NSString *address in contacts){
-        
-        DIMID *ID = DIMIDWithString(address);
-        
-        if(ID.type == MKMNetwork_Group){
-            
-            //Request Group Meta and save to local
-            DIMMetaForID(ID);
-            [[DIMFacebook sharedInstance] user:user addContact:ID];
-        }else{
-            [self addUserToContact:address];
-        }
-    }
-}
-
--(void)addUserToContact:(NSString *)itemString{
-    
-    DIMID *ID = DIMIDWithString(itemString);
-    
-    DIMLocalUser *user = self.currentUser;
-    DIMMeta *meta = DIMMetaForID(user.ID);
-    DIMProfile *profile = user.profile;
-    DIMCommand *cmd;
-    if (profile) {
-        cmd = [[DIMProfileCommand alloc] initWithID:user.ID
-                                               meta:meta
-                                            profile:profile];
-    } else {
-        cmd = [[DIMMetaCommand alloc] initWithID:user.ID meta:meta];
-    }
-    [self sendContent:cmd to:ID];
-    
-    // add to contacts
-    [[DIMFacebook sharedInstance] user:user addContact:ID];
-    
-    NSLog(@"contact %@ added to user %@", ID, user);
-    [NSNotificationCenter postNotificationName:kNotificationName_ContactsUpdated object:self];
 }
 
 @end

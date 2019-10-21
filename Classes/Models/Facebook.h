@@ -10,8 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const kNotificationName_ContactsUpdated;
-
 @interface Facebook : DIMSocialNetworkDatabase
 
 + (instancetype)sharedInstance;
