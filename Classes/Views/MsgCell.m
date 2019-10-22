@@ -15,6 +15,7 @@
 
 #import "DIMProfile+Extension.h"
 #import "DIMInstantMessage+Extension.h"
+#import "DIMCommand+Extension.h"
 
 #import "WebViewController.h"
 
@@ -482,7 +483,9 @@
 
 + (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
     
-    NSString *text = [iMsg.content objectForKey:@"text"];
+    DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
+    DIMCommand *cmd = (DIMCommand *)iMsg.content;
+    NSString *text = [cmd messageWithSender:sender];
     
     CGFloat cellWidth = rect.size.width;
     CGFloat msgWidth = cellWidth * 0.618;
@@ -557,7 +560,9 @@
         }
         
         // message
-        NSString *text = [msg.content objectForKey:@"text"];
+        DIMID *sender = DIMIDWithString(msg.envelope.sender);
+        DIMCommand *cmd = (DIMCommand *)msg.content;
+        NSString *text = [cmd messageWithSender:sender];
         UILabel *messageLabel = [self messageLabel];
         messageLabel.text = text;
         

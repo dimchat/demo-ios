@@ -79,6 +79,7 @@
 		E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */; };
 		E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3792242B21200E6ACDA /* NSString+Extension.m */; };
 		E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
+		E9D5CF6E235F23BE00FEFAF5 /* DIMCommand+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9D5CF6D235F23BE00FEFAF5 /* DIMCommand+Extension.m */; };
 		E9D877C52359CDE9005DD4C0 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq in Resources */ = {isa = PBXBuildFile; fileRef = E9D877C42359CDE9005DD4C0 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq */; };
 		E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
 		E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
@@ -261,6 +262,8 @@
 		E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37B2242B21200E6ACDA /* UIViewController+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboardSegue+Extension.m"; sourceTree = "<group>"; };
+		E9D5CF6C235F23BE00FEFAF5 /* DIMCommand+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DIMCommand+Extension.h"; sourceTree = "<group>"; };
+		E9D5CF6D235F23BE00FEFAF5 /* DIMCommand+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DIMCommand+Extension.m"; sourceTree = "<group>"; };
 		E9D877C42359CDE9005DD4C0 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq"; sourceTree = "<group>"; };
 		E9E824592245539100A029F1 /* Sechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sechat.entitlements; sourceTree = "<group>"; };
 		E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
@@ -570,6 +573,8 @@
 				E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */,
 				E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */,
 				E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */,
+				E9D5CF6C235F23BE00FEFAF5 /* DIMCommand+Extension.h */,
+				E9D5CF6D235F23BE00FEFAF5 /* DIMCommand+Extension.m */,
 				E979079B225520AA0024C830 /* DIMInstantMessage+Extension.h */,
 				E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */,
 			);
@@ -757,6 +762,7 @@
 			files = (
 				E97907732254A3970024C830 /* ImagePickerController.m in Sources */,
 				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
+				E9D5CF6E235F23BE00FEFAF5 /* DIMCommand+Extension.m in Sources */,
 				E9790817225A6E2C0024C830 /* ZoomInViewController.m in Sources */,
 				E92256462222ED7C006CADEA /* User.m in Sources */,
 				E92256452222ED7C006CADEA /* AccountDatabase+Register.m in Sources */,
