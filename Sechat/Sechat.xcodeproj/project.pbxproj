@@ -272,7 +272,7 @@
 		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
 		E918E01922C4A4D4007A3803 /* Facebook+Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Profile.h"; sourceTree = "<group>"; };
 		E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Profile.m"; sourceTree = "<group>"; };
-		E92255BF2222EC53006CADEA /* Sechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E92255BF2222EC53006CADEA /* DIMTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIMTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E92255C22222EC53006CADEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E92255C32222EC53006CADEA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E92255D32222EC56006CADEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -466,7 +466,7 @@
 		E92255C02222EC53006CADEA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E92255BF2222EC53006CADEA /* Sechat.app */,
+				E92255BF2222EC53006CADEA /* DIMTalk.app */,
 				E92255DA2222EC56006CADEA /* SechatTests.xctest */,
 				E92255E52222EC56006CADEA /* SechatUITests.xctest */,
 				52DBA3742340F2F90000C2B4 /* DIMTalk.app */,
@@ -740,7 +740,7 @@
 			);
 			name = Sechat;
 			productName = Sechat;
-			productReference = E92255BF2222EC53006CADEA /* Sechat.app */;
+			productReference = E92255BF2222EC53006CADEA /* DIMTalk.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E92255D92222EC56006CADEA /* SechatTests */ = {
@@ -1272,7 +1272,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GL2VUTHN95;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1287,9 +1287,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jy.sechat;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DIMTalk;
 				PROVISIONING_PROFILE_SPECIFIER = sechat;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1302,7 +1302,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GL2VUTHN95;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1317,9 +1317,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.7;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jy.sechat;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = DIMTalk;
 				PROVISIONING_PROFILE_SPECIFIER = sechat;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
