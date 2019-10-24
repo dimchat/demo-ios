@@ -10,10 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- *  Table view controller for Conversation List (Secure Chat History)
- */
-@interface ConversationsTableViewController : UITableViewController
+@interface ConversationsTableViewController : UIViewController
 
 @end
 

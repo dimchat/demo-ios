@@ -7,46 +7,52 @@
 //
 
 #import "NSNotificationCenter+Extension.h"
-#import "UIStoryboardSegue+Extension.h"
-
 #import "User.h"
+#import "Facebook.h"
 #import "Client.h"
-#import "AccountDatabase.h"
-
 #import "ContactCell.h"
-
 #import "ProfileTableViewController.h"
-
 #import "ContactsTableViewController.h"
+#import "SearchUsersTableViewController.h"
+#import "ChatViewController.h"
+#import "MessageProcessor.h"
+#import "DIMClientConstants.h"
 
-static inline void sort_array(NSMutableArray *array) {
-    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-    NSComparator cmp = ^NSComparisonResult(NSString *obj1, NSString *obj2) {
-        const char *s1 = [obj1 cStringUsingEncoding:enc];
-        const char *s2 = [obj2 cStringUsingEncoding:enc];
-        return strcmp(s1, s2);
-    };
-    [array sortUsingComparator:cmp];
-}
-
-@interface ContactsTableViewController () {
+@interface ContactsTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
     NSMutableDictionary<NSString *, NSMutableArray<DIMID *> *> *_contactsTable;
     NSMutableArray *_contactsKey;
 }
 
+@property(nonatomic, strong) UITableView *tableView;
+
 @end
 
 @implementation ContactsTableViewController
 
+-(void)loadView{
+    
+    [super loadView];
+    
+    self.navigationItem.title = NSLocalizedString(@"Contacts", @"title");
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(didPressSearchButton:)];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    [self.tableView registerClass:[ContactCell class] forCellReuseIdentifier:@"ContactCell"];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+}
+
+- (void)dealloc{
+
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     _contactsTable = nil;
     _contactsKey = nil;
@@ -56,6 +62,40 @@ static inline void sort_array(NSMutableArray *array) {
                              selector:@selector(reloadData)
                                  name:kNotificationName_ContactsUpdated
                                object:nil];
+    [NSNotificationCenter addObserver:self selector:@selector(onGroupMembersUpdated:) name:kNotificationName_GroupMembersUpdated object:nil];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
+}
+
+- (void)onGroupMembersUpdated:(NSNotification *)notification {
+    NSString *name = notification.name;
+    
+    if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
+        
+        NSDictionary *userInfo = notification.userInfo;
+        DIMID *groupID = [userInfo objectForKey:@"group"];
+        
+        Client *client = [Client sharedInstance];
+        DIMLocalUser *user = client.currentUser;
+        NSArray<DIMID *> *contacts = user.contacts;
+        
+        if(![contacts containsObject:groupID]){
+            
+            [[DIMFacebook sharedInstance] user:user addContact:groupID];
+            
+            //Post contacts to server
+            NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+            [client postContacts:allContacts];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self reloadData];
+            });
+        }
+    }
 }
 
 - (void)reloadData {
@@ -89,7 +129,14 @@ static inline void sort_array(NSMutableArray *array) {
         [mArray addObject:contact];
     }
     _contactsKey = [[_contactsTable allKeys] mutableCopy];
-    sort_array(_contactsKey);
+    
+    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
+    NSComparator cmp = ^NSComparisonResult(NSString *obj1, NSString *obj2) {
+        const char *s1 = [obj1 cStringUsingEncoding:enc];
+        const char *s2 = [obj2 cStringUsingEncoding:enc];
+        return strcmp(s1, s2);
+    };
+    [_contactsKey sortUsingComparator:cmp];
     
     [self.tableView reloadData];
 }
@@ -130,7 +177,8 @@ static inline void sort_array(NSMutableArray *array) {
     NSArray *list = [_contactsTable objectForKey:key];
     DIMID *ID = [list objectAtIndex:row];
     
-    ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"contactCell" forIndexPath:indexPath];
+    ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell" forIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.contact = ID;
     
     return cell;
@@ -160,6 +208,10 @@ static inline void sort_array(NSMutableArray *array) {
         DIMLocalUser *user = client.currentUser;
         [[DIMFacebook sharedInstance] user:user removeContact:ID];
         
+        //Post contacts to server
+        NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+        [client postContacts:allContacts];
+        
         [list removeObjectAtIndex:row];
         if (list.count == 0) {
             [_contactsKey removeObject:key];
@@ -176,34 +228,38 @@ static inline void sort_array(NSMutableArray *array) {
     [tableView endUpdates];
 }
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ContactCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if ([segue.identifier isEqualToString:@"profileSegue"]) {
-        ContactCell *cell = sender;
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    DIMID *contact = selectedCell.contact;
+    
+    if(contact.type == MKMNetwork_Group){
         
-        ProfileTableViewController *vc = [segue visibleDestinationViewController];
-        vc.contact = cell.contact;
-    }
+        DIMConversation *convers = DIMConversationWithID(contact);
+        ChatViewController *vc = [[ChatViewController alloc] init];
+        vc.conversation = convers;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }else{
     
+        ProfileTableViewController *controller = [[ProfileTableViewController alloc] init];
+        controller.contact = contact;
+        controller.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+}
+
+-(void)didPressSearchButton:(id)sender{
+    
+    SearchUsersTableViewController *controller = [[SearchUsersTableViewController alloc] init];
+    controller.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

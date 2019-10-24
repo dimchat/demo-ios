@@ -7,26 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import <DIMClient/DIMClient.h>
+#import "MessageCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ChatViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface ChatViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, MessageCellDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *messagesTableView;
-@property (weak, nonatomic) IBOutlet UIView *trayView;
-@property (weak, nonatomic) IBOutlet UITextField *inputTextField;
-
+@property (strong, nonatomic) UITableView *messagesTableView;
 @property (strong, nonatomic) DIMConversation *conversation;
-
-- (IBAction)beginEditing:(id)sender;
-
-- (IBAction)send:(id)sender;
-- (IBAction)camera:(id)sender;
-- (IBAction)album:(id)sender;
-
-- (IBAction)unwindForSegue:(UIStoryboardSegue *)unwindSegue towardsViewController:(UIViewController *)subsequentVC;
 
 @end
 

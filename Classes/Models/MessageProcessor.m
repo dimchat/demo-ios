@@ -10,9 +10,10 @@
 #import "NSObject+JsON.h"
 #import "NSNotificationCenter+Extension.h"
 
-#import "User.h"
 #import "Client.h"
-#import "AccountDatabase.h"
+#import "Facebook+Register.h"
+
+#import "MessageProcessor.h"
 
 #import "MessageProcessor.h"
 
@@ -40,19 +41,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (void)sortConversationList {
-    /*
-     These constants are used to indicate how items in a request are ordered,
-     from the first one given in a method invocation or function call
-     to the last (that is, left to right in code).
-     
-     Given the function:
-     NSComparisonResult f(int a, int b)
-     
-     If:
-     a < b   then return NSOrderedAscending.
-     a > b   then return NSOrderedDescending.
-     a == b  then return NSOrderedSame.
-     */
     NSComparator comparator = ^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         DIMInstantMessage *msg1 = [obj1 lastMessage];
         DIMInstantMessage *msg2 = [obj2 lastMessage];
@@ -76,9 +64,7 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 }
 
 - (NSInteger)numberOfConversations {
-    if (!_conversationList) {
-        [self sortConversationList];
-    }
+    [self sortConversationList];
     return [_conversationList count];
 }
 
@@ -96,9 +82,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     if (removed) {
         [_conversationList removeObject:chatBox];
         NSLog(@"conversation removed: %@", chatBox.ID);
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
-                                            object:self
-                                          userInfo:@{@"ID": chatBox.ID}];
     }
     return removed;
 }
@@ -110,12 +93,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
 
 - (BOOL)clearConversation:(DIMConversation *)chatBox {
     BOOL cleared = [super clearConversation:chatBox];
-    if (cleared) {
-        NSLog(@"conversation cleaned: %@", chatBox.ID);
-        [NSNotificationCenter postNotificationName:kNotificationName_MessageCleaned
-                                            object:self
-                                          userInfo:@{@"ID": chatBox.ID}];
-    }
     return cleared;
 }
 
@@ -130,53 +107,38 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     // sort conversation list
     [self sortConversationList];
     
-    [NSNotificationCenter postNotificationName:kNotificationName_MessageUpdated
-                                        object:self
-                                      userInfo:@{@"ID": chatBox.ID}];
-    return YES;
-}
-
-@end
-
-#pragma mark -
-
-NSString * const kNotificationName_GroupMembersUpdated = @"GroupMembersUpdated";
-
-@implementation MessageProcessor (GroupCommand)
-
-- (BOOL)processQueryCommand:(DIMGroupCommand *)gCmd
-                  commander:(DIMID *)sender
-                  polylogue:(DIMPolylogue *)group {
-    if (![super processQueryCommand:gCmd commander:sender polylogue:group]) {
-        // command error
-        return NO;
+    // check whether the group members info needs update
+    DIMID *ID = chatBox.ID;
+    if (MKMNetwork_IsGroup(ID.type)) {
+        DIMGroup *group = DIMGroupWithID(ID);
+        DIMContent *content = iMsg.content;
+        // if the group info not found, and this is not an 'invite' command
+        //     query group info from the sender
+        BOOL needsUpdate = group.founder == nil;
+        if (content.type == DKDContentType_History) {
+            NSString *command = [(DIMGroupCommand *)content command];
+            if ([command isEqualToString:DIMGroupCommand_Invite]) {
+                // FIXME: can we trust this stranger?
+                //        may be we should keep this members list temporary,
+                //        and send 'query' to the founder immediately.
+                // TODO: check whether the members list is a full list,
+                //       it should contain the group owner(founder)
+                needsUpdate = NO;
+            }
+        }
+        if (needsUpdate) {
+            DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
+            NSAssert(sender != nil, @"sender error: %@", iMsg);
+            
+            DIMQueryGroupCommand *query;
+            query = [[DIMQueryGroupCommand alloc] initWithGroup:ID];
+            
+            Client *client = [Client sharedInstance];
+            [client sendContent:query to:sender];
+        }
     }
     
-    NSArray *members = group.members;
-    
-    // pack command and send out
-    DIMInviteCommand *invite;
-    invite = [[DIMInviteCommand alloc] initWithGroup:group.ID members:members];
-    Client *client = [Client sharedInstance];
-    [client sendContent:invite to:sender];
-    
     return YES;
-}
-
-- (BOOL)processGroupCommand:(DIMGroupCommand *)gCmd
-                  commander:(DIMID *)sender {
-    BOOL OK = [super processGroupCommand:gCmd commander:sender];
-    
-    if (OK) {
-        // notice
-        DIMID *groupID = DIMIDWithString(gCmd.group);
-        NSString *name = kNotificationName_GroupMembersUpdated;
-        NSDictionary *info = @{@"group": groupID};
-        [NSNotificationCenter postNotificationName:name
-                                            object:self
-                                          userInfo:info];
-    }
-    return OK;
 }
 
 @end

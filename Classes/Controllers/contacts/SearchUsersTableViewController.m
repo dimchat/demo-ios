@@ -8,28 +8,56 @@
 
 #import "NSNotificationCenter+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
-
+#import "UIViewController+Extension.h"
 #import "User.h"
+#import "Facebook.h"
 #import "Client.h"
-#import "AccountDatabase.h"
-
-#import "UserCell.h"
+#import "ContactCell.h"
+#import "SearchUsersTableViewController.h"
+#import "ChatViewController.h"
 #import "ProfileTableViewController.h"
 
-#import "SearchUsersTableViewController.h"
-
-@interface SearchUsersTableViewController () {
+@interface SearchUsersTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
     NSMutableArray *_users;
     NSMutableArray *_onlineUsers;
 }
 
+@property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong) UISearchBar *searchBar;
+
 @end
 
 @implementation SearchUsersTableViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
+-(void)loadView{
+    
+    [super loadView];
+    
+    self.navigationItem.title = NSLocalizedString(@"Search User", @"title");
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    [self.tableView registerClass:[ContactCell class] forCellReuseIdentifier:@"ContactCell"];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, 44.0)];
+    self.searchBar.delegate = self;
+    self.tableView.tableHeaderView = self.searchBar;
+}
+
+- (void)dealloc{
+
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -110,7 +138,7 @@
         for (NSString *item in users) {
             ID = DIMIDWithString(item);
             if (!MKMNetwork_IsPerson(ID.type) &&
-                !MKMNetwork_IsRobot(ID.type)) {
+                !MKMNetwork_IsGroup(ID.type)) {
                 // ignore
                 continue;
             }
@@ -168,7 +196,7 @@
     } else if (section == 1) {
         return _onlineUsers.count;
     }
-    return [super tableView:tableView numberOfRowsInSection:section];
+    return 0;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -180,12 +208,13 @@
             return NSLocalizedString(@"Online Users", nil);
         }
     }
-    return [super tableView:tableView titleForHeaderInSection:section];
+    
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"userCell" forIndexPath:indexPath];
+    ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell" forIndexPath:indexPath];
     
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
@@ -199,23 +228,21 @@
         ID = [_onlineUsers objectAtIndex:row];
     }
     cell.contact = ID;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
 }
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ContactCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if ([segue.identifier isEqualToString:@"profileSegue"]) {
-        UserCell *cell = sender;
-        
-        ProfileTableViewController *vc = [segue visibleDestinationViewController];
-        vc.contact = cell.contact;
-    }
+    ProfileTableViewController *controller = [[ProfileTableViewController alloc] init];
+    controller.contact = selectedCell.contact;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 @end

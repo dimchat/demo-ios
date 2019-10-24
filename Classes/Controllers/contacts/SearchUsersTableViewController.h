@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Table view controller for Search/Online User List
  */
-@interface SearchUsersTableViewController : UITableViewController <UISearchBarDelegate>
+@interface SearchUsersTableViewController : UIViewController <UISearchBarDelegate>
 
 @end
 

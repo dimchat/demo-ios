@@ -8,7 +8,7 @@
 
 #import "UIImageView+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
-
+#import "ProfileTableViewController.h"
 #import "ChatManageTableViewController.h"
 
 #import "ParticipantCollectionCell.h"
@@ -27,14 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Register cell classes
-//    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
-    // Do any additional setup after loading the view.
     
     [self reloadData];
 }
@@ -100,38 +92,11 @@
     NSInteger count = _participants.count;
     NSInteger row = indexPath.row;
     if (row < count) {
-        UICollectionViewCell *cell = [self collectionView:collectionView cellForItemAtIndexPath:indexPath];
-        [_manageViewController performSegueWithIdentifier:@"profileSegue" sender:cell];
+        ParticipantCollectionCell *cell = (ParticipantCollectionCell *)[self collectionView:collectionView cellForItemAtIndexPath:indexPath];
+        ProfileTableViewController *controller = [[ProfileTableViewController alloc] init];
+        controller.contact = cell.participant;
+        [self.manageViewController.navigationController pushViewController:controller animated:YES];
     }
 }
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 @end

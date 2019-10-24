@@ -10,15 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AccountEditViewController : UITableViewController
-
-@property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
-@property (weak, nonatomic) IBOutlet UIButton *changeButton;
-@property (weak, nonatomic) IBOutlet UITextField *nicknameTextField;
-
-@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *numberLabel;
+@interface AccountEditViewController : UIViewController
 
 @end
 

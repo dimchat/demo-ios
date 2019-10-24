@@ -19,6 +19,18 @@
 
 @implementation WebViewController
 
+-(void)loadView{
+    
+    [super loadView];
+    
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.view addSubview:self.activityIndicatorView];
+    
+    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
+    self.webView.navigationDelegate = self;
+    [self.view addSubview:self.webView];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -28,11 +40,15 @@
     Client *client = [Client sharedInstance];
     self.webView.customUserAgent = client.userAgent;
     
-    self.webView.navigationDelegate = self;
-    
     NSAssert(_url, @"entrance URL not set yet");
     NSURLRequest *request = [NSURLRequest requestWithURL:_url];
     [self.webView loadRequest:request];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
 }
 
 #pragma mark - WKNavigationDelegate
@@ -78,15 +94,5 @@
         self.title = _originalTitle;
     }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

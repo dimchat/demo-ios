@@ -7,14 +7,25 @@
 //
 
 #import "MKMImmortals.h"
-
 #import "User.h"
 #import "Client.h"
-#import "AccountDatabase.h"
-
+#import "Facebook.h"
 #import "AppDelegate.h"
+#import "ConversationsTableViewController.h"
+#import "ContactsTableViewController.h"
+#import "AccountTableViewController.h"
+#import "WelcomeViewController.h"
+#import "UIColor+Extension.h"
+#import "LocalDatabaseManager.h"
+#import "FolderUtility.h"
+#import "DIMClientConstants.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<UITabBarControllerDelegate>
+
+@property(nonatomic, strong) UITabBarController *tabbarController;
+@property(nonatomic, strong) ConversationsTableViewController *conversationController;
+@property(nonatomic, strong) ContactsTableViewController *contactController;
+@property(nonatomic, strong) AccountTableViewController *accountController;
 
 @end
 
@@ -36,51 +47,65 @@
 
     [self addDefaultUser:@"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"];
     [self addDefaultUser:@"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"];
+    [self addDefaultUser:@"assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq"];
     
-#if DEBUG && 0
-    {
-        // moky
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-moky" ofType:@"plist"];
-        DIMLocalUser *user = [DIMLocalUser userWithConfigFile:path];
-        [[Client sharedInstance] addUser:user];
+    [[LocalDatabaseManager sharedInstance] createTables];
+    [self convertOldTables];
+    
+    [self setAppApearence];
+    self.tabbarController = [self createTabBarController];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = self.tabbarController;
+    [self.window makeKeyAndVisible];
+    
+    Client *client = [Client sharedInstance];
+    DIMLocalUser *user = client.currentUser;
+    if (!user) {
+        
+        WelcomeViewController *vc = [[WelcomeViewController alloc] init];
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+        nc.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self.tabbarController presentViewController:nc animated:NO completion:nil];
     }
-#endif
-#if DEBUG && 0
-    {
-        // selina
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"usr-selina" ofType:@"plist"];
-        DIMLocalUser *user = [DIMLocalUser userWithConfigFile:path];
-        [[Client sharedInstance] addUser:user];
-    }
-#endif
-#if DEBUG && 0
-    {
-        // monkey king
-        DIMID *ID = DIMIDWithString(MKM_MONKEY_KING_ID);
-        DIMLocalUser *user = DIMUserWithID(ID);
-        [[Client sharedInstance] addUser:user];
-//        // reset the immortal account's profile
-//        MKMImmortals *immortals = [[MKMImmortals alloc] init];
-//        DIMProfile * profile = [immortals profileForID:ID];
-//        Facebook *facebook = [Facebook sharedInstance];
-//        [facebook setProfile:profile forID:ID];
-    }
-#endif
-#if DEBUG && 0
-    {
-        // hulk
-        DIMID *ID = DIMIDWithString(MKM_IMMORTAL_HULK_ID);
-        DIMLocalUser *user = DIMUserWithID(ID);
-        [[Client sharedInstance] addUser:user];
-//        // reset the immortal account's profile
-//        MKMImmortals *immortals = [[MKMImmortals alloc] init];
-//        DIMProfile * profile = [immortals profileForID:ID];
-//        Facebook *facebook = [Facebook sharedInstance];
-//        [facebook setProfile:profile forID:ID];
-    }
-#endif
+    
+    [self updateBadge:nil];
+    [self addObservers];
 
     return YES;
+}
+
+-(void)addObservers{
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadge:) name:DIMConversationUpdatedNotification object:nil];
+}
+
+-(void)updateBadge:(NSNotification *)o{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSInteger unreadCount = [[LocalDatabaseManager sharedInstance] getUnreadMessageCount:nil];
+        
+        NSString *badgeValue = nil;
+        if(unreadCount > 0 && unreadCount <= 99){
+            badgeValue = [NSString stringWithFormat:@"%zd", unreadCount];
+        }else if(unreadCount > 99){
+            badgeValue = @"99+";
+        }
+        
+        UITabBarItem *tabBarItem = self.tabbarController.tabBar.items[0];
+        tabBarItem.badgeValue = badgeValue;
+        
+        [UIApplication sharedApplication].applicationIconBadgeNumber = unreadCount;
+        
+    });
+}
+
+-(void)setAppApearence{
+    
+    UIColor *tintColor = [UIColor colorWithHexString:@"0a81ff"];
+    
+    [[UIButton appearance] setTitleColor:tintColor forState:UIControlStateNormal];
+    [[UIActivityIndicatorView appearance] setColor:tintColor];
 }
 
 -(void)addDefaultUser:(NSString *)address{
@@ -103,6 +128,38 @@
     [facebook saveProfile:profile];
 }
 
+- (UITabBarController *)createTabBarController {
+    
+    self.conversationController = [[ConversationsTableViewController alloc] init];
+    self.contactController = [[ContactsTableViewController alloc] init];
+    self.accountController = [[AccountTableViewController alloc] init];
+    
+    UINavigationController *conversationNavigationController = [[UINavigationController alloc] initWithRootViewController:self.conversationController];
+    conversationNavigationController.navigationBar.prefersLargeTitles = YES;
+    UINavigationController *contactNavigationController = [[UINavigationController alloc] initWithRootViewController:self.contactController];
+    contactNavigationController.navigationBar.prefersLargeTitles = YES;
+    UINavigationController *accountNavigationController = [[UINavigationController alloc] initWithRootViewController:self.accountController];
+    accountNavigationController.navigationBar.prefersLargeTitles = YES;
+    
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    tabBarController.delegate = self;
+    tabBarController.viewControllers = @[conversationNavigationController, contactNavigationController, accountNavigationController];
+    
+    UITabBarItem *tabBarItem = tabBarController.tabBar.items[0];
+    tabBarItem.title = NSLocalizedString(@"Chats", @"title");
+    tabBarItem.image = [UIImage imageNamed:@"tabbar_chat"];
+    
+    tabBarItem = tabBarController.tabBar.items[1];
+    tabBarItem.title = NSLocalizedString(@"Contacts", @"title");
+    tabBarItem.image = [UIImage imageNamed:@"tabbar_contact"];
+    
+    tabBarItem = tabBarController.tabBar.items[2];
+    tabBarItem.title = NSLocalizedString(@"Settings", @"title");
+    tabBarItem.image = [UIImage imageNamed:@"tabbar_setting"];
+    
+    return tabBarController;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -119,6 +176,8 @@
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     
     [[Client sharedInstance] willEnterForeground];
+    [self updateBadge:nil];
+    [self addObservers];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -146,6 +205,68 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     // APNs receive notification
     [[Client sharedInstance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+}
+
+#pragma mark - Convert old tables
+
+-(void)convertOldTables{
+    
+    LocalDatabaseManager *sqliteManager = [LocalDatabaseManager sharedInstance];
+    
+    NSString *dir = [[FolderUtility sharedInstance] applicationDocumentsDirectory];
+    dir = [dir stringByAppendingPathComponent:@".dim"];
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *de = [fm enumeratorAtPath:dir];
+        
+    DIMID *ID;
+    DIMAddress *address;
+    NSString *string;
+
+    NSString *path;
+    
+    while (path = [de nextObject]) {
+        if (![path hasSuffix:@"/messages.plist"]) {
+            continue;
+        }
+        
+        string = [path substringToIndex:(path.length - 15)];
+        address = MKMAddressFromString(string);
+            
+        ID = DIMIDWithAddress(address);
+        NSString *plistPath = [NSString stringWithFormat:@"%@/%@", dir, path];
+        
+        if ([ID isValid]) {
+            
+            [sqliteManager insertConversation:ID];
+            
+            //Get All Conversation Messages
+            NSArray *array = [NSArray arrayWithContentsOfFile:plistPath];
+            if (!array) {
+                NSLog(@"messages not found: %@", plistPath);
+                continue;
+            }
+            
+            NSLog(@"messages from %@", plistPath);
+            for (NSDictionary *item in array) {
+                DIMInstantMessage *msg = DKDInstantMessageFromDictionary(item);
+                if (!msg) {
+                    NSAssert(false, @"message invalid: %@", item);
+                    continue;
+                }
+                
+                [sqliteManager addMessage:msg toConversation:ID];
+            }
+            
+            NSError *error;
+            [fm removeItemAtPath:plistPath error:&error];
+            
+        } else {
+            NSLog(@"failed to load message in path: %@", plistPath);
+        }
+    }
+    
+    NSLog(@"Convert Finish");
 }
 
 @end

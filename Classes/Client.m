@@ -9,17 +9,13 @@
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
 #import "NSData+Extension.h"
-#import "NSDate+Timestamp.h"
 #import "NSNotificationCenter+Extension.h"
-
-#import "AccountDatabase.h"
+#import "NSString+Crypto.h"
+#import "Facebook+Profile.h"
+#import "Facebook+Register.h"
 #import "MessageProcessor.h"
 
 #import "Client.h"
-
-NSString * const kNotificationName_MessageUpdated = @"MessageUpdated";
-NSString * const kNotificationName_MessageCleaned = @"MessageCleaned";
-NSString * const kNotificationName_UsersUpdated = @"UsersUpdated";
 
 @interface Client () {
     
@@ -39,11 +35,6 @@ SingletonImplementations(Client, sharedInstance)
         return name;
     }
     return @"DIM!";
-}
-
-- (NSString *)version {
-    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
-    return [info valueForKey:@"CFBundleShortVersionString"];
 }
 
 - (NSString *)userAgent {
@@ -70,42 +61,11 @@ SingletonImplementations(Client, sharedInstance)
     // post device token
     NSString *token = [self.deviceToken hexEncode];
     if (token) {
-        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"report"];
+        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
         [cmd setObject:@"apns" forKey:@"title"];
         [cmd setObject:token forKey:@"device_token"];
         [self sendCommand:cmd];
     }
-    
-    // broadcast POD
-    NSDate *now = [[NSDate alloc] init];
-    NSString *spid = _currentStation.SP.ID;
-    NSString *sid = _currentStation.ID;
-    NSString *host = _currentStation.host;
-    UInt32 port = _currentStation.port;
-    
-    NSString *uid = self.currentUser.ID;
-    NSString *terminal = self.version;
-    NSString *userAgent = self.userAgent;
-    
-    // FIXME: get SP ID
-    if (!spid) {
-        spid = @"";
-    }
-    
-    NSDictionary *login = @{
-                            @"provider": spid,
-                            @"station": sid,
-                            @"host": host,
-                            @"port": @(port),
-                            @"time": NSNumberFromDate(now),
-                            
-                            @"account": uid,
-                            @"terminal": terminal,
-                            @"userAgent": userAgent,
-                            };
-    DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"login"];
-    [cmd setObject:login forKey:@"login"];
-    [self broadcastContent:cmd];
 }
 
 @end
@@ -117,7 +77,7 @@ SingletonImplementations(Client, sharedInstance)
     DIMID *ID = DIMIDWithString([station objectForKey:@"ID"]);
     DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
-    AccountDatabase *userDB = [AccountDatabase sharedInstance];
+    Facebook *facebook = [Facebook sharedInstance];
     [[DIMFacebook sharedInstance] saveMeta:meta forID:ID];
     
     // prepare for launch star
@@ -151,10 +111,10 @@ SingletonImplementations(Client, sharedInstance)
     
     [MessageProcessor sharedInstance];
     
-    [userDB addStation:ID provider:sp];
+    [facebook addStation:ID provider:sp];
     
     // scan users
-    NSArray *users = [userDB allUsers];
+    NSArray *users = [facebook allUsers];
 #if DEBUG && 0
     NSMutableArray *mArray;
     if (users.count > 0) {
@@ -173,59 +133,12 @@ SingletonImplementations(Client, sharedInstance)
         user = DIMUserWithID(ID);
         [self addUser:user];
     }
-    
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onProfileUpdated:)
-                                 name:kNotificationName_ProfileUpdated
-                               object:self];
-
-}
-
-- (void)onProfileUpdated:(NSNotification *)notification {
-    if (![notification.name isEqual:kNotificationName_ProfileUpdated]) {
-        return ;
-    }
-    DIMProfileCommand *cmd = (DIMProfileCommand *)notification.userInfo;
-    DIMProfile *profile = cmd.profile;
-    NSAssert([profile.ID isEqual:cmd.ID], @"profile command error: %@", cmd);
-    [profile removeObjectForKey:@"lastTime"];
-    
-    // check avatar
-    NSString *avatar = profile.avatar;
-    if (avatar) {
-//        // if old avatar exists, remove it
-//        DIMID *ID = profile.ID;
-//        DIMProfile *old = [self profileForID:ID];
-//        NSString *ext = [old.avatar pathExtension];
-//        if (ext/* && ![avatar isEqualToString:old.avatar]*/) {
-//            // Cache directory: "Documents/.mkm/{address}/avatar.png"
-//            NSString *path = [NSString stringWithFormat:@"%@/.mkm/%@/avatar.%@", document_directory(), ID.address, ext];
-//            NSFileManager *fm = [NSFileManager defaultManager];
-//            if ([fm fileExistsAtPath:path]) {
-//                NSError *error = nil;
-//                if (![fm removeItemAtPath:path error:&error]) {
-//                    NSLog(@"failed to remove old avatar: %@", error);
-//                } else {
-//                    NSLog(@"old avatar removed: %@", path);
-//                }
-//            }
-//        }
-    }
-    
-    // update profile
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    [facebook saveProfile:profile];
 }
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
-    DIMServiceProvider *sp = nil;
-    {
-        DIMID *ID = DIMIDWithString([config objectForKey:@"ID"]);
-//        DIMID *founder = [config objectForKey:@"founder"];
-//        founder = DIMIDWithString(founder);
-        
-        sp = [[DIMServiceProvider alloc] initWithID:ID];
-    }
+    
+    DIMID *ID = DIMIDWithString([config objectForKey:@"ID"]);
+    DIMServiceProvider *sp = [[DIMServiceProvider alloc] initWithID:ID];
     
     // choose the fast station
     NSArray *stations = [config objectForKey:@"stations"];
@@ -273,8 +186,9 @@ SingletonImplementations(Client, sharedInstance)
 - (void)didEnterBackground {
     // report client state
     DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
-    [cmd setObject:@"offline" forKey:@"title"];
-    [self broadcastContent:cmd];
+    [cmd setObject:@"report" forKey:@"title"];
+    [cmd setObject:@"background" forKey:@"state"];
+    [self sendCommand:cmd];
     
     [_currentStation pause];
 }
@@ -290,8 +204,9 @@ SingletonImplementations(Client, sharedInstance)
     
     // report client state
     DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
-    [cmd setObject:@"online" forKey:@"title"];
-    [self broadcastContent:cmd];
+    [cmd setObject:@"report" forKey:@"title"];
+    [cmd setObject:@"foreground" forKey:@"state"];
+    [self sendCommand:cmd];
 }
 
 - (void)willTerminate {
@@ -417,8 +332,8 @@ SingletonImplementations(Client, sharedInstance)
     user.dataSource = facebook;
     self.currentUser = user;
     
-    AccountDatabase *userDB = [AccountDatabase sharedInstance];
-    BOOL saved = [userDB saveUserList:self.users withCurrentUser:user];
+    Facebook *book = [Facebook sharedInstance];
+    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
     return saved;
 }
@@ -440,10 +355,8 @@ SingletonImplementations(Client, sharedInstance)
     MKMLocalUser *user = DIMUserWithID(ID);
     [self login:user];
     
-//    DIMProfile *profile = [facebook profileForID:ID];
-    
-    AccountDatabase *userDB = [AccountDatabase sharedInstance];
-    BOOL saved = [userDB saveUserList:self.users withCurrentUser:user];
+    Facebook *book = [Facebook sharedInstance];
+    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
     
     return saved;

@@ -31,15 +31,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-#pragma mark -
-
-extern NSString * const kNotificationName_GroupMembersUpdated;
-
-@interface MessageProcessor (GroupCommand)
-
-- (BOOL)processGroupCommand:(DIMGroupCommand *)cmd
-                  commander:(DIMID *)sender;
-
-@end
-
 NS_ASSUME_NONNULL_END

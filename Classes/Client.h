@@ -13,16 +13,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString * const kNotificationName_MessageUpdated;
-extern NSString * const kNotificationName_MessageCleaned;
-extern NSString * const kNotificationName_UsersUpdated;
-
 @interface Client : DIMTerminal<UNUserNotificationCenterDelegate>
 
 @property (strong, nonatomic) NSData *deviceToken;
 
 @property (readonly, nonatomic) NSString *displayName;
-@property (readonly, nonatomic) NSString *version;
 
 + (instancetype)sharedInstance;
 

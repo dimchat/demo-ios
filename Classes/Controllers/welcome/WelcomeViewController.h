@@ -8,22 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "UIButton+Extension.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WelcomeViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIView *trayView;
-
-@property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
-@property (weak, nonatomic) IBOutlet UITextField *nicknameTextField;
-@property (weak, nonatomic) IBOutlet SwitchButton *agreedButton;
-
-@property (weak, nonatomic) IBOutlet UIButton *nextButton;
-
-- (IBAction)onNicknameEditExit:(UITextField *)sender;
 
 @end
 

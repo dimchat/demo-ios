@@ -6,120 +6,110 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "UIStoryboardSegue+Extension.h"
 #import "UIView+Extension.h"
+#import "UIButton+Extension.h"
 #import "UIViewController+Extension.h"
-#import "WebViewController.h"
 #import "ImportAccountViewController.h"
-
-#import "User.h"
+#import "RegisterViewController.h"
+#import "WelcomeViewController.h"
+#import "WebViewController.h"
 #import "Client.h"
 
-#import "FirstAccountViewController.h"
-
-#import "WelcomeViewController.h"
-
 @interface WelcomeViewController ()
+
+@property(nonatomic, strong) UIButton *agreeButton;
+@property(nonatomic, strong) UIImageView *logoImageView;
 
 @end
 
 @implementation WelcomeViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+-(void)loadView{
     
-    [_logoImageView roundedCorner];
+    [super loadView];
     
-    //[_nextButton roundedCorner];
-    [self.view addClickTarget:self action:@selector(onBackgroundClick:)];
-}
-
-- (void)onBackgroundClick:(id)sender {
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
+    self.view.backgroundColor = [UIColor colorNamed:@"ViewBackgroundColor"];
     
-    [_nicknameTextField resignFirstResponder];
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
+    CGFloat width = 128.0;
+    CGFloat height = 128.0;
+    CGFloat x = (self.view.bounds.size.width - width) / 2.0;
+    CGFloat y = 150.0;
     
-    CGRect rect = _scrollView.frame;
-    UIEdgeInsets insets = _scrollView.adjustedContentInset;
-    
-    CGSize vSize = CGSizeMake(rect.size.width - insets.left - insets.right,
-                              rect.size.height - insets.top - insets.bottom);
-    
-    CGSize size = CGSizeMake(320, MAX(vSize.height, 520));
-    
-    _trayView.frame = CGRectMake((vSize.width - size.width) * 0.5, 0,
-                                 size.width, size.height);
-    _scrollView.frame = CGRectMake(0, 0,
-                                   rect.origin.x + rect.size.width,
-                                   rect.origin.y + rect.size.height);
-    _scrollView.contentSize = CGSizeMake(size.width, size.height);
-}
-
-- (void)onNicknameEditExit:(UITextField *)sender {
-    
-    NSString *identifier = @"next";
-    if ([self shouldPerformSegueWithIdentifier:identifier sender:self]) {
-        [self performSegueWithIdentifier:identifier sender:self];
-    }
-}
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    
-    Client *client = [Client sharedInstance];
-    
-    if ([segue.identifier isEqualToString:@"terms"]) {
-        // show terms
-        NSString *urlString = client.termsAPI;
-        WebViewController *web = [segue visibleDestinationViewController];
-        web.url = [NSURL URLWithString:urlString];
-        web.title = NSLocalizedString(@"Terms", nil);
-    } else if ([segue.identifier isEqualToString:@"next"]) {
-        // next step
-        FirstAccountViewController *first = [segue visibleDestinationViewController];
-        first.nickname = _nicknameTextField.text;
+    if([UIScreen mainScreen].bounds.size.width == 320.0){
+        y = 50.0;
     }
     
-}
-
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    self.logoImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"DimLogo"]];
+    self.logoImageView.frame = CGRectMake(x, y, width, height);
+    [self.logoImageView roundedCorner];
+    [self.view addSubview:self.logoImageView];
     
-    if ([identifier isEqualToString:@"next"]) {
-//        // check nickname
-//        NSString *nickname = _nicknameTextField.text;
-//        if (nickname.length == 0) {
-//            NSString *message = @"Nickname cannot be empty.";
-//            NSString *title = @"Nickname Error!";
-//            [self showMessage:NSLocalizedString(message, nil)
-//                    withTitle:NSLocalizedString(title, nil)];
-//            [_nicknameTextField becomeFirstResponder];
-//            return NO;
-//        }
-        
-        // check agreement
-        if (_agreedButton.selected == NO) {
-            NSString *title = @"Read the Agreements!";
-            NSString *message = @"You must read and agree the user agreements and privacy clauses.";
-            [self showMessage:NSLocalizedString(message, nil)
-                    withTitle:NSLocalizedString(title, nil)];
-            return NO;
-        }
+    x = 10.0;
+    y = y + height + 150.0;
+    height = 40.0;
+    width = self.view.bounds.size.width - x * 2;
+    
+    if([UIScreen mainScreen].bounds.size.width == 320.0){
+        y = y - 100.0;
+        height = 70.0;
     }
-    return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    titleLabel.text = NSLocalizedString(@"Thanks for using DIM Chat", @"title");
+    titleLabel.font = [UIFont boldSystemFontOfSize:28.0];
+    titleLabel.numberOfLines = 2;
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:titleLabel];
+    
+    y = y + height + 10.0;
+    UILabel *agreementLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    agreementLabel.text = NSLocalizedString(@"Please read the privacy policy, click \"Agree and Continue\" to accept the agreement.", @"title");
+    agreementLabel.font = [UIFont systemFontOfSize:14.0];
+    agreementLabel.numberOfLines = 2;
+    agreementLabel.textColor = [UIColor grayColor];
+    agreementLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:agreementLabel];
+    
+    UIButton *agreementButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [agreementButton addTarget:self action:@selector(didPressAgreementButton:) forControlEvents:UIControlEventTouchUpInside];
+    agreementButton.frame = agreementLabel.frame;
+    [self.view addSubview:agreementButton];
+    
+    y = y + height + 30.0;
+    height = 44.0;
+    x = 35.0;
+    width = self.view.bounds.size.width - x * 2.0;
+    
+    self.agreeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.agreeButton.frame = CGRectMake(x, y, width, height);
+    [self.agreeButton setTitle:NSLocalizedString(@"Agree and Continue", @"title") forState:UIControlStateNormal];
+    self.agreeButton.titleLabel.font = [UIFont boldSystemFontOfSize:24.0];
+    [self.agreeButton addTarget:self action:@selector(didPressRegisterButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.agreeButton];
 }
 
-- (IBAction)didPressImportButton:(id)sender {
+- (void)didPressRegisterButton:(id)sender {
+    
+    RegisterViewController *registerController = [[RegisterViewController alloc] init];
+    [self.navigationController pushViewController:registerController animated:YES];
+}
+
+- (void)didPressImportButton:(id)sender {
     
     ImportAccountViewController *controller = [[ImportAccountViewController alloc] initWithNibName:@"ImportAccountViewController" bundle:nil];
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+-(void)didPressAgreementButton:(id)sender{
+    
+    Client *client = [Client sharedInstance];
+    NSString *urlString = client.termsAPI;
+    WebViewController *web = [[WebViewController alloc] init];
+    web.url = [NSURL URLWithString:urlString];
+    web.title = NSLocalizedString(@"Terms", nil);
+    [self.navigationController pushViewController:web animated:YES];
 }
 
 @end

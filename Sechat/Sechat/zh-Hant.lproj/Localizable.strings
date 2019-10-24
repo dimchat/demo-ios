@@ -96,7 +96,7 @@
 //  Message Processor
 //
 
-"%@ was querying group info, responding..." = "%@ 在詢問最新的群信息，已應答。";
+"%@ was querying group info, responsing..." = "%@ 在詢問最新的群信息，已應答。";
 "%@ has updated group members" = "%@ 更新了群信息";
 "removed" = "刪除了成員";
 "invited" = "添加了成員";
@@ -123,3 +123,30 @@
 
 "Generate account failed." = "生成賬號失敗。";
 "Failed to create user." = "無法創建用戶。";
+
+"Chats" = "聊天";
+"Contacts" = "通訊錄";
+"Settings" = "設置";
+"About" = "關於";
+"Export" = "導出";
+"Edit" = "編輯";
+
+"It is forbidden to send contents that violate the existing laws and regulations. If a violator is found, please click the button in the upper right corner and report it." = "禁止發送違反現行法律、法規的訊息。如發現違反者，請立即點擊右上角按鈕並向我們舉報。";
+
+"user agreements and privacy clauses" = "《DIM! 用戶協議與隱私條款》";
+
+"Thanks for using DIM Chat" = "歡迎使用DIM Chat";
+"Please read the privacy policy, click \"Agree and Continue\" to accept the agreement." = "請閱讀隱私條款，點擊\"同意並繼續\"來接受條款";
+"Agree and Continue" = "同意並繼續";
+"Next" = "下一步";
+"Register" = "註冊新用戶";
+"Chat" = "聊天";
+"Add To Contact" = "添加到通訊錄";
+"Search User" = "搜索用戶";
+"Copy Search Number Success" = "成功複製搜索號";
+"Import Existing Account" = "導入現有賬號";
+"Import Account" = "導入賬號";
+"Copy Address Success" = "成功複製地址";
+"HH:mm a" = "a HH:mm";
+"Search NO." = "搜索號";
+"Copy" = "複製";

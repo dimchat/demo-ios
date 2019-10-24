@@ -6,17 +6,14 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "ImportAccountViewController.h"
 #import "User.h"
 #import "Client.h"
-#import "AccountDatabase.h"
-
-#import "ImportAccountViewController.h"
-
+#import "Facebook+Register.h"
 #import "UIViewController+Extension.h"
 
 @interface ImportAccountViewController ()
 @property (strong, nonatomic) IBOutlet UITextView *accountTextView;
-
 @end
 
 @implementation ImportAccountViewController
@@ -26,7 +23,8 @@
     // Do any additional setup after loading the view from its nib.
     
     self.navigationItem.title = NSLocalizedString(@"Import Account", @"title");
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(didPressSaveButton:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Next", @"title") style:UIBarButtonItemStylePlain target:self action:@selector(didPressSaveButton:)];
+    self.view.backgroundColor = [UIColor colorNamed:@"ViewBackgroundColor"];
     
     [self.accountTextView becomeFirstResponder];
 }
@@ -66,8 +64,9 @@
         [self showMessage:NSLocalizedString(@"Failed to import user.", nil)
                 withTitle:NSLocalizedString(@"Error!", nil)];
     } else {
-
-
+        
+        //Get contacts from server
+        [client getContacts];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
 }

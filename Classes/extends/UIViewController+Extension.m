@@ -10,6 +10,16 @@
 
 @implementation UIViewController (Alert)
 
+-(void)showError:(NSError *)error{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSString *title = NSLocalizedString(@"Error", @"title");
+        NSString *message = error.localizedDescription;
+        [self showMessage:message withTitle:title];
+    });
+}
+
 - (void)showMessage:(nullable NSString *)text withTitle:(nullable NSString *)title {
     
     [self showMessage:text withTitle:title defaultButton:@"OK"];

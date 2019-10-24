@@ -7,54 +7,55 @@
 //
 
 #import "NSNotificationCenter+Extension.h"
-#import "UIStoryboard+Extension.h"
-#import "UIStoryboardSegue+Extension.h"
-
 #import "User.h"
-#import "Client.h"
-#import "AccountDatabase.h"
+#import "Facebook.h"
 #import "MessageProcessor.h"
-
+#import "Client.h"
+#import "DIMClientConstants.h"
 #import "ChatViewController.h"
-
 #import "ConversationCell.h"
-
 #import "ConversationsTableViewController.h"
 
-@interface ConversationsTableViewController () {
-    
-    NSString *_fixedTitle;
-}
+@interface ConversationsTableViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property(nonatomic, strong) UITableView *tableView;
 
 @end
 
 @implementation ConversationsTableViewController
 
+-(void)loadView{
+    
+    [super loadView];
+    
+    self.navigationItem.title = NSLocalizedString(@"Chats", @"title");
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    [self.tableView registerClass:[ConversationCell class] forCellReuseIdentifier:@"ConversationCell"];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+}
+
+- (void)dealloc{
+
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    while (_fixedTitle.length == 0) {
-        _fixedTitle = self.navigationItem.title;
-        if (_fixedTitle.length > 0) {
-            break;
-        }
-        _fixedTitle = self.title;
-        if (_fixedTitle.length > 0) {
-            break;
-        }
-        _fixedTitle = @"Secure Chat";
-        break;
-    }
+    [self addDataObserver];
+}
+
+-(void)addDataObserver{
     
-    [NSNotificationCenter addObserver:self.tableView
-                             selector:@selector(reloadData)
-                                 name:kNotificationName_MessageUpdated
+    [NSNotificationCenter addObserver:self
+                             selector:@selector(loadData)
+                                 name:DIMConversationUpdatedNotification
                                object:nil];
-    [NSNotificationCenter addObserver:self.tableView
-                             selector:@selector(reloadData)
-                                 name:kNotificationName_MessageCleaned
-                               object:nil];
-    
     [NSNotificationCenter addObserver:self
                              selector:@selector(onServerStateChanged:)
                                  name:kNotificationName_ServerStateChanged
@@ -66,16 +67,17 @@
                                object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+-(void)loadData{
     
-    Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
-    if (!user) {
-        // show welcome
-        UIViewController *vc = [UIStoryboard instantiateInitialViewControllerWithStoryboardName:@"Welcome"];
-        [self presentViewController:vc animated:YES completion:nil];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+    [super viewWillAppear:animated];
+    self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAutomatic;
 }
 
 - (void)onGroupMembersUpdated:(NSNotification *)notification {
@@ -104,7 +106,7 @@
         } else if ([state isEqualToString:kDIMServerState_Handshaking]) {
             self.navigationItem.title = NSLocalizedString(@"Authenticating ...", nil);
         } else if ([state isEqualToString:kDIMServerState_Running]) {
-            self.navigationItem.title = _fixedTitle;
+            self.navigationItem.title = NSLocalizedString(@"Chats", @"title");
         } else if ([state isEqualToString:kDIMServerState_Error]) {
             self.navigationItem.title = NSLocalizedString(@"Network error!", nil);
         } else if ([state isEqualToString:kDIMServerState_Stopped]) {
@@ -124,32 +126,21 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Incomplete implementation, return the number of sections
-    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete implementation, return the number of rows
-    
     MessageProcessor *msgDB = [MessageProcessor sharedInstance];
     return [msgDB numberOfConversations];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // fix a bug with UISearchBar
-    tableView = self.tableView;
-    
-    ConversationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"conversationCell" forIndexPath:indexPath];
-    
-    //NSInteger section = indexPath.section;
+    ConversationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ConversationCell" forIndexPath:indexPath];
     NSInteger row = indexPath.row;
     
-    // Configure the cell...
     MessageProcessor *msgDB = [MessageProcessor sharedInstance];
     DIMConversation *chat = [msgDB conversationAtIndex:row];
-    
     cell.conversation = chat;
     
     return cell;
@@ -185,26 +176,17 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if ([segue.identifier isEqualToString:@"startChat"]) {
-        DIMConversation *chatBox = nil;
-        if ([sender isKindOfClass:[ConversationCell class]]) {
-            ConversationCell *cell = sender;
-            chatBox = cell.conversation;
-        } else {
-            NSAssert([sender isKindOfClass:[DIMConversation class]], @"sender error: %@", sender);
-            chatBox = sender;
-        }
-        DIMID *ID = chatBox.ID;
-        DIMConversation *convers = DIMConversationWithID(ID);
-        
-        ChatViewController *vc = [segue visibleDestinationViewController];
-        vc.conversation = convers;
-    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+    DIMConversation *convers = [msgDB conversationAtIndex:indexPath.row];
+    
+    ChatViewController *vc = [[ChatViewController alloc] init];
+    vc.conversation = convers;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
