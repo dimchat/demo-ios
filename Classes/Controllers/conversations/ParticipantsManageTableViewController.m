@@ -11,7 +11,6 @@
 #import "UIImageView+Extension.h"
 #import "UIViewController+Extension.h"
 #import "DIMProfile+Extension.h"
-
 #import "User.h"
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
@@ -19,49 +18,7 @@
 #import "MessageProcessor.h"
 #import "DIMClientConstants.h"
 #import "ParticipantManageCell.h"
-
 #import "ParticipantsManageTableViewController.h"
-
-static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLocalUser *user) {
-    DIMID *founder = group.founder;
-    NSArray<DIMID *> *members = group.members;
-    DIMID *current = user.ID;
-    NSArray<DIMID *> *contacts = user.contacts;
-    
-    DIMID *ID;
-    NSMutableArray *candidates = [[NSMutableArray alloc] initWithCapacity:(members.count + contacts.count)];
-    // add all members (except the founder & current user) as candidates
-    for (ID in members) {
-        if ([ID isEqual:founder] || [ID isEqual:current]) {
-            // move these two account to the tail
-            continue;
-        }
-        if ([candidates containsObject:ID]) {
-            continue;
-        }
-        [candidates addObject:ID];
-    }
-    // add all contacts (except the founder & current user) as candidates
-    for (ID in contacts) {
-        if ([ID isEqual:founder] || [ID isEqual:current]) {
-            // move these two account to the tail
-            continue;
-        }
-        if ([candidates containsObject:ID]) {
-            continue;
-        }
-        [candidates addObject:ID];
-    }
-    
-    // add current user & founder as candidates
-    if (current) {
-        [candidates addObject:current];
-    }
-    if (founder && ![founder isEqual:current]) {
-        [candidates addObject:founder];
-    }
-    return candidates;
-}
 
 @interface ParticipantsManageTableViewController () {
     
@@ -79,12 +36,6 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     [_logoImageView roundedCorner];
     
@@ -141,7 +92,7 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
     }
     
     // 2. candidates
-    _candidateList = group_member_candidates(_group, user);
+    _candidateList = [self groupMemberCandidates:_group currentUser:user];
     
     // 3. selected list
     _selectedList = [[NSMutableArray alloc] init];
@@ -162,6 +113,56 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
             [_selectedList addObject:item];
         }
     }
+}
+
+-(NSArray <DIMID *> *)groupMemberCandidates:(DIMGroup *)group currentUser:(DIMLocalUser *)user {
+    DIMID *founder = group.founder;
+    NSArray<DIMID *> *members = group.members;
+    DIMID *current = user.ID;
+    NSArray<DIMID *> *contacts = user.contacts;
+    
+    NSMutableArray *filterContacts = [[NSMutableArray alloc] init];
+    //Filter Group IDs
+    for (DIMID *contactID in contacts) {
+        
+        if(!MKMNetwork_IsGroup(contactID.type)){
+            [filterContacts addObject:contactID];
+        }
+    }
+    
+    DIMID *ID;
+    NSMutableArray *candidates = [[NSMutableArray alloc] initWithCapacity:(members.count + filterContacts.count)];
+    // add all members (except the founder & current user) as candidates
+    for (ID in members) {
+        if ([ID isEqual:founder] || [ID isEqual:current]) {
+            // move these two account to the tail
+            continue;
+        }
+        if ([candidates containsObject:ID]) {
+            continue;
+        }
+        [candidates addObject:ID];
+    }
+    // add all contacts (except the founder & current user) as candidates
+    for (ID in filterContacts) {
+        if ([ID isEqual:founder] || [ID isEqual:current]) {
+            // move these two account to the tail
+            continue;
+        }
+        if ([candidates containsObject:ID]) {
+            continue;
+        }
+        [candidates addObject:ID];
+    }
+    
+    // add current user & founder as candidates
+    if (current) {
+        [candidates addObject:current];
+    }
+    if (founder && ![founder isEqual:current]) {
+        [candidates addObject:founder];
+    }
+    return candidates;
 }
 
 - (IBAction)changeGroupName:(UITextField *)sender {
@@ -332,6 +333,8 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
@@ -340,33 +343,41 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
     } else if (section == 1) {
         // candidates
         DIMID *ID = [_candidateList objectAtIndex:row];
-        NSAssert(![_selectedList containsObject:ID], @"%@ should not in selected list: %@", ID, _selectedList);
-        [_selectedList addObject:ID];
-        NSLog(@"select: %@", ID);
+        //NSAssert(![_selectedList containsObject:ID], @"%@ should not in selected list: %@", ID, _selectedList);
         
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        if([_selectedList containsObject:ID]){
+            [_selectedList removeObject:ID];
+            
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            
+        }else{
+            [_selectedList addObject:ID];
+            NSLog(@"select: %@", ID);
+        
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        }
     }
 }
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSInteger section = indexPath.section;
-    NSInteger row = indexPath.row;
-    
-    if (section == 0) {
-        // founder
-    } else if (section == 1) {
-        // candidates
-        DIMID *ID = [_candidateList objectAtIndex:row];
-        NSAssert([_selectedList containsObject:ID], @"contact not selected: %@", ID);
-        [_selectedList removeObject:ID];
-        NSLog(@"deselect: %@", ID);
-        
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-}
+//- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    NSInteger section = indexPath.section;
+//    NSInteger row = indexPath.row;
+//
+//    if (section == 0) {
+//        // founder
+//    } else if (section == 1) {
+//        // candidates
+//        DIMID *ID = [_candidateList objectAtIndex:row];
+//        [_selectedList removeObject:ID];
+//        NSLog(@"deselect: %@", ID);
+//
+//        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    }
+//}
 
 #pragma mark - Table view data source
 
@@ -434,49 +445,5 @@ static inline NSArray<DIMID *> *group_member_candidates(DIMGroup *group, DIMLoca
     
     return cell;
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

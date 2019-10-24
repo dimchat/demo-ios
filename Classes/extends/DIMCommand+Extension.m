@@ -7,7 +7,6 @@
 //
 
 #import <DIMClient/DIMClient.h>
-
 #import "DIMCommand+Extension.h"
 
 @implementation DIMCommand (Extension)
