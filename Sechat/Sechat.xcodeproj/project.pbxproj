@@ -13,6 +13,7 @@
 		5216EF04231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
 		522EA28E2341953D00FC3BB8 /* BadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522EA28C2341953C00FC3BB8 /* BadgeView.m */; };
 		522EA28F2341953D00FC3BB8 /* BadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 522EA28C2341953C00FC3BB8 /* BadgeView.m */; };
+		52311E592360451C00F6A9C7 /* DIMCommand+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 52311E582360451C00F6A9C7 /* DIMCommand+Extension.m */; };
 		5242949923347ED300E8DA05 /* SentMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949523347ED300E8DA05 /* SentMessageCell.m */; };
 		5242949A23347ED300E8DA05 /* ReceiveMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949623347ED300E8DA05 /* ReceiveMessageCell.m */; };
 		5242949B23347ED300E8DA05 /* GuideCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949723347ED300E8DA05 /* GuideCell.m */; };
@@ -244,6 +245,8 @@
 		5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"; sourceTree = "<group>"; };
 		522EA28C2341953C00FC3BB8 /* BadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BadgeView.m; sourceTree = "<group>"; };
 		522EA28D2341953D00FC3BB8 /* BadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BadgeView.h; sourceTree = "<group>"; };
+		52311E562360451C00F6A9C7 /* DIMCommand+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMCommand+Extension.h"; sourceTree = "<group>"; };
+		52311E582360451C00F6A9C7 /* DIMCommand+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DIMCommand+Extension.m"; sourceTree = "<group>"; };
 		5242949123347ED300E8DA05 /* SentMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SentMessageCell.h; sourceTree = "<group>"; };
 		5242949223347ED300E8DA05 /* ReceiveMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReceiveMessageCell.h; sourceTree = "<group>"; };
 		5242949323347ED300E8DA05 /* GuideCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideCell.h; sourceTree = "<group>"; };
@@ -672,6 +675,8 @@
 		E9BBC3702242B21200E6ACDA /* extends */ = {
 			isa = PBXGroup;
 			children = (
+				52311E562360451C00F6A9C7 /* DIMCommand+Extension.h */,
+				52311E582360451C00F6A9C7 /* DIMCommand+Extension.m */,
 				520A0ECE2359BC1D00493E2F /* UILabel+Copyable.h */,
 				520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */,
 				E9BBC3732242B21200E6ACDA /* NSString+Extension.h */,
@@ -969,6 +974,7 @@
 				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
 				E9790817225A6E2C0024C830 /* ZoomInViewController.m in Sources */,
 				E92256462222ED7C006CADEA /* User.m in Sources */,
+				52311E592360451C00F6A9C7 /* DIMCommand+Extension.m in Sources */,
 				522EA28E2341953D00FC3BB8 /* BadgeView.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
 				5242949F2334829900E8DA05 /* CommandMessageCell.m in Sources */,
