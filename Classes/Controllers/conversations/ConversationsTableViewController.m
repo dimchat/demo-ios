@@ -54,7 +54,7 @@
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(loadData)
-                                 name:kNotificationName_ConversationUpdated
+                                 name:DIMConversationUpdatedNotification
                                object:nil];
     [NSNotificationCenter addObserver:self
                              selector:@selector(onServerStateChanged:)

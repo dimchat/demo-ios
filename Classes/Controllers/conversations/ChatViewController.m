@@ -193,7 +193,7 @@
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(onMessageInserted:)
-                                 name:kNotificationName_MessageInserted
+                                 name:DIMMessageInsertedNotifiation
                                object:nil];
     
     [NSNotificationCenter addObserver:self
@@ -206,7 +206,7 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageSent object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_SendMessageFailed object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageInserted object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:DIMMessageInsertedNotifiation object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
@@ -240,7 +240,7 @@
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
     
-    if ([name isEqual:kNotificationName_MessageInserted]) {
+    if ([name isEqual:DIMMessageInsertedNotifiation]) {
         DIMID *ID = DIMIDWithString([info objectForKey:@"Conversation"]);
         if ([_conversation.ID isEqual:ID]) {
             dispatch_async(dispatch_get_main_queue(), ^{

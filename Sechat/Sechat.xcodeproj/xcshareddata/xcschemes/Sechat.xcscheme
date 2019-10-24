@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E92255BE2222EC53006CADEA"
-               BuildableName = "Sechat.app"
+               BuildableName = "DIMTalk.app"
                BlueprintName = "Sechat"
                ReferencedContainer = "container:Sechat.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E92255BE2222EC53006CADEA"
-            BuildableName = "Sechat.app"
+            BuildableName = "DIMTalk.app"
             BlueprintName = "Sechat"
             ReferencedContainer = "container:Sechat.xcodeproj">
          </BuildableReference>
@@ -74,7 +74,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E92255BE2222EC53006CADEA"
-            BuildableName = "Sechat.app"
+            BuildableName = "DIMTalk.app"
             BlueprintName = "Sechat"
             ReferencedContainer = "container:Sechat.xcodeproj">
          </BuildableReference>
@@ -91,7 +91,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E92255BE2222EC53006CADEA"
-            BuildableName = "Sechat.app"
+            BuildableName = "DIMTalk.app"
             BlueprintName = "Sechat"
             ReferencedContainer = "container:Sechat.xcodeproj">
          </BuildableReference>
