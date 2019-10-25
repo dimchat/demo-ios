@@ -19,10 +19,13 @@
 #import "ParticipantsCollectionViewController.h"
 #import "DIMClientConstants.h"
 #import "ChatManageTableViewController.h"
+#import "SwitchCell.h"
+#import "LocalDatabaseManager.h"
 
-@interface ChatManageTableViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface ChatManageTableViewController ()<UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) SwitchCell *muteCell;
 @property (strong, nonatomic) ParticipantsCollectionViewController *participantsCollectionViewController;
 
 @end
@@ -49,6 +52,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"NormalCell"];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Profile"];
+    [self.tableView registerClass:[SwitchCell class] forCellReuseIdentifier:@"SwitchCell"];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -192,7 +196,6 @@
     if (section == SECTION_ACTIONS) {
         // other actions
         if (!MKMNetwork_IsGroup(_conversation.ID.type)) {
-            // not a group, only show 'Clear Chat History' action
             return 1;
         }
         
@@ -200,13 +203,16 @@
         DIMLocalUser *user = client.currentUser;
         DIMGroup *group = DIMGroupWithID(_conversation.ID);
         if ([group isOwner:user.ID]) {
-            // founder cannot quit, only show 'Clear Chat History' action
             return 1;
         }
     }
     
     if(section == SECTION_PROFILES){
         return 4;
+    }
+    
+    if(section == SECTION_FUNCTIONS){
+        return 2;
     }
     
     return 1;
@@ -278,9 +284,22 @@
         
     } else if(section == SECTION_FUNCTIONS){
         
-        cell = [tableView dequeueReusableCellWithIdentifier:@"NormalCell" forIndexPath:indexPath];
-        cell.textLabel.textAlignment = NSTextAlignmentLeft;
-        cell.textLabel.text = NSLocalizedString(@"Report", @"title");
+        if(row == 0){
+            cell = [tableView dequeueReusableCellWithIdentifier:@"NormalCell" forIndexPath:indexPath];
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
+            cell.textLabel.text = NSLocalizedString(@"Report", @"title");
+        } else {
+            
+            Client *client = [Client sharedInstance];
+            DIMLocalUser *user = client.currentUser;
+            
+            SwitchCell *muteCell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
+            muteCell.textLabel.textAlignment = NSTextAlignmentLeft;
+            muteCell.textLabel.text = NSLocalizedString(@"Mute", @"title");
+            muteCell.delegate = self;
+            muteCell.switchOn = [[LocalDatabaseManager sharedInstance] conversation:self.conversation.ID isMuteForUser:user.ID];
+            cell = muteCell;
+        }
         
     } else if(section == SECTION_ACTIONS){
         
@@ -334,6 +353,13 @@
         vc.contact = ID;
         
     }
+}
+
+- (void)switchCell:(SwitchCell *)cell didChangeValue:(BOOL)on{
+    
+    Client *client = [Client sharedInstance];
+    DIMLocalUser *user = client.currentUser;
+    [[LocalDatabaseManager sharedInstance] conversation:self.conversation.ID setMute:on forUser:user.ID];
 }
 
 @end

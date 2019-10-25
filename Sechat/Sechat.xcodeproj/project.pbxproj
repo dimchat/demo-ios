@@ -20,6 +20,8 @@
 		5242949C23347ED300E8DA05 /* TimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949823347ED300E8DA05 /* TimeCell.m */; };
 		5242949F2334829900E8DA05 /* CommandMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949D2334829900E8DA05 /* CommandMessageCell.m */; };
 		524294A22334B7E600E8DA05 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 524294A12334B7E600E8DA05 /* MessageCell.m */; };
+		52844B792362A6C7006B4C03 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52844B782362A6C6006B4C03 /* SwitchCell.m */; };
+		52844B7A2362A6C7006B4C03 /* SwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 52844B782362A6C6006B4C03 /* SwitchCell.m */; };
 		52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52876E0422C20217006F0655 /* ImportAccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 52876E0222C20217006F0655 /* ImportAccountViewController.xib */; };
 		52B958012359D874009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq in Resources */ = {isa = PBXBuildFile; fileRef = 52B957FF2359D873009BB556 /* assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq */; };
@@ -261,6 +263,8 @@
 		524294A02334B7E600E8DA05 /* MessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
 		524294A12334B7E600E8DA05 /* MessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
 		524F5E7C22CDDE0000A84DF9 /* ethers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ethers.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Sechat-cwfdihfwyufdtfaysjjmmexlsrue/Build/Products/Debug-iphoneos/ethers.framework"; sourceTree = "<group>"; };
+		52844B762362A6C6006B4C03 /* SwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchCell.h; sourceTree = "<group>"; };
+		52844B782362A6C6006B4C03 /* SwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchCell.m; sourceTree = "<group>"; };
 		52876E0022C20217006F0655 /* ImportAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportAccountViewController.h; sourceTree = "<group>"; };
 		52876E0122C20217006F0655 /* ImportAccountViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImportAccountViewController.m; sourceTree = "<group>"; };
 		52876E0222C20217006F0655 /* ImportAccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImportAccountViewController.xib; sourceTree = "<group>"; };
@@ -578,6 +582,8 @@
 		E922563B2222ED7C006CADEA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				52844B762362A6C6006B4C03 /* SwitchCell.h */,
+				52844B782362A6C6006B4C03 /* SwitchCell.m */,
 				522EA28D2341953D00FC3BB8 /* BadgeView.h */,
 				522EA28C2341953C00FC3BB8 /* BadgeView.m */,
 				5242949023347ED300E8DA05 /* MessageCell */,
@@ -951,6 +957,7 @@
 				52DBA3422340F2F90000C2B4 /* UIButton+Extension.m in Sources */,
 				52DBA3432340F2F90000C2B4 /* SearchUsersTableViewController.m in Sources */,
 				520A0ED22359BC1D00493E2F /* UILabel+Copyable.m in Sources */,
+				52844B7A2362A6C7006B4C03 /* SwitchCell.m in Sources */,
 				52DBA3442340F2F90000C2B4 /* MessageCell.m in Sources */,
 				52DBA3452340F2F90000C2B4 /* TimeCell.m in Sources */,
 				52DBA3462340F2F90000C2B4 /* UIImageView+Extension.m in Sources */,
@@ -1008,6 +1015,7 @@
 				E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
 				520A0ED12359BC1D00493E2F /* UILabel+Copyable.m in Sources */,
+				52844B792362A6C7006B4C03 /* SwitchCell.m in Sources */,
 				524294A22334B7E600E8DA05 /* MessageCell.m in Sources */,
 				5242949C23347ED300E8DA05 /* TimeCell.m in Sources */,
 				E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */,
