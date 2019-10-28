@@ -297,7 +297,7 @@
             muteCell.textLabel.textAlignment = NSTextAlignmentLeft;
             muteCell.textLabel.text = NSLocalizedString(@"Mute", @"title");
             muteCell.delegate = self;
-            muteCell.switchOn = [[LocalDatabaseManager sharedInstance] conversation:self.conversation.ID isMuteForUser:user.ID];
+            muteCell.switchOn = [[LocalDatabaseManager sharedInstance] isConversation:self.conversation.ID forUser:user.ID];
             cell = muteCell;
         }
         
@@ -359,7 +359,22 @@
     
     Client *client = [Client sharedInstance];
     DIMLocalUser *user = client.currentUser;
-    [[LocalDatabaseManager sharedInstance] conversation:self.conversation.ID setMute:on forUser:user.ID];
+    
+    NSArray *currentList = [[LocalDatabaseManager sharedInstance] muteListForUser:user.ID];
+    NSMutableArray *newList = [[NSMutableArray alloc] initWithArray:currentList];
+    
+    if(on){
+        if(![newList containsObject:self.conversation.ID]){
+            [newList addObject:self.conversation.ID];
+        }
+        [[LocalDatabaseManager sharedInstance] muteConversation:self.conversation.ID forUser:user.ID];
+    }else{
+        [newList removeObject:self.conversation.ID];
+        [[LocalDatabaseManager sharedInstance] unmuteConversation:self.conversation.ID forUser:user.ID];
+    }
+    
+    DIMMuteCommand *command = [[DIMMuteCommand alloc] initWithList:newList];
+    [client sendCommand:command];
 }
 
 @end

@@ -62,6 +62,9 @@
                              selector:@selector(onAvatarUpdated:)
                                  name:kNotificationName_AvatarUpdated
                                object:nil];
+    
+    Client *client = [Client sharedInstance];
+    [client getMuteList];
 }
 
 - (void)onAvatarUpdated:(NSNotification *)notification {
