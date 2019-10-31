@@ -21,7 +21,10 @@
 #import "AccountTableViewController.h"
 #import "DIMClientConstants.h"
 
-@interface AccountTableViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface AccountTableViewController ()<UITableViewDelegate, UITableViewDataSource>{
+    
+    BOOL _inReview;
+}
 
 @property(nonatomic, strong) UITableView *tableView;
 
@@ -53,6 +56,7 @@
     [super viewDidLoad];
     
     [self reloadData];
+    _inReview = [[NSUserDefaults standardUserDefaults] boolForKey:@"in_review"];
     
     [NSNotificationCenter addObserver:self
                              selector:@selector(didProfileUpdated:)
@@ -62,9 +66,10 @@
                              selector:@selector(onAvatarUpdated:)
                                  name:kNotificationName_AvatarUpdated
                                object:nil];
-    
-    Client *client = [Client sharedInstance];
-    [client getMuteList];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
 }
 
 - (void)onAvatarUpdated:(NSNotification *)notification {
@@ -105,14 +110,26 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    
+    if(_inReview){
+        return 2;
+    }
+    
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if (section == 1) {
-        return 2;
+    if(_inReview){
+        if (section == 1) {
+            return 2;
+        }
+    }else{
+        if (section == 2) {
+            return 2;
+        }
     }
+    
     
     return 1;
 }
@@ -129,15 +146,34 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NormalCell"];
     
-    if(indexPath.section == 1){
-        
-        if(indexPath.row == 0){
-            cell.textLabel.text = NSLocalizedString(@"Terms", @"title");
-        }else if(indexPath.row == 1){
-            cell.textLabel.text = NSLocalizedString(@"About", @"title");
+    if(_inReview){
+        if(indexPath.section == 1){
+            
+            if(indexPath.row == 0){
+                cell.textLabel.text = NSLocalizedString(@"Terms", @"title");
+            }else if(indexPath.row == 1){
+                cell.textLabel.text = NSLocalizedString(@"About", @"title");
+            }
+            
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+    } else {
         
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if(indexPath.section == 1){
+            
+            cell.textLabel.text = NSLocalizedString(@"Wallet", @"title");
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+        } else{
+            
+            if(indexPath.row == 0){
+                cell.textLabel.text = NSLocalizedString(@"Terms", @"title");
+            }else if(indexPath.row == 1){
+                cell.textLabel.text = NSLocalizedString(@"About", @"title");
+            }
+            
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
     }
     
     return cell;
@@ -170,14 +206,44 @@
         WebViewController *web = [[WebViewController alloc] init];
         web.hidesBottomBarWhenPushed = YES;
         
-        if(indexPath.row == 0){
+        if(_inReview){
+        
+            if(indexPath.row == 0){
+                
+                NSString *urlString = client.termsAPI;
+                web.url = [NSURL URLWithString:urlString];
+                web.title = NSLocalizedString(@"Terms", nil);
+                
+            } else if(indexPath.row == 1){
+                
+                NSString *urlString = client.aboutAPI;
+                web.url = [NSURL URLWithString:urlString];
+                web.title = NSLocalizedString(@"About", nil);
+            }
             
+        } else {
+            
+            NSString *urlString = @"https://dim.candycandy.store";
+            web.url = [NSURL URLWithString:urlString];
+            web.title = NSLocalizedString(@"DIM", nil);
+        }
+        
+        [self.navigationController pushViewController:web animated:YES];
+        
+    } else if(indexPath.section == 2){
+        
+        Client *client = [Client sharedInstance];
+        WebViewController *web = [[WebViewController alloc] init];
+        web.hidesBottomBarWhenPushed = YES;
+        
+        if(indexPath.row == 0){
+                
             NSString *urlString = client.termsAPI;
             web.url = [NSURL URLWithString:urlString];
             web.title = NSLocalizedString(@"Terms", nil);
-            
+                
         } else if(indexPath.row == 1){
-            
+                
             NSString *urlString = client.aboutAPI;
             web.url = [NSURL URLWithString:urlString];
             web.title = NSLocalizedString(@"About", nil);

@@ -19,6 +19,7 @@
 #import "LocalDatabaseManager.h"
 #import "FolderUtility.h"
 #import "DIMClientConstants.h"
+#import "NSObject+JsON.h"
 
 @interface AppDelegate ()<UITabBarControllerDelegate>
 
@@ -71,8 +72,44 @@
     
     [self updateBadge:nil];
     [self addObservers];
+    
+    [client getMuteList];
+    [self getReviewStatus];
 
     return YES;
+}
+
+-(void)getReviewStatus{
+    
+    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
+    dispatch_async(backgroundQueue, ^{
+        
+        NSError *error;
+        NSString *url = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=1481849344"];
+        NSString *responseString = [NSString stringWithContentsOfURL:[NSURL URLWithString:url] encoding:NSUTF8StringEncoding error:&error];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"in_review"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        NSDictionary *dic = [[responseString data] jsonDictionary];
+        
+        if(dic != nil && [dic isKindOfClass:[NSDictionary class]]){
+            
+            //DBG(@"The return dic is : %@", dic);
+            @try{
+                NSString *appStoreVersion = dic[@"results"][0][@"version"];
+                NSString *currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+
+                if([currentVersion compare:appStoreVersion] != NSOrderedDescending){
+                    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"in_review"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                }
+
+            }@catch(NSException *e){
+
+            }
+        }
+    });
 }
 
 -(void)addObservers{
