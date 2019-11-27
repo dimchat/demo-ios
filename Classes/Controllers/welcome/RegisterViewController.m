@@ -196,7 +196,7 @@
 -(NSError *)saveAndSubmit {
     
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     DIMID *ID = user.ID;
     
     id<DIMUserDataSource> dataSource = user.dataSource;

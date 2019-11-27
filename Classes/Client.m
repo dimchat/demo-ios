@@ -127,7 +127,7 @@ SingletonImplementations(Client, sharedInstance)
     users = mArray;
 #endif
     // add users
-    DIMLocalUser *user;
+    DIMUser *user;
     for (DIMID *ID in users) {
         NSLog(@"[client] add user: %@", ID);
         user = DIMUserWithID(ID);
@@ -328,7 +328,7 @@ SingletonImplementations(Client, sharedInstance)
     }
     
     // 3. create user for client
-    DIMLocalUser *user = [[DIMLocalUser alloc] initWithID:ID];
+    DIMUser *user = [[DIMUser alloc] initWithID:ID];
     user.dataSource = facebook;
     self.currentUser = user;
     
@@ -352,7 +352,7 @@ SingletonImplementations(Client, sharedInstance)
         return NO;
     }
     
-    MKMLocalUser *user = DIMUserWithID(ID);
+    MKMUser *user = DIMUserWithID(ID);
     [self login:user];
     
     Facebook *book = [Facebook sharedInstance];

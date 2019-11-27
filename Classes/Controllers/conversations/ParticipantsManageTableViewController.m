@@ -40,7 +40,7 @@
     [_logoImageView roundedCorner];
     
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     
     // 1. group info
     if (MKMNetwork_IsGroup(_conversation.ID.type)) {
@@ -115,7 +115,7 @@
     }
 }
 
--(NSArray <DIMID *> *)groupMemberCandidates:(DIMGroup *)group currentUser:(DIMLocalUser *)user {
+-(NSArray <DIMID *> *)groupMemberCandidates:(DIMGroup *)group currentUser:(DIMUser *)user {
     DIMID *founder = group.founder;
     NSArray<DIMID *> *members = group.members;
     DIMID *current = user.ID;
@@ -176,7 +176,7 @@
 
 - (BOOL)submitGroupInfo {
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMPrivateKey *signKey = [dataSource privateKeyForSignatureOfUser:user.ID];
     
@@ -415,7 +415,7 @@
     } else if (section == 1) {
         // candidates
         Client *client = [Client sharedInstance];
-        DIMLocalUser *user = client.currentUser;
+        DIMUser *user = client.currentUser;
         DIMID *contact;
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;

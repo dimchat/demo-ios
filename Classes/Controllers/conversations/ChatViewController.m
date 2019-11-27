@@ -629,7 +629,7 @@
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     
     id obj = [self messageAtIndex:row];
     

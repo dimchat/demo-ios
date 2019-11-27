@@ -53,7 +53,7 @@ SingletonImplementations(Facebook, sharedInstance)
 #endif
         // add users
         Client *client = [Client sharedInstance];
-        DIMLocalUser *user;
+        DIMUser *user;
         for (DIMID *ID in users) {
             NSLog(@"[client] add user: %@", ID);
             user = DIMUserWithID(ID);

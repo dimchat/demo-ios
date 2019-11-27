@@ -55,11 +55,11 @@
     return [self saveUsers:users];
 }
 
-- (BOOL)saveUserList:(NSArray<DIMLocalUser *> *)users
-     withCurrentUser:(DIMLocalUser *)curr {
+- (BOOL)saveUserList:(NSArray<DIMUser *> *)users
+     withCurrentUser:(DIMUser *)curr {
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
     [list addObject:curr.ID];
-    for (DIMLocalUser *user in users) {
+    for (DIMUser *user in users) {
         if ([list containsObject:user.ID]) {
             // ignore
         } else {

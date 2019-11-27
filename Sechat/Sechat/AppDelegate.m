@@ -61,7 +61,7 @@
     [self.window makeKeyAndVisible];
     
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     if (!user) {
         
         WelcomeViewController *vc = [[WelcomeViewController alloc] init];

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)saveMeta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK forID:(DIMID *)ID;
 
-- (BOOL)saveUserList:(NSArray<DIMLocalUser *> *)users withCurrentUser:(nullable DIMLocalUser *)curr;
+- (BOOL)saveUserList:(NSArray<DIMUser *> *)users withCurrentUser:(nullable DIMUser *)curr;
 
 @end
 

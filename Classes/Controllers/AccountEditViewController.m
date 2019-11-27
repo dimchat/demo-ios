@@ -98,7 +98,7 @@
     // Do any additional setup after loading the view.
     
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     
     CGSize avatarSize = _avatarImageView.bounds.size;
     
@@ -125,7 +125,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];
-    DIMLocalUser *user = [Client sharedInstance].currentUser;
+    DIMUser *user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
         return ;
@@ -192,7 +192,7 @@
         NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
         
         Client *client = [Client sharedInstance];
-        DIMLocalUser *user = client.currentUser;
+        DIMUser *user = client.currentUser;
         DIMID *ID = user.ID;
         DIMProfile *profile = user.profile;
         if (!profile) {
@@ -239,7 +239,7 @@
     }
     
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
@@ -270,7 +270,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     DIMID *ID = user.ID;
     
     UITableViewCell *cell = nil;
@@ -332,7 +332,7 @@
         NSInteger row = indexPath.row;
         
         Client *client = [Client sharedInstance];
-        DIMLocalUser *user = client.currentUser;
+        DIMUser *user = client.currentUser;
         
         if(section == 0){
 
@@ -356,7 +356,7 @@
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
     Client *client = [Client sharedInstance];
-    DIMLocalUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     
     if (section == 1){
         // function

@@ -119,7 +119,7 @@
 
 -(void)loadData{
     
-    DIMLocalUser *user = [Client sharedInstance].currentUser;
+    DIMUser *user = [Client sharedInstance].currentUser;
     if ([user existsContact:_contact]) {
         self.actionArray = @[NSLocalizedString(@"Chat", @"title")];
     }else{
@@ -159,7 +159,7 @@
     if([message isEqualToString:NSLocalizedString(@"Add To Contact", @"title")]){
         
         Client *client = [Client sharedInstance];
-        DIMLocalUser *user = client.currentUser;
+        DIMUser *user = client.currentUser;
         
         DIMUser *selectedUser = DIMUserWithID(self.contact);
         NSString *name = !selectedUser ? self.contact.name : selectedUser.name;
