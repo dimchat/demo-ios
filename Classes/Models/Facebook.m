@@ -36,7 +36,6 @@ SingletonImplementations(Facebook, sharedInstance)
         
         // delegates
         DIMFacebook *barrack = [DIMFacebook sharedInstance];
-        barrack.database   = self;
         
         // scan users
         NSArray *users = [self allUsers];

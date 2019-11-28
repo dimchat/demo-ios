@@ -85,7 +85,7 @@
         
         if(![contacts containsObject:groupID]){
             
-            [[DIMFacebook sharedInstance] user:user addContact:groupID];
+            [[DIMFacebook sharedInstance] user:user.ID addContact:groupID];
             
             //Post contacts to server
             NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
@@ -206,7 +206,7 @@
         
         Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
-        [[DIMFacebook sharedInstance] user:user removeContact:ID];
+        [[DIMFacebook sharedInstance] user:user.ID removeContact:ID];
         
         //Post contacts to server
         NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];

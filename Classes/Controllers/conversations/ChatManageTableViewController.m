@@ -138,7 +138,7 @@
                     [client sendContent:cmd to:member];
                 }
                 // remove myself
-                [[DIMFacebook sharedInstance] group:group removeMember:user.ID];
+                [[DIMFacebook sharedInstance] group:group.ID removeMember:user.ID];
                 
                 // clear message in conversation
                 MessageProcessor *msgDB = [MessageProcessor sharedInstance];

@@ -200,7 +200,7 @@
     DIMID *ID = user.ID;
     
     id<DIMUserDataSource> dataSource = user.dataSource;
-    DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
+    id<MKMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
     
     DIMProfile *profile = user.profile;
     
@@ -209,7 +209,7 @@
         NSString *filename = [[[self.imageData md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
         
         // save to local storage
-        [[Facebook sharedInstance] saveAvatar:self.imageData name:filename forID:profile.ID];
+        [[Facebook sharedInstance] saveAvatar:self.imageData name:filename forID:ID];
         
         // upload to CDN
         DIMFileServer *ftp = [DIMFileServer sharedInstance];

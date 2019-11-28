@@ -25,7 +25,8 @@
     if (avatar) {
         if ([avatar containsString:@"://"]) {
             Facebook *facebook = [Facebook sharedInstance];
-            image = [facebook loadAvatarWithURL:avatar forID:self.ID];
+            DIMID *ID = DIMIDWithString(self.ID);
+            image = [facebook loadAvatarWithURL:avatar forID:ID];
         } else {
             image = [UIImage imageNamed:avatar];
         }
@@ -54,7 +55,8 @@
 //        }
         
         // create image with members' avatar(s)
-        NSArray<DIMID *> *members = DIMGroupWithID(self.ID).members;
+        DIMID *ID = DIMIDWithString(self.ID);
+        NSArray<DIMID *> *members = DIMGroupWithID(ID).members;
         if (members.count > 0) {
             CGSize tileSize;
             if (members.count > 4) {
@@ -82,7 +84,7 @@
         // create image with first character of name
         NSString *name = self.name;
         if (name.length == 0) {
-            name = self.ID.name;
+            name = ID.name;
             if (name.length == 0) {
                 name = @"Đ"; // BTC Address: ฿
             }

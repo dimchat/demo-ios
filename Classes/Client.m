@@ -305,7 +305,7 @@ SingletonImplementations(Client, sharedInstance)
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
     // 1. save meta & private key
-    if (![facebook savePrivateKey:SK forID:ID]) {
+    if (![facebook savePrivateKey:SK user:ID]) {
         NSAssert(false, @"failed to save private key for new user: %@", ID);
         return NO;
     }
@@ -343,7 +343,7 @@ SingletonImplementations(Client, sharedInstance)
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
     // 1. save meta & private key
-    if (![facebook savePrivateKey:SK forID:ID]) {
+    if (![facebook savePrivateKey:SK user:ID]) {
         NSAssert(false, @"failed to save private key for new user: %@", ID);
         return NO;
     }

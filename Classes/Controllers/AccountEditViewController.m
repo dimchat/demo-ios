@@ -201,10 +201,10 @@
         }
         
         id<DIMUserDataSource> dataSource = user.dataSource;
-        DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
+        id<MKMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
         
         // save to local storage
-        [[Facebook sharedInstance] saveAvatar:data name:filename forID:profile.ID];
+        [[Facebook sharedInstance] saveAvatar:data name:filename forID:ID];
         
         // upload to CDN
         DIMFileServer *ftp = [DIMFileServer sharedInstance];
@@ -242,7 +242,7 @@
     DIMUser *user = client.currentUser;
     
     id<DIMUserDataSource> dataSource = user.dataSource;
-    DIMPrivateKey *SK = [dataSource privateKeyForSignatureOfUser:user.ID];
+    id<MKMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
     
     DIMProfile *profile = user.profile;
     [profile setName:nickname];
