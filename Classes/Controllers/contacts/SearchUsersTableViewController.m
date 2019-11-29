@@ -17,6 +17,9 @@
 #import "ChatViewController.h"
 #import "ProfileTableViewController.h"
 
+extern NSString * const kNotificationName_OnlineUsersUpdated;
+extern NSString * const kNotificationName_SearchUsersUpdated;
+
 @interface SearchUsersTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
     NSMutableArray *_users;
@@ -69,11 +72,11 @@
     [NSNotificationCenter addObserver:self
                              selector:@selector(reloadData:)
                                  name:kNotificationName_OnlineUsersUpdated
-                               object:client];
+                               object:nil];
     [NSNotificationCenter addObserver:self
                              selector:@selector(reloadData:)
                                  name:kNotificationName_SearchUsersUpdated
-                               object:client];
+                               object:nil];
     
     // 3. query from the station
     [client queryOnlineUsers];
