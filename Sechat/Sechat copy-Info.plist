@@ -35,6 +35,10 @@
 	<string>You need to agree this permission to take video or send voice messages.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>You need to agree this permission to upload avatars or send photo messages.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

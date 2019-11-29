@@ -36,6 +36,7 @@ SingletonImplementations(Facebook, sharedInstance)
         
         // delegates
         DIMFacebook *barrack = [DIMFacebook sharedInstance];
+        DIMMessenger *messenger = [DIMMessenger sharedInstance];
         
         // scan users
         NSArray *users = [self allUsers];
@@ -57,6 +58,7 @@ SingletonImplementations(Facebook, sharedInstance)
             NSLog(@"[client] add user: %@", ID);
             user = DIMUserWithID(ID);
             [client addUser:user];
+            messenger.currentUser = user;
         }
     }
     return self;
