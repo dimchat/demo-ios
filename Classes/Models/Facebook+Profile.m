@@ -77,6 +77,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     SingletonDispatchOnce(^{
         s_downloadings = [[NSMutableArray alloc] init];
     });
+    // FIXME: Collection was mutated while being enumerated.
     if ([s_downloadings containsObject:url]) {
         NSLog(@"the job already exists: %@", url);
         return ;

@@ -111,6 +111,9 @@ SingletonImplementations(Client, sharedInstance)
     
     [MessageProcessor sharedInstance];
     
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    [messenger setContextValue:server forName:@"server"];
+    
     [facebook addStation:ID provider:sp];
     
     // scan users
