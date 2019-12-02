@@ -167,7 +167,7 @@
         
         [self showMessage:message withTitle:NSLocalizedString(@"Add To Contact", @"title") cancelHandler:nil defaultHandler:^(UIAlertAction * _Nonnull action) {
             
-            [client addUserToContact:self.contact];
+            [user addContact:self.contact];
             
             //Post contacts to server
             NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];

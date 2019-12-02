@@ -299,12 +299,14 @@
         }
         
         Client *client = [Client sharedInstance];
+        DIMUser *user = [client currentUser];
+        
         //New User add Moky as contact
         NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";
-        [client addUserToContact:itemString];
+        [user addContact:DIMIDWithString(itemString)];
         
         itemString = @"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf";
-        [client addUserToContact:itemString];
+        [user addContact:DIMIDWithString(itemString)];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
