@@ -75,7 +75,7 @@
 		52DBA34F2340F2F90000C2B4 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790835225B666F0024C830 /* WebViewController.m */; };
 		52DBA3502340F2F90000C2B4 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
 		52DBA3532340F2F90000C2B4 /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
-		52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; };
+		52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		52DBA3552340F2F90000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
 		52DBA3562340F2F90000C2B4 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; };
 		52DBA3572340F2F90000C2B4 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; };
@@ -143,6 +143,7 @@
 		E99A5CCA222E577900EE6C86 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CC9222E577900EE6C86 /* ContactCell.m */; };
 		E99A5CCD222ECDBE00EE6C86 /* ParticipantCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCC222ECDBE00EE6C86 /* ParticipantCollectionCell.m */; };
 		E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */; };
+		E99E7772239687B300F250BB /* DIMSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF8B3E239685F300630BDE /* DIMSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
 		E9AFAAE122310B49001F95C6 /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */; };
@@ -151,6 +152,7 @@
 		E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */; };
 		E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3792242B21200E6ACDA /* NSString+Extension.m */; };
 		E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
+		E9CF8B402396875500630BDE /* DIMSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF8B3E239685F300630BDE /* DIMSDK.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
 		E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
 		E9E82501224D198200A029F1 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
@@ -209,12 +211,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				52DBA36B2340F2F90000C2B4 /* DaoKeDao.framework in Embed Frameworks */,
-				52DBA36C2340F2F90000C2B4 /* FiniteStateMachine.framework in Embed Frameworks */,
-				52DBA36D2340F2F90000C2B4 /* DIMCore.framework in Embed Frameworks */,
-				52DBA36E2340F2F90000C2B4 /* MingKeMing.framework in Embed Frameworks */,
-				52DBA36F2340F2F90000C2B4 /* MarsGate.framework in Embed Frameworks */,
 				52DBA3702340F2F90000C2B4 /* DIMClient.framework in Embed Frameworks */,
+				E99E7772239687B300F250BB /* DIMSDK.framework in Embed Frameworks */,
+				52DBA36D2340F2F90000C2B4 /* DIMCore.framework in Embed Frameworks */,
+				52DBA36B2340F2F90000C2B4 /* DaoKeDao.framework in Embed Frameworks */,
+				52DBA36E2340F2F90000C2B4 /* MingKeMing.framework in Embed Frameworks */,
+				52DBA36C2340F2F90000C2B4 /* FiniteStateMachine.framework in Embed Frameworks */,
+				52DBA36F2340F2F90000C2B4 /* MarsGate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,6 +363,7 @@
 		E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37B2242B21200E6ACDA /* UIViewController+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboardSegue+Extension.m"; sourceTree = "<group>"; };
+		E9CF8B3E239685F300630BDE /* DIMSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9E824592245539100A029F1 /* Sechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sechat.entitlements; sourceTree = "<group>"; };
 		E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
 		E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
@@ -380,10 +384,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				52DBA3532340F2F90000C2B4 /* DIMClient.framework in Frameworks */,
+				E9CF8B402396875500630BDE /* DIMSDK.framework in Frameworks */,
 				52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */,
-				52DBA3552340F2F90000C2B4 /* libsqlite3.tbd in Frameworks */,
 				52DBA3562340F2F90000C2B4 /* DaoKeDao.framework in Frameworks */,
 				52DBA3572340F2F90000C2B4 /* MingKeMing.framework in Frameworks */,
+				52DBA3552340F2F90000C2B4 /* libsqlite3.tbd in Frameworks */,
 				52DBA3582340F2F90000C2B4 /* MarsGate.framework in Frameworks */,
 				52DBA3592340F2F90000C2B4 /* FiniteStateMachine.framework in Frameworks */,
 				52DBA35A2340F2F90000C2B4 /* WebKit.framework in Frameworks */,
@@ -592,6 +597,7 @@
 		E92256782222EE25006CADEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E9CF8B3E239685F300630BDE /* DIMSDK.framework */,
 				52DBA317234037590000C2B4 /* libsqlite3.tbd */,
 				524F5E7C22CDDE0000A84DF9 /* ethers.framework */,
 				E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */,
