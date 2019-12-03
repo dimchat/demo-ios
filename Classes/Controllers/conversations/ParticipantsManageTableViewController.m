@@ -6,7 +6,6 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSNotificationCenter+Extension.h"
 #import "UIView+Extension.h"
 #import "UIImageView+Extension.h"
 #import "UIViewController+Extension.h"
@@ -16,7 +15,6 @@
 #import "Facebook+Register.h"
 #import "Client.h"
 #import "MessageDatabase.h"
-#import "DIMClientConstants.h"
 #import "ParticipantManageCell.h"
 #import "ParticipantsManageTableViewController.h"
 
@@ -225,12 +223,6 @@
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     [facebook saveProfile:profile];
     [facebook saveMembers:_selectedList group:_group.ID];
-    
-    // notice
-    NSDictionary *info = @{@"group": ID};
-    [NSNotificationCenter postNotificationName:kNotificationName_GroupMembersUpdated
-                                        object:self
-                                      userInfo:info];
     return YES;
 }
 
