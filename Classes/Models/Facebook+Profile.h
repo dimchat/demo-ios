@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-#import "Facebook.h"
+#import <DIMClient/DIMClient.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const kNotificationName_AvatarUpdated;
 
-@interface Facebook (Avatar)
+@interface DIMFacebook (Avatar)
 
 - (BOOL)saveAvatar:(NSData *)data
               name:(nullable NSString *)filename

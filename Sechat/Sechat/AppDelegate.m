@@ -9,7 +9,6 @@
 #import "MKMImmortals.h"
 #import "User.h"
 #import "Client.h"
-#import "Facebook.h"
 #import "AppDelegate.h"
 #import "ConversationsTableViewController.h"
 #import "ContactsTableViewController.h"

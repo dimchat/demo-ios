@@ -1,5 +1,5 @@
 //
-//  MessageProcessor.h
+//  MessageDatabase.h
 //  DIMClient
 //
 //  Created by Albert Moky on 2018/11/15.
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 // Burn After Reading
 #define MAX_MESSAGES_SAVED_COUNT 100
 
-@interface MessageProcessor : DIMConversationDatabase
+@interface MessageDatabase : DIMConversationDatabase
 
 + (instancetype)sharedInstance;
 

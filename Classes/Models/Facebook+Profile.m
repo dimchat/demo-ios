@@ -45,7 +45,7 @@ static inline NSString *avatar_filepath(DIMID *ID, NSString * _Nullable filename
 
 NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
 
-@implementation Facebook (Avatar)
+@implementation DIMFacebook (Avatar)
 
 - (BOOL)saveAvatar:(NSData *)data
               name:(nullable NSString *)filename

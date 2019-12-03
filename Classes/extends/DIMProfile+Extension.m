@@ -24,7 +24,7 @@
     NSString *avatar = self.avatar;
     if (avatar) {
         if ([avatar containsString:@"://"]) {
-            Facebook *facebook = [Facebook sharedInstance];
+            DIMFacebook *facebook = [DIMFacebook sharedInstance];
             DIMID *ID = DIMIDWithString(self.ID);
             image = [facebook loadAvatarWithURL:avatar forID:ID];
         } else {

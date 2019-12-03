@@ -55,10 +55,9 @@
 		52DBA33A2340F2F90000C2B4 /* ImportAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52876E0122C20217006F0655 /* ImportAccountViewController.m */; };
 		52DBA33B2340F2F90000C2B4 /* ReceiveMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949623347ED300E8DA05 /* ReceiveMessageCell.m */; };
 		52DBA33C2340F2F90000C2B4 /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256312222ED7C006CADEA /* AccountTableViewController.m */; };
-		52DBA33D2340F2F90000C2B4 /* MessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561D2222ED7C006CADEA /* MessageProcessor.m */; };
+		52DBA33D2340F2F90000C2B4 /* MessageDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561D2222ED7C006CADEA /* MessageDatabase.m */; };
 		52DBA33E2340F2F90000C2B4 /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */; };
 		52DBA33F2340F2F90000C2B4 /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */; };
-		52DBA3402340F2F90000C2B4 /* MessageProcessor+GroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */; };
 		52DBA3412340F2F90000C2B4 /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256372222ED7C006CADEA /* AccountEditViewController.m */; };
 		52DBA3422340F2F90000C2B4 /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */; };
 		52DBA3432340F2F90000C2B4 /* SearchUsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CBD222DA24B00EE6C86 /* SearchUsersTableViewController.m */; };
@@ -75,7 +74,6 @@
 		52DBA34E2340F2F90000C2B4 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */; };
 		52DBA34F2340F2F90000C2B4 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790835225B666F0024C830 /* WebViewController.m */; };
 		52DBA3502340F2F90000C2B4 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
-		52DBA3512340F2F90000C2B4 /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256212222ED7C006CADEA /* Facebook.m */; };
 		52DBA3532340F2F90000C2B4 /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
 		52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; };
 		52DBA3552340F2F90000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
@@ -110,8 +108,7 @@
 		E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
 		E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* Facebook+Register.m */; };
 		E92256462222ED7C006CADEA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561A2222ED7C006CADEA /* User.m */; };
-		E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561D2222ED7C006CADEA /* MessageProcessor.m */; };
-		E92256492222ED7C006CADEA /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256212222ED7C006CADEA /* Facebook.m */; };
+		E92256482222ED7C006CADEA /* MessageDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561D2222ED7C006CADEA /* MessageDatabase.m */; };
 		E922564A2222ED7C006CADEA /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256222222ED7C006CADEA /* Client.m */; };
 		E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256312222ED7C006CADEA /* AccountTableViewController.m */; };
 		E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256372222ED7C006CADEA /* AccountEditViewController.m */; };
@@ -148,7 +145,6 @@
 		E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */; };
 		E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
 		E9AFAAE122310B49001F95C6 /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */; };
 		E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */; };
 		E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */; };
 		E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */; };
@@ -295,14 +291,12 @@
 		E922560B2222ED6B006CADEA /* gsp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = gsp.plist; sourceTree = "<group>"; };
 		E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ChatViewImages.xcassets; sourceTree = "<group>"; };
 		E92256162222ED7C006CADEA /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
-		E92256182222ED7C006CADEA /* MessageProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageProcessor.h; sourceTree = "<group>"; };
+		E92256182222ED7C006CADEA /* MessageDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDatabase.h; sourceTree = "<group>"; };
 		E92256192222ED7C006CADEA /* Facebook+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
 		E922561A2222ED7C006CADEA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		E922561C2222ED7C006CADEA /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
-		E922561D2222ED7C006CADEA /* MessageProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageProcessor.m; sourceTree = "<group>"; };
+		E922561D2222ED7C006CADEA /* MessageDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDatabase.m; sourceTree = "<group>"; };
 		E922561F2222ED7C006CADEA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		E92256202222ED7C006CADEA /* Facebook+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
-		E92256212222ED7C006CADEA /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
 		E92256222222ED7C006CADEA /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		E92256282222ED7C006CADEA /* AccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTableViewController.h; sourceTree = "<group>"; };
 		E922562C2222ED7C006CADEA /* AccountEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountEditViewController.h; sourceTree = "<group>"; };
@@ -354,7 +348,6 @@
 		E99A5CCE222ECDE100EE6C86 /* ParticipantManageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticipantManageCell.h; sourceTree = "<group>"; };
 		E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParticipantManageCell.m; sourceTree = "<group>"; };
 		E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FiniteStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MessageProcessor+GroupCommand.m"; sourceTree = "<group>"; };
 		E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMProfile+Extension.h"; sourceTree = "<group>"; };
 		E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
 		E9BBC3732242B21200E6ACDA /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
@@ -550,15 +543,12 @@
 			children = (
 				E922561F2222ED7C006CADEA /* User.h */,
 				E922561A2222ED7C006CADEA /* User.m */,
-				E922561C2222ED7C006CADEA /* Facebook.h */,
-				E92256212222ED7C006CADEA /* Facebook.m */,
 				E918E01922C4A4D4007A3803 /* Facebook+Profile.h */,
 				E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */,
 				E92256202222ED7C006CADEA /* Facebook+Register.h */,
 				E92256192222ED7C006CADEA /* Facebook+Register.m */,
-				E92256182222ED7C006CADEA /* MessageProcessor.h */,
-				E922561D2222ED7C006CADEA /* MessageProcessor.m */,
-				E9AFAB6322352E09001F95C6 /* MessageProcessor+GroupCommand.m */,
+				E92256182222ED7C006CADEA /* MessageDatabase.h */,
+				E922561D2222ED7C006CADEA /* MessageDatabase.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -949,10 +939,9 @@
 				52DBA33A2340F2F90000C2B4 /* ImportAccountViewController.m in Sources */,
 				52DBA33B2340F2F90000C2B4 /* ReceiveMessageCell.m in Sources */,
 				52DBA33C2340F2F90000C2B4 /* AccountTableViewController.m in Sources */,
-				52DBA33D2340F2F90000C2B4 /* MessageProcessor.m in Sources */,
+				52DBA33D2340F2F90000C2B4 /* MessageDatabase.m in Sources */,
 				52DBA33E2340F2F90000C2B4 /* UIImage+Extension.m in Sources */,
 				52DBA33F2340F2F90000C2B4 /* DIMProfile+Extension.m in Sources */,
-				52DBA3402340F2F90000C2B4 /* MessageProcessor+GroupCommand.m in Sources */,
 				52DBA3412340F2F90000C2B4 /* AccountEditViewController.m in Sources */,
 				52DBA3422340F2F90000C2B4 /* UIButton+Extension.m in Sources */,
 				52DBA3432340F2F90000C2B4 /* SearchUsersTableViewController.m in Sources */,
@@ -971,7 +960,6 @@
 				52DBA34E2340F2F90000C2B4 /* ChatViewController.m in Sources */,
 				52DBA34F2340F2F90000C2B4 /* WebViewController.m in Sources */,
 				52DBA3502340F2F90000C2B4 /* ChatManageTableViewController.m in Sources */,
-				52DBA3512340F2F90000C2B4 /* Facebook.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1007,10 +995,9 @@
 				52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */,
 				5242949A23347ED300E8DA05 /* ReceiveMessageCell.m in Sources */,
 				E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */,
-				E92256482222ED7C006CADEA /* MessageProcessor.m in Sources */,
+				E92256482222ED7C006CADEA /* MessageDatabase.m in Sources */,
 				E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */,
 				E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */,
-				E9AFAB6422352E09001F95C6 /* MessageProcessor+GroupCommand.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
 				E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
@@ -1029,7 +1016,6 @@
 				E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */,
 				E9790836225B666F0024C830 /* WebViewController.m in Sources */,
 				E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */,
-				E92256492222ED7C006CADEA /* Facebook.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1109,7 +1095,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1124,7 +1110,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
 				PRODUCT_NAME = DIMTalk;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = YES;
@@ -1142,7 +1128,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DEVELOPMENT_TEAM = 64J35P7HJ6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
@@ -1157,7 +1143,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.client;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
 				PRODUCT_NAME = DIMTalk;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTS_MACCATALYST = YES;
@@ -1304,7 +1290,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jy.sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
 				PRODUCT_NAME = DIMTalk;
 				PROVISIONING_PROFILE_SPECIFIER = sechat;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1334,7 +1320,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.1;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jy.sechat;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dim.sechat;
 				PRODUCT_NAME = DIMTalk;
 				PROVISIONING_PROFILE_SPECIFIER = sechat;
 				TARGETED_DEVICE_FAMILY = "1,2";

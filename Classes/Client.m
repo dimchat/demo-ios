@@ -11,9 +11,12 @@
 #import "NSData+Extension.h"
 #import "NSNotificationCenter+Extension.h"
 #import "NSString+Crypto.h"
+
+#import "MKMImmortals.h"
+
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
-#import "MessageProcessor.h"
+#import "MessageDatabase.h"
 
 #import "Client.h"
 
@@ -77,8 +80,8 @@ SingletonImplementations(Client, sharedInstance)
     DIMID *ID = DIMIDWithString([station objectForKey:@"ID"]);
     DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
-    Facebook *facebook = [Facebook sharedInstance];
-    [[DIMFacebook sharedInstance] saveMeta:meta forID:ID];
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    [facebook saveMeta:meta forID:ID];
     
     // prepare for launch star
     NSMutableDictionary *serverOptions = [[NSMutableDictionary alloc] init];
@@ -109,12 +112,10 @@ SingletonImplementations(Client, sharedInstance)
     [server startWithOptions:serverOptions];
     _currentStation = server;
     
-    [MessageProcessor sharedInstance];
+    [MessageDatabase sharedInstance];
     
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
     [messenger setContextValue:server forName:@"server"];
-    
-    [facebook addStation:ID provider:sp];
     
     // scan users
     NSArray *users = [facebook allUsers];
@@ -125,8 +126,8 @@ SingletonImplementations(Client, sharedInstance)
     } else {
         mArray = [[NSMutableArray alloc] initWithCapacity:2];
     }
-    [mArray addObject:[DIMID IDWithID:MKM_IMMORTAL_HULK_ID]];
-    [mArray addObject:[DIMID IDWithID:MKM_MONKEY_KING_ID]];
+    [mArray addObject:DIMIDWithString(MKM_IMMORTAL_HULK_ID)];
+    [mArray addObject:DIMIDWithString(MKM_MONKEY_KING_ID)];
     users = mArray;
 #endif
     // add users
@@ -135,6 +136,7 @@ SingletonImplementations(Client, sharedInstance)
         NSLog(@"[client] add user: %@", ID);
         user = DIMUserWithID(ID);
         [self addUser:user];
+        messenger.currentUser = user;
     }
 }
 
@@ -335,8 +337,7 @@ SingletonImplementations(Client, sharedInstance)
     user.dataSource = facebook;
     self.currentUser = user;
     
-    Facebook *book = [Facebook sharedInstance];
-    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
+    BOOL saved = [facebook saveUserList:self.users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
     return saved;
 }
@@ -358,8 +359,7 @@ SingletonImplementations(Client, sharedInstance)
     MKMUser *user = DIMUserWithID(ID);
     [self login:user];
     
-    Facebook *book = [Facebook sharedInstance];
-    BOOL saved = [book saveUserList:self.users withCurrentUser:user];
+    BOOL saved = [facebook saveUserList:self.users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
     
     return saved;

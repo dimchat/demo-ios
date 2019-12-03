@@ -6,11 +6,11 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "Facebook.h"
+#import <DIMClient/DIMClient.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Facebook (Register)
+@interface DIMFacebook (Register)
 
 - (BOOL)saveMeta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK forID:(DIMID *)ID;
 

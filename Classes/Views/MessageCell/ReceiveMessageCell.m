@@ -18,7 +18,7 @@
 
 #import "WebViewController.h"
 #import "User.h"
-#import "MessageProcessor.h"
+#import "MessageDatabase.h"
 #import "ZoomInViewController.h"
 #import "ReceiveMessageCell.h"
 

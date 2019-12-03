@@ -8,14 +8,13 @@
 
 #import "NSNotificationCenter+Extension.h"
 #import "User.h"
-#import "Facebook.h"
 #import "Client.h"
 #import "ContactCell.h"
 #import "ProfileTableViewController.h"
 #import "ContactsTableViewController.h"
 #import "SearchUsersTableViewController.h"
 #import "ChatViewController.h"
-#import "MessageProcessor.h"
+#import "MessageDatabase.h"
 #import "DIMClientConstants.h"
 
 @interface ContactsTableViewController ()<UITableViewDelegate, UITableViewDataSource> {

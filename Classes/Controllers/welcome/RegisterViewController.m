@@ -195,6 +195,7 @@
 
 -(NSError *)saveAndSubmit {
     
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     DIMID *ID = user.ID;
@@ -209,7 +210,7 @@
         NSString *filename = [[[self.imageData md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
         
         // save to local storage
-        [[Facebook sharedInstance] saveAvatar:self.imageData name:filename forID:ID];
+        [facebook saveAvatar:self.imageData name:filename forID:ID];
         
         // upload to CDN
         DIMFileServer *ftp = [DIMFileServer sharedInstance];
@@ -222,7 +223,7 @@
     [profile setName:self.nickname];
     [profile sign:SK];
     
-    [[DIMFacebook sharedInstance] saveProfile:profile];
+    [facebook saveProfile:profile];
     
     // submit to station
     [client postProfile:profile];

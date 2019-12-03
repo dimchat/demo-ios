@@ -8,8 +8,7 @@
 
 #import "NSNotificationCenter+Extension.h"
 #import "User.h"
-#import "Facebook.h"
-#import "MessageProcessor.h"
+#import "MessageDatabase.h"
 #import "Client.h"
 #import "DIMClientConstants.h"
 #import "ChatViewController.h"
@@ -130,7 +129,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+    MessageDatabase *msgDB = [MessageDatabase sharedInstance];
     return [msgDB numberOfConversations];
 }
 
@@ -139,7 +138,7 @@
     ConversationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ConversationCell" forIndexPath:indexPath];
     NSInteger row = indexPath.row;
     
-    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+    MessageDatabase *msgDB = [MessageDatabase sharedInstance];
     DIMConversation *chat = [msgDB conversationAtIndex:row];
     cell.conversation = chat;
     
@@ -163,7 +162,7 @@
         //NSInteger section = indexPath.section;
         NSInteger row = indexPath.row;
         
-        MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+        MessageDatabase *msgDB = [MessageDatabase sharedInstance];
         [msgDB removeConversationAtIndex:row];
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -180,7 +179,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+    MessageDatabase *msgDB = [MessageDatabase sharedInstance];
     DIMConversation *convers = [msgDB conversationAtIndex:indexPath.row];
     
     ChatViewController *vc = [[ChatViewController alloc] init];

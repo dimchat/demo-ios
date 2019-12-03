@@ -10,7 +10,6 @@
 #import "UIStoryboardSegue+Extension.h"
 #import "UIViewController+Extension.h"
 #import "User.h"
-#import "Facebook.h"
 #import "Client.h"
 #import "ContactCell.h"
 #import "SearchUsersTableViewController.h"

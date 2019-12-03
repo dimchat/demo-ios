@@ -10,7 +10,7 @@
 
 #import "Facebook+Register.h"
 
-@implementation Facebook (Register)
+@implementation DIMFacebook (Register)
 
 - (BOOL)saveMeta:(DIMMeta *)meta
       privateKey:(DIMPrivateKey *)SK

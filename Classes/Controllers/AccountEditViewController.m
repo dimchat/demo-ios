@@ -191,6 +191,7 @@
         NSString *filename = [[[data md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
         NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
         
+        DIMFacebook *facebook = [DIMFacebook sharedInstance];
         Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
         DIMID *ID = user.ID;
@@ -204,7 +205,7 @@
         id<MKMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
         
         // save to local storage
-        [[Facebook sharedInstance] saveAvatar:data name:filename forID:ID];
+        [facebook saveAvatar:data name:filename forID:ID];
         
         // upload to CDN
         DIMFileServer *ftp = [DIMFileServer sharedInstance];
@@ -215,7 +216,7 @@
         [profile sign:SK];
         
         // save profile with new avatar
-        [[DIMFacebook sharedInstance] saveProfile:profile];
+        [facebook saveProfile:profile];
         
         // submit to network
         [client postProfile:profile];

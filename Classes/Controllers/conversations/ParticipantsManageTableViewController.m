@@ -15,7 +15,7 @@
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "Client.h"
-#import "MessageProcessor.h"
+#import "MessageDatabase.h"
 #import "DIMClientConstants.h"
 #import "ParticipantManageCell.h"
 #import "ParticipantsManageTableViewController.h"

@@ -11,7 +11,7 @@
 #import "UIStoryboard+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "WebViewController.h"
-#import "MessageProcessor.h"
+#import "MessageDatabase.h"
 #import "Client.h"
 #import "User.h"
 #import "ProfileTableViewController.h"
@@ -109,7 +109,7 @@
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
                 // clear message in conversation
-                MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+                MessageDatabase *msgDB = [MessageDatabase sharedInstance];
                 [msgDB clearConversation:self->_conversation];
                 
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -141,7 +141,7 @@
                 [[DIMFacebook sharedInstance] group:group.ID removeMember:user.ID];
                 
                 // clear message in conversation
-                MessageProcessor *msgDB = [MessageProcessor sharedInstance];
+                MessageDatabase *msgDB = [MessageDatabase sharedInstance];
                 [msgDB removeConversation:self->_conversation];
                 
                 [self dismissViewControllerAnimated:YES completion:nil];

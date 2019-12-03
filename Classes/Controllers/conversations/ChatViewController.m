@@ -18,7 +18,7 @@
 #import "UIViewController+Extension.h"
 #import "WebViewController.h"
 #import "ImagePickerController.h"
-#import "MessageProcessor.h"
+#import "MessageDatabase.h"
 #import "Client.h"
 #import "GuideCell.h"
 #import "TimeCell.h"
@@ -233,7 +233,7 @@
         _scrolledToBottom = YES;
     }
     
-    [[MessageProcessor sharedInstance] markConversationMessageRead:self.conversation];
+    [[MessageDatabase sharedInstance] markConversationMessageRead:self.conversation];
 }
 
 - (void)onMessageInserted:(NSNotification *)notification {
@@ -246,7 +246,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self groupMessage];
                 [self scrollAfterInsertNewMessage];
-                [[MessageProcessor sharedInstance] markConversationMessageRead:self.conversation];
+                [[MessageDatabase sharedInstance] markConversationMessageRead:self.conversation];
             });
         }
     }

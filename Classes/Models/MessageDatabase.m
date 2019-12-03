@@ -1,5 +1,5 @@
 //
-//  MessageProcessor.m
+//  MessageDatabase.m
 //  DIMClient
 //
 //  Created by Albert Moky on 2018/11/15.
@@ -13,22 +13,20 @@
 #import "Client.h"
 #import "Facebook+Register.h"
 
-#import "MessageProcessor.h"
-
-#import "MessageProcessor.h"
+#import "MessageDatabase.h"
 
 typedef NSMutableArray<DIMConversation *> ConversationListM;
 
-@interface MessageProcessor () {
+@interface MessageDatabase () {
     
     ConversationListM *_conversationList;
 }
 
 @end
 
-@implementation MessageProcessor
+@implementation MessageDatabase
 
-SingletonImplementations(MessageProcessor, sharedInstance)
+SingletonImplementations(MessageDatabase, sharedInstance)
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -106,37 +104,6 @@ SingletonImplementations(MessageProcessor, sharedInstance)
     }
     // sort conversation list
     [self sortConversationList];
-    
-    // check whether the group members info needs update
-    DIMID *ID = chatBox.ID;
-    if (MKMNetwork_IsGroup(ID.type)) {
-        DIMGroup *group = DIMGroupWithID(ID);
-        DIMContent *content = iMsg.content;
-        // if the group info not found, and this is not an 'invite' command
-        //     query group info from the sender
-        BOOL needsUpdate = group.founder == nil;
-        if (content.type == DKDContentType_History) {
-            NSString *command = [(DIMGroupCommand *)content command];
-            if ([command isEqualToString:DIMGroupCommand_Invite]) {
-                // FIXME: can we trust this stranger?
-                //        may be we should keep this members list temporary,
-                //        and send 'query' to the founder immediately.
-                // TODO: check whether the members list is a full list,
-                //       it should contain the group owner(founder)
-                needsUpdate = NO;
-            }
-        }
-        if (needsUpdate) {
-            DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
-            NSAssert(sender != nil, @"sender error: %@", iMsg);
-            
-            DIMQueryGroupCommand *query;
-            query = [[DIMQueryGroupCommand alloc] initWithGroup:ID];
-            
-            Client *client = [Client sharedInstance];
-            [client sendContent:query to:sender];
-        }
-    }
     
     return YES;
 }

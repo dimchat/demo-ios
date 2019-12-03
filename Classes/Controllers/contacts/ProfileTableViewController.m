@@ -15,7 +15,6 @@
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "UILabel+Copyable.h"
-#import "Facebook.h"
 #import "Client.h"
 
 #import "User.h"
