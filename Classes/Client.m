@@ -120,7 +120,7 @@ SingletonImplementations(Client, sharedInstance)
     [messenger setContextValue:server forName:@"server"];
     
     // scan users
-    NSArray *users = [facebook allUsers];
+    NSArray<DIMUser *> *users = [facebook localUsers];
 #if DEBUG && 0
     NSMutableArray *mArray;
     if (users.count > 0) {
@@ -133,12 +133,10 @@ SingletonImplementations(Client, sharedInstance)
     users = mArray;
 #endif
     // add users
-    DIMUser *user;
-    for (DIMID *ID in users) {
-        NSLog(@"[client] add user: %@", ID);
-        user = DIMUserWithID(ID);
+    for (DIMUser *user in users) {
+        NSLog(@"[client] add user: %@", user);
         [self addUser:user];
-        messenger.currentUser = user;
+        facebook.currentUser = user;
     }
 }
 

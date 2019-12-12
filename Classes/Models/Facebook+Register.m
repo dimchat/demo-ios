@@ -16,10 +16,12 @@
       privateKey:(DIMPrivateKey *)SK
            forID:(DIMID *)ID {
     
-    NSArray *array = [self allUsers];
-    if ([array containsObject:ID]) {
-        NSLog(@"User ID already exists: %@", ID);
-        return NO;
+    NSArray<DIMUser *> *array = [self localUsers];
+    for (DIMUser *item in array) {
+        if ([item.ID isEqual:ID]) {
+            NSLog(@"User ID already exists: %@", ID);
+            return NO;
+        }
     }
     
     // 1. check & save meta
