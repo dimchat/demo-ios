@@ -65,8 +65,6 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    Client *client = [Client sharedInstance];
-    
     // 2. waiting for update
     [NSNotificationCenter addObserver:self
                              selector:@selector(reloadData:)
@@ -78,7 +76,8 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
                                object:nil];
     
     // 3. query from the station
-    [client queryOnlineUsers];
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    [messenger queryOnlineUsers];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -173,8 +172,8 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
     NSString *keywords = searchBar.text;
     NSLog(@"****************** searching %@", keywords);
     
-    Client *client = [Client sharedInstance];
-    [client searchUsersWithKeywords:keywords];
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    [messenger searchUsersWithKeywords:keywords];
     
     [searchBar resignFirstResponder];
 }

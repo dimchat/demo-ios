@@ -201,7 +201,7 @@
     DIMID *ID = user.ID;
     
     id<DIMUserDataSource> dataSource = user.dataSource;
-    id<MKMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
+    id<DIMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
     
     DIMProfile *profile = user.profile;
     
@@ -226,7 +226,8 @@
     [facebook saveProfile:profile];
     
     // submit to station
-    [client postProfile:profile];
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    [messenger postProfile:profile];
     
     return nil;
 }

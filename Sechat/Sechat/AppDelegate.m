@@ -72,7 +72,8 @@
     [self updateBadge:nil];
     [self addObservers];
     
-    [client getMuteList];
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    [messenger queryMuteList];
     [self getReviewStatus];
 
     return YES;

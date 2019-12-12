@@ -450,9 +450,8 @@
     }
     
     // pack message and send out
-    Client *client = [Client sharedInstance];
-    DIMInstantMessage *iMsg = [client sendContent:content to:receiver];
-    if (!iMsg) {
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    if (![messenger sendContent:content receiver:receiver]) {
         NSLog(@"send content failed: %@ -> %@", content, receiver);
         NSString *message = NSLocalizedString(@"Failed to send this message.", nil);
         NSString *title = NSLocalizedString(@"Error!", nil);
@@ -460,8 +459,7 @@
         return ;
     }
     
-    iMsg.state = DIMMessageState_Read;
-    [self.conversation insertMessage:iMsg];
+    content.state = DIMMessageState_Read;
     _textView.text = @"";
 }
 
@@ -519,18 +517,15 @@
     }
     
     // 2. pack message and send out
-    Client *client = [Client sharedInstance];
-    DIMInstantMessage *iMsg = [client sendContent:content to:receiver];
-    if (!iMsg) {
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    if (![messenger sendContent:content receiver:receiver]) {
         NSLog(@"send content failed: %@ -> %@", content, receiver);
         NSString *message = NSLocalizedString(@"Failed to send this file.", nil);
         NSString *title = NSLocalizedString(@"Error!", nil);
         [self showMessage:message withTitle:title];
         return;
     }
-    
-    iMsg.state = DIMMessageState_Read;
-    [chatBox insertMessage:iMsg];
+    content.state = DIMMessageState_Read;
 }
 
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls{
@@ -561,19 +556,19 @@
 - (void)onMessageSent:(NSNotification *)notification {
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
-    DIMInstantMessage *msg = [info objectForKey:@"message"];
-    msg = DKDInstantMessageFromDictionary(msg);
-    NSLog(@"%@: %@", name, msg);
+    DIMContent *content = [info objectForKey:@"content"];
+    content = DKDContentFromDictionary(content);
+    NSLog(@"%@: %@", name, content);
     // TODO: mark the message sent
 }
 
 - (void)onSendMessageFailed:(NSNotification *)notification {
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
-    DIMInstantMessage *msg = [info objectForKey:@"message"];
-    msg = DKDInstantMessageFromDictionary(msg);
+    DIMContent *content = [info objectForKey:@"content"];
+    content = DKDContentFromDictionary(content);
     NSError *error = [info objectForKey:@"error"];
-    NSLog(@"%@: %@, error: %@", name, msg, error);
+    NSLog(@"%@: %@, error: %@", name, content, error);
     // TODO: mark the message failed for trying again
 }
 

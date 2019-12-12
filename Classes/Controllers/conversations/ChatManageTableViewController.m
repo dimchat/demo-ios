@@ -129,13 +129,15 @@
             Client *client = [Client sharedInstance];
             DIMUser *user = client.currentUser;
             
+            DIMMessenger *messenger = [DIMMessenger sharedInstance];
+            
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
                 // send quit group command
                 DIMQuitCommand *cmd = [[DIMQuitCommand alloc] initWithGroup:group.ID];
                 NSArray *members = group.members;
                 for (DIMID *member in members) {
-                    [client sendContent:cmd to:member];
+                    [messenger sendContent:cmd receiver:member];
                 }
                 // remove myself
                 [[DIMFacebook sharedInstance] group:group.ID removeMember:user.ID];
@@ -372,9 +374,10 @@
         [newList removeObject:self.conversation.ID];
         [[LocalDatabaseManager sharedInstance] unmuteConversation:self.conversation.ID forUser:user.ID];
     }
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
     
     DIMMuteCommand *command = [[DIMMuteCommand alloc] initWithList:newList];
-    [client sendCommand:command];
+    [messenger sendCommand:command];
 }
 
 @end

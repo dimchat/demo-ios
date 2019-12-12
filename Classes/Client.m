@@ -67,7 +67,9 @@ SingletonImplementations(Client, sharedInstance)
         DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
         [cmd setObject:@"apns" forKey:@"title"];
         [cmd setObject:token forKey:@"device_token"];
-        [self sendCommand:cmd];
+        
+        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        [messenger sendCommand:cmd];
     }
 }
 
@@ -193,7 +195,9 @@ SingletonImplementations(Client, sharedInstance)
     DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
     [cmd setObject:@"report" forKey:@"title"];
     [cmd setObject:@"background" forKey:@"state"];
-    [self sendCommand:cmd];
+    
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    [messenger sendCommand:cmd];
     
     [_currentStation pause];
 }
@@ -211,7 +215,9 @@ SingletonImplementations(Client, sharedInstance)
     DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
     [cmd setObject:@"report" forKey:@"title"];
     [cmd setObject:@"foreground" forKey:@"state"];
-    [self sendCommand:cmd];
+    
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    [messenger sendCommand:cmd];
 }
 
 - (void)willTerminate {

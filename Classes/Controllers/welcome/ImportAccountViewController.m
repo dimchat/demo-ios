@@ -66,7 +66,8 @@
     } else {
         
         //Get contacts from server
-        [client getContacts];
+        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        [messenger queryContacts];
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
 }

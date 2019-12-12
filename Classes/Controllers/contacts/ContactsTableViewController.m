@@ -88,7 +88,9 @@
             
             //Post contacts to server
             NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
-            [client postContacts:allContacts];
+            
+            DIMMessenger *messenger = [DIMMessenger sharedInstance];
+            [messenger postContacts:allContacts];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self reloadData];
@@ -209,7 +211,9 @@
         
         //Post contacts to server
         NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
-        [client postContacts:allContacts];
+        
+        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        [messenger postContacts:allContacts];
         
         [list removeObjectAtIndex:row];
         if (list.count == 0) {

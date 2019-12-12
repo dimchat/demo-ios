@@ -170,7 +170,9 @@
             
             //Post contacts to server
             NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
-            [client postContacts:allContacts];
+            
+            DIMMessenger *messenger = [DIMMessenger sharedInstance];
+            [messenger postContacts:allContacts];
             
             [self loadData];
             [self.tableView reloadData];

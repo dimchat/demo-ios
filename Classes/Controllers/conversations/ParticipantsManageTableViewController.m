@@ -176,7 +176,7 @@
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     id<DIMUserDataSource> dataSource = user.dataSource;
-    id<MKMSignKey> signKey = [dataSource privateKeyForSignature:user.ID];
+    id<DIMSignKey> signKey = [dataSource privateKeyForSignature:user.ID];
     
     DIMID *ID = _conversation.ID;
     NSString *seed = _seedTextField.text;

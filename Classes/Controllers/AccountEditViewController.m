@@ -202,7 +202,7 @@
         }
         
         id<DIMUserDataSource> dataSource = user.dataSource;
-        id<MKMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
+        id<DIMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
         
         // save to local storage
         [facebook saveAvatar:data name:filename forID:ID];
@@ -219,7 +219,8 @@
         [facebook saveProfile:profile];
         
         // submit to network
-        [client postProfile:profile];
+        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        [messenger postProfile:profile];
         
         [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
                                             object:self
@@ -243,18 +244,19 @@
     DIMUser *user = client.currentUser;
     
     id<DIMUserDataSource> dataSource = user.dataSource;
-    id<MKMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
+    id<DIMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
     
     DIMProfile *profile = user.profile;
     [profile setName:nickname];
     [profile sign:SK];
     
     [[DIMFacebook sharedInstance] saveProfile:profile];
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
     
     // submit to station
-    [client postProfile:profile];
+    [messenger postProfile:profile];
     // broadcast to all contacts
-    [client broadcastProfile:profile];
+    [messenger broadcastProfile:profile];
     
     [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated object:self userInfo:@{@"ID": user.ID}];
     return YES;
