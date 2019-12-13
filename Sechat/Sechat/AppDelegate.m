@@ -62,18 +62,18 @@
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     if (!user) {
-        
         WelcomeViewController *vc = [[WelcomeViewController alloc] init];
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
         nc.modalPresentationStyle = UIModalPresentationFullScreen;
         [self.tabbarController presentViewController:nc animated:NO completion:nil];
+    } else {
+        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        [messenger queryMuteList];
     }
     
     [self updateBadge:nil];
     [self addObservers];
     
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    [messenger queryMuteList];
     [self getReviewStatus];
 
     return YES;
