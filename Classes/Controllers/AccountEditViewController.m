@@ -21,6 +21,7 @@
 #import "Facebook+Register.h"
 #import "dimMacros.h"
 #import "AccountEditViewController.h"
+#import "MKMRSAKeyHelper.h"
 
 @interface AccountEditViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIDocumentPickerDelegate>
 
@@ -371,25 +372,11 @@
             }
         } else if(row == 1){
             //Export Account
-            NSUInteger version = user.meta.version;
             
             DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
-//            //[key setObject:user.ID forKey:@"ID"];
-//            [key setObject:user.ID.name forKey:@"username"];
-//            [key setObject:user.profile.name forKey:@"nickname"];
-//            [key setObject:[NSNumber numberWithUnsignedInteger:version] forKey:@"version"];
-//            NSLog(@"The private key is : %@", key);
-//
-//            Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
-//            NSData *jsonData = [nativeJsonParser dataWithJSONObject:key options:0 error:NULL];
-//            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-            NSString *keyData = [key[@"data"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             
-            DIMPublicKey *publicKey = key.publicKey;
-            NSString *publicKeyData = [publicKey[@"data"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-            
-            NSString *privateKey = [[[keyData stringByReplacingOccurrencesOfString:publicKeyData withString:@""] stringByReplacingOccurrencesOfString:@"-----BEGIN RSA PRIVATE KEY-----" withString:@""] stringByReplacingOccurrencesOfString:@"-----END RSA PRIVATE KEY-----" withString:@""];
-            
+            NSString *privateKeyString = key[@"data"];
+            NSString *privateKey = RSAPrivateKeyContentFromNSString(privateKeyString);
             
             //Copy to clipboard
             [[UIPasteboard generalPasteboard] setString:privateKey];
