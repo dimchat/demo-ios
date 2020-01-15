@@ -374,18 +374,25 @@
             NSUInteger version = user.meta.version;
             
             DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
-            //[key setObject:user.ID forKey:@"ID"];
-            [key setObject:user.ID.name forKey:@"username"];
-            [key setObject:user.profile.name forKey:@"nickname"];
-            [key setObject:[NSNumber numberWithUnsignedInteger:version] forKey:@"version"];
-            NSLog(@"The private key is : %@", key);
+//            //[key setObject:user.ID forKey:@"ID"];
+//            [key setObject:user.ID.name forKey:@"username"];
+//            [key setObject:user.profile.name forKey:@"nickname"];
+//            [key setObject:[NSNumber numberWithUnsignedInteger:version] forKey:@"version"];
+//            NSLog(@"The private key is : %@", key);
+//
+//            Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
+//            NSData *jsonData = [nativeJsonParser dataWithJSONObject:key options:0 error:NULL];
+//            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            NSString *keyData = [key[@"data"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             
-            Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
-            NSData *jsonData = [nativeJsonParser dataWithJSONObject:key options:0 error:NULL];
-            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            DIMPublicKey *publicKey = key.publicKey;
+            NSString *publicKeyData = [publicKey[@"data"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            
+            NSString *privateKey = [[[keyData stringByReplacingOccurrencesOfString:publicKeyData withString:@""] stringByReplacingOccurrencesOfString:@"-----BEGIN RSA PRIVATE KEY-----" withString:@""] stringByReplacingOccurrencesOfString:@"-----END RSA PRIVATE KEY-----" withString:@""];
+            
             
             //Copy to clipboard
-            [[UIPasteboard generalPasteboard] setString:jsonString];
+            [[UIPasteboard generalPasteboard] setString:privateKey];
             
             [self showMessage:NSLocalizedString(@"Your account infomation has been saved to clipboard, please save it to Notes", nil)
                     withTitle:NSLocalizedString(@"Success", @"title")];

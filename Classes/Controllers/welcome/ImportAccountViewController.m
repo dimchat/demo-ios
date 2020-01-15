@@ -31,19 +31,27 @@
 
 -(void)didPressSaveButton:(id)sender{
     
-    NSString *jsonString = self.accountTextView.text;
+//    NSString *jsonString = self.accountTextView.text;
+//
+//    if(jsonString == nil || jsonString.length == 0){
+//        [self showMessage:NSLocalizedString(@"Please input your account info", nil)
+//                withTitle:NSLocalizedString(@"Error!", nil)];
+//        return;
+//    }
+//
+//    Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
+//    NSError *error;
+//    NSDictionary *returnValue = [nativeJsonParser JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+//    NSString *username = [returnValue objectForKey:@"username"];
+//    NSString *nickname = [returnValue objectForKey:@"nickname"];
     
-    if(jsonString == nil || jsonString.length == 0){
-        [self showMessage:NSLocalizedString(@"Please input your account info", nil)
-                withTitle:NSLocalizedString(@"Error!", nil)];
-        return;
-    }
-    
-    Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
-    NSError *error;
-    NSDictionary *returnValue = [nativeJsonParser JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
-    NSString *username = [returnValue objectForKey:@"username"];
-    NSString *nickname = [returnValue objectForKey:@"nickname"];
+    NSString *privateKey = self.accountTextView.text;
+    NSMutableDictionary *returnValue = [[NSMutableDictionary alloc] init];
+    [returnValue setObject:privateKey forKey:@"data"];
+    [returnValue setObject:@"RSA" forKey:@"algorithm"];
+
+    NSString *username = @"dim";
+    NSString *nickname = @"moonfunjohn";
     
     NSUInteger version = MKMMetaDefaultVersion;
     
@@ -59,7 +67,7 @@
     DIMID *ID = [meta generateID:MKMNetwork_Main];
     
     Client *client = [Client sharedInstance];
-    if (![client importUser:ID meta:meta privateKey:SK name:nickname]) {
+    if (![client importUser:ID meta:meta privateKey:SK]) {
 
         [self showMessage:NSLocalizedString(@"Failed to import user.", nil)
                 withTitle:NSLocalizedString(@"Error!", nil)];

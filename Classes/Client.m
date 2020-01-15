@@ -346,7 +346,7 @@ SingletonImplementations(Client, sharedInstance)
     return saved;
 }
 
-- (BOOL)importUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname {
+- (BOOL)importUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
