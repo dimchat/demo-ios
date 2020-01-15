@@ -31,28 +31,27 @@
 
 -(void)didPressSaveButton:(id)sender{
     
-//    NSString *jsonString = self.accountTextView.text;
-//
-//    if(jsonString == nil || jsonString.length == 0){
-//        [self showMessage:NSLocalizedString(@"Please input your account info", nil)
-//                withTitle:NSLocalizedString(@"Error!", nil)];
-//        return;
-//    }
-//
-//    Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
-//    NSError *error;
-//    NSDictionary *returnValue = [nativeJsonParser JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
-//    NSString *username = [returnValue objectForKey:@"username"];
-//    NSString *nickname = [returnValue objectForKey:@"nickname"];
+    NSString *jsonString = self.accountTextView.text;
+
+    if(jsonString == nil || jsonString.length == 0){
+        [self showMessage:NSLocalizedString(@"Please input your account info", nil)
+                withTitle:NSLocalizedString(@"Error!", nil)];
+        return;
+    }
+
+    Class nativeJsonParser = NSClassFromString(@"NSJSONSerialization");
+    NSError *error;
+    NSMutableDictionary *returnValue = [NSMutableDictionary dictionaryWithDictionary: [nativeJsonParser JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error]];
     
-    NSString *privateKey = self.accountTextView.text;
-    NSMutableDictionary *returnValue = [[NSMutableDictionary alloc] init];
-    [returnValue setObject:privateKey forKey:@"data"];
-    [returnValue setObject:@"RSA" forKey:@"algorithm"];
+    if(error != nil){
+    
+        NSString *privateKey = self.accountTextView.text;
+        returnValue = [[NSMutableDictionary alloc] init];
+        [returnValue setObject:privateKey forKey:@"data"];
+        [returnValue setObject:@"RSA" forKey:@"algorithm"];
+    }
 
     NSString *username = @"dim";
-    NSString *nickname = @"moonfunjohn";
-    
     NSUInteger version = MKMMetaDefaultVersion;
     
     if([returnValue objectForKey:@"version"] != nil){
