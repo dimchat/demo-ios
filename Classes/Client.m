@@ -189,14 +189,19 @@ SingletonImplementations(Client, sharedInstance)
 }
 
 - (void)didEnterBackground {
-    // report client state
-    DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
-    [cmd setObject:@"report" forKey:@"title"];
-    [cmd setObject:@"background" forKey:@"state"];
     
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    [messenger sendCommand:cmd];
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMUser *user = facebook.currentUser;
     
+    if(user != nil){
+        // report client state
+        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
+        [cmd setObject:@"report" forKey:@"title"];
+        [cmd setObject:@"background" forKey:@"state"];
+        
+        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        [messenger sendCommand:cmd];
+    }
     [_currentStation pause];
 }
 
@@ -209,13 +214,18 @@ SingletonImplementations(Client, sharedInstance)
     UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
     [nc removeAllPendingNotificationRequests];
     
-    // report client state
-    DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
-    [cmd setObject:@"report" forKey:@"title"];
-    [cmd setObject:@"foreground" forKey:@"state"];
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMUser *user = facebook.currentUser;
     
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    [messenger sendCommand:cmd];
+    if(user != nil){
+        // report client state
+        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
+        [cmd setObject:@"report" forKey:@"title"];
+        [cmd setObject:@"foreground" forKey:@"state"];
+        
+        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        [messenger sendCommand:cmd];
+    }
 }
 
 - (void)willTerminate {
