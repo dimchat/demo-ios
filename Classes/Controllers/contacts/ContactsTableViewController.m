@@ -128,6 +128,17 @@
             [_contactsTable setObject:mArray forKey:name];
         }
         [mArray addObject:contact];
+        
+        if(MKMNetwork_IsGroup(contact.type)){
+            DIMFacebook *facebook = [DIMFacebook sharedInstance];
+            NSArray *members = [facebook membersOfGroup:contact];
+            
+            if(members.count == 0){
+                NSArray *assistant = [facebook assistantsOfGroup:contact];
+                DIMMessenger *messenger = [DIMMessenger sharedInstance];
+                [messenger queryGroupForID:contact fromMembers:assistant];
+            }
+        }
     }
     _contactsKey = [[_contactsTable allKeys] mutableCopy];
     
