@@ -25,7 +25,7 @@ static inline NSString *readable_name(DIMID *ID) {
     NSString *nickname = profile.name;
     NSString *username = ID.name;
     if (nickname) {
-        if (username && MKMNetwork_IsUser(ID.type)) {
+        if (username && [ID isUser]) {
             return [NSString stringWithFormat:@"%@ (%@)", nickname, username];
         }
         return nickname;

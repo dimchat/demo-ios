@@ -59,7 +59,7 @@
     CGRect frame = self.avatarImageView.frame;
     
     UIImage *image;
-    if (MKMNetwork_IsGroup(_contact.type)) {
+    if ([_contact isGroup]) {
         image = [DIMProfileForID(_contact) logoImageWithSize:frame.size];
     } else {
         image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];

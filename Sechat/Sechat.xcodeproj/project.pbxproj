@@ -308,6 +308,7 @@
 		E92256312222ED7C006CADEA /* AccountTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountTableViewController.m; sourceTree = "<group>"; };
 		E92256372222ED7C006CADEA /* AccountEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountEditViewController.m; sourceTree = "<group>"; };
 		E922567E2222EF3D006CADEA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		E964889D23E32CAC00B9FE37 /* DIMTalk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIMTalk.entitlements; sourceTree = "<group>"; };
 		E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMClient.xcodeproj; path = "../../client-objc/DIMClient/DIMClient.xcodeproj"; sourceTree = "<group>"; };
 		E97816CD2223EAA700BCE3AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E978171E22254CBB00BCE3AD /* MarsGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarsGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -448,13 +449,6 @@
 			path = MessageCell;
 			sourceTree = "<group>";
 		};
-		52C2239A233F848300BC477E /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modules;
-			sourceTree = "<group>";
-		};
 		E92255B62222EC53006CADEA = {
 			isa = PBXGroup;
 			children = (
@@ -485,6 +479,7 @@
 		E92255C12222EC53006CADEA /* Sechat */ = {
 			isa = PBXGroup;
 			children = (
+				E964889D23E32CAC00B9FE37 /* DIMTalk.entitlements */,
 				E9E824592245539100A029F1 /* Sechat.entitlements */,
 				E92255C22222EC53006CADEA /* AppDelegate.h */,
 				E92255C32222EC53006CADEA /* AppDelegate.m */,
@@ -532,7 +527,6 @@
 		E92256122222ED7C006CADEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				52C2239A233F848300BC477E /* Modules */,
 				E979076E2254A3970024C830 /* media */,
 				E9BBC3702242B21200E6ACDA /* extends */,
 				E92256172222ED7C006CADEA /* Models */,
@@ -802,7 +796,7 @@
 						CreatedOnToolsVersion = 10.1;
 						SystemCapabilities = {
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 						};
 					};
@@ -1280,6 +1274,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Sechat/DIMTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1310,6 +1305,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Sechat/DIMTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

@@ -129,7 +129,7 @@
         }
         [mArray addObject:contact];
         
-        if(MKMNetwork_IsGroup(contact.type)){
+        if([contact isGroup]){
             DIMFacebook *facebook = [DIMFacebook sharedInstance];
             NSArray *members = [facebook membersOfGroup:contact];
             

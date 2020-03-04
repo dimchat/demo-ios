@@ -445,7 +445,7 @@
     DIMContent *content;
     content = [[DIMTextContent alloc] initWithText:text];
     
-    if (MKMNetwork_IsGroup(receiver.type)) {
+    if ([receiver isGroup]) {
         content.group = receiver;
     }
     
@@ -512,7 +512,7 @@
         [content setObject:[small base64Encode] forKey:@"thumbnail"];
     }
     
-    if (MKMNetwork_IsGroup(receiver.type)) {
+    if ([receiver isGroup]) {
         content.group = receiver;
     }
     
@@ -638,7 +638,7 @@
         DIMContent *content = iMsg.content;
         DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
         
-        DKDContentType type = content.type;
+        UInt8 type = content.type;
         if (type == DKDContentType_History || type == DKDContentType_Command) {
             if ([[(DIMCommand *)content command] isEqualToString:@"guide"]) {
                 // show guide

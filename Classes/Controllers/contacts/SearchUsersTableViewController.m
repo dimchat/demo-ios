@@ -138,8 +138,7 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
         
         for (NSString *item in users) {
             ID = DIMIDWithString(item);
-            if (!MKMNetwork_IsPerson(ID.type) &&
-                !MKMNetwork_IsGroup(ID.type)) {
+            if (MKMNetwork_IsStation(ID.type)) {
                 // ignore
                 continue;
             }

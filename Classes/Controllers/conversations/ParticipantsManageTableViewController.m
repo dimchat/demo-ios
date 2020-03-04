@@ -41,7 +41,7 @@
     DIMUser *user = client.currentUser;
     
     // 1. group info
-    if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+    if ([_conversation.ID isGroup]) {
         // exists group
         _group = DIMGroupWithID(_conversation.ID);
         _founder = _group.founder;
@@ -98,7 +98,7 @@
     if (_founder && ![_founder isEqual:user.ID]) {
         [_selectedList addObject:_founder];
     }
-    if (!_group && MKMNetwork_IsUser(_conversation.ID.type)) {
+    if (!_group && [_conversation.ID isUser]) {
         if (![_selectedList containsObject:_conversation.ID]) {
             [_selectedList addObject:_conversation.ID];
         }
@@ -123,7 +123,7 @@
     //Filter Group IDs
     for (DIMID *contactID in contacts) {
         
-        if(!MKMNetwork_IsGroup(contactID.type)){
+        if(![contactID isGroup]){
             [filterContacts addObject:contactID];
         }
     }
@@ -184,7 +184,7 @@
     DIMProfile *profile;
 //    NSMutableArray<DIMID *> *members;
     
-    if (MKMNetwork_IsGroup(ID.type)) {
+    if ([ID isGroup]) {
         // exists group
         _group = DIMGroupWithID(ID);
         profile = _conversation.profile;

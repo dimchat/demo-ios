@@ -102,7 +102,7 @@
     // avatar
     CGRect frame = _avatarImageView.frame;
     UIImage *image;
-    if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+    if ([_conversation.ID isGroup]) {
         image = [_conversation.profile logoImageWithSize:frame.size];
     } else {
         image = [_conversation.profile avatarImageWithSize:frame.size];

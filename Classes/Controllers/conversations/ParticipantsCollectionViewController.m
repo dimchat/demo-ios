@@ -34,10 +34,10 @@
 - (void)reloadData {
     _participants = [[NSMutableArray alloc] init];
     
-    if (MKMNetwork_IsUser(_conversation.ID.type)) {
+    if ([_conversation.ID isUser]) {
         // personal conversation
         [_participants addObject:_conversation.ID];
-    } else if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+    } else if ([_conversation.ID isGroup]) {
         // group conversation
         DIMGroup *group = DIMGroupWithID(_conversation.ID);
         [_participants addObjectsFromArray:group.members];

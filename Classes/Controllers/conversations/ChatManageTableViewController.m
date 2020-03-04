@@ -121,7 +121,7 @@
             NSString *format = NSLocalizedString(@"Are you sure to leave group %@ ?\nThis operation is unrecoverable!", nil);
             NSString *text = [NSString stringWithFormat:format, _conversation.name];
             
-            if (!MKMNetwork_IsGroup(_conversation.ID.type)) {
+            if (![_conversation.ID isGroup]) {
                 NSAssert(false, @"current conversation is not a group chat: %@", _conversation.ID);
                 return ;
             }
@@ -158,7 +158,7 @@
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
         NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
         NSString *type = @"individual";
-        if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+        if ([_conversation.ID isGroup]) {
             type = @"group";
         }
         NSString *api = client.reportAPI;
@@ -197,7 +197,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == SECTION_ACTIONS) {
         // other actions
-        if (!MKMNetwork_IsGroup(_conversation.ID.type)) {
+        if (![_conversation.ID isGroup]) {
             return 1;
         }
         
@@ -247,7 +247,7 @@
         NSString *value = nil;
         switch (row) {
             case 0: { // Name
-                if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+                if ([_conversation.ID isGroup]) {
                     key = NSLocalizedString(@"Group name", nil);
                 } else {
                     key = NSLocalizedString(@"Nickname", nil);
@@ -257,7 +257,7 @@
                 break;
                 
             case 1: { // seed
-                if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+                if ([_conversation.ID isGroup]) {
                     key = NSLocalizedString(@"Seed", nil);
                 } else {
                     key = NSLocalizedString(@"Username", nil);
@@ -334,7 +334,7 @@
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
         NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
         NSString *type = @"individual";
-        if (MKMNetwork_IsGroup(_conversation.ID.type)) {
+        if ([_conversation.ID isGroup]) {
             type = @"group";
         }
         NSString *api = client.reportAPI;
