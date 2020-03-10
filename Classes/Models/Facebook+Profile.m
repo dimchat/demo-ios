@@ -9,8 +9,6 @@
 #import "NSObject+Singleton.h"
 #import "NSDictionary+Binary.h"
 
-#import "NSNotificationCenter+Extension.h"
-
 #import "Client.h"
 
 #import "Facebook+Profile.h"
@@ -59,10 +57,11 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     NSLog(@"avatar OK: %@", image);
     NSString *path = avatar_filepath(ID, filename, YES);
     [data writeToFile:path atomically:YES];
+    
     // TODO: post notice 'AvatarUpdated'
-    [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
-                                        object:self
-                                      userInfo:@{@"ID": ID}];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kNotificationName_AvatarUpdated
+                      object:self userInfo:@{@"ID": ID}];
     return YES;
 }
 

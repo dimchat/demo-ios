@@ -6,7 +6,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSNotificationCenter+Extension.h"
 #import "User.h"
 #import "Client.h"
 #import "ContactCell.h"
@@ -57,11 +56,11 @@
     _contactsKey = nil;
     [self reloadData];
     
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(reloadData)
-                                 name:kNotificationName_ContactsUpdated
-                               object:nil];
-    [NSNotificationCenter addObserver:self selector:@selector(onGroupMembersUpdated:) name:kNotificationName_GroupMembersUpdated object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(reloadData)
+               name:kNotificationName_ContactsUpdated object:nil];
+    [nc addObserver:self selector:@selector(onGroupMembersUpdated:)
+               name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -150,7 +149,9 @@
     };
     [_contactsKey sortUsingComparator:cmp];
     
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 
 #pragma mark - Table delegate

@@ -9,7 +9,6 @@
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
 #import "NSData+Extension.h"
-#import "NSNotificationCenter+Extension.h"
 #import "NSString+Crypto.h"
 
 #import "MKMImmortals.h"

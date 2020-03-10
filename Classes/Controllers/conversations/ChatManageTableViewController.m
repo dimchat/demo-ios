@@ -6,7 +6,6 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSNotificationCenter+Extension.h"
 #import "UIViewController+Extension.h"
 #import "UIStoryboard+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
@@ -64,22 +63,22 @@
     
     NSLog(@"manage conversation: %@", _conversation.ID);
     
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onGroupMembersUpdated:)
-                                 name:kNotificationName_GroupMembersUpdated
-                               object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(onGroupMembersUpdated:)
+               name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
 - (void)onGroupMembersUpdated:(NSNotification *)notification {
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
         DIMID *groupID = [info objectForKey:@"group"];
-        if ([groupID isEqual:_conversation.ID]) {
+        if ([groupID isEqual:self->_conversation.ID]) {
             // the same group
-            [_participantsCollectionViewController reloadData];
-            [_participantsCollectionViewController.collectionView reloadData];
+            [self->_participantsCollectionViewController reloadData];
+            [self->_participantsCollectionViewController.collectionView reloadData];
             [self.tableView reloadData];
         } else {
             // dismiss the personal chat box
@@ -88,6 +87,8 @@
             }];
         }
     }
+        
+    });
 }
 
 #pragma mark - Table view delegate

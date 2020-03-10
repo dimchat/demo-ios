@@ -14,7 +14,6 @@
 #import "NSData+Crypto.h"
 #import "NSData+Extension.h"
 #import "DIMProfile+Extension.h"
-#import "NSNotificationCenter+Extension.h"
 #import "ImagePickerController.h"
 #import "User.h"
 #import "Client.h"

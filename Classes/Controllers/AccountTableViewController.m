@@ -6,7 +6,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSNotificationCenter+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIView+Extension.h"
 #import "UIViewController+Extension.h"
@@ -58,14 +57,11 @@
     [self reloadData];
     _inReview = [[NSUserDefaults standardUserDefaults] boolForKey:@"in_review"];
     
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(didProfileUpdated:)
-                                 name:kNotificationName_ProfileUpdated
-                               object:nil];
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onAvatarUpdated:)
-                                 name:kNotificationName_AvatarUpdated
-                               object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(didProfileUpdated:)
+               name:kNotificationName_ProfileUpdated object:nil];
+    [nc addObserver:self selector:@selector(onAvatarUpdated:)
+               name:kNotificationName_AvatarUpdated object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated{

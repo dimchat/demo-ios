@@ -8,7 +8,6 @@
 
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
-#import "NSNotificationCenter+Extension.h"
 
 #import "Client.h"
 #import "Facebook+Register.h"

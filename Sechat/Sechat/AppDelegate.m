@@ -114,7 +114,9 @@
 
 -(void)addObservers{
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBadge:) name:DIMConversationUpdatedNotification object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(updateBadge:)
+               name:DIMConversationUpdatedNotification object:nil];
 }
 
 -(void)updateBadge:(NSNotification *)o{

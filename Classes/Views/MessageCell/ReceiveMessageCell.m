@@ -109,7 +109,9 @@
         self.longPressGuesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPressHappen:)];
         [self.contentView addGestureRecognizer:self.longPressGuesture];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAvatarUpdated:) name:kNotificationName_AvatarUpdated object:nil];
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self selector:@selector(didAvatarUpdated:)
+                   name:kNotificationName_AvatarUpdated object:nil];
     }
     
     return self;

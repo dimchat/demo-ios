@@ -9,7 +9,6 @@
 #import <DIMClient/DIMClient.h>
 #import "NSObject+JsON.h"
 #import "NSData+Extension.h"
-#import "NSNotificationCenter+Extension.h"
 #import "UIViewController+Extension.h"
 #import "UIView+Extension.h"
 #import "UIImage+Extension.h"
@@ -109,10 +108,9 @@
     _avatarImageView.image = image;
     _nicknameTextField.text = nickname;
     
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onAvatarUpdated:)
-                                 name:kNotificationName_AvatarUpdated
-                               object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(onAvatarUpdated:)
+               name:kNotificationName_AvatarUpdated object:nil];
     
     self.navigationItem.title = nickname;
 }
@@ -136,7 +134,9 @@
     CGRect avatarFrame = _avatarImageView.frame;
     UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
     if (image) {
-        [_avatarImageView setImage:image];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self->_avatarImageView setImage:image];
+        });
     }
 }
 
@@ -223,9 +223,9 @@
         DIMMessenger *messenger = [DIMMessenger sharedInstance];
         [messenger postProfile:profile];
         
-        [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated
-                                            object:self
-                                          userInfo:@{@"ID": profile.ID, @"profile": profile}];
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:kNotificationName_AvatarUpdated object:self
+                        userInfo:@{@"ID": profile.ID, @"profile": profile}];
     }
 }
 
@@ -259,7 +259,9 @@
     // broadcast to all contacts
     [messenger broadcastProfile:profile];
     
-    [NSNotificationCenter postNotificationName:kNotificationName_AvatarUpdated object:self userInfo:@{@"ID": user.ID}];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kNotificationName_AvatarUpdated
+                      object:self userInfo:@{@"ID": user.ID}];
     return YES;
 }
 

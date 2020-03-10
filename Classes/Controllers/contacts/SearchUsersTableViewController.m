@@ -6,7 +6,6 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSNotificationCenter+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIViewController+Extension.h"
 #import "User.h"
@@ -66,14 +65,11 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
     [super viewDidAppear:animated];
     
     // 2. waiting for update
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(reloadData:)
-                                 name:kNotificationName_OnlineUsersUpdated
-                               object:nil];
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(reloadData:)
-                                 name:kNotificationName_SearchUsersUpdated
-                               object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(reloadData:)
+               name:kNotificationName_OnlineUsersUpdated object:nil];
+    [nc addObserver:self selector:@selector(reloadData:)
+               name:kNotificationName_SearchUsersUpdated object:nil];
     
     // 3. query from the station
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
@@ -85,12 +81,9 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
     Client *client = [Client sharedInstance];
     
     // 4. stop listening
-    [NSNotificationCenter removeObserver:self
-                                    name:kNotificationName_SearchUsersUpdated
-                                  object:client];
-    [NSNotificationCenter removeObserver:self
-                                    name:kNotificationName_OnlineUsersUpdated
-                                  object:client];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:kNotificationName_SearchUsersUpdated object:client];
+    [nc removeObserver:self name:kNotificationName_OnlineUsersUpdated object:client];
 
     [super viewWillDisappear:animated];
 }

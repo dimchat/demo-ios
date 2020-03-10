@@ -10,7 +10,6 @@
 #import "NSDate+Extension.h"
 #import "UIColor+Extension.h"
 #import "NSString+Extension.h"
-#import "NSNotificationCenter+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIButton+Extension.h"
 #import "UIImage+Extension.h"
@@ -182,46 +181,46 @@
 
 -(void)addDataObserver{
     
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onMessageSent:)
-                                 name:kNotificationName_MessageSent
-                               object:nil];
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onSendMessageFailed:)
-                                 name:kNotificationName_SendMessageFailed
-                               object:nil];;
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onMessageInserted:)
-                                 name:DIMMessageInsertedNotifiation
-                               object:nil];
+    [nc addObserver:self selector:@selector(onMessageSent:)
+               name:kNotificationName_MessageSent object:nil];
+    [nc addObserver:self selector:@selector(onSendMessageFailed:)
+               name:kNotificationName_SendMessageFailed object:nil];;
     
-    [NSNotificationCenter addObserver:self
-                             selector:@selector(onGroupMembersUpdated:)
-                                 name:kNotificationName_GroupMembersUpdated
-                               object:nil];
+    [nc addObserver:self selector:@selector(onMessageInserted:)
+               name:DIMMessageInsertedNotifiation object:nil];
+    
+    [nc addObserver:self selector:@selector(onGroupMembersUpdated:)
+               name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
 -(void)removeDataObserver{
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_MessageSent object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_SendMessageFailed object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:DIMMessageInsertedNotifiation object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kNotificationName_GroupMembersUpdated object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:kNotificationName_MessageSent object:nil];
+    [nc removeObserver:self name:kNotificationName_SendMessageFailed object:nil];
+    [nc removeObserver:self name:DIMMessageInsertedNotifiation object:nil];
+    [nc removeObserver:self name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
 -(void)addKeyboardObserver{
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(keyboardWillShow:)
+               name:UIKeyboardWillShowNotification object:nil];
+    [nc addObserver:self selector:@selector(keyboardWillHide:)
+               name:UIKeyboardWillHideNotification object:nil];
+    [nc addObserver:self selector:@selector(keyboardWillChangeFrame:)
+               name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 -(void)removeKeyboardObserver{
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [nc removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [nc removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -324,15 +323,21 @@
 
 #pragma mark - UIKeyboard Notification
 - (void)keyboardWillShow:(NSNotification *)o {
+    dispatch_async(dispatch_get_main_queue(), ^{
     [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
+    });
 }
 
 - (void)keyboardWillHide:(NSNotification *)o {
+    dispatch_async(dispatch_get_main_queue(), ^{
     [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
+    });
 }
 
 - (void)keyboardWillChangeFrame:(NSNotification *)o {
+    dispatch_async(dispatch_get_main_queue(), ^{
     [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
+    });
 }
 
 - (void)adjustTextViewFrameWhenRecieveKeyboardNotification:(NSNotification *)o {

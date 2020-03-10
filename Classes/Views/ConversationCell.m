@@ -51,8 +51,11 @@
         
         self.separatorInset = UIEdgeInsetsMake(0.0, 70.0, 0.0, 0.0);
 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onConversationUpdated:) name:DIMConversationUpdatedNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onProfileUpdate:) name:kNotificationName_ProfileUpdated object:nil];
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self selector:@selector(onConversationUpdated:)
+                   name:DIMConversationUpdatedNotification object:nil];
+        [nc addObserver:self selector:@selector(onProfileUpdate:)
+                   name:kNotificationName_ProfileUpdated object:nil];
     }
     
     return self;
