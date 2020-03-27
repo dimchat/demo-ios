@@ -232,7 +232,7 @@
         _scrolledToBottom = YES;
     }
     
-    [[MessageDatabase sharedInstance] markConversationMessageRead:self.conversation];
+    [[MessageDatabase sharedInstance] markConversationMessageRead:self.conversation.ID];
 }
 
 - (void)onMessageInserted:(NSNotification *)notification {
@@ -245,7 +245,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self groupMessage];
                 [self scrollAfterInsertNewMessage];
-                [[MessageDatabase sharedInstance] markConversationMessageRead:self.conversation];
+                [[MessageDatabase sharedInstance] markConversationMessageRead:self.conversation.ID];
             });
         }
     }

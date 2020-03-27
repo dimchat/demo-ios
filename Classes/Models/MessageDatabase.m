@@ -14,7 +14,7 @@
 
 #import "MessageDatabase.h"
 
-typedef NSMutableArray<DIMConversation *> ConversationListM;
+typedef NSMutableArray<DIMID *> ConversationListM;
 
 @interface MessageDatabase () {
     
@@ -37,10 +37,18 @@ SingletonImplementations(MessageDatabase, sharedInstance)
     return self;
 }
 
+- (nullable DIMInstantMessage *)_lastMessageInConversation:(DIMID *)ID {
+    NSUInteger count = [self numberOfMessagesInConversation:ID];
+    if (count == 0) {
+        return nil;
+    }
+    return [self conversation:ID messageAtIndex:(count - 1)];
+}
+
 - (void)sortConversationList {
     NSComparator comparator = ^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        DIMInstantMessage *msg1 = [obj1 lastMessage];
-        DIMInstantMessage *msg2 = [obj2 lastMessage];
+        DIMInstantMessage *msg1 = [self _lastMessageInConversation:obj1];
+        DIMInstantMessage *msg2 = [self _lastMessageInConversation:obj2];
         NSNumber *time1 = [msg1 objectForKey:@"time"];
         NSNumber *time2 = [msg2 objectForKey:@"time"];
         NSTimeInterval t1 = [time1 doubleValue];
@@ -65,30 +73,30 @@ SingletonImplementations(MessageDatabase, sharedInstance)
     return [_conversationList count];
 }
 
-- (DIMConversation *)conversationAtIndex:(NSInteger)index {
+- (DIMID *)conversationAtIndex:(NSInteger)index {
     return [_conversationList objectAtIndex:index];
 }
 
 - (BOOL)removeConversationAtIndex:(NSInteger)index {
-    DIMConversation *chatBox = [self conversationAtIndex:index];
+    DIMID *chatBox = [self conversationAtIndex:index];
     return [self removeConversation:chatBox];
 }
 
-- (BOOL)removeConversation:(DIMConversation *)chatBox {
+- (BOOL)removeConversation:(DIMID *)chatBox {
     BOOL removed = [super removeConversation:chatBox];
     if (removed) {
         [_conversationList removeObject:chatBox];
-        NSLog(@"conversation removed: %@", chatBox.ID);
+        NSLog(@"conversation removed: %@", chatBox);
     }
     return removed;
 }
 
 - (BOOL)clearConversationAtIndex:(NSInteger)index {
-    DIMConversation *chatBox = [self conversationAtIndex:index];
+    DIMID *chatBox = [self conversationAtIndex:index];
     return [self clearConversation:chatBox];
 }
 
-- (BOOL)clearConversation:(DIMConversation *)chatBox {
+- (BOOL)clearConversation:(DIMID *)chatBox {
     BOOL cleared = [super clearConversation:chatBox];
     return cleared;
 }
@@ -96,7 +104,7 @@ SingletonImplementations(MessageDatabase, sharedInstance)
 #pragma mark DIMConversationDelegate
 
 // save the new message to local storage
-- (BOOL)conversation:(DIMConversation *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
+- (BOOL)conversation:(DIMID *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
     if (![super conversation:chatBox insertMessage:iMsg]) {
         NSLog(@"failed to save message: %@", iMsg);
         return NO;

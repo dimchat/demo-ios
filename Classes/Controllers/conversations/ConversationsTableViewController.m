@@ -138,7 +138,8 @@
     NSInteger row = indexPath.row;
     
     MessageDatabase *msgDB = [MessageDatabase sharedInstance];
-    DIMConversation *chat = [msgDB conversationAtIndex:row];
+    DIMAmanuensis *clerk = [DIMAmanuensis sharedInstance];
+    DIMConversation *chat = [clerk conversationWithID:[msgDB conversationAtIndex:row]];
     cell.conversation = chat;
     
     return cell;
@@ -179,7 +180,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     MessageDatabase *msgDB = [MessageDatabase sharedInstance];
-    DIMConversation *convers = [msgDB conversationAtIndex:indexPath.row];
+    DIMAmanuensis *clerk = [DIMAmanuensis sharedInstance];
+    DIMConversation *convers = [clerk conversationWithID:[msgDB conversationAtIndex:indexPath.row]];
     
     ChatViewController *vc = [[ChatViewController alloc] init];
     vc.conversation = convers;

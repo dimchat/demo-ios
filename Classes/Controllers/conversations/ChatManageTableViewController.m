@@ -111,7 +111,7 @@
             handler = ^(UIAlertAction *action) {
                 // clear message in conversation
                 MessageDatabase *msgDB = [MessageDatabase sharedInstance];
-                [msgDB clearConversation:self->_conversation];
+                [msgDB clearConversation:self->_conversation.ID];
                 
                 [self.navigationController popToRootViewControllerAnimated:YES];
             };
@@ -145,7 +145,7 @@
                 
                 // clear message in conversation
                 MessageDatabase *msgDB = [MessageDatabase sharedInstance];
-                [msgDB removeConversation:self->_conversation];
+                [msgDB removeConversation:self->_conversation.ID];
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
             };
