@@ -205,8 +205,8 @@
     } else {
         // new group
         _group = [client createGroupWithSeed:seed
-                                     members:_selectedList
-                                     profile:@{@"name":name}];
+                                        name:name
+                                     members:_selectedList];
         if (!_group) {
             NSLog(@"failed to create group: %@, %@, %@", seed, _selectedList, name);
             [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, seed] withTitle:NSLocalizedString(@"Create Group Failed!", nil)];
