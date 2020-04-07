@@ -7,7 +7,6 @@
 //
 
 #import "NSObject+Singleton.h"
-#import "NSObject+JsON.h"
 
 #import "Client.h"
 #import "Facebook+Register.h"

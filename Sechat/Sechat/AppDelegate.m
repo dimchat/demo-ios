@@ -18,7 +18,6 @@
 #import "LocalDatabaseManager.h"
 #import "FolderUtility.h"
 #import "DIMClientConstants.h"
-#import "NSObject+JsON.h"
 
 @interface AppDelegate ()<UITabBarControllerDelegate>
 
@@ -91,7 +90,7 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"in_review"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        NSDictionary *dic = MKMJSONDecode([responseString data]);
+        NSDictionary *dic = MKMJSONDecode(MKMUTF8Encode(responseString));
         
         if(dic != nil && [dic isKindOfClass:[NSDictionary class]]){
             

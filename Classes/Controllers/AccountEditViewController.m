@@ -7,7 +7,6 @@
 //
 
 #import <DIMClient/DIMClient.h>
-#import "NSObject+JsON.h"
 #import "NSData+Extension.h"
 #import "UIViewController+Extension.h"
 #import "UIView+Extension.h"
