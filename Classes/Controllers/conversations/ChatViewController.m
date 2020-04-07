@@ -514,7 +514,7 @@
         // add image data length & thumbnail into message content
         content = [[DIMImageContent alloc] initWithImageData:data filename:filename];
         [content setObject:@(data.length) forKey:@"length"];
-        [content setObject:[small base64Encode] forKey:@"thumbnail"];
+        [content setObject:MKMBase64Encode(small) forKey:@"thumbnail"];
     }
     
     if ([receiver isGroup]) {
