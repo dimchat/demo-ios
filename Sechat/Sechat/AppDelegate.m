@@ -91,7 +91,7 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"in_review"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        NSDictionary *dic = [[responseString data] jsonDictionary];
+        NSDictionary *dic = MKMJSONDecode([responseString data]);
         
         if(dic != nil && [dic isKindOfClass:[NSDictionary class]]){
             
