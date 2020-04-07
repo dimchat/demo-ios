@@ -7,7 +7,7 @@
 //
 
 #import <DIMClient/DIMClient.h>
-#import "NSData+Extension.h"
+
 #import "UIViewController+Extension.h"
 #import "UIView+Extension.h"
 #import "UIImage+Extension.h"
@@ -188,7 +188,7 @@
         }
         
         NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
-        NSString *filename = [MKMHexEncode([data md5]) stringByAppendingPathExtension:@"jpeg"];
+        NSString *filename = [MKMHexEncode(MKMMD5Digest(data)) stringByAppendingPathExtension:@"jpeg"];
         NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
         
         DIMFacebook *facebook = [DIMFacebook sharedInstance];

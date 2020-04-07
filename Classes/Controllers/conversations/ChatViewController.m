@@ -6,7 +6,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSData+Extension.h"
 #import "NSDate+Extension.h"
 #import "UIColor+Extension.h"
 #import "NSString+Extension.h"
@@ -502,7 +501,7 @@
         
         // image file
         NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
-        NSString *filename = [MKMHexEncode([data md5]) stringByAppendingPathExtension:@"jpeg"];
+        NSString *filename = [MKMHexEncode(MKMMD5Digest(data)) stringByAppendingPathExtension:@"jpeg"];
         [ftp saveData:data filename:filename];
         
         // thumbnail

@@ -7,7 +7,6 @@
 //
 
 #import "NSObject+Singleton.h"
-#import "NSData+Extension.h"
 
 #import "MKMImmortals.h"
 

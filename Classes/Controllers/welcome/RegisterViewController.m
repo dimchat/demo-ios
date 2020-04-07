@@ -12,7 +12,6 @@
 #import "UIImageView+Extension.h"
 #import "UIViewController+Extension.h"
 #import "NSData+Crypto.h"
-#import "NSData+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "ImagePickerController.h"
 #import "User.h"
@@ -206,7 +205,7 @@
     
     if(self.imageData != nil){
         
-        NSString *filename = [MKMHexEncode([self.imageData md5]) stringByAppendingPathExtension:@"jpeg"];
+        NSString *filename = [MKMHexEncode(MKMMD5Digest(self.imageData)) stringByAppendingPathExtension:@"jpeg"];
         
         // save to local storage
         [facebook saveAvatar:self.imageData name:filename forID:ID];
