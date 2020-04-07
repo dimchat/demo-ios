@@ -19,7 +19,6 @@
 #import "Facebook+Register.h"
 #import "dimMacros.h"
 #import "AccountEditViewController.h"
-#import "MKMRSAKeyHelper.h"
 
 @interface AccountEditViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIDocumentPickerDelegate>
 

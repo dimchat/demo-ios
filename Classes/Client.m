@@ -8,8 +8,6 @@
 
 #import "NSObject+Singleton.h"
 
-#import "MKMImmortals.h"
-
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "MessageDatabase.h"
