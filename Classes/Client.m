@@ -9,7 +9,6 @@
 #import "NSObject+Singleton.h"
 #import "NSObject+JsON.h"
 #import "NSData+Extension.h"
-#import "NSString+Crypto.h"
 
 #import "MKMImmortals.h"
 
@@ -61,7 +60,7 @@ SingletonImplementations(Client, sharedInstance)
     [super onHandshakeAccepted:session];
     
     // post device token
-    NSString *token = [self.deviceToken hexEncode];
+    NSString *token = MKMHexEncode(self.deviceToken);
     if (token) {
         DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
         [cmd setObject:@"apns" forKey:@"title"];
@@ -246,7 +245,7 @@ SingletonImplementations(Client, sharedInstance)
 @implementation Client (APNs)
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *token = [deviceToken hexEncode];
+    NSString *token = MKMHexEncode(deviceToken);
     NSLog(@"APNs token: %@", deviceToken);
     NSLog(@"APNs token(hex): %@", token);
     // TODO: send this device token to server

@@ -206,7 +206,7 @@
     
     if(self.imageData != nil){
         
-        NSString *filename = [[[self.imageData md5] hexEncode] stringByAppendingPathExtension:@"jpeg"];
+        NSString *filename = [MKMHexEncode([self.imageData md5]) stringByAppendingPathExtension:@"jpeg"];
         
         // save to local storage
         [facebook saveAvatar:self.imageData name:filename forID:ID];
