@@ -176,6 +176,50 @@
     [self addDataObserver];
     
     _scrolledToBottom = NO;
+    
+    [self sendMetaToAudience];
+}
+
+-(void)sendMetaToAudience{
+    
+    //Send Meta to audience
+    if(self.conversation.ID.isUser){
+        
+        //Search whether has send message to this person
+        NSUInteger i = 0;
+        NSUInteger messageCount = [_conversation numberOfMessage];
+        
+        Client *client = [Client sharedInstance];
+        DIMUser *user = client.currentUser;
+        
+        BOOL hasSentMessage = NO;
+        while(i < messageCount){
+            
+            DKDInstantMessage *iMsg = [_conversation messageAtIndex:i];
+            DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
+            
+            if(sender == user.ID){
+                hasSentMessage = YES;
+                break;
+            }
+            
+            i++;
+        }
+        
+        if(hasSentMessage == NO){
+            
+            //Send profile command to audience
+            DIMID *ID = user.ID;
+            DIMProfile *profile = user.profile;
+            DIMCommand *cmd = [[DIMProfileCommand alloc] initWithID:ID
+                                                            profile:profile];
+            DIMID *receiverID = _conversation.ID;
+            DIMMessenger *messenger = [DIMMessenger sharedInstance];
+            [messenger sendContent:cmd receiver:receiverID];
+            
+            NSLog(@"Send profile message to %@", receiverID);
+        }
+    }
 }
 
 -(void)addDataObserver{
