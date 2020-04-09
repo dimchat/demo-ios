@@ -6,7 +6,6 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSData+Crypto.h"
 #import "NSDate+Timestamp.h"
 #import "UIViewController+Extension.h"
 #import "UIStoryboardSegue+Extension.h"

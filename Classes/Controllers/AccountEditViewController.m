@@ -8,10 +8,13 @@
 
 #import <DIMClient/DIMClient.h>
 
+#import "MKMRSAHelper.h"
+
 #import "UIViewController+Extension.h"
 #import "UIView+Extension.h"
 #import "UIImage+Extension.h"
 #import "DIMProfile+Extension.h"
+
 #import "ImagePickerController.h"
 #import "User.h"
 #import "Client.h"
