@@ -52,8 +52,10 @@ SingletonImplementations(Client, sharedInstance)
     return _userAgent;
 }
 
-- (void)onHandshakeAccepted:(NSString *)session {
-    [super onHandshakeAccepted:session];
+#pragma mark DIMStationDelegate
+
+- (void)station:(DIMStation *)server onHandshakeAccepted:(NSString *)session {
+    [super station:server onHandshakeAccepted:session];
     
     // post device token
     NSString *token = MKMHexEncode(self.deviceToken);
