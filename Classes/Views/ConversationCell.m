@@ -123,55 +123,7 @@
     while (--count >= 0) {
         msg = [_conversation messageAtIndex:count];
         content = msg.content;
-        switch (content.type) {
-            case DKDContentType_Text: {
-                last = [(DIMTextContent *)content text];
-            }
-                break;
-                
-            case DKDContentType_File: {
-                NSString *filename = [(DIMFileContent *)content filename];
-                NSString *format = NSLocalizedString(@"[File:%@]", nil);
-                last = [NSString stringWithFormat:format, filename];
-            }
-                break;
-                
-            case DKDContentType_Image: {
-                last = NSLocalizedString(@"[Image]", @"title");
-            }
-                break;
-                
-            case DKDContentType_Audio: {
-                NSString *filename = [(DIMAudioContent *)content filename];
-                NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
-                last = [NSString stringWithFormat:format, filename];
-            }
-                break;
-                
-            case DKDContentType_Video: {
-                NSString *filename = [(DIMVideoContent *)content filename];
-                NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
-                last = [NSString stringWithFormat:format, filename];
-            }
-                break;
-                
-            case DKDContentType_Page: {
-                DIMWebpageContent *page = (DIMWebpageContent *)content;
-                NSString *text = page.title;
-                if (text.length == 0) {
-                    text = page.desc;
-                    if (text.length == 0) {
-                        text = [page.URL absoluteString];
-                    }
-                }
-                NSString *format = NSLocalizedString(@"[Web:%@]", nil);
-                last = [NSString stringWithFormat:format, text];
-            }
-                break;
-                
-            default:
-                break;
-        }
+        last = [content messageText];
         if (last.length > 0) {
             // got it
             break;

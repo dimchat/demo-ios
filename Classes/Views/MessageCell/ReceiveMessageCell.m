@@ -174,7 +174,7 @@
         switch (msg.content.type) {
             case DKDContentType_Text: {
                 // show text
-                messageLabel.text = [(DIMTextContent *)content text];
+                messageLabel.text = [content messageText];
                 // double click to zoom in
                 [messageLabel addDoubleClickTarget:self action:@selector(zoomIn:)];
             }
@@ -182,9 +182,7 @@
                 
             case DKDContentType_File: {
                 // TODO: show file info
-                NSString *filename = [(DIMFileContent *)content filename];
-                NSString *format = NSLocalizedString(@"[File:%@]", nil);
-                messageLabel.text = [NSString stringWithFormat:format, filename];
+                messageLabel.text = [content messageText];
             }
             break;
                 
@@ -193,9 +191,7 @@
                 if (_picture) {
                     self.picImageView.image = _picture;
                 } else {
-                    NSString *filename = [(DIMImageContent *)content filename];
-                    NSString *format = NSLocalizedString(@"[Image:%@]", nil);
-                    messageLabel.text = [NSString stringWithFormat:format, filename];
+                    messageLabel.text = [content messageText];
                 }
                 
                 [self.picImageView addClickTarget:self action:@selector(zoomIn:)];
@@ -204,17 +200,13 @@
                 
             case DKDContentType_Audio: {
                 // TODO: show audio info
-                NSString *filename = [(DIMAudioContent *)content filename];
-                NSString *format = NSLocalizedString(@"[Voice:%@]", nil);
-                messageLabel.text = [NSString stringWithFormat:format, filename];
+                messageLabel.text = [content messageText];
             }
             break;
                 
             case DKDContentType_Video: {
                 // TODO: show video info
-                NSString *filename = [(DIMVideoContent *)content filename];
-                NSString *format = NSLocalizedString(@"[Movie:%@]", nil);
-                messageLabel.text = [NSString stringWithFormat:format, filename];
+                messageLabel.text = [content messageText];
             }
             break;
                 

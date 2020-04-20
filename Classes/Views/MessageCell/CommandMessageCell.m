@@ -19,7 +19,6 @@
 #import "MessageDatabase.h"
 #import "ZoomInViewController.h"
 #import "CommandMessageCell.h"
-#import "DIMCommand+Extension.h"
 
 @implementation CommandMessageCell
 
