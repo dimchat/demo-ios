@@ -283,9 +283,18 @@
             break;
                 
             default: {
-                // unsupported message type
-                NSString *format = NSLocalizedString(@"This client doesn't support this message type: %u", nil);
-                messageLabel.text = [NSString stringWithFormat:format, content.type];
+                NSString *text;
+                if ([content isKindOfClass:[DIMCommand class]]) {
+                    text = [(DIMCommand *)content messageWithSender:sender];
+                } else {
+                    text = [content messageText];
+                }
+                if (!text) {
+                    // unsupported message type
+                    NSString *format = NSLocalizedString(@"This client doesn't support this message type: %u", nil);
+                    text = [NSString stringWithFormat:format, content.type];
+                }
+                messageLabel.text = text;
             }
             break;
         }
