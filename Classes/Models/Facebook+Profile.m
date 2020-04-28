@@ -65,11 +65,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     return YES;
 }
 
-- (void)_downloadAvatar:(NSDictionary *)info {
-    
-    NSURL *url = [info objectForKey:@"URL"];
-    NSString *path = [info objectForKey:@"Path"];
-    DIMID *ID = [info objectForKey:@"ID"];
+- (void)_downloadAvatar:(NSURL *)url savePath:(NSString *)path forID:(DIMID *)ID {
     
     static NSMutableArray *s_downloadings = nil;
     SingletonDispatchOnce(^{
@@ -77,14 +73,12 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     });
     
     // check & add task
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        if ([s_downloadings containsObject:url]) {
-            NSLog(@"the job already exists: %@", url);
-            return ;
-        }
-        [s_downloadings addObject:url];
-    });
-    
+    if ([s_downloadings containsObject:url]) {
+        NSLog(@"the job already exists: %@", url);
+        return ;
+    }
+    [s_downloadings addObject:url];
+
     NSLog(@"avatar downloading from %@", url);
     NSData *data = [NSData dataWithContentsOfURL:url];
     NSLog(@"avatar downloaded (%lu bytes) from %@, save to %@", data.length, url, path);
@@ -93,9 +87,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     }
     
     // remove task
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [s_downloadings removeObject:url];
-    });
+    [s_downloadings removeObject:url];
 }
 
 // Cache directory: "Documents/.mkm/{address}/avatar.png"
@@ -109,8 +101,9 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
         return [UIImage imageWithContentsOfFile:path];
     }
     // download in background
-    [self performSelectorInBackground:@selector(_downloadAvatar:)
-                           withObject:@{@"URL": url, @"Path": path, @"ID": ID}];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [self _downloadAvatar:url savePath:path forID:ID];
+    });
     return nil;
 }
 
