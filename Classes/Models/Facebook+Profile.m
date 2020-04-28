@@ -71,26 +71,31 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     NSString *path = [info objectForKey:@"Path"];
     DIMID *ID = [info objectForKey:@"ID"];
     
-    // check
     static NSMutableArray *s_downloadings = nil;
     SingletonDispatchOnce(^{
         s_downloadings = [[NSMutableArray alloc] init];
     });
-    // FIXME: Collection was mutated while being enumerated.
-    NSArray *array = [s_downloadings copy];
-    if ([array containsObject:url]) {
-        NSLog(@"the job already exists: %@", url);
-        return ;
-    }
-    [s_downloadings addObject:url];
     
+    // check & add task
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        if ([s_downloadings containsObject:url]) {
+            NSLog(@"the job already exists: %@", url);
+            return ;
+        }
+        [s_downloadings addObject:url];
+    });
+    
+    NSLog(@"avatar downloading from %@", url);
     NSData *data = [NSData dataWithContentsOfURL:url];
     NSLog(@"avatar downloaded (%lu bytes) from %@, save to %@", data.length, url, path);
     if (data.length > 0) {
         [self saveAvatar:data name:[path lastPathComponent] forID:ID];
     }
     
-    [s_downloadings removeObject:url];
+    // remove task
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [s_downloadings removeObject:url];
+    });
 }
 
 // Cache directory: "Documents/.mkm/{address}/avatar.png"
