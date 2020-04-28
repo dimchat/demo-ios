@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "NSString+Extension.h"
 #import "UIImage+Extension.h"
 #import "UIImageView+Extension.h"
@@ -133,19 +134,17 @@
     NSDictionary *userInfo = [o userInfo];
     DIMID *ID = [userInfo objectForKey:@"ID"];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
+    [NSObject performBlockOnMainThread:^{
         DIMEnvelope *env = self.msg.envelope;
         DIMID *sender = DIMIDWithString(env.sender);
         
-        if([ID isEqual:sender]){
-            
+        if ([ID isEqual:sender]) {
             DIMProfile *profile = DIMProfileForID(sender);
             CGRect avatarFrame = self.avatarImageView.frame;
             UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
             [self.avatarImageView setImage:image];
         }
-    });
+    } waitUntilDone:NO];
 }
 
 - (void)setMsg:(DIMInstantMessage *)msg {

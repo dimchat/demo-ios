@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "UIColor+Extension.h"
 #import "UIImage+Extension.h"
 #import "UIView+Extension.h"
@@ -280,18 +281,18 @@
     self.navigationController.navigationBar.userInteractionEnabled = NO;
     [self.activityIndicator startAnimating];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    [NSObject performBlockInBackground:^{
     
         NSError *error = [self generate];
         
-        if(error != nil){
+        if (error != nil) {
             [self showError:error];
             [self restoreUI];
             return;
         }
         
         error = [self saveAndSubmit];
-        if(error != nil){
+        if (error != nil) {
             [self showError:error];
             [self restoreUI];
             return;
@@ -307,10 +308,10 @@
         itemString = @"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf";
         [user addContact:DIMIDWithString(itemString)];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        [NSObject performBlockOnMainThread:^{
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-        });
-    });
+        } waitUntilDone:NO];
+    }];
 }
 
 -(void)restoreUI{

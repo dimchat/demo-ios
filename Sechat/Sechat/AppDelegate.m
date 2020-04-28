@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "User.h"
 #import "Client.h"
 #import "AppDelegate.h"
@@ -78,9 +79,7 @@
 }
 
 -(void)getReviewStatus{
-    
-    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
-    dispatch_async(backgroundQueue, ^{
+    [NSObject performBlockInBackground:^{
         
         NSError *error;
         NSString *url = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=1481849344"];
@@ -91,23 +90,23 @@
         
         NSDictionary *dic = MKMJSONDecode(MKMUTF8Encode(responseString));
         
-        if(dic != nil && [dic isKindOfClass:[NSDictionary class]]){
+        if (dic != nil && [dic isKindOfClass:[NSDictionary class]]) {
             
             //DBG(@"The return dic is : %@", dic);
-            @try{
+            @try {
                 NSString *appStoreVersion = dic[@"results"][0][@"version"];
                 NSString *currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 
-                if([currentVersion compare:appStoreVersion] != NSOrderedDescending){
+                if ([currentVersion compare:appStoreVersion] != NSOrderedDescending) {
                     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"in_review"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                 }
 
-            }@catch(NSException *e){
+            } @catch(NSException *e) {
 
             }
         }
-    });
+    }];
 }
 
 -(void)addObservers{
@@ -117,8 +116,8 @@
                name:DIMConversationUpdatedNotification object:nil];
 }
 
--(void)updateBadge:(NSNotification *)o{
-    dispatch_async(dispatch_get_main_queue(), ^{
+- (void)updateBadge:(NSNotification *)o {
+    [NSObject performBlockOnMainThread:^{
         
         NSInteger unreadCount = [[LocalDatabaseManager sharedInstance] getUnreadMessageCount:nil];
         
@@ -134,7 +133,7 @@
         
         [UIApplication sharedApplication].applicationIconBadgeNumber = unreadCount;
         
-    });
+    } waitUntilDone:NO];
 }
 
 -(void)setAppApearence{

@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "Facebook+Profile.h"
@@ -86,42 +87,36 @@
     }
 }
 
--(void)didAvatarUpdated:(NSNotification *)o{
-    
+- (void)didAvatarUpdated:(NSNotification *)o {
     NSDictionary *userInfo = [o userInfo];
     DIMID *ID = [userInfo objectForKey:@"ID"];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if([ID isEqual:self.contact]){
+    if ([ID isEqual:self.contact]) {
+        [NSObject performBlockOnMainThread:^{
             [self setData];
             [self setNeedsLayout];
-        }
-    });
-}
-
--(void)didProfileUpdated:(NSNotification *)o{
-    
-    NSDictionary *profileDic = [o userInfo];
-    DIMID *ID = [profileDic objectForKey:@"ID"];
-    
-    if([ID isEqual:self.contact]){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self setData];
-            [self setNeedsLayout];
-        });
+        } waitUntilDone:NO];
     }
 }
 
--(void)didGroupMemberUpdated:(NSNotification *)o{
-    
+- (void)didProfileUpdated:(NSNotification *)o {
     NSDictionary *profileDic = [o userInfo];
-    DIMID *ID = [profileDic objectForKey:@"group"];
-    
-    if([ID isEqual:self.contact]){
-        dispatch_async(dispatch_get_main_queue(), ^{
+    DIMID *ID = [profileDic objectForKey:@"ID"];
+    if ([ID isEqual:self.contact]) {
+        [NSObject performBlockOnMainThread:^{
             [self setData];
             [self setNeedsLayout];
-        });
+        } waitUntilDone:NO];
+    }
+}
+
+- (void)didGroupMemberUpdated:(NSNotification *)o {
+    NSDictionary *profileDic = [o userInfo];
+    DIMID *ID = [profileDic objectForKey:@"group"];
+    if ([ID isEqual:self.contact]) {
+        [NSObject performBlockOnMainThread:^{
+            [self setData];
+            [self setNeedsLayout];
+        } waitUntilDone:NO];
     }
 }
 

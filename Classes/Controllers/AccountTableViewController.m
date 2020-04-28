@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIView+Extension.h"
 #import "UIViewController+Extension.h"
@@ -89,8 +90,7 @@
 }
 
 - (void)reloadData {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
+    [NSObject performBlockOnMainThread:^{
         DIMUser *user = [Client sharedInstance].currentUser;
         
         CGRect avatarFrame = self.avatarImageView.frame;
@@ -100,7 +100,7 @@
         self.descLabel.text = (NSString *)user.ID;
         
         [self.tableView reloadData];
-    });
+    } waitUntilDone:NO];
 }
 
 #pragma mark - Table view data source

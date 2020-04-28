@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "User.h"
 #import "MessageDatabase.h"
 #import "Client.h"
@@ -61,11 +62,10 @@
                name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
--(void)loadData{
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
+- (void)loadData {
+    [NSObject performBlockOnMainThread:^{
         [self.tableView reloadData];
-    });
+    } waitUntilDone:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -109,9 +109,9 @@
         } else {
             NSAssert(false, @"unexpected state: %@", state);
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
+        [NSObject performBlockOnMainThread:^{
             self.navigationItem.title = title;
-        });
+        } waitUntilDone:NO];
     }
 }
 

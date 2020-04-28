@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "UIViewController+Extension.h"
 #import "UIStoryboard+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
@@ -71,24 +72,22 @@
 - (void)onGroupMembersUpdated:(NSNotification *)notification {
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-    if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
-        DIMID *groupID = [info objectForKey:@"group"];
-        if ([groupID isEqual:self->_conversation.ID]) {
-            // the same group
-            [self->_participantsCollectionViewController reloadData];
-            [self->_participantsCollectionViewController.collectionView reloadData];
-            [self.tableView reloadData];
-        } else {
-            // dismiss the personal chat box
-            [self dismissViewControllerAnimated:YES completion:^{
-                //
-            }];
+    [NSObject performBlockOnMainThread:^{
+        if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
+            DIMID *groupID = [info objectForKey:@"group"];
+            if ([groupID isEqual:self->_conversation.ID]) {
+                // the same group
+                [self->_participantsCollectionViewController reloadData];
+                [self->_participantsCollectionViewController.collectionView reloadData];
+                [self.tableView reloadData];
+            } else {
+                // dismiss the personal chat box
+                [self dismissViewControllerAnimated:YES completion:^{
+                    //
+                }];
+            }
         }
-    }
-        
-    });
+    } waitUntilDone:NO];
 }
 
 #pragma mark - Table view delegate

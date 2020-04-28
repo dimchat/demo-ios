@@ -10,6 +10,7 @@
 
 #import "MKMRSAHelper.h"
 
+#import "NSObject+Extension.h"
 #import "UIViewController+Extension.h"
 #import "UIView+Extension.h"
 #import "UIImage+Extension.h"
@@ -135,9 +136,9 @@
     CGRect avatarFrame = _avatarImageView.frame;
     UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
     if (image) {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        [NSObject performBlockOnMainThread:^{
             [self->_avatarImageView setImage:image];
-        });
+        } waitUntilDone:NO];
     }
 }
 

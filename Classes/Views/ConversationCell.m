@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "NSDate+Extension.h"
@@ -73,30 +74,25 @@
     }
 }
 
--(void)onProfileUpdate:(NSNotification *)o{
-    
+- (void)onProfileUpdate:(NSNotification *)o {
     NSDictionary *profileDic = [o userInfo];
     DIMID *ID = [profileDic objectForKey:@"ID"];
-    
-    if([ID isEqual:self.conversation.profile.ID]){
-        dispatch_async(dispatch_get_main_queue(), ^{
+    if ([ID isEqual:self.conversation.profile.ID]) {
+        [NSObject performBlockOnMainThread:^{
             [self loadData];
             [self setNeedsLayout];
-        });
+        } waitUntilDone:NO];
     }
 }
 
--(void)onConversationUpdated:(NSNotification *)o{
-    
+- (void)onConversationUpdated:(NSNotification *)o {
     NSDictionary *info = [o userInfo];
     DIMID *ID = DIMIDWithString([info objectForKey:@"ID"]);
     if ([_conversation.ID isEqual:ID]) {
-    
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
+        [NSObject performBlockOnMainThread:^{
             [self loadData];
             [self setNeedsLayout];
-        });
+        } waitUntilDone:NO];
     }
 }
 

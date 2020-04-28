@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "User.h"
 #import "Client.h"
 #import "ContactCell.h"
@@ -91,9 +92,9 @@
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             [messenger postContacts:allContacts];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
+            [NSObject performBlockOnMainThread:^{
                 [self reloadData];
-            });
+            } waitUntilDone:NO];
         }
     }
 }
@@ -149,9 +150,9 @@
     };
     [_contactsKey sortUsingComparator:cmp];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [NSObject performBlockOnMainThread:^{
         [self.tableView reloadData];
-    });
+    } waitUntilDone:NO];
 }
 
 #pragma mark - Table delegate

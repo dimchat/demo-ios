@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIViewController+Extension.h"
 #import "User.h"
@@ -155,9 +156,9 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
         }
     }
     
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [NSObject performBlockOnMainThread:^{
         [self.tableView reloadData];
-    });
+    } waitUntilDone:NO];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {

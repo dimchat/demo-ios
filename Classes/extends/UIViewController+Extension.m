@@ -6,18 +6,18 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
+
 #import "UIViewController+Extension.h"
 
 @implementation UIViewController (Alert)
 
 -(void)showError:(NSError *)error{
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
+    [NSObject performBlockOnMainThread:^{
         NSString *title = NSLocalizedString(@"Error", @"title");
         NSString *message = error.localizedDescription;
         [self showMessage:message withTitle:title];
-    });
+    } waitUntilDone:NO];
 }
 
 - (void)showMessage:(nullable NSString *)text withTitle:(nullable NSString *)title {

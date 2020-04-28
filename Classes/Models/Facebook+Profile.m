@@ -7,6 +7,7 @@
 //
 
 #import "NSObject+Singleton.h"
+#import "NSObject+Extension.h"
 #import "NSDictionary+Binary.h"
 
 #import "Client.h"
@@ -101,9 +102,9 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
         return [UIImage imageWithContentsOfFile:path];
     }
     // download in background
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    [NSObject performBlockInBackground:^{
         [self _downloadAvatar:url savePath:path forID:ID];
-    });
+    }];
     return nil;
 }
 

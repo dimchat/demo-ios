@@ -6,6 +6,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
+#import "NSObject+Extension.h"
 #import "NSDate+Extension.h"
 #import "UIColor+Extension.h"
 #import "NSString+Extension.h"
@@ -285,11 +286,11 @@
     if ([name isEqual:DIMMessageInsertedNotifiation]) {
         DIMID *ID = DIMIDWithString([info objectForKey:@"Conversation"]);
         if ([_conversation.ID isEqual:ID]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
+            [NSObject performBlockOnMainThread:^{
                 [self groupMessage];
                 [self scrollAfterInsertNewMessage];
                 [[MessageDatabase sharedInstance] markConversationMessageRead:self.conversation.ID];
-            });
+            } waitUntilDone:NO];
         }
     }
 }
@@ -299,12 +300,11 @@
     NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
-        DIMID *groupID = [info objectForKey:@"group"];
-        if ([groupID isEqual:_conversation.ID]) {
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
+        DIMID *groupID = DIMIDWithString([info objectForKey:@"group"]);
+        if ([_conversation.ID isEqual:groupID]) {
+            [NSObject performBlockOnMainThread:^{
                 self.navigationItem.title = self.conversation.title;
-            });
+            } waitUntilDone:NO];
         }
     }
 }
@@ -366,21 +366,21 @@
 
 #pragma mark - UIKeyboard Notification
 - (void)keyboardWillShow:(NSNotification *)o {
-    dispatch_async(dispatch_get_main_queue(), ^{
-    [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
-    });
+    [NSObject performBlockOnMainThread:^{
+        [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
+    } waitUntilDone:NO];
 }
 
 - (void)keyboardWillHide:(NSNotification *)o {
-    dispatch_async(dispatch_get_main_queue(), ^{
-    [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
-    });
+    [NSObject performBlockOnMainThread:^{
+        [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
+    } waitUntilDone:NO];
 }
 
 - (void)keyboardWillChangeFrame:(NSNotification *)o {
-    dispatch_async(dispatch_get_main_queue(), ^{
-    [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
-    });
+    [NSObject performBlockOnMainThread:^{
+        [self adjustTextViewFrameWhenRecieveKeyboardNotification:o];
+    } waitUntilDone:NO];
 }
 
 - (void)adjustTextViewFrameWhenRecieveKeyboardNotification:(NSNotification *)o {
@@ -854,15 +854,15 @@
     [self.navigationController pushViewController:web animated:YES];
 }
 
--(void)scrollAfterInsertNewMessage{
+-(void)scrollAfterInsertNewMessage {
 
     _adjustingTableViewFrame = YES;
     [self.messagesTableView reloadData];
 
-    if(self.messagesTableView.contentOffset.y + self.messagesTableView.bounds.size.height > self.messagesTableView.contentSize.height - 100){
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    if (self.messagesTableView.contentOffset.y + self.messagesTableView.bounds.size.height > self.messagesTableView.contentSize.height - 100) {
+        [NSObject performBlockOnMainThread:^{
             [self scrollToBottom:YES];
-        });
+        } afterDelay:0.2];
     }
 }
 
