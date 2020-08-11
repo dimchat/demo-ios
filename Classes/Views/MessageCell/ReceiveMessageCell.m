@@ -136,7 +136,7 @@
     
     [NSObject performBlockOnMainThread:^{
         DIMEnvelope *env = self.msg.envelope;
-        DIMID *sender = DIMIDWithString(env.sender);
+        DIMID *sender = env.sender;
         
         if ([ID isEqual:sender]) {
             DIMProfile *profile = DIMProfileForID(sender);
@@ -158,7 +158,7 @@
         UILabel *messageLabel = [cell messageLabel];
         
         DIMEnvelope *env = msg.envelope;
-        DIMID *sender = DIMIDWithString(env.sender);
+        DIMID *sender = env.sender;
         DIMContent *content = msg.content;
         DIMProfile *profile = DIMProfileForID(sender);
         
@@ -369,7 +369,7 @@
     
     if(self.delegate != nil){
         DIMEnvelope *env = self.msg.envelope;
-        DIMID *sender = DIMIDWithString(env.sender);
+        DIMID *sender = env.sender;
         [self.delegate messageCell:self showProfile:sender];
     }
 }

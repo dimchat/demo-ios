@@ -183,7 +183,7 @@
         UILabel *messageLabel = [cell messageLabel];
         
         DIMEnvelope *env = msg.envelope;
-        DIMID *sender = DIMIDWithString(env.sender);
+        DIMID *sender = env.sender;
         DIMContent *content = msg.content;
         DIMProfile *profile = DIMProfileForID(sender);
         

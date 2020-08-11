@@ -197,7 +197,7 @@
         while(i < messageCount){
             
             DKDInstantMessage *iMsg = [_conversation messageAtIndex:i];
-            DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
+            DIMID *sender = iMsg.envelope.sender;
             
             if(sender == user.ID){
                 hasSentMessage = YES;
@@ -605,7 +605,7 @@
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
     DIMContent *content = [info objectForKey:@"content"];
-    content = DKDContentFromDictionary(content);
+    content = DIMContentFromDictionary(content);
     NSLog(@"%@: %@", name, content);
     // TODO: mark the message sent
 }
@@ -614,7 +614,7 @@
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
     DIMContent *content = [info objectForKey:@"content"];
-    content = DKDContentFromDictionary(content);
+    content = DIMContentFromDictionary(content);
     NSError *error = [info objectForKey:@"error"];
     NSLog(@"%@: %@, error: %@", name, content, error);
     // TODO: mark the message failed for trying again
@@ -684,7 +684,7 @@
     
         DIMInstantMessage *iMsg = [self messageAtIndex:row];
         DIMContent *content = iMsg.content;
-        DIMID *sender = DIMIDWithString(iMsg.envelope.sender);
+        DIMID *sender = iMsg.envelope.sender;
         
         UInt8 type = content.type;
         if (type == DKDContentType_History || type == DKDContentType_Command) {

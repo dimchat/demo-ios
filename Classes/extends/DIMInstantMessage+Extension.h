@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMInstantMessage (Image)
+@interface DKDInstantMessage (Image)
 
 @property (readonly, copy, nonatomic, nullable) UIImage *image;
 @property (readonly, copy, nonatomic, nullable) UIImage *thumbnail;

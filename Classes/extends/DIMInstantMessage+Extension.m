@@ -8,7 +8,7 @@
 
 #import "DIMInstantMessage+Extension.h"
 
-@implementation DIMInstantMessage (Image)
+@implementation DKDInstantMessage (Image)
 
 - (nullable UIImage *)image {
     DIMImageContent *content = (DIMImageContent *)self.content;
