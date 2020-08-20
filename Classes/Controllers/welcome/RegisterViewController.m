@@ -308,6 +308,8 @@
         itemString = @"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf";
         [user addContact:DIMIDWithString(itemString)];
         
+        [client setPushAlias];
+        
         [NSObject performBlockOnMainThread:^{
             [self.navigationController dismissViewControllerAnimated:YES completion:nil];
         } waitUntilDone:NO];

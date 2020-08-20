@@ -75,6 +75,9 @@
         //Get contacts from server
         DIMMessenger *messenger = [DIMMessenger sharedInstance];
         [messenger queryContacts];
+        
+        [client setPushAlias];
+        
         [self.navigationController dismissViewControllerAnimated:YES completion:nil];
     }
 }

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, copy, nonatomic, nullable) UIImage *image;
 @property (readonly, copy, nonatomic, nullable) UIImage *thumbnail;
+@property (readonly, copy, nonatomic, nullable) NSData *audioData;
 
 @end
 

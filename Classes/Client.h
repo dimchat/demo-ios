@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didFailToRegisterForRemoteNotificationsWithError:(NSError *)error;
 - (void)didReceiveRemoteNotification:(NSDictionary *)userInfo
               fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler;
+-(void)setPushAlias;
 
 @end
 

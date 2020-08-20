@@ -16,6 +16,45 @@
 	<array>
 		<dict>
 			<key>ID</key>
+			<string>gsp-s003@x2oNDzjDWbJMNDpCfKkU7dnHyJerd447Jh</string>
+			<key>desc</key>
+			<string>dimchat-prod</string>
+			<key>host</key>
+			<string>203.195.224.155</string>
+			<key>port</key>
+			<real>9394</real>
+			<key>meta</key>
+			<dict>
+				<key>version</key>
+				<integer>1</integer>
+				<key>seed</key>
+				<string>gsp-s003</string>
+				<key>key</key>
+				<dict>
+					<key>algorithm</key>
+					<string>RSA</string>
+					<key>data</key>
+					<string>-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0nyRrAvwudsACDvufoyqQLtTV
+DaLQEzx92n1jmOswisUeNA53Fwso16zCKIADUm4Qtw2LuhYRnrKguJff2+tSG0kc
+CEwHhkDF8jY7ADgabtladbrIN9TEx3TOEvxlBU/LG5hirx8zruvNLpMqVgBP1kd6
+d5pf3uMcV9IUhIxYbwIDAQAB
+-----END PUBLIC KEY-----</string>
+					<key>mode</key>
+					<string>ECB</string>
+					<key>padding</key>
+					<string>PKCS1</string>
+					<key>digest</key>
+					<string>SHA256</string>
+				</dict>
+				<key>fingerprint</key>
+				<string>VGgVWWSzzkYEgYM14F6pCcxJj5jmZ5cepvmJC8i4gXNWWeG4V5/BQTKMhLX7hX1g3sikpWAkRgMFKttHGrIyEeDqGDtim1axVi70j9WZoPxKydbmCVtagxffJX2M9r4Et5e49I0jPHu+/2m9ep9QHTgKMyKjIfGSjLkZRGxWa0Y=</string>
+			</dict>
+			<key>CA</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>ID</key>
 			<string>gsp-s002@wpjUWg1oYDnkHh74tHQFPxii6q9j3ymnyW</string>
 			<key>desc</key>
 			<string>dimchat-gz</string>
@@ -52,11 +91,11 @@ OG9bwcmSud6HzPkWZQIDAQAB
 			<key>ID</key>
 			<string>gsp-s001@x5Zh9ixt8ECr59XLye1y5WWfaX4fcoaaSC</string>
 			<key>desc</key>
-			<string>dimchat-hk</string>
+			<string>localhost</string>
 			<key>host</key>
-			<string>124.156.108.150</string>
+			<string>127.0.0.1</string>
 			<key>port</key>
-			<real>9394</real>
+			<integer>9394</integer>
 			<key>meta</key>
 			<dict>
 				<key>version</key>
@@ -86,11 +125,11 @@ DLfdznLfuTg8w5Ug+dysJfbrmB1G7nbqDYEyXQXNRWpQsLHYSD/ihaSKWNnOuV0c
 			<key>ID</key>
 			<string>gsp-s001@x5Zh9ixt8ECr59XLye1y5WWfaX4fcoaaSC</string>
 			<key>desc</key>
-			<string>localhost</string>
+			<string>dimchat-hk</string>
 			<key>host</key>
-			<string>127.0.0.1</string>
+			<string>124.156.108.150</string>
 			<key>port</key>
-			<integer>9394</integer>
+			<real>9394</real>
 			<key>meta</key>
 			<dict>
 				<key>version</key>

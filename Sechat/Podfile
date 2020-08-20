@@ -2,5 +2,11 @@ platform :ios, '11.0'
 use_frameworks!
 
 target 'Sechat' do
-    pod 'FMDB'
+    pod 'JCore', '2.1.4-noidfa'
+    pod 'JPush', '3.2.4-noidfa'
+end
+
+target 'DIMTalk' do
+    pod 'JCore', '2.1.4-noidfa'
+    pod 'JPush', '3.2.4-noidfa'
 end

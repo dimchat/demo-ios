@@ -95,4 +95,49 @@
     return nil;
 }
 
+- (nullable NSData *)audioData {
+    DIMAudioContent *content = (DIMAudioContent *)self.content;
+    if (content.type != DKDContentType_Audio) {
+        return nil;
+    }
+    
+    NSData *audioData = (NSData *)content.audioData;
+    while (audioData == nil) {
+        
+        // try from local cache
+        DIMFileServer *ftp = [DIMFileServer sharedInstance];
+        NSString *filename = content.filename;
+        audioData = [ftp loadDataWithFilename:filename];
+        if (audioData) {
+            break;
+        }
+        
+        // check URL
+        NSURL *url = content.URL;
+        if (!url) {
+            break;
+        }
+        
+        // try to download
+        audioData = [ftp downloadEncryptedDataFromURL:url];
+        if (!audioData) {
+            break;
+        }
+        
+        DIMSymmetricKey *scKey = [content objectForKey:@"password"];
+        if (!scKey) {
+            // key not exists, it means the downloaded data is already decrypted
+            break;
+        }
+        
+        // decrypt it
+        scKey = MKMSymmetricKeyFromDictionary(scKey);
+        audioData = [ftp decryptDataFromURL:url filename:filename wityKey:scKey];
+        
+        break;
+    }
+    
+    return audioData;
+}
+
 @end

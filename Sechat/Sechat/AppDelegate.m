@@ -18,8 +18,9 @@
 #import "LocalDatabaseManager.h"
 #import "FolderUtility.h"
 #import "DIMClientConstants.h"
+#import "JPUSHService.h"
 
-@interface AppDelegate ()<UITabBarControllerDelegate>
+@interface AppDelegate ()<UITabBarControllerDelegate, JPUSHRegisterDelegate>
 
 @property(nonatomic, strong) UITabBarController *tabbarController;
 @property(nonatomic, strong) ConversationsTableViewController *conversationController;
@@ -74,6 +75,20 @@
     [self addObservers];
     
     [self getReviewStatus];
+    
+    JPUSHRegisterEntity *entity = [[JPUSHRegisterEntity alloc] init];
+    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
+    [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+    
+    NSString *appKey = @"db6d7573a1643e36cf2451c6";
+    NSString *channel = @"App Store";
+    NSInteger isProduction = 0;
+    NSString *advertisingId = nil;
+    
+    [JPUSHService setupWithOption:launchOptions appKey:appKey
+                  channel:channel
+         apsForProduction:isProduction
+    advertisingIdentifier:advertisingId];
 
     return YES;
 }
@@ -88,12 +103,13 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"in_review"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
-        NSDictionary *dic = MKMJSONDecode(MKMUTF8Encode(responseString));
-        
-        if (dic != nil && [dic isKindOfClass:[NSDictionary class]]) {
+        @try {
+            NSDictionary *dic = MKMJSONDecode(MKMUTF8Encode(responseString));
             
-            //DBG(@"The return dic is : %@", dic);
-            @try {
+            if (dic != nil && [dic isKindOfClass:[NSDictionary class]]) {
+                
+                //DBG(@"The return dic is : %@", dic);
+                
                 NSString *appStoreVersion = dic[@"results"][0][@"version"];
                 NSString *currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
 
@@ -101,10 +117,9 @@
                     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"in_review"];
                     [[NSUserDefaults standardUserDefaults] synchronize];
                 }
-
-            } @catch(NSException *e) {
-
             }
+        } @catch(NSException *e) {
+
         }
     }];
 }
@@ -230,18 +245,61 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // APNs register success
-    [[Client sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    [JPUSHService registerDeviceToken:deviceToken];
+    
+    Client *client = [Client sharedInstance];
+    [client setPushAlias];
+    
+    //[[Client sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     // APNs register failed
-    [[Client sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
+    //[[Client sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+#pragma mark- JPUSHRegisterDelegate
+
+// iOS 12 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center openSettingsForNotification:(UNNotification *)notification{
+  if (notification && [notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+    //从通知界面直接进入应用
+  }else{
+    //从通知设置界面进入应用
+  }
+}
+
+// iOS 10 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
+  // Required
+  NSDictionary * userInfo = notification.request.content.userInfo;
+  if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+    [JPUSHService handleRemoteNotification:userInfo];
+  }
+  completionHandler(UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有 Badge、Sound、Alert 三种类型可以选择设置
+}
+
+// iOS 10 Support
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+  // Required
+  NSDictionary * userInfo = response.notification.request.content.userInfo;
+  if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+    [JPUSHService handleRemoteNotification:userInfo];
+  }
+  completionHandler();  // 系统要求执行这个方法
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    // APNs receive notification
-    [[Client sharedInstance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+
+  // Required, iOS 7 Support
+  [JPUSHService handleRemoteNotification:userInfo];
+  completionHandler(UIBackgroundFetchResultNewData);
 }
+
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+//    // APNs receive notification
+//    [[Client sharedInstance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+//}
 
 #pragma mark - Convert old tables
 

@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)messageCell:(MessageCell *)cell showImage:(UIImage *)image;
 -(void)messageCell:(MessageCell *)cell openUrl:(NSURL *)url;
 -(void)messageCell:(MessageCell *)cell showProfile:(DIMID *)profile;
+-(void)messageCell:(MessageCell *)cell playAudio:(NSString *)audioPath;
 
 @end
 
@@ -25,8 +26,17 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MessageCell : UITableViewCell
 
 @property (nonatomic, assign) id<MessageCellDelegate>delegate;
+@property (strong, nonatomic) DIMInstantMessage *message;
+@property (strong, nonatomic) UIImageView *avatarImageView;
+@property (strong, nonatomic) UILabel *nameLabel;
+@property (strong, nonatomic) UIImageView *messageImageView;
+@property (strong, nonatomic) UIImageView *picImageView;
+@property (strong, nonatomic) UILabel *messageLabel;
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGuesture;
+@property (nonatomic, strong) UIButton *audioButton;
+
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)message bounds:(CGRect)rect;
 
 @end
 

@@ -11,7 +11,7 @@
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "MessageDatabase.h"
-
+#import "JPUSHService.h"
 #import "Client.h"
 
 @interface Client () {
@@ -150,29 +150,29 @@ SingletonImplementations(Client, sharedInstance)
 }
 
 - (void)didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    UIApplication *app = [UIApplication sharedApplication];
-    
-    // APNs
-    if ([launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        // TODO:
-        // ...
-        
-        // clear icon badge
-        NSInteger badge = app.applicationIconBadgeNumber;
-        if (badge > 0) {
-            badge = 0;
-            app.applicationIconBadgeNumber = badge;
-        }
-    }
-    [app registerForRemoteNotifications];
-    
-    UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
-    nc.delegate = self;
-    
-    UNAuthorizationOptions options = UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert;
-    [nc requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
-        NSLog(@"APNs requestAuthorizationWithOptions completed");
-    }];
+//    UIApplication *app = [UIApplication sharedApplication];
+//
+//    // APNs
+//    if ([launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
+//        // TODO:
+//        // ...
+//
+//        // clear icon badge
+//        NSInteger badge = app.applicationIconBadgeNumber;
+//        if (badge > 0) {
+//            badge = 0;
+//            app.applicationIconBadgeNumber = badge;
+//        }
+//    }
+//    [app registerForRemoteNotifications];
+//
+//    UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
+//    nc.delegate = self;
+//
+//    UNAuthorizationOptions options = UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert;
+//    [nc requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+//        NSLog(@"APNs requestAuthorizationWithOptions completed");
+//    }];
     
     // launch server
     NSString *spConfig = [launchOptions objectForKey:@"ConfigFilePath"];
@@ -180,8 +180,8 @@ SingletonImplementations(Client, sharedInstance)
     [self _launchServiceProviderConfig:config];
     
     // clear icon badge
-    app.applicationIconBadgeNumber = 0;
-    [nc removeAllPendingNotificationRequests];
+//    app.applicationIconBadgeNumber = 0;
+//    [nc removeAllPendingNotificationRequests];
 }
 
 - (void)didEnterBackground {
@@ -279,6 +279,18 @@ SingletonImplementations(Client, sharedInstance)
             
         default:
             break;
+    }
+}
+
+-(void)setPushAlias{
+    
+    if(self.currentUser != nil){
+        NSString *alias = self.currentUser.ID;
+        [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+            NSLog(@"Response code %zd", iResCode);
+            NSLog(@"Response code %@", iAlias);
+            NSLog(@"Response code %zd", seq);
+        } seq:0];
     }
 }
 

@@ -13,11 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface SentMessageCell : MessageCell
 
-@property (strong, nonatomic) DIMInstantMessage *msg;
-@property (strong, nonatomic) UIImageView *avatarImageView;
-@property (strong, nonatomic) UIImageView *messageImageView;
-@property (strong, nonatomic) UIImageView *picImageView;
-@property (strong, nonatomic) UILabel *messageLabel;
 @property (strong, nonatomic) UIButton *infoButton;
 
 @end

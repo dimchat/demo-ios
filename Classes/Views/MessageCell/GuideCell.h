@@ -12,7 +12,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GuideCell : MessageCell
+@interface GuideCell : UITableViewCell
+
+@property (nonatomic, assign) id<MessageCellDelegate>delegate;
+
++ (CGSize)sizeWithMessage:(DIMInstantMessage *)message bounds:(CGRect)rect;
 
 @end
 

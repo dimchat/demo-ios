@@ -30,6 +30,11 @@
 #import "ZoomInViewController.h"
 #import "LocalDatabaseManager.h"
 #import "DIMClientConstants.h"
+#import "ChatVoiceView.h"
+#import "FolderUtility.h"
+#import "EMAudioRecordHelper.h"
+#import "EMAudioPlayerHelper.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface ChatViewController ()<UITextViewDelegate, UIDocumentPickerDelegate> {
     
@@ -47,6 +52,10 @@
 @property(nonatomic, readwrite) CGRect keyboardFrame;
 @property(nonatomic, strong) UIView *textViewBg;
 @property(nonatomic, strong) UITextView *textView;
+
+@property(nonatomic, strong) UIButton *audioButton;
+@property(nonatomic, strong) UIButton *recordButton;
+@property(nonatomic, strong) ChatVoiceView *voiceTipsView;
 
 @end
 
@@ -119,8 +128,20 @@
     [_addButton addTarget:self action:@selector(addButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [_textViewContainer addSubview:_addButton];
     
+    width = 28.0;
+    height = 28.0;
     x = 10.0;
-    width = CGRectGetMinX(_addButton.frame) - x * 2;
+    y = (_textViewContainer.bounds.size.height - height) / 2;
+    
+    _audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_audioButton setImage:[[UIImage imageNamed:@"interphone"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+    _audioButton.frame = CGRectMake(x, y, width, height);
+    [_audioButton setTintColor:[UIColor colorWithRed:0.0 green:0.478431 blue:1.0 alpha:1.0]];
+    [_audioButton addTarget:self action:@selector(didPressAudioButton:) forControlEvents:UIControlEventTouchUpInside];
+    [_textViewContainer addSubview:_audioButton];
+    
+    x = CGRectGetMaxX(_audioButton.frame) + 10.0;
+    width = CGRectGetMinX(_addButton.frame) - x - 10.0;
     height = 36.0;
     y = (_textViewContainer.bounds.size.height - height) / 2;
     _textViewBg = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
@@ -156,12 +177,40 @@
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, _textViewContainer.frame.size.width, 0.5)];
     line.backgroundColor = [UIColor colorNamed:@"SeperatorColor"];
     [_textViewContainer addSubview:line];
+    
+    _recordButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_recordButton setTitle:NSLocalizedString(@"Press and record", @"title") forState:UIControlStateNormal];
+    _recordButton.frame = _textViewBg.frame;
+    _recordButton.layer.cornerRadius = height / 2;
+    _recordButton.layer.masksToBounds = YES;
+    _recordButton.layer.borderColor = [UIColor colorWithHexString:@"cdcdcd"].CGColor;
+    _recordButton.layer.borderWidth = 0.5;
+    
+    [_recordButton addTarget:self action:@selector(voiceBegin:) forControlEvents:UIControlEventTouchDown];
+    [_recordButton addTarget:self action:@selector(voiceEnd:) forControlEvents:UIControlEventTouchUpInside];
+    [_recordButton addTarget:self action:@selector(voiceDragBack:) forControlEvents:UIControlEventTouchUpOutside];
+    
+    width = 180.0;
+    height = 180.0;
+    x = (self.view.bounds.size.width - width) / 2.0;
+    y = (self.view.bounds.size.height - height) / 2.0;
+    self.voiceTipsView = [[ChatVoiceView alloc] initWithFrame:CGRectMake(x, y, width, height)];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
     self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    
+    [super viewDidDisappear:animated];
+    
+    EMAudioPlayerHelper *player = [EMAudioPlayerHelper sharedHelper];
+    if(player.isPlaying){
+        [player stopPlayer];
+    }
 }
 
 - (void)viewDidLoad {
@@ -743,7 +792,7 @@
     
     if ([identifier isEqualToString:@"sentMsgCell"]) {
         SentMessageCell *cell  = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-        cell.msg = iMsg;
+        cell.message = iMsg;
         cell.delegate = self;
         return cell;
     }
@@ -751,7 +800,7 @@
     if ([identifier isEqualToString:@"receivedMsgCell"]) {
         ReceiveMessageCell *cell  = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
         cell.showName = YES;
-        cell.msg = iMsg;
+        cell.message = iMsg;
         cell.delegate = self;
         return cell;
     }
@@ -786,6 +835,123 @@
     }
     
     return height;
+}
+
+#pragma mark - Voice Actions
+
+-(void)didPressAudioButton:(id)sender{
+    
+    if(_recordButton.superview == nil){
+        
+        [_textView resignFirstResponder];
+        [_textView removeFromSuperview];
+        [_textViewBg removeFromSuperview];
+        
+        [_textViewContainer addSubview:_recordButton];
+        
+    } else {
+        
+        [_recordButton removeFromSuperview];
+        
+        [_textViewContainer addSubview:_textViewBg];
+        [_textViewContainer addSubview:_textView];
+    }
+}
+
+-(void)voiceBegin:(id)sender{
+    
+    [self.view addSubview:self.voiceTipsView];
+    NSLog(@"Voice Begin");
+    
+    NSString *recordFilename = [[NSUUID UUID] UUIDString];
+    NSString *documentPath = [[[FolderUtility sharedInstance] applicationDocumentsDirectory] stringByAppendingPathComponent:recordFilename];
+    [[EMAudioRecordHelper sharedHelper] startRecordWithPath:documentPath completion:^(NSError * _Nonnull error) {
+        
+        if(error == nil){
+            NSLog(@"Now start to record %@", documentPath);
+        }else{
+            NSLog(@"Recording can not start, error : %@", error);
+        }
+        
+    }];
+}
+
+-(void)voiceEnd:(id)sender{
+    
+    NSLog(@"End to record");
+    [self.voiceTipsView removeFromSuperview];
+    
+    [[EMAudioRecordHelper sharedHelper] stopRecordWithCompletion:^(NSString * _Nonnull aPath, NSInteger aTimeLength) {
+        
+        //Convert audio
+        NSLog(@"Begin to convert audio file %@", aPath);
+        NSString *mp4Filename = [[[NSUUID UUID] UUIDString] stringByAppendingString:@".mp4"];
+        NSString *outputPath = [[[FolderUtility sharedInstance] applicationDocumentsDirectory] stringByAppendingPathComponent:mp4Filename];
+        
+        AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:aPath]];
+        
+        AVAssetExportSession *session = [[AVAssetExportSession alloc] initWithAsset:asset presetName:AVAssetExportPresetMediumQuality];
+        session.outputFileType = AVFileTypeMPEG4;
+        session.metadata = asset.metadata;
+        session.outputURL = [NSURL fileURLWithPath:outputPath];
+        [session exportAsynchronouslyWithCompletionHandler:^{
+            
+            if(session.status == AVAssetExportSessionStatusCompleted){
+                NSLog(@"AV Export success");
+                [self sendAudio:outputPath duration:CMTimeGetSeconds(asset.duration)];
+            }
+            
+            if(session.status == AVAssetExportSessionStatusCancelled){
+                NSLog(@"AV Export success");
+            } else {
+                NSLog(@"AV Export error %@", session.error);
+            }
+        }];
+    }];
+}
+
+-(void)voiceDragBack:(id)sender{
+    
+    NSLog(@"Recording cancelled");
+    [[EMAudioRecordHelper sharedHelper] cancelRecord];
+}
+
+-(void)sendAudio:(NSString *)audioPath duration:(NSInteger)duration{
+    
+    NSLog(@"Begin to send audio %@", audioPath);
+    NSData *audioData = [[NSData alloc] initWithContentsOfFile:audioPath];
+    NSString *filename = [MKMHexEncode(MKMMD5Digest(audioData)) stringByAppendingPathExtension:@"mp4"];
+    NSString *distPath = [[[FolderUtility sharedInstance] applicationDocumentsDirectory] stringByAppendingPathComponent:filename];
+    
+    NSLog(@"Dist path : %@", distPath);
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSError *error;
+    [fm moveItemAtPath:audioPath toPath:distPath error:&error];
+    
+    BOOL uploadSuccess = [[DIMFileServer sharedInstance] saveData:audioData filename:filename];
+    NSLog(@"Upload audio file %d", uploadSuccess);
+
+    DIMAudioContent *content = [[DIMAudioContent alloc] initWithAudioData:audioData filename:filename];
+    [content setObject:@(audioData.length) forKey:@"length"];
+    [content setObject:@(duration * 1000.0) forKey:@"duration"];
+
+    if([self.conversation.ID isGroup]){
+        content.group = self.conversation.ID;
+    }
+    
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    DIMID *receiver = _conversation.ID;
+    
+    // 2. pack message and send out
+    if (![messenger sendContent:content receiver:receiver callback:NULL]) {
+        NSLog(@"send content failed: %@ -> %@", content, receiver);
+        NSString *message = NSLocalizedString(@"Failed to send this audio.", nil);
+        NSString *title = NSLocalizedString(@"Error!", nil);
+        [self showMessage:message withTitle:title];
+        return;
+    }
+    content.state = DIMMessageState_Read;
 }
 
 #pragma mark - Navigation
@@ -888,6 +1054,25 @@
     ProfileTableViewController *vc = [[ProfileTableViewController alloc] init];
     vc.contact = profile;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)messageCell:(MessageCell *)cell playAudio:(NSString *)audioPath{
+    
+    EMAudioPlayerHelper *player = [EMAudioPlayerHelper sharedHelper];
+    
+    if(!player.isPlaying){
+    
+        [[EMAudioPlayerHelper sharedHelper] startPlayerWithPath:audioPath model:self completion:^(NSError * _Nonnull error) {
+            
+            if(error == nil){
+                NSLog(@"Audio Player play %@ successfully", audioPath);
+            } else {
+                NSLog(@"Audio Player play error %@", error);
+            }
+        }];
+    } else {
+        [player stopPlayer];
+    }
 }
 
 @end
