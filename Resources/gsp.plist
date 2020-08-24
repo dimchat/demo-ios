@@ -16,6 +16,40 @@
 	<array>
 		<dict>
 			<key>ID</key>
+			<string>gsp-s002@wpjUWg1oYDnkHh74tHQFPxii6q9j3ymnyW</string>
+			<key>desc</key>
+			<string>dimchat-gz</string>
+			<key>host</key>
+			<string>134.175.87.98</string>
+			<key>port</key>
+			<integer>9394</integer>
+			<key>meta</key>
+			<dict>
+				<key>version</key>
+				<integer>1</integer>
+				<key>seed</key>
+				<string>gsp-s002</string>
+				<key>key</key>
+				<dict>
+					<key>algorithm</key>
+					<string>RSA</string>
+					<key>data</key>
+					<string>-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDACQ1bmv8V3xSCvVDWy+6P4pOl
+46MkIdKEqZ3Z+kvIrpStO/y5DZMWzTRx1z1Ateibc+QCUREaLvKqECycyRNPO+aD
+04rT5WxZfSuHxf+PxajDQ1rcwImc0JR/PbkUIgD5kb2JrsSfTaEObsrhxKlgimey
+OG9bwcmSud6HzPkWZQIDAQAB
+-----END PUBLIC KEY-----
+</string>
+				</dict>
+				<key>fingerprint</key>
+				<string>Z1HI27oXMvY5oOpA1HaD+6d4t8/tlGty5XU+6+CIkeij5m8xS1C4vRJm3qaLTxSRsnwX6mMgkvxMAu6FfvDWe4/cisWAWt8E+aC7BrgESVanQyglWZLx0OSWDmV1jrE9Y0xAA3HlgxIoMdi3sQ4giV0NxeJHUymGenC+EsbtiUU=</string>
+			</dict>
+			<key>CA</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>ID</key>
 			<string>gsp-s003@x2oNDzjDWbJMNDpCfKkU7dnHyJerd447Jh</string>
 			<key>desc</key>
 			<string>dimchat-prod</string>
@@ -49,40 +83,6 @@ d5pf3uMcV9IUhIxYbwIDAQAB
 				</dict>
 				<key>fingerprint</key>
 				<string>VGgVWWSzzkYEgYM14F6pCcxJj5jmZ5cepvmJC8i4gXNWWeG4V5/BQTKMhLX7hX1g3sikpWAkRgMFKttHGrIyEeDqGDtim1axVi70j9WZoPxKydbmCVtagxffJX2M9r4Et5e49I0jPHu+/2m9ep9QHTgKMyKjIfGSjLkZRGxWa0Y=</string>
-			</dict>
-			<key>CA</key>
-			<dict/>
-		</dict>
-		<dict>
-			<key>ID</key>
-			<string>gsp-s002@wpjUWg1oYDnkHh74tHQFPxii6q9j3ymnyW</string>
-			<key>desc</key>
-			<string>dimchat-gz</string>
-			<key>host</key>
-			<string>134.175.87.98</string>
-			<key>port</key>
-			<integer>9394</integer>
-			<key>meta</key>
-			<dict>
-				<key>version</key>
-				<integer>1</integer>
-				<key>seed</key>
-				<string>gsp-s002</string>
-				<key>key</key>
-				<dict>
-					<key>algorithm</key>
-					<string>RSA</string>
-					<key>data</key>
-					<string>-----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDACQ1bmv8V3xSCvVDWy+6P4pOl
-46MkIdKEqZ3Z+kvIrpStO/y5DZMWzTRx1z1Ateibc+QCUREaLvKqECycyRNPO+aD
-04rT5WxZfSuHxf+PxajDQ1rcwImc0JR/PbkUIgD5kb2JrsSfTaEObsrhxKlgimey
-OG9bwcmSud6HzPkWZQIDAQAB
------END PUBLIC KEY-----
-</string>
-				</dict>
-				<key>fingerprint</key>
-				<string>Z1HI27oXMvY5oOpA1HaD+6d4t8/tlGty5XU+6+CIkeij5m8xS1C4vRJm3qaLTxSRsnwX6mMgkvxMAu6FfvDWe4/cisWAWt8E+aC7BrgESVanQyglWZLx0OSWDmV1jrE9Y0xAA3HlgxIoMdi3sQ4giV0NxeJHUymGenC+EsbtiUU=</string>
 			</dict>
 			<key>CA</key>
 			<dict/>

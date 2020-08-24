@@ -55,6 +55,7 @@
 
 @property(nonatomic, strong) UIButton *audioButton;
 @property(nonatomic, strong) UIButton *recordButton;
+@property(nonatomic, strong) UILongPressGestureRecognizer *longPressGuesture;
 @property(nonatomic, strong) ChatVoiceView *voiceTipsView;
 
 @end
@@ -185,10 +186,14 @@
     _recordButton.layer.masksToBounds = YES;
     _recordButton.layer.borderColor = [UIColor colorWithHexString:@"cdcdcd"].CGColor;
     _recordButton.layer.borderWidth = 0.5;
+    _recordButton.userInteractionEnabled = NO;
     
-    [_recordButton addTarget:self action:@selector(voiceBegin:) forControlEvents:UIControlEventTouchDown];
-    [_recordButton addTarget:self action:@selector(voiceEnd:) forControlEvents:UIControlEventTouchUpInside];
-    [_recordButton addTarget:self action:@selector(voiceDragBack:) forControlEvents:UIControlEventTouchUpOutside];
+    self.longPressGuesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didLongPressHappen:)];
+    //[self.contentView addGestureRecognizer:self.longPressGuesture];
+    
+//    [_recordButton addTarget:self action:@selector(voiceBegin:) forControlEvents:UIControlEventTouchDown];
+//    [_recordButton addTarget:self action:@selector(voiceEnd:) forControlEvents:UIControlEventTouchUpInside];
+//    [_recordButton addTarget:self action:@selector(voiceDragBack:) forControlEvents:UIControlEventTouchUpOutside];
     
     width = 180.0;
     height = 180.0;
@@ -839,6 +844,19 @@
 
 #pragma mark - Voice Actions
 
+-(void)didLongPressHappen:(id)sender{
+    
+    NSLog(@"Long press state %zd", self.longPressGuesture.state);
+    
+    if(self.longPressGuesture.state == UIGestureRecognizerStateBegan){
+        
+        [self voiceBegin:nil];
+        
+    } else if(self.longPressGuesture.state == UIGestureRecognizerStateEnded || self.longPressGuesture.state == UIGestureRecognizerStateCancelled){
+        [self voiceEnd:nil];
+    }
+}
+
 -(void)didPressAudioButton:(id)sender{
     
     if(_recordButton.superview == nil){
@@ -848,13 +866,21 @@
         [_textViewBg removeFromSuperview];
         
         [_textViewContainer addSubview:_recordButton];
+        [_textViewContainer addGestureRecognizer:self.longPressGuesture];
+        
+        UIImage *image = [[UIImage imageNamed:@"keyboard"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [self.audioButton setImage:image forState:UIControlStateNormal];
         
     } else {
         
+        [_textViewContainer removeGestureRecognizer:self.longPressGuesture];
         [_recordButton removeFromSuperview];
         
         [_textViewContainer addSubview:_textViewBg];
         [_textViewContainer addSubview:_textView];
+        
+        UIImage *image = [[UIImage imageNamed:@"interphone"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        [self.audioButton setImage:image forState:UIControlStateNormal];
     }
 }
 

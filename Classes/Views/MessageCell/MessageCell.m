@@ -54,19 +54,26 @@
         [self.contentView addGestureRecognizer:self.longPressGuesture];
         
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc addObserver:self selector:@selector(didAvatarUpdated:)
-                   name:kNotificationName_AvatarUpdated object:nil];
+        [nc addObserver:self selector:@selector(didAvatarUpdated:) name:kNotificationName_AvatarUpdated object:nil];
         
         self.audioButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.audioButton addTarget:self action:@selector(didPressPlayAudioButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.audioButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.audioButton.titleLabel.font = [UIFont systemFontOfSize:16.0];
+        [self.audioButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        
+        //UIImage *speakerImage = [[UIImage imageNamed:@"speaker"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIImage *speakerImage = [UIImage imageNamed:@"speaker"];
+        [self.audioButton setImage:speakerImage forState:UIControlStateNormal];
+        self.audioButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.audioButton setTitleEdgeInsets:UIEdgeInsetsMake(0.0, 20.0, 0.0, 0.0)];
     }
     
     return self;
 }
 
 -(void)dealloc{
+    [self.contentView removeGestureRecognizer:self.longPressGuesture];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -106,6 +113,7 @@
         
         [self.audioButton removeFromSuperview];
         [self.contentView addSubview:self.messageLabel];
+        [self.contentView addSubview:self.picImageView];
         
         // message
         switch (message.content.type) {
