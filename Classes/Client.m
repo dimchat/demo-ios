@@ -285,7 +285,7 @@ SingletonImplementations(Client, sharedInstance)
 -(void)setPushAlias{
     
     if(self.currentUser != nil){
-        NSString *alias = self.currentUser.ID;
+        NSString *alias = self.currentUser.ID.address;
         [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
             NSLog(@"Response code %zd", iResCode);
             NSLog(@"Response code %@", iAlias);
