@@ -303,6 +303,20 @@
 
 #pragma mark - Convert old tables
 
+static id<MKMID> DIMIDWithAddress(id<MKMAddress>)address) {
+    id<MKMID> ID = [[MKMID alloc] initWithAddress:address];
+    id<MKMMeta> meta = DIMMetaForID(ID);
+    if (!meta) {
+        // failed to get meta for this ID
+        return nil;
+    }
+    NSString *seed = [meta seed];
+    if ([seed length] == 0) {
+        return ID;
+    }
+    return [[MKMID alloc] initWithName:seed address:address];
+}
+
 -(void)convertOldTables{
     
     LocalDatabaseManager *sqliteManager = [LocalDatabaseManager sharedInstance];
