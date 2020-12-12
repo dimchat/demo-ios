@@ -19,15 +19,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSInteger)numberOfConversations;
 
-- (DIMID *)conversationAtIndex:(NSInteger)index;
+- (DIMID)conversationAtIndex:(NSInteger)index;
 
 // remove messages file
 - (BOOL)removeConversationAtIndex:(NSInteger)index;
-- (BOOL)removeConversation:(DIMID *)chatBox;
+- (BOOL)removeConversation:(DIMID)chatBox;
 
 // clear messages records, but keep the empty file
 - (BOOL)clearConversationAtIndex:(NSInteger)index;
-- (BOOL)clearConversation:(DIMID *)chatBox;
+- (BOOL)clearConversation:(DIMID)chatBox;
 
 @end
 

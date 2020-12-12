@@ -39,7 +39,7 @@
         [_participants addObject:_conversation.ID];
     } else if ([_conversation.ID isGroup]) {
         // group conversation
-        DIMGroup *group = DIMGroupWithID(_conversation.ID);
+        DIMGroup group = DIMGroupWithID(_conversation.ID);
         [_participants addObjectsFromArray:group.members];
     }
 }

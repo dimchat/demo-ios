@@ -40,7 +40,7 @@
             break;
         }
         
-        DIMSymmetricKey *scKey = [content objectForKey:@"password"];
+        DIMSymmetricKey scKey = [content objectForKey:@"password"];
         if (!scKey) {
             // key not exists, it means the downloaded data is already decrypted
             break;
@@ -124,14 +124,13 @@
             break;
         }
         
-        DIMSymmetricKey *scKey = [content objectForKey:@"password"];
+        DIMSymmetricKey scKey = MKMSymmetricKeyFromDictionary([content objectForKey:@"password"]);
         if (!scKey) {
             // key not exists, it means the downloaded data is already decrypted
             break;
         }
         
         // decrypt it
-        scKey = MKMSymmetricKeyFromDictionary(scKey);
         audioData = [ftp decryptDataFromURL:url filename:filename wityKey:scKey];
         
         break;

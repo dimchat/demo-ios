@@ -71,8 +71,8 @@
 
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
-    DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];
-    DIMUser *user = [Client sharedInstance].currentUser;
+    DIMDocument profile = [notification.userInfo objectForKey:@"profile"];
+    DIMUser user = [Client sharedInstance].currentUser;
     if ([profile.ID isEqual:user.ID]) {
         [self reloadData];
     }
@@ -81,8 +81,8 @@
 -(void)didProfileUpdated:(NSNotification *)o{
     
     NSDictionary *userInfo = [o userInfo];
-    DIMID *userID = [userInfo objectForKey:@"ID"];
-    DIMUser *user = [Client sharedInstance].currentUser;
+    DIMID userID = [userInfo objectForKey:@"ID"];
+    DIMUser user = [Client sharedInstance].currentUser;
     
     if([userID isEqual:user.ID]){
         [self reloadData];
@@ -91,7 +91,7 @@
 
 - (void)reloadData {
     [NSObject performBlockOnMainThread:^{
-        DIMUser *user = [Client sharedInstance].currentUser;
+        DIMUser user = [Client sharedInstance].currentUser;
         
         CGRect avatarFrame = self.avatarImageView.frame;
         UIImage *image = [user.profile avatarImageWithSize:avatarFrame.size];

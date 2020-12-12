@@ -15,7 +15,7 @@
 
 @implementation ParticipantManageCell
 
-- (void)setParticipant:(DIMID *)participant {
+- (void)setParticipant:(DIMID)participant {
     if (![_participant isEqual:participant]) {
         _participant = participant;
         
@@ -26,7 +26,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    DIMProfile *profile = DIMProfileForID(_participant);
+    DIMDocument profile = DIMProfileForID(_participant);
     
     // avatar
     CGRect frame = _avatarImageView.frame;

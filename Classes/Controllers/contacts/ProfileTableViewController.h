@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ProfileTableViewController : UIViewController
 
-@property (strong, nonatomic) DIMID *contact;
+@property (strong, nonatomic) DIMID contact;
 
 @end
 

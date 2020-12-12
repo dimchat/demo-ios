@@ -53,7 +53,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setContact:(DIMID *)contact {
+- (void)setContact:(DIMID)contact {
     _contact = contact;
     [self setData];
     [self setNeedsLayout];
@@ -74,13 +74,13 @@
     
     if(_contact.type == MKMNetwork_Group){
         
-        DIMGroup *group = DIMGroupWithID(_contact);
+        DIMGroup group = DIMGroupWithID(_contact);
         NSString *name = !group ? _contact.name : group.name;
         self.nameLabel.text = name;
         self.descLabel.text = search_number(_contact.number);
         
     }else{
-        DIMUser *user = DIMUserWithID(_contact);
+        DIMUser user = DIMUserWithID(_contact);
         NSString *name = !user ? _contact.name : user.name;
         self.nameLabel.text = name;
         self.descLabel.text = search_number(_contact.number);
@@ -89,7 +89,7 @@
 
 - (void)didAvatarUpdated:(NSNotification *)o {
     NSDictionary *userInfo = [o userInfo];
-    DIMID *ID = [userInfo objectForKey:@"ID"];
+    DIMID ID = [userInfo objectForKey:@"ID"];
     if ([ID isEqual:self.contact]) {
         [NSObject performBlockOnMainThread:^{
             [self setData];
@@ -100,7 +100,7 @@
 
 - (void)didProfileUpdated:(NSNotification *)o {
     NSDictionary *profileDic = [o userInfo];
-    DIMID *ID = [profileDic objectForKey:@"ID"];
+    DIMID ID = [profileDic objectForKey:@"ID"];
     if ([ID isEqual:self.contact]) {
         [NSObject performBlockOnMainThread:^{
             [self setData];
@@ -111,7 +111,7 @@
 
 - (void)didGroupMemberUpdated:(NSNotification *)o {
     NSDictionary *profileDic = [o userInfo];
-    DIMID *ID = [profileDic objectForKey:@"group"];
+    DIMID ID = [profileDic objectForKey:@"group"];
     if ([ID isEqual:self.contact]) {
         [NSObject performBlockOnMainThread:^{
             [self setData];

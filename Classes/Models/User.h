@@ -24,7 +24,7 @@ NSString *search_number(UInt32 code);
  * @param user - user
  * @return "Name (search number)"
  */
-NSString *user_title(DIMID *user);
+NSString *user_title(DIMID user);
 
 /**
  *  Group Title for Conversation
@@ -32,7 +32,7 @@ NSString *user_title(DIMID *user);
  * @param group - group
  * @return "Name (members count)"
  */
-NSString *group_title(DIMID *group);
+NSString *group_title(DIMID group);
 
 /**
  *  Readable name for Entity ID
@@ -40,7 +40,7 @@ NSString *group_title(DIMID *group);
  * @param ID - entity ID
  * @return "..."
  */
-NSString *readable_name(DIMID *ID);
+NSString *readable_name(DIMID ID);
 
 /**
  *  Check Username Valid

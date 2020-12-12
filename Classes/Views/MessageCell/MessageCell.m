@@ -80,14 +80,14 @@
 -(void)didAvatarUpdated:(NSNotification *)o{
     
     NSDictionary *userInfo = [o userInfo];
-    DIMID *ID = [userInfo objectForKey:@"ID"];
+    DIMID ID = [userInfo objectForKey:@"ID"];
     
     [NSObject performBlockOnMainThread:^{
         DIMEnvelope *env = self.message.envelope;
-        DIMID *sender = env.sender;
+        DIMID sender = env.sender;
         
         if ([ID isEqual:sender]) {
-            DIMProfile *profile = DIMProfileForID(sender);
+            DIMDocument profile = DIMProfileForID(sender);
             CGRect avatarFrame = self.avatarImageView.frame;
             UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
             [self.avatarImageView setImage:image];
@@ -100,9 +100,9 @@
         _message = message;
         
         DIMEnvelope *env = message.envelope;
-        DIMID *sender = env.sender;
+        DIMID sender = env.sender;
         DIMContent *content = message.content;
-        DIMProfile *profile = DIMProfileForID(sender);
+        DIMDocument profile = DIMProfileForID(sender);
         
         self.nameLabel.text = profile.name;
         
@@ -257,7 +257,7 @@
     
     if(self.delegate != nil){
         DIMEnvelope *env = self.message.envelope;
-        DIMID *sender = env.sender;
+        DIMID sender = env.sender;
         [self.delegate messageCell:self showProfile:sender];
     }
 }

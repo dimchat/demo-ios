@@ -15,7 +15,7 @@
 
 #import "DIMProfile+Extension.h"
 
-@implementation DIMProfile (Extension)
+@implementation MKMDocument (Extension)
 
 - (UIImage *)avatarImageWithSize:(const CGSize)size {
     
@@ -25,7 +25,7 @@
     if (avatar) {
         if ([avatar containsString:@"://"]) {
             DIMFacebook *facebook = [DIMFacebook sharedInstance];
-            DIMID *ID = DIMIDWithString(self.ID);
+            DIMID ID = DIMIDWithString(self.ID);
             image = [facebook loadAvatarWithURL:avatar forID:ID];
         } else {
             image = [UIImage imageNamed:avatar];
@@ -55,8 +55,8 @@
 //        }
         
         // create image with members' avatar(s)
-        DIMID *ID = DIMIDWithString(self.ID);
-        NSArray<DIMID *> *members = DIMGroupWithID(ID).members;
+        DIMID ID = DIMIDWithString(self.ID);
+        NSArray<DIMID> *members = DIMGroupWithID(ID).members;
         if (members.count > 0) {
             CGSize tileSize;
             if (members.count > 4) {
@@ -66,7 +66,7 @@
             }
             NSMutableArray<UIImage *> *mArray;
             mArray = [[NSMutableArray alloc] initWithCapacity:members.count];
-            for (DIMID *ID in members) {
+            for (DIMID ID in members) {
                 image = [DIMProfileForID(ID) avatarImageWithSize:tileSize];
                 if (image) {
                     [mArray addObject:image];

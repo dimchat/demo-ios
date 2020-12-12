@@ -93,8 +93,8 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
     
     NSArray *users = [notification.userInfo objectForKey:@"users"];
     
-    DIMID *ID;
-    DIMMeta *meta;
+    DIMID ID;
+    DIMMeta meta;
     
     if ([notification.name isEqual:kNotificationName_OnlineUsersUpdated]) {
         // online users
@@ -213,7 +213,7 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
-    DIMID *ID = nil;
+    DIMID ID = nil;
     if (section == 0) {
         // search users
         ID = [_users objectAtIndex:row];

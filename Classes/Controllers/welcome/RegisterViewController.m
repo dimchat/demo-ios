@@ -24,9 +24,9 @@
 
 @interface RegisterViewController ()<UITextFieldDelegate, UIDocumentPickerDelegate>
 
-@property (strong, nonatomic) DIMPrivateKey *SK;
-@property (strong, nonatomic) DIMMeta *meta;
-@property (strong, nonatomic) DIMID *ID;
+@property (strong, nonatomic) DIMPrivateKey SK;
+@property (strong, nonatomic) DIMMeta meta;
+@property (strong, nonatomic) DIMID ID;
 
 @property (strong, nonatomic) UIButton *changeButton;
 @property (strong, nonatomic) UILabel *avatarLabel;
@@ -195,13 +195,13 @@
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    DIMID *ID = user.ID;
+    DIMUser user = client.currentUser;
+    DIMID ID = user.ID;
     
-    id<DIMUserDataSource> dataSource = user.dataSource;
-    id<DIMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
+    DIMUserDataSource dataSource = user.dataSource;
+    DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
     
-    DIMProfile *profile = user.profile;
+    DIMDocument profile = user.profile;
     
     if(self.imageData != nil){
         
@@ -299,7 +299,7 @@
         }
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = [client currentUser];
+        DIMUser user = [client currentUser];
         
         //New User add Moky as contact
         NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";

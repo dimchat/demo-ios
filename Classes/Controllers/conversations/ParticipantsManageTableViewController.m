@@ -20,12 +20,12 @@
 
 @interface ParticipantsManageTableViewController () {
     
-    DIMGroup *_group;
-    DIMID *_founder;
-    NSArray<DIMID *> *_memberList;
+    DIMGroup _group;
+    DIMID _founder;
+    NSArray<DIMID> *_memberList;
     
-    NSArray<DIMID *> *_candidateList;
-    NSMutableArray<DIMID *> *_selectedList;
+    NSArray<DIMID> *_candidateList;
+    NSMutableArray<DIMID> *_selectedList;
 }
 
 @end
@@ -38,7 +38,7 @@
     [_logoImageView roundedCorner];
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMUser user = client.currentUser;
     
     // 1. group info
     if ([_conversation.ID isGroup]) {
@@ -104,7 +104,7 @@
         }
     }
     if (_memberList.count > 0) {
-        for (DIMID *item in _memberList) {
+        for (DIMID item in _memberList) {
             if ([_selectedList containsObject:item]) {
                 continue;
             }
@@ -113,22 +113,22 @@
     }
 }
 
--(NSArray <DIMID *> *)groupMemberCandidates:(DIMGroup *)group currentUser:(DIMUser *)user {
-    DIMID *founder = group.founder;
-    NSArray<DIMID *> *members = group.members;
-    DIMID *current = user.ID;
-    NSArray<DIMID *> *contacts = user.contacts;
+-(NSArray <DIMID> *)groupMemberCandidates:(DIMGroup )group currentUser:(DIMUser )user {
+    DIMID founder = group.founder;
+    NSArray<DIMID> *members = group.members;
+    DIMID current = user.ID;
+    NSArray<DIMID> *contacts = user.contacts;
     
     NSMutableArray *filterContacts = [[NSMutableArray alloc] init];
     //Filter Group IDs
-    for (DIMID *contactID in contacts) {
+    for (DIMID contactID in contacts) {
         
         if(![contactID isGroup]){
             [filterContacts addObject:contactID];
         }
     }
     
-    DIMID *ID;
+    DIMID ID;
     NSMutableArray *candidates = [[NSMutableArray alloc] initWithCapacity:(members.count + filterContacts.count)];
     // add all members (except the founder & current user) as candidates
     for (ID in members) {
@@ -174,15 +174,15 @@
 
 - (BOOL)submitGroupInfo {
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    id<DIMUserDataSource> dataSource = user.dataSource;
-    id<DIMSignKey> signKey = [dataSource privateKeyForSignature:user.ID];
+    DIMUser user = client.currentUser;
+    DIMUserDataSource dataSource = user.dataSource;
+    DIMSignKey signKey = [dataSource privateKeyForSignature:user.ID];
     
-    DIMID *ID = _conversation.ID;
+    DIMID ID = _conversation.ID;
     NSString *seed = _seedTextField.text;
     NSString *name = _nameTextField.text;
-    DIMProfile *profile;
-//    NSMutableArray<DIMID *> *members;
+    DIMDocument profile;
+//    NSMutableArray<DIMID> *members;
     
     if ([ID isGroup]) {
         // exists group
@@ -259,7 +259,7 @@
     }
     
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:_selectedList.count];
-    DIMID *ID;
+    DIMID ID;
     NSString *name;
     NSArray *list = [_selectedList copy];
     for (ID in list) {
@@ -334,7 +334,7 @@
         // founder
     } else if (section == 1) {
         // candidates
-        DIMID *ID = [_candidateList objectAtIndex:row];
+        DIMID ID = [_candidateList objectAtIndex:row];
         //NSAssert(![_selectedList containsObject:ID], @"%@ should not in selected list: %@", ID, _selectedList);
         
         if([_selectedList containsObject:ID]){
@@ -362,7 +362,7 @@
 //        // founder
 //    } else if (section == 1) {
 //        // candidates
-//        DIMID *ID = [_candidateList objectAtIndex:row];
+//        DIMID ID = [_candidateList objectAtIndex:row];
 //        [_selectedList removeObject:ID];
 //        NSLog(@"deselect: %@", ID);
 //
@@ -407,8 +407,8 @@
     } else if (section == 1) {
         // candidates
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
-        DIMID *contact;
+        DIMUser user = client.currentUser;
+        DIMID contact;
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;
         

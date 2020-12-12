@@ -62,8 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Client (Register)
 
-- (BOOL)saveUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname;
-- (BOOL)importUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK;
+- (BOOL)saveUser:(DIMID)ID meta:(DIMMeta )meta privateKey:(DIMPrivateKey )SK name:(nullable NSString *)nickname;
+- (BOOL)importUser:(DIMID)ID meta:(DIMMeta )meta privateKey:(DIMPrivateKey )SK;
 
 @end
 

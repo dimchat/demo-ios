@@ -12,9 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DIMFacebook (Register)
 
-- (BOOL)saveMeta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK forID:(DIMID *)ID;
+- (BOOL)saveMeta:(DIMMeta)meta privateKey:(DIMPrivateKey)SK forID:(DIMID)ID;
 
-- (BOOL)saveUserList:(NSArray<DIMUser *> *)users withCurrentUser:(nullable DIMUser *)curr;
+- (BOOL)saveUserList:(NSArray<DIMUser> *)users withCurrentUser:(nullable DIMUser)curr;
 
 @end
 

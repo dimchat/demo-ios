@@ -20,22 +20,21 @@ NSString *search_number(UInt32 code) {
     return number;
 }
 
-NSString *user_title(DIMID *ID) {
-    DIMUser *user = DIMUserWithID(ID);
+NSString *user_title(DIMID ID) {
+    DIMUser user = DIMUserWithID(ID);
     NSString *name = !user ? ID.name : user.name;
-    NSString *number = search_number(ID.number);
-    return [NSString stringWithFormat:@"%@ (%@)", name, number];
+    return name;
 }
 
-NSString *group_title(DIMID *ID) {
-    DIMGroup *group = DIMGroupWithID(ID);
+NSString *group_title(DIMID ID) {
+    DIMGroup group = DIMGroupWithID(ID);
     NSString *name = !group ? ID.name : group.name;
     NSUInteger count = group.members.count;
     return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];
 }
 
-NSString *readable_name(DIMID *ID) {
-    DIMProfile *profile = DIMProfileForID(ID);
+NSString *readable_name(DIMID ID) {
+    DIMDocument profile = DIMProfileForID(ID);
     NSString *nickname = profile.name;
     NSString *username = ID.name;
     if (nickname) {

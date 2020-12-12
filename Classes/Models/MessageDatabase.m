@@ -13,7 +13,7 @@
 
 #import "MessageDatabase.h"
 
-typedef NSMutableArray<DIMID *> ConversationListM;
+typedef NSMutableArray<DIMID> ConversationListM;
 
 @interface MessageDatabase () {
     
@@ -36,7 +36,7 @@ SingletonImplementations(MessageDatabase, sharedInstance)
     return self;
 }
 
-- (nullable DIMInstantMessage *)_lastMessageInConversation:(DIMID *)ID {
+- (nullable DIMInstantMessage *)_lastMessageInConversation:(DIMID)ID {
     NSUInteger count = [self numberOfMessagesInConversation:ID];
     if (count == 0) {
         return nil;
@@ -72,16 +72,16 @@ SingletonImplementations(MessageDatabase, sharedInstance)
     return [_conversationList count];
 }
 
-- (DIMID *)conversationAtIndex:(NSInteger)index {
+- (DIMID)conversationAtIndex:(NSInteger)index {
     return [_conversationList objectAtIndex:index];
 }
 
 - (BOOL)removeConversationAtIndex:(NSInteger)index {
-    DIMID *chatBox = [self conversationAtIndex:index];
+    DIMID chatBox = [self conversationAtIndex:index];
     return [self removeConversation:chatBox];
 }
 
-- (BOOL)removeConversation:(DIMID *)chatBox {
+- (BOOL)removeConversation:(DIMID)chatBox {
     BOOL removed = [super removeConversation:chatBox];
     if (removed) {
         [_conversationList removeObject:chatBox];
@@ -91,11 +91,11 @@ SingletonImplementations(MessageDatabase, sharedInstance)
 }
 
 - (BOOL)clearConversationAtIndex:(NSInteger)index {
-    DIMID *chatBox = [self conversationAtIndex:index];
+    DIMID chatBox = [self conversationAtIndex:index];
     return [self clearConversation:chatBox];
 }
 
-- (BOOL)clearConversation:(DIMID *)chatBox {
+- (BOOL)clearConversation:(DIMID)chatBox {
     BOOL cleared = [super clearConversation:chatBox];
     return cleared;
 }
@@ -103,7 +103,7 @@ SingletonImplementations(MessageDatabase, sharedInstance)
 #pragma mark DIMConversationDelegate
 
 // save the new message to local storage
-- (BOOL)conversation:(DIMID *)chatBox insertMessage:(DIMInstantMessage *)iMsg {
+- (BOOL)conversation:(DIMID)chatBox insertMessage:(DIMInstantMessage *)iMsg {
     if (![super conversation:chatBox insertMessage:iMsg]) {
         NSLog(@"failed to save message: %@", iMsg);
         return NO;

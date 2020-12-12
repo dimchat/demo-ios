@@ -19,7 +19,7 @@
 
 @interface ContactsTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
-    NSMutableDictionary<NSString *, NSMutableArray<DIMID *> *> *_contactsTable;
+    NSMutableDictionary<NSString *, NSMutableArray<DIMID> *> *_contactsTable;
     NSMutableArray *_contactsKey;
 }
 
@@ -76,18 +76,18 @@
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
         
         NSDictionary *userInfo = notification.userInfo;
-        DIMID *groupID = [userInfo objectForKey:@"group"];
+        DIMID groupID = [userInfo objectForKey:@"group"];
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
-        NSArray<DIMID *> *contacts = user.contacts;
+        DIMUser user = client.currentUser;
+        NSArray<DIMID> *contacts = user.contacts;
         
         if(![contacts containsObject:groupID]){
             
             [[DIMFacebook sharedInstance] user:user.ID addContact:groupID];
             
             //Post contacts to server
-            NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+            NSArray<MKMID> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
             
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             [messenger postContacts:allContacts];
@@ -103,17 +103,17 @@
     _contactsTable = [[NSMutableDictionary alloc] init];
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    NSArray<DIMID *> *contacts = user.contacts;
+    DIMUser user = client.currentUser;
+    NSArray<DIMID> *contacts = user.contacts;
     NSInteger count = [contacts count];
     
-    NSMutableArray<DIMID *> *mArray;
-    DIMID *contact;
-    DIMProfile *profile;
+    NSMutableArray<DIMID> *mArray;
+    DIMID contact;
+    DIMDocument profile;
     NSString *name;
     while (--count >= 0) {
         contact = [contacts objectAtIndex:count];
-        profile = DIMProfileForID(contact);
+        profile = DIMDocumentForID(contact, MKMDocument_Any);
         name = profile.name;
         if (name.length == 0) {
             name = contact.name;
@@ -129,7 +129,7 @@
         }
         [mArray addObject:contact];
         
-        if([contact isGroup]){
+        if (MKMIDIsGroup(contact)){
             DIMFacebook *facebook = [DIMFacebook sharedInstance];
             NSArray *members = [facebook membersOfGroup:contact];
             
@@ -189,7 +189,7 @@
     
     NSString *key = [_contactsKey objectAtIndex:section];
     NSArray *list = [_contactsTable objectForKey:key];
-    DIMID *ID = [list objectAtIndex:row];
+    DIMID ID = [list objectAtIndex:row];
     
     ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell" forIndexPath:indexPath];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -216,10 +216,10 @@
         
         NSString *key = [_contactsKey objectAtIndex:section];
         NSMutableArray *list = [_contactsTable objectForKey:key];
-        DIMID *ID = [list objectAtIndex:row];
+        DIMID ID = [list objectAtIndex:row];
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        DIMUser user = client.currentUser;
         [[DIMFacebook sharedInstance] user:user.ID removeContact:ID];
         
         //Post contacts to server
@@ -252,7 +252,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    DIMID *contact = selectedCell.contact;
+    DIMID contact = selectedCell.contact;
     
     if(contact.type == MKMNetwork_Group){
         

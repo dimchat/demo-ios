@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIImageView *avatarImageView;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *descLabel;
-@property (strong, nonatomic) DIMID *contact;
+@property (strong, nonatomic) DIMID contact;
 
 @end
 

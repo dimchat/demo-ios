@@ -76,7 +76,7 @@
 
 - (void)onProfileUpdate:(NSNotification *)o {
     NSDictionary *profileDic = [o userInfo];
-    DIMID *ID = [profileDic objectForKey:@"ID"];
+    DIMID ID = [profileDic objectForKey:@"ID"];
     if ([ID isEqual:self.conversation.profile.ID]) {
         [NSObject performBlockOnMainThread:^{
             [self loadData];
@@ -87,7 +87,7 @@
 
 - (void)onConversationUpdated:(NSNotification *)o {
     NSDictionary *info = [o userInfo];
-    DIMID *ID = DIMIDWithString([info objectForKey:@"ID"]);
+    DIMID ID = DIMIDWithString([info objectForKey:@"ID"]);
     if ([_conversation.ID isEqual:ID]) {
         [NSObject performBlockOnMainThread:^{
             [self loadData];

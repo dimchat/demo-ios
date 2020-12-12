@@ -25,7 +25,7 @@
 + (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
     
     //NSString *text = [iMsg.content objectForKey:@"text"];
-    DIMID *sender = iMsg.envelope.sender;
+    DIMID sender = iMsg.envelope.sender;
     DIMCommand *cmd = (DIMCommand *)iMsg.content;
     NSString *text = [cmd messageWithSender:sender];
     
@@ -74,7 +74,7 @@
         _msg = msg;
         
         // message
-        DIMID *sender = msg.envelope.sender;
+        DIMID sender = msg.envelope.sender;
         DIMCommand *cmd = (DIMCommand *)msg.content;
         NSString *text = [cmd messageWithSender:sender];
         

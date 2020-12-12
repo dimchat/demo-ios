@@ -21,7 +21,6 @@
 #import "Client.h"
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
-#import "dimMacros.h"
 #import "AccountEditViewController.h"
 
 @interface AccountEditViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIDocumentPickerDelegate>
@@ -100,7 +99,7 @@
     // Do any additional setup after loading the view.
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMUser user = client.currentUser;
     
     CGSize avatarSize = _avatarImageView.bounds.size;
     
@@ -125,8 +124,8 @@
 
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
-    DIMProfile *profile = [notification.userInfo objectForKey:@"profile"];
-    DIMUser *user = [Client sharedInstance].currentUser;
+    DIMDocument profile = [notification.userInfo objectForKey:@"profile"];
+    DIMUser user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
         return ;
@@ -196,16 +195,16 @@
         
         DIMFacebook *facebook = [DIMFacebook sharedInstance];
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
-        DIMID *ID = user.ID;
-        DIMProfile *profile = user.profile;
+        DIMUser user = client.currentUser;
+        DIMID ID = user.ID;
+        DIMDocument profile = user.profile;
         if (!profile) {
             NSAssert(false, @"profile should not be empty");
             return ;
         }
         
-        id<DIMUserDataSource> dataSource = user.dataSource;
-        id<DIMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
+        DIMUserDataSource dataSource = user.dataSource;
+        DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
         
         // save to local storage
         [facebook saveAvatar:data name:filename forID:ID];
@@ -244,12 +243,12 @@
     }
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMUser user = client.currentUser;
     
-    id<DIMUserDataSource> dataSource = user.dataSource;
-    id<DIMSignKey> SK = [dataSource privateKeyForSignature:user.ID];
+    DIMUserDataSource dataSource = user.dataSource;
+    DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
     
-    DIMProfile *profile = user.profile;
+    DIMDocument profile = user.profile;
     [profile setName:nickname];
     [profile sign:SK];
     
@@ -278,8 +277,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    DIMID *ID = user.ID;
+    DIMUser user = client.currentUser;
+    DIMID ID = user.ID;
     
     UITableViewCell *cell = nil;
     
@@ -340,7 +339,7 @@
         NSInteger row = indexPath.row;
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        DIMUser user = client.currentUser;
         
         if(section == 0){
 
@@ -364,7 +363,7 @@
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMUser user = client.currentUser;
     
     if (section == 1){
         // function
@@ -377,7 +376,7 @@
         } else if(row == 1){
             //Export Account
             
-            DIMPrivateKey *key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
+            DIMPrivateKey key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
             
             NSString *privateKeyString = key[@"data"];
             NSString *privateKey = RSAPrivateKeyContentFromNSString(privateKeyString);

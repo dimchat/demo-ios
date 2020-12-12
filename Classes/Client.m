@@ -75,8 +75,8 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)_startServer:(NSDictionary *)station withProvider:(DIMServiceProvider *)sp {
     // save meta for server ID
-    DIMID *ID = DIMIDWithString([station objectForKey:@"ID"]);
-    DIMMeta *meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
+    DIMID ID = DIMIDWithString([station objectForKey:@"ID"]);
+    DIMMeta meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     [facebook saveMeta:meta forID:ID];
@@ -116,7 +116,7 @@ SingletonImplementations(Client, sharedInstance)
     [messenger setContextValue:server forName:@"server"];
     
     // scan users
-    NSArray<DIMUser *> *users = [facebook localUsers];
+    NSArray<DIMUser > *users = [facebook localUsers];
 #if DEBUG && 0
     NSMutableArray *mArray;
     if (users.count > 0) {
@@ -129,7 +129,7 @@ SingletonImplementations(Client, sharedInstance)
     users = mArray;
 #endif
     // add users
-    for (DIMUser *user in users) {
+    for (DIMUser user in users) {
         NSLog(@"[client] add user: %@", user);
         [self addUser:user];
         facebook.currentUser = user;
@@ -138,7 +138,7 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
     
-    DIMID *ID = DIMIDWithString([config objectForKey:@"ID"]);
+    DIMID ID = DIMIDWithString([config objectForKey:@"ID"]);
     DIMServiceProvider *sp = [[DIMServiceProvider alloc] initWithID:ID];
     
     // choose the fast station
@@ -187,7 +187,7 @@ SingletonImplementations(Client, sharedInstance)
 - (void)didEnterBackground {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    DIMUser *user = facebook.currentUser;
+    DIMUser user = facebook.currentUser;
     
     if(user != nil){
         // report client state
@@ -211,7 +211,7 @@ SingletonImplementations(Client, sharedInstance)
     [nc removeAllPendingNotificationRequests];
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    DIMUser *user = facebook.currentUser;
+    DIMUser user = facebook.currentUser;
     
     if(user != nil){
         // report client state
@@ -327,7 +327,7 @@ SingletonImplementations(Client, sharedInstance)
 
 @implementation Client (Register)
 
-- (BOOL)saveUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK name:(nullable NSString *)nickname {
+- (BOOL)saveUser:(DIMID)ID meta:(DIMMeta )meta privateKey:(DIMPrivateKey )SK name:(nullable NSString *)nickname {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
@@ -344,7 +344,7 @@ SingletonImplementations(Client, sharedInstance)
     // 2. save nickname in profile
     if (nickname.length > 0) {
         
-        DIMProfile *profile = [[DIMProfile alloc] initWithID:ID];
+        DIMDocument profile = [[DIMProfile alloc] initWithID:ID];
 
         [profile setName:nickname];
         [profile sign:SK];
@@ -355,7 +355,7 @@ SingletonImplementations(Client, sharedInstance)
     }
     
     // 3. create user for client
-    DIMUser *user = [[DIMUser alloc] initWithID:ID];
+    DIMUser user = [[DIMUser alloc] initWithID:ID];
     user.dataSource = facebook;
     self.currentUser = user;
     
@@ -364,7 +364,7 @@ SingletonImplementations(Client, sharedInstance)
     return saved;
 }
 
-- (BOOL)importUser:(DIMID *)ID meta:(DIMMeta *)meta privateKey:(DIMPrivateKey *)SK {
+- (BOOL)importUser:(DIMID)ID meta:(DIMMeta )meta privateKey:(DIMPrivateKey )SK {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     

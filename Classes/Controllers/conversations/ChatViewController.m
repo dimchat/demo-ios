@@ -245,13 +245,13 @@
         NSUInteger messageCount = [_conversation numberOfMessage];
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        DIMUser user = client.currentUser;
         
         BOOL hasSentMessage = NO;
         while(i < messageCount){
             
             DKDInstantMessage *iMsg = [_conversation messageAtIndex:i];
-            DIMID *sender = iMsg.envelope.sender;
+            DIMID sender = iMsg.envelope.sender;
             
             if(sender == user.ID){
                 hasSentMessage = YES;
@@ -264,11 +264,11 @@
         if(hasSentMessage == NO){
             
             //Send profile command to audience
-            DIMID *ID = user.ID;
-            DIMProfile *profile = user.profile;
+            DIMI DID = user.ID;
+            DIMDocument profile = user.profile;
             DIMCommand *cmd = [[DIMProfileCommand alloc] initWithID:ID
                                                             profile:profile];
-            DIMID *receiverID = _conversation.ID;
+            DIMID receiverID = _conversation.ID;
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             [messenger sendContent:cmd receiver:receiverID callback:NULL];
             
@@ -338,7 +338,7 @@
     NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:DIMMessageInsertedNotifiation]) {
-        DIMID *ID = DIMIDWithString([info objectForKey:@"Conversation"]);
+        DIMID ID = DIMIDWithString([info objectForKey:@"Conversation"]);
         if ([_conversation.ID isEqual:ID]) {
             [NSObject performBlockOnMainThread:^{
                 [self groupMessage];
@@ -354,7 +354,7 @@
     NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
-        DIMID *groupID = DIMIDWithString([info objectForKey:@"group"]);
+        DIMID groupID = DIMIDWithString([info objectForKey:@"group"]);
         if ([_conversation.ID isEqual:groupID]) {
             [NSObject performBlockOnMainThread:^{
                 self.navigationItem.title = self.conversation.title;
@@ -540,7 +540,7 @@
     }
 
     DIMConversation *chatBox = _conversation;
-    DIMID *receiver = chatBox.ID;
+    DIMIDr eceiver = chatBox.ID;
     NSLog(@"send text: %@ -> %@", text, receiver);
     
     // create message content
@@ -583,7 +583,7 @@
 -(void)sendImage:(UIImage *)image{
     
     DIMConversation *chatBox = _conversation;
-    DIMID *receiver = chatBox.ID;
+    DIMID receiver = chatBox.ID;
     
     // 1. build message content
     DIMContent *content = nil;
@@ -679,7 +679,7 @@
     [_messageArray removeAllObjects];
     
     DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
-    DIMID *admin = DIMIDWithString(@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ");
+    DIMID admin = DIMIDWithString(@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ");
     DKDInstantMessage *guideMessage = DKDInstantMessageCreate(guide, admin, _conversation.ID, nil);
     
     [_messageArray addObject:guideMessage];
@@ -726,7 +726,7 @@
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMUser user = client.currentUser;
     
     id obj = [self messageAtIndex:row];
     
@@ -738,7 +738,7 @@
     
         DIMInstantMessage *iMsg = [self messageAtIndex:row];
         DIMContent *content = iMsg.content;
-        DIMID *sender = iMsg.envelope.sender;
+        DIMID sender = iMsg.envelope.sender;
         
         UInt8 type = content.type;
         if (type == DKDContentType_History || type == DKDContentType_Command) {
@@ -967,7 +967,7 @@
     }
     
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    DIMID *receiver = _conversation.ID;
+    DIMID receiver = _conversation.ID;
     
     // 2. pack message and send out
     if (![messenger sendContent:content receiver:receiver callback:NULL]) {
@@ -1075,7 +1075,7 @@
     [self.navigationController pushViewController:web animated:YES];
 }
 
--(void)messageCell:(MessageCell *)cell showProfile:(DIMID *)profile{
+-(void)messageCell:(MessageCell *)cell showProfile:(DIMID)profile{
     
     ProfileTableViewController *vc = [[ProfileTableViewController alloc] init];
     vc.contact = profile;

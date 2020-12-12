@@ -60,7 +60,7 @@
     [self.window makeKeyAndVisible];
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    DIMUser user = client.currentUser;
     if (!user) {
         WelcomeViewController *vc = [[WelcomeViewController alloc] init];
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -161,13 +161,13 @@
 
 -(void)addDefaultUser:(NSString *)address{
     
-    DIMID *ID = DIMIDWithString(address);
+    DIMID ID = DIMIDWithString(address);
     
     NSString *metaPath = [NSString stringWithFormat:@"%@/meta", address];
     NSString *path = [[NSBundle mainBundle] pathForResource:metaPath ofType:@"plist"];
     
     NSDictionary *metaData = [[NSDictionary alloc] initWithContentsOfFile:path];
-    DIMMeta *meta = MKMMetaFromDictionary(metaData);
+    DIMMeta meta = MKMMetaFromDictionary(metaData);
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     [facebook saveMeta:meta forID:ID];
     
@@ -175,7 +175,7 @@
     path = [[NSBundle mainBundle] pathForResource:profilePath ofType:@"plist"];
     
     NSDictionary *profileData = [[NSDictionary alloc] initWithContentsOfFile:path];
-    DIMProfile *profile = MKMProfileFromDictionary(profileData);
+    DIMDocument profile = MKMProfileFromDictionary(profileData);
     [facebook saveProfile:profile];
 }
 
@@ -327,8 +327,8 @@ static id<MKMID> DIMIDWithAddress(id<MKMAddress>)address) {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSDirectoryEnumerator *de = [fm enumeratorAtPath:dir];
         
-    DIMID *ID;
-    DIMAddress *address;
+    DIMID ID;
+    DIMAddress address;
     NSString *string;
 
     NSString *path;

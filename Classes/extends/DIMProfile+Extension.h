@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMProfile (Extension)
+@interface MKMDocument (Extension)
 
 // user.avatar
 - (UIImage *)avatarImageWithSize:(const CGSize)size;

@@ -12,12 +12,12 @@
 
 @implementation DIMFacebook (Register)
 
-- (BOOL)saveMeta:(DIMMeta *)meta
-      privateKey:(DIMPrivateKey *)SK
-           forID:(DIMID *)ID {
+- (BOOL)saveMeta:(DIMMeta)meta
+      privateKey:(DIMPrivateKey)SK
+           forID:(DIMID)ID {
     
-    NSArray<DIMUser *> *array = [self localUsers];
-    for (DIMUser *item in array) {
+    NSArray<DIMUser> *array = [self localUsers];
+    for (DIMUser item in array) {
         if ([item.ID isEqual:ID]) {
             NSLog(@"User ID already exists: %@", ID);
             return NO;
@@ -34,14 +34,14 @@
     }
     
     // 2. check & save private key
-    DIMPublicKey *PK = meta.key;
-    if ([PK isMatch:SK]) {
-        if ([SK saveKeyWithIdentifier:ID.address]) {
-            NSLog(@"private key saved: %@", SK);
-        } else {
-            NSAssert(false, @"save private key failed: %@", ID);
-            return NO;
-        }
+    DIMPublicKey PK = meta.key;
+    if (MKMAsymmetricKeysMatched(SK, PK)) {
+//        if ([SK saveKeyWithIdentifier:ID.address]) {
+//            NSLog(@"private key saved: %@", SK);
+//        } else {
+//            NSAssert(false, @"save private key failed: %@", ID);
+//            return NO;
+//        }
     } else {
         NSAssert(false, @"asymmetric keys not match: %@, %@", PK, SK);
         return NO;
@@ -57,11 +57,11 @@
     return [self saveUsers:users];
 }
 
-- (BOOL)saveUserList:(NSArray<DIMUser *> *)users
-     withCurrentUser:(DIMUser *)curr {
+- (BOOL)saveUserList:(NSArray<DIMUser> *)users
+     withCurrentUser:(DIMUser)curr {
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
     [list addObject:curr.ID];
-    for (DIMUser *user in users) {
+    for (DIMUser user in users) {
         if ([list containsObject:user.ID]) {
             // ignore
         } else {
