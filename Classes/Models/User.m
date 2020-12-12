@@ -10,16 +10,6 @@
 
 #import "User.h"
 
-NSString *search_number(UInt32 code) {
-    NSMutableString *number;
-    number = [[NSMutableString alloc] initWithFormat:@"%010u", (unsigned int)code];;
-    if ([number length] == 10) {
-        [number insertString:@"-" atIndex:6];
-        [number insertString:@"-" atIndex:3];
-    }
-    return number;
-}
-
 NSString *user_title(DIMID ID) {
     DIMUser user = DIMUserWithID(ID);
     NSString *name = !user ? ID.name : user.name;
@@ -34,11 +24,11 @@ NSString *group_title(DIMID ID) {
 }
 
 NSString *readable_name(DIMID ID) {
-    DIMDocument profile = DIMProfileForID(ID);
+    DIMDocument profile = DIMDocumentForID(ID, MKMDocument_Any);
     NSString *nickname = profile.name;
     NSString *username = ID.name;
     if (nickname) {
-        if (username && [ID isUser]) {
+        if (username && MKMIDIsUser(ID)) {
             return [NSString stringWithFormat:@"%@ (%@)", nickname, username];
         }
         return nickname;

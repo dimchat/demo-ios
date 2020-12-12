@@ -87,7 +87,7 @@
             [[DIMFacebook sharedInstance] user:user.ID addContact:groupID];
             
             //Post contacts to server
-            NSArray<MKMID> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+            NSArray<DIMID> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
             
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             [messenger postContacts:allContacts];
@@ -223,7 +223,7 @@
         [[DIMFacebook sharedInstance] user:user.ID removeContact:ID];
         
         //Post contacts to server
-        NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+        NSArray<DIMID> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
         
         DIMMessenger *messenger = [DIMMessenger sharedInstance];
         [messenger postContacts:allContacts];

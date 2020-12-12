@@ -26,7 +26,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    DIMDocument profile = DIMProfileForID(_participant);
+    MKMVisa *profile = DIMDocumentForID(_participant, MKMDocument_Visa);
     
     // avatar
     CGRect frame = _avatarImageView.frame;

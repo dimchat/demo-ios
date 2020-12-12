@@ -63,7 +63,13 @@
     // 2. generate meta
     DIMMeta meta = MKMMetaGenerate(version, SK, username);
     // 3. generate ID
-    DIMID ID = [meta generateID:MKMNetwork_Main];
+    DIMID ID;
+    if ([meta isKindOfClass:[MKMMetaBTC class]]) {
+        ID = [(MKMMetaBTC *)meta generateID:MKMNetwork_Main];
+    } else {
+        NSAssert(false, @"unknown meta version: %lu", version);
+        return;
+    }
     
     Client *client = [Client sharedInstance];
     if (![client importUser:ID meta:meta privateKey:SK]) {

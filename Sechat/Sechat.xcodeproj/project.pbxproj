@@ -110,8 +110,6 @@
 		52DBA36E2340F2F90000C2B4 /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52DBA36F2340F2F90000C2B4 /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52DBA3702340F2F90000C2B4 /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		63B6151606A9B9EF4946E1BA /* Pods_DIMTalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991CBCDD41265D4E6F55B16D /* Pods_DIMTalk.framework */; };
-		AAE4DA62C9BF91C9C856C8AC /* Pods_Sechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BB1AF5A83A24CFD33CFA8E /* Pods_Sechat.framework */; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
 		E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
@@ -258,7 +256,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		16BB1AF5A83A24CFD33CFA8E /* Pods_Sechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52011D4524E3E2980015415D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
 		52011D4724E3E2AA0015415D /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		52011D4924E3E2B70015415D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
@@ -308,7 +305,6 @@
 		52DBA3742340F2F90000C2B4 /* DIMTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIMTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52DBA3752340F2F90000C2B4 /* Sechat copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Sechat copy-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/demo-ios/Sechat/Sechat copy-Info.plist"; sourceTree = "<absolute>"; };
 		8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sechat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		991CBCDD41265D4E6F55B16D /* Pods_DIMTalk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DIMTalk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
 		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
 		E918E01922C4A4D4007A3803 /* Facebook+Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Profile.h"; sourceTree = "<group>"; };
@@ -436,7 +432,6 @@
 				52DBA3592340F2F90000C2B4 /* FiniteStateMachine.framework in Frameworks */,
 				52DBA35A2340F2F90000C2B4 /* WebKit.framework in Frameworks */,
 				52011D5724E3E3120015415D /* UserNotifications.framework in Frameworks */,
-				63B6151606A9B9EF4946E1BA /* Pods_DIMTalk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +447,6 @@
 				E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */,
 				52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */,
 				E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */,
-				AAE4DA62C9BF91C9C856C8AC /* Pods_Sechat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,8 +697,6 @@
 				E978171E22254CBB00BCE3AD /* MarsGate.framework */,
 				E922567E2222EF3D006CADEA /* WebKit.framework */,
 				8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */,
-				991CBCDD41265D4E6F55B16D /* Pods_DIMTalk.framework */,
-				16BB1AF5A83A24CFD33CFA8E /* Pods_Sechat.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1416,6 +1408,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
 					"../../sdk-objc/Classes/**",
+					"../../dkd-objc/Classes/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1447,6 +1440,7 @@
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/**",
 					"../../sdk-objc/Classes/**",
+					"../../dkd-objc/Classes/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

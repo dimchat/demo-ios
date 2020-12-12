@@ -97,10 +97,10 @@
     DIMUser user = DIMUserWithID(self.contact);
     NSString *name = !user ? self.contact.name : user.name;
     self.nicknameLabel.text = name;
-    self.searchNumberLabel.text = search_number(self.contact.number);
     
+    MKMVisa *profile = DIMDocumentForID(_contact, MKMDocument_Visa);
     CGRect frame = self.avatarView.frame;
-    UIImage *image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
+    UIImage *image = [profile avatarImageWithSize:frame.size];
     self.avatarView.image = image;
     
     [self loadData];
@@ -116,7 +116,7 @@
 -(void)loadData{
     
     DIMUser user = [Client sharedInstance].currentUser;
-    if ([user existsContact:_contact]) {
+    if ([user.contacts containsObject:_contact]) {
         self.actionArray = @[NSLocalizedString(@"Chat", @"title")];
     }else{
         self.actionArray = @[NSLocalizedString(@"Add To Contact", @"title"), NSLocalizedString(@"Chat", @"title")];
@@ -166,7 +166,7 @@
             [user addContact:self.contact];
             
             //Post contacts to server
-            NSArray<MKMID *> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+            NSArray<DIMID> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
             
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             [messenger postContacts:allContacts];

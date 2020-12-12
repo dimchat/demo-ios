@@ -22,7 +22,7 @@
 
 @implementation SentMessageCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(DIMInstantMessage )iMsg bounds:(CGRect)rect {
     NSString *text = nil;
     if (iMsg.content.type == DKDContentType_Text) {
         text = [(DIMTextContent *)iMsg.content text];
@@ -33,7 +33,7 @@
     UIEdgeInsets edges = UIEdgeInsetsMake(10, 20, 10, 20);
     CGSize size;
     
-    UIImage *image = iMsg.image;
+    UIImage *image = [(DKDInstantMessage *)iMsg image];
     if (image) {
         size = [UIScreen mainScreen].bounds.size;
         CGFloat max_width = MIN(size.width, size.height) * 0.382;
@@ -97,11 +97,12 @@
         
         contentSize = [UIScreen mainScreen].bounds.size;
         CGFloat max_width = MIN(contentSize.width, contentSize.height) * 0.382;
-        if (self.message.image.size.width > max_width) {
-            CGFloat ratio = max_width / self.message.image.size.width;
-            contentSize = CGSizeMake(self.message.image.size.width * ratio, self.message.image.size.height * ratio);
+        UIImage *image = [(DKDInstantMessage *)self.message image];
+        if (image.size.width > max_width) {
+            CGFloat ratio = max_width / image.size.width;
+            contentSize = CGSizeMake(image.size.width * ratio, image.size.height * ratio);
         } else {
-            contentSize = self.message.image.size;
+            contentSize = image.size;
         }
         
         //Show Image

@@ -235,10 +235,10 @@
     [self sendMetaToAudience];
 }
 
--(void)sendMetaToAudience{
+- (void)sendMetaToAudience {
     
     //Send Meta to audience
-    if(self.conversation.ID.isUser){
+    if (MKMIDIsUser(self.conversation.ID)) {
         
         //Search whether has send message to this person
         NSUInteger i = 0;
@@ -264,10 +264,9 @@
         if(hasSentMessage == NO){
             
             //Send profile command to audience
-            DIMI DID = user.ID;
-            DIMDocument profile = user.profile;
-            DIMCommand *cmd = [[DIMProfileCommand alloc] initWithID:ID
-                                                            profile:profile];
+            DIMID ID = user.ID;
+            DIMDocument profile = [user documentWithType:MKMDocument_Visa];
+            DIMCommand *cmd = [[DIMDocumentCommand alloc] initWithID:ID profile:profile];
             DIMID receiverID = _conversation.ID;
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             [messenger sendContent:cmd receiver:receiverID callback:NULL];
@@ -338,7 +337,7 @@
     NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:DIMMessageInsertedNotifiation]) {
-        DIMID ID = DIMIDWithString([info objectForKey:@"Conversation"]);
+        DIMID ID = MKMIDFromString([info objectForKey:@"Conversation"]);
         if ([_conversation.ID isEqual:ID]) {
             [NSObject performBlockOnMainThread:^{
                 [self groupMessage];
@@ -354,7 +353,7 @@
     NSDictionary *info = notification.userInfo;
     
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
-        DIMID groupID = DIMIDWithString([info objectForKey:@"group"]);
+        DIMID groupID = MKMIDFromString([info objectForKey:@"group"]);
         if ([_conversation.ID isEqual:groupID]) {
             [NSObject performBlockOnMainThread:^{
                 self.navigationItem.title = self.conversation.title;
@@ -540,14 +539,13 @@
     }
 
     DIMConversation *chatBox = _conversation;
-    DIMIDr eceiver = chatBox.ID;
+    DIMID receiver = chatBox.ID;
     NSLog(@"send text: %@ -> %@", text, receiver);
     
     // create message content
-    DIMContent *content;
-    content = [[DIMTextContent alloc] initWithText:text];
+    DKDContent *content = [[DIMTextContent alloc] initWithText:text];
     
-    if ([receiver isGroup]) {
+    if (MKMIDIsGroup(receiver)) {
         content.group = receiver;
     }
     
@@ -586,7 +584,7 @@
     DIMID receiver = chatBox.ID;
     
     // 1. build message content
-    DIMContent *content = nil;
+    DKDContent *content = nil;
     if (image) {
         DIMFileServer *ftp = [DIMFileServer sharedInstance];
         
@@ -614,7 +612,7 @@
         [content setObject:MKMBase64Encode(small) forKey:@"thumbnail"];
     }
     
-    if ([receiver isGroup]) {
+    if (MKMIDIsGroup(receiver)) {
         content.group = receiver;
     }
     
@@ -658,8 +656,7 @@
 - (void)onMessageSent:(NSNotification *)notification {
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
-    DIMContent *content = [info objectForKey:@"content"];
-    content = DIMContentFromDictionary(content);
+    DIMContent content = DKDContentFromDictionary([info objectForKey:@"content"]);
     NSLog(@"%@: %@", name, content);
     // TODO: mark the message sent
 }
@@ -667,8 +664,7 @@
 - (void)onSendMessageFailed:(NSNotification *)notification {
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
-    DIMContent *content = [info objectForKey:@"content"];
-    content = DIMContentFromDictionary(content);
+    DIMContent content = DKDContentFromDictionary([info objectForKey:@"content"]);
     NSError *error = [info objectForKey:@"error"];
     NSLog(@"%@: %@, error: %@", name, content, error);
     // TODO: mark the message failed for trying again
@@ -679,8 +675,9 @@
     [_messageArray removeAllObjects];
     
     DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
-    DIMID admin = DIMIDWithString(@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ");
-    DKDInstantMessage *guideMessage = DKDInstantMessageCreate(guide, admin, _conversation.ID, nil);
+    DIMID admin = MKMIDFromString(@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ");
+    DIMEnvelope env = DKDEnvelopeCreate(admin, _conversation.ID, nil);
+    DIMInstantMessage guideMessage = DKDInstantMessageCreate(env, guide);
     
     [_messageArray addObject:guideMessage];
     
@@ -736,8 +733,8 @@
         identifier = @"timeCell";
     } else {
     
-        DIMInstantMessage *iMsg = [self messageAtIndex:row];
-        DIMContent *content = iMsg.content;
+        DIMInstantMessage iMsg = [self messageAtIndex:row];
+        DIMContent content = iMsg.content;
         DIMID sender = iMsg.envelope.sender;
         
         UInt8 type = content.type;
@@ -786,7 +783,7 @@
         return cell;
     }
     
-    DIMInstantMessage *iMsg = [self messageAtIndex:row];
+    DIMInstantMessage iMsg = [self messageAtIndex:row];
     
     if([identifier isEqualToString:@"commandMsgCell"]){
         CommandMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
@@ -818,7 +815,7 @@
     NSString *identifier = [self identifierForReusableCellAtIndexPath:indexPath];
     
     NSInteger row = indexPath.row;
-    DIMInstantMessage *iMsg = [self messageAtIndex:row];
+    DIMInstantMessage iMsg = [self messageAtIndex:row];
     CGRect bounds = tableView.bounds;
     
     CGFloat height = 0.0;
@@ -962,7 +959,7 @@
     [content setObject:@(audioData.length) forKey:@"length"];
     [content setObject:@(duration * 1000.0) forKey:@"duration"];
 
-    if([self.conversation.ID isGroup]){
+    if (MKMIDIsGroup(self.conversation.ID)) {
         content.group = self.conversation.ID;
     }
     

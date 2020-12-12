@@ -22,7 +22,7 @@
 
 @implementation CommandMessageCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage *)iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(DIMInstantMessage )iMsg bounds:(CGRect)rect {
     
     //NSString *text = [iMsg.content objectForKey:@"text"];
     DIMID sender = iMsg.envelope.sender;
@@ -69,7 +69,7 @@
     self.messageLabel.frame = CGRectMake(x, y, width, height);
 }
 
-- (void)setMsg:(DIMInstantMessage *)msg {
+- (void)setMsg:(DIMInstantMessage )msg {
     if (![_msg isEqual:msg]) {
         _msg = msg;
         

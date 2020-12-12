@@ -100,10 +100,11 @@
     
     Client *client = [Client sharedInstance];
     DIMUser user = client.currentUser;
+    MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
     
     CGSize avatarSize = _avatarImageView.bounds.size;
     
-    UIImage *image = [user.profile avatarImageWithSize:avatarSize];
+    UIImage *image = [profile avatarImageWithSize:avatarSize];
     NSString *nickname = user.name;
     
     _avatarImageView.image = image;
@@ -124,7 +125,7 @@
 
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
-    DIMDocument profile = [notification.userInfo objectForKey:@"profile"];
+    MKMVisa *profile = [notification.userInfo objectForKey:@"profile"];
     DIMUser user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
@@ -197,7 +198,7 @@
         Client *client = [Client sharedInstance];
         DIMUser user = client.currentUser;
         DIMID ID = user.ID;
-        DIMDocument profile = user.profile;
+        MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
         if (!profile) {
             NSAssert(false, @"profile should not be empty");
             return ;
@@ -218,7 +219,7 @@
         [profile sign:SK];
         
         // save profile with new avatar
-        [facebook saveProfile:profile];
+        [facebook saveDocument:profile];
         
         // submit to network
         DIMMessenger *messenger = [DIMMessenger sharedInstance];
@@ -248,11 +249,11 @@
     DIMUserDataSource dataSource = user.dataSource;
     DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
     
-    DIMDocument profile = user.profile;
+    DIMDocument profile = [user documentWithType:MKMDocument_Any];
     [profile setName:nickname];
     [profile sign:SK];
     
-    [[DIMFacebook sharedInstance] saveProfile:profile];
+    [[DIMFacebook sharedInstance] saveDocument:profile];
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
     
     // submit to station
@@ -282,28 +283,27 @@
     
     UITableViewCell *cell = nil;
     
-    if(indexPath.section == 0){
+    if (indexPath.section == 0) {
         
         cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileCell"];
-        if(cell == nil){
+        if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"ProfileCell"];
         }
         
-        if(indexPath.row == 0){
+        if (indexPath.row == 0) {
             
             cell.textLabel.text = NSLocalizedString(@"Search NO.", @"title");
-            cell.detailTextLabel.text = search_number(ID.number);
             
         } else if(indexPath.row == 1){
             
             cell.textLabel.text = NSLocalizedString(@"Address", @"title");
-            cell.detailTextLabel.text = ID.address;
+            cell.detailTextLabel.text = ID.address.string;
         }
         
-    } else if(indexPath.section == 1){
+    } else if(indexPath.section == 1) {
         
         cell = [tableView dequeueReusableCellWithIdentifier:@"ActionCell"];
-        if(cell == nil){
+        if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ActionCell"];
         }
         
@@ -333,7 +333,7 @@
 
 - (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     
-    if(action == @selector(copy:)){
+    if (action == @selector(copy:)) {
         
         NSInteger section = indexPath.section;
         NSInteger row = indexPath.row;
@@ -341,14 +341,13 @@
         Client *client = [Client sharedInstance];
         DIMUser user = client.currentUser;
         
-        if(section == 0){
+        if (section == 0) {
 
-            if(row == 0){
+            if (row == 0) {
                 //Copy search number
-                [[UIPasteboard generalPasteboard] setString:search_number(user.number)];
-            } else if (row == 1){
+            } else if (row == 1) {
                 //Copy address
-                [[UIPasteboard generalPasteboard] setString:user.ID.address];
+                [[UIPasteboard generalPasteboard] setString:user.ID.address.string];
             }
         }
     }
@@ -376,9 +375,9 @@
         } else if(row == 1){
             //Export Account
             
-            DIMPrivateKey key = [DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
+            DIMPrivateKey key = nil;//[DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
             
-            NSString *privateKeyString = key[@"data"];
+            NSString *privateKeyString = [key objectForKey:@"data"];
             NSString *privateKey = RSAPrivateKeyContentFromNSString(privateKeyString);
             
             //Copy to clipboard

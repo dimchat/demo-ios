@@ -87,7 +87,7 @@
 
 - (void)onConversationUpdated:(NSNotification *)o {
     NSDictionary *info = [o userInfo];
-    DIMID ID = DIMIDWithString([info objectForKey:@"ID"]);
+    DIMID ID = MKMIDFromString([info objectForKey:@"ID"]);
     if ([_conversation.ID isEqual:ID]) {
         [NSObject performBlockOnMainThread:^{
             [self loadData];
@@ -96,15 +96,16 @@
     }
 }
 
--(void)loadData{
+- (void)loadData {
+    DIMDocument profile = _conversation.profile;
     
     // avatar
     CGRect frame = _avatarImageView.frame;
     UIImage *image;
-    if ([_conversation.ID isGroup]) {
-        image = [_conversation.profile logoImageWithSize:frame.size];
+    if (MKMIDIsGroup(_conversation.ID)) {
+        image = [(MKMBulletin *)profile logoImageWithSize:frame.size];
     } else {
-        image = [_conversation.profile avatarImageWithSize:frame.size];
+        image = [(MKMVisa *)profile avatarImageWithSize:frame.size];
     }
     
     [_avatarImageView setImage:image];
@@ -114,8 +115,8 @@
     // last message
     NSString *last = nil;
     NSInteger count = [_conversation numberOfMessage];
-    DIMInstantMessage *msg;
-    DIMContent *content;
+    DIMInstantMessage msg;
+    DKDContent *content;
     while (--count >= 0) {
         msg = [_conversation messageAtIndex:count];
         content = msg.content;

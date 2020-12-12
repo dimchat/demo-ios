@@ -201,9 +201,9 @@
     DIMUserDataSource dataSource = user.dataSource;
     DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
     
-    DIMDocument profile = user.profile;
+    DIMVisa profile = DIMDocumentForID(ID, MKMDocument_Visa);
     
-    if(self.imageData != nil){
+    if (self.imageData != nil) {
         
         NSString *filename = [MKMHexEncode(MKMMD5Digest(self.imageData)) stringByAppendingPathExtension:@"jpeg"];
         
@@ -221,7 +221,7 @@
     [profile setName:self.nickname];
     [profile sign:SK];
     
-    [facebook saveProfile:profile];
+    [facebook saveDocument:profile];
     
     // submit to station
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
@@ -250,7 +250,7 @@
     }
     
     // 3. generate ID
-    self.ID = [self.meta generateID:MKMNetwork_Main];
+    self.ID = [(MKMMetaBTC *)self.meta generateID:MKMNetwork_Main];
     
     if(self.ID == nil){
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate ID"}];
@@ -303,10 +303,10 @@
         
         //New User add Moky as contact
         NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";
-        [user addContact:DIMIDWithString(itemString)];
+        [user addContact:MKMIDFromString(itemString)];
         
         itemString = @"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf";
-        [user addContact:DIMIDWithString(itemString)];
+        [user addContact:MKMIDFromString(itemString)];
         
         [client setPushAlias];
         

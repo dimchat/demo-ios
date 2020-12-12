@@ -41,7 +41,7 @@
     DIMUser user = client.currentUser;
     
     // 1. group info
-    if ([_conversation.ID isGroup]) {
+    if (MKMIDIsGroup(_conversation.ID)) {
         // exists group
         _group = DIMGroupWithID(_conversation.ID);
         _founder = _group.founder;
@@ -50,7 +50,8 @@
         
         // 1.1. logo
         NSString *name = _group.name;
-        UIImage *logoImage = [_group.profile logoImageWithSize:_logoImageView.bounds.size];
+        MKMBulletin *profile = [_group documentWithType:MKMDocument_Bulletin];
+        UIImage *logoImage = [profile logoImageWithSize:_logoImageView.bounds.size];
         if (logoImage) {
             [_logoImageView setImage:logoImage];
         } else {
@@ -98,7 +99,7 @@
     if (_founder && ![_founder isEqual:user.ID]) {
         [_selectedList addObject:_founder];
     }
-    if (!_group && [_conversation.ID isUser]) {
+    if (!_group && MKMIDIsUser(_conversation.ID)) {
         if (![_selectedList containsObject:_conversation.ID]) {
             [_selectedList addObject:_conversation.ID];
         }
@@ -123,7 +124,7 @@
     //Filter Group IDs
     for (DIMID contactID in contacts) {
         
-        if(![contactID isGroup]){
+        if (!MKMIDIsGroup(contactID)) {
             [filterContacts addObject:contactID];
         }
     }
@@ -184,12 +185,12 @@
     DIMDocument profile;
 //    NSMutableArray<DIMID> *members;
     
-    if ([ID isGroup]) {
+    if (MKMIDIsGroup(ID)) {
         // exists group
         _group = DIMGroupWithID(ID);
         profile = _conversation.profile;
         if (!profile) {
-            profile = [[DIMProfile alloc] initWithID:ID];
+            profile = MKMDocumentNew(ID, MKMDocument_Bulletin);
         }
         [profile setName:name];
         [profile sign:signKey];
@@ -213,7 +214,7 @@
             return NO;
         }
         ID = _group.ID;
-        profile = [[DIMProfile alloc] initWithID:ID];
+        profile = MKMDocumentNew(ID, MKMDocument_Bulletin);
         [profile setName:name];
         [profile sign:signKey];
         NSLog(@"new group: %@, profile: %@, members: %@", ID, profile, _selectedList);
@@ -221,7 +222,7 @@
     
     // save profile & members
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    [facebook saveProfile:profile];
+    [facebook saveDocument:profile];
     [facebook saveMembers:_selectedList group:_group.ID];
     return YES;
 }

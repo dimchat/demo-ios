@@ -34,7 +34,7 @@
     }
     
     // 2. check & save private key
-    DIMPublicKey PK = meta.key;
+    DIMVerifyKey PK = meta.key;
     if (MKMAsymmetricKeysMatched(SK, PK)) {
 //        if ([SK saveKeyWithIdentifier:ID.address]) {
 //            NSLog(@"private key saved: %@", SK);

@@ -17,7 +17,7 @@
 
 @implementation ContactCell
 
--(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
         
@@ -49,7 +49,7 @@
     return self;
 }
 
--(void)dealloc{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -59,31 +59,28 @@
     [self setNeedsLayout];
 }
 
--(void)setData{
+- (void)setData {
     
     CGRect frame = self.avatarImageView.frame;
     
+    DIMDocument profile = DIMDocumentForID(_contact, MKMDocument_Visa);
     UIImage *image;
-    if ([_contact isGroup]) {
-        image = [DIMProfileForID(_contact) logoImageWithSize:frame.size];
+    if (MKMIDIsGroup(_contact)) {
+        image = [(MKMBulletin *)profile logoImageWithSize:frame.size];
     } else {
-        image = [DIMProfileForID(_contact) avatarImageWithSize:frame.size];
+        image = [(MKMVisa *)profile avatarImageWithSize:frame.size];
     }
     
     [_avatarImageView setImage:image];
     
-    if(_contact.type == MKMNetwork_Group){
-        
+    if (_contact.type == MKMNetwork_Group) {
         DIMGroup group = DIMGroupWithID(_contact);
         NSString *name = !group ? _contact.name : group.name;
         self.nameLabel.text = name;
-        self.descLabel.text = search_number(_contact.number);
-        
-    }else{
+    } else {
         DIMUser user = DIMUserWithID(_contact);
         NSString *name = !user ? _contact.name : user.name;
         self.nameLabel.text = name;
-        self.descLabel.text = search_number(_contact.number);
     }
 }
 

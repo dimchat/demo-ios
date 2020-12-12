@@ -11,7 +11,7 @@
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "MessageDatabase.h"
-#import "JPUSHService.h"
+//#import "JPUSHService.h"
 #import "Client.h"
 
 @interface Client () {
@@ -75,7 +75,7 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)_startServer:(NSDictionary *)station withProvider:(DIMServiceProvider *)sp {
     // save meta for server ID
-    DIMID ID = DIMIDWithString([station objectForKey:@"ID"]);
+    DIMID ID = MKMIDFromString([station objectForKey:@"ID"]);
     DIMMeta meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
@@ -105,7 +105,7 @@ SingletonImplementations(Client, sharedInstance)
     ftp.avatarAPI = self.avatarAPI;
     
     // connect server
-    DIMServer *server = [[DIMServer alloc] initWithDictionary:station];
+    DIMServer *server = nil;//[[DIMServer alloc] initWithDictionary:station];
     server.delegate = self;
     [server startWithOptions:serverOptions];
     _currentStation = server;
@@ -113,7 +113,7 @@ SingletonImplementations(Client, sharedInstance)
     [MessageDatabase sharedInstance];
     
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    [messenger setContextValue:server forName:@"server"];
+//    [messenger setContextValue:server forName:@"server"];
     
     // scan users
     NSArray<DIMUser > *users = [facebook localUsers];
@@ -124,8 +124,8 @@ SingletonImplementations(Client, sharedInstance)
     } else {
         mArray = [[NSMutableArray alloc] initWithCapacity:2];
     }
-    [mArray addObject:DIMIDWithString(MKM_IMMORTAL_HULK_ID)];
-    [mArray addObject:DIMIDWithString(MKM_MONKEY_KING_ID)];
+    [mArray addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];
+    [mArray addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
     users = mArray;
 #endif
     // add users
@@ -138,7 +138,7 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
     
-    DIMID ID = DIMIDWithString([config objectForKey:@"ID"]);
+    DIMID ID = MKMIDFromString([config objectForKey:@"ID"]);
     DIMServiceProvider *sp = [[DIMServiceProvider alloc] initWithID:ID];
     
     // choose the fast station
@@ -286,11 +286,11 @@ SingletonImplementations(Client, sharedInstance)
     
     if(self.currentUser != nil){
         NSString *alias = self.currentUser.ID.address;
-        [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
-            NSLog(@"Response code %zd", iResCode);
-            NSLog(@"Response code %@", iAlias);
-            NSLog(@"Response code %zd", seq);
-        } seq:0];
+//        [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
+//            NSLog(@"Response code %zd", iResCode);
+//            NSLog(@"Response code %@", iAlias);
+//            NSLog(@"Response code %zd", seq);
+//        } seq:0];
     }
 }
 
@@ -344,18 +344,18 @@ SingletonImplementations(Client, sharedInstance)
     // 2. save nickname in profile
     if (nickname.length > 0) {
         
-        DIMDocument profile = [[DIMProfile alloc] initWithID:ID];
+        DIMDocument profile = MKMDocumentNew(ID, MKMDocument_Visa);
 
         [profile setName:nickname];
         [profile sign:SK];
-        if (![facebook saveProfile:profile]) {
+        if (![facebook saveDocument:profile]) {
             NSAssert(false, @"failedo to save profile for new user: %@", ID);
             return NO;
         }
     }
     
     // 3. create user for client
-    DIMUser user = [[DIMUser alloc] initWithID:ID];
+    DIMUser user = [[MKMUser alloc] initWithID:ID];
     user.dataSource = facebook;
     self.currentUser = user;
     

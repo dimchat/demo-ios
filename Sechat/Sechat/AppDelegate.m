@@ -18,9 +18,9 @@
 #import "LocalDatabaseManager.h"
 #import "FolderUtility.h"
 #import "DIMClientConstants.h"
-#import "JPUSHService.h"
+//#import "JPUSHService.h"
 
-@interface AppDelegate ()<UITabBarControllerDelegate, JPUSHRegisterDelegate>
+@interface AppDelegate ()<UITabBarControllerDelegate/*, JPUSHRegisterDelegate*/>
 
 @property(nonatomic, strong) UITabBarController *tabbarController;
 @property(nonatomic, strong) ConversationsTableViewController *conversationController;
@@ -76,19 +76,19 @@
     
     [self getReviewStatus];
     
-    JPUSHRegisterEntity *entity = [[JPUSHRegisterEntity alloc] init];
-    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
-    [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
-    
-    NSString *appKey = @"db6d7573a1643e36cf2451c6";
-    NSString *channel = @"App Store";
-    NSInteger isProduction = 0;
-    NSString *advertisingId = nil;
-    
-    [JPUSHService setupWithOption:launchOptions appKey:appKey
-                  channel:channel
-         apsForProduction:isProduction
-    advertisingIdentifier:advertisingId];
+//    JPUSHRegisterEntity *entity = [[JPUSHRegisterEntity alloc] init];
+//    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
+//    [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+//
+//    NSString *appKey = @"db6d7573a1643e36cf2451c6";
+//    NSString *channel = @"App Store";
+//    NSInteger isProduction = 0;
+//    NSString *advertisingId = nil;
+//
+//    [JPUSHService setupWithOption:launchOptions appKey:appKey
+//                  channel:channel
+//         apsForProduction:isProduction
+//    advertisingIdentifier:advertisingId];
 
     return YES;
 }
@@ -161,7 +161,7 @@
 
 -(void)addDefaultUser:(NSString *)address{
     
-    DIMID ID = DIMIDWithString(address);
+    DIMID ID = MKMIDFromString(address);
     
     NSString *metaPath = [NSString stringWithFormat:@"%@/meta", address];
     NSString *path = [[NSBundle mainBundle] pathForResource:metaPath ofType:@"plist"];
@@ -175,8 +175,8 @@
     path = [[NSBundle mainBundle] pathForResource:profilePath ofType:@"plist"];
     
     NSDictionary *profileData = [[NSDictionary alloc] initWithContentsOfFile:path];
-    DIMDocument profile = MKMProfileFromDictionary(profileData);
-    [facebook saveProfile:profile];
+    DIMDocument profile = MKMDocumentFromDictionary(profileData);
+    [facebook saveDocument:profile];
 }
 
 - (UITabBarController *)createTabBarController {
@@ -245,7 +245,7 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // APNs register success
-    [JPUSHService registerDeviceToken:deviceToken];
+//    [JPUSHService registerDeviceToken:deviceToken];
     
     Client *client = [Client sharedInstance];
     [client setPushAlias];
@@ -273,9 +273,9 @@
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
   // Required
   NSDictionary * userInfo = notification.request.content.userInfo;
-  if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-    [JPUSHService handleRemoteNotification:userInfo];
-  }
+//  if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+//    [JPUSHService handleRemoteNotification:userInfo];
+//  }
   completionHandler(UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有 Badge、Sound、Alert 三种类型可以选择设置
 }
 
@@ -283,16 +283,16 @@
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
   // Required
   NSDictionary * userInfo = response.notification.request.content.userInfo;
-  if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-    [JPUSHService handleRemoteNotification:userInfo];
-  }
+//  if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+//    [JPUSHService handleRemoteNotification:userInfo];
+//  }
   completionHandler();  // 系统要求执行这个方法
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
   // Required, iOS 7 Support
-  [JPUSHService handleRemoteNotification:userInfo];
+//  [JPUSHService handleRemoteNotification:userInfo];
   completionHandler(UIBackgroundFetchResultNewData);
 }
 
@@ -303,7 +303,7 @@
 
 #pragma mark - Convert old tables
 
-static id<MKMID> DIMIDWithAddress(id<MKMAddress>)address) {
+static id<MKMID> DIMIDWithAddress(id<MKMAddress> address) {
     id<MKMID> ID = [[MKMID alloc] initWithAddress:address];
     id<MKMMeta> meta = DIMMetaForID(ID);
     if (!meta) {
@@ -344,7 +344,7 @@ static id<MKMID> DIMIDWithAddress(id<MKMAddress>)address) {
         ID = DIMIDWithAddress(address);
         NSString *plistPath = [NSString stringWithFormat:@"%@/%@", dir, path];
         
-        if ([ID isValid]) {
+        if (ID) {
             
             [sqliteManager insertConversation:ID];
             
@@ -357,7 +357,7 @@ static id<MKMID> DIMIDWithAddress(id<MKMAddress>)address) {
             
             NSLog(@"messages from %@", plistPath);
             for (NSDictionary *item in array) {
-                DIMInstantMessage *msg = DKDInstantMessageFromDictionary(item);
+                DIMInstantMessage msg = DKDInstantMessageFromDictionary(item);
                 if (!msg) {
                     NSAssert(false, @"message invalid: %@", item);
                     continue;

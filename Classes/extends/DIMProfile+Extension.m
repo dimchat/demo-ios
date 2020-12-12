@@ -15,7 +15,7 @@
 
 #import "DIMProfile+Extension.h"
 
-@implementation MKMDocument (Extension)
+@implementation MKMVisa (Extension)
 
 - (UIImage *)avatarImageWithSize:(const CGSize)size {
     
@@ -25,8 +25,7 @@
     if (avatar) {
         if ([avatar containsString:@"://"]) {
             DIMFacebook *facebook = [DIMFacebook sharedInstance];
-            DIMID ID = DIMIDWithString(self.ID);
-            image = [facebook loadAvatarWithURL:avatar forID:ID];
+            image = [facebook loadAvatarWithURL:avatar forID:self.ID];
         } else {
             image = [UIImage imageNamed:avatar];
         }
@@ -38,6 +37,10 @@
     
     return image;
 }
+
+@end
+
+@implementation MKMBulletin (Extension)
 
 - (UIImage *)logoImageWithSize:(const CGSize)size {
     UIImage *image = nil;
@@ -55,8 +58,7 @@
 //        }
         
         // create image with members' avatar(s)
-        DIMID ID = DIMIDWithString(self.ID);
-        NSArray<DIMID> *members = DIMGroupWithID(ID).members;
+        NSArray<DIMID> *members = DIMGroupWithID(self.ID).members;
         if (members.count > 0) {
             CGSize tileSize;
             if (members.count > 4) {
@@ -67,7 +69,8 @@
             NSMutableArray<UIImage *> *mArray;
             mArray = [[NSMutableArray alloc] initWithCapacity:members.count];
             for (DIMID ID in members) {
-                image = [DIMProfileForID(ID) avatarImageWithSize:tileSize];
+                MKMVisa *profile = DIMDocumentForID(ID, MKMDocument_Visa);
+                image = [profile avatarImageWithSize:tileSize];
                 if (image) {
                     [mArray addObject:image];
                     if (mArray.count >= 9) {
@@ -84,7 +87,7 @@
         // create image with first character of name
         NSString *name = self.name;
         if (name.length == 0) {
-            name = ID.name;
+            name = self.ID.name;
             if (name.length == 0) {
                 name = @"Đ"; // BTC Address: ฿
             }

@@ -36,7 +36,7 @@ SingletonImplementations(MessageDatabase, sharedInstance)
     return self;
 }
 
-- (nullable DIMInstantMessage *)_lastMessageInConversation:(DIMID)ID {
+- (nullable DIMInstantMessage )_lastMessageInConversation:(DIMID)ID {
     NSUInteger count = [self numberOfMessagesInConversation:ID];
     if (count == 0) {
         return nil;
@@ -46,8 +46,8 @@ SingletonImplementations(MessageDatabase, sharedInstance)
 
 - (void)sortConversationList {
     NSComparator comparator = ^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        DIMInstantMessage *msg1 = [self _lastMessageInConversation:obj1];
-        DIMInstantMessage *msg2 = [self _lastMessageInConversation:obj2];
+        DIMInstantMessage msg1 = [self _lastMessageInConversation:obj1];
+        DIMInstantMessage msg2 = [self _lastMessageInConversation:obj2];
         NSNumber *time1 = [msg1 objectForKey:@"time"];
         NSNumber *time2 = [msg2 objectForKey:@"time"];
         NSTimeInterval t1 = [time1 doubleValue];
@@ -103,7 +103,7 @@ SingletonImplementations(MessageDatabase, sharedInstance)
 #pragma mark DIMConversationDelegate
 
 // save the new message to local storage
-- (BOOL)conversation:(DIMID)chatBox insertMessage:(DIMInstantMessage *)iMsg {
+- (BOOL)conversation:(DIMID)chatBox insertMessage:(DIMInstantMessage )iMsg {
     if (![super conversation:chatBox insertMessage:iMsg]) {
         NSLog(@"failed to save message: %@", iMsg);
         return NO;

@@ -14,10 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface CommandMessageCell : UITableViewCell
 
 @property (nonatomic, assign) id<MessageCellDelegate>delegate;
-@property (strong, nonatomic) DIMInstantMessage *msg;
+@property (strong, nonatomic) DIMInstantMessage msg;
 @property (strong, nonatomic) UILabel *messageLabel;
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage *)message bounds:(CGRect)rect;
++ (CGSize)sizeWithMessage:(DIMInstantMessage )message bounds:(CGRect)rect;
 
 @end
 

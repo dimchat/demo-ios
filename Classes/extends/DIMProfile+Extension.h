@@ -12,10 +12,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MKMDocument (Extension)
+@interface MKMVisa (Extension)
 
 // user.avatar
 - (UIImage *)avatarImageWithSize:(const CGSize)size;
+
+@end
+
+@interface MKMBulletin (Extension)
 
 // group.logo
 - (UIImage *)logoImageWithSize:(const CGSize)size;

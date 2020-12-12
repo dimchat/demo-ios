@@ -94,7 +94,8 @@
         DIMUser user = [Client sharedInstance].currentUser;
         
         CGRect avatarFrame = self.avatarImageView.frame;
-        UIImage *image = [user.profile avatarImageWithSize:avatarFrame.size];
+        MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
+        UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
         [self.avatarImageView setImage:image];
         self.nameLabel.text = user_title(user.ID);
         self.descLabel.text = (NSString *)user.ID;

@@ -11,14 +11,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- *  Search Number String
- *
- * @param code - check code
- * @return "123-456-7890"
- */
-NSString *search_number(UInt32 code);
-
-/**
  *  User Title for Conversation
  *
  * @param user - user

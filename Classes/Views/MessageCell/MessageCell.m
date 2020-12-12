@@ -16,7 +16,7 @@
 
 @implementation MessageCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage *)message bounds:(CGRect)rect{
++ (CGSize)sizeWithMessage:(DIMInstantMessage )message bounds:(CGRect)rect{
     return CGSizeMake(0.0, 0.0);
 }
 
@@ -77,17 +77,17 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)didAvatarUpdated:(NSNotification *)o{
+-(void)didAvatarUpdated:(NSNotification *)o {
     
     NSDictionary *userInfo = [o userInfo];
     DIMID ID = [userInfo objectForKey:@"ID"];
     
     [NSObject performBlockOnMainThread:^{
-        DIMEnvelope *env = self.message.envelope;
+        DIMEnvelope env = self.message.envelope;
         DIMID sender = env.sender;
         
         if ([ID isEqual:sender]) {
-            DIMDocument profile = DIMProfileForID(sender);
+            MKMVisa *profile = DIMDocumentForID(sender, MKMDocument_Visa);
             CGRect avatarFrame = self.avatarImageView.frame;
             UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
             [self.avatarImageView setImage:image];
@@ -95,14 +95,16 @@
     } waitUntilDone:NO];
 }
 
-- (void)setMessage:(DIMInstantMessage *)message{
+- (void)setMessage:(DIMInstantMessage )message {
     if (![_message isEqual:message]) {
         _message = message;
         
-        DIMEnvelope *env = message.envelope;
+        DKDInstantMessage *msg = message;
+        
+        DIMEnvelope env = message.envelope;
         DIMID sender = env.sender;
-        DIMContent *content = message.content;
-        DIMDocument profile = DIMProfileForID(sender);
+        DKDContent *content = message.content;
+        MKMVisa *profile = DIMDocumentForID(sender, MKMDocument_Visa);
         
         self.nameLabel.text = profile.name;
         
@@ -133,8 +135,8 @@
                 
             case DKDContentType_Image: {
                 // show image
-                if (message.image) {
-                    self.picImageView.image = message.image;
+                if (msg.image) {
+                    self.picImageView.image = msg.image;
                 } else {
                     self.messageLabel.text = [content messageText];
                 }
@@ -154,7 +156,7 @@
 //                if(duration <= 0){
                 
                 NSInteger duration = 0;
-                if(self.message.audioData){
+                if(msg.audioData){
                     DIMAudioContent *content = (DIMAudioContent *)self.message.content;
                     NSString *filename = content.filename;
                     NSString *path = [[DIMFileServer sharedInstance] cachePathForFilename:filename];
@@ -248,15 +250,16 @@
 
 - (void)zoomIn:(UITapGestureRecognizer *)sender {
     
-    if(self.delegate != nil){
-        [self.delegate messageCell:self showImage:self.message.image];
+    if (self.delegate != nil) {
+        DKDInstantMessage *msg = self.message;
+        [self.delegate messageCell:self showImage:msg.image];
     }
 }
 
 -(void)showProfile:(id)sender{
     
     if(self.delegate != nil){
-        DIMEnvelope *env = self.message.envelope;
+        DIMEnvelope env = self.message.envelope;
         DIMID sender = env.sender;
         [self.delegate messageCell:self showProfile:sender];
     }

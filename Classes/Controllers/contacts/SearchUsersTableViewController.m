@@ -107,7 +107,7 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
         }
         
         for (NSString *item in users) {
-            ID = DIMIDWithString(item);
+            ID = MKMIDFromString(item);
             meta = DIMMetaForID(ID);
             if (meta) {
                 [_onlineUsers addObject:ID];
@@ -131,7 +131,7 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
         }
         
         for (NSString *item in users) {
-            ID = DIMIDWithString(item);
+            ID = MKMIDFromString(item);
             if (MKMNetwork_IsStation(ID.type)) {
                 // ignore
                 continue;
@@ -147,7 +147,7 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
         NSDictionary *results = [notification.userInfo objectForKey:@"results"];
         id value;
         for (NSString *key in results) {
-            ID = DIMIDWithString(key);
+            ID = MKMIDFromString(key);
             value = [results objectForKey:key];
             if ([value isKindOfClass:[NSDictionary class]]) {
                 meta = MKMMetaFromDictionary(value);

@@ -26,7 +26,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    DIMDocument profile = DIMProfileForID(_participant);
+    MKMVisa *profile = DIMDocumentForID(_participant, MKMDocument_Visa);
     
     // avatar
     CGRect frame = _avatarImageView.frame;
@@ -35,13 +35,9 @@
     
     // name
     NSString *name = profile.name;
-    if (name.length > 0) {
-        name = [NSString stringWithFormat:@"%@ (%@)", name, search_number(_participant.number)];
-    } else {
+    if (name.length == 0) {
         name = _participant.name;
-        if (name.length > 0) {
-            name = [NSString stringWithFormat:@"%@ (%@)", name, search_number(_participant.number)];
-        } else {
+        if (name.length == 0) {
             name = (NSString *)_participant.address;
         }
     }
