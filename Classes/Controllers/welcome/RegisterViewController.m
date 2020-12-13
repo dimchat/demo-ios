@@ -229,7 +229,7 @@
     return nil;
 }
 
--(NSError *)generate{
+- (NSError *)generate {
     NSLog(@"refreshing...");
     
     NSString *username = @"dim";
@@ -237,26 +237,33 @@
     // 1. generate private key
     self.SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
     
-    if(self.SK == nil){
+    if (self.SK == nil) {
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate private key"}];
     }
     
     // 2. generate meta
     self.meta = MKMMetaGenerate(MKMMetaDefaultVersion, _SK, username);
     
-    if(self.meta == nil){
+    if (self.meta == nil) {
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate meta"}];
     }
     
     // 3. generate ID
-    self.ID = [(MKMMetaBTC *)self.meta generateID:MKMNetwork_Main];
-    
-    if(self.ID == nil){
+    self.ID = nil;
+    if ([self.meta isKindOfClass:[MKMMetaDefault class]]) {
+        self.ID = [(MKMMetaDefault *)self.meta generateID:MKMNetwork_Main];
+    } else if ([self.meta isKindOfClass:[MKMMetaBTC class]]) {
+        self.ID = [(MKMMetaBTC *)self.meta generateID];
+    }
+    // TODO: generate ID with ETH meta
+    NSAssert(self.ID, @"failed to generate ID with meta: %@", self.meta);
+
+    if (self.ID == nil) {
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate ID"}];
     }
     
     Client *client = [Client sharedInstance];
-    if(![client saveUser:self.ID meta:self.meta privateKey:self.SK name:self.nickname]){
+    if (![client saveUser:self.ID meta:self.meta privateKey:self.SK name:self.nickname]) {
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not save user to client"}];
     }
     

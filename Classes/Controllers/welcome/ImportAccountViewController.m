@@ -29,11 +29,11 @@
     [self.accountTextView becomeFirstResponder];
 }
 
--(void)didPressSaveButton:(id)sender{
+- (void)didPressSaveButton:(id)sender {
     
     NSString *jsonString = self.accountTextView.text;
 
-    if(jsonString == nil || jsonString.length == 0){
+    if (jsonString == nil || jsonString.length == 0) {
         [self showMessage:NSLocalizedString(@"Please input your account info", nil)
                 withTitle:NSLocalizedString(@"Error!", nil)];
         return;
@@ -43,7 +43,7 @@
     NSError *error;
     NSMutableDictionary *returnValue = [NSMutableDictionary dictionaryWithDictionary: [nativeJsonParser JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error]];
     
-    if(error != nil){
+    if (error != nil) {
     
         NSString *privateKey = self.accountTextView.text;
         returnValue = [[NSMutableDictionary alloc] init];
@@ -54,7 +54,7 @@
     NSString *username = @"dim";
     NSUInteger version = MKMMetaDefaultVersion;
     
-    if([returnValue objectForKey:@"version"] != nil){
+    if ([returnValue objectForKey:@"version"] != nil) {
         version = [[returnValue objectForKey:@"version"] unsignedIntegerValue];
     }
     
@@ -63,14 +63,15 @@
     // 2. generate meta
     DIMMeta meta = MKMMetaGenerate(version, SK, username);
     // 3. generate ID
-    DIMID ID;
-    if ([meta isKindOfClass:[MKMMetaBTC class]]) {
-        ID = [(MKMMetaBTC *)meta generateID:MKMNetwork_Main];
-    } else {
-        NSAssert(false, @"unknown meta version: %lu", version);
-        return;
+    DIMID ID = nil;
+    if ([meta isKindOfClass:[MKMMetaDefault class]]) {
+        ID = [(MKMMetaDefault *)meta generateID:MKMNetwork_Main];
+    } else if ([meta isKindOfClass:[MKMMetaBTC class]]) {
+        ID = [(MKMMetaBTC *)meta generateID];
     }
-    
+    // TODO: generate ID with ETH meta
+    NSAssert(ID, @"failed to generate ID with meta: %@", meta);
+
     Client *client = [Client sharedInstance];
     if (![client importUser:ID meta:meta privateKey:SK]) {
 
