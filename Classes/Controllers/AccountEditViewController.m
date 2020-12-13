@@ -364,7 +364,7 @@
     Client *client = [Client sharedInstance];
     DIMUser user = client.currentUser;
     
-    if (section == 1){
+    if (section == 1) {
         // function
         if (row == 0) {
             // Save
@@ -372,10 +372,11 @@
                 // saved
                 [self showMessage:NSLocalizedString(@"Success", nil) withTitle:nil];
             }
-        } else if(row == 1){
+        } else if(row == 1) {
             //Export Account
             
-            DIMPrivateKey key = nil;//[DIMPrivateKey loadKeyWithIdentifier:user.ID.address];
+            DIMFacebook *facebook = [DIMFacebook sharedInstance];
+            DIMPrivateKey key = (DIMPrivateKey)[facebook privateKeyForVisaSignature:user.ID];
             
             NSString *privateKeyString = [key objectForKey:@"data"];
             NSString *privateKey = RSAPrivateKeyContentFromNSString(privateKeyString);

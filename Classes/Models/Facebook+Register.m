@@ -8,6 +8,8 @@
 
 #import "Client.h"
 
+#import "DIMFacebook+Extension.h"
+
 #import "Facebook+Register.h"
 
 @implementation DIMFacebook (Register)
@@ -36,12 +38,12 @@
     // 2. check & save private key
     DIMVerifyKey PK = meta.key;
     if (MKMAsymmetricKeysMatched(SK, PK)) {
-//        if ([SK saveKeyWithIdentifier:ID.address]) {
-//            NSLog(@"private key saved: %@", SK);
-//        } else {
-//            NSAssert(false, @"save private key failed: %@", ID);
-//            return NO;
-//        }
+        if ([facebook savePrivateKey:SK type:DIMPrivateKeyType_Meta user:ID]) {
+            NSLog(@"private key saved: %@", SK);
+        } else {
+            NSAssert(false, @"save private key failed: %@", ID);
+            return NO;
+        }
     } else {
         NSAssert(false, @"asymmetric keys not match: %@, %@", PK, SK);
         return NO;

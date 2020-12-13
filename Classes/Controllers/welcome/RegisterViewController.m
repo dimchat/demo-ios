@@ -194,8 +194,7 @@
 -(NSError *)saveAndSubmit {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    Client *client = [Client sharedInstance];
-    DIMUser user = client.currentUser;
+    DIMUser user = facebook.currentUser;
     DIMID ID = user.ID;
     
     DIMUserDataSource dataSource = user.dataSource;
