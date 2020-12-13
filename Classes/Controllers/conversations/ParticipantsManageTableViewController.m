@@ -114,7 +114,7 @@
     }
 }
 
--(NSArray <DIMID> *)groupMemberCandidates:(DIMGroup )group currentUser:(DIMUser )user {
+-(NSArray <DIMID> *)groupMemberCandidates:(DIMGroup)group currentUser:(DIMUser)user {
     DIMID founder = group.founder;
     NSArray<DIMID> *members = group.members;
     DIMID current = user.ID;

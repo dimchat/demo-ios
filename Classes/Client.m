@@ -105,7 +105,7 @@ SingletonImplementations(Client, sharedInstance)
     ftp.avatarAPI = self.avatarAPI;
     
     // connect server
-    DIMServer *server = nil;//[[DIMServer alloc] initWithDictionary:station];
+    DIMServer *server = [[DIMServer alloc] initWithID:ID host:IP port:port.unsignedIntValue];
     server.delegate = self;
     [server startWithOptions:serverOptions];
     _currentStation = server;
@@ -113,10 +113,10 @@ SingletonImplementations(Client, sharedInstance)
     [MessageDatabase sharedInstance];
     
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
-//    [messenger setContextValue:server forName:@"server"];
+    messenger.currentServer = server;
     
     // scan users
-    NSArray<DIMUser > *users = [facebook localUsers];
+    NSArray<DIMUser> *users = [facebook localUsers];
 #if DEBUG && 0
     NSMutableArray *mArray;
     if (users.count > 0) {
@@ -327,7 +327,7 @@ SingletonImplementations(Client, sharedInstance)
 
 @implementation Client (Register)
 
-- (BOOL)saveUser:(DIMID)ID meta:(DIMMeta )meta privateKey:(DIMPrivateKey )SK name:(nullable NSString *)nickname {
+- (BOOL)saveUser:(DIMID)ID meta:(DIMMeta)meta privateKey:(DIMPrivateKey)SK name:(nullable NSString *)nickname {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
@@ -364,7 +364,7 @@ SingletonImplementations(Client, sharedInstance)
     return saved;
 }
 
-- (BOOL)importUser:(DIMID)ID meta:(DIMMeta )meta privateKey:(DIMPrivateKey )SK {
+- (BOOL)importUser:(DIMID)ID meta:(DIMMeta)meta privateKey:(DIMPrivateKey)SK {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
