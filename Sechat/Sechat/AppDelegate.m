@@ -304,9 +304,9 @@
 
 #pragma mark - Convert old tables
 
-static id<MKMID> DIMIDWithAddress(id<MKMAddress> address) {
-    id<MKMID> ID = [[MKMID alloc] initWithAddress:address];
-    id<MKMMeta> meta = DIMMetaForID(ID);
+static DIMID DIMIDWithAddress(DIMAddress address) {
+    DIMID ID = [[MKMID alloc] initWithAddress:address];
+    DIMMeta meta = DIMMetaForID(ID);
     if (!meta) {
         // failed to get meta for this ID
         return nil;

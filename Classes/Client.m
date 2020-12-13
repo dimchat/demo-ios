@@ -378,7 +378,7 @@ SingletonImplementations(Client, sharedInstance)
         return NO;
     }
     
-    MKMUser *user = DIMUserWithID(ID);
+    DIMUser user = DIMUserWithID(ID);
     [self login:user];
     
     BOOL saved = [facebook saveUserList:self.users withCurrentUser:user];
