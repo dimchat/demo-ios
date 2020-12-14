@@ -8,8 +8,6 @@
 
 #import <DIMClient/DIMClient.h>
 
-#import "MKMRSAHelper.h"
-
 #import "NSObject+Extension.h"
 #import "UIViewController+Extension.h"
 #import "UIView+Extension.h"
@@ -379,10 +377,9 @@
             DIMPrivateKey key = (DIMPrivateKey)[facebook privateKeyForVisaSignature:user.ID];
             
             NSString *privateKeyString = [key objectForKey:@"data"];
-            NSString *privateKey = RSAPrivateKeyContentFromNSString(privateKeyString);
             
             //Copy to clipboard
-            [[UIPasteboard generalPasteboard] setString:privateKey];
+            [[UIPasteboard generalPasteboard] setString:privateKeyString];
             
             [self showMessage:NSLocalizedString(@"Your account infomation has been saved to clipboard, please save it to Notes", nil)
                     withTitle:NSLocalizedString(@"Success", @"title")];
