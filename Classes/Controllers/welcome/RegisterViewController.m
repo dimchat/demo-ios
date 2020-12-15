@@ -249,14 +249,7 @@
     }
     
     // 3. generate ID
-    self.ID = nil;
-    if ([self.meta isKindOfClass:[MKMMetaDefault class]]) {
-        self.ID = [(MKMMetaDefault *)self.meta generateID:MKMNetwork_Main];
-    } else if ([self.meta isKindOfClass:[MKMMetaBTC class]]) {
-        self.ID = [(MKMMetaBTC *)self.meta generateID];
-    }
-    // TODO: generate ID with ETH meta
-    NSAssert(self.ID, @"failed to generate ID with meta: %@", self.meta);
+    self.ID = [self.meta generateID:MKMNetwork_Main terminal:nil];
 
     if (self.ID == nil) {
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate ID"}];

@@ -63,14 +63,7 @@
     // 2. generate meta
     DIMMeta meta = MKMMetaGenerate(version, SK, username);
     // 3. generate ID
-    DIMID ID = nil;
-    if ([meta isKindOfClass:[MKMMetaDefault class]]) {
-        ID = [(MKMMetaDefault *)meta generateID:MKMNetwork_Main];
-    } else if ([meta isKindOfClass:[MKMMetaBTC class]]) {
-        ID = [(MKMMetaBTC *)meta generateID];
-    }
-    // TODO: generate ID with ETH meta
-    NSAssert(ID, @"failed to generate ID with meta: %@", meta);
+    DIMID ID = [meta generateID:MKMNetwork_Main terminal:nil];
 
     Client *client = [Client sharedInstance];
     if (![client importUser:ID meta:meta privateKey:SK]) {
