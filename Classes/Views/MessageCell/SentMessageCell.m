@@ -22,7 +22,7 @@
 
 @implementation SentMessageCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage )iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(DIMInstantMessage)iMsg bounds:(CGRect)rect {
     NSString *text = nil;
     if (iMsg.content.type == DKDContentType_Text) {
         text = [(DIMTextContent *)iMsg.content text];

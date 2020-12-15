@@ -19,7 +19,6 @@
 #import "Client.h"
 #import "ContactCell.h"
 #import "AccountTableViewController.h"
-#import "DIMClientConstants.h"
 
 @interface AccountTableViewController ()<UITableViewDelegate, UITableViewDataSource>{
     

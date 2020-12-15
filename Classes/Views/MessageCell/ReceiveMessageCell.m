@@ -25,7 +25,7 @@
 
 @implementation ReceiveMessageCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage )iMsg bounds:(CGRect)rect showName:(BOOL)showName{
++ (CGSize)sizeWithMessage:(DIMInstantMessage)iMsg bounds:(CGRect)rect showName:(BOOL)showName{
     
     NSString *text = nil;
     if (iMsg.content.type == DKDContentType_Text) {
@@ -66,7 +66,7 @@
     return CGSizeMake(cellWidth, cellHeight);
 }
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage )iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(DIMInstantMessage)iMsg bounds:(CGRect)rect {
     return [ReceiveMessageCell sizeWithMessage:iMsg bounds:rect showName:NO];
 }
 

@@ -10,7 +10,6 @@
 #import "User.h"
 #import "MessageDatabase.h"
 #import "Client.h"
-#import "DIMClientConstants.h"
 #import "ChatViewController.h"
 #import "ConversationCell.h"
 #import "ConversationsTableViewController.h"

@@ -15,7 +15,6 @@
 #import "SearchUsersTableViewController.h"
 #import "ChatViewController.h"
 #import "MessageDatabase.h"
-#import "DIMClientConstants.h"
 
 @interface ContactsTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     

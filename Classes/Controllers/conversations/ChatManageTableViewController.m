@@ -17,7 +17,6 @@
 #import "ProfileTableViewController.h"
 #import "ParticipantCollectionCell.h"
 #import "ParticipantsCollectionViewController.h"
-#import "DIMClientConstants.h"
 #import "ChatManageTableViewController.h"
 #import "SwitchCell.h"
 #import "LocalDatabaseManager.h"

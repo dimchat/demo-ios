@@ -13,7 +13,6 @@
 #import "User.h"
 #import "ContactCell.h"
 #import "UIColor+Extension.h"
-#import "DIMClientConstants.h"
 
 @implementation ContactCell
 

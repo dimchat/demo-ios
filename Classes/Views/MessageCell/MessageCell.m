@@ -16,7 +16,7 @@
 
 @implementation MessageCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage )message bounds:(CGRect)rect{
++ (CGSize)sizeWithMessage:(DIMInstantMessage)message bounds:(CGRect)rect{
     return CGSizeMake(0.0, 0.0);
 }
 
@@ -95,7 +95,7 @@
     } waitUntilDone:NO];
 }
 
-- (void)setMessage:(DIMInstantMessage )message {
+- (void)setMessage:(DIMInstantMessage)message {
     if (![_message isEqual:message]) {
         _message = message;
         

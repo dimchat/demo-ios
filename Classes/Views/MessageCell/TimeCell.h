@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TimeCell : UITableViewCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage )message bounds:(CGRect)rect;
++ (CGSize)sizeWithMessage:(DIMInstantMessage)message bounds:(CGRect)rect;
 
 -(void)setTime:(NSTimeInterval)timestamp;
 

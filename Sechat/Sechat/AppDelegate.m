@@ -17,7 +17,6 @@
 #import "UIColor+Extension.h"
 #import "LocalDatabaseManager.h"
 #import "FolderUtility.h"
-#import "DIMClientConstants.h"
 //#import "JPUSHService.h"
 
 @interface AppDelegate ()<UITabBarControllerDelegate/*, JPUSHRegisterDelegate*/>

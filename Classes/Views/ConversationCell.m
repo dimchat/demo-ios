@@ -15,7 +15,6 @@
 #import "UIColor+Extension.h"
 #import "Client.h"
 #import "LocalDatabaseManager.h"
-#import "DIMClientConstants.h"
 
 @implementation ConversationCell
 

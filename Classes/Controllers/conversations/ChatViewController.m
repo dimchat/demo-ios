@@ -29,7 +29,6 @@
 #import "ChatViewController.h"
 #import "ZoomInViewController.h"
 #import "LocalDatabaseManager.h"
-#import "DIMClientConstants.h"
 #import "ChatVoiceView.h"
 #import "FolderUtility.h"
 #import "EMAudioRecordHelper.h"

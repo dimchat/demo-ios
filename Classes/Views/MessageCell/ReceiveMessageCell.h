@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ReceiveMessageCell : MessageCell
 
 @property(nonatomic, readwrite) BOOL showName;
-+ (CGSize)sizeWithMessage:(DIMInstantMessage )iMsg bounds:(CGRect)rect showName:(BOOL)showName;
++ (CGSize)sizeWithMessage:(DIMInstantMessage)iMsg bounds:(CGRect)rect showName:(BOOL)showName;
 
 @end
 

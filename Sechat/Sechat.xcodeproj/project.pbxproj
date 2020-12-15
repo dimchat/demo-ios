@@ -1406,9 +1406,8 @@
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../client-objc/Classes/**",
-					"../../sdk-objc/Classes/**",
-					"../../dkd-objc/Classes/**",
+					"../../client-objc/Classes/extends/**",
+					"../../client-objc/Classes/modules/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1438,9 +1437,8 @@
 				DEVELOPMENT_TEAM = EQ22GS36XN;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../client-objc/Classes/**",
-					"../../sdk-objc/Classes/**",
-					"../../dkd-objc/Classes/**",
+					"../../client-objc/Classes/extends/**",
+					"../../client-objc/Classes/modules/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
