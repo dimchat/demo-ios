@@ -36,7 +36,6 @@
 "Seed" = "Seed";
 "Username" = "帳號名";
 "Address" = "地址";
-"Search No." = "搜索號";
 
 "Clear Chat History" = "抹咗聊天紀錄";
 "Are you sure to clear all messages with %@ ?\nThis operation is unrecoverable!" = "你確實要抹曬 %@ 嘅所有紀錄嗎？\n呢個操作無辦法撤銷喔！";
@@ -148,6 +147,5 @@
 "Import Account" = "導入賬號";
 "Copy Address Success" = "成功複製地址";
 "HH:mm a" = "a HH:mm";
-"Search NO." = "搜索號";
 "Copy" = "複製";
 "Wallet" = "錢包";

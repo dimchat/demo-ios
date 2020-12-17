@@ -290,7 +290,20 @@
         
         if (indexPath.row == 0) {
             
-            cell.textLabel.text = NSLocalizedString(@"Search NO.", @"title");
+            cell.textLabel.text = NSLocalizedString(@"Seed", @"title");
+            NSString *seed = ID.name;
+            if (seed.length == 0) {
+                if ([ID isKindOfClass:[MKMAddressETH class]]) {
+                    seed = @"ETH";
+                } else if ([ID isKindOfClass:[MKMAddressBTC class]]) {
+                    if (ID.type == MKMNetwork_BTCMain) {
+                        seed = @"BTC";
+                    } else {
+                        seed = @"MKM";
+                    }
+                }
+            }
+            cell.detailTextLabel.text = seed;
             
         } else if(indexPath.row == 1){
             
