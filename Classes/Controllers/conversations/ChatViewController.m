@@ -249,7 +249,7 @@
         BOOL hasSentMessage = NO;
         while(i < messageCount){
             
-            DKDInstantMessage *iMsg = [_conversation messageAtIndex:i];
+            DIMInstantMessage iMsg = [_conversation messageAtIndex:i];
             DIMID sender = iMsg.envelope.sender;
             
             if(sender == user.ID){
@@ -686,7 +686,7 @@
     
     while(i < messageCount){
         
-        DKDInstantMessage *iMsg = [_conversation messageAtIndex:i];
+        DIMInstantMessage iMsg = [_conversation messageAtIndex:i];
         NSTimeInterval msgTime = [[iMsg objectForKey:@"time"] doubleValue];
         
         if(msgTime > currentTime + 15 * 60){

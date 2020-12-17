@@ -112,7 +112,7 @@
     NSString *name;
     while (--count >= 0) {
         contact = [contacts objectAtIndex:count];
-        profile = DIMDocumentForID(contact, MKMDocument_Any);
+        profile = DIMDocumentForID(contact, @"*");
         name = profile.name;
         if (name.length == 0) {
             name = contact.name;

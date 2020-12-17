@@ -247,7 +247,7 @@
     DIMUserDataSource dataSource = user.dataSource;
     DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
     
-    DIMDocument profile = [user documentWithType:MKMDocument_Any];
+    DIMDocument profile = [user documentWithType:@"*"];
     [profile setName:nickname];
     [profile sign:SK];
     

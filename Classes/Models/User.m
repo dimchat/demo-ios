@@ -24,7 +24,7 @@ NSString *group_title(DIMID ID) {
 }
 
 NSString *readable_name(DIMID ID) {
-    DIMDocument profile = DIMDocumentForID(ID, MKMDocument_Any);
+    DIMDocument profile = DIMDocumentForID(ID, @"*");
     NSString *nickname = profile.name;
     NSString *username = ID.name;
     if (nickname) {
