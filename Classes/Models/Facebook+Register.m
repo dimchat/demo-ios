@@ -8,8 +8,6 @@
 
 #import "Client.h"
 
-#import "DIMFacebook+Extension.h"
-
 #import "Facebook+Register.h"
 
 @implementation DIMFacebook (Register)

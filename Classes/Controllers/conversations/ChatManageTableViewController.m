@@ -136,7 +136,7 @@
                 DIMQuitCommand *cmd = [[DIMQuitCommand alloc] initWithGroup:group.ID];
                 NSArray *members = group.members;
                 for (DIMID member in members) {
-                    [messenger sendContent:cmd receiver:member callback:NULL];
+                    [messenger sendContent:cmd receiver:member];
                 }
                 // remove myself
                 [[DIMFacebook sharedInstance] group:group.ID removeMember:user.ID];
