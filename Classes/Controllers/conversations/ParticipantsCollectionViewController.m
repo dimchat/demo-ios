@@ -39,7 +39,7 @@
         [_participants addObject:_conversation.ID];
     } else if (MKMIDIsGroup(_conversation.ID)) {
         // group conversation
-        DIMGroup group = DIMGroupWithID(_conversation.ID);
+        MKMGroup *group = DIMGroupWithID(_conversation.ID);
         [_participants addObjectsFromArray:group.members];
     }
 }

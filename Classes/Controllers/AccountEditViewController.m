@@ -97,7 +97,7 @@
     // Do any additional setup after loading the view.
     
     Client *client = [Client sharedInstance];
-    DIMUser user = client.currentUser;
+    MKMUser *user = client.currentUser;
     MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
     
     CGSize avatarSize = _avatarImageView.bounds.size;
@@ -124,7 +124,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     MKMVisa *profile = [notification.userInfo objectForKey:@"profile"];
-    DIMUser user = [Client sharedInstance].currentUser;
+    MKMUser *user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
         return ;
@@ -194,7 +194,7 @@
         
         DIMFacebook *facebook = [DIMFacebook sharedInstance];
         Client *client = [Client sharedInstance];
-        DIMUser user = client.currentUser;
+        MKMUser *user = client.currentUser;
         DIMID ID = user.ID;
         MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
         if (!profile) {
@@ -242,7 +242,7 @@
     }
     
     Client *client = [Client sharedInstance];
-    DIMUser user = client.currentUser;
+    MKMUser *user = client.currentUser;
     
     DIMUserDataSource dataSource = user.dataSource;
     DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
@@ -276,7 +276,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Client *client = [Client sharedInstance];
-    DIMUser user = client.currentUser;
+    MKMUser *user = client.currentUser;
     DIMID ID = user.ID;
     
     UITableViewCell *cell = nil;
@@ -293,19 +293,21 @@
             cell.textLabel.text = NSLocalizedString(@"Seed", @"title");
             NSString *seed = ID.name;
             if (seed.length == 0) {
-                if ([ID isKindOfClass:[MKMAddressETH class]]) {
-                    seed = @"ETH";
-                } else if ([ID isKindOfClass:[MKMAddressBTC class]]) {
+                if ([ID.address isKindOfClass:[MKMAddressETH class]]) {
+                    seed = @"{ETH Address}";
+                } else if ([ID.address isKindOfClass:[MKMAddressBTC class]]) {
                     if (ID.type == MKMNetwork_BTCMain) {
-                        seed = @"BTC";
+                        seed = @"{BTC Address}";
                     } else {
-                        seed = @"MKM";
+                        seed = @"{DID}";
                     }
+                } else {
+                    seed = @"{UNKNOWN}";
                 }
             }
             cell.detailTextLabel.text = seed;
             
-        } else if(indexPath.row == 1){
+        } else if(indexPath.row == 1) {
             
             cell.textLabel.text = NSLocalizedString(@"Address", @"title");
             cell.detailTextLabel.text = ID.address.string;
@@ -350,7 +352,7 @@
         NSInteger row = indexPath.row;
         
         Client *client = [Client sharedInstance];
-        DIMUser user = client.currentUser;
+        MKMUser *user = client.currentUser;
         
         if (section == 0) {
 
@@ -373,7 +375,7 @@
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
     Client *client = [Client sharedInstance];
-    DIMUser user = client.currentUser;
+    MKMUser *user = client.currentUser;
     
     if (section == 1) {
         // function

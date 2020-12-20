@@ -194,7 +194,7 @@
 -(NSError *)saveAndSubmit {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    DIMUser user = facebook.currentUser;
+    MKMUser *user = facebook.currentUser;
     DIMID ID = user.ID;
     
     DIMUserDataSource dataSource = user.dataSource;
@@ -232,31 +232,33 @@
 - (NSError *)generate {
     NSLog(@"refreshing...");
     
-    NSString *username = @"dim";
+    DIMRegister *reg = [[DIMRegister alloc] init];
+    MKMUser *user = [reg createUserWithName:self.nickname avatar:nil];
     
-    // 1. generate private key
-    self.SK = MKMPrivateKeyWithAlgorithm(ACAlgorithmRSA);
-    
+    // 1. generated private key
+    self.SK = reg.key;
     if (self.SK == nil) {
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate private key"}];
     }
     
-    // 2. generate meta
-    self.meta = MKMMetaGenerate(MKMMetaDefaultVersion, _SK, username);
-    
+    // 2. generated meta
+    self.meta = user.meta;
     if (self.meta == nil) {
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate meta"}];
     }
     
-    // 3. generate ID
-    self.ID = [self.meta generateID:MKMNetwork_Main terminal:nil];
-
+    // 3. generated ID
+    self.ID = user.ID;
     if (self.ID == nil) {
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate ID"}];
     }
     
     Client *client = [Client sharedInstance];
-    if (![client saveUser:self.ID meta:self.meta privateKey:self.SK name:self.nickname]) {
+    client.currentUser = user;
+    
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    BOOL saved = [facebook saveUserList:client.users withCurrentUser:user];
+    if (!saved) {
         return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not save user to client"}];
     }
     
@@ -298,7 +300,7 @@
         }
         
         Client *client = [Client sharedInstance];
-        DIMUser user = [client currentUser];
+        MKMUser *user = [client currentUser];
         
         //New User add Moky as contact
         NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";

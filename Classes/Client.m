@@ -116,7 +116,7 @@ SingletonImplementations(Client, sharedInstance)
     messenger.currentServer = server;
     
     // scan users
-    NSArray<DIMUser> *users = [facebook localUsers];
+    NSArray<MKMUser *> *users = [facebook localUsers];
 #if DEBUG && 0
     NSMutableArray *mArray;
     if (users.count > 0) {
@@ -129,7 +129,7 @@ SingletonImplementations(Client, sharedInstance)
     users = mArray;
 #endif
     // add users
-    for (DIMUser user in users) {
+    for (MKMUser *user in users) {
         NSLog(@"[client] add user: %@", user);
         [self addUser:user];
         facebook.currentUser = user;
@@ -187,7 +187,7 @@ SingletonImplementations(Client, sharedInstance)
 - (void)didEnterBackground {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    DIMUser user = facebook.currentUser;
+    MKMUser *user = facebook.currentUser;
     
     if(user != nil){
         // report client state
@@ -211,7 +211,7 @@ SingletonImplementations(Client, sharedInstance)
     [nc removeAllPendingNotificationRequests];
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    DIMUser user = facebook.currentUser;
+    MKMUser *user = facebook.currentUser;
     
     if(user != nil){
         // report client state
@@ -327,43 +327,6 @@ SingletonImplementations(Client, sharedInstance)
 
 @implementation Client (Register)
 
-- (BOOL)saveUser:(DIMID)ID meta:(DIMMeta)meta privateKey:(DIMPrivateKey)SK name:(nullable NSString *)nickname {
-    
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    
-    // 1. save meta & private key
-    if (![facebook savePrivateKey:SK type:DIMPrivateKeyType_Meta user:ID]) {
-        NSAssert(false, @"failed to save private key for new user: %@", ID);
-        return NO;
-    }
-    if (![facebook saveMeta:meta forID:ID]) {
-        NSAssert(false, @"failed to save meta for new user: %@", ID);
-        return NO;
-    }
-
-    // 2. save nickname in profile
-    if (nickname.length > 0) {
-        
-        DIMDocument profile = MKMDocumentNew(ID, MKMDocument_Visa);
-
-        [profile setName:nickname];
-        [profile sign:SK];
-        if (![facebook saveDocument:profile]) {
-            NSAssert(false, @"failedo to save profile for new user: %@", ID);
-            return NO;
-        }
-    }
-    
-    // 3. create user for client
-    DIMUser user = [[MKMUser alloc] initWithID:ID];
-    user.dataSource = facebook;
-    self.currentUser = user;
-    
-    BOOL saved = [facebook saveUserList:self.users withCurrentUser:user];
-    NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
-    return saved;
-}
-
 - (BOOL)importUser:(DIMID)ID meta:(DIMMeta)meta privateKey:(DIMPrivateKey)SK {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
@@ -378,7 +341,7 @@ SingletonImplementations(Client, sharedInstance)
         return NO;
     }
     
-    DIMUser user = DIMUserWithID(ID);
+    MKMUser *user = DIMUserWithID(ID);
     [self login:user];
     
     BOOL saved = [facebook saveUserList:self.users withCurrentUser:user];

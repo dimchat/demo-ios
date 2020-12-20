@@ -78,7 +78,7 @@
         DIMID groupID = [userInfo objectForKey:@"group"];
         
         Client *client = [Client sharedInstance];
-        DIMUser user = client.currentUser;
+        MKMUser *user = client.currentUser;
         NSArray<DIMID> *contacts = user.contacts;
         
         if(![contacts containsObject:groupID]){
@@ -102,7 +102,7 @@
     _contactsTable = [[NSMutableDictionary alloc] init];
     
     Client *client = [Client sharedInstance];
-    DIMUser user = client.currentUser;
+    MKMUser *user = client.currentUser;
     NSArray<DIMID> *contacts = user.contacts;
     NSInteger count = [contacts count];
     
@@ -218,7 +218,7 @@
         DIMID ID = [list objectAtIndex:row];
         
         Client *client = [Client sharedInstance];
-        DIMUser user = client.currentUser;
+        MKMUser *user = client.currentUser;
         [[DIMFacebook sharedInstance] user:user.ID removeContact:ID];
         
         //Post contacts to server

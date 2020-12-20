@@ -93,7 +93,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    DIMUser user = DIMUserWithID(self.contact);
+    MKMUser *user = DIMUserWithID(self.contact);
     NSString *name = !user ? self.contact.name : user.name;
     self.nicknameLabel.text = name;
     
@@ -114,7 +114,7 @@
 
 -(void)loadData{
     
-    DIMUser user = [Client sharedInstance].currentUser;
+    MKMUser *user = [Client sharedInstance].currentUser;
     if ([user.contacts containsObject:_contact]) {
         self.actionArray = @[NSLocalizedString(@"Chat", @"title")];
     }else{
@@ -154,9 +154,9 @@
     if([message isEqualToString:NSLocalizedString(@"Add To Contact", @"title")]){
         
         Client *client = [Client sharedInstance];
-        DIMUser user = client.currentUser;
+        MKMUser *user = client.currentUser;
         
-        DIMUser selectedUser = DIMUserWithID(self.contact);
+        MKMUser *selectedUser = DIMUserWithID(self.contact);
         NSString *name = !selectedUser ? self.contact.name : selectedUser.name;
         NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Do you want to add %@ to your contact?", @"title"), name];
         
