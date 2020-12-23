@@ -185,43 +185,19 @@ SingletonImplementations(Client, sharedInstance)
 }
 
 - (void)didEnterBackground {
-    
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    MKMUser *user = facebook.currentUser;
-    
-    if(user != nil){
-        // report client state
-        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
-        [cmd setObject:@"report" forKey:@"title"];
-        [cmd setObject:@"background" forKey:@"state"];
-        
-        DIMMessenger *messenger = [DIMMessenger sharedInstance];
-        [messenger sendCommand:cmd];
-    }
+    [self reportOffline];
     [_currentStation pause];
 }
 
 - (void)willEnterForeground {
     [_currentStation resume];
+    [self reportOnline];
     
     // clear icon badge
     UIApplication *app = [UIApplication sharedApplication];
     app.applicationIconBadgeNumber = 0;
     UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
     [nc removeAllPendingNotificationRequests];
-    
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    MKMUser *user = facebook.currentUser;
-    
-    if(user != nil){
-        // report client state
-        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
-        [cmd setObject:@"report" forKey:@"title"];
-        [cmd setObject:@"foreground" forKey:@"state"];
-        
-        DIMMessenger *messenger = [DIMMessenger sharedInstance];
-        [messenger sendCommand:cmd];
-    }
 }
 
 - (void)willTerminate {
