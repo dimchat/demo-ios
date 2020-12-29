@@ -73,12 +73,12 @@
     [_avatarImageView setImage:image];
     
     if (_contact.type == MKMNetwork_Group) {
-        MKMGroup *group = DIMGroupWithID(_contact);
+        DIMGroup *group = DIMGroupWithID(_contact);
         NSString *name = !group ? _contact.name : group.name;
         self.nameLabel.text = name;
         self.descLabel.text = [_contact string];
     } else {
-        MKMUser *user = DIMUserWithID(_contact);
+        DIMUser *user = DIMUserWithID(_contact);
         NSString *name = !user ? _contact.name : user.name;
         self.nameLabel.text = name;
         self.descLabel.text = [_contact string];

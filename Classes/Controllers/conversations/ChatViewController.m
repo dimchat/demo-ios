@@ -244,7 +244,7 @@
         NSUInteger messageCount = [_conversation numberOfMessage];
         
         Client *client = [Client sharedInstance];
-        MKMUser *user = client.currentUser;
+        DIMUser *user = client.currentUser;
         
         BOOL hasSentMessage = NO;
         while(i < messageCount){
@@ -722,7 +722,7 @@
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
-    MKMUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     
     id obj = [self messageAtIndex:row];
     

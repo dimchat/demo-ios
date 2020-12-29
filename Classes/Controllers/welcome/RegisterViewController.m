@@ -194,10 +194,10 @@
 -(NSError *)saveAndSubmit {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    MKMUser *user = facebook.currentUser;
+    DIMUser *user = facebook.currentUser;
     DIMID ID = user.ID;
     
-    DIMUserDataSource dataSource = user.dataSource;
+    id<DIMUserDataSource> dataSource = user.dataSource;
     DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
     
     DIMVisa profile = DIMDocumentForID(ID, MKMDocument_Visa);
@@ -233,7 +233,7 @@
     NSLog(@"refreshing...");
     
     DIMRegister *reg = [[DIMRegister alloc] init];
-    MKMUser *user = [reg createUserWithName:self.nickname avatar:nil];
+    DIMUser *user = [reg createUserWithName:self.nickname avatar:nil];
     
     // 1. generated private key
     self.SK = reg.key;
@@ -300,7 +300,7 @@
         }
         
         Client *client = [Client sharedInstance];
-        MKMUser *user = [client currentUser];
+        DIMUser *user = [client currentUser];
         
         //New User add Moky as contact
         NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";

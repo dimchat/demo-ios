@@ -71,7 +71,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     DIMDocument profile = [notification.userInfo objectForKey:@"profile"];
-    MKMUser *user = [Client sharedInstance].currentUser;
+    DIMUser *user = [Client sharedInstance].currentUser;
     if ([profile.ID isEqual:user.ID]) {
         [self reloadData];
     }
@@ -81,7 +81,7 @@
     
     NSDictionary *userInfo = [o userInfo];
     DIMID userID = [userInfo objectForKey:@"ID"];
-    MKMUser *user = [Client sharedInstance].currentUser;
+    DIMUser *user = [Client sharedInstance].currentUser;
     
     if([userID isEqual:user.ID]){
         [self reloadData];
@@ -90,7 +90,7 @@
 
 - (void)reloadData {
     [NSObject performBlockOnMainThread:^{
-        MKMUser *user = [Client sharedInstance].currentUser;
+        DIMUser *user = [Client sharedInstance].currentUser;
         
         CGRect avatarFrame = self.avatarImageView.frame;
         MKMVisa *profile = [user documentWithType:MKMDocument_Visa];

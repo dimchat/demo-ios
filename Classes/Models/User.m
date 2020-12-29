@@ -11,13 +11,13 @@
 #import "User.h"
 
 NSString *user_title(DIMID ID) {
-    MKMUser *user = DIMUserWithID(ID);
+    DIMUser *user = DIMUserWithID(ID);
     NSString *name = !user ? ID.name : user.name;
     return name;
 }
 
 NSString *group_title(DIMID ID) {
-    MKMGroup *group = DIMGroupWithID(ID);
+    DIMGroup *group = DIMGroupWithID(ID);
     NSString *name = !group ? ID.name : group.name;
     NSUInteger count = group.members.count;
     return [NSString stringWithFormat:@"%@ (%lu)", name, (unsigned long)count];

@@ -97,7 +97,7 @@
     // Do any additional setup after loading the view.
     
     Client *client = [Client sharedInstance];
-    MKMUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
     
     CGSize avatarSize = _avatarImageView.bounds.size;
@@ -124,7 +124,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     MKMVisa *profile = [notification.userInfo objectForKey:@"profile"];
-    MKMUser *user = [Client sharedInstance].currentUser;
+    DIMUser *user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
         return ;
@@ -194,7 +194,7 @@
         
         DIMFacebook *facebook = [DIMFacebook sharedInstance];
         Client *client = [Client sharedInstance];
-        MKMUser *user = client.currentUser;
+        DIMUser *user = client.currentUser;
         DIMID ID = user.ID;
         MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
         if (!profile) {
@@ -202,7 +202,7 @@
             return ;
         }
         
-        DIMUserDataSource dataSource = user.dataSource;
+        id<DIMUserDataSource> dataSource = user.dataSource;
         DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
         
         // save to local storage
@@ -242,9 +242,9 @@
     }
     
     Client *client = [Client sharedInstance];
-    MKMUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     
-    DIMUserDataSource dataSource = user.dataSource;
+    id<DIMUserDataSource> dataSource = user.dataSource;
     DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
     
     DIMDocument profile = [user documentWithType:@"*"];
@@ -276,7 +276,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Client *client = [Client sharedInstance];
-    MKMUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     DIMID ID = user.ID;
     
     UITableViewCell *cell = nil;
@@ -352,7 +352,7 @@
         NSInteger row = indexPath.row;
         
         Client *client = [Client sharedInstance];
-        MKMUser *user = client.currentUser;
+        DIMUser *user = client.currentUser;
         
         if (section == 0) {
 
@@ -375,7 +375,7 @@
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
     Client *client = [Client sharedInstance];
-    MKMUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     
     if (section == 1) {
         // function

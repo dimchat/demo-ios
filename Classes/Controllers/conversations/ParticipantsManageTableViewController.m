@@ -20,7 +20,7 @@
 
 @interface ParticipantsManageTableViewController () {
     
-    MKMGroup *_group;
+    DIMGroup *_group;
     DIMID _founder;
     NSArray<DIMID> *_memberList;
     
@@ -38,7 +38,7 @@
     [_logoImageView roundedCorner];
     
     Client *client = [Client sharedInstance];
-    MKMUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     
     // 1. group info
     if (MKMIDIsGroup(_conversation.ID)) {
@@ -114,7 +114,7 @@
     }
 }
 
--(NSArray <DIMID> *)groupMemberCandidates:(MKMGroup *)group currentUser:(MKMUser *)user {
+-(NSArray <DIMID> *)groupMemberCandidates:(DIMGroup *)group currentUser:(DIMUser *)user {
     DIMID founder = group.founder;
     NSArray<DIMID> *members = group.members;
     DIMID current = user.ID;
@@ -175,8 +175,8 @@
 
 - (BOOL)submitGroupInfo {
     Client *client = [Client sharedInstance];
-    MKMUser *user = client.currentUser;
-    DIMUserDataSource dataSource = user.dataSource;
+    DIMUser *user = client.currentUser;
+    id<DIMUserDataSource> dataSource = user.dataSource;
     DIMSignKey signKey = [dataSource privateKeyForSignature:user.ID];
     
     DIMID ID = _conversation.ID;
@@ -408,7 +408,7 @@
     } else if (section == 1) {
         // candidates
         Client *client = [Client sharedInstance];
-        MKMUser *user = client.currentUser;
+        DIMUser *user = client.currentUser;
         DIMID contact;
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;

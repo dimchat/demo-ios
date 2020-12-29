@@ -63,7 +63,7 @@
     [self.window makeKeyAndVisible];
     
     Client *client = [Client sharedInstance];
-    MKMUser *user = client.currentUser;
+    DIMUser *user = client.currentUser;
     if (!user) {
         WelcomeViewController *vc = [[WelcomeViewController alloc] init];
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];

@@ -16,8 +16,8 @@
       privateKey:(DIMPrivateKey)SK
            forID:(DIMID)ID {
     
-    NSArray<MKMUser *> *array = [self localUsers];
-    for (MKMUser *item in array) {
+    NSArray<DIMUser *> *array = [self localUsers];
+    for (DIMUser *item in array) {
         if ([item.ID isEqual:ID]) {
             NSLog(@"User ID already exists: %@", ID);
             return NO;
@@ -57,11 +57,11 @@
     return [self saveUsers:users];
 }
 
-- (BOOL)saveUserList:(NSArray<MKMUser *> *)users
-     withCurrentUser:(MKMUser *)curr {
+- (BOOL)saveUserList:(NSArray<DIMUser *> *)users
+     withCurrentUser:(DIMUser *)curr {
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
     [list addObject:curr.ID];
-    for (MKMUser *user in users) {
+    for (DIMUser *user in users) {
         if ([list containsObject:user.ID]) {
             // ignore
         } else {
