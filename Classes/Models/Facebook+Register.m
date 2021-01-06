@@ -35,7 +35,7 @@
     
     // 2. check & save private key
     DIMVerifyKey PK = meta.key;
-    if (MKMAsymmetricKeysMatched(SK, PK)) {
+    if ([PK isMatch:SK]) {
         if ([facebook savePrivateKey:SK type:DIMPrivateKeyType_Meta user:ID]) {
             NSLog(@"private key saved: %@", SK);
         } else {
