@@ -97,7 +97,7 @@
     NSString *name = !user ? self.contact.name : user.name;
     self.nicknameLabel.text = name;
     
-    MKMVisa *profile = DIMDocumentForID(_contact, MKMDocument_Visa);
+    MKMVisa *profile = DIMVisaForID(_contact);
     CGRect frame = self.avatarView.frame;
     UIImage *image = [profile avatarImageWithSize:frame.size];
     self.avatarView.image = image;

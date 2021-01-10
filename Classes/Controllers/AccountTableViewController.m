@@ -59,7 +59,7 @@
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(didProfileUpdated:)
-               name:kNotificationName_ProfileUpdated object:nil];
+               name:kNotificationName_DocumentUpdated object:nil];
     [nc addObserver:self selector:@selector(onAvatarUpdated:)
                name:kNotificationName_AvatarUpdated object:nil];
 }
@@ -93,7 +93,7 @@
         DIMUser *user = [Client sharedInstance].currentUser;
         
         CGRect avatarFrame = self.avatarImageView.frame;
-        MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
+        MKMVisa *profile = user.visa;
         UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
         [self.avatarImageView setImage:image];
         self.nameLabel.text = user_title(user.ID);

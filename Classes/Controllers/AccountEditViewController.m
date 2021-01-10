@@ -98,7 +98,7 @@
     
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
-    MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
+    MKMVisa *profile = user.visa;
     
     CGSize avatarSize = _avatarImageView.bounds.size;
     
@@ -196,14 +196,11 @@
         Client *client = [Client sharedInstance];
         DIMUser *user = client.currentUser;
         DIMID ID = user.ID;
-        MKMVisa *profile = [user documentWithType:MKMDocument_Visa];
-        if (!profile) {
+        DIMVisa visa = user.visa;
+        if (!visa) {
             NSAssert(false, @"profile should not be empty");
             return ;
         }
-        
-        id<DIMUserDataSource> dataSource = user.dataSource;
-        DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
         
         // save to local storage
         [facebook saveAvatar:data name:filename forID:ID];
@@ -213,19 +210,22 @@
         NSURL *url = [ftp uploadAvatar:data filename:filename sender:ID];
         
         // got avatar URL
-        profile.avatar = [url absoluteString];
-        [profile sign:SK];
+        visa.avatar = [url absoluteString];
+        
+        id<DIMUserDataSource> dataSource = user.dataSource;
+        DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
+        [visa sign:SK];
         
         // save profile with new avatar
-        [facebook saveDocument:profile];
+        [facebook saveDocument:visa];
         
         // submit to network
         DIMMessenger *messenger = [DIMMessenger sharedInstance];
-        [messenger postProfile:profile];
+        [messenger postDocument:visa withMeta:user.meta];
         
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName:kNotificationName_AvatarUpdated object:self
-                        userInfo:@{@"ID": profile.ID, @"profile": profile}];
+                        userInfo:@{@"ID": visa.ID, @"profile": visa}];
     }
 }
 
@@ -244,20 +244,20 @@
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     
+    DIMVisa visa = user.visa;
+    [visa setName:nickname];
+    
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
+    [visa sign:SK];
     
-    DIMDocument profile = [user documentWithType:@"*"];
-    [profile setName:nickname];
-    [profile sign:SK];
-    
-    [[DIMFacebook sharedInstance] saveDocument:profile];
+    [[DIMFacebook sharedInstance] saveDocument:visa];
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
     
     // submit to station
-    [messenger postProfile:profile];
+    [messenger postDocument:visa withMeta:user.meta];
     // broadcast to all contacts
-    [messenger broadcastProfile:profile];
+    [messenger broadcastVisa:visa];
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc postNotificationName:kNotificationName_AvatarUpdated

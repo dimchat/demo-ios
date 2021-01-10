@@ -40,7 +40,7 @@
         [nc addObserver:self selector:@selector(didAvatarUpdated:)
                    name:kNotificationName_AvatarUpdated object:nil];
         [nc addObserver:self selector:@selector(didProfileUpdated:)
-                   name:kNotificationName_ProfileUpdated object:nil];
+                   name:kNotificationName_DocumentUpdated object:nil];
         [nc addObserver:self selector:@selector(didGroupMemberUpdated:)
                    name:kNotificationName_GroupMembersUpdated object:nil];
     }
@@ -62,7 +62,7 @@
     
     CGRect frame = self.avatarImageView.frame;
     
-    DIMDocument profile = DIMDocumentForID(_contact, MKMDocument_Visa);
+    DIMDocument profile = DIMDocumentForID(_contact, @"*");
     UIImage *image;
     if (MKMIDIsGroup(_contact)) {
         image = [(MKMBulletin *)profile logoImageWithSize:frame.size];

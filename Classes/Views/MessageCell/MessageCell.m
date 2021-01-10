@@ -87,7 +87,7 @@
         DIMID sender = env.sender;
         
         if ([ID isEqual:sender]) {
-            MKMVisa *profile = DIMDocumentForID(sender, MKMDocument_Visa);
+            MKMVisa *profile = DIMVisaForID(sender);
             CGRect avatarFrame = self.avatarImageView.frame;
             UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
             [self.avatarImageView setImage:image];
@@ -104,7 +104,7 @@
         DIMEnvelope env = message.envelope;
         DIMID sender = env.sender;
         DKDContent *content = message.content;
-        MKMVisa *profile = DIMDocumentForID(sender, MKMDocument_Visa);
+        MKMVisa *profile = DIMVisaForID(sender);
         
         self.nameLabel.text = profile.name;
         

@@ -188,7 +188,7 @@
     if (MKMIDIsGroup(ID)) {
         // exists group
         _group = DIMGroupWithID(ID);
-        profile = _conversation.profile;
+        profile = _group.bulletin;
         if (!profile) {
             profile = MKMDocumentNew(ID, MKMDocument_Bulletin);
         }

@@ -264,8 +264,8 @@
             
             //Send profile command to audience
             DIMID ID = user.ID;
-            DIMDocument profile = [user documentWithType:MKMDocument_Visa];
-            DIMCommand *cmd = [[DIMDocumentCommand alloc] initWithID:ID profile:profile];
+            DIMVisa visa = user.visa;
+            DIMCommand *cmd = [[DIMDocumentCommand alloc] initWithID:ID document:visa];
             DIMID receiverID = _conversation.ID;
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             [messenger sendContent:cmd receiver:receiverID];

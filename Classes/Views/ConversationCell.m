@@ -55,7 +55,7 @@
         [nc addObserver:self selector:@selector(onConversationUpdated:)
                    name:DIMConversationUpdatedNotification object:nil];
         [nc addObserver:self selector:@selector(onProfileUpdate:)
-                   name:kNotificationName_ProfileUpdated object:nil];
+                   name:kNotificationName_DocumentUpdated object:nil];
     }
     
     return self;
@@ -76,7 +76,7 @@
 - (void)onProfileUpdate:(NSNotification *)o {
     NSDictionary *profileDic = [o userInfo];
     DIMID ID = [profileDic objectForKey:@"ID"];
-    if ([ID isEqual:self.conversation.profile.ID]) {
+    if ([ID isEqual:self.conversation.ID]) {
         [NSObject performBlockOnMainThread:^{
             [self loadData];
             [self setNeedsLayout];
@@ -96,7 +96,7 @@
 }
 
 - (void)loadData {
-    DIMDocument profile = _conversation.profile;
+    DIMDocument profile = _conversation.document;
     
     // avatar
     CGRect frame = _avatarImageView.frame;

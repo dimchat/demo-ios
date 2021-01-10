@@ -197,10 +197,7 @@
     DIMUser *user = facebook.currentUser;
     DIMID ID = user.ID;
     
-    id<DIMUserDataSource> dataSource = user.dataSource;
-    DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
-    
-    DIMVisa profile = DIMDocumentForID(ID, MKMDocument_Visa);
+    DIMVisa visa = user.visa;
     
     if (self.imageData != nil) {
         
@@ -214,17 +211,20 @@
         NSURL *url = [ftp uploadAvatar:self.imageData filename:filename sender:ID];
         
         // got avatar URL
-        profile.avatar = [url absoluteString];
+        visa.avatar = [url absoluteString];
     }
     
-    [profile setName:self.nickname];
-    [profile sign:SK];
+    [visa setName:self.nickname];
     
-    [facebook saveDocument:profile];
+    id<DIMUserDataSource> dataSource = user.dataSource;
+    DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
+    [visa sign:SK];
+    
+    [facebook saveDocument:visa];
     
     // submit to station
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    [messenger postProfile:profile];
+    [messenger postDocument:visa withMeta:user.meta];
     
     return nil;
 }
