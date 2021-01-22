@@ -126,18 +126,9 @@
 		E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256312222ED7C006CADEA /* AccountTableViewController.m */; };
 		E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256372222ED7C006CADEA /* AccountEditViewController.m */; };
 		E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
-		E9533E782396B4B900AC6CF3 /* DIMSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF8B3E239685F300630BDE /* DIMSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97816CD2223EAA700BCE3AD /* Assets.xcassets */; };
 		E978171122254AB000BCE3AD /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
 		E978171222254AB000BCE3AD /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E978171F22254CBB00BCE3AD /* MarsGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; };
-		E978172322254CC600BCE3AD /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; };
-		E978172522254CC900BCE3AD /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; };
-		E978172622254D2400BCE3AD /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; };
-		E978172722254D2400BCE3AD /* DIMCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E978172922254D3400BCE3AD /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E97907732254A3970024C830 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907712254A3970024C830 /* ImagePickerController.m */; };
 		E979079D225520AA0024C830 /* DIMInstantMessage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */; };
 		E979080D2259CDA10024C830 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979080C2259CDA10024C830 /* UIView+Extension.m */; };
@@ -158,8 +149,6 @@
 		E99A5CCD222ECDBE00EE6C86 /* ParticipantCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCC222ECDBE00EE6C86 /* ParticipantCollectionCell.m */; };
 		E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */; };
 		E99E7772239687B300F250BB /* DIMSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF8B3E239685F300630BDE /* DIMSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
-		E9AFAAE122310B49001F95C6 /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */; };
 		E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */; };
 		E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */; };
@@ -167,6 +156,10 @@
 		E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3792242B21200E6ACDA /* NSString+Extension.m */; };
 		E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
 		E9CF8B402396875500630BDE /* DIMSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF8B3E239685F300630BDE /* DIMSDK.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		E9D71E5925BAE66E00773ED1 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */; };
+		E9D71E5E25BAE68D00773ED1 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E5D25BAE68D00773ED1 /* DIMCore.framework */; };
+		E9D71E6325BAE69F00773ED1 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E6225BAE69F00773ED1 /* MingKeMing.framework */; };
+		E9D71E6825BAE6B200773ED1 /* DIMSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E6725BAE6B200773ED1 /* DIMSDK.framework */; };
 		E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
 		E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
 		E9E82501224D198200A029F1 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
@@ -242,12 +235,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E9533E782396B4B900AC6CF3 /* DIMSDK.framework in Embed Frameworks */,
-				E978172922254D3400BCE3AD /* DaoKeDao.framework in Embed Frameworks */,
-				E9AFAAE122310B49001F95C6 /* FiniteStateMachine.framework in Embed Frameworks */,
-				E978172722254D2400BCE3AD /* DIMCore.framework in Embed Frameworks */,
-				E978172B22254D4700BCE3AD /* MingKeMing.framework in Embed Frameworks */,
-				E978172D22254D5000BCE3AD /* MarsGate.framework in Embed Frameworks */,
 				E978171222254AB000BCE3AD /* DIMClient.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -395,6 +382,10 @@
 		E9BBC37B2242B21200E6ACDA /* UIViewController+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboardSegue+Extension.m"; sourceTree = "<group>"; };
 		E9CF8B3E239685F300630BDE /* DIMSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9D71E5D25BAE68D00773ED1 /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9D71E6225BAE69F00773ED1 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9D71E6725BAE6B200773ED1 /* DIMSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9E824592245539100A029F1 /* Sechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sechat.entitlements; sourceTree = "<group>"; };
 		E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
 		E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
@@ -440,12 +431,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E978171122254AB000BCE3AD /* DIMClient.framework in Frameworks */,
-				E978172622254D2400BCE3AD /* DIMCore.framework in Frameworks */,
-				E978172322254CC600BCE3AD /* DaoKeDao.framework in Frameworks */,
-				E978172522254CC900BCE3AD /* MingKeMing.framework in Frameworks */,
-				E978171F22254CBB00BCE3AD /* MarsGate.framework in Frameworks */,
-				E9AFAAE022310B49001F95C6 /* FiniteStateMachine.framework in Frameworks */,
+				E9D71E5E25BAE68D00773ED1 /* DIMCore.framework in Frameworks */,
+				E9D71E6325BAE69F00773ED1 /* MingKeMing.framework in Frameworks */,
 				52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */,
+				E9D71E5925BAE66E00773ED1 /* DaoKeDao.framework in Frameworks */,
+				E9D71E6825BAE6B200773ED1 /* DIMSDK.framework in Frameworks */,
 				E922567F2222EF3D006CADEA /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -676,6 +666,10 @@
 		E92256782222EE25006CADEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E9D71E6725BAE6B200773ED1 /* DIMSDK.framework */,
+				E9D71E6225BAE69F00773ED1 /* MingKeMing.framework */,
+				E9D71E5D25BAE68D00773ED1 /* DIMCore.framework */,
+				E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */,
 				52011D5824E3E31E0015415D /* libresolv.tbd */,
 				52011D5624E3E3120015415D /* UserNotifications.framework */,
 				52011D5524E3E3030015415D /* libz.tbd */,
@@ -882,7 +876,7 @@
 		E92255B72222EC53006CADEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "DIM Group";
 				TargetAttributes = {
 					E92255BE2222EC53006CADEA = {
@@ -1229,7 +1223,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Sechat copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1263,7 +1257,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Sechat copy-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1304,6 +1298,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1330,7 +1325,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1365,6 +1360,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1385,7 +1381,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1403,14 +1399,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/extends/**",
 					"../../client-objc/Classes/modules/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1434,14 +1430,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = EQ22GS36XN;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../client-objc/Classes/extends/**",
 					"../../client-objc/Classes/modules/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
