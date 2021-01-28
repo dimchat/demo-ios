@@ -164,6 +164,7 @@
 
 -(void)addDefaultUser:(NSString *)address{
     
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
     DIMID ID = MKMIDFromString(address);
     
     NSString *metaPath = [NSString stringWithFormat:@"%@/meta", address];
@@ -171,15 +172,18 @@
     
     NSDictionary *metaData = [[NSDictionary alloc] initWithContentsOfFile:path];
     DIMMeta meta = MKMMetaFromDictionary(metaData);
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    [facebook saveMeta:meta forID:ID];
+    if (meta) {
+        [facebook saveMeta:meta forID:ID];
+    }
     
     NSString *profilePath = [NSString stringWithFormat:@"%@/profile", address];
     path = [[NSBundle mainBundle] pathForResource:profilePath ofType:@"plist"];
     
     NSDictionary *profileData = [[NSDictionary alloc] initWithContentsOfFile:path];
     DIMDocument profile = MKMDocumentFromDictionary(profileData);
-    [facebook saveDocument:profile];
+    if (profile) {
+        [facebook saveDocument:profile];
+    }
 }
 
 - (UITabBarController *)createTabBarController {
