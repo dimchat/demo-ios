@@ -12,7 +12,6 @@
 #import "UIViewController+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "WebViewController.h"
-#import "User.h"
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "AccountEditViewController.h"
@@ -96,7 +95,7 @@
         MKMVisa *profile = user.visa;
         UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
         [self.avatarImageView setImage:image];
-        self.nameLabel.text = user_title(user.ID);
+        self.nameLabel.text = user.name;
         self.descLabel.text = (NSString *)user.ID;
         
         [self.tableView reloadData];

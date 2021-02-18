@@ -45,7 +45,6 @@
 		52DBA3232340F2F90000C2B4 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907712254A3970024C830 /* ImagePickerController.m */; };
 		52DBA3242340F2F90000C2B4 /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
 		52DBA3252340F2F90000C2B4 /* ZoomInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790816225A6E2C0024C830 /* ZoomInViewController.m */; };
-		52DBA3262340F2F90000C2B4 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561A2222ED7C006CADEA /* User.m */; };
 		52DBA3272340F2F90000C2B4 /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* Facebook+Register.m */; };
 		52DBA3282340F2F90000C2B4 /* CommandMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5242949D2334829900E8DA05 /* CommandMessageCell.m */; };
 		52DBA3292340F2F90000C2B4 /* WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790852225CB8300024C830 /* WelcomeViewController.m */; };
@@ -120,7 +119,6 @@
 		E92256102222ED6B006CADEA /* gsp.plist in Resources */ = {isa = PBXBuildFile; fileRef = E922560B2222ED6B006CADEA /* gsp.plist */; };
 		E92256112222ED6B006CADEA /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
 		E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256192222ED7C006CADEA /* Facebook+Register.m */; };
-		E92256462222ED7C006CADEA /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561A2222ED7C006CADEA /* User.m */; };
 		E92256482222ED7C006CADEA /* MessageDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E922561D2222ED7C006CADEA /* MessageDatabase.m */; };
 		E922564A2222ED7C006CADEA /* Client.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256222222ED7C006CADEA /* Client.m */; };
 		E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256312222ED7C006CADEA /* AccountTableViewController.m */; };
@@ -313,9 +311,7 @@
 		E92256162222ED7C006CADEA /* Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 		E92256182222ED7C006CADEA /* MessageDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDatabase.h; sourceTree = "<group>"; };
 		E92256192222ED7C006CADEA /* Facebook+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Facebook+Register.m"; sourceTree = "<group>"; };
-		E922561A2222ED7C006CADEA /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		E922561D2222ED7C006CADEA /* MessageDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDatabase.m; sourceTree = "<group>"; };
-		E922561F2222ED7C006CADEA /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		E92256202222ED7C006CADEA /* Facebook+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook+Register.h"; sourceTree = "<group>"; };
 		E92256222222ED7C006CADEA /* Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Client.m; sourceTree = "<group>"; };
 		E92256282222ED7C006CADEA /* AccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountTableViewController.h; sourceTree = "<group>"; };
@@ -613,8 +609,6 @@
 		E92256172222ED7C006CADEA /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E922561F2222ED7C006CADEA /* User.h */,
-				E922561A2222ED7C006CADEA /* User.m */,
 				E918E01922C4A4D4007A3803 /* Facebook+Profile.h */,
 				E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */,
 				E92256202222ED7C006CADEA /* Facebook+Register.h */,
@@ -1028,7 +1022,6 @@
 				52DBA3232340F2F90000C2B4 /* ImagePickerController.m in Sources */,
 				52DBA3242340F2F90000C2B4 /* UIStoryboardSegue+Extension.m in Sources */,
 				52DBA3252340F2F90000C2B4 /* ZoomInViewController.m in Sources */,
-				52DBA3262340F2F90000C2B4 /* User.m in Sources */,
 				522EA28F2341953D00FC3BB8 /* BadgeView.m in Sources */,
 				52DBA3272340F2F90000C2B4 /* Facebook+Register.m in Sources */,
 				52DBA3282340F2F90000C2B4 /* CommandMessageCell.m in Sources */,
@@ -1086,7 +1079,6 @@
 				E97907732254A3970024C830 /* ImagePickerController.m in Sources */,
 				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
 				E9790817225A6E2C0024C830 /* ZoomInViewController.m in Sources */,
-				E92256462222ED7C006CADEA /* User.m in Sources */,
 				522EA28E2341953D00FC3BB8 /* BadgeView.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
 				5242949F2334829900E8DA05 /* CommandMessageCell.m in Sources */,

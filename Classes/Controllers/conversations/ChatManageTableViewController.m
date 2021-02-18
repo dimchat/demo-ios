@@ -13,7 +13,6 @@
 #import "WebViewController.h"
 #import "MessageDatabase.h"
 #import "Client.h"
-#import "User.h"
 #import "ProfileTableViewController.h"
 #import "ParticipantCollectionCell.h"
 #import "ParticipantsCollectionViewController.h"

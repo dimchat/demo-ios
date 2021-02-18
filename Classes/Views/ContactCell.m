@@ -10,7 +10,6 @@
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "Facebook+Profile.h"
-#import "User.h"
 #import "ContactCell.h"
 #import "UIColor+Extension.h"
 

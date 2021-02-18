@@ -9,8 +9,6 @@
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 
-#import "User.h"
-
 #import "ParticipantCollectionCell.h"
 
 @implementation ParticipantCollectionCell

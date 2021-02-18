@@ -7,7 +7,6 @@
 //
 
 #import "NSObject+Extension.h"
-#import "User.h"
 #import "Client.h"
 #import "AppDelegate.h"
 #import "ConversationsTableViewController.h"
@@ -321,7 +320,7 @@ static DIMID DIMIDWithAddress(DIMAddress address) {
     if ([seed length] == 0) {
         return ID;
     }
-    return [[MKMID alloc] initWithName:seed address:address];
+    return MKMIDCreate(seed, address, nil);
 }
 
 -(void)convertOldTables{

@@ -7,7 +7,6 @@
 //
 
 #import "NSObject+Extension.h"
-#import "User.h"
 #import "Client.h"
 #import "ContactCell.h"
 #import "ProfileTableViewController.h"

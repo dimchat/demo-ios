@@ -10,13 +10,24 @@
 #import "UIImageView+Extension.h"
 #import "UIViewController+Extension.h"
 #import "DIMProfile+Extension.h"
-#import "User.h"
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "Client.h"
 #import "MessageDatabase.h"
 #import "ParticipantManageCell.h"
 #import "ParticipantsManageTableViewController.h"
+
+/**
+ *  Check Username Valid
+ *
+ * @param username - format: ^[A-Za-z0-9_-\.]+$
+ * @return YES on valid
+ */
+static inline BOOL check_username(NSString *username) {
+    NSString *pattern = @"^[A-Za-z0-9._-]+$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
+    return [pred evaluateWithObject:username];
+}
 
 @interface ParticipantsManageTableViewController () {
     
@@ -258,13 +269,14 @@
                 withTitle:NSLocalizedString(@"Group Member Error!", nil)];
         return ;
     }
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:_selectedList.count];
     DIMID ID;
     NSString *name;
     NSArray *list = [_selectedList copy];
     for (ID in list) {
-        name = user_title(ID);
+        name = [facebook name:ID];
         [mArray addObject:name];
     }
     NSString *message = [mArray componentsJoinedByString:@"\n"];

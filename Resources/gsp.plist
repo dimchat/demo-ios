@@ -20,9 +20,9 @@
 			<key>desc</key>
 			<string>dimchat-gz</string>
 			<key>host</key>
-			<string>134.175.87.98</string>
+			<string>106.52.25.169</string>
 			<key>port</key>
-			<integer>9394</integer>
+			<real>9394</real>
 			<key>meta</key>
 			<dict>
 				<key>version</key>

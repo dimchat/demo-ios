@@ -7,7 +7,6 @@
 //
 
 #import "NSObject+Extension.h"
-#import "User.h"
 #import "MessageDatabase.h"
 #import "Client.h"
 #import "ChatViewController.h"

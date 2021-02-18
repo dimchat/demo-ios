@@ -13,8 +13,6 @@
 #import "UILabel+Copyable.h"
 #import "Client.h"
 
-#import "User.h"
-
 #import "ChatViewController.h"
 
 #import "ProfileTableViewController.h"

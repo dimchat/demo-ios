@@ -9,7 +9,6 @@
 #import "NSObject+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIViewController+Extension.h"
-#import "User.h"
 #import "Client.h"
 #import "ContactCell.h"
 #import "SearchUsersTableViewController.h"

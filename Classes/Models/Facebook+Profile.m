@@ -88,7 +88,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     }
     
     // remove task
-    [s_downloadings removeObject:url];
+    [s_downloadings removeObject:url];  // FIXME: threading lock
 }
 
 // Cache directory: "Documents/.mkm/{address}/avatar.png"

@@ -10,7 +10,6 @@
 #import "UIView+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "NSDate+Extension.h"
-#import "User.h"
 #import "ConversationCell.h"
 #import "UIColor+Extension.h"
 #import "Client.h"
@@ -109,7 +108,8 @@
     
     [_avatarImageView setImage:image];
     
-    _nameLabel.text = readable_name(_conversation.ID);
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    _nameLabel.text = [facebook name:_conversation.ID];
 
     // last message
     NSString *last = nil;

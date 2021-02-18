@@ -14,7 +14,6 @@
 #import "UIViewController+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "ImagePickerController.h"
-#import "User.h"
 #import "Client.h"
 #import "Facebook+Register.h"
 #import "Facebook+Profile.h"

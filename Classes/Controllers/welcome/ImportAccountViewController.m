@@ -7,7 +7,6 @@
 //
 
 #import "ImportAccountViewController.h"
-#import "User.h"
 #import "Client.h"
 #import "Facebook+Register.h"
 #import "UIViewController+Extension.h"

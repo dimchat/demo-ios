@@ -18,7 +18,6 @@
 #import "DIMInstantMessage+Extension.h"
 
 #import "WebViewController.h"
-#import "User.h"
 #import "MessageDatabase.h"
 #import "ZoomInViewController.h"
 #import "ReceiveMessageCell.h"

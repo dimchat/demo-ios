@@ -15,7 +15,6 @@
 #import "DIMProfile+Extension.h"
 
 #import "ImagePickerController.h"
-#import "User.h"
 #import "Client.h"
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
@@ -248,7 +247,7 @@
     [visa setName:nickname];
     
     id<DIMUserDataSource> dataSource = user.dataSource;
-    DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
+    DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
     [visa sign:SK];
     
     [[DIMFacebook sharedInstance] saveDocument:visa];
