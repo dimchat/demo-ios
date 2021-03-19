@@ -212,7 +212,7 @@
         visa.avatar = [url absoluteString];
         
         id<DIMUserDataSource> dataSource = user.dataSource;
-        DIMSignKey SK = [dataSource privateKeyForSignature:user.ID];
+        DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
         [visa sign:SK];
         
         // save profile with new avatar

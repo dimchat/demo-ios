@@ -188,7 +188,7 @@ static inline BOOL check_username(NSString *username) {
     Client *client = [Client sharedInstance];
     DIMUser *user = client.currentUser;
     id<DIMUserDataSource> dataSource = user.dataSource;
-    DIMSignKey signKey = [dataSource privateKeyForSignature:user.ID];
+    DIMSignKey signKey = [dataSource privateKeyForVisaSignature:user.ID];
     
     DIMID ID = _conversation.ID;
     NSString *seed = _seedTextField.text;

@@ -18,6 +18,13 @@
 extern NSString * const kNotificationName_OnlineUsersUpdated;
 extern NSString * const kNotificationName_SearchUsersUpdated;
 
+static inline BOOL search(NSString *keywords) {
+    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    DIMCommand *cmd = [[DIMSearchCommand alloc] initWithKeywords:keywords];
+    DIMID bot = MKMIDFromString(@"archivist@anywhere");
+    return [messenger sendContent:cmd receiver:bot];
+}
+
 @interface SearchUsersTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
     NSMutableArray *_users;
@@ -72,8 +79,7 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
                name:kNotificationName_SearchUsersUpdated object:nil];
     
     // 3. query from the station
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    [messenger queryOnlineUsers];
+    search(DIMCommand_OnlineUsers);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -164,8 +170,7 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
     NSString *keywords = searchBar.text;
     NSLog(@"****************** searching %@", keywords);
     
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    [messenger searchUsersWithKeywords:keywords];
+    search(keywords);
     
     [searchBar resignFirstResponder];
 }
