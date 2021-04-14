@@ -74,12 +74,15 @@ SingletonImplementations(Client, sharedInstance)
 @implementation Client (AppDelegate)
 
 - (void)_startServer:(NSDictionary *)station withProvider:(DIMServiceProvider *)sp {
+    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    
     // save meta for server ID
     DIMID ID = MKMIDFromString([station objectForKey:@"ID"]);
     DIMMeta meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
     
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    [facebook saveMeta:meta forID:ID];
+    if (meta) {
+        [facebook saveMeta:meta forID:ID];
+    }
     
     // prepare for launch star
     NSMutableDictionary *serverOptions = [[NSMutableDictionary alloc] init];
