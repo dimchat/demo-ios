@@ -115,11 +115,13 @@
     NSString *last = nil;
     NSInteger count = [_conversation numberOfMessage];
     DIMInstantMessage msg;
+    DIMID sender;
     DKDContent *content;
     while (--count >= 0) {
         msg = [_conversation messageAtIndex:count];
+        sender = msg.envelope.sender;
         content = msg.content;
-        last = [content messageText];
+        last = [content messageWithSender:sender];
         if (last.length > 0) {
             // got it
             break;

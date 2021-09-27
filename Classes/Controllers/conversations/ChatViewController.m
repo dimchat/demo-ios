@@ -533,7 +533,7 @@
 -(void)send{
     
     NSString *text = _textView.text;
-    if (text == nil || text.length == 0) {
+    if ([text length] == 0) {
         return;
     }
 

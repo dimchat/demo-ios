@@ -121,7 +121,7 @@
         switch (message.content.type) {
             case DKDContentType_Text: {
                 // show text
-                self.messageLabel.text = [content messageText];
+                self.messageLabel.text = [content messageWithSender:sender];
                 // double click to zoom in
                 [self.messageLabel addDoubleClickTarget:self action:@selector(zoomIn:)];
             }
@@ -129,7 +129,7 @@
                 
             case DKDContentType_File: {
                 // TODO: show file info
-                self.messageLabel.text = [content messageText];
+                self.messageLabel.text = [content messageWithSender:sender];
             }
             break;
                 
@@ -138,7 +138,7 @@
                 if (msg.image) {
                     self.picImageView.image = msg.image;
                 } else {
-                    self.messageLabel.text = [content messageText];
+                    self.messageLabel.text = [content messageWithSender:sender];
                 }
                 
                 [self.picImageView addClickTarget:self action:@selector(zoomIn:)];
@@ -173,7 +173,7 @@
                 
             case DKDContentType_Video: {
                 // TODO: show video info
-                self.messageLabel.text = [content messageText];
+                self.messageLabel.text = [content messageWithSender:sender];
             }
             break;
                 
@@ -228,13 +228,8 @@
             break;
                 
             default: {
-                NSString *text;
-                if ([content isKindOfClass:[DIMCommand class]]) {
-                    text = [(DIMCommand *)content messageWithSender:sender];
-                } else {
-                    text = [content messageText];
-                }
-                if (!text) {
+                NSString *text = [content messageWithSender:sender];
+                if ([text length] == 0) {
                     // unsupported message type
                     NSString *format = NSLocalizedString(@"This client doesn't support this message type: %u", nil);
                     text = [NSString stringWithFormat:format, content.type];

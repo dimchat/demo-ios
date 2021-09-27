@@ -75,6 +75,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     
     // check & add task
     if ([s_downloadings containsObject:url]) {
+        // FIXME: Collection <__NSArrayM> was mutated while being enumerated.
         NSLog(@"the job already exists: %@", url);
         return ;
     }
