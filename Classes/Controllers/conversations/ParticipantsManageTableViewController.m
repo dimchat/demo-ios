@@ -201,7 +201,7 @@ static inline BOOL check_username(NSString *username) {
         _group = DIMGroupWithID(ID);
         profile = _group.bulletin;
         if (!profile) {
-            profile = MKMDocumentNew(ID, MKMDocument_Bulletin);
+            profile = MKMDocumentNew(MKMDocument_Bulletin, ID);
         }
         [profile setName:name];
         [profile sign:signKey];
@@ -225,7 +225,7 @@ static inline BOOL check_username(NSString *username) {
             return NO;
         }
         ID = _group.ID;
-        profile = MKMDocumentNew(ID, MKMDocument_Bulletin);
+        profile = MKMDocumentNew(MKMDocument_Bulletin, ID);
         [profile setName:name];
         [profile sign:signKey];
         NSLog(@"new group: %@, profile: %@, members: %@", ID, profile, _selectedList);
