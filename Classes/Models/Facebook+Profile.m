@@ -18,7 +18,7 @@ static inline NSString *base_directory(DIMID ID) {
     // base directory ("Documents/.mkm/{address}")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
-    return [dir stringByAppendingPathComponent:(NSString *)ID.address];
+    return [dir stringByAppendingPathComponent:[ID.address string]];
 }
 
 /**

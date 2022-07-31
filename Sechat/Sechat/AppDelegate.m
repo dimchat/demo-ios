@@ -47,9 +47,8 @@
     
     [[Client sharedInstance] didFinishLaunchingWithOptions:mDict];
 
-    [self addDefaultUser:@"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"];
-    [self addDefaultUser:@"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"];
-    [self addDefaultUser:@"assistant@2PpB6iscuBjA15oTjAsiswoX9qis5V3c1Dq"];
+//    [self addDefaultUser:@"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"];
+//    [self addDefaultUser:@"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"];
     
     [[LocalDatabaseManager sharedInstance] createTables];
     [self convertOldTables];
@@ -106,7 +105,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         @try {
-            NSDictionary *dic = MKMJSONDecode(MKMUTF8Encode(responseString));
+            NSDictionary *dic = MKMJSONDecode(responseString);
             
             if (dic != nil && [dic isKindOfClass:[NSDictionary class]]) {
                 
@@ -278,7 +277,7 @@
 // iOS 10 Support
 - (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
   // Required
-  NSDictionary * userInfo = notification.request.content.userInfo;
+//  NSDictionary * userInfo = notification.request.content.userInfo;
 //  if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
 //    [JPUSHService handleRemoteNotification:userInfo];
 //  }
@@ -286,9 +285,9 @@
 }
 
 // iOS 10 Support
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
   // Required
-  NSDictionary * userInfo = response.notification.request.content.userInfo;
+//  NSDictionary * userInfo = response.notification.request.content.userInfo;
 //  if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
 //    [JPUSHService handleRemoteNotification:userInfo];
 //  }
@@ -362,7 +361,7 @@ static DIMID DIMIDWithAddress(DIMAddress address) {
             }
             
             NSLog(@"messages from %@", plistPath);
-            for (NSDictionary *item in array) {
+            for (id item in array) {
                 DIMInstantMessage msg = DKDInstantMessageFromDictionary(item);
                 if (!msg) {
                     NSAssert(false, @"message invalid: %@", item);
