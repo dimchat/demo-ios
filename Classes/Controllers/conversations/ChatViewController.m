@@ -265,10 +265,10 @@
             //Send profile command to audience
             DIMID ID = user.ID;
             DIMVisa visa = user.visa;
-            DIMCommand *cmd = [[DIMDocumentCommand alloc] initWithID:ID document:visa];
+            DIMCommand *command = [[DIMDocumentCommand alloc] initWithID:ID document:visa];
             DIMID receiverID = _conversation.ID;
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
-            [messenger sendContent:cmd receiver:receiverID];
+            [messenger sendContent:command receiver:receiverID];
             
             NSLog(@"Send profile message to %@", receiverID);
         }
@@ -282,7 +282,7 @@
     [nc addObserver:self selector:@selector(onMessageSent:)
                name:kNotificationName_MessageSent object:nil];
     [nc addObserver:self selector:@selector(onSendMessageFailed:)
-               name:kNotificationName_SendMessageFailed object:nil];;
+               name:kNotificationName_SendMessageFailed object:nil];
     
     [nc addObserver:self selector:@selector(onMessageInserted:)
                name:DIMMessageInsertedNotifiation object:nil];
@@ -673,7 +673,7 @@
     
     [_messageArray removeAllObjects];
     
-    DIMCommand *guide = [[DIMCommand alloc] initWithCommand:@"guide"];
+    DIMCommand *guide = [[DIMCommand alloc] initWithCommandName:@"guide"];
     DIMID admin = MKMIDFromString(@"moky@4DnqXWdTV8wuZgfqSCX9GjE2kNq7HJrUgQ");
     DIMEnvelope env = DKDEnvelopeCreate(admin, _conversation.ID, nil);
     DIMInstantMessage guideMessage = DKDInstantMessageCreate(env, guide);
@@ -738,7 +738,7 @@
         
         UInt8 type = content.type;
         if (type == DKDContentType_History || type == DKDContentType_Command) {
-            if ([[(DIMCommand *)content command] isEqualToString:@"guide"]) {
+            if ([[(DIMCommand *)content cmd] isEqualToString:@"guide"]) {
                 // show guide
                 identifier = @"guideCell";
             } else {

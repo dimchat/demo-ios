@@ -20,9 +20,9 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
 
 static inline BOOL search(NSString *keywords) {
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    DIMCommand *cmd = [[DIMSearchCommand alloc] initWithKeywords:keywords];
+    DIMCommand *command = [[DIMSearchCommand alloc] initWithKeywords:keywords];
     DIMID bot = MKMIDFromString(@"archivist@anywhere");
-    return [messenger sendContent:cmd receiver:bot];
+    return [messenger sendContent:command receiver:bot];
 }
 
 @interface SearchUsersTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
@@ -139,7 +139,7 @@ static inline BOOL search(NSString *keywords) {
             ID = MKMIDFromString(item);
             if (MKMNetwork_IsStation(ID.type)) {
                 // ignore
-                continue;
+                //continue;
             }
             [_users addObject:ID];
         }
@@ -151,7 +151,7 @@ static inline BOOL search(NSString *keywords) {
         DIMFacebook *facebook = [DIMFacebook sharedInstance];
         NSDictionary *results = [notification.userInfo objectForKey:@"results"];
         id value;
-        for (NSString *key in results) {
+        for (id key in results) {
             ID = MKMIDFromString(key);
             value = [results objectForKey:key];
             if ([value isKindOfClass:[NSDictionary class]]) {

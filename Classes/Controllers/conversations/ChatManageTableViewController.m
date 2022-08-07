@@ -132,10 +132,10 @@
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
                 // send quit group command
-                DIMQuitCommand *cmd = [[DIMQuitCommand alloc] initWithGroup:group.ID];
+                DIMQuitCommand *command = [[DIMQuitCommand alloc] initWithGroup:group.ID];
                 NSArray *members = group.members;
                 for (DIMID member in members) {
-                    [messenger sendContent:cmd receiver:member];
+                    [messenger sendContent:command receiver:member];
                 }
                 // remove myself
                 [[DIMFacebook sharedInstance] group:group.ID removeMember:user.ID];

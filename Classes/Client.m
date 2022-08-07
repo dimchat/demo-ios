@@ -60,12 +60,12 @@ SingletonImplementations(Client, sharedInstance)
     // post device token
     NSString *token = MKMHexEncode(self.deviceToken);
     if (token) {
-        DIMCommand *cmd = [[DIMCommand alloc] initWithCommand:@"broadcast"];
-        [cmd setObject:@"apns" forKey:@"title"];
-        [cmd setObject:token forKey:@"device_token"];
+        DIMCommand *command = [[DIMCommand alloc] initWithCommandName:@"broadcast"];
+        [command setObject:@"apns" forKey:@"title"];
+        [command setObject:token forKey:@"device_token"];
         
         DIMMessenger *messenger = [DIMMessenger sharedInstance];
-        [messenger sendCommand:cmd];
+        [messenger sendCommand:command];
     }
 }
 
@@ -264,7 +264,7 @@ SingletonImplementations(Client, sharedInstance)
 -(void)setPushAlias{
     
     if(self.currentUser != nil){
-        NSString *alias = self.currentUser.ID.address;
+//        NSString *alias = self.currentUser.ID.address;
 //        [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
 //            NSLog(@"Response code %zd", iResCode);
 //            NSLog(@"Response code %@", iAlias);
