@@ -123,16 +123,16 @@
                 NSAssert(false, @"current conversation is not a group chat: %@", _conversation.ID);
                 return ;
             }
-            DIMGroup *group = DIMGroupWithID(_conversation.ID);
+            id<DIMGroup> group = DIMGroupWithID(_conversation.ID);
             Client *client = [Client sharedInstance];
-            DIMUser *user = client.currentUser;
+            id<DIMUser> user = client.currentUser;
             
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
                 // send quit group command
-                DIMQuitCommand *command = [[DIMQuitCommand alloc] initWithGroup:group.ID];
+                id<DIMGroupCommand> command = [[DIMQuitGroupCommand alloc] initWithGroup:group.ID];
                 NSArray *members = group.members;
                 for (DIMID member in members) {
                     [messenger sendContent:command receiver:member];
@@ -151,7 +151,7 @@
     } else if(section == SECTION_FUNCTIONS){
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        id<DIMUser> user = client.currentUser;
         
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
         NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
@@ -200,7 +200,7 @@
         }
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        id<DIMUser> user = client.currentUser;
         DIMGroup *group = DIMGroupWithID(_conversation.ID);
         if ([group isOwner:user.ID]) {
             return 1;
@@ -285,7 +285,7 @@
         } else {
             
             Client *client = [Client sharedInstance];
-            DIMUser *user = client.currentUser;
+            id<DIMUser> user = client.currentUser;
             
             SwitchCell *muteCell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
             muteCell.textLabel.textAlignment = NSTextAlignmentLeft;
@@ -321,7 +321,7 @@
     if ([segue.identifier isEqualToString:@"reportSegue"]) {
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        id<DIMUser> user = client.currentUser;
         
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
         NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
@@ -352,7 +352,7 @@
 - (void)switchCell:(SwitchCell *)cell didChangeValue:(BOOL)on{
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    id<DIMUser> user = client.currentUser;
     
     NSArray *currentList = [[LocalDatabaseManager sharedInstance] muteListForUser:user.ID];
     NSMutableArray *newList = [[NSMutableArray alloc] initWithArray:currentList];

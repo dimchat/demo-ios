@@ -193,7 +193,7 @@
 -(NSError *)saveAndSubmit {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    DIMUser *user = facebook.currentUser;
+    id<DIMUser> user = facebook.currentUser;
     DIMID ID = user.ID;
     
     DIMVisa visa = user.visa;
@@ -217,6 +217,7 @@
     
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
+    NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
     [visa sign:SK];
     
     [facebook saveDocument:visa];
@@ -232,7 +233,7 @@
     NSLog(@"refreshing...");
     
     DIMRegister *reg = [[DIMRegister alloc] init];
-    DIMUser *user = [reg createUserWithName:self.nickname avatar:nil];
+    id<DIMUser> user = [reg createUserWithName:self.nickname avatar:nil];
     
     // 1. generated private key
     self.SK = reg.key;

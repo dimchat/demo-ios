@@ -123,7 +123,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     MKMVisa *profile = [notification.userInfo objectForKey:@"profile"];
-    DIMUser *user = [Client sharedInstance].currentUser;
+    id<DIMUser> user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
         return ;
@@ -193,7 +193,7 @@
         
         DIMFacebook *facebook = [DIMFacebook sharedInstance];
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        id<DIMUser> user = client.currentUser;
         DIMID ID = user.ID;
         DIMVisa visa = user.visa;
         if (!visa) {
@@ -213,6 +213,7 @@
         
         id<DIMUserDataSource> dataSource = user.dataSource;
         DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
+        NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
         [visa sign:SK];
         
         // save profile with new avatar
@@ -241,13 +242,14 @@
     }
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    id<DIMUser> user = client.currentUser;
     
     DIMVisa visa = user.visa;
     [visa setName:nickname];
     
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
+    NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
     [visa sign:SK];
     
     [[DIMFacebook sharedInstance] saveDocument:visa];
@@ -275,7 +277,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    id<DIMUser> user = client.currentUser;
     DIMID ID = user.ID;
     
     UITableViewCell *cell = nil;
@@ -351,7 +353,7 @@
         NSInteger row = indexPath.row;
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        id<DIMUser> user = client.currentUser;
         
         if (section == 0) {
 
@@ -374,7 +376,7 @@
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    id<DIMUser> user = client.currentUser;
     
     if (section == 1) {
         // function

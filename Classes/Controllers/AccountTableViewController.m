@@ -70,7 +70,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     DIMDocument profile = [notification.userInfo objectForKey:@"profile"];
-    DIMUser *user = [Client sharedInstance].currentUser;
+    id<DIMUser> user = [Client sharedInstance].currentUser;
     if ([profile.ID isEqual:user.ID]) {
         [self reloadData];
     }
@@ -80,7 +80,7 @@
     
     NSDictionary *userInfo = [o userInfo];
     DIMID userID = [userInfo objectForKey:@"ID"];
-    DIMUser *user = [Client sharedInstance].currentUser;
+    id<DIMUser> user = [Client sharedInstance].currentUser;
     
     if([userID isEqual:user.ID]){
         [self reloadData];

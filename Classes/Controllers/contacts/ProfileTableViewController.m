@@ -112,7 +112,7 @@
 
 -(void)loadData{
     
-    DIMUser *user = [Client sharedInstance].currentUser;
+    id<DIMUser> user = [Client sharedInstance].currentUser;
     if ([user.contacts containsObject:_contact]) {
         self.actionArray = @[NSLocalizedString(@"Chat", @"title")];
     }else{

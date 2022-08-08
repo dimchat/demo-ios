@@ -119,7 +119,7 @@ SingletonImplementations(Client, sharedInstance)
     messenger.currentServer = server;
     
     // scan users
-    NSArray<DIMUser *> *users = [facebook localUsers];
+    NSArray<id<DIMUser>> *users = [facebook localUsers];
 #if DEBUG && 0
     NSMutableArray *mArray;
     if (users.count > 0) {
@@ -132,7 +132,7 @@ SingletonImplementations(Client, sharedInstance)
     users = mArray;
 #endif
     // add users
-    for (DIMUser *user in users) {
+    for (id<DIMUser> user in users) {
         NSLog(@"[client] add user: %@", user);
         [self addUser:user];
         facebook.currentUser = user;
@@ -320,7 +320,7 @@ SingletonImplementations(Client, sharedInstance)
         return NO;
     }
     
-    DIMUser *user = DIMUserWithID(ID);
+    id<DIMUser> user = DIMUserWithID(ID);
     [self login:user];
     
     BOOL saved = [facebook saveUserList:self.users withCurrentUser:user];

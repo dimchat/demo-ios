@@ -49,7 +49,7 @@ static inline BOOL check_username(NSString *username) {
     [_logoImageView roundedCorner];
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    id<DIMUser> user = client.currentUser;
     
     // 1. group info
     if (MKMIDIsGroup(_conversation.ID)) {
@@ -125,7 +125,7 @@ static inline BOOL check_username(NSString *username) {
     }
 }
 
--(NSArray <DIMID> *)groupMemberCandidates:(DIMGroup *)group currentUser:(DIMUser *)user {
+-(NSArray <DIMID> *)groupMemberCandidates:(id<DIMGroup>)group currentUser:(id<DIMUser>)user {
     DIMID founder = group.founder;
     NSArray<DIMID> *members = group.members;
     DIMID current = user.ID;
@@ -186,10 +186,11 @@ static inline BOOL check_username(NSString *username) {
 
 - (BOOL)submitGroupInfo {
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
+    id<DIMUser> user = client.currentUser;
     id<DIMUserDataSource> dataSource = user.dataSource;
     DIMSignKey signKey = [dataSource privateKeyForVisaSignature:user.ID];
-    
+    NSAssert(signKey, @"failed to get visa sign key for user: %@", user.ID);
+
     DIMID ID = _conversation.ID;
     NSString *seed = _seedTextField.text;
     NSString *name = _nameTextField.text;
@@ -420,7 +421,7 @@ static inline BOOL check_username(NSString *username) {
     } else if (section == 1) {
         // candidates
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        id<DIMUser> user = client.currentUser;
         DIMID contact;
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;
