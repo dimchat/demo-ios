@@ -99,7 +99,7 @@
     if (![_message isEqual:message]) {
         _message = message;
         
-        DKDInstantMessage *msg = message;
+        DKDInstantMessage *msg = (DKDInstantMessage *)message;
         
         DIMEnvelope env = message.envelope;
         DIMID sender = env.sender;
@@ -179,7 +179,7 @@
                 
             case DKDContentType_Page: {
                 // TODO: show web page
-                DIMWebpageContent *page = (DIMWebpageContent *)content;
+                DIMPageContent *page = (DIMPageContent *)content;
                 NSString *title = page.title;
                 NSString *desc = page.desc;
                 NSURL *url = page.URL;
