@@ -215,7 +215,7 @@
     
     [visa setName:self.nickname];
     
-    id<DIMUserDataSource> dataSource = user.dataSource;
+    id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
     DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
     [visa sign:SK];
@@ -300,7 +300,7 @@
         }
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = [client currentUser];
+        DIMUser *user = (DIMUser *)[client currentUser];
         
         //New User add Moky as contact
         NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";

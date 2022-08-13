@@ -66,7 +66,8 @@
         
         Client *client = [Client sharedInstance];
         NSURL *url = [NSURL URLWithString:client.termsAPI];
-        [self.delegate messageCell:self openUrl:url];
+        MessageCell *cell = (MessageCell *)self;
+        [self.delegate messageCell:cell openUrl:url];
     }
 }
 

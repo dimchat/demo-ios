@@ -96,8 +96,8 @@
     // Do any additional setup after loading the view.
     
     Client *client = [Client sharedInstance];
-    DIMUser *user = client.currentUser;
-    MKMVisa *profile = user.visa;
+    DIMUser *user = (DIMUser *)[client currentUser];
+    MKMVisa *profile = (MKMVisa *)[user visa];
     
     CGSize avatarSize = _avatarImageView.bounds.size;
     
@@ -211,7 +211,7 @@
         // got avatar URL
         visa.avatar = [url absoluteString];
         
-        id<DIMUserDataSource> dataSource = user.dataSource;
+        id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
         DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
         NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
         [visa sign:SK];
@@ -247,7 +247,7 @@
     DIMVisa visa = user.visa;
     [visa setName:nickname];
     
-    id<DIMUserDataSource> dataSource = user.dataSource;
+    id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
     DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
     [visa sign:SK];

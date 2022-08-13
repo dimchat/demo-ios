@@ -54,14 +54,14 @@ static inline BOOL check_username(NSString *username) {
     // 1. group info
     if (MKMIDIsGroup(_conversation.ID)) {
         // exists group
-        _group = DIMGroupWithID(_conversation.ID);
+        _group = (DIMGroup *)DIMGroupWithID(_conversation.ID);
         _founder = _group.founder;
         // Notice: the group member list will/will not include the founder
         _memberList = _group.members;
         
         // 1.1. logo
         NSString *name = _group.name;
-        MKMBulletin *profile = [_group documentWithType:MKMDocument_Bulletin];
+        MKMBulletin *profile = (MKMBulletin *)[_group documentWithType:MKMDocument_Bulletin];
         UIImage *logoImage = [profile logoImageWithSize:_logoImageView.bounds.size];
         if (logoImage) {
             [_logoImageView setImage:logoImage];
@@ -187,7 +187,7 @@ static inline BOOL check_username(NSString *username) {
 - (BOOL)submitGroupInfo {
     Client *client = [Client sharedInstance];
     id<DIMUser> user = client.currentUser;
-    id<DIMUserDataSource> dataSource = user.dataSource;
+    id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
     DIMSignKey signKey = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(signKey, @"failed to get visa sign key for user: %@", user.ID);
 
@@ -199,7 +199,7 @@ static inline BOOL check_username(NSString *username) {
     
     if (MKMIDIsGroup(ID)) {
         // exists group
-        _group = DIMGroupWithID(ID);
+        _group = (DIMGroup *)DIMGroupWithID(ID);
         profile = _group.bulletin;
         if (!profile) {
             profile = MKMDocumentNew(MKMDocument_Bulletin, ID);
@@ -217,9 +217,7 @@ static inline BOOL check_username(NSString *username) {
         NSLog(@"update group: %@, profile: %@, members: %@", ID, profile, _selectedList);
     } else {
         // new group
-        _group = [client createGroupWithSeed:seed
-                                        name:name
-                                     members:_selectedList];
+        _group = (DIMGroup *)[client createGroupWithSeed:seed name:name members:_selectedList];
         if (!_group) {
             NSLog(@"failed to create group: %@, %@, %@", seed, _selectedList, name);
             [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, seed] withTitle:NSLocalizedString(@"Create Group Failed!", nil)];

@@ -120,7 +120,7 @@
     while (--count >= 0) {
         msg = [_conversation messageAtIndex:count];
         sender = msg.envelope.sender;
-        content = msg.content;
+        content = (DKDContent *)[msg content];
         last = [content messageWithSender:sender];
         if (last.length > 0) {
             // got it

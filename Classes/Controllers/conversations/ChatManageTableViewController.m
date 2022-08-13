@@ -201,7 +201,7 @@
         
         Client *client = [Client sharedInstance];
         id<DIMUser> user = client.currentUser;
-        DIMGroup *group = DIMGroupWithID(_conversation.ID);
+        DIMGroup *group = (DIMGroup *)DIMGroupWithID(_conversation.ID);
         if ([group isOwner:user.ID]) {
             return 1;
         }

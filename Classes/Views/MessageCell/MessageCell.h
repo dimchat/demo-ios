@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MessageCell : UITableViewCell
 
 @property (nonatomic, assign) id<MessageCellDelegate>delegate;
-@property (strong, nonatomic) DIMInstantMessage message;
+@property (strong, nonatomic) __kindof DIMInstantMessage message;
 @property (strong, nonatomic) UIImageView *avatarImageView;
 @property (strong, nonatomic) UILabel *nameLabel;
 @property (strong, nonatomic) UIImageView *messageImageView;

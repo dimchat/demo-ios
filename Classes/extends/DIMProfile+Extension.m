@@ -69,7 +69,7 @@
             NSMutableArray<UIImage *> *mArray;
             mArray = [[NSMutableArray alloc] initWithCapacity:members.count];
             for (DIMID ID in members) {
-                MKMVisa *visa = DIMVisaForID(ID);
+                MKMVisa *visa = (MKMVisa *)DIMVisaForID(ID);
                 image = [visa avatarImageWithSize:tileSize];
                 if (image) {
                     [mArray addObject:image];

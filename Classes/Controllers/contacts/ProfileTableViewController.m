@@ -91,11 +91,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    DIMUser *user = DIMUserWithID(self.contact);
+    DIMUser *user = (DIMUser *)DIMUserWithID(self.contact);
     NSString *name = !user ? self.contact.name : user.name;
     self.nicknameLabel.text = name;
     
-    MKMVisa *profile = DIMVisaForID(_contact);
+    MKMVisa *profile = (MKMVisa *)DIMVisaForID(_contact);
     CGRect frame = self.avatarView.frame;
     UIImage *image = [profile avatarImageWithSize:frame.size];
     self.avatarView.image = image;
@@ -152,9 +152,9 @@
     if([message isEqualToString:NSLocalizedString(@"Add To Contact", @"title")]){
         
         Client *client = [Client sharedInstance];
-        DIMUser *user = client.currentUser;
+        DIMUser *user = (DIMUser *)[client currentUser];
         
-        DIMUser *selectedUser = DIMUserWithID(self.contact);
+        DIMUser *selectedUser = (DIMUser *)DIMUserWithID(self.contact);
         NSString *name = !selectedUser ? self.contact.name : selectedUser.name;
         NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Do you want to add %@ to your contact?", @"title"), name];
         

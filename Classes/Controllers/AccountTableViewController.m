@@ -89,10 +89,11 @@
 
 - (void)reloadData {
     [NSObject performBlockOnMainThread:^{
-        DIMUser *user = [Client sharedInstance].currentUser;
+        Client *client = [Client sharedInstance];
+        DIMUser *user = (DIMUser *)[client currentUser];
         
         CGRect avatarFrame = self.avatarImageView.frame;
-        MKMVisa *profile = user.visa;
+        MKMVisa *profile = (MKMVisa *)[user visa];
         UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
         [self.avatarImageView setImage:image];
         self.nameLabel.text = user.name;
