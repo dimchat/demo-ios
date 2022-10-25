@@ -252,7 +252,7 @@
     
     DIMID contact = selectedCell.contact;
     
-    if(contact.type == MKMNetwork_Group){
+    if (MKMEntity_IsGroup(contact.type)) {
         
         DIMConversation *convers = DIMConversationWithID(contact);
         ChatViewController *vc = [[ChatViewController alloc] init];
@@ -260,7 +260,7 @@
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
         
-    }else{
+    } else {
     
         ProfileTableViewController *controller = [[ProfileTableViewController alloc] init];
         controller.contact = contact;

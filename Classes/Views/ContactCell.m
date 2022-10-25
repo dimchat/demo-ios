@@ -71,7 +71,7 @@
     
     [_avatarImageView setImage:image];
     
-    if (_contact.type == MKMNetwork_Group) {
+    if (MKMEntity_IsGroup(_contact.type)) {
         DIMGroup *group = (DIMGroup *)DIMGroupWithID(_contact);
         NSString *name = !group ? _contact.name : group.name;
         self.nameLabel.text = name;

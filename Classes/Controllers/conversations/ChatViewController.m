@@ -736,7 +736,7 @@
         DIMContent content = iMsg.content;
         DIMID sender = iMsg.envelope.sender;
         
-        UInt8 type = content.type;
+        DKDContentType type = content.type;
         if (type == DKDContentType_History || type == DKDContentType_Command) {
             if ([[(DIMCommand *)content cmd] isEqualToString:@"guide"]) {
                 // show guide
