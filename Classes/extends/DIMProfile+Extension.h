@@ -12,14 +12,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MKMVisa (Extension)
+@interface DIMVisa (Extension)
 
 // user.avatar
 - (UIImage *)avatarImageWithSize:(const CGSize)size;
 
 @end
 
-@interface MKMBulletin (Extension)
+@interface DIMBulletin (Extension)
 
 // group.logo
 - (UIImage *)logoImageWithSize:(const CGSize)size;

@@ -61,7 +61,7 @@ static inline BOOL check_username(NSString *username) {
         
         // 1.1. logo
         NSString *name = _group.name;
-        MKMBulletin *profile = (MKMBulletin *)[_group documentWithType:MKMDocument_Bulletin];
+        DIMBulletin *profile = (DIMBulletin *)[_group documentWithType:MKMDocument_Bulletin];
         UIImage *logoImage = [profile logoImageWithSize:_logoImageView.bounds.size];
         if (logoImage) {
             [_logoImageView setImage:logoImage];

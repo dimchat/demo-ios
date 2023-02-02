@@ -93,7 +93,7 @@
         DIMUser *user = (DIMUser *)[client currentUser];
         
         CGRect avatarFrame = self.avatarImageView.frame;
-        MKMVisa *profile = (MKMVisa *)[user visa];
+        DIMVisa *profile = (DIMVisa *)[user visa];
         UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
         [self.avatarImageView setImage:image];
         self.nameLabel.text = user.name;

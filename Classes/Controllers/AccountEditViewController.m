@@ -97,7 +97,7 @@
     
     Client *client = [Client sharedInstance];
     DIMUser *user = (DIMUser *)[client currentUser];
-    MKMVisa *profile = (MKMVisa *)[user visa];
+    DIMVisa *profile = (DIMVisa *)[user visa];
     
     CGSize avatarSize = _avatarImageView.bounds.size;
     
@@ -122,7 +122,7 @@
 
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
-    MKMVisa *profile = [notification.userInfo objectForKey:@"profile"];
+    DIMVisa *profile = [notification.userInfo objectForKey:@"profile"];
     id<DIMUser> user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile

@@ -101,9 +101,9 @@
     CGRect frame = _avatarImageView.frame;
     UIImage *image;
     if (MKMIDIsGroup(_conversation.ID)) {
-        image = [(MKMBulletin *)profile logoImageWithSize:frame.size];
+        image = [(DIMBulletin *)profile logoImageWithSize:frame.size];
     } else {
-        image = [(MKMVisa *)profile avatarImageWithSize:frame.size];
+        image = [(DIMVisa *)profile avatarImageWithSize:frame.size];
     }
     
     [_avatarImageView setImage:image];

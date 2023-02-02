@@ -15,7 +15,7 @@
 
 #import "DIMProfile+Extension.h"
 
-@implementation MKMVisa (Extension)
+@implementation DIMVisa (Extension)
 
 - (UIImage *)avatarImageWithSize:(const CGSize)size {
     
@@ -40,7 +40,7 @@
 
 @end
 
-@implementation MKMBulletin (Extension)
+@implementation DIMBulletin (Extension)
 
 - (UIImage *)logoImageWithSize:(const CGSize)size {
     UIImage *image = nil;
@@ -69,7 +69,7 @@
             NSMutableArray<UIImage *> *mArray;
             mArray = [[NSMutableArray alloc] initWithCapacity:members.count];
             for (id<MKMID> ID in members) {
-                MKMVisa *visa = (MKMVisa *)DIMVisaForID(ID);
+                DIMVisa *visa = (DIMVisa *)DIMVisaForID(ID);
                 image = [visa avatarImageWithSize:tileSize];
                 if (image) {
                     [mArray addObject:image];

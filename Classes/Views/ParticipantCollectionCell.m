@@ -24,7 +24,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    MKMVisa *profile = (MKMVisa *)DIMVisaForID(_participant);
+    DIMVisa *profile = (DIMVisa *)DIMVisaForID(_participant);
     
     // avatar
     CGRect frame = _avatarImageView.frame;

@@ -64,9 +64,9 @@
     id<MKMDocument> profile = DIMDocumentForID(_contact, @"*");
     UIImage *image;
     if (MKMIDIsGroup(_contact)) {
-        image = [(MKMBulletin *)profile logoImageWithSize:frame.size];
+        image = [(DIMBulletin *)profile logoImageWithSize:frame.size];
     } else {
-        image = [(MKMVisa *)profile avatarImageWithSize:frame.size];
+        image = [(DIMVisa *)profile avatarImageWithSize:frame.size];
     }
     
     [_avatarImageView setImage:image];

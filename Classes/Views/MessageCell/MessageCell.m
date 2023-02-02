@@ -87,7 +87,7 @@
         id<MKMID> sender = env.sender;
         
         if ([ID isEqual:sender]) {
-            MKMVisa *profile = (MKMVisa *)DIMVisaForID(sender);
+            DIMVisa *profile = (DIMVisa *)DIMVisaForID(sender);
             CGRect avatarFrame = self.avatarImageView.frame;
             UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
             [self.avatarImageView setImage:image];
@@ -104,7 +104,7 @@
         id<DKDEnvelope> env = message.envelope;
         id<MKMID> sender = env.sender;
         DIMContent *content = (DIMContent *)[message content];
-        MKMVisa *profile = (MKMVisa *)DIMVisaForID(sender);
+        DIMVisa *profile = (DIMVisa *)DIMVisaForID(sender);
         
         self.nameLabel.text = profile.name;
         
