@@ -74,7 +74,7 @@
 
 - (void)onProfileUpdate:(NSNotification *)o {
     NSDictionary *profileDic = [o userInfo];
-    DIMID ID = [profileDic objectForKey:@"ID"];
+    id<MKMID> ID = [profileDic objectForKey:@"ID"];
     if ([ID isEqual:self.conversation.ID]) {
         [NSObject performBlockOnMainThread:^{
             [self loadData];
@@ -85,7 +85,7 @@
 
 - (void)onConversationUpdated:(NSNotification *)o {
     NSDictionary *info = [o userInfo];
-    DIMID ID = MKMIDFromString([info objectForKey:@"ID"]);
+    id<MKMID> ID = MKMIDParse([info objectForKey:@"ID"]);
     if ([_conversation.ID isEqual:ID]) {
         [NSObject performBlockOnMainThread:^{
             [self loadData];
@@ -95,7 +95,7 @@
 }
 
 - (void)loadData {
-    DIMDocument profile = _conversation.document;
+    id<MKMDocument> profile = _conversation.document;
     
     // avatar
     CGRect frame = _avatarImageView.frame;
@@ -114,13 +114,13 @@
     // last message
     NSString *last = nil;
     NSInteger count = [_conversation numberOfMessage];
-    DIMInstantMessage msg;
-    DIMID sender;
-    DKDContent *content;
+    id<DKDInstantMessage> msg;
+    id<MKMID> sender;
+    DIMContent *content;
     while (--count >= 0) {
         msg = [_conversation messageAtIndex:count];
         sender = msg.envelope.sender;
-        content = (DKDContent *)[msg content];
+        content = (DIMContent *)[msg content];
         last = [content messageWithSender:sender];
         if (last.length > 0) {
             // got it

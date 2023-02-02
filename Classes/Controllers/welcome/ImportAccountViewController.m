@@ -58,11 +58,11 @@
     }
     
     // 1. generate private key
-    DIMPrivateKey SK = MKMPrivateKeyFromDictionary(returnValue);
+    id<MKMPrivateKey> SK = MKMPrivateKeyParse(returnValue);
     // 2. generate meta
-    DIMMeta meta = MKMMetaGenerate(version, SK, username);
+    id<MKMMeta> meta = MKMMetaGenerate(version, SK, username);
     // 3. generate ID
-    DIMID ID = MKMIDGenerate(meta, MKMNetwork_Main, nil);
+    id<MKMID> ID = MKMIDGenerate(meta, MKMNetwork_Main, nil);
 
     Client *client = [Client sharedInstance];
     if (![client importUser:ID meta:meta privateKey:SK]) {

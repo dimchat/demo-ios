@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) id<MessageCellDelegate>delegate;
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage)message bounds:(CGRect)rect;
++ (CGSize)sizeWithMessage:(id<DKDInstantMessage>)message bounds:(CGRect)rect;
 
 @end
 

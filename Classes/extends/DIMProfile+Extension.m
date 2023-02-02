@@ -58,7 +58,7 @@
 //        }
         
         // create image with members' avatar(s)
-        NSArray<DIMID> *members = DIMGroupWithID(self.ID).members;
+        NSArray<id<MKMID>> *members = DIMGroupWithID(self.ID).members;
         if (members.count > 0) {
             CGSize tileSize;
             if (members.count > 4) {
@@ -68,7 +68,7 @@
             }
             NSMutableArray<UIImage *> *mArray;
             mArray = [[NSMutableArray alloc] initWithCapacity:members.count];
-            for (DIMID ID in members) {
+            for (id<MKMID> ID in members) {
                 MKMVisa *visa = (MKMVisa *)DIMVisaForID(ID);
                 image = [visa avatarImageWithSize:tileSize];
                 if (image) {

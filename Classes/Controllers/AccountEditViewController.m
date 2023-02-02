@@ -194,8 +194,8 @@
         DIMFacebook *facebook = [DIMFacebook sharedInstance];
         Client *client = [Client sharedInstance];
         id<DIMUser> user = client.currentUser;
-        DIMID ID = user.ID;
-        DIMVisa visa = user.visa;
+        id<MKMID> ID = user.ID;
+        id<MKMVisa> visa = user.visa;
         if (!visa) {
             NSAssert(false, @"profile should not be empty");
             return ;
@@ -212,7 +212,7 @@
         visa.avatar = [url absoluteString];
         
         id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
-        DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
+        id<MKMSignKey> SK = [dataSource privateKeyForVisaSignature:user.ID];
         NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
         [visa sign:SK];
         
@@ -244,11 +244,11 @@
     Client *client = [Client sharedInstance];
     id<DIMUser> user = client.currentUser;
     
-    DIMVisa visa = user.visa;
+    id<MKMVisa> visa = user.visa;
     [visa setName:nickname];
     
     id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
-    DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
+    id<MKMSignKey> SK = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
     [visa sign:SK];
     
@@ -278,7 +278,7 @@
     
     Client *client = [Client sharedInstance];
     id<DIMUser> user = client.currentUser;
-    DIMID ID = user.ID;
+    id<MKMID> ID = user.ID;
     
     UITableViewCell *cell = nil;
     
@@ -390,7 +390,7 @@
             //Export Account
             
             DIMFacebook *facebook = [DIMFacebook sharedInstance];
-            DIMPrivateKey key = (DIMPrivateKey)[facebook privateKeyForVisaSignature:user.ID];
+            id<MKMPrivateKey> key = (id<MKMPrivateKey>)[facebook privateKeyForVisaSignature:user.ID];
             
             NSString *privateKeyString = [key objectForKey:@"data"];
             

@@ -13,7 +13,7 @@
 
 @implementation ParticipantCollectionCell
 
-- (void)setParticipant:(DIMID)participant {
+- (void)setParticipant:(id<MKMID>)participant {
     if (![_participant isEqual:participant]) {
         _participant = participant;
         

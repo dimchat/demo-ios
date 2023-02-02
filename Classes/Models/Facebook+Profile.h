@@ -18,10 +18,10 @@ extern NSString * const kNotificationName_AvatarUpdated;
 
 - (BOOL)saveAvatar:(NSData *)data
               name:(nullable NSString *)filename
-             forID:(DIMID)ID;
+             forID:(id<MKMID>)ID;
 
 - (nullable UIImage *)loadAvatarWithURL:(NSString *)urlString
-                                  forID:(DIMID)ID;
+                                  forID:(id<MKMID>)ID;
 
 @end
 

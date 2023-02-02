@@ -32,11 +32,11 @@ static inline BOOL check_username(NSString *username) {
 @interface ParticipantsManageTableViewController () {
     
     DIMGroup *_group;
-    DIMID _founder;
-    NSArray<DIMID> *_memberList;
+    id<MKMID> _founder;
+    NSArray<id<MKMID>> *_memberList;
     
-    NSArray<DIMID> *_candidateList;
-    NSMutableArray<DIMID> *_selectedList;
+    NSArray<id<MKMID>> *_candidateList;
+    NSMutableArray<id<MKMID>> *_selectedList;
 }
 
 @end
@@ -116,7 +116,7 @@ static inline BOOL check_username(NSString *username) {
         }
     }
     if (_memberList.count > 0) {
-        for (DIMID item in _memberList) {
+        for (id<MKMID> item in _memberList) {
             if ([_selectedList containsObject:item]) {
                 continue;
             }
@@ -125,22 +125,22 @@ static inline BOOL check_username(NSString *username) {
     }
 }
 
--(NSArray <DIMID> *)groupMemberCandidates:(id<DIMGroup>)group currentUser:(id<DIMUser>)user {
-    DIMID founder = group.founder;
-    NSArray<DIMID> *members = group.members;
-    DIMID current = user.ID;
-    NSArray<DIMID> *contacts = user.contacts;
+-(NSArray <id<MKMID>> *)groupMemberCandidates:(id<DIMGroup>)group currentUser:(id<DIMUser>)user {
+    id<MKMID> founder = group.founder;
+    NSArray<id<MKMID>> *members = group.members;
+    id<MKMID> current = user.ID;
+    NSArray<id<MKMID>> *contacts = user.contacts;
     
     NSMutableArray *filterContacts = [[NSMutableArray alloc] init];
     //Filter Group IDs
-    for (DIMID contactID in contacts) {
+    for (id<MKMID> contactID in contacts) {
         
         if (!MKMIDIsGroup(contactID)) {
             [filterContacts addObject:contactID];
         }
     }
     
-    DIMID ID;
+    id<MKMID> ID;
     NSMutableArray *candidates = [[NSMutableArray alloc] initWithCapacity:(members.count + filterContacts.count)];
     // add all members (except the founder & current user) as candidates
     for (ID in members) {
@@ -188,14 +188,14 @@ static inline BOOL check_username(NSString *username) {
     Client *client = [Client sharedInstance];
     id<DIMUser> user = client.currentUser;
     id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
-    DIMSignKey signKey = [dataSource privateKeyForVisaSignature:user.ID];
+    id<MKMSignKey> signKey = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(signKey, @"failed to get visa sign key for user: %@", user.ID);
 
-    DIMID ID = _conversation.ID;
+    id<MKMID> ID = _conversation.ID;
     NSString *seed = _seedTextField.text;
     NSString *name = _nameTextField.text;
-    DIMDocument profile;
-//    NSMutableArray<DIMID> *members;
+    id<MKMDocument> profile;
+//    NSMutableArray<id<MKMID>> *members;
     
     if (MKMIDIsGroup(ID)) {
         // exists group
@@ -271,7 +271,7 @@ static inline BOOL check_username(NSString *username) {
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:_selectedList.count];
-    DIMID ID;
+    id<MKMID> ID;
     NSString *name;
     NSArray *list = [_selectedList copy];
     for (ID in list) {
@@ -346,7 +346,7 @@ static inline BOOL check_username(NSString *username) {
         // founder
     } else if (section == 1) {
         // candidates
-        DIMID ID = [_candidateList objectAtIndex:row];
+        id<MKMID> ID = [_candidateList objectAtIndex:row];
         //NSAssert(![_selectedList containsObject:ID], @"%@ should not in selected list: %@", ID, _selectedList);
         
         if([_selectedList containsObject:ID]){
@@ -374,7 +374,7 @@ static inline BOOL check_username(NSString *username) {
 //        // founder
 //    } else if (section == 1) {
 //        // candidates
-//        DIMID ID = [_candidateList objectAtIndex:row];
+//        id<MKMID> ID = [_candidateList objectAtIndex:row];
 //        [_selectedList removeObject:ID];
 //        NSLog(@"deselect: %@", ID);
 //
@@ -420,7 +420,7 @@ static inline BOOL check_username(NSString *username) {
         // candidates
         Client *client = [Client sharedInstance];
         id<DIMUser> user = client.currentUser;
-        DIMID contact;
+        id<MKMID> contact;
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;
         

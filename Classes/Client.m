@@ -77,8 +77,8 @@ SingletonImplementations(Client, sharedInstance)
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     
     // save meta for server ID
-    DIMID ID = MKMIDFromString([station objectForKey:@"ID"]);
-    DIMMeta meta = MKMMetaFromDictionary([station objectForKey:@"meta"]);
+    id<MKMID> ID = MKMIDParse([station objectForKey:@"ID"]);
+    id<MKMMeta> meta = MKMMetaParse([station objectForKey:@"meta"]);
     
     if (meta) {
         [facebook saveMeta:meta forID:ID];
@@ -127,8 +127,8 @@ SingletonImplementations(Client, sharedInstance)
     } else {
         mArray = [[NSMutableArray alloc] initWithCapacity:2];
     }
-    [mArray addObject:MKMIDFromString(MKM_IMMORTAL_HULK_ID)];
-    [mArray addObject:MKMIDFromString(MKM_MONKEY_KING_ID)];
+    [mArray addObject:MKMIDParse(MKM_IMMORTAL_HULK_ID)];
+    [mArray addObject:MKMIDParse(MKM_MONKEY_KING_ID)];
     users = mArray;
 #endif
     // add users
@@ -141,7 +141,7 @@ SingletonImplementations(Client, sharedInstance)
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
     
-    DIMID ID = MKMIDFromString([config objectForKey:@"ID"]);
+    id<MKMID> ID = MKMIDParse([config objectForKey:@"ID"]);
     DIMServiceProvider *sp = [[DIMServiceProvider alloc] initWithID:ID];
     
     // choose the fast station
@@ -306,7 +306,7 @@ SingletonImplementations(Client, sharedInstance)
 
 @implementation Client (Register)
 
-- (BOOL)importUser:(DIMID)ID meta:(DIMMeta)meta privateKey:(DIMPrivateKey)SK {
+- (BOOL)importUser:(id<MKMID>)ID meta:(id<MKMMeta>)meta privateKey:(id<MKMPrivateKey>)SK {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     

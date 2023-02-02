@@ -72,7 +72,7 @@
     NSDictionary *info = notification.userInfo;
     [NSObject performBlockOnMainThread:^{
         if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
-            DIMID groupID = [info objectForKey:@"group"];
+            id<MKMID> groupID = [info objectForKey:@"group"];
             if ([groupID isEqual:self->_conversation.ID]) {
                 // the same group
                 [self->_participantsCollectionViewController reloadData];
@@ -132,9 +132,9 @@
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
                 // send quit group command
-                id<DIMGroupCommand> command = [[DIMQuitGroupCommand alloc] initWithGroup:group.ID];
+                id<DKDGroupCommand> command = [[DIMQuitGroupCommand alloc] initWithGroup:group.ID];
                 NSArray *members = group.members;
-                for (DIMID member in members) {
+                for (id<MKMID> member in members) {
                     [messenger sendContent:command receiver:member];
                 }
                 // remove myself
@@ -341,7 +341,7 @@
     } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
         
         ParticipantCollectionCell *cell = sender;
-        DIMID ID = cell.participant;
+        id<MKMID> ID = cell.participant;
         
         ProfileTableViewController *vc = [segue visibleDestinationViewController];
         vc.contact = ID;

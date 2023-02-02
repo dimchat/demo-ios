@@ -21,7 +21,7 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
 static inline BOOL search(NSString *keywords) {
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
     DIMCommand *command = [[DIMSearchCommand alloc] initWithKeywords:keywords];
-    DIMID bot = MKMIDFromString(@"archivist@anywhere");
+    id<MKMID> bot = MKMIDParse(@"archivist@anywhere");
     return [messenger sendContent:command receiver:bot];
 }
 
@@ -98,8 +98,8 @@ static inline BOOL search(NSString *keywords) {
     
     NSArray *users = [notification.userInfo objectForKey:@"users"];
     
-    DIMID ID;
-    DIMMeta meta;
+    id<MKMID> ID;
+    id<MKMMeta> meta;
     
     if ([notification.name isEqual:kNotificationName_OnlineUsersUpdated]) {
         // online users
@@ -112,7 +112,7 @@ static inline BOOL search(NSString *keywords) {
         }
         
         for (NSString *item in users) {
-            ID = MKMIDFromString(item);
+            ID = MKMIDParse(item);
             meta = DIMMetaForID(ID);
             if (meta) {
                 [_onlineUsers addObject:ID];
@@ -136,7 +136,7 @@ static inline BOOL search(NSString *keywords) {
         }
         
         for (NSString *item in users) {
-            ID = MKMIDFromString(item);
+            ID = MKMIDParse(item);
             if (MKMNetwork_IsStation(ID.type)) {
                 // ignore
                 //continue;
@@ -152,10 +152,10 @@ static inline BOOL search(NSString *keywords) {
         NSDictionary *results = [notification.userInfo objectForKey:@"results"];
         id value;
         for (id key in results) {
-            ID = MKMIDFromString(key);
+            ID = MKMIDParse(key);
             value = [results objectForKey:key];
             if ([value isKindOfClass:[NSDictionary class]]) {
-                meta = MKMMetaFromDictionary(value);
+                meta = MKMMetaParse(value);
                 [facebook saveMeta:meta forID:ID];
             }
         }
@@ -217,7 +217,7 @@ static inline BOOL search(NSString *keywords) {
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
     
-    DIMID ID = nil;
+    id<MKMID> ID = nil;
     if (section == 0) {
         // search users
         ID = [_users objectAtIndex:row];

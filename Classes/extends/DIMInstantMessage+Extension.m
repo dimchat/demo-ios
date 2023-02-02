@@ -8,7 +8,7 @@
 
 #import "DIMInstantMessage+Extension.h"
 
-@implementation DKDInstantMessage (Image)
+@implementation DIMInstantMessage (Image)
 
 - (nullable UIImage *)image {
     DIMImageContent *content = (DIMImageContent *)self.content;
@@ -40,7 +40,7 @@
             break;
         }
         
-        DIMSymmetricKey scKey = MKMSymmetricKeyFromDictionary([content objectForKey:@"password"]);
+        id<MKMSymmetricKey> scKey = MKMSymmetricKeyParse([content objectForKey:@"password"]);
         if (!scKey) {
             // key not exists, it means the downloaded data is already decrypted
             break;
@@ -123,7 +123,7 @@
             break;
         }
         
-        DIMSymmetricKey scKey = MKMSymmetricKeyFromDictionary([content objectForKey:@"password"]);
+        id<MKMSymmetricKey> scKey = MKMSymmetricKeyParse([content objectForKey:@"password"]);
         if (!scKey) {
             // key not exists, it means the downloaded data is already decrypted
             break;

@@ -23,9 +23,9 @@
 
 @interface RegisterViewController ()<UITextFieldDelegate, UIDocumentPickerDelegate>
 
-@property (strong, nonatomic) DIMPrivateKey SK;
-@property (strong, nonatomic) DIMMeta meta;
-@property (strong, nonatomic) DIMID ID;
+@property (strong, nonatomic) id<MKMPrivateKey> SK;
+@property (strong, nonatomic) id<MKMMeta> meta;
+@property (strong, nonatomic) id<MKMID> ID;
 
 @property (strong, nonatomic) UIButton *changeButton;
 @property (strong, nonatomic) UILabel *avatarLabel;
@@ -194,9 +194,9 @@
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
     id<DIMUser> user = facebook.currentUser;
-    DIMID ID = user.ID;
+    id<MKMID> ID = user.ID;
     
-    DIMVisa visa = user.visa;
+    id<MKMVisa> visa = user.visa;
     
     if (self.imageData != nil) {
         
@@ -216,7 +216,7 @@
     [visa setName:self.nickname];
     
     id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
-    DIMSignKey SK = [dataSource privateKeyForVisaSignature:user.ID];
+    id<MKMSignKey> SK = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
     [visa sign:SK];
     
@@ -304,10 +304,10 @@
         
         //New User add Moky as contact
         NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";
-        [user addContact:MKMIDFromString(itemString)];
+        [user addContact:MKMIDParse(itemString)];
         
         itemString = @"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf";
-        [user addContact:MKMIDFromString(itemString)];
+        [user addContact:MKMIDParse(itemString)];
         
         [client setPushAlias];
         

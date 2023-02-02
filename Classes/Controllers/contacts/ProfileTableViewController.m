@@ -163,7 +163,7 @@
             [user addContact:self.contact];
             
             //Post contacts to server
-            NSArray<DIMID> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+            NSArray<id<MKMID>> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
             
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             [messenger postContacts:allContacts];

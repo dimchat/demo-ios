@@ -34,7 +34,7 @@
     return self;
 }
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage)iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(id<DKDInstantMessage>)iMsg bounds:(CGRect)rect {
     return CGSizeMake(rect.size.width, 20.0);
 }
 

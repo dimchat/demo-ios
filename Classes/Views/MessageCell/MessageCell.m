@@ -16,7 +16,7 @@
 
 @implementation MessageCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage)message bounds:(CGRect)rect{
++ (CGSize)sizeWithMessage:(id<DKDInstantMessage>)message bounds:(CGRect)rect{
     return CGSizeMake(0.0, 0.0);
 }
 
@@ -80,11 +80,11 @@
 -(void)didAvatarUpdated:(NSNotification *)o {
     
     NSDictionary *userInfo = [o userInfo];
-    DIMID ID = [userInfo objectForKey:@"ID"];
+    id<MKMID> ID = [userInfo objectForKey:@"ID"];
     
     [NSObject performBlockOnMainThread:^{
-        DIMEnvelope env = self.message.envelope;
-        DIMID sender = env.sender;
+        id<DKDEnvelope> env = self.message.envelope;
+        id<MKMID> sender = env.sender;
         
         if ([ID isEqual:sender]) {
             MKMVisa *profile = (MKMVisa *)DIMVisaForID(sender);
@@ -95,15 +95,15 @@
     } waitUntilDone:NO];
 }
 
-- (void)setMessage:(DIMInstantMessage)message {
+- (void)setMessage:(id<DKDInstantMessage>)message {
     if (![_message isEqual:message]) {
         _message = message;
         
-        DKDInstantMessage *msg = (DKDInstantMessage *)message;
+        DIMInstantMessage *msg = (DIMInstantMessage *)message;
         
-        DIMEnvelope env = message.envelope;
-        DIMID sender = env.sender;
-        DKDContent *content = (DKDContent *)[message content];
+        id<DKDEnvelope> env = message.envelope;
+        id<MKMID> sender = env.sender;
+        DIMContent *content = (DIMContent *)[message content];
         MKMVisa *profile = (MKMVisa *)DIMVisaForID(sender);
         
         self.nameLabel.text = profile.name;
@@ -246,7 +246,7 @@
 - (void)zoomIn:(UITapGestureRecognizer *)sender {
     
     if (self.delegate != nil) {
-        DKDInstantMessage *msg = self.message;
+        DIMInstantMessage *msg = self.message;
         [self.delegate messageCell:self showImage:msg.image];
     }
 }
@@ -254,8 +254,8 @@
 -(void)showProfile:(id)sender{
     
     if(self.delegate != nil){
-        DIMEnvelope env = self.message.envelope;
-        DIMID sender = env.sender;
+        id<DKDEnvelope> env = self.message.envelope;
+        id<MKMID> sender = env.sender;
         [self.delegate messageCell:self showProfile:sender];
     }
 }

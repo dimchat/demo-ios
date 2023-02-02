@@ -14,7 +14,7 @@
 
 #import "Facebook+Profile.h"
 
-static inline NSString *base_directory(DIMID ID) {
+static inline NSString *base_directory(id<MKMID> ID) {
     // base directory ("Documents/.mkm/{address}")
     NSString *dir = document_directory();
     dir = [dir stringByAppendingPathComponent:@".mkm"];
@@ -28,7 +28,7 @@ static inline NSString *base_directory(DIMID ID) {
  @param filename - "xxxx.png"
  @return "Documents/.mkm/{address}/avatars/xxxx.png"
  */
-static inline NSString *avatar_filepath(DIMID ID, NSString * _Nullable filename, BOOL autoCreate) {
+static inline NSString *avatar_filepath(id<MKMID> ID, NSString * _Nullable filename, BOOL autoCreate) {
     NSString *dir = base_directory(ID);
     dir = [dir stringByAppendingPathComponent:@"avatars"];
     // check base directory exists
@@ -48,7 +48,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
 
 - (BOOL)saveAvatar:(NSData *)data
               name:(nullable NSString *)filename
-             forID:(DIMID)ID {
+             forID:(id<MKMID>)ID {
     
     UIImage *image = [UIImage imageWithData:(NSData *)data];
     if (image.size.width < 32) {
@@ -66,7 +66,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     return YES;
 }
 
-- (void)_downloadAvatar:(NSURL *)url savePath:(NSString *)path forID:(DIMID)ID {
+- (void)_downloadAvatar:(NSURL *)url savePath:(NSString *)path forID:(id<MKMID>)ID {
     
     static NSMutableArray *s_downloadings = nil;
     SingletonDispatchOnce(^{
@@ -93,7 +93,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
 }
 
 // Cache directory: "Documents/.mkm/{address}/avatar.png"
-- (nullable UIImage *)loadAvatarWithURL:(NSString *)urlString forID:(DIMID)ID {
+- (nullable UIImage *)loadAvatarWithURL:(NSString *)urlString forID:(id<MKMID>)ID {
     
     NSURL *url = [NSURL URLWithString:urlString];
     NSString *filename = [url lastPathComponent];

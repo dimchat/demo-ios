@@ -12,9 +12,9 @@
 
 @implementation DIMFacebook (Register)
 
-- (BOOL)saveMeta:(DIMMeta)meta
-      privateKey:(DIMPrivateKey)SK
-           forID:(DIMID)ID {
+- (BOOL)saveMeta:(id<MKMMeta>)meta
+      privateKey:(id<MKMPrivateKey>)SK
+           forID:(id<MKMID>)ID {
     
     NSArray<id<DIMUser>> *array = [self localUsers];
     for (id<DIMUser> item in array) {
@@ -34,7 +34,7 @@
     }
     
     // 2. check & save private key
-    DIMVerifyKey PK = meta.key;
+    id<MKMVerifyKey> PK = meta.key;
     if ([PK isMatch:SK]) {
         if ([facebook savePrivateKey:SK type:DIMPrivateKeyType_Meta user:ID]) {
             NSLog(@"private key saved: %@", SK);

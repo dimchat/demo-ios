@@ -51,7 +51,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setContact:(DIMID)contact {
+- (void)setContact:(id<MKMID>)contact {
     _contact = contact;
     [self setData];
     [self setNeedsLayout];
@@ -61,7 +61,7 @@
     
     CGRect frame = self.avatarImageView.frame;
     
-    DIMDocument profile = DIMDocumentForID(_contact, @"*");
+    id<MKMDocument> profile = DIMDocumentForID(_contact, @"*");
     UIImage *image;
     if (MKMIDIsGroup(_contact)) {
         image = [(MKMBulletin *)profile logoImageWithSize:frame.size];
@@ -86,7 +86,7 @@
 
 - (void)didAvatarUpdated:(NSNotification *)o {
     NSDictionary *userInfo = [o userInfo];
-    DIMID ID = [userInfo objectForKey:@"ID"];
+    id<MKMID> ID = [userInfo objectForKey:@"ID"];
     if ([ID isEqual:self.contact]) {
         [NSObject performBlockOnMainThread:^{
             [self setData];
@@ -97,7 +97,7 @@
 
 - (void)didProfileUpdated:(NSNotification *)o {
     NSDictionary *profileDic = [o userInfo];
-    DIMID ID = [profileDic objectForKey:@"ID"];
+    id<MKMID> ID = [profileDic objectForKey:@"ID"];
     if ([ID isEqual:self.contact]) {
         [NSObject performBlockOnMainThread:^{
             [self setData];
@@ -108,7 +108,7 @@
 
 - (void)didGroupMemberUpdated:(NSNotification *)o {
     NSDictionary *profileDic = [o userInfo];
-    DIMID ID = [profileDic objectForKey:@"group"];
+    id<MKMID> ID = [profileDic objectForKey:@"group"];
     if ([ID isEqual:self.contact]) {
         [NSObject performBlockOnMainThread:^{
             [self setData];

@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
-@property (strong, nonatomic) DIMID participant;
+@property (strong, nonatomic) id<MKMID> participant;
 
 @end
 

@@ -69,7 +69,7 @@
 
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
-    DIMDocument profile = [notification.userInfo objectForKey:@"profile"];
+    id<MKMDocument> profile = [notification.userInfo objectForKey:@"profile"];
     id<DIMUser> user = [Client sharedInstance].currentUser;
     if ([profile.ID isEqual:user.ID]) {
         [self reloadData];
@@ -79,7 +79,7 @@
 -(void)didProfileUpdated:(NSNotification *)o{
     
     NSDictionary *userInfo = [o userInfo];
-    DIMID userID = [userInfo objectForKey:@"ID"];
+    id<MKMID> userID = [userInfo objectForKey:@"ID"];
     id<DIMUser> user = [Client sharedInstance].currentUser;
     
     if([userID isEqual:user.ID]){

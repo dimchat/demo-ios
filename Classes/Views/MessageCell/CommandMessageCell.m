@@ -21,10 +21,10 @@
 
 @implementation CommandMessageCell
 
-+ (CGSize)sizeWithMessage:(DIMInstantMessage)iMsg bounds:(CGRect)rect {
++ (CGSize)sizeWithMessage:(id<DKDInstantMessage>)iMsg bounds:(CGRect)rect {
     
     //NSString *text = [iMsg.content objectForKey:@"text"];
-    DIMID sender = iMsg.envelope.sender;
+    id<MKMID> sender = iMsg.envelope.sender;
     DIMCommand *command = (DIMCommand *)iMsg.content;
     NSString *text = [command messageWithSender:sender];
     
@@ -68,12 +68,12 @@
     self.messageLabel.frame = CGRectMake(x, y, width, height);
 }
 
-- (void)setMsg:(DIMInstantMessage)msg {
+- (void)setMsg:(id<DKDInstantMessage>)msg {
     if (![_msg isEqual:msg]) {
         _msg = msg;
         
         // message
-        DIMID sender = msg.envelope.sender;
+        id<MKMID> sender = msg.envelope.sender;
         DIMCommand *command = (DIMCommand *)msg.content;
         NSString *text = [command messageWithSender:sender];
         

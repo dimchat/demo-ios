@@ -78,7 +78,7 @@
     
     if ([name isEqual:kNotificationName_GroupMembersUpdated]) {
         // TODO: open chat box for new group
-//        DIMID groupID = [info objectForKey:@"group"];
+//        id<MKMID> groupID = [info objectForKey:@"group"];
 //        DIMConversation *chatBox = DIMConversationWithID(groupID);
 //        //[self performSegueWithIdentifier:@"startChat" sender:chatBox];
     }

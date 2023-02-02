@@ -163,13 +163,13 @@
 -(void)addDefaultUser:(NSString *)address{
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    DIMID ID = MKMIDFromString(address);
+    id<MKMID> ID = MKMIDParse(address);
     
     NSString *metaPath = [NSString stringWithFormat:@"%@/meta", address];
     NSString *path = [[NSBundle mainBundle] pathForResource:metaPath ofType:@"plist"];
     
     NSDictionary *metaData = [[NSDictionary alloc] initWithContentsOfFile:path];
-    DIMMeta meta = MKMMetaFromDictionary(metaData);
+    id<MKMMeta> meta = MKMMetaParse(metaData);
     if (meta) {
         [facebook saveMeta:meta forID:ID];
     }
@@ -178,7 +178,7 @@
     path = [[NSBundle mainBundle] pathForResource:profilePath ofType:@"plist"];
     
     NSDictionary *profileData = [[NSDictionary alloc] initWithContentsOfFile:path];
-    DIMDocument profile = MKMDocumentFromDictionary(profileData);
+    id<MKMDocument> profile = MKMDocumentParse(profileData);
     if (profile) {
         [facebook saveDocument:profile];
     }
@@ -308,9 +308,12 @@
 
 #pragma mark - Convert old tables
 
-static DIMID DIMIDWithAddress(DIMAddress address) {
-    DIMID ID = [[MKMID alloc] initWithAddress:address];
-    DIMMeta meta = DIMMetaForID(ID);
+static id<MKMID> DIMIDWithAddress(id<MKMAddress> address) {
+    id<MKMID> ID = [[MKMID alloc] initWithString:address.string
+                                        name:nil
+                                     address:address
+                                    terminal:nil];
+    id<MKMMeta> meta = DIMMetaForID(ID);
     if (!meta) {
         // failed to get meta for this ID
         return nil;
@@ -332,8 +335,8 @@ static DIMID DIMIDWithAddress(DIMAddress address) {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSDirectoryEnumerator *de = [fm enumeratorAtPath:dir];
         
-    DIMID ID;
-    DIMAddress address;
+    id<MKMID> ID;
+    id<MKMAddress> address;
     NSString *string;
 
     NSString *path;
@@ -344,7 +347,7 @@ static DIMID DIMIDWithAddress(DIMAddress address) {
         }
         
         string = [path substringToIndex:(path.length - 15)];
-        address = MKMAddressFromString(string);
+        address = MKMAddressParse(string);
             
         ID = DIMIDWithAddress(address);
         NSString *plistPath = [NSString stringWithFormat:@"%@/%@", dir, path];
@@ -362,7 +365,7 @@ static DIMID DIMIDWithAddress(DIMAddress address) {
             
             NSLog(@"messages from %@", plistPath);
             for (id item in array) {
-                DIMInstantMessage msg = DKDInstantMessageFromDictionary(item);
+                id<DKDInstantMessage> msg = DKDInstantMessageParse(item);
                 if (!msg) {
                     NSAssert(false, @"message invalid: %@", item);
                     continue;
