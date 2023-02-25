@@ -20,9 +20,9 @@ extern NSString * const kNotificationName_SearchUsersUpdated;
 
 static inline BOOL search(NSString *keywords) {
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    DIMCommand *command = [[DIMSearchCommand alloc] initWithKeywords:keywords];
+    id<DKDContent> content = [[DIMSearchCommand alloc] initWithKeywords:keywords];
     id<MKMID> bot = MKMIDParse(@"archivist@anywhere");
-    return [messenger sendContent:command receiver:bot];
+    return [messenger sendContent:content receiver:bot];
 }
 
 @interface SearchUsersTableViewController ()<UITableViewDelegate, UITableViewDataSource> {

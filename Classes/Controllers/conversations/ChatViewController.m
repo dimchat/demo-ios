@@ -265,10 +265,10 @@
             //Send profile command to audience
             id<MKMID> ID = user.ID;
             id<MKMVisa> visa = user.visa;
-            DIMCommand *command = [[DIMDocumentCommand alloc] initWithID:ID document:visa];
+            id<DKDContent> content = [[DIMDocumentCommand alloc] initWithID:ID document:visa];
             id<MKMID> receiverID = _conversation.ID;
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
-            [messenger sendContent:command receiver:receiverID];
+            [messenger sendContent:content receiver:receiverID];
             
             NSLog(@"Send profile message to %@", receiverID);
         }

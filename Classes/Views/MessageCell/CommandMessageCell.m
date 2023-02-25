@@ -25,8 +25,8 @@
     
     //NSString *text = [iMsg.content objectForKey:@"text"];
     id<MKMID> sender = iMsg.envelope.sender;
-    DIMCommand *command = (DIMCommand *)iMsg.content;
-    NSString *text = [command messageWithSender:sender];
+    DIMCommand *content = (DIMCommand *)iMsg.content;
+    NSString *text = [content messageWithSender:sender];
     
     CGFloat cellWidth = rect.size.width;
     CGFloat msgWidth = [UIScreen mainScreen].bounds.size.width;
@@ -74,8 +74,8 @@
         
         // message
         id<MKMID> sender = msg.envelope.sender;
-        DIMCommand *command = (DIMCommand *)msg.content;
-        NSString *text = [command messageWithSender:sender];
+        DIMCommand *content = (DIMCommand *)msg.content;
+        NSString *text = [content messageWithSender:sender];
         
         self.messageLabel.text = text;
         

@@ -132,10 +132,10 @@
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
                 // send quit group command
-                id<DKDGroupCommand> command = [[DIMQuitGroupCommand alloc] initWithGroup:group.ID];
+                id<DKDContent> content = [[DIMQuitGroupCommand alloc] initWithGroup:group.ID];
                 NSArray *members = group.members;
                 for (id<MKMID> member in members) {
-                    [messenger sendContent:command receiver:member];
+                    [messenger sendContent:content receiver:member];
                 }
                 // remove myself
                 [[DIMFacebook sharedInstance] group:group.ID removeMember:user.ID];
@@ -368,8 +368,8 @@
     }
     DIMMessenger *messenger = [DIMMessenger sharedInstance];
     
-    DIMMuteCommand *command = [[DIMMuteCommand alloc] initWithList:newList];
-    [messenger sendCommand:command];
+    DIMMuteCommand *content = [[DIMMuteCommand alloc] initWithList:newList];
+    [messenger sendCommand:content];
 }
 
 @end

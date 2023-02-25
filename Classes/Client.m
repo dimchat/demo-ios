@@ -60,12 +60,12 @@ SingletonImplementations(Client, sharedInstance)
     // post device token
     NSString *token = MKMHexEncode(self.deviceToken);
     if (token) {
-        DIMCommand *command = [[DIMCommand alloc] initWithCommandName:@"broadcast"];
-        [command setObject:@"apns" forKey:@"title"];
-        [command setObject:token forKey:@"device_token"];
+        DIMCommand *content = [[DIMCommand alloc] initWithCommandName:@"broadcast"];
+        [content setObject:@"apns" forKey:@"title"];
+        [content setObject:token forKey:@"device_token"];
         
         DIMMessenger *messenger = [DIMMessenger sharedInstance];
-        [messenger sendCommand:command];
+        [messenger sendCommand:content];
     }
 }
 
