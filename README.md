@@ -4,7 +4,7 @@ Demo project of DIM Client, just for study purpose.
 
 Dependencies:
 
-- [DIM Client (client-objc)](https://github.com/dimchat/client-objc)
+- [DIM Client (demo-objc)](https://github.com/dimchat/demo-objc)
 	- [DIM SDK (sdk-objc)](https://github.com/dimchat/sdk-objc)
 		- [DIM Core (core-objc)](https://github.com/dimchat/core-objc)
 			- [Message Module (dkd-objc)](https://github.com/dimchat/dkd-objc)
@@ -25,7 +25,7 @@ mkdir dimchat; cd dimchat/
 git clone https://github.com/dimchat/demo-ios.git
 
 # requirements
-git clone https://github.com/dimchat/client-objc.git
+git clone https://github.com/dimchat/demo-objc.git
 
 git clone https://github.com/dimchat/sdk-objc.git
 git clone https://github.com/dimchat/core-objc.git

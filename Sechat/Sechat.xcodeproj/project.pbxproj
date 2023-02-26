@@ -86,7 +86,6 @@
 		52DBA34E2340F2F90000C2B4 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */; };
 		52DBA34F2340F2F90000C2B4 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790835225B666F0024C830 /* WebViewController.m */; };
 		52DBA3502340F2F90000C2B4 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
-		52DBA3532340F2F90000C2B4 /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
 		52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		52DBA3552340F2F90000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
 		52DBA3562340F2F90000C2B4 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; };
@@ -108,7 +107,6 @@
 		52DBA36D2340F2F90000C2B4 /* DIMCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52DBA36E2340F2F90000C2B4 /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		52DBA36F2340F2F90000C2B4 /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		52DBA3702340F2F90000C2B4 /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
 		E914684025FAB1E30087D55A /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */; };
 		E914684125FAB1E30087D55A /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -137,8 +135,6 @@
 		E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256312222ED7C006CADEA /* AccountTableViewController.m */; };
 		E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92256372222ED7C006CADEA /* AccountEditViewController.m */; };
 		E97816CE2223EAA700BCE3AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97816CD2223EAA700BCE3AD /* Assets.xcassets */; };
-		E978171122254AB000BCE3AD /* DIMClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; };
-		E978171222254AB000BCE3AD /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E97816C22223E91600BCE3AD /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E97907732254A3970024C830 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E97907712254A3970024C830 /* ImagePickerController.m */; };
 		E979079D225520AA0024C830 /* DIMInstantMessage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */; };
 		E979080D2259CDA10024C830 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E979080C2259CDA10024C830 /* UIView+Extension.m */; };
@@ -165,6 +161,7 @@
 		E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */; };
 		E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3792242B21200E6ACDA /* NSString+Extension.m */; };
 		E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
+		E9CF652E29AB372000E3AA5A /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF652B29AB35F200E3AA5A /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9CF8B402396875500630BDE /* DIMSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF8B3E239685F300630BDE /* DIMSDK.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
 		E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
@@ -173,13 +170,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		52DBA3212340F2F90000C2B4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E978167F2223E7F200BCE3AD;
-			remoteInfo = DIMClient;
-		};
 		E92255DB2222EC56006CADEA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E92255B72222EC53006CADEA /* Project object */;
@@ -194,26 +184,19 @@
 			remoteGlobalIDString = E92255BE2222EC53006CADEA;
 			remoteInfo = Sechat;
 		};
-		E97816C12223E91600BCE3AD /* PBXContainerItemProxy */ = {
+		E9CF652A29AB35F200E3AA5A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
+			containerPortal = E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E97816802223E7F200BCE3AD;
 			remoteInfo = DIMClient;
 		};
-		E97816C32223E91600BCE3AD /* PBXContainerItemProxy */ = {
+		E9CF652C29AB35F200E3AA5A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
+			containerPortal = E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E97816892223E7F200BCE3AD;
 			remoteInfo = DIMClientTests;
-		};
-		E978171322254AB000BCE3AD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = E978167F2223E7F200BCE3AD;
-			remoteInfo = DIMClient;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -224,7 +207,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				52DBA3702340F2F90000C2B4 /* DIMClient.framework in Embed Frameworks */,
 				E99E7772239687B300F250BB /* DIMSDK.framework in Embed Frameworks */,
 				52DBA36D2340F2F90000C2B4 /* DIMCore.framework in Embed Frameworks */,
 				52DBA36B2340F2F90000C2B4 /* DaoKeDao.framework in Embed Frameworks */,
@@ -241,11 +223,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				E9CF652E29AB372000E3AA5A /* DIMClient.framework in Embed Frameworks */,
 				E914684625FAB1EB0087D55A /* DIMSDK.framework in Embed Frameworks */,
 				E914687C25FAB2E30087D55A /* FiniteStateMachine.framework in Embed Frameworks */,
 				E914684125FAB1E30087D55A /* DaoKeDao.framework in Embed Frameworks */,
 				E914684825FAB1EE0087D55A /* MingKeMing.framework in Embed Frameworks */,
-				E978171222254AB000BCE3AD /* DIMClient.framework in Embed Frameworks */,
 				E914688025FAB2FD0087D55A /* MarsGate.framework in Embed Frameworks */,
 				E914684425FAB1E80087D55A /* DIMCore.framework in Embed Frameworks */,
 			);
@@ -334,7 +316,6 @@
 		E92256372222ED7C006CADEA /* AccountEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountEditViewController.m; sourceTree = "<group>"; };
 		E922567E2222EF3D006CADEA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		E964889D23E32CAC00B9FE37 /* DIMTalk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIMTalk.entitlements; sourceTree = "<group>"; };
-		E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMClient.xcodeproj; path = "../../client-objc/DIMClient/DIMClient.xcodeproj"; sourceTree = "<group>"; };
 		E97816CD2223EAA700BCE3AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E978171E22254CBB00BCE3AD /* MarsGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarsGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E978172022254CC000BCE3AD /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -391,6 +372,7 @@
 		E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37B2242B21200E6ACDA /* UIViewController+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboardSegue+Extension.m"; sourceTree = "<group>"; };
+		E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMClient.xcodeproj; path = "../../demo-objc/DIMClient/DIMClient.xcodeproj"; sourceTree = "<group>"; };
 		E9CF8B3E239685F300630BDE /* DIMSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D71E5D25BAE68D00773ED1 /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -416,7 +398,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				52011D5024E3E2DF0015415D /* Foundation.framework in Frameworks */,
-				52DBA3532340F2F90000C2B4 /* DIMClient.framework in Frameworks */,
 				E9CF8B402396875500630BDE /* DIMSDK.framework in Frameworks */,
 				52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */,
 				52011D4E24E3E2D40015415D /* CoreGraphics.framework in Frameworks */,
@@ -442,7 +423,6 @@
 			files = (
 				E914684925FAB1EF0087D55A /* WebKit.framework in Frameworks */,
 				E914684325FAB1E80087D55A /* DIMCore.framework in Frameworks */,
-				E978171122254AB000BCE3AD /* DIMClient.framework in Frameworks */,
 				52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */,
 				E914684525FAB1EB0087D55A /* DIMSDK.framework in Frameworks */,
 				E914687F25FAB2FD0087D55A /* MarsGate.framework in Frameworks */,
@@ -533,8 +513,8 @@
 		E92255B62222EC53006CADEA = {
 			isa = PBXGroup;
 			children = (
+				E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */,
 				52BF13582341D02B0016371B /* SechatAppStore.entitlements */,
-				E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */,
 				E92256122222ED7C006CADEA /* Classes */,
 				E92256072222ED6B006CADEA /* Resources */,
 				E92255C12222EC53006CADEA /* Sechat */,
@@ -705,15 +685,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E97816B92223E91600BCE3AD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E97816C22223E91600BCE3AD /* DIMClient.framework */,
-				E97816C42223E91600BCE3AD /* DIMClientTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		E979076E2254A3970024C830 /* media */ = {
 			isa = PBXGroup;
 			children = (
@@ -802,6 +773,15 @@
 			path = extends;
 			sourceTree = "<group>";
 		};
+		E9CF651F29AB35F200E3AA5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9CF652B29AB35F200E3AA5A /* DIMClient.framework */,
+				E9CF652D29AB35F200E3AA5A /* DIMClientTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -818,7 +798,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				52DBA3202340F2F90000C2B4 /* PBXTargetDependency */,
 			);
 			name = DIMTalk;
 			productName = Sechat;
@@ -837,7 +816,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				E978171422254AB000BCE3AD /* PBXTargetDependency */,
 			);
 			name = Sechat;
 			productName = Sechat;
@@ -923,8 +901,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = E97816B92223E91600BCE3AD /* Products */;
-					ProjectRef = E97816B82223E91600BCE3AD /* DIMClient.xcodeproj */;
+					ProductGroup = E9CF651F29AB35F200E3AA5A /* Products */;
+					ProjectRef = E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -938,18 +916,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E97816C22223E91600BCE3AD /* DIMClient.framework */ = {
+		E9CF652B29AB35F200E3AA5A /* DIMClient.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = DIMClient.framework;
-			remoteRef = E97816C12223E91600BCE3AD /* PBXContainerItemProxy */;
+			remoteRef = E9CF652A29AB35F200E3AA5A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E97816C42223E91600BCE3AD /* DIMClientTests.xctest */ = {
+		E9CF652D29AB35F200E3AA5A /* DIMClientTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = DIMClientTests.xctest;
-			remoteRef = E97816C32223E91600BCE3AD /* PBXContainerItemProxy */;
+			remoteRef = E9CF652C29AB35F200E3AA5A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1164,11 +1142,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		52DBA3202340F2F90000C2B4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DIMClient;
-			targetProxy = 52DBA3212340F2F90000C2B4 /* PBXContainerItemProxy */;
-		};
 		E92255DC2222EC56006CADEA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = E92255BE2222EC53006CADEA /* Sechat */;
@@ -1178,11 +1151,6 @@
 			isa = PBXTargetDependency;
 			target = E92255BE2222EC53006CADEA /* Sechat */;
 			targetProxy = E92255E62222EC56006CADEA /* PBXContainerItemProxy */;
-		};
-		E978171422254AB000BCE3AD /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DIMClient;
-			targetProxy = E978171322254AB000BCE3AD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1410,8 +1378,8 @@
 				DEVELOPMENT_TEAM = 4UED9RKQF6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../client-objc/Classes/extends/**",
-					"../../client-objc/Classes/modules/**",
+					"../../demo-objc/Classes/extends/**",
+					"../../demo-objc/Classes/modules/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1442,8 +1410,8 @@
 				DEVELOPMENT_TEAM = 4UED9RKQF6;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
-					"../../client-objc/Classes/extends/**",
-					"../../client-objc/Classes/modules/**",
+					"../../demo-objc/Classes/extends/**",
+					"../../demo-objc/Classes/modules/**",
 				);
 				INFOPLIST_FILE = Sechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
