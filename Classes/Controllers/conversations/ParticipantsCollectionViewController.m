@@ -8,6 +8,9 @@
 
 #import "UIImageView+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
+
+#import "DIMFacebook+Extension.h"
+
 #import "ProfileTableViewController.h"
 #import "ChatManageTableViewController.h"
 
@@ -39,7 +42,7 @@
         [_participants addObject:_conversation.ID];
     } else if (MKMIDIsGroup(_conversation.ID)) {
         // group conversation
-        id<DIMGroup> group = DIMGroupWithID(_conversation.ID);
+        id<MKMGroup> group = DIMGroupWithID(_conversation.ID);
         [_participants addObjectsFromArray:group.members];
     }
 }

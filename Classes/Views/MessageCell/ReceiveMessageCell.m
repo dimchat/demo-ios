@@ -6,7 +6,6 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
 #import "NSString+Extension.h"
 #import "UIImage+Extension.h"
 #import "UIImageView+Extension.h"

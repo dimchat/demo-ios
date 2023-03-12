@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BadgeView.h"
-#import <DIMClient/DIMClient.h>
+#import <DIMP/DIMP.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

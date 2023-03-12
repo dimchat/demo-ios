@@ -1,12 +1,12 @@
 //
 //  Facebook+Register.h
-//  DIMClient
+//  DIMP
 //
 //  Created by Albert Moky on 2019/1/28.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMClient/DIMClient.h>
+#import <DIMP/DIMP.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)saveMeta:(id<MKMMeta>)meta privateKey:(id<MKMPrivateKey>)SK forID:(id<MKMID>)ID;
 
-- (BOOL)saveUserList:(NSArray<id<DIMUser>> *)users withCurrentUser:(nullable id<DIMUser>)curr;
+- (BOOL)saveUserList:(NSArray<id<MKMUser>> *)users withCurrentUser:(nullable id<MKMUser>)curr;
 
 @end
 

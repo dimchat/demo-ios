@@ -6,20 +6,26 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
 #import "UIColor+Extension.h"
 #import "UIImage+Extension.h"
 #import "UIView+Extension.h"
 #import "UIImageView+Extension.h"
 #import "UIViewController+Extension.h"
+
+#import "DIMEntity+Extension.h"
 #import "DIMProfile+Extension.h"
-#import "ImagePickerController.h"
-#import "Client.h"
+#import "DIMFacebook+Extension.h"
+#import "DIMMessenger+Extension.h"
+
 #import "Facebook+Register.h"
 #import "Facebook+Profile.h"
+#import "Client.h"
+
 #import "WebViewController.h"
-#import "RegisterViewController.h"
+#import "ImagePickerController.h"
 #import "ImportAccountViewController.h"
+
+#import "RegisterViewController.h"
 
 @interface RegisterViewController ()<UITextFieldDelegate, UIDocumentPickerDelegate>
 
@@ -193,7 +199,7 @@
 -(NSError *)saveAndSubmit {
     
     DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    id<DIMUser> user = facebook.currentUser;
+    id<MKMUser> user = facebook.currentUser;
     id<MKMID> ID = user.ID;
     
     id<MKMVisa> visa = user.visa;
@@ -215,7 +221,7 @@
     
     [visa setName:self.nickname];
     
-    id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
+    id<MKMUserDataSource> dataSource = (id<MKMUserDataSource>)[user dataSource];
     id<MKMSignKey> SK = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
     [visa sign:SK];
@@ -232,35 +238,35 @@
 - (NSError *)generate {
     NSLog(@"refreshing...");
     
-    DIMRegister *reg = [[DIMRegister alloc] init];
-    id<DIMUser> user = [reg createUserWithName:self.nickname avatar:nil];
-    
-    // 1. generated private key
-    self.SK = reg.key;
-    if (self.SK == nil) {
-        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate private key"}];
-    }
-    
-    // 2. generated meta
-    self.meta = user.meta;
-    if (self.meta == nil) {
-        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate meta"}];
-    }
-    
-    // 3. generated ID
-    self.ID = user.ID;
-    if (self.ID == nil) {
-        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate ID"}];
-    }
-    
-    Client *client = [Client sharedInstance];
-    client.currentUser = user;
-    
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    BOOL saved = [facebook saveUserList:client.users withCurrentUser:user];
-    if (!saved) {
-        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not save user to client"}];
-    }
+//    DIMRegister *reg = [[DIMRegister alloc] init];
+//    id<MKMUser> user = [reg createUserWithName:self.nickname avatar:nil];
+//
+//    // 1. generated private key
+//    self.SK = reg.key;
+//    if (self.SK == nil) {
+//        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate private key"}];
+//    }
+//
+//    // 2. generated meta
+//    self.meta = user.meta;
+//    if (self.meta == nil) {
+//        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate meta"}];
+//    }
+//
+//    // 3. generated ID
+//    self.ID = user.ID;
+//    if (self.ID == nil) {
+//        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate ID"}];
+//    }
+//
+//    Client *client = [Client sharedInstance];
+//    client.currentUser = user;
+//
+//    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+//    BOOL saved = [facebook saveUserList:client.users withCurrentUser:user];
+//    if (!saved) {
+//        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not save user to client"}];
+//    }
     
     return nil;
 }

@@ -7,15 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		52011D4624E3E2980015415D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52011D4524E3E2980015415D /* CFNetwork.framework */; };
-		52011D4824E3E2AB0015415D /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52011D4724E3E2AA0015415D /* CoreFoundation.framework */; };
-		52011D4A24E3E2B70015415D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52011D4924E3E2B70015415D /* CoreTelephony.framework */; };
-		52011D4C24E3E2C20015415D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52011D4B24E3E2C20015415D /* SystemConfiguration.framework */; };
-		52011D4E24E3E2D40015415D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52011D4D24E3E2D40015415D /* CoreGraphics.framework */; };
-		52011D5024E3E2DF0015415D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52011D4F24E3E2DF0015415D /* Foundation.framework */; };
+		21E6E9FDAEC1543348FB83A4 /* Pods_DIMTalk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3330544A052215F17FDBFF24 /* Pods_DIMTalk.framework */; };
 		52011D5224E3E2E90015415D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52011D5124E3E2E90015415D /* UIKit.framework */; platformFilter = ios; };
-		52011D5424E3E2F40015415D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52011D5324E3E2F40015415D /* Security.framework */; };
-		52011D5724E3E3120015415D /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52011D5624E3E3120015415D /* UserNotifications.framework */; };
 		520A0ED12359BC1D00493E2F /* UILabel+Copyable.m in Sources */ = {isa = PBXBuildFile; fileRef = 520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */; };
 		520A0ED22359BC1D00493E2F /* UILabel+Copyable.m in Sources */ = {isa = PBXBuildFile; fileRef = 520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */; };
 		5216EF03231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF01231FAA0500AF3DFE /* dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf */; };
@@ -86,12 +79,7 @@
 		52DBA34E2340F2F90000C2B4 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CA1222D8B3400EE6C86 /* ChatViewController.m */; };
 		52DBA34F2340F2F90000C2B4 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9790835225B666F0024C830 /* WebViewController.m */; };
 		52DBA3502340F2F90000C2B4 /* ChatManageTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5C9D222D8B3400EE6C86 /* ChatManageTableViewController.m */; };
-		52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		52DBA3552340F2F90000C2B4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 52DBA317234037590000C2B4 /* libsqlite3.tbd */; };
-		52DBA3562340F2F90000C2B4 /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; };
-		52DBA3572340F2F90000C2B4 /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; };
-		52DBA3582340F2F90000C2B4 /* MarsGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; };
-		52DBA3592340F2F90000C2B4 /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
 		52DBA35A2340F2F90000C2B4 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
 		52DBA35D2340F2F90000C2B4 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
 		52DBA35E2340F2F90000C2B4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
@@ -102,25 +90,8 @@
 		52DBA3672340F2F90000C2B4 /* Conversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E92255FB2222ED59006CADEA /* Conversations.storyboard */; };
 		52DBA3682340F2F90000C2B4 /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q in Resources */ = {isa = PBXBuildFile; fileRef = 5216EF02231FAA0500AF3DFE /* baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q */; };
 		52DBA3692340F2F90000C2B4 /* ChatViewImages.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E922560C2222ED6B006CADEA /* ChatViewImages.xcassets */; };
-		52DBA36B2340F2F90000C2B4 /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172222254CC600BCE3AD /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		52DBA36C2340F2F90000C2B4 /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		52DBA36D2340F2F90000C2B4 /* DIMCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172022254CC000BCE3AD /* DIMCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		52DBA36E2340F2F90000C2B4 /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978172422254CC900BCE3AD /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		52DBA36F2340F2F90000C2B4 /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */; };
-		E914684025FAB1E30087D55A /* DaoKeDao.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */; };
-		E914684125FAB1E30087D55A /* DaoKeDao.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E914684325FAB1E80087D55A /* DIMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E5D25BAE68D00773ED1 /* DIMCore.framework */; };
-		E914684425FAB1E80087D55A /* DIMCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E5D25BAE68D00773ED1 /* DIMCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E914684525FAB1EB0087D55A /* DIMSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E6725BAE6B200773ED1 /* DIMSDK.framework */; };
-		E914684625FAB1EB0087D55A /* DIMSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E6725BAE6B200773ED1 /* DIMSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E914684725FAB1EE0087D55A /* MingKeMing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E6225BAE69F00773ED1 /* MingKeMing.framework */; };
-		E914684825FAB1EE0087D55A /* MingKeMing.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9D71E6225BAE69F00773ED1 /* MingKeMing.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E914684925FAB1EF0087D55A /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E922567E2222EF3D006CADEA /* WebKit.framework */; };
-		E914687B25FAB2E30087D55A /* FiniteStateMachine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; };
-		E914687C25FAB2E30087D55A /* FiniteStateMachine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E914687F25FAB2FD0087D55A /* MarsGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; };
-		E914688025FAB2FD0087D55A /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E978171E22254CBB00BCE3AD /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */ = {isa = PBXBuildFile; fileRef = E918E01A22C4A4D4007A3803 /* Facebook+Profile.m */; };
 		E92255C42222EC53006CADEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255C32222EC53006CADEA /* AppDelegate.m */; };
 		E92255D52222EC56006CADEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E92255D42222EC56006CADEA /* main.m */; };
@@ -154,19 +125,61 @@
 		E99A5CCA222E577900EE6C86 /* ContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CC9222E577900EE6C86 /* ContactCell.m */; };
 		E99A5CCD222ECDBE00EE6C86 /* ParticipantCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCC222ECDBE00EE6C86 /* ParticipantCollectionCell.m */; };
 		E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */; };
-		E99E7772239687B300F250BB /* DIMSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF8B3E239685F300630BDE /* DIMSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9AE7E9729BD7B69008D9F33 /* DIMEntity+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7E9329BD7B68008D9F33 /* DIMEntity+Extension.m */; };
+		E9AE7E9829BD7B69008D9F33 /* DIMFacebook+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7E9529BD7B68008D9F33 /* DIMFacebook+Extension.m */; };
+		E9AE7E9929BD7B69008D9F33 /* DIMCommand+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7E9629BD7B69008D9F33 /* DIMCommand+Extension.m */; };
+		E9AE7E9A29BD7B76008D9F33 /* DIMEntity+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7E9329BD7B68008D9F33 /* DIMEntity+Extension.m */; };
+		E9AE7E9B29BD7B76008D9F33 /* DIMCommand+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7E9629BD7B69008D9F33 /* DIMCommand+Extension.m */; };
+		E9AE7E9C29BD7B76008D9F33 /* DIMFacebook+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7E9529BD7B68008D9F33 /* DIMFacebook+Extension.m */; };
+		E9AE7E9F29BD7B88008D9F33 /* DIMMessenger+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7E9D29BD7B88008D9F33 /* DIMMessenger+Extension.m */; };
+		E9AE7EA229BD7B94008D9F33 /* DKDInstantMessage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EA129BD7B94008D9F33 /* DKDInstantMessage+Extension.m */; };
+		E9AE7EB429BD7C41008D9F33 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EA829BD7C41008D9F33 /* FMDatabaseQueue.m */; };
+		E9AE7EB529BD7C41008D9F33 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EAB29BD7C41008D9F33 /* FMDatabaseAdditions.m */; };
+		E9AE7EB629BD7C41008D9F33 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EAC29BD7C41008D9F33 /* FMDatabase.m */; };
+		E9AE7EB729BD7C41008D9F33 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EB029BD7C41008D9F33 /* FMDatabasePool.m */; };
+		E9AE7EB829BD7C41008D9F33 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EB129BD7C41008D9F33 /* FMResultSet.m */; };
+		E9AE7EB929BD7C41008D9F33 /* LocalDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EB329BD7C41008D9F33 /* LocalDatabaseManager.m */; };
+		E9AE7EBD29BD7C55008D9F33 /* FolderUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EBB29BD7C55008D9F33 /* FolderUtility.m */; };
+		E9AE7ED129BD7C99008D9F33 /* DIMSocialNetworkDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC029BD7C99008D9F33 /* DIMSocialNetworkDatabase.m */; };
+		E9AE7ED229BD7C99008D9F33 /* DIMMessageTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC129BD7C99008D9F33 /* DIMMessageTable.m */; };
+		E9AE7ED329BD7C99008D9F33 /* DIMAddressNameTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC429BD7C99008D9F33 /* DIMAddressNameTable.m */; };
+		E9AE7ED429BD7C99008D9F33 /* DIMUserTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC529BD7C99008D9F33 /* DIMUserTable.m */; };
+		E9AE7ED529BD7C99008D9F33 /* DIMGroupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC629BD7C99008D9F33 /* DIMGroupTable.m */; };
+		E9AE7ED629BD7C99008D9F33 /* DIMStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC929BD7C99008D9F33 /* DIMStorage.m */; };
+		E9AE7ED729BD7C99008D9F33 /* DIMMetaTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7ECD29BD7C99008D9F33 /* DIMMetaTable.m */; };
+		E9AE7ED829BD7C99008D9F33 /* DIMConversationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7ECE29BD7C99008D9F33 /* DIMConversationDatabase.m */; };
+		E9AE7ED929BD7C99008D9F33 /* DIMProfileTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7ECF29BD7C99008D9F33 /* DIMProfileTable.m */; };
+		E9AE7F0529BD7CA0008D9F33 /* DIMSharedMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EDB29BD7CA0008D9F33 /* DIMSharedMessenger.m */; };
+		E9AE7F0629BD7CA0008D9F33 /* DIMConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EDE29BD7CA0008D9F33 /* DIMConversation.m */; };
+		E9AE7F0729BD7CA0008D9F33 /* DIMSharedFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EDF29BD7CA0008D9F33 /* DIMSharedFacebook.m */; };
+		E9AE7F0829BD7CA0008D9F33 /* DIMProcessorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EE029BD7CA0008D9F33 /* DIMProcessorFactory.m */; };
+		E9AE7F0929BD7CA0008D9F33 /* DIMConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EE129BD7CA0008D9F33 /* DIMConstants.m */; };
+		E9AE7F0A29BD7CA0008D9F33 /* DIMMuteCommandProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EE329BD7CA0008D9F33 /* DIMMuteCommandProcessor.m */; };
+		E9AE7F0B29BD7CA0008D9F33 /* DIMFileContentProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EE429BD7CA0008D9F33 /* DIMFileContentProcessor.m */; };
+		E9AE7F0C29BD7CA0008D9F33 /* DIMApplicationContentProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EE629BD7CA0008D9F33 /* DIMApplicationContentProcessor.m */; };
+		E9AE7F0D29BD7CA0008D9F33 /* DIMBlockCommandProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EE729BD7CA0008D9F33 /* DIMBlockCommandProcessor.m */; };
+		E9AE7F0E29BD7CA0008D9F33 /* DIMStorageCommandProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EE929BD7CA0008D9F33 /* DIMStorageCommandProcessor.m */; };
+		E9AE7F0F29BD7CA0008D9F33 /* DIMSearchCommandProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EEB29BD7CA0008D9F33 /* DIMSearchCommandProcessor.m */; };
+		E9AE7F1029BD7CA0008D9F33 /* DIMDefaultProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EED29BD7CA0008D9F33 /* DIMDefaultProcessor.m */; };
+		E9AE7F1129BD7CA0008D9F33 /* DIMMessageDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EF129BD7CA0008D9F33 /* DIMMessageDataSource.m */; };
+		E9AE7F1229BD7CA0008D9F33 /* DIMAmanuensis.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EF429BD7CA0008D9F33 /* DIMAmanuensis.m */; };
+		E9AE7F1329BD7CA0008D9F33 /* DIMKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EF629BD7CA0008D9F33 /* DIMKeyStore.m */; };
+		E9AE7F1429BD7CA0008D9F33 /* DIMMessageTransmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EF729BD7CA0008D9F33 /* DIMMessageTransmitter.m */; };
+		E9AE7F1529BD7CA0008D9F33 /* DIMSharedProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EFC29BD7CA0008D9F33 /* DIMSharedProcessor.m */; };
+		E9AE7F1629BD7CA0008D9F33 /* DIMStorageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EFF29BD7CA0008D9F33 /* DIMStorageCommand.m */; };
+		E9AE7F1729BD7CA0008D9F33 /* DIMSearchCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7F0029BD7CA0008D9F33 /* DIMSearchCommand.m */; };
+		E9AE7F1829BD7CA0008D9F33 /* DIMSharedPacker.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7F0229BD7CA0008D9F33 /* DIMSharedPacker.m */; };
 		E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */; };
 		E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */; };
 		E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */; };
 		E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */; };
 		E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3792242B21200E6ACDA /* NSString+Extension.m */; };
 		E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
-		E9CF652E29AB372000E3AA5A /* DIMClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF652B29AB35F200E3AA5A /* DIMClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		E9CF8B402396875500630BDE /* DIMSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9CF8B3E239685F300630BDE /* DIMSDK.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
 		E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
 		E9E82501224D198200A029F1 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
 		E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */; };
+		EFF99EA71DCACA97A0D182D7 /* Pods_Sechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B02D69C702E8D9FB7473318 /* Pods_Sechat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,20 +197,6 @@
 			remoteGlobalIDString = E92255BE2222EC53006CADEA;
 			remoteInfo = Sechat;
 		};
-		E9CF652A29AB35F200E3AA5A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E97816802223E7F200BCE3AD;
-			remoteInfo = DIMClient;
-		};
-		E9CF652C29AB35F200E3AA5A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E97816892223E7F200BCE3AD;
-			remoteInfo = DIMClientTests;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -207,12 +206,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E99E7772239687B300F250BB /* DIMSDK.framework in Embed Frameworks */,
-				52DBA36D2340F2F90000C2B4 /* DIMCore.framework in Embed Frameworks */,
-				52DBA36B2340F2F90000C2B4 /* DaoKeDao.framework in Embed Frameworks */,
-				52DBA36E2340F2F90000C2B4 /* MingKeMing.framework in Embed Frameworks */,
-				52DBA36C2340F2F90000C2B4 /* FiniteStateMachine.framework in Embed Frameworks */,
-				52DBA36F2340F2F90000C2B4 /* MarsGate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -223,13 +216,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E9CF652E29AB372000E3AA5A /* DIMClient.framework in Embed Frameworks */,
-				E914684625FAB1EB0087D55A /* DIMSDK.framework in Embed Frameworks */,
-				E914687C25FAB2E30087D55A /* FiniteStateMachine.framework in Embed Frameworks */,
-				E914684125FAB1E30087D55A /* DaoKeDao.framework in Embed Frameworks */,
-				E914684825FAB1EE0087D55A /* MingKeMing.framework in Embed Frameworks */,
-				E914688025FAB2FD0087D55A /* MarsGate.framework in Embed Frameworks */,
-				E914684425FAB1E80087D55A /* DIMCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,16 +223,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		52011D4524E3E2980015415D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
-		52011D4724E3E2AA0015415D /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
-		52011D4924E3E2B70015415D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
-		52011D4B24E3E2C20015415D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
-		52011D4D24E3E2D40015415D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
-		52011D4F24E3E2DF0015415D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		0ECCD7480B7CF2353949E1C7 /* Pods-Sechat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sechat.release.xcconfig"; path = "Target Support Files/Pods-Sechat/Pods-Sechat.release.xcconfig"; sourceTree = "<group>"; };
+		0FB45EE6A2B89F7FE6CE2948 /* Pods-DIMTalk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DIMTalk.debug.xcconfig"; path = "Target Support Files/Pods-DIMTalk/Pods-DIMTalk.debug.xcconfig"; sourceTree = "<group>"; };
+		18C2997DCE5F93DB152FA85A /* Pods-Sechat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sechat.debug.xcconfig"; path = "Target Support Files/Pods-Sechat/Pods-Sechat.debug.xcconfig"; sourceTree = "<group>"; };
+		3330544A052215F17FDBFF24 /* Pods_DIMTalk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DIMTalk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		52011D5124E3E2E90015415D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		52011D5324E3E2F40015415D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		52011D5524E3E3030015415D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
-		52011D5624E3E3120015415D /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/UserNotifications.framework; sourceTree = DEVELOPER_DIR; };
 		52011D5824E3E31E0015415D /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/usr/lib/libresolv.tbd; sourceTree = DEVELOPER_DIR; };
 		520A0ECE2359BC1D00493E2F /* UILabel+Copyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Copyable.h"; sourceTree = "<group>"; };
 		520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Copyable.m"; sourceTree = "<group>"; };
@@ -266,7 +248,6 @@
 		5242949E2334829900E8DA05 /* CommandMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandMessageCell.h; sourceTree = "<group>"; };
 		524294A02334B7E600E8DA05 /* MessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
 		524294A12334B7E600E8DA05 /* MessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
-		524F5E7C22CDDE0000A84DF9 /* ethers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ethers.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/Sechat-cwfdihfwyufdtfaysjjmmexlsrue/Build/Products/Debug-iphoneos/ethers.framework"; sourceTree = "<group>"; };
 		52844B762362A6C6006B4C03 /* SwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchCell.h; sourceTree = "<group>"; };
 		52844B782362A6C6006B4C03 /* SwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchCell.m; sourceTree = "<group>"; };
 		52876E0022C20217006F0655 /* ImportAccountViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImportAccountViewController.h; sourceTree = "<group>"; };
@@ -285,7 +266,9 @@
 		52DBA317234037590000C2B4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		52DBA3742340F2F90000C2B4 /* DIMTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIMTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52DBA3752340F2F90000C2B4 /* Sechat copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Sechat copy-Info.plist"; path = "/Users/john/Documents/workspace/iphone/dimchat/demo-ios/Sechat/Sechat copy-Info.plist"; sourceTree = "<absolute>"; };
+		8B02D69C702E8D9FB7473318 /* Pods_Sechat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Sechat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sechat.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9806581E51D742D65D2CFE89 /* Pods-DIMTalk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DIMTalk.release.xcconfig"; path = "Target Support Files/Pods-DIMTalk/Pods-DIMTalk.release.xcconfig"; sourceTree = "<group>"; };
 		E9060E8922677FE80000DA35 /* UIScrollView+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Extension.h"; sourceTree = "<group>"; };
 		E9060E8A22677FE80000DA35 /* UIScrollView+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Extension.m"; sourceTree = "<group>"; };
 		E918E01922C4A4D4007A3803 /* Facebook+Profile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facebook+Profile.h"; sourceTree = "<group>"; };
@@ -317,10 +300,6 @@
 		E922567E2222EF3D006CADEA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		E964889D23E32CAC00B9FE37 /* DIMTalk.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIMTalk.entitlements; sourceTree = "<group>"; };
 		E97816CD2223EAA700BCE3AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		E978171E22254CBB00BCE3AD /* MarsGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MarsGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E978172022254CC000BCE3AD /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E978172222254CC600BCE3AD /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E978172422254CC900BCE3AD /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E979076F2254A3970024C830 /* ImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickerController.h; sourceTree = "<group>"; };
 		E97907712254A3970024C830 /* ImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickerController.m; sourceTree = "<group>"; };
 		E979079B225520AA0024C830 /* DIMInstantMessage+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DIMInstantMessage+Extension.h"; sourceTree = "<group>"; };
@@ -359,7 +338,89 @@
 		E99A5CCC222ECDBE00EE6C86 /* ParticipantCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParticipantCollectionCell.m; sourceTree = "<group>"; };
 		E99A5CCE222ECDE100EE6C86 /* ParticipantManageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticipantManageCell.h; sourceTree = "<group>"; };
 		E99A5CCF222ECDE100EE6C86 /* ParticipantManageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParticipantManageCell.m; sourceTree = "<group>"; };
-		E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FiniteStateMachine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9AE7E9129BD7B68008D9F33 /* DIMCommand+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMCommand+Extension.h"; sourceTree = "<group>"; };
+		E9AE7E9229BD7B68008D9F33 /* DIMEntity+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMEntity+Extension.h"; sourceTree = "<group>"; };
+		E9AE7E9329BD7B68008D9F33 /* DIMEntity+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DIMEntity+Extension.m"; sourceTree = "<group>"; };
+		E9AE7E9429BD7B68008D9F33 /* DIMFacebook+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMFacebook+Extension.h"; sourceTree = "<group>"; };
+		E9AE7E9529BD7B68008D9F33 /* DIMFacebook+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DIMFacebook+Extension.m"; sourceTree = "<group>"; };
+		E9AE7E9629BD7B69008D9F33 /* DIMCommand+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DIMCommand+Extension.m"; sourceTree = "<group>"; };
+		E9AE7E9D29BD7B88008D9F33 /* DIMMessenger+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DIMMessenger+Extension.m"; sourceTree = "<group>"; };
+		E9AE7E9E29BD7B88008D9F33 /* DIMMessenger+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMMessenger+Extension.h"; sourceTree = "<group>"; };
+		E9AE7EA029BD7B94008D9F33 /* DKDInstantMessage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKDInstantMessage+Extension.h"; sourceTree = "<group>"; };
+		E9AE7EA129BD7B94008D9F33 /* DKDInstantMessage+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKDInstantMessage+Extension.m"; sourceTree = "<group>"; };
+		E9AE7EA729BD7C41008D9F33 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		E9AE7EA829BD7C41008D9F33 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		E9AE7EA929BD7C41008D9F33 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		E9AE7EAA29BD7C41008D9F33 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		E9AE7EAB29BD7C41008D9F33 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		E9AE7EAC29BD7C41008D9F33 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		E9AE7EAD29BD7C41008D9F33 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		E9AE7EAE29BD7C41008D9F33 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		E9AE7EAF29BD7C41008D9F33 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		E9AE7EB029BD7C41008D9F33 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		E9AE7EB129BD7C41008D9F33 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		E9AE7EB229BD7C41008D9F33 /* LocalDatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalDatabaseManager.h; sourceTree = "<group>"; };
+		E9AE7EB329BD7C41008D9F33 /* LocalDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalDatabaseManager.m; sourceTree = "<group>"; };
+		E9AE7EBB29BD7C55008D9F33 /* FolderUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderUtility.m; sourceTree = "<group>"; };
+		E9AE7EBC29BD7C55008D9F33 /* FolderUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderUtility.h; sourceTree = "<group>"; };
+		E9AE7EBF29BD7C99008D9F33 /* DIMStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMStorage.h; sourceTree = "<group>"; };
+		E9AE7EC029BD7C99008D9F33 /* DIMSocialNetworkDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSocialNetworkDatabase.m; sourceTree = "<group>"; };
+		E9AE7EC129BD7C99008D9F33 /* DIMMessageTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMMessageTable.m; sourceTree = "<group>"; };
+		E9AE7EC229BD7C99008D9F33 /* DIMConversationDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMConversationDatabase.h; sourceTree = "<group>"; };
+		E9AE7EC329BD7C99008D9F33 /* DIMMetaTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMetaTable.h; sourceTree = "<group>"; };
+		E9AE7EC429BD7C99008D9F33 /* DIMAddressNameTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMAddressNameTable.m; sourceTree = "<group>"; };
+		E9AE7EC529BD7C99008D9F33 /* DIMUserTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMUserTable.m; sourceTree = "<group>"; };
+		E9AE7EC629BD7C99008D9F33 /* DIMGroupTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMGroupTable.m; sourceTree = "<group>"; };
+		E9AE7EC729BD7C99008D9F33 /* DIMProfileTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMProfileTable.h; sourceTree = "<group>"; };
+		E9AE7EC829BD7C99008D9F33 /* DIMSocialNetworkDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSocialNetworkDatabase.h; sourceTree = "<group>"; };
+		E9AE7EC929BD7C99008D9F33 /* DIMStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMStorage.m; sourceTree = "<group>"; };
+		E9AE7ECA29BD7C99008D9F33 /* DIMMessageTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMessageTable.h; sourceTree = "<group>"; };
+		E9AE7ECB29BD7C99008D9F33 /* DIMUserTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMUserTable.h; sourceTree = "<group>"; };
+		E9AE7ECC29BD7C99008D9F33 /* DIMAddressNameTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMAddressNameTable.h; sourceTree = "<group>"; };
+		E9AE7ECD29BD7C99008D9F33 /* DIMMetaTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMMetaTable.m; sourceTree = "<group>"; };
+		E9AE7ECE29BD7C99008D9F33 /* DIMConversationDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMConversationDatabase.m; sourceTree = "<group>"; };
+		E9AE7ECF29BD7C99008D9F33 /* DIMProfileTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMProfileTable.m; sourceTree = "<group>"; };
+		E9AE7ED029BD7C99008D9F33 /* DIMGroupTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMGroupTable.h; sourceTree = "<group>"; };
+		E9AE7EDB29BD7CA0008D9F33 /* DIMSharedMessenger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSharedMessenger.m; sourceTree = "<group>"; };
+		E9AE7EDC29BD7CA0008D9F33 /* DIMMessageTransmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMessageTransmitter.h; sourceTree = "<group>"; };
+		E9AE7EDD29BD7CA0008D9F33 /* DIMKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMKeyStore.h; sourceTree = "<group>"; };
+		E9AE7EDE29BD7CA0008D9F33 /* DIMConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMConversation.m; sourceTree = "<group>"; };
+		E9AE7EDF29BD7CA0008D9F33 /* DIMSharedFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSharedFacebook.m; sourceTree = "<group>"; };
+		E9AE7EE029BD7CA0008D9F33 /* DIMProcessorFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMProcessorFactory.m; sourceTree = "<group>"; };
+		E9AE7EE129BD7CA0008D9F33 /* DIMConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMConstants.m; sourceTree = "<group>"; };
+		E9AE7EE329BD7CA0008D9F33 /* DIMMuteCommandProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMMuteCommandProcessor.m; sourceTree = "<group>"; };
+		E9AE7EE429BD7CA0008D9F33 /* DIMFileContentProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMFileContentProcessor.m; sourceTree = "<group>"; };
+		E9AE7EE529BD7CA0008D9F33 /* DIMSearchCommandProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSearchCommandProcessor.h; sourceTree = "<group>"; };
+		E9AE7EE629BD7CA0008D9F33 /* DIMApplicationContentProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMApplicationContentProcessor.m; sourceTree = "<group>"; };
+		E9AE7EE729BD7CA0008D9F33 /* DIMBlockCommandProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMBlockCommandProcessor.m; sourceTree = "<group>"; };
+		E9AE7EE829BD7CA0008D9F33 /* DIMDefaultProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMDefaultProcessor.h; sourceTree = "<group>"; };
+		E9AE7EE929BD7CA0008D9F33 /* DIMStorageCommandProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMStorageCommandProcessor.m; sourceTree = "<group>"; };
+		E9AE7EEA29BD7CA0008D9F33 /* DIMMuteCommandProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMuteCommandProcessor.h; sourceTree = "<group>"; };
+		E9AE7EEB29BD7CA0008D9F33 /* DIMSearchCommandProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSearchCommandProcessor.m; sourceTree = "<group>"; };
+		E9AE7EEC29BD7CA0008D9F33 /* DIMFileContentProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMFileContentProcessor.h; sourceTree = "<group>"; };
+		E9AE7EED29BD7CA0008D9F33 /* DIMDefaultProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMDefaultProcessor.m; sourceTree = "<group>"; };
+		E9AE7EEE29BD7CA0008D9F33 /* DIMBlockCommandProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMBlockCommandProcessor.h; sourceTree = "<group>"; };
+		E9AE7EEF29BD7CA0008D9F33 /* DIMApplicationContentProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMApplicationContentProcessor.h; sourceTree = "<group>"; };
+		E9AE7EF029BD7CA0008D9F33 /* DIMStorageCommandProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMStorageCommandProcessor.h; sourceTree = "<group>"; };
+		E9AE7EF129BD7CA0008D9F33 /* DIMMessageDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMMessageDataSource.m; sourceTree = "<group>"; };
+		E9AE7EF229BD7CA0008D9F33 /* DIMSharedPacker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSharedPacker.h; sourceTree = "<group>"; };
+		E9AE7EF329BD7CA0008D9F33 /* DIMSharedProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSharedProcessor.h; sourceTree = "<group>"; };
+		E9AE7EF429BD7CA0008D9F33 /* DIMAmanuensis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMAmanuensis.m; sourceTree = "<group>"; };
+		E9AE7EF529BD7CA0008D9F33 /* DIMConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMConversation.h; sourceTree = "<group>"; };
+		E9AE7EF629BD7CA0008D9F33 /* DIMKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMKeyStore.m; sourceTree = "<group>"; };
+		E9AE7EF729BD7CA0008D9F33 /* DIMMessageTransmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMMessageTransmitter.m; sourceTree = "<group>"; };
+		E9AE7EF829BD7CA0008D9F33 /* DIMSharedMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSharedMessenger.h; sourceTree = "<group>"; };
+		E9AE7EF929BD7CA0008D9F33 /* DIMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMConstants.h; sourceTree = "<group>"; };
+		E9AE7EFA29BD7CA0008D9F33 /* DIMProcessorFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMProcessorFactory.h; sourceTree = "<group>"; };
+		E9AE7EFB29BD7CA0008D9F33 /* DIMSharedFacebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSharedFacebook.h; sourceTree = "<group>"; };
+		E9AE7EFC29BD7CA0008D9F33 /* DIMSharedProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSharedProcessor.m; sourceTree = "<group>"; };
+		E9AE7EFE29BD7CA0008D9F33 /* DIMSearchCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSearchCommand.h; sourceTree = "<group>"; };
+		E9AE7EFF29BD7CA0008D9F33 /* DIMStorageCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMStorageCommand.m; sourceTree = "<group>"; };
+		E9AE7F0029BD7CA0008D9F33 /* DIMSearchCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSearchCommand.m; sourceTree = "<group>"; };
+		E9AE7F0129BD7CA0008D9F33 /* DIMStorageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMStorageCommand.h; sourceTree = "<group>"; };
+		E9AE7F0229BD7CA0008D9F33 /* DIMSharedPacker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSharedPacker.m; sourceTree = "<group>"; };
+		E9AE7F0329BD7CA0008D9F33 /* DIMMessageDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMessageDataSource.h; sourceTree = "<group>"; };
+		E9AE7F0429BD7CA0008D9F33 /* DIMAmanuensis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMAmanuensis.h; sourceTree = "<group>"; };
 		E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMProfile+Extension.h"; sourceTree = "<group>"; };
 		E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
 		E9BBC3732242B21200E6ACDA /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
@@ -372,12 +433,6 @@
 		E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37B2242B21200E6ACDA /* UIViewController+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Extension.h"; sourceTree = "<group>"; };
 		E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboardSegue+Extension.m"; sourceTree = "<group>"; };
-		E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DIMClient.xcodeproj; path = "../../demo-objc/DIMClient/DIMClient.xcodeproj"; sourceTree = "<group>"; };
-		E9CF8B3E239685F300630BDE /* DIMSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DaoKeDao.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9D71E5D25BAE68D00773ED1 /* DIMCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9D71E6225BAE69F00773ED1 /* MingKeMing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MingKeMing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E9D71E6725BAE6B200773ED1 /* DIMSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DIMSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9E824592245539100A029F1 /* Sechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sechat.entitlements; sourceTree = "<group>"; };
 		E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
 		E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
@@ -397,23 +452,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52011D5024E3E2DF0015415D /* Foundation.framework in Frameworks */,
-				E9CF8B402396875500630BDE /* DIMSDK.framework in Frameworks */,
-				52DBA3542340F2F90000C2B4 /* DIMCore.framework in Frameworks */,
-				52011D4E24E3E2D40015415D /* CoreGraphics.framework in Frameworks */,
-				52011D5424E3E2F40015415D /* Security.framework in Frameworks */,
 				52011D5224E3E2E90015415D /* UIKit.framework in Frameworks */,
-				52DBA3562340F2F90000C2B4 /* DaoKeDao.framework in Frameworks */,
-				52011D4624E3E2980015415D /* CFNetwork.framework in Frameworks */,
-				52011D4C24E3E2C20015415D /* SystemConfiguration.framework in Frameworks */,
-				52DBA3572340F2F90000C2B4 /* MingKeMing.framework in Frameworks */,
-				52011D4A24E3E2B70015415D /* CoreTelephony.framework in Frameworks */,
 				52DBA3552340F2F90000C2B4 /* libsqlite3.tbd in Frameworks */,
-				52DBA3582340F2F90000C2B4 /* MarsGate.framework in Frameworks */,
-				52011D4824E3E2AB0015415D /* CoreFoundation.framework in Frameworks */,
-				52DBA3592340F2F90000C2B4 /* FiniteStateMachine.framework in Frameworks */,
 				52DBA35A2340F2F90000C2B4 /* WebKit.framework in Frameworks */,
-				52011D5724E3E3120015415D /* UserNotifications.framework in Frameworks */,
+				21E6E9FDAEC1543348FB83A4 /* Pods_DIMTalk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,13 +464,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E914684925FAB1EF0087D55A /* WebKit.framework in Frameworks */,
-				E914684325FAB1E80087D55A /* DIMCore.framework in Frameworks */,
 				52DBA3182340376B0000C2B4 /* libsqlite3.tbd in Frameworks */,
-				E914684525FAB1EB0087D55A /* DIMSDK.framework in Frameworks */,
-				E914687F25FAB2FD0087D55A /* MarsGate.framework in Frameworks */,
-				E914687B25FAB2E30087D55A /* FiniteStateMachine.framework in Frameworks */,
-				E914684725FAB1EE0087D55A /* MingKeMing.framework in Frameworks */,
-				E914684025FAB1E30087D55A /* DaoKeDao.framework in Frameworks */,
+				EFF99EA71DCACA97A0D182D7 /* Pods_Sechat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +489,10 @@
 		0562524A1B16E5AD0164B474 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				0FB45EE6A2B89F7FE6CE2948 /* Pods-DIMTalk.debug.xcconfig */,
+				9806581E51D742D65D2CFE89 /* Pods-DIMTalk.release.xcconfig */,
+				18C2997DCE5F93DB152FA85A /* Pods-Sechat.debug.xcconfig */,
+				0ECCD7480B7CF2353949E1C7 /* Pods-Sechat.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -478,6 +519,10 @@
 		5294D87A24E63DDB00E83570 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				E9AE7EBA29BD7C55008D9F33 /* Utility */,
+				E9AE7EA629BD7C41008D9F33 /* fmdb */,
+				E9AE7EB229BD7C41008D9F33 /* LocalDatabaseManager.h */,
+				E9AE7EB329BD7C41008D9F33 /* LocalDatabaseManager.m */,
 				5294D87C24E63DDB00E83570 /* Recording */,
 			);
 			path = Modules;
@@ -513,7 +558,6 @@
 		E92255B62222EC53006CADEA = {
 			isa = PBXGroup;
 			children = (
-				E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */,
 				52BF13582341D02B0016371B /* SechatAppStore.entitlements */,
 				E92256122222ED7C006CADEA /* Classes */,
 				E92256072222ED6B006CADEA /* Resources */,
@@ -589,6 +633,8 @@
 		E92256122222ED7C006CADEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E9AE7EDA29BD7CA0008D9F33 /* Client */,
+				E9AE7EBE29BD7C99008D9F33 /* Database */,
 				5294D87A24E63DDB00E83570 /* Modules */,
 				E979076E2254A3970024C830 /* media */,
 				E9BBC3702242B21200E6ACDA /* extends */,
@@ -656,31 +702,14 @@
 		E92256782222EE25006CADEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E9D71E6725BAE6B200773ED1 /* DIMSDK.framework */,
-				E9D71E6225BAE69F00773ED1 /* MingKeMing.framework */,
-				E9D71E5D25BAE68D00773ED1 /* DIMCore.framework */,
-				E9D71E5825BAE66E00773ED1 /* DaoKeDao.framework */,
 				52011D5824E3E31E0015415D /* libresolv.tbd */,
-				52011D5624E3E3120015415D /* UserNotifications.framework */,
 				52011D5524E3E3030015415D /* libz.tbd */,
-				52011D5324E3E2F40015415D /* Security.framework */,
 				52011D5124E3E2E90015415D /* UIKit.framework */,
-				52011D4F24E3E2DF0015415D /* Foundation.framework */,
-				52011D4D24E3E2D40015415D /* CoreGraphics.framework */,
-				52011D4B24E3E2C20015415D /* SystemConfiguration.framework */,
-				52011D4924E3E2B70015415D /* CoreTelephony.framework */,
-				52011D4724E3E2AA0015415D /* CoreFoundation.framework */,
-				52011D4524E3E2980015415D /* CFNetwork.framework */,
-				E9CF8B3E239685F300630BDE /* DIMSDK.framework */,
 				52DBA317234037590000C2B4 /* libsqlite3.tbd */,
-				524F5E7C22CDDE0000A84DF9 /* ethers.framework */,
-				E9AFAADD22310B31001F95C6 /* FiniteStateMachine.framework */,
-				E978172422254CC900BCE3AD /* MingKeMing.framework */,
-				E978172222254CC600BCE3AD /* DaoKeDao.framework */,
-				E978172022254CC000BCE3AD /* DIMCore.framework */,
-				E978171E22254CBB00BCE3AD /* MarsGate.framework */,
 				E922567E2222EF3D006CADEA /* WebKit.framework */,
 				8F90C6C00CE46B186A0BEBDB /* libPods-Sechat.a */,
+				3330544A052215F17FDBFF24 /* Pods_DIMTalk.framework */,
+				8B02D69C702E8D9FB7473318 /* Pods_Sechat.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -740,13 +769,128 @@
 			path = contacts;
 			sourceTree = "<group>";
 		};
+		E9AE7EA629BD7C41008D9F33 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE7EA729BD7C41008D9F33 /* FMDatabase.h */,
+				E9AE7EA829BD7C41008D9F33 /* FMDatabaseQueue.m */,
+				E9AE7EA929BD7C41008D9F33 /* FMResultSet.h */,
+				E9AE7EAA29BD7C41008D9F33 /* FMDatabasePool.h */,
+				E9AE7EAB29BD7C41008D9F33 /* FMDatabaseAdditions.m */,
+				E9AE7EAC29BD7C41008D9F33 /* FMDatabase.m */,
+				E9AE7EAD29BD7C41008D9F33 /* FMDatabaseQueue.h */,
+				E9AE7EAE29BD7C41008D9F33 /* FMDB.h */,
+				E9AE7EAF29BD7C41008D9F33 /* FMDatabaseAdditions.h */,
+				E9AE7EB029BD7C41008D9F33 /* FMDatabasePool.m */,
+				E9AE7EB129BD7C41008D9F33 /* FMResultSet.m */,
+			);
+			path = fmdb;
+			sourceTree = "<group>";
+		};
+		E9AE7EBA29BD7C55008D9F33 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE7EBC29BD7C55008D9F33 /* FolderUtility.h */,
+				E9AE7EBB29BD7C55008D9F33 /* FolderUtility.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		E9AE7EBE29BD7C99008D9F33 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE7EBF29BD7C99008D9F33 /* DIMStorage.h */,
+				E9AE7EC929BD7C99008D9F33 /* DIMStorage.m */,
+				E9AE7EC829BD7C99008D9F33 /* DIMSocialNetworkDatabase.h */,
+				E9AE7EC029BD7C99008D9F33 /* DIMSocialNetworkDatabase.m */,
+				E9AE7ECC29BD7C99008D9F33 /* DIMAddressNameTable.h */,
+				E9AE7EC429BD7C99008D9F33 /* DIMAddressNameTable.m */,
+				E9AE7EC329BD7C99008D9F33 /* DIMMetaTable.h */,
+				E9AE7ECD29BD7C99008D9F33 /* DIMMetaTable.m */,
+				E9AE7EC729BD7C99008D9F33 /* DIMProfileTable.h */,
+				E9AE7ECF29BD7C99008D9F33 /* DIMProfileTable.m */,
+				E9AE7ECB29BD7C99008D9F33 /* DIMUserTable.h */,
+				E9AE7EC529BD7C99008D9F33 /* DIMUserTable.m */,
+				E9AE7ED029BD7C99008D9F33 /* DIMGroupTable.h */,
+				E9AE7EC629BD7C99008D9F33 /* DIMGroupTable.m */,
+				E9AE7EC229BD7C99008D9F33 /* DIMConversationDatabase.h */,
+				E9AE7ECE29BD7C99008D9F33 /* DIMConversationDatabase.m */,
+				E9AE7ECA29BD7C99008D9F33 /* DIMMessageTable.h */,
+				E9AE7EC129BD7C99008D9F33 /* DIMMessageTable.m */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		E9AE7EDA29BD7CA0008D9F33 /* Client */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE7EFD29BD7CA0008D9F33 /* commands */,
+				E9AE7EE229BD7CA0008D9F33 /* cpu */,
+				E9AE7EF929BD7CA0008D9F33 /* DIMConstants.h */,
+				E9AE7EE129BD7CA0008D9F33 /* DIMConstants.m */,
+				E9AE7EDD29BD7CA0008D9F33 /* DIMKeyStore.h */,
+				E9AE7EF629BD7CA0008D9F33 /* DIMKeyStore.m */,
+				E9AE7EFB29BD7CA0008D9F33 /* DIMSharedFacebook.h */,
+				E9AE7EDF29BD7CA0008D9F33 /* DIMSharedFacebook.m */,
+				E9AE7EF829BD7CA0008D9F33 /* DIMSharedMessenger.h */,
+				E9AE7EDB29BD7CA0008D9F33 /* DIMSharedMessenger.m */,
+				E9AE7EF229BD7CA0008D9F33 /* DIMSharedPacker.h */,
+				E9AE7F0229BD7CA0008D9F33 /* DIMSharedPacker.m */,
+				E9AE7EF329BD7CA0008D9F33 /* DIMSharedProcessor.h */,
+				E9AE7EFC29BD7CA0008D9F33 /* DIMSharedProcessor.m */,
+				E9AE7EF729BD7CA0008D9F33 /* DIMMessageTransmitter.m */,
+				E9AE7EDC29BD7CA0008D9F33 /* DIMMessageTransmitter.h */,
+				E9AE7EFA29BD7CA0008D9F33 /* DIMProcessorFactory.h */,
+				E9AE7EE029BD7CA0008D9F33 /* DIMProcessorFactory.m */,
+				E9AE7F0329BD7CA0008D9F33 /* DIMMessageDataSource.h */,
+				E9AE7EF129BD7CA0008D9F33 /* DIMMessageDataSource.m */,
+				E9AE7EF529BD7CA0008D9F33 /* DIMConversation.h */,
+				E9AE7EDE29BD7CA0008D9F33 /* DIMConversation.m */,
+				E9AE7EF429BD7CA0008D9F33 /* DIMAmanuensis.m */,
+				E9AE7F0429BD7CA0008D9F33 /* DIMAmanuensis.h */,
+			);
+			path = Client;
+			sourceTree = "<group>";
+		};
+		E9AE7EE229BD7CA0008D9F33 /* cpu */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE7EE829BD7CA0008D9F33 /* DIMDefaultProcessor.h */,
+				E9AE7EED29BD7CA0008D9F33 /* DIMDefaultProcessor.m */,
+				E9AE7EEF29BD7CA0008D9F33 /* DIMApplicationContentProcessor.h */,
+				E9AE7EE629BD7CA0008D9F33 /* DIMApplicationContentProcessor.m */,
+				E9AE7EEC29BD7CA0008D9F33 /* DIMFileContentProcessor.h */,
+				E9AE7EE429BD7CA0008D9F33 /* DIMFileContentProcessor.m */,
+				E9AE7EEA29BD7CA0008D9F33 /* DIMMuteCommandProcessor.h */,
+				E9AE7EE329BD7CA0008D9F33 /* DIMMuteCommandProcessor.m */,
+				E9AE7EEE29BD7CA0008D9F33 /* DIMBlockCommandProcessor.h */,
+				E9AE7EE729BD7CA0008D9F33 /* DIMBlockCommandProcessor.m */,
+				E9AE7EE529BD7CA0008D9F33 /* DIMSearchCommandProcessor.h */,
+				E9AE7EEB29BD7CA0008D9F33 /* DIMSearchCommandProcessor.m */,
+				E9AE7EF029BD7CA0008D9F33 /* DIMStorageCommandProcessor.h */,
+				E9AE7EE929BD7CA0008D9F33 /* DIMStorageCommandProcessor.m */,
+			);
+			path = cpu;
+			sourceTree = "<group>";
+		};
+		E9AE7EFD29BD7CA0008D9F33 /* commands */ = {
+			isa = PBXGroup;
+			children = (
+				E9AE7EFE29BD7CA0008D9F33 /* DIMSearchCommand.h */,
+				E9AE7F0029BD7CA0008D9F33 /* DIMSearchCommand.m */,
+				E9AE7F0129BD7CA0008D9F33 /* DIMStorageCommand.h */,
+				E9AE7EFF29BD7CA0008D9F33 /* DIMStorageCommand.m */,
+			);
+			path = commands;
+			sourceTree = "<group>";
+		};
 		E9BBC3702242B21200E6ACDA /* extends */ = {
 			isa = PBXGroup;
 			children = (
-				520A0ECE2359BC1D00493E2F /* UILabel+Copyable.h */,
-				520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */,
 				E9BBC3732242B21200E6ACDA /* NSString+Extension.h */,
 				E9BBC3792242B21200E6ACDA /* NSString+Extension.m */,
+				520A0ECE2359BC1D00493E2F /* UILabel+Copyable.h */,
+				520A0ED02359BC1D00493E2F /* UILabel+Copyable.m */,
 				E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */,
 				E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */,
 				E9BBC37A2242B21200E6ACDA /* UIImage+Extension.h */,
@@ -769,17 +913,18 @@
 				E9BBC3782242B21200E6ACDA /* DIMProfile+Extension.m */,
 				E979079B225520AA0024C830 /* DIMInstantMessage+Extension.h */,
 				E979079C225520AA0024C830 /* DIMInstantMessage+Extension.m */,
+				E9AE7E9129BD7B68008D9F33 /* DIMCommand+Extension.h */,
+				E9AE7E9629BD7B69008D9F33 /* DIMCommand+Extension.m */,
+				E9AE7E9229BD7B68008D9F33 /* DIMEntity+Extension.h */,
+				E9AE7E9329BD7B68008D9F33 /* DIMEntity+Extension.m */,
+				E9AE7E9429BD7B68008D9F33 /* DIMFacebook+Extension.h */,
+				E9AE7E9529BD7B68008D9F33 /* DIMFacebook+Extension.m */,
+				E9AE7E9E29BD7B88008D9F33 /* DIMMessenger+Extension.h */,
+				E9AE7E9D29BD7B88008D9F33 /* DIMMessenger+Extension.m */,
+				E9AE7EA029BD7B94008D9F33 /* DKDInstantMessage+Extension.h */,
+				E9AE7EA129BD7B94008D9F33 /* DKDInstantMessage+Extension.m */,
 			);
 			path = extends;
-			sourceTree = "<group>";
-		};
-		E9CF651F29AB35F200E3AA5A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E9CF652B29AB35F200E3AA5A /* DIMClient.framework */,
-				E9CF652D29AB35F200E3AA5A /* DIMClientTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -794,6 +939,7 @@
 				52DBA3522340F2F90000C2B4 /* Frameworks */,
 				52DBA35B2340F2F90000C2B4 /* Resources */,
 				52DBA36A2340F2F90000C2B4 /* Embed Frameworks */,
+				C3799706DDA3C4DF8B0CD5E6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -808,10 +954,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E92255EE2222EC56006CADEA /* Build configuration list for PBXNativeTarget "Sechat" */;
 			buildPhases = (
+				8B8A81FF64B57170F8109A48 /* [CP] Check Pods Manifest.lock */,
 				E92255BB2222EC53006CADEA /* Sources */,
 				E92255BC2222EC53006CADEA /* Frameworks */,
 				E92255BD2222EC53006CADEA /* Resources */,
 				E978171522254AB000BCE3AD /* Embed Frameworks */,
+				7434EB0D35623EDDB660456D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -899,12 +1047,6 @@
 			mainGroup = E92255B62222EC53006CADEA;
 			productRefGroup = E92255C02222EC53006CADEA /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = E9CF651F29AB35F200E3AA5A /* Products */;
-					ProjectRef = E9CF651E29AB35F200E3AA5A /* DIMClient.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				E92255BE2222EC53006CADEA /* Sechat */,
@@ -914,23 +1056,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		E9CF652B29AB35F200E3AA5A /* DIMClient.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = DIMClient.framework;
-			remoteRef = E9CF652A29AB35F200E3AA5A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		E9CF652D29AB35F200E3AA5A /* DIMClientTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = DIMClientTests.xctest;
-			remoteRef = E9CF652C29AB35F200E3AA5A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		52DBA35B2340F2F90000C2B4 /* Resources */ = {
@@ -984,6 +1109,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		7434EB0D35623EDDB660456D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sechat/Pods-Sechat-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Sechat/Pods-Sechat-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Sechat/Pods-Sechat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		7981E793E34DD160D3AA8AB9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1004,6 +1146,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B8A81FF64B57170F8109A48 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Sechat-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C3799706DDA3C4DF8B0CD5E6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DIMTalk/Pods-DIMTalk-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DIMTalk/Pods-DIMTalk-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DIMTalk/Pods-DIMTalk-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1036,12 +1217,14 @@
 				52DBA3362340F2F90000C2B4 /* ContactCell.m in Sources */,
 				52DBA3372340F2F90000C2B4 /* ConversationCell.m in Sources */,
 				52DBA3382340F2F90000C2B4 /* UIStoryboard+Extension.m in Sources */,
+				E9AE7E9A29BD7B76008D9F33 /* DIMEntity+Extension.m in Sources */,
 				52DBA3392340F2F90000C2B4 /* ContactsTableViewController.m in Sources */,
 				52DBA33A2340F2F90000C2B4 /* ImportAccountViewController.m in Sources */,
 				52DBA33B2340F2F90000C2B4 /* ReceiveMessageCell.m in Sources */,
 				52DBA33C2340F2F90000C2B4 /* AccountTableViewController.m in Sources */,
 				52DBA33D2340F2F90000C2B4 /* MessageDatabase.m in Sources */,
 				52DBA33E2340F2F90000C2B4 /* UIImage+Extension.m in Sources */,
+				E9AE7E9B29BD7B76008D9F33 /* DIMCommand+Extension.m in Sources */,
 				52DBA33F2340F2F90000C2B4 /* DIMProfile+Extension.m in Sources */,
 				52DBA3412340F2F90000C2B4 /* AccountEditViewController.m in Sources */,
 				52DBA3422340F2F90000C2B4 /* UIButton+Extension.m in Sources */,
@@ -1053,6 +1236,7 @@
 				52DBA3452340F2F90000C2B4 /* TimeCell.m in Sources */,
 				5294D87924E6348500E83570 /* ChatVoiceView.m in Sources */,
 				52DBA3462340F2F90000C2B4 /* UIImageView+Extension.m in Sources */,
+				E9AE7E9C29BD7B76008D9F33 /* DIMFacebook+Extension.m in Sources */,
 				52DBA3472340F2F90000C2B4 /* NSString+Extension.m in Sources */,
 				52DBA3482340F2F90000C2B4 /* ParticipantManageCell.m in Sources */,
 				52DBA3492340F2F90000C2B4 /* Facebook+Profile.m in Sources */,
@@ -1072,15 +1256,23 @@
 			files = (
 				E97907732254A3970024C830 /* ImagePickerController.m in Sources */,
 				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
+				E9AE7E9829BD7B69008D9F33 /* DIMFacebook+Extension.m in Sources */,
+				E9AE7F0E29BD7CA0008D9F33 /* DIMStorageCommandProcessor.m in Sources */,
 				E9790817225A6E2C0024C830 /* ZoomInViewController.m in Sources */,
+				E9AE7EB929BD7C41008D9F33 /* LocalDatabaseManager.m in Sources */,
+				E9AE7F1429BD7CA0008D9F33 /* DIMMessageTransmitter.m in Sources */,
 				522EA28E2341953D00FC3BB8 /* BadgeView.m in Sources */,
 				E92256452222ED7C006CADEA /* Facebook+Register.m in Sources */,
 				5242949F2334829900E8DA05 /* CommandMessageCell.m in Sources */,
 				E9790853225CB8300024C830 /* WelcomeViewController.m in Sources */,
+				E9AE7F0929BD7CA0008D9F33 /* DIMConstants.m in Sources */,
+				E9AE7ED329BD7C99008D9F33 /* DIMAddressNameTable.m in Sources */,
 				E92255C42222EC53006CADEA /* AppDelegate.m in Sources */,
 				E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */,
 				E979080D2259CDA10024C830 /* UIView+Extension.m in Sources */,
 				E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */,
+				E9AE7F0F29BD7CA0008D9F33 /* DIMSearchCommandProcessor.m in Sources */,
+				E9AE7EA229BD7B94008D9F33 /* DKDInstantMessage+Extension.m in Sources */,
 				52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */,
 				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,
 				5294D8B124E63DDB00E83570 /* EMAudioRecordHelper.mm in Sources */,
@@ -1089,36 +1281,69 @@
 				E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */,
 				5242949923347ED300E8DA05 /* SentMessageCell.m in Sources */,
 				5242949B23347ED300E8DA05 /* GuideCell.m in Sources */,
+				E9AE7EB529BD7C41008D9F33 /* FMDatabaseAdditions.m in Sources */,
+				E9AE7EBD29BD7C55008D9F33 /* FolderUtility.m in Sources */,
 				E979079D225520AA0024C830 /* DIMInstantMessage+Extension.m in Sources */,
+				E9AE7F0829BD7CA0008D9F33 /* DIMProcessorFactory.m in Sources */,
 				E99A5CCA222E577900EE6C86 /* ContactCell.m in Sources */,
 				E99A5CC7222E576300EE6C86 /* ConversationCell.m in Sources */,
 				E979081B225A6F390024C830 /* UIStoryboard+Extension.m in Sources */,
+				E9AE7F1329BD7CA0008D9F33 /* DIMKeyStore.m in Sources */,
+				E9AE7F1629BD7CA0008D9F33 /* DIMStorageCommand.m in Sources */,
+				E9AE7F0A29BD7CA0008D9F33 /* DIMMuteCommandProcessor.m in Sources */,
+				E9AE7E9729BD7B69008D9F33 /* DIMEntity+Extension.m in Sources */,
+				E9AE7F0529BD7CA0008D9F33 /* DIMSharedMessenger.m in Sources */,
 				E99A5CB4222D8B3400EE6C86 /* ContactsTableViewController.m in Sources */,
+				E9AE7F0B29BD7CA0008D9F33 /* DIMFileContentProcessor.m in Sources */,
+				E9AE7ED729BD7C99008D9F33 /* DIMMetaTable.m in Sources */,
 				52876E0322C20217006F0655 /* ImportAccountViewController.m in Sources */,
+				E9AE7F0729BD7CA0008D9F33 /* DIMSharedFacebook.m in Sources */,
+				E9AE7F0C29BD7CA0008D9F33 /* DIMApplicationContentProcessor.m in Sources */,
 				5242949A23347ED300E8DA05 /* ReceiveMessageCell.m in Sources */,
+				E9AE7F1829BD7CA0008D9F33 /* DIMSharedPacker.m in Sources */,
 				E92256512222ED7C006CADEA /* AccountTableViewController.m in Sources */,
+				E9AE7F1729BD7CA0008D9F33 /* DIMSearchCommand.m in Sources */,
+				E9AE7F0629BD7CA0008D9F33 /* DIMConversation.m in Sources */,
 				E92256482222ED7C006CADEA /* MessageDatabase.m in Sources */,
 				E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */,
 				E9BBC3812242B21200E6ACDA /* DIMProfile+Extension.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
 				E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */,
+				E9AE7EB729BD7C41008D9F33 /* FMDatabasePool.m in Sources */,
 				5294D8A724E63DDB00E83570 /* EMAudioPlayerHelper.mm in Sources */,
+				E9AE7ED129BD7C99008D9F33 /* DIMSocialNetworkDatabase.m in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,
+				E9AE7E9929BD7B69008D9F33 /* DIMCommand+Extension.m in Sources */,
+				E9AE7F1229BD7CA0008D9F33 /* DIMAmanuensis.m in Sources */,
 				520A0ED12359BC1D00493E2F /* UILabel+Copyable.m in Sources */,
+				E9AE7ED929BD7C99008D9F33 /* DIMProfileTable.m in Sources */,
 				52844B792362A6C7006B4C03 /* SwitchCell.m in Sources */,
 				524294A22334B7E600E8DA05 /* MessageCell.m in Sources */,
 				5242949C23347ED300E8DA05 /* TimeCell.m in Sources */,
+				E9AE7ED629BD7C99008D9F33 /* DIMStorage.m in Sources */,
 				5294D87824E6348500E83570 /* ChatVoiceView.m in Sources */,
 				E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */,
 				E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */,
+				E9AE7EB629BD7C41008D9F33 /* FMDatabase.m in Sources */,
+				E9AE7F1129BD7CA0008D9F33 /* DIMMessageDataSource.m in Sources */,
+				E9AE7ED529BD7C99008D9F33 /* DIMGroupTable.m in Sources */,
+				E9AE7ED829BD7C99008D9F33 /* DIMConversationDatabase.m in Sources */,
+				E9AE7EB829BD7C41008D9F33 /* FMResultSet.m in Sources */,
+				E9AE7F0D29BD7CA0008D9F33 /* DIMBlockCommandProcessor.m in Sources */,
 				E99A5CD0222ECDE100EE6C86 /* ParticipantManageCell.m in Sources */,
+				E9AE7ED229BD7C99008D9F33 /* DIMMessageTable.m in Sources */,
+				E9AE7EB429BD7C41008D9F33 /* FMDatabaseQueue.m in Sources */,
 				E918E01B22C4A4D4007A3803 /* Facebook+Profile.m in Sources */,
 				E99A5CB2222D8B3400EE6C86 /* ParticipantsManageTableViewController.m in Sources */,
+				E9AE7F1029BD7CA0008D9F33 /* DIMDefaultProcessor.m in Sources */,
 				E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */,
 				E99A5CB1222D8B3400EE6C86 /* ParticipantsCollectionViewController.m in Sources */,
+				E9AE7ED429BD7C99008D9F33 /* DIMUserTable.m in Sources */,
 				E99A5CCD222ECDBE00EE6C86 /* ParticipantCollectionCell.m in Sources */,
 				E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */,
 				E9790836225B666F0024C830 /* WebViewController.m in Sources */,
+				E9AE7F1529BD7CA0008D9F33 /* DIMSharedProcessor.m in Sources */,
+				E9AE7E9F29BD7B88008D9F33 /* DIMMessenger+Extension.m in Sources */,
 				E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1181,6 +1406,7 @@
 /* Begin XCBuildConfiguration section */
 		52DBA3722340F2F90000C2B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FB45EE6A2B89F7FE6CE2948 /* Pods-DIMTalk.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1215,6 +1441,7 @@
 		};
 		52DBA3732340F2F90000C2B4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9806581E51D742D65D2CFE89 /* Pods-DIMTalk.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1367,6 +1594,7 @@
 		};
 		E92255EF2222EC56006CADEA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18C2997DCE5F93DB152FA85A /* Pods-Sechat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1399,6 +1627,7 @@
 		};
 		E92255F02222EC56006CADEA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0ECCD7480B7CF2353949E1C7 /* Pods-Sechat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

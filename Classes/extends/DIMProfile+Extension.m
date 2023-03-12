@@ -1,6 +1,6 @@
 //
 //  DIMProfile+Extension.m
-//  DIMClient
+//  DIMP
 //
 //  Created by Albert Moky on 2019/3/2.
 //  Copyright © 2019 DIM Group. All rights reserved.
@@ -9,9 +9,11 @@
 #import "UIImage+Extension.h"
 #import "UIColor+Extension.h"
 
-#import "Client.h"
+#import "DIMFacebook+Extension.h"
+
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
+#import "Client.h"
 
 #import "DIMProfile+Extension.h"
 

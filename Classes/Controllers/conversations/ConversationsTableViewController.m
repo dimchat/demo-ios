@@ -6,11 +6,14 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
+#import "DIMConstants.h"
+#import "DIMAmanuensis.h"
+
 #import "MessageDatabase.h"
 #import "Client.h"
 #import "ChatViewController.h"
 #import "ConversationCell.h"
+
 #import "ConversationsTableViewController.h"
 
 @interface ConversationsTableViewController ()<UITableViewDelegate, UITableViewDataSource>
@@ -52,7 +55,7 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     
     [nc addObserver:self selector:@selector(loadData)
-               name:DIMConversationUpdatedNotification object:nil];
+               name:kNotificationName_ConversationUpdated object:nil];
     [nc addObserver:self selector:@selector(onServerStateChanged:)
                name:kNotificationName_ServerStateChanged object:nil];
     
@@ -89,24 +92,24 @@
     NSDictionary *info = notification.userInfo;
     if ([name isEqual:kNotificationName_ServerStateChanged]) {
         NSString *title;
-        NSString *state = [info objectForKey:@"state"];
-        if ([state isEqualToString:kDIMServerState_Default]) {
-            title = NSLocalizedString(@"Disconnected!", nil);
-        } else if ([state isEqualToString:kDIMServerState_Connecting]) {
-            title = NSLocalizedString(@"Connecting ...", nil);
-        } else if ([state isEqualToString:kDIMServerState_Connected]) {
-            title = NSLocalizedString(@"Connected!", nil);
-        } else if ([state isEqualToString:kDIMServerState_Handshaking]) {
-            title = NSLocalizedString(@"Authenticating ...", nil);
-        } else if ([state isEqualToString:kDIMServerState_Running]) {
-            title = NSLocalizedString(@"Chats", @"title");
-        } else if ([state isEqualToString:kDIMServerState_Error]) {
-            title = NSLocalizedString(@"Network error!", nil);
-        } else if ([state isEqualToString:kDIMServerState_Stopped]) {
-            title = NSLocalizedString(@"Connection stopped!", nil);
-        } else {
-            NSAssert(false, @"unexpected state: %@", state);
-        }
+//        NSString *state = [info objectForKey:@"state"];
+//        if ([state isEqualToString:kDIMServerState_Default]) {
+//            title = NSLocalizedString(@"Disconnected!", nil);
+//        } else if ([state isEqualToString:kDIMServerState_Connecting]) {
+//            title = NSLocalizedString(@"Connecting ...", nil);
+//        } else if ([state isEqualToString:kDIMServerState_Connected]) {
+//            title = NSLocalizedString(@"Connected!", nil);
+//        } else if ([state isEqualToString:kDIMServerState_Handshaking]) {
+//            title = NSLocalizedString(@"Authenticating ...", nil);
+//        } else if ([state isEqualToString:kDIMServerState_Running]) {
+//            title = NSLocalizedString(@"Chats", @"title");
+//        } else if ([state isEqualToString:kDIMServerState_Error]) {
+//            title = NSLocalizedString(@"Network error!", nil);
+//        } else if ([state isEqualToString:kDIMServerState_Stopped]) {
+//            title = NSLocalizedString(@"Connection stopped!", nil);
+//        } else {
+//            NSAssert(false, @"unexpected state: %@", state);
+//        }
         [NSObject performBlockOnMainThread:^{
             self.navigationItem.title = title;
         } waitUntilDone:NO];

@@ -12,8 +12,11 @@
 #import "UIButton+Extension.h"
 #import "UIView+Extension.h"
 #import "UIStoryboard+Extension.h"
+
+#import "DIMCommand+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "DIMInstantMessage+Extension.h"
+
 #import "WebViewController.h"
 #import "MessageDatabase.h"
 #import "ZoomInViewController.h"

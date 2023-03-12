@@ -6,17 +6,22 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
+#import "UIColor+Extension.h"
+
+#import "DIMFacebook+Extension.h"
+#import "DIMMessenger+Extension.h"
+#import "DIMConstants.h"
+
 #import "Client.h"
-#import "AppDelegate.h"
 #import "ConversationsTableViewController.h"
 #import "ContactsTableViewController.h"
 #import "AccountTableViewController.h"
 #import "WelcomeViewController.h"
-#import "UIColor+Extension.h"
 #import "LocalDatabaseManager.h"
 #import "FolderUtility.h"
 //#import "JPUSHService.h"
+
+#import "AppDelegate.h"
 
 @interface AppDelegate ()<UITabBarControllerDelegate/*, JPUSHRegisterDelegate*/>
 
@@ -34,8 +39,9 @@
     // Override point for customization after application launch.
     
     // load plugins
-    [DIMFacebook loadPlugins];
-    [DIMMessageProcessor loadPlugins];
+    [DIMRegister prepare];
+//    [DIMFacebook loadPlugins];
+//    [DIMMessageProcessor loadPlugins];
     
     // GSP station
     NSString *path = [[NSBundle mainBundle] pathForResource:@"gsp" ofType:@"plist"];
@@ -61,7 +67,7 @@
     [self.window makeKeyAndVisible];
     
     Client *client = [Client sharedInstance];
-    id<DIMUser> user = client.currentUser;
+    id<MKMUser> user = client.currentUser;
     if (!user) {
         WelcomeViewController *vc = [[WelcomeViewController alloc] init];
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -129,7 +135,7 @@
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(updateBadge:)
-               name:DIMConversationUpdatedNotification object:nil];
+               name:kNotificationName_ConversationUpdated object:nil];
 }
 
 - (void)updateBadge:(NSNotification *)o {

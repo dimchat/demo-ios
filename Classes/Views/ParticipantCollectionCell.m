@@ -7,7 +7,9 @@
 //
 
 #import "UIView+Extension.h"
+
 #import "DIMProfile+Extension.h"
+#import "DIMFacebook+Extension.h"
 
 #import "ParticipantCollectionCell.h"
 

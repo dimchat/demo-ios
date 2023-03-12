@@ -6,11 +6,14 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIView+Extension.h"
 #import "UIViewController+Extension.h"
+
+#import "DIMEntity+Extension.h"
 #import "DIMProfile+Extension.h"
+#import "DIMConstants.h"
+
 #import "WebViewController.h"
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
@@ -70,7 +73,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     id<MKMDocument> profile = [notification.userInfo objectForKey:@"profile"];
-    id<DIMUser> user = [Client sharedInstance].currentUser;
+    id<MKMUser> user = [Client sharedInstance].currentUser;
     if ([profile.ID isEqual:user.ID]) {
         [self reloadData];
     }
@@ -80,7 +83,7 @@
     
     NSDictionary *userInfo = [o userInfo];
     id<MKMID> userID = [userInfo objectForKey:@"ID"];
-    id<DIMUser> user = [Client sharedInstance].currentUser;
+    id<MKMUser> user = [Client sharedInstance].currentUser;
     
     if([userID isEqual:user.ID]){
         [self reloadData];
@@ -90,7 +93,7 @@
 - (void)reloadData {
     [NSObject performBlockOnMainThread:^{
         Client *client = [Client sharedInstance];
-        DIMUser *user = (DIMUser *)[client currentUser];
+        DIMUser *user = [client currentUser];
         
         CGRect avatarFrame = self.avatarImageView.frame;
         DIMVisa *profile = (DIMVisa *)[user visa];

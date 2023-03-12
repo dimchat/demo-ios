@@ -1,6 +1,6 @@
 //
 //  Client.h
-//  DIMClient
+//  DIMP
 //
 //  Created by Albert Moky on 2019/1/28.
 //  Copyright © 2019 DIM Group. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIApplication.h>
 #import <UserNotifications/UserNotifications.h>
-#import <DIMClient/DIMClient.h>
+#import <DIMP/DIMP.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -63,6 +63,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface Client (Register)
 
 - (BOOL)importUser:(id<MKMID>)ID meta:(id<MKMMeta>)meta privateKey:(id<MKMPrivateKey>)SK;
+
+- (id<MKMUser>)currentUser;
+
+- (NSArray<id<MKMUser>> *)users;
 
 @end
 

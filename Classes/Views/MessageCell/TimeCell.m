@@ -7,7 +7,6 @@
 //
 
 #import "TimeCell.h"
-#import "NSDate+Extension.h"
 
 @interface TimeCell()
 

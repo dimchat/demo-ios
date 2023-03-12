@@ -1,15 +1,14 @@
 //
 //  MessageDatabase.m
-//  DIMClient
+//  DIMP
 //
 //  Created by Albert Moky on 2018/11/15.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Singleton.h"
-
-#import "Client.h"
 #import "Facebook+Register.h"
+#import "Client.h"
+#import "DIMAmanuensis.h"
 
 #import "MessageDatabase.h"
 
@@ -24,7 +23,7 @@ typedef NSMutableArray<id<MKMID>> ConversationListM;
 
 @implementation MessageDatabase
 
-SingletonImplementations(MessageDatabase, sharedInstance)
+OKSingletonImplementations(MessageDatabase, sharedInstance)
 
 - (instancetype)init {
     if (self = [super init]) {

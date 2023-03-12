@@ -9,8 +9,14 @@
 #import "UIViewController+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIView+Extension.h"
-#import "DIMProfile+Extension.h"
 #import "UILabel+Copyable.h"
+
+#import "DIMEntity+Extension.h"
+#import "DIMProfile+Extension.h"
+#import "DIMFacebook+Extension.h"
+#import "DIMMessenger+Extension.h"
+#import "DIMAmanuensis.h"
+
 #import "Client.h"
 
 #import "ChatViewController.h"
@@ -112,7 +118,7 @@
 
 -(void)loadData{
     
-    id<DIMUser> user = [Client sharedInstance].currentUser;
+    id<MKMUser> user = [Client sharedInstance].currentUser;
     if ([user.contacts containsObject:_contact]) {
         self.actionArray = @[NSLocalizedString(@"Chat", @"title")];
     }else{

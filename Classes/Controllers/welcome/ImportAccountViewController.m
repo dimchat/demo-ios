@@ -6,10 +6,14 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "ImportAccountViewController.h"
-#import "Client.h"
-#import "Facebook+Register.h"
 #import "UIViewController+Extension.h"
+
+#import "DIMMessenger+Extension.h"
+
+#import "Facebook+Register.h"
+#import "Client.h"
+
+#import "ImportAccountViewController.h"
 
 @interface ImportAccountViewController ()
 @property (strong, nonatomic) IBOutlet UITextView *accountTextView;
@@ -51,7 +55,7 @@
     }
 
     NSString *username = @"dim";
-    NSUInteger version = MKMMetaDefaultVersion;
+    NSUInteger version = MKMMetaDefaultType;
     
     if ([returnValue objectForKey:@"version"] != nil) {
         version = [[returnValue objectForKey:@"version"] unsignedIntegerValue];

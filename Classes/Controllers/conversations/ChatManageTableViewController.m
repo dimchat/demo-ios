@@ -6,19 +6,26 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
 #import "UIViewController+Extension.h"
 #import "UIStoryboard+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
-#import "WebViewController.h"
-#import "MessageDatabase.h"
+
+#import "DIMConstants.h"
+#import "DIMEntity+Extension.h"
+#import "DIMFacebook+Extension.h"
+#import "DIMMessenger+Extension.h"
+
 #import "Client.h"
+#import "MessageDatabase.h"
+#import "LocalDatabaseManager.h"
+
+#import "WebViewController.h"
+#import "SwitchCell.h"
 #import "ProfileTableViewController.h"
 #import "ParticipantCollectionCell.h"
 #import "ParticipantsCollectionViewController.h"
+
 #import "ChatManageTableViewController.h"
-#import "SwitchCell.h"
-#import "LocalDatabaseManager.h"
 
 @interface ChatManageTableViewController ()<UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate>
 
@@ -123,9 +130,9 @@
                 NSAssert(false, @"current conversation is not a group chat: %@", _conversation.ID);
                 return ;
             }
-            id<DIMGroup> group = DIMGroupWithID(_conversation.ID);
+            id<MKMGroup> group = DIMGroupWithID(_conversation.ID);
             Client *client = [Client sharedInstance];
-            id<DIMUser> user = client.currentUser;
+            id<MKMUser> user = client.currentUser;
             
             DIMMessenger *messenger = [DIMMessenger sharedInstance];
             
@@ -151,7 +158,7 @@
     } else if(section == SECTION_FUNCTIONS){
         
         Client *client = [Client sharedInstance];
-        id<DIMUser> user = client.currentUser;
+        id<MKMUser> user = client.currentUser;
         
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
         NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
@@ -200,7 +207,7 @@
         }
         
         Client *client = [Client sharedInstance];
-        id<DIMUser> user = client.currentUser;
+        id<MKMUser> user = client.currentUser;
         DIMGroup *group = (DIMGroup *)DIMGroupWithID(_conversation.ID);
         if ([group isOwner:user.ID]) {
             return 1;
@@ -285,7 +292,7 @@
         } else {
             
             Client *client = [Client sharedInstance];
-            id<DIMUser> user = client.currentUser;
+            id<MKMUser> user = client.currentUser;
             
             SwitchCell *muteCell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
             muteCell.textLabel.textAlignment = NSTextAlignmentLeft;
@@ -321,7 +328,7 @@
     if ([segue.identifier isEqualToString:@"reportSegue"]) {
         
         Client *client = [Client sharedInstance];
-        id<DIMUser> user = client.currentUser;
+        id<MKMUser> user = client.currentUser;
         
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
         NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
@@ -352,7 +359,7 @@
 - (void)switchCell:(SwitchCell *)cell didChangeValue:(BOOL)on{
     
     Client *client = [Client sharedInstance];
-    id<DIMUser> user = client.currentUser;
+    id<MKMUser> user = client.currentUser;
     
     NSArray *currentList = [[LocalDatabaseManager sharedInstance] muteListForUser:user.ID];
     NSMutableArray *newList = [[NSMutableArray alloc] initWithArray:currentList];

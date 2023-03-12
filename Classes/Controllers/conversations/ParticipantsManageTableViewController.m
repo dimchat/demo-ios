@@ -9,12 +9,17 @@
 #import "UIView+Extension.h"
 #import "UIImageView+Extension.h"
 #import "UIViewController+Extension.h"
+
+#import "DIMEntity+Extension.h"
 #import "DIMProfile+Extension.h"
+#import "DIMFacebook+Extension.h"
+
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "Client.h"
 #import "MessageDatabase.h"
 #import "ParticipantManageCell.h"
+
 #import "ParticipantsManageTableViewController.h"
 
 /**
@@ -49,7 +54,7 @@ static inline BOOL check_username(NSString *username) {
     [_logoImageView roundedCorner];
     
     Client *client = [Client sharedInstance];
-    id<DIMUser> user = client.currentUser;
+    id<MKMUser> user = client.currentUser;
     
     // 1. group info
     if (MKMIDIsGroup(_conversation.ID)) {
@@ -125,7 +130,7 @@ static inline BOOL check_username(NSString *username) {
     }
 }
 
--(NSArray <id<MKMID>> *)groupMemberCandidates:(id<DIMGroup>)group currentUser:(id<DIMUser>)user {
+-(NSArray <id<MKMID>> *)groupMemberCandidates:(id<MKMGroup>)group currentUser:(id<MKMUser>)user {
     id<MKMID> founder = group.founder;
     NSArray<id<MKMID>> *members = group.members;
     id<MKMID> current = user.ID;
@@ -186,54 +191,54 @@ static inline BOOL check_username(NSString *username) {
 
 - (BOOL)submitGroupInfo {
     Client *client = [Client sharedInstance];
-    id<DIMUser> user = client.currentUser;
-    id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
+    id<MKMUser> user = client.currentUser;
+    id<MKMUserDataSource> dataSource = (id<MKMUserDataSource>)[user dataSource];
     id<MKMSignKey> signKey = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(signKey, @"failed to get visa sign key for user: %@", user.ID);
 
-    id<MKMID> ID = _conversation.ID;
-    NSString *seed = _seedTextField.text;
-    NSString *name = _nameTextField.text;
-    id<MKMDocument> profile;
-//    NSMutableArray<id<MKMID>> *members;
-    
-    if (MKMIDIsGroup(ID)) {
-        // exists group
-        _group = (DIMGroup *)DIMGroupWithID(ID);
-        profile = _group.bulletin;
-        if (!profile) {
-            profile = MKMDocumentNew(MKMDocument_Bulletin, ID);
-        }
-        [profile setName:name];
-        [profile sign:signKey];
-        BOOL success = [client updateGroupWithID:ID
-                                         members:_selectedList
-                                         profile:profile];
-        if (!success) {
-            NSLog(@"failed to update group: %@, %@, %@", ID, _selectedList, profile);
-            [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, ID.name] withTitle:NSLocalizedString(@"Update Group Failed!", nil)];
-            return NO;
-        }
-        NSLog(@"update group: %@, profile: %@, members: %@", ID, profile, _selectedList);
-    } else {
-        // new group
-        _group = (DIMGroup *)[client createGroupWithSeed:seed name:name members:_selectedList];
-        if (!_group) {
-            NSLog(@"failed to create group: %@, %@, %@", seed, _selectedList, name);
-            [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, seed] withTitle:NSLocalizedString(@"Create Group Failed!", nil)];
-            return NO;
-        }
-        ID = _group.ID;
-        profile = MKMDocumentNew(MKMDocument_Bulletin, ID);
-        [profile setName:name];
-        [profile sign:signKey];
-        NSLog(@"new group: %@, profile: %@, members: %@", ID, profile, _selectedList);
-    }
-    
-    // save profile & members
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    [facebook saveDocument:profile];
-    [facebook saveMembers:_selectedList group:_group.ID];
+//    id<MKMID> ID = _conversation.ID;
+//    NSString *seed = _seedTextField.text;
+//    NSString *name = _nameTextField.text;
+//    id<MKMDocument> profile;
+////    NSMutableArray<id<MKMID>> *members;
+//    
+//    if (MKMIDIsGroup(ID)) {
+//        // exists group
+//        _group = (DIMGroup *)DIMGroupWithID(ID);
+//        profile = _group.bulletin;
+//        if (!profile) {
+//            profile = MKMDocumentNew(MKMDocument_Bulletin, ID);
+//        }
+//        [profile setName:name];
+//        [profile sign:signKey];
+//        BOOL success = [client updateGroupWithID:ID
+//                                         members:_selectedList
+//                                         profile:profile];
+//        if (!success) {
+//            NSLog(@"failed to update group: %@, %@, %@", ID, _selectedList, profile);
+//            [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, ID.name] withTitle:NSLocalizedString(@"Update Group Failed!", nil)];
+//            return NO;
+//        }
+//        NSLog(@"update group: %@, profile: %@, members: %@", ID, profile, _selectedList);
+//    } else {
+//        // new group
+//        _group = (DIMGroup *)[client createGroupWithSeed:seed name:name members:_selectedList];
+//        if (!_group) {
+//            NSLog(@"failed to create group: %@, %@, %@", seed, _selectedList, name);
+//            [self showMessage:[NSString stringWithFormat:@"%@\n%@", name, seed] withTitle:NSLocalizedString(@"Create Group Failed!", nil)];
+//            return NO;
+//        }
+//        ID = _group.ID;
+//        profile = MKMDocumentNew(MKMDocument_Bulletin, ID);
+//        [profile setName:name];
+//        [profile sign:signKey];
+//        NSLog(@"new group: %@, profile: %@, members: %@", ID, profile, _selectedList);
+//    }
+//    
+//    // save profile & members
+//    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+//    [facebook saveDocument:profile];
+//    [facebook saveMembers:_selectedList group:_group.ID];
     return YES;
 }
 
@@ -419,7 +424,7 @@ static inline BOOL check_username(NSString *username) {
     } else if (section == 1) {
         // candidates
         Client *client = [Client sharedInstance];
-        id<DIMUser> user = client.currentUser;
+        id<MKMUser> user = client.currentUser;
         id<MKMID> contact;
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;

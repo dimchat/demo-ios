@@ -1,12 +1,14 @@
 //
 //  Facebook+Register.m
-//  DIMClient
+//  DIMP
 //
 //  Created by Albert Moky on 2019/1/28.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
 #import "Client.h"
+
+#import "DIMFacebook+Extension.h"
 
 #import "Facebook+Register.h"
 
@@ -16,8 +18,8 @@
       privateKey:(id<MKMPrivateKey>)SK
            forID:(id<MKMID>)ID {
     
-    NSArray<id<DIMUser>> *array = [self localUsers];
-    for (id<DIMUser> item in array) {
+    NSArray<id<MKMUser>> *array = [self localUsers];
+    for (id<MKMUser> item in array) {
         if ([item.ID isEqual:ID]) {
             NSLog(@"User ID already exists: %@", ID);
             return NO;
@@ -57,11 +59,11 @@
     return [self saveUsers:users];
 }
 
-- (BOOL)saveUserList:(NSArray<id<DIMUser>> *)users
-     withCurrentUser:(id<DIMUser>)curr {
+- (BOOL)saveUserList:(NSArray<id<MKMUser>> *)users
+     withCurrentUser:(id<MKMUser>)curr {
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:users.count];
     [list addObject:curr.ID];
-    for (id<DIMUser> user in users) {
+    for (id<MKMUser> user in users) {
         if ([list containsObject:user.ID]) {
             // ignore
         } else {

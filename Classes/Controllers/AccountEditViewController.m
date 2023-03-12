@@ -6,13 +6,16 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMClient/DIMClient.h>
+#import <DIMP/DIMP.h>
 
-#import "NSObject+Extension.h"
 #import "UIViewController+Extension.h"
 #import "UIView+Extension.h"
 #import "UIImage+Extension.h"
+
 #import "DIMProfile+Extension.h"
+#import "DIMEntity+Extension.h"
+#import "DIMFacebook+Extension.h"
+#import "DIMMessenger+Extension.h"
 
 #import "ImagePickerController.h"
 #import "Client.h"
@@ -123,7 +126,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     DIMVisa *profile = [notification.userInfo objectForKey:@"profile"];
-    id<DIMUser> user = [Client sharedInstance].currentUser;
+    id<MKMUser> user = [Client sharedInstance].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
         return ;
@@ -193,7 +196,7 @@
         
         DIMFacebook *facebook = [DIMFacebook sharedInstance];
         Client *client = [Client sharedInstance];
-        id<DIMUser> user = client.currentUser;
+        id<MKMUser> user = client.currentUser;
         id<MKMID> ID = user.ID;
         id<MKMVisa> visa = user.visa;
         if (!visa) {
@@ -211,7 +214,7 @@
         // got avatar URL
         visa.avatar = [url absoluteString];
         
-        id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
+        id<MKMUserDataSource> dataSource = (id<MKMUserDataSource>)[user dataSource];
         id<MKMSignKey> SK = [dataSource privateKeyForVisaSignature:user.ID];
         NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
         [visa sign:SK];
@@ -242,12 +245,12 @@
     }
     
     Client *client = [Client sharedInstance];
-    id<DIMUser> user = client.currentUser;
+    id<MKMUser> user = client.currentUser;
     
     id<MKMVisa> visa = user.visa;
     [visa setName:nickname];
     
-    id<DIMUserDataSource> dataSource = (id<DIMUserDataSource>)[user dataSource];
+    id<MKMUserDataSource> dataSource = (id<MKMUserDataSource>)[user dataSource];
     id<MKMSignKey> SK = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
     [visa sign:SK];
@@ -277,7 +280,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     Client *client = [Client sharedInstance];
-    id<DIMUser> user = client.currentUser;
+    id<MKMUser> user = client.currentUser;
     id<MKMID> ID = user.ID;
     
     UITableViewCell *cell = nil;
@@ -353,7 +356,7 @@
         NSInteger row = indexPath.row;
         
         Client *client = [Client sharedInstance];
-        id<DIMUser> user = client.currentUser;
+        id<MKMUser> user = client.currentUser;
         
         if (section == 0) {
 
@@ -376,7 +379,7 @@
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
     Client *client = [Client sharedInstance];
-    id<DIMUser> user = client.currentUser;
+    id<MKMUser> user = client.currentUser;
     
     if (section == 1) {
         // function

@@ -6,12 +6,17 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
 #import "UIView+Extension.h"
-#import "DIMProfile+Extension.h"
-#import "Facebook+Profile.h"
-#import "ContactCell.h"
 #import "UIColor+Extension.h"
+
+#import "DIMConstants.h"
+#import "DIMEntity+Extension.h"
+#import "DIMProfile+Extension.h"
+#import "DIMFacebook+Extension.h"
+
+#import "Facebook+Profile.h"
+
+#import "ContactCell.h"
 
 @implementation ContactCell
 

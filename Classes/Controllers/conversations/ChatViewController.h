@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <DIMClient/DIMClient.h>
+
+#import "DIMConversation.h"
 #import "MessageCell.h"
 
 NS_ASSUME_NONNULL_BEGIN

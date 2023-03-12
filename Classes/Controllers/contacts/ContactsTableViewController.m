@@ -6,14 +6,19 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
+#import "DIMConstants.h"
+#import "DIMFacebook+Extension.h"
+#import "DIMMessenger+Extension.h"
+#import "DIMAmanuensis.h"
+
 #import "Client.h"
 #import "ContactCell.h"
 #import "ProfileTableViewController.h"
-#import "ContactsTableViewController.h"
 #import "SearchUsersTableViewController.h"
 #import "ChatViewController.h"
 #import "MessageDatabase.h"
+
+#import "ContactsTableViewController.h"
 
 @interface ContactsTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
     
@@ -77,7 +82,7 @@
         id<MKMID> groupID = [userInfo objectForKey:@"group"];
         
         Client *client = [Client sharedInstance];
-        id<DIMUser> user = client.currentUser;
+        id<MKMUser> user = client.currentUser;
         NSArray<id<MKMID>> *contacts = user.contacts;
         
         if(![contacts containsObject:groupID]){
@@ -101,7 +106,7 @@
     _contactsTable = [[NSMutableDictionary alloc] init];
     
     Client *client = [Client sharedInstance];
-    id<DIMUser> user = client.currentUser;
+    id<MKMUser> user = client.currentUser;
     NSArray<id<MKMID>> *contacts = user.contacts;
     NSInteger count = [contacts count];
     
@@ -217,7 +222,7 @@
         id<MKMID> ID = [list objectAtIndex:row];
         
         Client *client = [Client sharedInstance];
-        id<DIMUser> user = client.currentUser;
+        id<MKMUser> user = client.currentUser;
         [[DIMFacebook sharedInstance] user:user.ID removeContact:ID];
         
         //Post contacts to server

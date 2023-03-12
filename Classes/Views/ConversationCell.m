@@ -6,14 +6,19 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
 #import "UIView+Extension.h"
-#import "DIMProfile+Extension.h"
-#import "NSDate+Extension.h"
-#import "ConversationCell.h"
 #import "UIColor+Extension.h"
+
+#import "DIMCommand+Extension.h"
+#import "DIMFacebook+Extension.h"
+#import "DIMProfile+Extension.h"
+#import "DIMConstants.h"
+#import "DIMConversation.h"
+
 #import "Client.h"
 #import "LocalDatabaseManager.h"
+
+#import "ConversationCell.h"
 
 @implementation ConversationCell
 
@@ -52,7 +57,7 @@
 
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self selector:@selector(onConversationUpdated:)
-                   name:DIMConversationUpdatedNotification object:nil];
+                   name:kNotificationName_ConversationUpdated object:nil];
         [nc addObserver:self selector:@selector(onProfileUpdate:)
                    name:kNotificationName_DocumentUpdated object:nil];
     }

@@ -6,15 +6,20 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
-#import "NSDate+Extension.h"
-#import "UIColor+Extension.h"
+#import <AVFoundation/AVFoundation.h>
+
 #import "NSString+Extension.h"
+#import "UIColor+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIButton+Extension.h"
 #import "UIImage+Extension.h"
 #import "UIScrollView+Extension.h"
 #import "UIViewController+Extension.h"
+
+#import "DKDInstantMessage+Extension.h"
+#import "DIMMessenger+Extension.h"
+
+#import "DIMConstants.h"
 #import "WebViewController.h"
 #import "ImagePickerController.h"
 #import "MessageDatabase.h"
@@ -33,7 +38,6 @@
 #import "FolderUtility.h"
 #import "EMAudioRecordHelper.h"
 #import "EMAudioPlayerHelper.h"
-#import <AVFoundation/AVFoundation.h>
 
 @interface ChatViewController ()<UITextViewDelegate, UIDocumentPickerDelegate> {
     
@@ -244,7 +248,7 @@
         NSUInteger messageCount = [_conversation numberOfMessage];
         
         Client *client = [Client sharedInstance];
-        id<DIMUser> user = client.currentUser;
+        id<MKMUser> user = client.currentUser;
         
         BOOL hasSentMessage = NO;
         while(i < messageCount){
@@ -285,7 +289,7 @@
                name:kNotificationName_SendMessageFailed object:nil];
     
     [nc addObserver:self selector:@selector(onMessageInserted:)
-               name:DIMMessageInsertedNotifiation object:nil];
+               name:kNotificationName_MessageInserted object:nil];
     
     [nc addObserver:self selector:@selector(onGroupMembersUpdated:)
                name:kNotificationName_GroupMembersUpdated object:nil];
@@ -296,7 +300,7 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self name:kNotificationName_MessageSent object:nil];
     [nc removeObserver:self name:kNotificationName_SendMessageFailed object:nil];
-    [nc removeObserver:self name:DIMMessageInsertedNotifiation object:nil];
+    [nc removeObserver:self name:kNotificationName_MessageInserted object:nil];
     [nc removeObserver:self name:kNotificationName_GroupMembersUpdated object:nil];
 }
 
@@ -335,7 +339,7 @@
     NSString *name = notification.name;
     NSDictionary *info = notification.userInfo;
     
-    if ([name isEqual:DIMMessageInsertedNotifiation]) {
+    if ([name isEqual:kNotificationName_MessageInserted]) {
         id<MKMID> ID = MKMIDParse([info objectForKey:@"Conversation"]);
         if ([_conversation.ID isEqual:ID]) {
             [NSObject performBlockOnMainThread:^{
@@ -722,7 +726,7 @@
     NSInteger row = indexPath.row;
     
     Client *client = [Client sharedInstance];
-    id<DIMUser> user = client.currentUser;
+    id<MKMUser> user = client.currentUser;
     
     id obj = [self messageAtIndex:row];
     

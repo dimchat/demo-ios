@@ -1,12 +1,12 @@
 //
 //  MessageDatabase.h
-//  DIMClient
+//  DIMP
 //
 //  Created by Albert Moky on 2018/11/15.
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <DIMClient/DIMClient.h>
+#import "DIMConversationDatabase.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

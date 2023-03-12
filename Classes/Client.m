@@ -1,12 +1,13 @@
 //
 //  Client.m
-//  DIMClient
+//  DIMP
 //
 //  Created by Albert Moky on 2019/1/28.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Singleton.h"
+#import "DIMFacebook+Extension.h"
+#import "DIMSharedFacebook.h"
 
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
@@ -23,7 +24,7 @@
 
 @implementation Client
 
-SingletonImplementations(Client, sharedInstance)
+OKSingletonImplementations(Client, sharedInstance)
 
 - (NSString *)displayName {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
@@ -52,22 +53,22 @@ SingletonImplementations(Client, sharedInstance)
     return _userAgent;
 }
 
-#pragma mark DIMStationDelegate
-
-- (void)station:(DIMStation *)server onHandshakeAccepted:(NSString *)session {
-    [super station:server onHandshakeAccepted:session];
-    
-    // post device token
-    NSString *token = MKMHexEncode(self.deviceToken);
-    if (token) {
-        DIMCommand *content = [[DIMCommand alloc] initWithCommandName:@"broadcast"];
-        [content setObject:@"apns" forKey:@"title"];
-        [content setObject:token forKey:@"device_token"];
-        
-        DIMMessenger *messenger = [DIMMessenger sharedInstance];
-        [messenger sendCommand:content];
-    }
-}
+//#pragma mark DIMStationDelegate
+//
+//- (void)station:(DIMStation *)server onHandshakeAccepted:(NSString *)session {
+//    [super station:server onHandshakeAccepted:session];
+//    
+//    // post device token
+//    NSString *token = MKMHexEncode(self.deviceToken);
+//    if (token) {
+//        DIMCommand *content = [[DIMCommand alloc] initWithCommandName:@"broadcast"];
+//        [content setObject:@"apns" forKey:@"title"];
+//        [content setObject:token forKey:@"device_token"];
+//        
+//        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+//        [messenger sendCommand:content];
+//    }
+//}
 
 @end
 
@@ -107,36 +108,36 @@ SingletonImplementations(Client, sharedInstance)
     ftp.downloadAPI = self.downloadAPI;
     ftp.avatarAPI = self.avatarAPI;
     
-    // connect server
-    DIMServer *server = [[DIMServer alloc] initWithID:ID host:IP port:port.unsignedIntValue];
-    server.delegate = self;
-    [server startWithOptions:serverOptions];
-    _currentStation = server;
-    
-    [MessageDatabase sharedInstance];
-    
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    messenger.currentServer = server;
-    
-    // scan users
-    NSArray<id<DIMUser>> *users = [facebook localUsers];
-#if DEBUG && 0
-    NSMutableArray *mArray;
-    if (users.count > 0) {
-        mArray = [users mutableCopy];
-    } else {
-        mArray = [[NSMutableArray alloc] initWithCapacity:2];
-    }
-    [mArray addObject:MKMIDParse(MKM_IMMORTAL_HULK_ID)];
-    [mArray addObject:MKMIDParse(MKM_MONKEY_KING_ID)];
-    users = mArray;
-#endif
-    // add users
-    for (id<DIMUser> user in users) {
-        NSLog(@"[client] add user: %@", user);
-        [self addUser:user];
-        facebook.currentUser = user;
-    }
+//    // connect server
+//    DIMServer *server = [[DIMServer alloc] initWithID:ID host:IP port:port.unsignedIntValue];
+//    server.delegate = self;
+//    [server startWithOptions:serverOptions];
+//    _currentStation = server;
+//    
+//    [MessageDatabase sharedInstance];
+//    
+//    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+//    messenger.currentServer = server;
+//    
+//    // scan users
+//    NSArray<id<MKMUser>> *users = [facebook localUsers];
+//#if DEBUG && 0
+//    NSMutableArray *mArray;
+//    if (users.count > 0) {
+//        mArray = [users mutableCopy];
+//    } else {
+//        mArray = [[NSMutableArray alloc] initWithCapacity:2];
+//    }
+//    [mArray addObject:MKMIDParse(MKM_IMMORTAL_HULK_ID)];
+//    [mArray addObject:MKMIDParse(MKM_MONKEY_KING_ID)];
+//    users = mArray;
+//#endif
+//    // add users
+//    for (id<MKMUser> user in users) {
+//        NSLog(@"[client] add user: %@", user);
+//        [self addUser:user];
+//        facebook.currentUser = user;
+//    }
 }
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
@@ -187,25 +188,25 @@ SingletonImplementations(Client, sharedInstance)
 //    [nc removeAllPendingNotificationRequests];
 }
 
-- (void)didEnterBackground {
-    [self reportOffline];
-    [_currentStation pause];
-}
-
-- (void)willEnterForeground {
-    [_currentStation resume];
-    [self reportOnline];
-    
-    // clear icon badge
-    UIApplication *app = [UIApplication sharedApplication];
-    app.applicationIconBadgeNumber = 0;
-    UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
-    [nc removeAllPendingNotificationRequests];
-}
-
-- (void)willTerminate {
-    [_currentStation end];
-}
+//- (void)didEnterBackground {
+//    [self reportOffline];
+//    [_currentStation pause];
+//}
+//
+//- (void)willEnterForeground {
+//    [_currentStation resume];
+//    [self reportOnline];
+//
+//    // clear icon badge
+//    UIApplication *app = [UIApplication sharedApplication];
+//    app.applicationIconBadgeNumber = 0;
+//    UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
+//    [nc removeAllPendingNotificationRequests];
+//}
+//
+//- (void)willTerminate {
+//    [_currentStation end];
+//}
 
 #pragma mark - UNUserNotificationCenterDelegate
 
@@ -320,13 +321,23 @@ SingletonImplementations(Client, sharedInstance)
         return NO;
     }
     
-    id<DIMUser> user = DIMUserWithID(ID);
-    [self login:user];
+    id<MKMUser> user = DIMUserWithID(ID);
+    [self loginWithID:ID];
     
     BOOL saved = [facebook saveUserList:self.users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
     
     return saved;
+}
+
+- (id<MKMUser>)currentUser {
+    DIMSharedFacebook *facebook = [DIMSharedFacebook sharedInstance];
+    return [facebook currentUser];
+}
+
+- (NSArray<id<MKMUser>> *)users {
+    DIMSharedFacebook *facebook = [DIMSharedFacebook sharedInstance];
+    return [facebook localUsers];
 }
 
 @end

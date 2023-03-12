@@ -6,10 +6,6 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Singleton.h"
-#import "NSObject+Extension.h"
-#import "NSDictionary+Binary.h"
-
 #import "Client.h"
 
 #import "Facebook+Profile.h"
@@ -69,7 +65,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
 - (void)_downloadAvatar:(NSURL *)url savePath:(NSString *)path forID:(id<MKMID>)ID {
     
     static NSMutableArray *s_downloadings = nil;
-    SingletonDispatchOnce(^{
+    OKSingletonDispatchOnce(^{
         s_downloadings = [[NSMutableArray alloc] init];
     });
     

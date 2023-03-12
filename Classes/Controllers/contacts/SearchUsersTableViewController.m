@@ -6,9 +6,13 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "NSObject+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 #import "UIViewController+Extension.h"
+
+#import "DIMFacebook+Extension.h"
+#import "DIMMessenger+Extension.h"
+#import "DIMSearchCommand.h"
+
 #import "Client.h"
 #import "ContactCell.h"
 #import "SearchUsersTableViewController.h"
