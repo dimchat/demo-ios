@@ -77,8 +77,6 @@ OKSingletonImplementations(DIMAmanuensis, sharedInstance)
 
 - (void)setConversationDelegate:(id<DIMConversationDelegate>)delegate {
     if (delegate) {
-        NSMutableDictionary<id<MKMAddress>, DIMConversation *> *list;
-        list = [_conversations copy];
         // update exists chat boxes
         [_conversations enumerateKeysAndObjectsWithOptions:NSEnumerationConcurrent
                                                 usingBlock:^(id<MKMAddress> key, DIMConversation *chatBox, BOOL *stop) {

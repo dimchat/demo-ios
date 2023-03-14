@@ -77,6 +77,7 @@ OKSingletonImplementations(Client, sharedInstance)
 - (void)machine:(DIMSessionStateMachine *)ctx exitState:(id<FSMState>)previous
            time:(NSTimeInterval)now {
     DIMSessionState *current = [ctx currentState];
+    NSLog(@"session state changed: %@ => %@", previous, current);
     NSUInteger index = [current index];
     NSDictionary *info = @{
         @"stateIndex": @(index),

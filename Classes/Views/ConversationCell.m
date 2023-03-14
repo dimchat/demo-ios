@@ -100,15 +100,15 @@
 }
 
 - (void)loadData {
-    id<MKMDocument> profile = _conversation.document;
+    id<MKMDocument> doc = DIMDocumentForID(_conversation.ID, @"*");
     
     // avatar
     CGRect frame = _avatarImageView.frame;
     UIImage *image;
     if (MKMIDIsGroup(_conversation.ID)) {
-        image = [(DIMBulletin *)profile logoImageWithSize:frame.size];
+        image = [(DIMBulletin *)doc logoImageWithSize:frame.size];
     } else {
-        image = [(DIMVisa *)profile avatarImageWithSize:frame.size];
+        image = [(DIMVisa *)doc avatarImageWithSize:frame.size];
     }
     
     [_avatarImageView setImage:image];

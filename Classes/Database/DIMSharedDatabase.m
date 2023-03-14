@@ -57,6 +57,16 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 
 @implementation DIMSharedDatabase
 
+- (instancetype)init {
+    if (self = [super init]) {
+        _metaTable     = [[DIMMetaTable alloc] init];
+        _documentTable = [[DIMDocumentTable alloc] init];
+        _userTable     = [[DIMUserTable alloc] init];
+        _groupTable    = [[DIMGroupTable alloc] init];
+    }
+    return self;
+}
+
 //
 //  User Table
 //
@@ -228,7 +238,7 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
     id<MKMPrivateKey> key;
     // get private key paired with meta.key
     key = private_load(DIMPrivateKeyType_Meta, user);
-    if (key) {
+    if (!key) {
         // get private key paired with meta.key
         key = private_load(nil, user);
     }

@@ -41,14 +41,8 @@
 #import "DIMStorageCommand.h"
 
 #import "DIMMessageDataSource.h"
-#import "DIMAmanuensis.h"
 
-#import "DIMGlobalVariable.h"
 #import "DKDInstantMessage+Extension.h"
-
-#import "DIMKeyStore.h"
-#import "DIMSharedPacker.h"
-#import "DIMSharedProcessor.h"
 
 #import "DIMSharedMessenger.h"
 

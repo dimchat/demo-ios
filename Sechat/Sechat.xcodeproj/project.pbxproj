@@ -172,6 +172,9 @@
 		E9DBAD1029BF09B70077C513 /* DIMCompatible.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBAD0F29BF09B70077C513 /* DIMCompatible.m */; };
 		E9DBAD1629BF340C0077C513 /* DIMMessageBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBAD1529BF340C0077C513 /* DIMMessageBuilder.m */; };
 		E9E106CA29C053910032D5F5 /* DIMSharedDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E106C929C053910032D5F5 /* DIMSharedDatabase.m */; };
+		E9E106D629C071610032D5F5 /* Client+Creation.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E106D529C071610032D5F5 /* Client+Creation.m */; };
+		E9E106D929C072280032D5F5 /* DIMSharedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E106D829C072280032D5F5 /* DIMSharedSession.m */; };
+		E9E106DA29C086A70032D5F5 /* MarsGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9E106D229C06B700032D5F5 /* MarsGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E9E824A4224A6D1100A029F1 /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */; };
 		E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
 		E9E82501224D198200A029F1 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
@@ -194,6 +197,20 @@
 			remoteGlobalIDString = E92255BE2222EC53006CADEA;
 			remoteInfo = Sechat;
 		};
+		E9E106D129C06B700032D5F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9E106CB29C06B700032D5F5 /* MarsGate.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9FAF5E8221EAC5F00DB6567;
+			remoteInfo = MarsGate;
+		};
+		E9E106D329C06B700032D5F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E9E106CB29C06B700032D5F5 /* MarsGate.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E9FAF5F1221EAC5F00DB6567;
+			remoteInfo = MarsGateTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -213,6 +230,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				E9E106DA29C086A70032D5F5 /* MarsGate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,6 +446,10 @@
 		E9DBAD1529BF340C0077C513 /* DIMMessageBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMMessageBuilder.m; sourceTree = "<group>"; };
 		E9E106C829C053910032D5F5 /* DIMSharedDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSharedDatabase.h; sourceTree = "<group>"; };
 		E9E106C929C053910032D5F5 /* DIMSharedDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSharedDatabase.m; sourceTree = "<group>"; };
+		E9E106CB29C06B700032D5F5 /* MarsGate.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MarsGate.xcodeproj; path = ../../../moky/StarGate/MarsGate/MarsGate.xcodeproj; sourceTree = "<group>"; };
+		E9E106D529C071610032D5F5 /* Client+Creation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Client+Creation.m"; sourceTree = "<group>"; };
+		E9E106D729C072280032D5F5 /* DIMSharedSession.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIMSharedSession.h; sourceTree = "<group>"; };
+		E9E106D829C072280032D5F5 /* DIMSharedSession.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIMSharedSession.m; sourceTree = "<group>"; };
 		E9E824592245539100A029F1 /* Sechat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Sechat.entitlements; sourceTree = "<group>"; };
 		E9E824A2224A6D1100A029F1 /* UIColor+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
 		E9E824A3224A6D1100A029F1 /* UIColor+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
@@ -553,6 +575,7 @@
 		E92255B62222EC53006CADEA = {
 			isa = PBXGroup;
 			children = (
+				E9E106CB29C06B700032D5F5 /* MarsGate.xcodeproj */,
 				52BF13582341D02B0016371B /* SechatAppStore.entitlements */,
 				E92256122222ED7C006CADEA /* Classes */,
 				E92256072222ED6B006CADEA /* Resources */,
@@ -638,6 +661,7 @@
 				E92256262222ED7C006CADEA /* Controllers */,
 				E92256162222ED7C006CADEA /* Client.h */,
 				E92256222222ED7C006CADEA /* Client.m */,
+				E9E106D529C071610032D5F5 /* Client+Creation.m */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -837,6 +861,8 @@
 				E9AE7EDF29BD7CA0008D9F33 /* DIMSharedFacebook.m */,
 				E9AE7EF829BD7CA0008D9F33 /* DIMSharedMessenger.h */,
 				E9AE7EDB29BD7CA0008D9F33 /* DIMSharedMessenger.m */,
+				E9E106D729C072280032D5F5 /* DIMSharedSession.h */,
+				E9E106D829C072280032D5F5 /* DIMSharedSession.m */,
 				E9AE7EF229BD7CA0008D9F33 /* DIMSharedPacker.h */,
 				E9AE7F0229BD7CA0008D9F33 /* DIMSharedPacker.m */,
 				E9AE7EF329BD7CA0008D9F33 /* DIMSharedProcessor.h */,
@@ -918,6 +944,15 @@
 				E9AE7EA129BD7B94008D9F33 /* DKDInstantMessage+Extension.m */,
 			);
 			path = extends;
+			sourceTree = "<group>";
+		};
+		E9E106CC29C06B700032D5F5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E9E106D229C06B700032D5F5 /* MarsGate.framework */,
+				E9E106D429C06B700032D5F5 /* MarsGateTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1040,6 +1075,12 @@
 			mainGroup = E92255B62222EC53006CADEA;
 			productRefGroup = E92255C02222EC53006CADEA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E9E106CC29C06B700032D5F5 /* Products */;
+					ProjectRef = E9E106CB29C06B700032D5F5 /* MarsGate.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				E92255BE2222EC53006CADEA /* Sechat */,
@@ -1049,6 +1090,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E9E106D229C06B700032D5F5 /* MarsGate.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MarsGate.framework;
+			remoteRef = E9E106D129C06B700032D5F5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E9E106D429C06B700032D5F5 /* MarsGateTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MarsGateTests.xctest;
+			remoteRef = E9E106D329C06B700032D5F5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		52DBA35B2340F2F90000C2B4 /* Resources */ = {
@@ -1263,6 +1321,7 @@
 				E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */,
 				E9AE7F0F29BD7CA0008D9F33 /* DIMSearchCommandProcessor.m in Sources */,
 				E9AE7EA229BD7B94008D9F33 /* DKDInstantMessage+Extension.m in Sources */,
+				E9E106D929C072280032D5F5 /* DIMSharedSession.m in Sources */,
 				E9DBAD0D29BEECA30077C513 /* DIMEmitter.m in Sources */,
 				52BED8F92330C78A00886CCD /* RegisterViewController.m in Sources */,
 				E99A5CB3222D8B3400EE6C86 /* ProfileTableViewController.m in Sources */,
@@ -1301,6 +1360,7 @@
 				E9DBAD1629BF340C0077C513 /* DIMMessageBuilder.m in Sources */,
 				E92256552222ED7C006CADEA /* AccountEditViewController.m in Sources */,
 				E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */,
+				E9E106D629C071610032D5F5 /* Client+Creation.m in Sources */,
 				E9AE7EB729BD7C41008D9F33 /* FMDatabasePool.m in Sources */,
 				5294D8A724E63DDB00E83570 /* EMAudioPlayerHelper.mm in Sources */,
 				E99A5CBE222DA24B00EE6C86 /* SearchUsersTableViewController.m in Sources */,

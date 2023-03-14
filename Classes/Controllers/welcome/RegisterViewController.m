@@ -237,31 +237,34 @@
 - (NSError *)generate {
     NSLog(@"refreshing...");
     
-//    DIMRegister *reg = [[DIMRegister alloc] init];
-//    id<MKMUser> user = [reg createUserWithName:self.nickname avatar:nil];
-//
-//    // 1. generated private key
-//    self.SK = reg.key;
-//    if (self.SK == nil) {
-//        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate private key"}];
-//    }
-//
-//    // 2. generated meta
-//    self.meta = user.meta;
-//    if (self.meta == nil) {
-//        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate meta"}];
-//    }
-//
-//    // 3. generated ID
-//    self.ID = user.ID;
-//    if (self.ID == nil) {
-//        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate ID"}];
-//    }
-//
-//    Client *client = [Client sharedInstance];
-//    client.currentUser = user;
-//
-//    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<DIMAccountDBI> adb = [DIMGlobal adb];
+    
+    DIMRegister *reg = [[DIMRegister alloc] initWithDatabase:adb];
+    id<MKMID> ID = [reg createUserWithName:self.nickname avatar:nil];
+    
+    id<MKMSignKey> SK = [facebook privateKeyForVisaSignature:ID];
+    id<MKMUser> user = [facebook userWithID:ID];
+    facebook.currentUser = user;
+
+    // 1. generated private key
+    self.SK = (id<MKMPrivateKey>)SK;
+    if (self.SK == nil) {
+        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate private key"}];
+    }
+
+    // 2. generated meta
+    self.meta = user.meta;
+    if (self.meta == nil) {
+        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate meta"}];
+    }
+
+    // 3. generated ID
+    self.ID = user.ID;
+    if (self.ID == nil) {
+        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not generate ID"}];
+    }
+
 //    BOOL saved = [facebook saveUserList:client.users withCurrentUser:user];
 //    if (!saved) {
 //        return [NSError errorWithDomain:@"chat.dim" code:1 userInfo:@{NSLocalizedDescriptionKey: @"Can not save user to client"}];
