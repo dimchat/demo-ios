@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface EMAudioPlayerHelper : NSObject
 
 @property (nonatomic, strong) id model;
-@property (nonatomic, strong) NSString *playingPath;
+@property (nonatomic, strong, nullable) NSString *playingPath;
 @property (readwrite, nonatomic) BOOL isPlaying;
 
 + (instancetype)sharedHelper;

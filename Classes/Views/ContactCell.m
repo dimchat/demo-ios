@@ -12,7 +12,7 @@
 #import "DIMConstants.h"
 #import "DIMEntity+Extension.h"
 #import "DIMProfile+Extension.h"
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "Facebook+Profile.h"
 

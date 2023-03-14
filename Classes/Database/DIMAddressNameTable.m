@@ -37,7 +37,7 @@
 
 #import <DIMSDK/DIMSDK.h>
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMAddressNameTable.h"
 
@@ -108,40 +108,44 @@ typedef NSMutableDictionary<NSString *, id<MKMID>> CacheTableM;
     return caches;
 }
 
-- (BOOL)saveRecord:(id<MKMID>)ID forName:(NSString *)name {
-    if ([name length] == 0) {
+- (id<MKMID>)recordForName:(NSString *)alias {
+    return [self.caches objectForKey:alias];
+}
+
+- (BOOL)addRecord:(id<MKMID>)ID forName:(NSString *)alias {
+    if ([alias length] == 0) {
         return NO;
     }
     // cache
-    [self.caches setObject:ID forKey:name];
+    [self.caches setObject:ID forKey:alias];
     // save
     NSString *path = [self _ansFilePath];
     NSLog(@"saving ANS records from: %@", path);
     return [self dictionary:self.caches writeToBinaryFile:path];
 }
 
-- (id<MKMID>)recordForName:(NSString *)name {
-    NSString *lowercase = [name lowercaseString];
-    return [self.caches objectForKey:lowercase];
+- (BOOL)removeRecordForName:(NSString *)alias {
+    [self.caches removeObjectForKey:alias];
+    return YES;
 }
 
-- (NSArray<NSString *> *)namesWithRecord:(NSString *)ID {
-    NSDictionary<NSString *, id<MKMID>> *dict = self.caches;
-    NSArray<NSString *> *allKeys = [dict allKeys];
-    // all names
-    if ([ID isEqualToString:@"*"]) {
-        return allKeys;
-    }
-    // get keys with the same value
-    NSMutableArray<NSString *> *keys = [[NSMutableArray alloc] init];
-    id<MKMID> value;
-    for (NSString *name in allKeys) {
-        value = [dict objectForKey:name];
-        if ([value isEqual:ID]) {
-            [keys addObject:name];
-        }
-    }
-    return keys;
-}
+//- (NSArray<NSString *> *)namesWithRecord:(NSString *)ID {
+//    NSDictionary<NSString *, id<MKMID>> *dict = self.caches;
+//    NSArray<NSString *> *allKeys = [dict allKeys];
+//    // all names
+//    if ([ID isEqualToString:@"*"]) {
+//        return allKeys;
+//    }
+//    // get keys with the same value
+//    NSMutableArray<NSString *> *keys = [[NSMutableArray alloc] init];
+//    id<MKMID> value;
+//    for (NSString *name in allKeys) {
+//        value = [dict objectForKey:name];
+//        if ([value isEqual:ID]) {
+//            [keys addObject:name];
+//        }
+//    }
+//    return keys;
+//}
 
 @end

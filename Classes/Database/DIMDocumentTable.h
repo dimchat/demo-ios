@@ -28,63 +28,22 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DIMFacebook+Extension.h
+//  DIMDocumentTable.h
 //  DIMP
 //
-//  Created by Albert Moky on 2019/11/29.
+//  Created by Albert Moky on 2019/9/6.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMSDK/DIMSDK.h>
+#import "DIMStorage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define DIMMetaForID(ID)         [[DIMFacebook sharedInstance] metaForID:(ID)]
-#define DIMDocumentForID(ID, DT) [[DIMFacebook sharedInstance] documentForID:(ID) type:(DT)]
-#define DIMVisaForID(ID)         DIMDocumentForID(ID, MKMDocument_Visa)
+@protocol DIMDocumentTable <DIMDocumentDBI>
 
-#define DIMUserWithID(ID)        [[DIMFacebook sharedInstance] userWithID:(ID)]
-#define DIMGroupWithID(ID)       [[DIMFacebook sharedInstance] groupWithID:(ID)]
+@end
 
-//#define DIMPrivateKeyType_Visa   @"visa"
-//#define DIMPrivateKeyType_Meta   @"meta"
-
-@interface DIMFacebook (Extension)
-
-+ (instancetype)sharedInstance;
-
-- (NSString *)name:(id<MKMID>)ID;
-
-- (id<MKMUser>)currentUser;
-- (void)setCurrentUser:(id<MKMUser>)user;
-
-- (BOOL)saveUsers:(NSArray<id<MKMID>> *)list;
-
-/**
- *  Save private key for user with key type
- *
- * @param key - private key
- * @param type - "visa" or "meta"
- * @param ID - user ID
- * @return NO on failed
- */
-- (BOOL)savePrivateKey:(id<MKMPrivateKey>)key type:(NSString *)type user:(id<MKMID>)ID;
-
-//
-//  contacts
-//
-- (BOOL)saveContacts:(NSArray<id<MKMID>> *)contacts user:(id<MKMID>)ID;
-- (BOOL)user:(id<MKMID>)user addContact:(id<MKMID>)contact;
-- (BOOL)user:(id<MKMID>)user removeContact:(id<MKMID>)contact;
-
-//
-//  group members
-//
-- (BOOL)group:(id<MKMID>)group addMember:(id<MKMID>)member;
-- (BOOL)group:(id<MKMID>)group removeMember:(id<MKMID>)member;
-
-- (BOOL)group:(id<MKMID>)group containsMember:(id<MKMID>)member;
-- (BOOL)group:(id<MKMID>)group containsAssistant:(id<MKMID>)assistant;
+@interface DIMDocumentTable : DIMStorage <DIMDocumentTable>
 
 @end
 

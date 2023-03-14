@@ -17,18 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 
-- (NSInteger)numberOfConversations;
-
-- (id<MKMID>)conversationAtIndex:(NSInteger)index;
-
-// remove messages file
-- (BOOL)removeConversationAtIndex:(NSInteger)index;
-- (BOOL)removeConversation:(id<MKMID>)chatBox;
-
-// clear messages records, but keep the empty file
-- (BOOL)clearConversationAtIndex:(NSInteger)index;
-- (BOOL)clearConversation:(id<MKMID>)chatBox;
-
 @end
 
 NS_ASSUME_NONNULL_END

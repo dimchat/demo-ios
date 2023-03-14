@@ -40,13 +40,17 @@
 #import "LocalDatabaseManager.h"
 #import "DIMMessageTable.h"
 
-typedef NSMutableDictionary<id<MKMID>, NSArray *> CacheTableM;
+typedef NSMutableArray<id<MKMID>> ConversationList;
+typedef NSMutableArray<id<DKDInstantMessage>> MessageList;
+typedef NSMutableDictionary<id<MKMID>, MessageList *> MessageTable;
 
-@interface DIMMessageTable () {
-    
-    CacheTableM *_caches;
-    NSMutableArray<id<MKMID>> *_conversations;
-}
+@interface DIMMessageTable ()
+
+@property(nonatomic, strong) MessageTable *caches;
+
+@property(nonatomic, strong) ConversationList *conversations;
+
+@property(nonatomic, strong) LocalDatabaseManager *database;
 
 @end
 
@@ -54,84 +58,171 @@ typedef NSMutableDictionary<id<MKMID>, NSArray *> CacheTableM;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _caches = [[CacheTableM alloc] init];
-        _conversations = nil;
+        self.caches = [NSMutableDictionary dictionary];
+        self.conversations = nil;
+        self.database = nil;
     }
     return self;
 }
 
-- (NSMutableArray<id<MKMID>> *)allConversations {
-    
-    if(_conversations == nil || _conversations.count == 0){
-        _conversations = [[LocalDatabaseManager sharedInstance] loadAllConversations];
+// private
+- (LocalDatabaseManager *)database {
+    if (!_database) {
+        _database = [LocalDatabaseManager sharedInstance];
     }
-    
+    return _database;
+}
+
+// private
+- (ConversationList *)conversations {
+    if (!_conversations) {
+        _conversations = [self.database loadAllConversations];
+    }
     return _conversations;
 }
 
-- (void)_updateCache:(NSArray *)messages conversation:(id<MKMID>)ID {
-    NSMutableArray *list = (NSMutableArray *)[self allConversations];
-    
-    if (messages) {
-        // update cache
-        [_caches setObject:messages forKey:ID];
-        // add cid
-        if (![list containsObject:ID]) {
-            
-            if(messages.count > 0){
-                [list addObject:ID];
-            }
-        }
-    } else {
-        // erase cache
-        [_caches removeObjectForKey:ID];
-        // remove cid
-        [list removeObject:ID];
+// private
+- (void)setCache:(MessageList *)messages forConversation:(id<MKMID>)ID {
+    // update cache
+    [_caches setObject:messages forKey:ID];
+    // add cid
+    ConversationList *list = [self conversations];
+    if (![list containsObject:ID]) {
+        [list addObject:ID];
     }
 }
 
-- (nullable NSArray<id<DKDInstantMessage>> *)_loadMessages:(id<MKMID>)ID {
-    return [[LocalDatabaseManager sharedInstance] loadMessagesInConversation:ID limit:-1 offset:-1];
+// private
+- (void)deleteCacheForConversation:(id<MKMID>)ID {
+    // erase cache
+    [_caches removeObjectForKey:ID];
+    // remove cid
+    [_conversations removeObject:ID];
 }
 
-- (NSArray<id<DKDInstantMessage>> *)messagesInConversation:(id<MKMID>)ID {
-    NSArray<id<DKDInstantMessage>> *messages = [_caches objectForKey:ID];
+// private
+- (MessageList *)loadMessages:(id<MKMID>)ID {
+    MessageList *messages = [_caches objectForKey:ID];
     if (!messages) {
-        messages = [self _loadMessages:ID];
-        [self _updateCache:messages conversation:ID];
+        messages = [self.database loadMessagesInConversation:ID
+                                                       limit:-1
+                                                      offset:-1];
+        [self setCache:messages forConversation:ID];
     }
     return messages;
 }
 
-- (BOOL)addMessage:(id<DKDInstantMessage>)message toConversation:(id<MKMID>)ID{
-    
-    BOOL insertSuccess = [[LocalDatabaseManager sharedInstance] addMessage:message toConversation:ID];
-    
-    if(insertSuccess){
-        //Update cache
-        NSMutableArray *currentMessages = [[NSMutableArray alloc] initWithArray:[_caches objectForKey:ID]];
-        [currentMessages addObject:message];
-        [self _updateCache:currentMessages conversation:ID];
-        
-        if(![_conversations containsObject:ID]){
-            [_conversations addObject:ID];
-        }
+#pragma mark conversations
+
+- (NSInteger)numberOfConversations {
+    return [self.conversations count];
+}
+
+- (id<MKMID>)conversationAtIndex:(NSInteger)index {
+    return [self.conversations objectAtIndex:index];
+}
+
+- (BOOL)removeConversationAtIndex:(NSInteger)index {
+    id<MKMID> ID = [self conversationAtIndex:index];
+    NSAssert(ID, @"conversation not exists: index=%ld", index);
+    return [self removeConversation:ID];
+}
+
+- (BOOL)removeConversation:(id<MKMID>)chatBox {
+    if ([self.database deleteConversation:chatBox]) {
+        [self deleteCacheForConversation:chatBox];
+        return YES;
+    } else {
+        return NO;
     }
-    
-    return insertSuccess;
 }
 
-- (BOOL)clearConversation:(id<MKMID>)ID{
-    [self _updateCache:[NSArray array] conversation:ID];
-    return [[LocalDatabaseManager sharedInstance] clearConversation:ID];
+#pragma mark messages
+
+- (NSInteger)numberOfMessagesInConversation:(id<MKMID>)chatBox {
+    MessageList *messages = [self loadMessages:chatBox];
+    return [messages count];
 }
 
-- (BOOL)removeConversation:(id<MKMID>)ID {
-    return [[LocalDatabaseManager sharedInstance] deleteConversation:ID];
+- (NSInteger)numberOfUnreadMessagesInConversation:(id<MKMID>)chatBox {
+    return [self.database getUnreadMessageCount:chatBox];
 }
 
--(BOOL)markConversationMessageRead:(id<MKMID>)chatBox{
-    return [[LocalDatabaseManager sharedInstance] markMessageRead:chatBox];
+- (BOOL)clearUnreadMessagesInConversation:(id<MKMID>)chatBox {
+    return [self.database markMessageRead:chatBox];
+}
+
+- (id<DKDInstantMessage>)lastMessageInConversation:(id<MKMID>)chatBox {
+    MessageList *messages = [self loadMessages:chatBox];
+    if ([messages count] == 0) {
+        return nil;
+    }
+    return [messages objectAtIndex:0];
+}
+
+- (id<DKDInstantMessage>)lastReceivedMessageForUser:(id<MKMID>)user {
+    // TODO:
+    return nil;
+}
+
+- (id<DKDInstantMessage>)conversation:(id<MKMID>)chatBox messageAtIndex:(NSInteger)index {
+    MessageList *messages = [self loadMessages:chatBox];
+    return [messages objectAtIndex:index];
+}
+
+- (BOOL)conversation:(id<MKMID>)chatBox insertMessage:(id<DKDInstantMessage>)iMsg {
+    if ([self.database addMessage:iMsg toConversation:chatBox]) {
+        MessageList *messages = [self loadMessages:chatBox];
+        NSAssert(messages, @"messages should not be nil here");
+        [messages addObject:iMsg];
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)conversation:(id<MKMID>)chatBox removeMessage:(id<DKDInstantMessage>)iMsg {
+    MessageList *messages = [self loadMessages:chatBox];
+    NSInteger pos = [messages indexOfObject:iMsg];
+    if (pos == NSNotFound) {
+        return NO;
+    }
+    [messages removeObjectAtIndex:pos];
+    // TODO: remove from database!
+    return YES;
+}
+
+- (BOOL)conversation:(id<MKMID>)chatBox withdrawMessage:(id<DKDInstantMessage>)iMsg {
+    // TODO: mark 'withdraw'
+    return NO;
+}
+
+- (BOOL)conversation:(id<MKMID>)chatBox saveReceipt:(id<DKDInstantMessage>)iMsg {
+    // TODO: add traces
+    return NO;
+}
+
+#pragma mark -
+
+- (NSArray<id<MKMID>> *)allConversations {
+    return [self conversations];
+}
+
+- (NSArray<id<DKDInstantMessage>> *)messagesInConversation:(id<MKMID>)ID {
+    return [self loadMessages:ID];
+}
+
+- (BOOL)clearConversation:(id<MKMID>)ID {
+    if ([self.database clearConversation:ID]) {
+        [self deleteCacheForConversation:ID];
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (BOOL)markConversationMessageRead:(id<MKMID>)chatBox {
+    return [self.database markMessageRead:chatBox];
 }
 
 @end

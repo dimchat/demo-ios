@@ -35,7 +35,7 @@
 //  Copyright © 2019 Albert Moky. All rights reserved.
 //
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMDefaultProcessor.h"
 

@@ -40,7 +40,6 @@
 
 #import "DIMDefaultProcessor.h"
 #import "DIMApplicationContentProcessor.h"
-#import "DIMFileContentProcessor.h"
 #import "DIMMuteCommandProcessor.h"
 #import "DIMBlockCommandProcessor.h"
 #import "DIMStorageCommandProcessor.h"
@@ -59,18 +58,8 @@
     // application customized
     if (type == DKDContentType_Application) {
         return CREATE_CPU(DIMAppContentProcessor);
-    //} else if (type == DKDContentType_Customized) {
-    //    return CREATE_CPU(DIMAppContentProcessor);
-    }
-//    if (type == DKDContentType_History) {
-//        return CREATE_CPU(DIMHistoryCommandProcessor);
-//    }
-    // file
-    if (type == DKDContentType_File) {
-        return CREATE_CPU(DIMFileContentProcessor);
-    } else if (type == DKDContentType_Image || type == DKDContentType_Audio || type == DKDContentType_Video) {
-        // TODO: shared the same processor with 'FILE'?
-        return CREATE_CPU(DIMFileContentProcessor);
+    } else if (type == DKDContentType_Customized) {
+        return CREATE_CPU(DIMAppContentProcessor);
     }
     // default
     if (type == 0) {
@@ -80,10 +69,6 @@
 }
 
 - (id<DIMContentProcessor>)createCommandProcessor:(NSString *)name type:(DKDContentType)type {
-//    // receipt
-//    if ([name isEqualToString:DIMCommand_Receipt]) {
-//        return CREATE_CPU(DIMReceiptCommandProcessor);
-//    }
     // mute
     if ([name isEqualToString:DIMCommand_Mute]) {
         return CREATE_CPU(DIMMuteCommandProcessor);
@@ -92,18 +77,11 @@
     if ([name isEqualToString:DIMCommand_Block]) {
         return CREATE_CPU(DIMBlockCommandProcessor);
     }
-//    // handshake
-//    if ([name isEqualToString:DIMCommand_Handshake]) {
-//        return CREATE_CPU(DIMHandshakeCommandProcessor);
-//    }
-//    // login
-//    if ([name isEqualToString:DIMCommand_Login]) {
-//        return CREATE_CPU(DIMLoginCommandProcessor);
-//    }
     // storage
     if ([name isEqualToString:DIMCommand_Storage]) {
         return CREATE_CPU(DIMStorageCommandProcessor);
-    } else if ([name isEqualToString:@"contacts"] || [name isEqualToString:@"private_key"]) {
+    } else if ([name isEqualToString:DIMCommand_Contacts] ||
+               [name isEqualToString:DIMCommand_PrivateKey]) {
         // TODO: shared the same processor with 'storage'?
         return CREATE_CPU(DIMStorageCommandProcessor);
     }
@@ -114,20 +92,6 @@
         // TODO: shared the same processor with 'search'?
         return CREATE_CPU(DIMSearchCommandProcessor);
     }
-//    // group commands
-//    if ([name isEqualToString:@"group"]) {
-//        return CREATE_CPU(DIMGroupCommandProcessor);
-//    } else if ([name isEqualToString:DIMGroupCommand_Invite]) {
-//        return CREATE_CPU(DIMInviteGroupCommandProcessor);
-//    } else if ([name isEqualToString:DIMGroupCommand_Expel]) {
-//        return CREATE_CPU(DIMExpelGroupCommandProcessor);
-//    } else if ([name isEqualToString:DIMGroupCommand_Quit]) {
-//        return CREATE_CPU(DIMQuitGroupCommandProcessor);
-//    } else if ([name isEqualToString:DIMGroupCommand_Query]) {
-//        return CREATE_CPU(DIMQueryGroupCommandProcessor);
-//    } else if ([name isEqualToString:DIMGroupCommand_Reset]) {
-//        return CREATE_CPU(DIMResetGroupCommandProcessor);
-//    }
     // others
     return [super createCommandProcessor:name type:type];
 }

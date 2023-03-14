@@ -14,8 +14,7 @@
 
 #import "DIMEntity+Extension.h"
 #import "DIMProfile+Extension.h"
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "Facebook+Register.h"
 #import "Facebook+Profile.h"
@@ -198,7 +197,7 @@
 
 -(NSError *)saveAndSubmit {
     
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
     id<MKMUser> user = facebook.currentUser;
     id<MKMID> ID = user.ID;
     
@@ -229,7 +228,7 @@
     [facebook saveDocument:visa];
     
     // submit to station
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    DIMSharedMessenger *messenger = [DIMGlobal messenger];
     [messenger postDocument:visa withMeta:user.meta];
     
     return nil;

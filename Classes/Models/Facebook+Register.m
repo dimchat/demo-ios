@@ -8,7 +8,7 @@
 
 #import "Client.h"
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "Facebook+Register.h"
 
@@ -27,7 +27,7 @@
     }
     
     // 1. check & save meta
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
     if ([facebook saveMeta:meta forID:ID]) {
         NSLog(@"meta saved: %@", meta);
     } else {
@@ -38,7 +38,9 @@
     // 2. check & save private key
     id<MKMVerifyKey> PK = meta.key;
     if ([PK isMatch:SK]) {
-        if ([facebook savePrivateKey:SK type:DIMPrivateKeyType_Meta user:ID]) {
+        if ([facebook savePrivateKey:SK
+                            withType:DIMPrivateKeyType_Meta
+                             forUser:ID]) {
             NSLog(@"private key saved: %@", SK);
         } else {
             NSAssert(false, @"save private key failed: %@", ID);
@@ -56,7 +58,8 @@
     [users addObject:ID];
     [users addObjectsFromArray:array];
     
-    return [self saveUsers:users];
+//    return [self saveUsers:users];
+    return NO;
 }
 
 - (BOOL)saveUserList:(NSArray<id<MKMUser>> *)users
@@ -70,7 +73,8 @@
             [list addObject:user.ID];
         }
     }
-    return [self saveUsers:list];
+//    return [self saveUsers:list];
+    return NO;
 }
 
 @end

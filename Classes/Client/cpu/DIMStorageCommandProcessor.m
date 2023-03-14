@@ -35,20 +35,20 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMStorageCommandProcessor.h"
 
 @implementation DIMStorageCommandProcessor
 
 - (NSArray<id<DKDContent>> *)saveContacts:(NSArray *)contacts forUser:(id<MKMUser>)user {
-    DIMFacebook *facebook = self.facebook;
+    DIMSharedFacebook *facebook = self.facebook;
     id<MKMID> ID;
     for (NSString *item in contacts) {
         ID = MKMIDParse(item);
         // request contact/group meta and save to local
         [facebook metaForID:ID];
-        [facebook user:user.ID addContact:ID];
+        [facebook addContact:ID user:user.ID];
     }
     // no need to respond this command
     return nil;

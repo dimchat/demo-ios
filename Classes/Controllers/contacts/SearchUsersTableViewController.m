@@ -9,8 +9,7 @@
 #import "UIStoryboardSegue+Extension.h"
 #import "UIViewController+Extension.h"
 
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 #import "DIMSearchCommand.h"
 
 #import "Client.h"
@@ -23,10 +22,13 @@ extern NSString * const kNotificationName_OnlineUsersUpdated;
 extern NSString * const kNotificationName_SearchUsersUpdated;
 
 static inline BOOL search(NSString *keywords) {
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    DIMSharedMessenger *messenger = [DIMGlobal messenger];
     id<DKDContent> content = [[DIMSearchCommand alloc] initWithKeywords:keywords];
     id<MKMID> bot = MKMIDParse(@"archivist@anywhere");
-    return [messenger sendContent:content receiver:bot];
+    return [messenger sendContent:content
+                           sender:nil
+                         receiver:bot
+                         priority:STDeparturePriorityNormal];
 }
 
 @interface SearchUsersTableViewController ()<UITableViewDelegate, UITableViewDataSource> {
@@ -152,7 +154,7 @@ static inline BOOL search(NSString *keywords) {
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
         [_users sortUsingDescriptors:@[sortDescriptor]];
         
-        DIMFacebook *facebook = [DIMFacebook sharedInstance];
+        DIMFacebook *facebook = [DIMGlobal facebook];
         NSDictionary *results = [notification.userInfo objectForKey:@"results"];
         id value;
         for (id key in results) {

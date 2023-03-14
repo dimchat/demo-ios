@@ -35,15 +35,14 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMEntity+Extension.h"
 
 @implementation DIMEntity (Name)
 
 - (NSString *)name {
-    DIMFacebook *facebook = (DIMFacebook *)[self dataSource];
-    return [facebook name:self.ID];
+    return DIMNameForID(self.ID);
 }
 
 @end
@@ -51,8 +50,7 @@
 @implementation DIMStation (Name)
 
 - (NSString *)name {
-    DIMFacebook *facebook = (DIMFacebook *)[self dataSource];
-    NSString *str = [facebook name:self.ID];
+    NSString *str = DIMNameForID(self.ID);
     return [@"[MTA] " stringByAppendingString:str];
 }
 
@@ -71,12 +69,12 @@
     id<MKMID> ID = MKMIDParse([dict objectForKey:@"ID"]);
     id<MKMMeta> meta = MKMMetaParse([dict objectForKey:@"meta"]);
     
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
     [facebook saveMeta:meta forID:ID];
     
     // save private key paired to meta.key
     id<MKMPrivateKey> SK = MKMPrivateKeyParse([dict objectForKey:@"privateKey"]);
-    [facebook savePrivateKey:SK type:DIMPrivateKeyType_Meta user:ID];
+    [facebook savePrivateKey:SK withType:DIMPrivateKeyType_Meta forUser:ID];
     
     DIMUser *user = (DIMUser *)DIMUserWithID(ID);
     
@@ -95,18 +93,18 @@
             [mDict setObject:ID forKey:@"ID"];
         }
         profile = MKMDocumentParse(profile);
-        [[DIMFacebook sharedInstance] saveDocument:profile];
+        [[DIMGlobal facebook] saveDocument:profile];
     }
     
     return user;
 }
 
 - (void)addContact:(id<MKMID>)contact {
-    [[DIMFacebook sharedInstance] user:self.ID addContact:contact];
+    [[DIMGlobal facebook] addContact:contact user:self.ID];
 }
 
 - (void)removeContact:(id<MKMID>)contact {
-    [[DIMFacebook sharedInstance] user:self.ID removeContact:contact];
+    [[DIMGlobal facebook] removeContact:contact user:self.ID];
 }
 
 @end
@@ -114,8 +112,7 @@
 @implementation DIMGroup (Extension)
 
 - (NSArray<id<MKMID>> *)assistants {
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
-    NSArray *list = [facebook assistantsOfGroup:self.ID];
+    NSArray *list = [DIMGlobal.facebook assistantsOfGroup:self.ID];
     return [list mutableCopy];
 }
 

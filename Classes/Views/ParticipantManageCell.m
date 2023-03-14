@@ -9,7 +9,7 @@
 #import "UIView+Extension.h"
 
 #import "DIMProfile+Extension.h"
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "ParticipantManageCell.h"
 

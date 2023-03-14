@@ -35,282 +35,277 @@
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import "DIMFileContentProcessor.h"
+#import "DIMCompatible.h"
+
 #import "DIMSearchCommand.h"
+#import "DIMStorageCommand.h"
 
 #import "DIMMessageDataSource.h"
 #import "DIMAmanuensis.h"
 
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 #import "DKDInstantMessage+Extension.h"
 
 #import "DIMKeyStore.h"
 #import "DIMSharedPacker.h"
 #import "DIMSharedProcessor.h"
-#import "DIMMessageTransmitter.h"
 
 #import "DIMSharedMessenger.h"
 
-@interface DIMSharedMessenger () {
-
-    id<DIMPacker> _packer;
-    id<DIMProcessor> _processor;
-    id<DIMTransmitter> _transmitter;
-
-    DIMStation *_server;
-    
-    // query tables
-    NSMutableDictionary<id<MKMID>, NSDate *> *_metaQueryTable;
-    NSMutableDictionary<id<MKMID>, NSDate *> *_docQueryTable;
-    NSMutableDictionary<id<MKMID>, NSDate *> *_groupQueryTable;
-}
-
-@end
-
 @implementation DIMSharedMessenger
 
-OKSingletonImplementations(DIMSharedMessenger, sharedInstance)
-
-- (instancetype)init {
-    if (self = [super init]) {
-        
-        _packer = nil;
-        _processor = nil;
-        _transmitter = nil;
-
-        // query tables
-        _metaQueryTable  = [[NSMutableDictionary alloc] init];
-        _docQueryTable   = [[NSMutableDictionary alloc] init];
-        _groupQueryTable = [[NSMutableDictionary alloc] init];
-    }
-    return self;
+- (id<MKMUser>)currentUser {
+    return [self.facebook currentUser];
 }
 
-- (id<DIMCipherKeyDelegate>)keyCache {
-    return [DIMKeyStore sharedInstance];
+- (id<MKMStation>)currentStation {
+    DIMClientSession *session = [self session];
+    return [session station];
 }
 
-- (id<MKMEntityDelegate>)barrack {
-    return [DIMFacebook sharedInstance];
-}
-
-- (DIMFacebook *)facebook {
-    return [DIMFacebook sharedInstance];
-}
-
-#pragma mark Message Packer
-
-- (id<DIMPacker>)packer {
-    if (!_packer) {
-        _packer = [self createPacker];
-    }
-    return _packer;
-}
-- (id<DIMPacker>)createPacker {
-    return [[DIMSharedPacker alloc] initWithFacebook:self.facebook messenger:self];
-}
-
-#pragma mark Message Processor
-
-- (id<DIMProcessor>)processor {
-    if (!_processor) {
-        _processor = [self createProcessor];
-    }
-    return _processor;
-}
-- (id<DIMProcessor>)createProcessor {
-    return [[DIMSharedProcessor alloc] initWithFacebook:self.facebook messenger:self];
-}
-
-#pragma mark Message Transmitter
-
-- (id<DIMTransmitter>)transmitter {
-    if (!_transmitter) {
-        _transmitter = [self createTransmitter];
-    }
-    return _transmitter;
-}
-- (id<DIMTransmitter>)createTransmitter {
-    return [[DIMMessageTransmitter alloc] initWithFacebook:self.facebook messenger:self];
-}
-
-- (DIMStation *)currentServer {
-    return _server;
-}
-
-- (void)setCurrentServer:(DIMStation *)server {
-    _server = server;
-}
-
-#define QUERY_INTERVAL  120  // query interval (2 minutes)
-
-- (BOOL)queryMetaForID:(id<MKMID>)ID {
-    if (MKMIDIsBroadcast(ID)) {
-        // broadcast ID has no meta
-        return NO;
-    }
-    
-    // check for duplicated querying
-    NSDate *now = [[NSDate alloc] init];
-    NSDate *lastTime = [_metaQueryTable objectForKey:ID];
-    if ([now timeIntervalSince1970] - [lastTime timeIntervalSince1970] < QUERY_INTERVAL) {
-        return NO;
-    }
-    [_metaQueryTable setObject:now forKey:ID];
-    NSLog(@"querying meta of %@ fron network...", ID);
-
-    id<DKDCommand> content = [[DIMMetaCommand alloc] initWithID:ID];
-    return [self sendCommand:content];
-}
-
+// Override
 - (BOOL)queryDocumentForID:(id<MKMID>)ID {
-    if (MKMIDIsBroadcast(ID)) {
-        // broadcast ID has no document
-        return NO;
+    BOOL ok = [super queryDocumentForID:ID];
+    if (ok) {
+        NSLog(@"querying document: %@", ID);
+    } else {
+        NSLog(@"document query not expired: %@", ID);
     }
-    
-    // check for duplicated querying
-    NSDate *now = [[NSDate alloc] init];
-    NSDate *lastTime = [_docQueryTable objectForKey:ID];
-    if ([now timeIntervalSince1970] - [lastTime timeIntervalSince1970] < QUERY_INTERVAL) {
-        return NO;
-    }
-    [_docQueryTable setObject:now forKey:ID];
-    NSLog(@"querying entity document of %@ fron network...", ID);
-
-    id<DKDCommand> content = [[DIMDocumentCommand alloc] initWithID:ID];
-    return [self sendCommand:content];
+    return ok;
 }
 
-- (BOOL)queryGroupForID:(id<MKMID>)group fromMember:(id<MKMID>)member {
-    return [self queryGroupForID:group fromMembers:@[member]];
+// Override
+- (void)suspendReliableMessage:(id<DKDReliableMessage>)rMsg
+                     errorInfo:(NSDictionary<NSString *,id> *)info {
+    [rMsg setObject:info forKey:@"error"];
+    DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
+    [mds suspendReliableMessage:rMsg];
 }
 
-- (BOOL)queryGroupForID:(id<MKMID>)group fromMembers:(NSArray<id<MKMID>> *)members {
-    // check for duplicated querying
-    NSDate *now = [[NSDate alloc] init];
-    NSDate *lastTime = [_groupQueryTable objectForKey:group];
-    if ([now timeIntervalSince1970] - [lastTime timeIntervalSince1970] < QUERY_INTERVAL) {
-        return NO;
-    }
-    [_groupQueryTable setObject:now forKey:group];
-    
-    id<DKDContent> content = [[DIMQueryGroupCommand alloc] initWithGroup:group];
-    BOOL checking = NO;
-    for (id<MKMID> item in members) {
-        if ([self sendContent:content receiver:item]) {
-            checking = YES;
-        }
-    }
-    return checking;
+// Override
+- (void)suspendInstantMessage:(id<DKDInstantMessage>)iMsg
+                    errorInfo:(NSDictionary<NSString *,id> *)info {
+    [iMsg setObject:info forKey:@"error"];
+    DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
+    [mds suspendInstantMessage:iMsg];
 }
 
-#pragma mark DIMTransmitter
-
-- (DIMTransmitterResults *)sendContent:(id<DKDContent>)content
-                                sender:(nullable id<MKMID>)from
-                              receiver:(id<MKMID>)to
-                              priority:(NSInteger)prior {
-    return [self.transmitter sendContent:content sender:from receiver:to priority:prior];
+// Override
+- (void)handshakeSuccess {
+    [super handshakeSuccess];
+    // query bot ID
+    NSArray<NSString *> *array = @[
+        @"archivist",
+        @"assistant",
+    ];
+    NSString *names = [array componentsJoinedByString:@" "];
+    id<DKDCommand> cmd = [[DIMAnsCommand alloc] initWithNames:names];
+    [self sendCommand:cmd priority:STDeparturePrioritySlower];
 }
 
-- (id<DKDReliableMessage>)sendInstantMessage:(id<DKDInstantMessage>)iMsg
-                                    priority:(NSInteger)prior {
-    return [self.transmitter sendInstantMessage:iMsg priority:prior];
-}
-
-- (BOOL)sendReliableMessage:(id<DKDReliableMessage>)rMsg priority:(NSInteger)prior {
-    return [self.transmitter sendReliableMessage:rMsg priority:prior];
-}
-
-#pragma mark FPU
-
-- (DIMFileContentProcessor *)fileContentProcessor {
-    DIMMessageProcessor *processor = [self processor];
-    id<DIMContentProcessor> fpu = [processor processorForType:DKDContentType_File];
-    NSAssert([fpu isKindOfClass:[DIMFileContentProcessor class]],
-             @"failed to get file content processor");
-    return (DIMFileContentProcessor *)fpu;
-}
-
-#pragma mark DKDInstantMessageDelegate
-
+// Override
 - (nullable NSData *)message:(id<DKDInstantMessage>)iMsg
             serializeContent:(id<DKDContent>)content
                      withKey:(id<MKMSymmetricKey>)password {
-    // check attachment for File/Image/Audio/Video message content
-    if ([content conformsToProtocol:@protocol(DKDFileContent)]) {
-        DIMFileContentProcessor *fpu = [self fileContentProcessor];
-        [fpu uploadFileContent:(id<DKDFileContent>)content
-                           key:password
-                       message:iMsg];
-    } else if ([content conformsToProtocol:@protocol(DKDCommand)]) {
-        content = [DIMInstantMessage fixCommand:(id<DKDCommand>)content];
+    if ([content conformsToProtocol:@protocol(DKDCommand)]) {
+        content = [DIMCompatible fixCommand:(id<DKDCommand>)content];
     }
+    //return MKMUTF8Encode(MKMJSONEncode(content));
     return [super message:iMsg serializeContent:content withKey:password];
 }
 
-#pragma mark DKDSecureMessageDelegate
-
+// Override
 - (nullable id<DKDContent>)message:(id<DKDSecureMessage>)sMsg
-              deserializeContent:(NSData *)data
-                         withKey:(id<MKMSymmetricKey>)password {
-    id<DKDContent> content = [super message:sMsg deserializeContent:data withKey:password];
-    NSAssert(content, @"failed to deserialize message content: %@", sMsg);
-    // check attachment for File/Image/Audio/Video message content
-    if ([content conformsToProtocol:@protocol(DKDFileContent)]) {
-        DIMFileContentProcessor *fpu = [self fileContentProcessor];
-        [fpu downloadFileContent:(id<DKDFileContent>)content
-                             key:password
-                         message:sMsg];
-    } else if ([content conformsToProtocol:@protocol(DKDCommand)]) {
-        content = [DIMInstantMessage fixCommand:(id<DKDCommand>)content];
+                deserializeContent:(NSData *)data
+                           withKey:(id<MKMSymmetricKey>)password {
+    id<DKDContent> content = [super message:sMsg
+                         deserializeContent:data
+                                    withKey:password];
+    if ([content conformsToProtocol:@protocol(DKDCommand)]) {
+        content = [DIMCompatible fixCommand:(id<DKDCommand>)content];
     }
     return content;
 }
 
-- (nullable NSData *)message:(id<DKDInstantMessage>)iMsg
-                serializeKey:(id<MKMSymmetricKey>)password {
-    id reused = [password objectForKey:@"reused"];
-    if (reused) {
-        id<MKMID> receiver = iMsg.receiver;
-        if (MKMIDIsGroup(receiver)) {
-            // reuse key for grouped message
-            return nil;
-        }
-        // remove before serialize key
-        [password removeObjectForKey:@"reused"];
-    }
-    NSData *data = [super message:iMsg serializeKey:password];
-    if (reused) {
-        // put it back
-        [password setObject:reused forKey:@"reused"];
-    }
-    return data;
-}
-
-- (nullable NSData *)message:(id<DKDInstantMessage>)iMsg
-                  encryptKey:(NSData *)data
-                 forReceiver:(id<MKMID>)receiver {
-    id<MKMEncryptKey> key = [self.facebook publicKeyForEncryption:receiver];
-    if (!key) {
-        // save this message in a queue waiting receiver's meta response
-        [self suspendMessage:iMsg];
-        //NSAssert(false, @"failed to get encrypt key for receiver: %@", receiver);
+// Override
+- (id<DKDReliableMessage>)sendInstantMessage:(id<DKDInstantMessage>)iMsg
+                                    priority:(NSInteger)prior {
+    // send message (secured + certified) to target station
+    id<DKDSecureMessage> sMsg = [self encryptMessage:iMsg];
+    if (!sMsg) {
+        // FIXME: public key not found?
         return nil;
     }
-    return [super message:iMsg encryptKey:data forReceiver:receiver];
+    DIMContent *content = (DIMContent *)[iMsg content];
+    id<DKDReliableMessage> rMsg = [self signMessage:sMsg];
+    if (!rMsg) {
+        NSAssert(false, @"failed to sign message: %@", sMsg);
+        content.state = DIMMessageState_Error;
+        content.error = @"Encryption failed.";
+        return nil;
+    }
+    BOOL ok = [self sendReliableMessage:rMsg priority:prior];
+    if (ok) {
+        content.state = DIMMessageState_Sending;
+    } else {
+        NSLog(@"cannot send message now, put in waiting queue: %@", iMsg);
+        content.state = DIMMessageState_Waiting;
+    }
+    DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
+    if (![mds saveInstantMessage:iMsg]) {
+        return nil;
+    }
+    return rMsg;
 }
 
-- (BOOL)saveMessage:(id<DKDInstantMessage>)iMsg {
-    DIMMessageDataSource *dataSource = [DIMMessageDataSource sharedInstance];
-    return [dataSource saveMessage:iMsg];
+@end
+
+@implementation DIMSharedMessenger (Send)
+
+- (BOOL)sendCommand:(id<DKDCommand>)content priority:(NSInteger)prior {
+    id<MKMStation> station = [self currentStation];
+    return [self sendContent:content receiver:station.ID priority:prior];
 }
 
-- (BOOL)suspendMessage:(id<DKDMessage>)msg {
-    DIMMessageDataSource *dataSource = [DIMMessageDataSource sharedInstance];
-    return [dataSource suspendMessage:msg];
+// private
+- (BOOL)sendContent:(id<DKDContent>)content
+           receiver:(id<MKMID>)receiver
+           priority:(NSUInteger)prior {
+    DIMClientSession *session = [self session];
+    if (![session isActive]) {
+        return NO;
+    }
+    OKPair<id<DKDInstantMessage>, id<DKDReliableMessage>> *result;
+    result = [self sendContent:content
+                        sender:nil
+                      receiver:receiver
+                      priority:prior];
+    return result.second != nil;
+}
+
+- (BOOL)broadcastContent:(id<DKDContent>)content {
+    id<MKMID> group = [content group];
+    if (!MKMIDIsBroadcast(group)) {
+        group = MKMEveryone();
+        [content setGroup:group];
+    }
+    return [self sendContent:content
+                    receiver:group
+                    priority:STDeparturePrioritySlower];
+}
+
+- (BOOL)broadcastVisa:(id<MKMVisa>)doc {
+    id<MKMUser> user = [self currentUser];
+    if (!user) {
+        NSAssert(false, @"login first");
+        return NO;
+    }
+    id<MKMID> ID = [doc ID];
+    if (![user.ID isEqual:ID]) {
+        NSAssert(false, @"visa document error: %@", doc);
+        return NO;
+    }
+    // pack and send user document to every contact
+    NSArray<id<MKMID>> *contacts = [user contacts];
+    if ([contacts count] == 0) {
+        NSLog(@"no contacts now");
+        return NO;
+    }
+    id<DKDCommand> cmd = [[DIMDocumentCommand alloc] initWithID:ID
+                                                       document:doc];
+    for (id<MKMID> item in contacts) {
+        [self sendContent:cmd receiver:item priority:STDeparturePrioritySlower];
+    }
+    return YES;
+}
+
+- (BOOL)postDocument:(id<MKMDocument>)doc withMeta:(id<MKMMeta>)meta {
+    id<MKMID> ID = [doc ID];
+    id<DKDCommand> cmd = [[DIMDocumentCommand alloc] initWithID:ID
+                                                           meta:meta
+                                                       document:doc];
+    return [self sendCommand:cmd priority:STDeparturePrioritySlower];
+}
+
+- (BOOL)postContacts:(NSArray<id<MKMID>> *)contacts {
+    id<MKMUser> user = [self.facebook currentUser];
+    NSAssert(user, @"current user empty");
+    // 1. generate password
+    id<MKMSymmetricKey> password = MKMSymmetricKeyGenerate(MKMAlgorithmAES);
+    // 2. encrypt contacts list
+    NSData *data = MKMUTF8Encode(MKMJSONEncode(MKMIDRevert(contacts)));
+    data = [password encrypt:data];
+    // 3. encrypt key
+    NSData *key = MKMUTF8Encode(MKMJSONEncode(password.dictionary));
+    key = [user encrypt:key];
+    // 4. pack 'storage' command
+    id<DKDStorageCommand> cmd;
+    cmd = [[DIMStorageCommand alloc] initWithTitle:DIMCommand_Contacts];
+    [cmd setID:user.ID];
+    [cmd setData:data];
+    [cmd setKey:key];
+    // 5. send to current station
+    return [self sendCommand:cmd priority:STDeparturePrioritySlower];
+}
+
+@end
+
+@implementation DIMSharedMessenger (Query)
+
+- (BOOL)queryContacts {
+    id<MKMUser> user = [self currentUser];
+    NSAssert(user, @"current user empty");
+    // pack 'contacts' command
+    id<DKDStorageCommand> cmd;
+    cmd = [[DIMStorageCommand alloc] initWithTitle:DIMCommand_Contacts];
+    [cmd setID:user.ID];
+    // send to current station
+    return [self sendCommand:cmd priority:STDeparturePrioritySlower];
+}
+
+- (BOOL)queryMuteList {
+    id<DKDCommand> cmd = [[DIMMuteCommand alloc] initWithList:nil];
+    return [self sendCommand:cmd priority:STDeparturePrioritySlower];
+}
+
+- (BOOL)queryBlockList {
+    id<DKDCommand> cmd = [[DIMBlockCommand alloc] initWithList:nil];
+    return [self sendCommand:cmd priority:STDeparturePrioritySlower];
+}
+
+- (BOOL)queryGroupForID:(id<MKMID>)group fromMember:(id<MKMID>)member {
+    NSAssert(false, @"implement me!");
+    return NO;
+}
+
+- (BOOL)queryGroupForID:(id<MKMID>)group fromMembers:(NSArray<id<MKMID>> *)members {
+    NSAssert(false, @"implement me!");
+    return NO;
+}
+
+@end
+
+@implementation DIMSharedMessenger (Factories)
+
++ (void)prepare {
+    
+    //
+    //  Register command parsers
+    //
+
+    // Report (online, offline)
+    DIMCommandRegisterClass(@"broadcast", DIMReportCommand);
+    DIMCommandRegisterClass(DIMCommand_Online, DIMReportCommand);
+    DIMCommandRegisterClass(DIMCommand_Offline, DIMReportCommand);
+    
+    // Storage (contacts, private_key)
+    DIMCommandRegisterClass(DIMCommand_Storage, DIMStorageCommand);
+    DIMCommandRegisterClass(DIMCommand_Contacts, DIMStorageCommand);
+    DIMCommandRegisterClass(DIMCommand_PrivateKey, DIMStorageCommand);
+    
+    // Search (users)
+    DIMCommandRegisterClass(DIMCommand_Search, DIMSearchCommand);
+    DIMCommandRegisterClass(DIMCommand_OnlineUsers, DIMSearchCommand);
 }
 
 @end

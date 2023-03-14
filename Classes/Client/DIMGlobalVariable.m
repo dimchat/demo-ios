@@ -1,13 +1,13 @@
 // license: https://mit-license.org
 //
-//  DIM-SDK : Decentralized Instant Messaging Software Development Kit
+//  SeChat : Secure/secret Chat Application
 //
-//                               Written in 2019 by Moky <albert.moky@gmail.com>
+//                               Written in 2023 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2019 Albert Moky
+// Copyright (c) 2023 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,23 +28,32 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DIMProfileTable.h
-//  DIMP
+//  DIMGlobalVariable.m
+//  Sechat
 //
-//  Created by Albert Moky on 2019/9/6.
-//  Copyright © 2019 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2023/3/13.
+//  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import "DIMStorage.h"
+#import "DIMGlobalVariable.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation DIMGlobalVariable
 
-@interface DIMProfileTable : DIMStorage
+OKSingletonImplementations(DIMGlobalVariable, sharedInstance)
 
-- (nullable id<MKMDocument>)documentForID:(id<MKMID>)ID type:(nullable NSString *)type;
-
-- (BOOL)saveDocument:(id<MKMDocument>)doc;
+- (instancetype)init {
+    if (self = [super init]) {
+        DIMSharedDatabase *db = [[DIMSharedDatabase alloc] init];
+        self.adb = db;
+        self.mdb = db;
+        self.sdb = db;
+        self.database = db;
+        self.facebook = [[DIMSharedFacebook alloc] initWithDatabase:db];
+        // load plugins
+        [DIMSharedFacebook prepare];
+        [DIMSharedMessenger prepare];
+    }
+    return self;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

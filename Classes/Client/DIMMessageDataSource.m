@@ -35,8 +35,7 @@
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMConstants.h"
 
@@ -79,7 +78,7 @@ OKSingletonImplementations(DIMMessageDataSource, sharedInstance)
     NSAssert(ID, @"ID not found: %@", notification.userInfo);
     ID = MKMIDParse(ID);
     
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMFacebook *facebook = [DIMGlobal facebook];
     if (MKMIDIsUser(ID)) {
         // check user
         if (![facebook publicKeyForEncryption:ID]) {
@@ -87,7 +86,7 @@ OKSingletonImplementations(DIMMessageDataSource, sharedInstance)
             return;
         }
     }
-    DIMSharedMessenger *messenger = (DIMSharedMessenger *)[DIMMessenger sharedInstance];
+    DIMSharedMessenger *messenger = [DIMGlobal messenger];
     
     // processing incoming messages
     NSMutableArray<id<DKDReliableMessage>> *incomings = [incomingMessages objectForKey:ID];
@@ -123,7 +122,7 @@ OKSingletonImplementations(DIMMessageDataSource, sharedInstance)
 
 #pragma mark - DIMMessengerDataSource
 
-- (BOOL)saveMessage:(id<DKDInstantMessage>)iMsg {
+- (BOOL)saveInstantMessage:(id<DKDInstantMessage>)iMsg {
     id<DKDContent> content = iMsg.content;
     // TODO: check message type
     //       only save normal message and group commands
@@ -193,24 +192,11 @@ OKSingletonImplementations(DIMMessageDataSource, sharedInstance)
     if ([content isKindOfClass:[DIMReceiptCommand class]]) {
         return [clerk saveReceipt:iMsg];
     } else {
-        return [clerk saveMessage:iMsg];
+        return [clerk saveInstantMessage:iMsg];
     }
 }
 
-- (BOOL)suspendMessage:(id<DKDMessage>)msg {
-    if ([msg conformsToProtocol:@protocol(DKDReliableMessage)]) {
-        // save this message in a queue waiting sender's meta response
-        id<DKDReliableMessage> rMsg = (id<DKDReliableMessage>)msg;
-        return [self suspendIncomingMessage:rMsg];
-    } else if ([msg conformsToProtocol:@protocol(DKDInstantMessage)]) {
-        // save this message in a queue waiting receiver's meta response
-        id<DKDInstantMessage> iMsg = (id<DKDInstantMessage>)msg;
-        return [self suspendOutgoingMessage:iMsg];
-    }
-    return NO;
-}
-
-- (BOOL)suspendIncomingMessage:(id<DKDReliableMessage>)rMsg {
+- (BOOL)suspendReliableMessage:(id<DKDReliableMessage>)rMsg {
     id<MKMID> waiting = [rMsg objectForKey:@"waiting"];
     if (waiting) {
         [rMsg removeObjectForKey:@"waiting"];
@@ -229,7 +215,7 @@ OKSingletonImplementations(DIMMessageDataSource, sharedInstance)
     return YES;
 }
 
-- (BOOL)suspendOutgoingMessage:(id<DKDInstantMessage>)iMsg {
+- (BOOL)suspendInstantMessage:(id<DKDInstantMessage>)iMsg {
     id<MKMID> waiting = [iMsg objectForKey:@"waiting"];
     if (waiting) {
         [iMsg removeObjectForKey:@"waiting"];

@@ -92,24 +92,36 @@
     NSDictionary *info = notification.userInfo;
     if ([name isEqual:kNotificationName_ServerStateChanged]) {
         NSString *title;
-//        NSString *state = [info objectForKey:@"state"];
-//        if ([state isEqualToString:kDIMServerState_Default]) {
-//            title = NSLocalizedString(@"Disconnected!", nil);
-//        } else if ([state isEqualToString:kDIMServerState_Connecting]) {
-//            title = NSLocalizedString(@"Connecting ...", nil);
-//        } else if ([state isEqualToString:kDIMServerState_Connected]) {
-//            title = NSLocalizedString(@"Connected!", nil);
-//        } else if ([state isEqualToString:kDIMServerState_Handshaking]) {
-//            title = NSLocalizedString(@"Authenticating ...", nil);
-//        } else if ([state isEqualToString:kDIMServerState_Running]) {
-//            title = NSLocalizedString(@"Chats", @"title");
-//        } else if ([state isEqualToString:kDIMServerState_Error]) {
-//            title = NSLocalizedString(@"Network error!", nil);
-//        } else if ([state isEqualToString:kDIMServerState_Stopped]) {
-//            title = NSLocalizedString(@"Connection stopped!", nil);
-//        } else {
-//            NSAssert(false, @"unexpected state: %@", state);
-//        }
+        NSNumber *state = [info objectForKey:@"stateIndex"];
+        switch ([state unsignedIntegerValue]) {
+            case DIMSessionStateOrderDefault:
+                title = NSLocalizedString(@"Disconnected!", nil);
+                break;
+                
+            case DIMSessionStateOrderConnecting:
+                title = NSLocalizedString(@"Connecting ...", nil);
+                break;
+                
+            case DIMSessionStateOrderConnected:
+                title = NSLocalizedString(@"Connected!", nil);
+                break;
+                
+            case DIMSessionStateOrderHandshaking:
+                title = NSLocalizedString(@"Authenticating ...", nil);
+                break;
+                
+            case DIMSessionStateOrderRunning:
+                title = NSLocalizedString(@"Chats", @"title");
+                break;
+                
+            case DIMSessionStateOrderError:
+                title = NSLocalizedString(@"Network error!", nil);
+                break;
+                
+            default:
+                title = NSLocalizedString(@"Connection stopped!", nil);
+                break;
+        }
         [NSObject performBlockOnMainThread:^{
             self.navigationItem.title = title;
         } waitUntilDone:NO];

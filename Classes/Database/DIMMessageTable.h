@@ -39,16 +39,136 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMMessageTable : DIMStorage
+@protocol DIMMessageTable <NSObject>
+
+/**
+ *  Get how many chat boxes
+ *
+ * @return conversations count
+ */
+- (NSInteger)numberOfConversations;
+
+/**
+ *  Get chat box info
+ *
+ * @param index - sorted index
+ * @return conversation ID
+ */
+- (id<MKMID>)conversationAtIndex:(NSInteger)index;
+
+/**
+ *  Remove one chat box
+ *
+ * @param index - chat box index
+ * @return true on row(s) affected
+ */
+- (BOOL)removeConversationAtIndex:(NSInteger)index;
+
+/**
+ *  Remove the chat box
+ *
+ * @param chatBox - conversation ID
+ * @return true on row(s) affected
+ */
+- (BOOL)removeConversation:(id<MKMID>)chatBox;
+
+#pragma mark messages
+
+/**
+ *  Get message count in this conversation for an entity
+ *
+ * @param chatBox - conversation ID
+ * @return total count
+ */
+- (NSInteger)numberOfMessagesInConversation:(id<MKMID>)chatBox;
+
+/**
+ *  Get unread message count in this conversation for an entity
+ *
+ * @param chatBox - conversation ID
+ * @return unread count
+ */
+- (NSInteger)numberOfUnreadMessagesInConversation:(id<MKMID>)chatBox;
+
+/**
+ *  Clear unread flag in this conversation for an entity
+ *
+ * @param chatBox - conversation ID
+ * @return true on row(s) affected
+ */
+- (BOOL)clearUnreadMessagesInConversation:(id<MKMID>)chatBox;
+
+/**
+ *  Get last message of this conversation
+ *
+ * @param chatBox - conversation ID
+ * @return instant message
+ */
+- (id<DKDInstantMessage>)lastMessageInConversation:(id<MKMID>)chatBox;
+
+/**
+ *  Get last received message from all conversations
+ *
+ * @param user - current user ID
+ * @return instant message
+ */
+- (id<DKDInstantMessage>)lastReceivedMessageForUser:(id<MKMID>)user;
+
+/**
+ *  Get message at index of this conversation
+ *
+ * @param index - start from 0, latest first
+ * @param chatBox - conversation ID
+ * @return instant message
+ */
+- (id<DKDInstantMessage>)conversation:(id<MKMID>)chatBox messageAtIndex:(NSInteger)index;
+
+/**
+ *  Save the new message to local storage
+ *
+ * @param iMsg - instant message
+ * @param chatBox - conversation ID
+ * @return true on success
+ */
+- (BOOL)conversation:(id<MKMID>)chatBox insertMessage:(id<DKDInstantMessage>)iMsg;
+
+/**
+ *  Delete the message
+ *
+ * @param iMsg - instant message
+ * @param chatBox - conversation ID
+ * @return true on row(s) affected
+ */
+- (BOOL)conversation:(id<MKMID>)chatBox removeMessage:(id<DKDInstantMessage>)iMsg;
+
+/**
+ *  Try to withdraw the message, maybe won't success
+ *
+ * @param iMsg - instant message
+ * @param chatBox - conversation ID
+ * @return true on success
+ */
+- (BOOL)conversation:(id<MKMID>)chatBox withdrawMessage:(id<DKDInstantMessage>)iMsg;
+
+/**
+ *  Update message state with receipt
+ *
+ * @param iMsg - message with receipt content
+ * @param chatBox - conversation ID
+ * @return true while target message found
+ */
+- (BOOL)conversation:(id<MKMID>)chatBox saveReceipt:(id<DKDInstantMessage>)iMsg;
+
+@end
+
+@interface DIMMessageTable : DIMStorage <DIMMessageTable>
 
 - (NSArray<id<MKMID>> *)allConversations;
-- (BOOL)removeConversation:(id<MKMID>)ID;
-
-#pragma mark -
 
 - (NSArray<id<DKDInstantMessage>> *)messagesInConversation:(id<MKMID>)ID;
-- (BOOL)addMessage:(id<DKDInstantMessage>)message toConversation:(id<MKMID>)ID;
+
 - (BOOL)clearConversation:(id<MKMID>)ID;
+
 - (BOOL)markConversationMessageRead:(id<MKMID>)chatBox;
 
 @end

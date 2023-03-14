@@ -13,9 +13,9 @@
 #import "UIView+Extension.h"
 #import "UIStoryboard+Extension.h"
 
-#import "DIMCommand+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "DIMInstantMessage+Extension.h"
+#import "DIMMessageBuilder.h"
 
 #import "WebViewController.h"
 #import "MessageDatabase.h"

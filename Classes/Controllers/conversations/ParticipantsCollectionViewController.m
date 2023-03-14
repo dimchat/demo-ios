@@ -9,7 +9,7 @@
 #import "UIImageView+Extension.h"
 #import "UIStoryboardSegue+Extension.h"
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "ProfileTableViewController.h"
 #import "ChatManageTableViewController.h"

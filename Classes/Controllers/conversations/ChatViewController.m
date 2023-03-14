@@ -17,9 +17,9 @@
 #import "UIViewController+Extension.h"
 
 #import "DKDInstantMessage+Extension.h"
-#import "DIMMessenger+Extension.h"
-
+#import "DIMGlobalVariable.h"
 #import "DIMConstants.h"
+
 #import "WebViewController.h"
 #import "ImagePickerController.h"
 #import "MessageDatabase.h"
@@ -271,8 +271,11 @@
             id<MKMVisa> visa = user.visa;
             id<DKDContent> content = [[DIMDocumentCommand alloc] initWithID:ID document:visa];
             id<MKMID> receiverID = _conversation.ID;
-            DIMMessenger *messenger = [DIMMessenger sharedInstance];
-            [messenger sendContent:content receiver:receiverID];
+            DIMSharedMessenger *messenger = [DIMGlobal messenger];
+            [messenger sendContent:content
+                            sender:ID
+                          receiver:receiverID
+                          priority:STDeparturePriorityNormal];
             
             NSLog(@"Send profile message to %@", receiverID);
         }
@@ -553,8 +556,11 @@
     }
     
     // pack message and send out
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    if (![messenger sendContent:content receiver:receiver]) {
+    DIMSharedMessenger *messenger = [DIMGlobal messenger];
+    if (![messenger sendContent:content
+                         sender:nil
+                       receiver:receiver
+                       priority:STDeparturePriorityNormal]) {
         NSLog(@"send content failed: %@ -> %@", content, receiver);
         NSString *message = NSLocalizedString(@"Failed to send this message.", nil);
         NSString *title = NSLocalizedString(@"Error!", nil);
@@ -620,8 +626,11 @@
     }
     
     // 2. pack message and send out
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
-    if (![messenger sendContent:content receiver:receiver]) {
+    DIMSharedMessenger *messenger = [DIMGlobal messenger];
+    if (![messenger sendContent:content
+                         sender:nil
+                       receiver:receiver
+                       priority:STDeparturePriorityNormal]) {
         NSLog(@"send content failed: %@ -> %@", content, receiver);
         NSString *message = NSLocalizedString(@"Failed to send this file.", nil);
         NSString *title = NSLocalizedString(@"Error!", nil);
@@ -966,11 +975,14 @@
         content.group = self.conversation.ID;
     }
     
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    DIMSharedMessenger *messenger = [DIMGlobal messenger];
     id<MKMID> receiver = _conversation.ID;
     
     // 2. pack message and send out
-    if (![messenger sendContent:content receiver:receiver]) {
+    if (![messenger sendContent:content
+                         sender:nil
+                       receiver:receiver
+                       priority:STDeparturePriorityNormal]) {
         NSLog(@"send content failed: %@ -> %@", content, receiver);
         NSString *message = NSLocalizedString(@"Failed to send this audio.", nil);
         NSString *title = NSLocalizedString(@"Error!", nil);

@@ -2,12 +2,12 @@
 //
 //  SeChat : Secure/secret Chat Application
 //
-//                               Written in 2021 by Moky <albert.moky@gmail.com>
+//                               Written in 2023 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2021 Albert Moky
+// Copyright (c) 2023 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,27 +28,45 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DIMMessageTransmitter.h
-//  DIMP
+//  DIMGlobalVariable.h
+//  Sechat
 //
-//  Created by Albert Moky on 2021/10/14.
-//  Copyright © 2021 DIM Group. All rights reserved.
+//  Created by Albert Moky on 2023/3/13.
+//  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <DIMP/DIMP.h>
-
-#import "DIMMessenger+Extension.h"
+#import "DIMSharedDatabase.h"
+#import "DIMSharedFacebook.h"
+#import "DIMSharedMessenger.h"
+#import "DIMEmitter.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMMessageTransmitter : NSObject <DIMTransmitter>
+#define DIMGlobal                [DIMGlobalVariable sharedInstance]
 
-@property (readonly, weak, nonatomic) __kindof DIMCommonMessenger *messenger;
-@property (readonly, weak, nonatomic) __kindof DIMCommonFacebook *facebook;
+#define DIMNameForID(ID)         [[DIMGlobal facebook] nameForID:(ID)]
+#define DIMMetaForID(ID)         [[DIMGlobal facebook] metaForID:(ID)]
+#define DIMDocumentForID(ID, DT) [[DIMGlobal facebook] documentForID:(ID) type:(DT)]
+#define DIMVisaForID(ID)         DIMDocumentForID(ID, MKMDocument_Visa)
 
-- (instancetype)initWithFacebook:(DIMFacebook *)barrack
-                       messenger:(DIMMessenger *)transceiver
-NS_DESIGNATED_INITIALIZER;
+#define DIMUserWithID(ID)        [[DIMGlobal facebook] userWithID:(ID)]
+#define DIMGroupWithID(ID)       [[DIMGlobal facebook] groupWithID:(ID)]
+
+@interface DIMGlobalVariable : NSObject
+
+@property(nonatomic, strong) id<DIMAccountDBI> adb;
+@property(nonatomic, strong) id<DIMMessageDBI> mdb;
+@property(nonatomic, strong) id<DIMSessionDBI> sdb;
+@property(nonatomic, strong) DIMSharedDatabase *database;
+
+@property(nonatomic, strong) DIMSharedFacebook *facebook;
+@property(nonatomic, strong) DIMSharedMessenger *messenger;
+
+@property(nonatomic, strong) DIMTerminal *terminal;
+
+@property(nonatomic, strong) DIMEmitter *emitter;
+
++ (instancetype)sharedInstance;
 
 @end
 

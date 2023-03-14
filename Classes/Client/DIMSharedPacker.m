@@ -36,89 +36,33 @@
 //
 
 #import "DKDInstantMessage+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMMessageDataSource.h"
+#import "DIMGlobalVariable.h"
+#import "DIMCompatible.h"
 
 #import "DIMSharedPacker.h"
 
 @implementation DIMSharedPacker
 
-static inline NSString *key_digest(id<MKMSymmetricKey> key) {
-    NSData *data = key.data;
-    if ([data length] < 6) {
-        // plain key?
-        return nil;
-    }
-    // get digest for the last 6 bytes of key.data
-    NSRange range = NSMakeRange([data length] - 6, 6);
-    NSData *part = [data subdataWithRange:range];
-    NSData *digest = MKMSHA256Digest(part);
-    NSString *base64 = MKMBase64Encode(digest);
-    NSCharacterSet *cset = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-    base64 = [base64 stringByTrimmingCharactersInSet:cset];
-    NSUInteger pos = base64.length - 8;
-    return [base64 substringFromIndex:pos];
-}
-
-- (void)attachKeyDigest:(id<DKDReliableMessage>)rMsg {
-    if (rMsg.delegate == nil) {
-        rMsg.delegate = self.messenger;
-    }
-    if ([rMsg encryptedKey]) {
-        // 'key' exists
-        return;
-    }
-    NSDictionary *keys = [rMsg encryptedKeys];
-    if (!keys) {
-        keys = @{};
-    }
-    if ([keys objectForKey:@"digest"]) {
-        // key digest already exists
-        return;
-    }
-    // get key with direction
-    id<MKMSymmetricKey> key;
-    id<MKMID> sender = rMsg.envelope.sender;
-    id<MKMID> group = rMsg.envelope.group;
-    if (group) {
-        key = [self.messenger cipherKeyFrom:sender to:group generate:NO];
-    } else {
-        id<MKMID> receiver = rMsg.envelope.receiver;
-        key = [self.messenger cipherKeyFrom:sender to:receiver generate:NO];
-    }
-    NSString *digest = key_digest(key);
-    if (!digest) {
-        // broadcast message has no key
-        return;
-    }
-    NSMutableDictionary *mDict;
-    if ([keys isKindOfClass:[NSMutableDictionary class]]) {
-        mDict = (NSMutableDictionary *)keys;
-    } else {
-        mDict = [[NSMutableDictionary alloc] initWithDictionary:keys];
-    }
-    [mDict setObject:digest forKey:@"digest"];
-    [rMsg setObject:mDict forKey:@"keys"];
-}
-
-#pragma mark Serialization
-
+// Override
 - (nullable NSData *)serializeMessage:(id<DKDReliableMessage>)rMsg {
-    [DIMInstantMessage fixMetaAttachment:rMsg];
-    [self attachKeyDigest:rMsg];
+    [DIMCompatible fixMetaAttachment:rMsg];
     return [super serializeMessage:rMsg];
 }
 
+// Override
 - (nullable id<DKDReliableMessage>)deserializeMessage:(NSData *)data {
     if ([data length] < 2) {
         return nil;
     }
     id<DKDReliableMessage> rMsg = [super deserializeMessage:data];
     if (rMsg) {
-        [DIMInstantMessage fixMetaAttachment:rMsg];
+        [DIMCompatible fixMetaAttachment:rMsg];
     }
     return rMsg;
 }
 
+// Override
 - (id<DKDSecureMessage>)verifyMessage:(id<DKDReliableMessage>)rMsg {
     id<MKMID> sender = rMsg.sender;
     // [Meta Protocol]
@@ -132,7 +76,8 @@ static inline NSString *key_digest(id<MKMSymmetricKey> key) {
     if (!meta) {
         // NOTICE: the application will query meta automatically
         // save this message in a queue waiting sender's meta response
-        [self.messenger suspendMessage:rMsg];
+        DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
+        [mds suspendReliableMessage:rMsg];
         return nil;
     }
     
@@ -140,38 +85,31 @@ static inline NSString *key_digest(id<MKMSymmetricKey> key) {
     return [super verifyMessage:rMsg];
 }
 
-#pragma mark Reuse message key
-
-- (BOOL)isWaiting:(id<MKMID>)ID {
-    if (MKMIDIsGroup(ID)) {
-        // checking group meta
-        return [self.facebook metaForID:ID] == nil;
-    } else {
-        // checking visa key
-        return [self.facebook publicKeyForEncryption:ID] == nil;
-    }
-}
-
+// Override
 - (nullable id<DKDSecureMessage>)encryptMessage:(id<DKDInstantMessage>)iMsg {
-    id<MKMID> receiver = iMsg.receiver;
-    id<MKMID> group = iMsg.group;
-    if (!MKMIDIsBroadcast(receiver) && !MKMIDIsBroadcast(group)) {
-        // this message is not a broadcast message
-        if ([self isWaiting:receiver] || (group && [self isWaiting:group])) {
-            // NOTICE: the application will query visa automatically
-            // save this message in a queue waiting sender's visa response
-            [self.messenger suspendMessage:iMsg];
+    id<MKMSymmetricKey> key;
+    // make sure visa.key exists before encrypting message
+    id<DKDContent> content = [iMsg content];
+    if ([content conformsToProtocol:@protocol(DKDFileContent)]) {
+        if ([content objectForKey:@"data"] != nil/* &&
+            [content objectForKey:@"URL"] == nil*/) {
+            id<MKMID> sender = [iMsg sender];
+            id<MKMID> receiver = [iMsg receiver];
+            key = [self.messenger cipherKeyFrom:sender to:receiver generate:YES];
+            NSAssert(key, @"failed to get msg key: %@ -> %@", sender, receiver);
+            // call emitter to encrypt & upload file data before send out
+            DIMEmitter *emitter = [DIMGlobal emitter];
+            [emitter sendFileContentMessage:iMsg password:key];
             return nil;
         }
     }
     
-    // make sure visa.key exists before encrypting message
     id<DKDSecureMessage> sMsg = [super encryptMessage:iMsg];
-    
+    id<MKMID> receiver = [iMsg receiver];
     if (MKMIDIsGroup(receiver)) {
         // reuse group message keys
         id<MKMID> sender = iMsg.sender;
-        id<MKMSymmetricKey> key = [self.messenger cipherKeyFrom:sender to:receiver generate:NO];
+        key = [self.messenger cipherKeyFrom:sender to:receiver generate:NO];
         [key setObject:@(YES) forKey:@"reused"];
     }
     // TODO: reuse personal message key?
@@ -180,24 +118,19 @@ static inline NSString *key_digest(id<MKMSymmetricKey> key) {
 }
 
 - (nullable id<DKDInstantMessage>)decryptMessage:(id<DKDSecureMessage>)sMsg {
-    id<DKDInstantMessage> iMsg = nil;
-    @try {
-        iMsg = [super decryptMessage:sMsg];
-    } @catch (NSException *exception) {
-        // check exception thrown by DKD: chat.dim.dkd.EncryptedMessage.decrypt()
-        if ([exception.reason isEqualToString:@"failed to decrypt key in msg"]) {
-            // visa.key not updated?
-            id<MKMUser> user = [self.facebook currentUser];
-            id<MKMVisa> visa = user.visa;
-            NSAssert([visa isValid], @"user visa not found: %@", user);
-            id<DKDContent> content = [[DIMDocumentCommand alloc] initWithID:user.ID document:visa];
-            [self.messenger sendContent:content sender:user.ID receiver:sMsg.sender priority:1];
-        } else {
-            // FIXME: message error?
-            @throw exception;
+    id<DKDInstantMessage> iMsg = [super decryptMessage:sMsg];
+    id<DKDContent> content = [iMsg content];
+    if ([content conformsToProtocol:@protocol(DKDFileContent)]) {
+        id<MKMSymmetricKey> key;
+        if ([content objectForKey:@"data"] == nil &&
+            [content objectForKey:@"URL"] != nil) {
+            id<MKMID> sender = [iMsg sender];
+            id<MKMID> receiver = [iMsg receiver];
+            key = [self.messenger cipherKeyFrom:sender to:receiver generate:NO];
+            NSAssert(key, @"failed to get password: %@ -> %@", sender, receiver);
+            // keep password to decrypt data after downloaded
+            [(id<DKDFileContent>)content setPassword:key];
         }
-    } @finally {
-        //
     }
     return iMsg;
 }

@@ -12,7 +12,7 @@
 
 #import "DIMEntity+Extension.h"
 #import "DIMProfile+Extension.h"
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
@@ -273,14 +273,14 @@ static inline BOOL check_username(NSString *username) {
                 withTitle:NSLocalizedString(@"Group Member Error!", nil)];
         return ;
     }
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
     
     NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:_selectedList.count];
     id<MKMID> ID;
     NSString *name;
     NSArray *list = [_selectedList copy];
     for (ID in list) {
-        name = [facebook name:ID];
+        name = [facebook nameForID:ID];
         [mArray addObject:name];
     }
     NSString *message = [mArray componentsJoinedByString:@"\n"];

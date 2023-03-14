@@ -8,8 +8,7 @@
 
 #import "UIColor+Extension.h"
 
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 #import "DIMConstants.h"
 
 #import "Client.h"
@@ -39,7 +38,8 @@
     // Override point for customization after application launch.
     
     // load plugins
-    [DIMRegister prepare];
+    [DIMGlobalVariable sharedInstance];
+//    [DIMRegister prepare];
 //    [DIMFacebook loadPlugins];
 //    [DIMMessageProcessor loadPlugins];
     
@@ -74,7 +74,7 @@
         nc.modalPresentationStyle = UIModalPresentationFullScreen;
         [self.tabbarController presentViewController:nc animated:NO completion:nil];
     } else {
-        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        DIMSharedMessenger *messenger = [DIMGlobal messenger];
         [messenger queryMuteList];
     }
     
@@ -168,7 +168,7 @@
 
 -(void)addDefaultUser:(NSString *)address{
     
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMFacebook *facebook = [DIMGlobal facebook];
     id<MKMID> ID = MKMIDParse(address);
     
     NSString *metaPath = [NSString stringWithFormat:@"%@/meta", address];

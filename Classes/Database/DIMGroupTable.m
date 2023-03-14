@@ -37,16 +37,29 @@
 
 #import <DIMSDK/DIMSDK.h>
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMConstants.h"
 #import "DIMGroupTable.h"
 
-typedef NSMutableDictionary<id<MKMID>, NSArray *> CacheTableM;
+static inline NSMutableArray<id<MKMID>> *convert_id_list(NSArray *array) {
+    NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:array.count];
+    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        id<MKMID> ID = MKMIDParse(obj);
+        if (ID) {
+            [mArray addObject:ID];
+        }
+    }];
+    return mArray;
+}
+static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
+    return MKMIDRevert(array);
+}
 
 @interface DIMGroupTable () {
     
-    CacheTableM *_caches;
+    // gid => List<mid>
+    NSMutableDictionary<id<MKMID>, NSMutableArray<id<MKMID>> *> *_caches;
 }
 
 @end
@@ -55,7 +68,7 @@ typedef NSMutableDictionary<id<MKMID>, NSArray *> CacheTableM;
 
 - (instancetype)init {
     if (self = [super init]) {
-        _caches = [[CacheTableM alloc] init];
+        _caches = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -73,27 +86,43 @@ typedef NSMutableDictionary<id<MKMID>, NSArray *> CacheTableM;
     return [dir stringByAppendingPathComponent:@"members.plist"];
 }
 
-- (nullable NSArray<id<MKMID>> *)_loadMembersOfGroup:(id<MKMID>)group {
+- (NSMutableArray<id<MKMID>> *)_loadMembers:(id<MKMID>)group {
+    NSMutableArray<id<MKMID>> *members = [_caches objectForKey:group];
+    if (!members) {
+        NSString *path = [self _filePathWithID:group];
+        NSArray *array = [self arrayWithContentsOfFile:path];
+        members = convert_id_list(array);
+        NSLog(@"loaded %lu member(s) from %@", members.count, path);
+        // cache it
+        [_caches setObject:members forKey:group];
+    }
+    return members;
+}
+
+- (BOOL)_saveMembers:(NSMutableArray *)members group:(id<MKMID>)group {
+    // update cache
+    [_caches setObject:members forKey:group];
+    
     NSString *path = [self _filePathWithID:group];
-    NSArray *array = [self arrayWithContentsOfFile:path];
-    if (!array) {
-        NSLog(@"members not found: %@", path);
-        return nil;
+    NSLog(@"saving %lu member(s) into: %@", members.count, path);
+    BOOL result = [self array:revert_id_list(members) writeToFile:path];
+    if (result) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:kNotificationName_GroupMembersUpdated
+                          object:self
+                        userInfo:@{@"ID":group}];
     }
-    NSLog(@"members from %@", path);
-    NSMutableArray<id<MKMID>> *members;
-    id<MKMID> ID;
-    members = [[NSMutableArray alloc] initWithCapacity:array.count];
-    for (NSString *item in array) {
-        ID = MKMIDParse(item);
-        if (!ID) {
-            NSAssert(false, @"members ID invalid: %@", item);
-            continue;
-        }
-        [members addObject:ID];
-    }
+    return result;
+}
+
+#pragma mark Group DBI
+
+// Override
+- (NSArray<id<MKMID>> *)membersOfGroup:(id<MKMID>)group {
+    NSMutableArray<id<MKMID>> *members = [self _loadMembers:group];
     // ensure that founder is at the front
     if (members.count > 1) {
+        id<MKMID> ID;
         id<MKMMeta> gMeta = DIMMetaForID(group);
         id<MKMMeta> uMeta;
         id<MKMVerifyKey> PK;
@@ -114,35 +143,65 @@ typedef NSMutableDictionary<id<MKMID>, NSArray *> CacheTableM;
     return members;
 }
 
-- (nullable NSArray<id<MKMID>> *)membersOfGroup:(id<MKMID>)group {
-    NSArray<id<MKMID>> *members = [_caches objectForKey:group];
-    if (!members) {
-        members = [self _loadMembersOfGroup:group];
-        if (members) {
-            // cache it
-            [_caches setObject:members forKey:group];
-        }
-    }
-    return members;
-}
-
+// Override
 - (BOOL)saveMembers:(NSArray *)members group:(id<MKMID>)group {
-    NSAssert(members.count > 0, @"group members cannot be empty");
-    // update cache
-    [_caches setObject:members forKey:group];
-    
-    NSString *path = [self _filePathWithID:group];
-    NSLog(@"saving members into: %@", path);
-    BOOL result = [self array:members writeToFile:path];
-    return result;
+    NSMutableArray *mArray;
+    if ([members isKindOfClass:[NSMutableArray class]]) {
+        mArray = (NSMutableArray *)members;
+    } else {
+        mArray = [members mutableCopy];
+    }
+    return [self _saveMembers:mArray group:group];
 }
 
+// Override
 - (nullable id<MKMID>)founderOfGroup:(id<MKMID>)group {
     return nil;
 }
 
+// Override
 - (nullable id<MKMID>)ownerOfGroup:(id<MKMID>)group {
     return nil;
+}
+
+// Override
+- (NSArray<id<MKMID>> *)assistantsOfGroup:(id<MKMID>)group {
+    return nil;
+}
+
+// Override
+- (BOOL)saveAssistants:(NSArray<id<MKMID>> *)bots group:(id<MKMID>)gid {
+    return NO;
+}
+
+#pragma mark -
+
+- (BOOL)addMember:(id<MKMID>)member group:(id<MKMID>)group {
+    NSMutableArray<id<MKMID>> *allMembers = [self _loadMembers:group];
+    NSInteger pos = [allMembers indexOfObject:member];
+    if (pos != NSNotFound) {
+        // already exists
+        return NO;
+    }
+    [allMembers addObject:member];
+    return [self _saveMembers:allMembers group:group];
+}
+
+- (BOOL)removeMember:(id<MKMID>)member group:(id<MKMID>)group {
+    NSMutableArray<id<MKMID>> *allMembers = [self _loadMembers:group];
+    NSInteger pos = [allMembers indexOfObject:member];
+    if (pos == NSNotFound) {
+        // not exists
+        return NO;
+    }
+    [allMembers removeObject:member];
+    return [self _saveMembers:allMembers group:group];
+}
+
+- (BOOL)removeGroup:(id<MKMID>)group {
+    NSString *path = [self _filePathWithID:group];
+    NSLog(@"removing group: %@", group);
+    return [self removeItemAtPath:path];
 }
 
 @end

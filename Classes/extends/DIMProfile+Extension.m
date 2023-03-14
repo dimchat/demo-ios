@@ -9,7 +9,7 @@
 #import "UIImage+Extension.h"
 #import "UIColor+Extension.h"
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
@@ -26,7 +26,7 @@
     NSString *avatar = self.avatar;
     if (avatar) {
         if ([avatar containsString:@"://"]) {
-            DIMFacebook *facebook = [DIMFacebook sharedInstance];
+            DIMSharedFacebook *facebook = [DIMGlobal facebook];
             image = [facebook loadAvatarWithURL:avatar forID:self.ID];
         } else {
             image = [UIImage imageNamed:avatar];

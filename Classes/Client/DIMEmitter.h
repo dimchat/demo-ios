@@ -1,13 +1,13 @@
 // license: https://mit-license.org
 //
-//  DIM-SDK : Decentralized Instant Messaging Software Development Kit
+//  SeChat : Secure/secret Chat Application
 //
-//                               Written in 2020 by Moky <albert.moky@gmail.com>
+//                               Written in 2023 by Moky <albert.moky@gmail.com>
 //
 // =============================================================================
 // The MIT License (MIT)
 //
-// Copyright (c) 2020 Albert Moky
+// Copyright (c) 2023 Albert Moky
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,26 +28,29 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DIMFileContentProcessor.h
-//  DIMSDK
+//  DIMEmitter.h
+//  Sechat
 //
-//  Created by Albert Moky on 2020/12/11.
-//  Copyright © 2020 Albert Moky. All rights reserved.
+//  Created by Albert Moky on 2023/3/13.
+//  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import <DIMSDK/DIMSDK.h>
+#import <DIMP/DIMP.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMFileContentProcessor : DIMContentProcessor
+@interface DIMEmitter : FSMRunner
 
-- (BOOL)uploadFileContent:(id<DKDFileContent>)content
-                      key:(id<MKMSymmetricKey>)pwd
-                  message:(id<DKDInstantMessage>)iMsg;
+- (void)sendText:(NSString *)text receiver:(id<MKMID>)to;
 
-- (BOOL)downloadFileContent:(id<DKDFileContent>)content
-                        key:(id<MKMSymmetricKey>)pwd
-                    message:(id<DKDSecureMessage>)sMsg;
+- (void)sendImage:(NSData *)jpeg thumbnail:(NSData *)small receiver:(id<MKMID>)to;
+
+- (void)sendVoice:(NSData *)mp4 duration:(NSTimeInterval)ti receiver:(id<MKMID>)to;
+
+- (void)sendFileContentMessage:(id<DKDInstantMessage>)iMsg
+                      password:(id<MKMSymmetricKey>)key;
+
+- (DIMEmitter *)start;
 
 @end
 

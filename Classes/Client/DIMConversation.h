@@ -53,7 +53,6 @@ typedef UInt8 DIMConversationType;
 @property (readonly, strong, nonatomic) id<MKMID> ID;
 @property (readonly, strong, nonatomic) NSString *name;
 @property (readonly, strong, nonatomic) NSString *title;
-@property (readonly, strong, nonatomic, nullable) id<MKMDocument> document;
 
 @property (weak, nonatomic) id<DIMConversationDataSource> dataSource;
 @property (weak, nonatomic) id<DIMConversationDelegate> delegate;
@@ -63,12 +62,20 @@ NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - Read
 
+- (NSDate *)getLastTime;
+
+- (id<DKDInstantMessage>)lastMessage;
+
+- (id<DKDInstantMessage>)lastVisibleMessage;
+
 /**
  *  Get message count
  *
  * @return total count
  */
 - (NSInteger)numberOfMessage;
+
+- (NSInteger)numberOfUnreadMessages;
 
 /**
  *  Get message at index
@@ -100,6 +107,8 @@ NS_DESIGNATED_INITIALIZER;
  * @param iMsg - instant message
  */
 - (BOOL)withdrawMessage:(id<DKDInstantMessage>)iMsg;
+
+- (BOOL)saveReceipt:(id<DKDInstantMessage>)iMsg;
 
 @end
 

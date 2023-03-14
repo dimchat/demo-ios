@@ -39,9 +39,59 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMSharedFacebook : DIMCommonFacebook
+@interface DIMSharedFacebook : DIMClientFacebook
 
-+ (instancetype)sharedInstance;
+@end
+
+@interface DIMSharedFacebook (User)
+
+/**
+ *  Get avatar for user
+ *
+ * @param user - user ID
+ * @return cache path & remote URL
+ */
+- (OKPair<NSString *, NSString *> *)avatarForUser:(id<MKMID>)user;
+
+- (BOOL)savePrivateKey:(id<MKMPrivateKey>)SK withType:(NSString *)type forUser:(id<MKMID>)user;
+
+- (BOOL)addUser:(id<MKMID>)user;
+
+- (BOOL)removeUser:(id<MKMID>)user;
+
+- (BOOL)saveContacts:(NSArray<id<MKMID>> *)contacts user:(id<MKMID>)user;
+
+- (BOOL)addContact:(id<MKMID>)contact user:(id<MKMID>)user;
+
+- (BOOL)removeContact:(id<MKMID>)contact user:(id<MKMID>)user;
+
+@end
+
+@interface DIMSharedFacebook (Group)
+
+- (BOOL)addMember:(id<MKMID>)member group:(id<MKMID>)group;
+
+- (BOOL)removeMember:(id<MKMID>)member group:(id<MKMID>)group;
+
+- (BOOL)containsMember:(id<MKMID>)member group:(id<MKMID>)group;
+
+- (BOOL)removeGroup:(id<MKMID>)group;
+
+- (BOOL)addAssistant:(id<MKMID>)bot group:(id<MKMID>)group;
+
+- (BOOL)containsAssistant:(id<MKMID>)bot group:(id<MKMID>)group;
+
+@end
+
+@protocol DIMAddressNameTable;
+
+@interface DIMSharedFacebook (ANS)
+
++ (id<DIMAddressNameTable>)ansTable;
+
++ (void)setANSTable:(id<DIMAddressNameTable>)ansTable;
+
++ (void)prepare;
 
 @end
 

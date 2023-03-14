@@ -8,7 +8,7 @@
 
 #import "UIViewController+Extension.h"
 
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "Facebook+Register.h"
 #import "Client.h"
@@ -76,7 +76,7 @@
     } else {
         
         //Get contacts from server
-        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        DIMSharedMessenger *messenger = [DIMGlobal messenger];
         [messenger queryContacts];
         
         [client setPushAlias];

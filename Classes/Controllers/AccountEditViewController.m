@@ -14,8 +14,7 @@
 
 #import "DIMProfile+Extension.h"
 #import "DIMEntity+Extension.h"
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "ImagePickerController.h"
 #import "Client.h"
@@ -194,7 +193,7 @@
         NSString *filename = [MKMHexEncode(MKMMD5Digest(data)) stringByAppendingPathExtension:@"jpeg"];
         NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
         
-        DIMFacebook *facebook = [DIMFacebook sharedInstance];
+        DIMFacebook *facebook = [DIMGlobal facebook];
         Client *client = [Client sharedInstance];
         id<MKMUser> user = client.currentUser;
         id<MKMID> ID = user.ID;
@@ -223,7 +222,7 @@
         [facebook saveDocument:visa];
         
         // submit to network
-        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        DIMSharedMessenger *messenger = [DIMGlobal messenger];
         [messenger postDocument:visa withMeta:user.meta];
         
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -255,8 +254,8 @@
     NSAssert(SK, @"failed to get visa sign key for user: %@", user.ID);
     [visa sign:SK];
     
-    [[DIMFacebook sharedInstance] saveDocument:visa];
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    [[DIMGlobal facebook] saveDocument:visa];
+    DIMSharedMessenger *messenger = [DIMGlobal messenger];
     
     // submit to station
     [messenger postDocument:visa withMeta:user.meta];
@@ -392,7 +391,7 @@
         } else if(row == 1) {
             //Export Account
             
-            DIMFacebook *facebook = [DIMFacebook sharedInstance];
+            DIMFacebook *facebook = [DIMGlobal facebook];
             id<MKMPrivateKey> key = (id<MKMPrivateKey>)[facebook privateKeyForVisaSignature:user.ID];
             
             NSString *privateKeyString = [key objectForKey:@"data"];

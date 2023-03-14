@@ -13,8 +13,7 @@
 
 #import "DIMEntity+Extension.h"
 #import "DIMProfile+Extension.h"
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 #import "DIMAmanuensis.h"
 
 #import "Client.h"
@@ -169,9 +168,9 @@
             [user addContact:self.contact];
             
             //Post contacts to server
-            NSArray<id<MKMID>> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+            NSArray<id<MKMID>> *allContacts = [[DIMGlobal facebook] contactsOfUser:user.ID];
             
-            DIMMessenger *messenger = [DIMMessenger sharedInstance];
+            DIMSharedMessenger *messenger = [DIMGlobal messenger];
             [messenger postContacts:allContacts];
             
             [self loadData];

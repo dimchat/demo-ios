@@ -6,7 +6,8 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "DIMFacebook+Extension.h"
+#import "DIMConstants.h"
+#import "DIMGlobalVariable.h"
 #import "DIMSharedFacebook.h"
 
 #import "Facebook+Profile.h"
@@ -70,12 +71,30 @@ OKSingletonImplementations(Client, sharedInstance)
 //    }
 //}
 
+#pragma mark FSM
+
+// Override
+- (void)machine:(DIMSessionStateMachine *)ctx exitState:(id<FSMState>)previous
+           time:(NSTimeInterval)now {
+    DIMSessionState *current = [ctx currentState];
+    NSUInteger index = [current index];
+    NSDictionary *info = @{
+        @"stateIndex": @(index),
+    };
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kNotificationName_ServerStateChanged
+                      object:self
+                    userInfo:info];
+
+    [super machine:ctx exitState:previous time:now];
+}
+
 @end
 
 @implementation Client (AppDelegate)
 
 - (void)_startServer:(NSDictionary *)station withProvider:(DIMServiceProvider *)sp {
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
     
     // save meta for server ID
     id<MKMID> ID = MKMIDParse([station objectForKey:@"ID"]);
@@ -108,36 +127,14 @@ OKSingletonImplementations(Client, sharedInstance)
     ftp.downloadAPI = self.downloadAPI;
     ftp.avatarAPI = self.avatarAPI;
     
-//    // connect server
-//    DIMServer *server = [[DIMServer alloc] initWithID:ID host:IP port:port.unsignedIntValue];
-//    server.delegate = self;
-//    [server startWithOptions:serverOptions];
-//    _currentStation = server;
-//    
-//    [MessageDatabase sharedInstance];
-//    
-//    DIMMessenger *messenger = [DIMMessenger sharedInstance];
-//    messenger.currentServer = server;
-//    
-//    // scan users
-//    NSArray<id<MKMUser>> *users = [facebook localUsers];
-//#if DEBUG && 0
-//    NSMutableArray *mArray;
-//    if (users.count > 0) {
-//        mArray = [users mutableCopy];
-//    } else {
-//        mArray = [[NSMutableArray alloc] initWithCapacity:2];
-//    }
-//    [mArray addObject:MKMIDParse(MKM_IMMORTAL_HULK_ID)];
-//    [mArray addObject:MKMIDParse(MKM_MONKEY_KING_ID)];
-//    users = mArray;
-//#endif
-//    // add users
-//    for (id<MKMUser> user in users) {
-//        NSLog(@"[client] add user: %@", user);
-//        [self addUser:user];
-//        facebook.currentUser = user;
-//    }
+    // connect server
+    [self connectToHost:IP port:[port unsignedShortValue]];
+    
+    // get user from database and login
+    id<MKMUser> user = [facebook currentUser];
+    if (user) {
+        [self loginWithID:user.ID];
+    }
 }
 
 - (void)_launchServiceProviderConfig:(NSDictionary *)config {
@@ -309,10 +306,10 @@ OKSingletonImplementations(Client, sharedInstance)
 
 - (BOOL)importUser:(id<MKMID>)ID meta:(id<MKMMeta>)meta privateKey:(id<MKMPrivateKey>)SK {
     
-    DIMFacebook *facebook = [DIMFacebook sharedInstance];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
     
     // 1. save meta & private key
-    if (![facebook savePrivateKey:SK type:DIMPrivateKeyType_Meta user:ID]) {
+    if (![facebook savePrivateKey:SK withType:DIMPrivateKeyType_Meta forUser:ID]) {
         NSAssert(false, @"failed to save private key for new user: %@", ID);
         return NO;
     }
@@ -331,12 +328,12 @@ OKSingletonImplementations(Client, sharedInstance)
 }
 
 - (id<MKMUser>)currentUser {
-    DIMSharedFacebook *facebook = [DIMSharedFacebook sharedInstance];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
     return [facebook currentUser];
 }
 
 - (NSArray<id<MKMUser>> *)users {
-    DIMSharedFacebook *facebook = [DIMSharedFacebook sharedInstance];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
     return [facebook localUsers];
 }
 

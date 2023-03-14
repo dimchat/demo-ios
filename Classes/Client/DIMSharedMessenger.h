@@ -37,17 +37,99 @@
 
 #import <DIMP/DIMP.h>
 
-#import "DIMMessenger+Extension.h"
-
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol DIMMessengerDelegate;
+@interface DIMSharedMessenger : DIMClientMessenger
 
-@interface DIMSharedMessenger : DIMClientMessenger <DIMTransmitter>
+@property(nonatomic, readonly) id<MKMUser> currentUser;
 
-@property (weak, nonatomic) id<DIMMessengerDelegate> delegate;
+@property(nonatomic, readonly) id<MKMStation> currentStation;
 
-+ (instancetype)sharedInstance;
+@end
+
+@interface DIMSharedMessenger (Send)
+
+/**
+ *  Pack and send command to station
+ *
+ * @param content - command sending to the neighbor station
+ * @param prior - task priority, smaller is faster
+ * @return true on success
+ */
+- (BOOL)sendCommand:(id<DKDCommand>)content priority:(NSInteger)prior;
+
+/**
+ *  Pack and broadcast content to everyone
+ *
+ * @param content - message content
+ */
+- (BOOL)broadcastContent:(id<DKDContent>)content;
+
+/**
+ *  Broadcast visa to all contacts
+ *
+ * @param doc - user visa document
+ * @return YES on success
+ */
+- (BOOL)broadcastVisa:(id<MKMVisa>)doc;
+
+/**
+ *  Post document & meta to station
+ *
+ * @param doc - entity document
+ * @param meta - enntity meta
+ * @return YES on success
+ */
+- (BOOL)postDocument:(id<MKMDocument>)doc withMeta:(id<MKMMeta>)meta;
+
+/**
+ *  Encrypt and post contacts list to station
+ *
+ * @param contacts - ID list
+ * @return YES on success
+ */
+- (BOOL)postContacts:(NSArray<id<MKMID>> *)contacts;
+
+@end
+
+@interface DIMSharedMessenger (Query)
+
+/**
+ *  Query contacts while login from a new device
+ *
+ * @return YES on success
+ */
+- (BOOL)queryContacts;
+
+/**
+ *  Query mute-list from station
+ *
+ * @return YES on success
+ */
+- (BOOL)queryMuteList;
+
+/**
+ *  Query block-list from station
+ *
+ * @return YES on success
+ */
+- (BOOL)queryBlockList;
+
+/**
+ *  Query group member list from any member
+ *
+ * @param group - group ID
+ * @param member - member ID
+ * @return YES on success
+ */
+- (BOOL)queryGroupForID:(id<MKMID>)group fromMember:(id<MKMID>)member;
+- (BOOL)queryGroupForID:(id<MKMID>)group fromMembers:(NSArray<id<MKMID>> *)members;
+
+@end
+
+@interface DIMSharedMessenger (Factories)
+
++ (void)prepare;
 
 @end
 

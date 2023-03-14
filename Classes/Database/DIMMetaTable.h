@@ -39,11 +39,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMMetaTable : DIMStorage
+@protocol DIMMetaTable <DIMMetaDBI>
 
-- (nullable id<MKMMeta>)metaForID:(id<MKMID>)ID;
+@end
 
-- (BOOL)saveMeta:(id<MKMMeta>)meta forID:(id<MKMID>)ID;
+@interface DIMMetaTable : DIMStorage <DIMMetaTable>
 
 @end
 

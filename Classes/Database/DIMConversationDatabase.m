@@ -35,39 +35,56 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMSDK/DIMSDK.h>
-
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMMessageTable.h"
 #import "DIMConstants.h"
 
 #import "DIMConversationDatabase.h"
 
-@interface DIMConversationDatabase () {
-    
-    DIMMessageTable *_messageTable;
-}
-
-@end
-
 @implementation DIMConversationDatabase
 
-- (instancetype)init {
-    if (self = [super init]) {
-        _messageTable = [[DIMMessageTable alloc] init];
-    }
-    return self;
-}
+OKSingletonImplementations(DIMConversationDatabase, sharedInstance)
 
 - (NSArray<id<MKMID>> *)allConversations {
     return [_messageTable allConversations];
 }
 
+- (NSArray<id<DKDInstantMessage>> *)messagesInConversation:(id<MKMID>)chatBox {
+    return [_messageTable messagesInConversation:chatBox];
+}
+
+-(BOOL)markConversationMessageRead:(id<MKMID>)chatBox{
+    BOOL result = [_messageTable markConversationMessageRead:chatBox];
+    
+    if (result) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:kNotificationName_ConversationUpdated
+                          object:self
+                        userInfo:@{@"ID": chatBox}];
+    }
+    
+    return result;
+}
+
+#pragma mark DIMConversationDataSource
+
+- (NSInteger)numberOfConversations {
+    return [_messageTable numberOfConversations];
+}
+
+- (id<MKMID>)conversationAtIndex:(NSInteger)index {
+    return [_messageTable conversationAtIndex:index];
+}
+
+- (BOOL)removeConversationAtIndex:(NSInteger)index {
+    return [_messageTable removeConversationAtIndex:index];
+}
+
 - (BOOL)removeConversation:(id<MKMID>)chatBox {
     BOOL result = [_messageTable removeConversation:chatBox];
     
-    if(result){
+    if (result) {
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName:kNotificationName_MessageCleaned object:self
                         userInfo:@{@"ID": chatBox}];
@@ -80,50 +97,47 @@
     return [_messageTable clearConversation:chatBox];
 }
 
-- (NSArray<id<DKDInstantMessage>> *)messagesInConversation:(id<MKMID>)chatBox {
-    return [_messageTable messagesInConversation:chatBox];
-}
-
--(BOOL)markConversationMessageRead:(id<MKMID>)chatBox{
-    BOOL result = [_messageTable markConversationMessageRead:chatBox];
-    
-    if(result){
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName:kNotificationName_ConversationUpdated object:self
-                        userInfo:@{@"ID": chatBox}];
-    }
-    
-    return result;
-}
-
 #pragma mark DIMConversationDataSource
 
 - (NSInteger)numberOfMessagesInConversation:(id<MKMID>)chatBox {
-    NSArray<id<DKDInstantMessage>> *messages;
-    messages = [_messageTable messagesInConversation:chatBox];
-    return messages.count;
+    return [_messageTable numberOfMessagesInConversation:chatBox];
+}
+
+- (NSInteger)numberOfUnreadMessagesInConversation:(id<MKMID>)chatBox {
+    return [_messageTable numberOfUnreadMessagesInConversation:chatBox];
+}
+
+- (BOOL)clearUnreadMessagesInConversation:(id<MKMID>)chatBox {
+    return [_messageTable clearUnreadMessagesInConversation:chatBox];
+}
+
+- (id<DKDInstantMessage>)lastMessageInConversation:(id<MKMID>)chatBox {
+    return [_messageTable lastMessageInConversation:chatBox];
+}
+
+- (id<DKDInstantMessage>)lastReceivedMessageForUser:(id<MKMID>)user {
+    return [_messageTable lastReceivedMessageForUser:user];
 }
 
 - (id<DKDInstantMessage>)conversation:(id<MKMID>)chatBox messageAtIndex:(NSInteger)index {
-    NSArray<id<DKDInstantMessage>> *messages;
-    messages = [_messageTable messagesInConversation:chatBox];
-    NSAssert(index < messages.count, @"out of data: %ld, %lu", index, messages.count);
-    return [messages objectAtIndex:index];
+    return [_messageTable conversation:chatBox messageAtIndex:index];
 }
 
 #pragma mark DIMConversationDelegate
 
 - (BOOL)conversation:(id<MKMID>)chatBox insertMessage:(id<DKDInstantMessage>)iMsg {
     
-    BOOL OK = [_messageTable addMessage:iMsg toConversation:chatBox];
+    BOOL OK = [_messageTable conversation:chatBox insertMessage:iMsg];
     
     if (OK) {
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         
-        [nc postNotificationName:kNotificationName_ConversationUpdated object:self
+        [nc postNotificationName:kNotificationName_ConversationUpdated
+                          object:self
                         userInfo:@{@"ID": chatBox}];
         
-        [nc postNotificationName:kNotificationName_MessageInserted object:self
+        [nc postNotificationName:kNotificationName_MessageInserted
+                          object:self
                         userInfo:@{@"Conversation": chatBox, @"Message": iMsg}];
     }
     
@@ -138,6 +152,18 @@
 //
 //    // TODO: Burn After Reading
 //    return [_messageTable saveMessages:messages conversation:chatBox.ID];
+}
+
+- (BOOL)conversation:(id<MKMID>)chatBox removeMessage:(id<DKDInstantMessage>)iMsg {
+    return [self conversation:chatBox removeMessage:iMsg];
+}
+
+- (BOOL)conversation:(id<MKMID>)chatBox withdrawMessage:(id<DKDInstantMessage>)iMsg {
+    return [self conversation:chatBox withdrawMessage:iMsg];
+}
+
+- (BOOL)conversation:(id<MKMID>)chatBox saveReceipt:(id<DKDInstantMessage>)iMsg {
+    return [self conversation:chatBox saveReceipt:iMsg];
 }
 
 @end

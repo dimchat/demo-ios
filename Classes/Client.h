@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)importUser:(id<MKMID>)ID meta:(id<MKMMeta>)meta privateKey:(id<MKMPrivateKey>)SK;
 
-- (id<MKMUser>)currentUser;
+- (__kindof id<MKMUser>)currentUser;
 
 - (NSArray<id<MKMUser>> *)users;
 

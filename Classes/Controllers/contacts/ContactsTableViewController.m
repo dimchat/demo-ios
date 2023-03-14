@@ -7,8 +7,7 @@
 //
 
 #import "DIMConstants.h"
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 #import "DIMAmanuensis.h"
 
 #import "Client.h"
@@ -86,13 +85,14 @@
         NSArray<id<MKMID>> *contacts = user.contacts;
         
         if(![contacts containsObject:groupID]){
+            DIMSharedFacebook *facebook = [DIMGlobal facebook];
             
-            [[DIMFacebook sharedInstance] user:user.ID addContact:groupID];
+            [facebook addContact:groupID user:user.ID];
             
             //Post contacts to server
-            NSArray<id<MKMID>> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+            NSArray<id<MKMID>> *allContacts = [facebook contactsOfUser:user.ID];
             
-            DIMMessenger *messenger = [DIMMessenger sharedInstance];
+            DIMSharedMessenger *messenger = [DIMGlobal messenger];
             [messenger postContacts:allContacts];
             
             [NSObject performBlockOnMainThread:^{
@@ -133,12 +133,12 @@
         [mArray addObject:contact];
         
         if (MKMIDIsGroup(contact)){
-            DIMFacebook *facebook = [DIMFacebook sharedInstance];
+            DIMFacebook *facebook = [DIMGlobal facebook];
             NSArray *members = [facebook membersOfGroup:contact];
             
             if(members.count == 0){
                 NSArray *assistant = [facebook assistantsOfGroup:contact];
-                DIMMessenger *messenger = [DIMMessenger sharedInstance];
+                DIMSharedMessenger *messenger = [DIMGlobal messenger];
                 [messenger queryGroupForID:contact fromMembers:assistant];
             }
         }
@@ -221,14 +221,15 @@
         NSMutableArray *list = [_contactsTable objectForKey:key];
         id<MKMID> ID = [list objectAtIndex:row];
         
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
         Client *client = [Client sharedInstance];
         id<MKMUser> user = client.currentUser;
-        [[DIMFacebook sharedInstance] user:user.ID removeContact:ID];
+        [facebook removeContact:ID user:user.ID];
         
         //Post contacts to server
-        NSArray<id<MKMID>> *allContacts = [[DIMFacebook sharedInstance] contactsOfUser:user.ID];
+        NSArray<id<MKMID>> *allContacts = [facebook contactsOfUser:user.ID];
         
-        DIMMessenger *messenger = [DIMMessenger sharedInstance];
+        DIMSharedMessenger *messenger = [DIMGlobal messenger];
         [messenger postContacts:allContacts];
         
         [list removeObjectAtIndex:row];

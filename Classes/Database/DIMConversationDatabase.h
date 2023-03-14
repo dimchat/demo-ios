@@ -35,11 +35,26 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMCore/DIMCore.h>
+#import "DIMMessageTable.h"
+
+#import "DIMMessageBuilder.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol DIMConversationDataSource <NSObject>
+
+- (NSInteger)numberOfConversations;
+
+- (id<MKMID>)conversationAtIndex:(NSInteger)index;
+
+// remove messages file
+- (BOOL)removeConversationAtIndex:(NSInteger)index;
+- (BOOL)removeConversation:(id<MKMID>)chatBox;
+
+// clear messages records, but keep the empty file
+- (BOOL)clearConversation:(id<MKMID>)chatBox;
+
+#pragma mark messages
 
 /**
  *  Get message count in this conversation for an entity
@@ -48,6 +63,14 @@ NS_ASSUME_NONNULL_BEGIN
  * @return total count
  */
 - (NSInteger)numberOfMessagesInConversation:(id<MKMID>)chatBox;
+
+- (NSInteger)numberOfUnreadMessagesInConversation:(id<MKMID>)chatBox;
+
+- (BOOL)clearUnreadMessagesInConversation:(id<MKMID>)chatBox;
+
+- (id<DKDInstantMessage>)lastMessageInConversation:(id<MKMID>)chatBox;
+
+- (id<DKDInstantMessage>)lastReceivedMessageForUser:(id<MKMID>)user;
 
 /**
  *  Get message at index of this conversation
@@ -70,7 +93,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)conversation:(id<MKMID>)chatBox insertMessage:(id<DKDInstantMessage>)iMsg;
 
-@optional
+//@optional
 
 /**
  *  Delete the message
@@ -88,13 +111,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)conversation:(id<MKMID>)chatBox withdrawMessage:(id<DKDInstantMessage>)iMsg;
 
+/**
+ *  Seek & update origin message
+ *
+ * @param chatBox - conversation ID
+ * @param iMsg - instant message with receipt command
+ */
+- (BOOL)conversation:(id<MKMID>)chatBox saveReceipt:(id<DKDInstantMessage>)iMsg;
+
 @end
 
-@interface DIMConversationDatabase : NSObject <DIMConversationDataSource, DIMConversationDelegate>
+@interface DIMConversationDatabase : DIMMessageBuilder <DIMConversationDataSource, DIMConversationDelegate>
+
+@property(nonatomic, strong) DIMMessageTable *messageTable;
+
++ (instancetype)sharedInstance;
 
 - (NSArray<id<MKMID>> *)allConversations;
-- (BOOL)removeConversation:(id<MKMID>)chatBox;
-- (BOOL)clearConversation:(id<MKMID>)chatBox;
 - (NSArray<id<DKDInstantMessage>> *)messagesInConversation:(id<MKMID>)chatBox;
 
 -(BOOL)markConversationMessageRead:(id<MKMID>)chatBox;

@@ -11,8 +11,7 @@
 
 #import "DKDInstantMessage+Extension.h"
 
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "LocalDatabaseManager.h"
 #import "FolderUtility.h"
@@ -240,7 +239,7 @@
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM messages WHERE conversation_id='%@' ORDER BY time", conversationID];
     FMResultSet *s = [self.db executeQuery:sql];
     
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    DIMMessenger *messenger = [DIMGlobal messenger];
     
     while ([s next]) {
         

@@ -9,9 +9,9 @@
 #import "UIView+Extension.h"
 
 #import "DIMProfile+Extension.h"
-#import "DIMCommand+Extension.h"
 #import "DIMInstantMessage+Extension.h"
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
+#import "DIMMessageBuilder.h"
 
 #import "MessageCell.h"
 #import "Facebook+Profile.h"

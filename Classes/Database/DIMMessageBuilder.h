@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DIMCommand+Extension.h
+//  DIMMessageBuilder.h
 //  Sechat
 //
 //  Created by Albert Moky on 2019/10/22.
@@ -38,6 +38,17 @@
 #import <DIMP/DIMP.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface DIMMessageBuilder : NSObject
+
+// protected
+- (NSString *)nameForID:(id<MKMID>)ID;
+
+- (NSString *)textFromContent:(id<DKDContent>)content;
+
+- (NSString *)textFromCommand:(id<DKDCommand>)content sender:(id<MKMID>)commander;
+
+@end
 
 @interface DIMContent (Extension)
 

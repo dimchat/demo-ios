@@ -47,16 +47,23 @@ NS_ASSUME_NONNULL_BEGIN
  * @param iMsg - instant message
  * @return true on success
  */
-- (BOOL)saveMessage:(id<DKDInstantMessage>)iMsg;
+- (BOOL)saveInstantMessage:(id<DKDInstantMessage>)iMsg;
 
 /**
- *  Suspend message for the contact's meta
+ *  Suspend incoming message for the contact's meta
  *
- * @param msg - message received from network / instant message to be sent
+ * @param rMsg - message received from network
  * @return NO on error
  */
-- (BOOL)suspendMessage:(id<DKDMessage>)msg;
+- (BOOL)suspendReliableMessage:(id<DKDReliableMessage>)rMsg;
 
+/**
+ *  Suspend outgoing message for receiver's visa
+ *
+ * @param iMsg - message waiting to send out
+ * @return NO on error
+ */
+- (BOOL)suspendInstantMessage:(id<DKDInstantMessage>)iMsg;
 
 + (instancetype)sharedInstance;
 

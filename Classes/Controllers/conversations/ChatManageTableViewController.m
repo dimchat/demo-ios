@@ -12,8 +12,7 @@
 
 #import "DIMConstants.h"
 #import "DIMEntity+Extension.h"
-#import "DIMFacebook+Extension.h"
-#import "DIMMessenger+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "Client.h"
 #import "MessageDatabase.h"
@@ -134,7 +133,7 @@
             Client *client = [Client sharedInstance];
             id<MKMUser> user = client.currentUser;
             
-            DIMMessenger *messenger = [DIMMessenger sharedInstance];
+            DIMSharedMessenger *messenger = [DIMGlobal messenger];
             
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
@@ -142,10 +141,13 @@
                 id<DKDContent> content = [[DIMQuitGroupCommand alloc] initWithGroup:group.ID];
                 NSArray *members = group.members;
                 for (id<MKMID> member in members) {
-                    [messenger sendContent:content receiver:member];
+                    [messenger sendContent:content
+                                    sender:user.ID
+                                  receiver:member
+                                  priority:STDeparturePriorityNormal];
                 }
                 // remove myself
-                [[DIMFacebook sharedInstance] group:group.ID removeMember:user.ID];
+                [[DIMGlobal facebook] removeMember:user.ID group:group.ID];
                 
                 // clear message in conversation
                 MessageDatabase *msgDB = [MessageDatabase sharedInstance];
@@ -373,10 +375,10 @@
         [newList removeObject:self.conversation.ID];
         [[LocalDatabaseManager sharedInstance] unmuteConversation:self.conversation.ID forUser:user.ID];
     }
-    DIMMessenger *messenger = [DIMMessenger sharedInstance];
+    DIMSharedMessenger *messenger = [DIMGlobal messenger];
     
     DIMMuteCommand *content = [[DIMMuteCommand alloc] initWithList:newList];
-    [messenger sendCommand:content];
+    [messenger sendCommand:content priority:STDeparturePrioritySlower];
 }
 
 @end

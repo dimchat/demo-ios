@@ -28,37 +28,38 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DIMCommand+Extension.m
+//  DIMMessageBuilder.m
 //  Sechat
 //
 //  Created by Albert Moky on 2019/10/22.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
-#import "DIMCommand+Extension.h"
+#import "DIMMessageBuilder.h"
 
-static inline NSString *readable_name(id<MKMID> ID) {
+#define readable_name(ID)    [self nameForID:(ID)]
+
+@implementation DIMMessageBuilder
+
+// protected
+- (NSString *)nameForID:(id<MKMID>)ID {
+    // get name from document
     id<MKMDocument> doc = DIMDocumentForID(ID, @"*");
     NSString *nickname = doc.name;
-    NSString *username = ID.name;
-    if (nickname) {
-        if (username && MKMIDIsUser(ID)) {
-            return [NSString stringWithFormat:@"%@ (%@)", nickname, username];
-        }
+    if ([nickname length] > 0) {
         return nickname;
-    } else if (username) {
-        return username;
-    } else {
-        // BTC Address
-        return (NSString *)ID.address;
     }
+    // get name from ID
+    return [MKMAnonymous name:ID];
 }
 
 #pragma mark Group Commands
 
-NSString *DIMInviteGroupCommand_BuildText(id<DKDInviteGroupCommand> content, id<MKMID> commander) {
+// private
+- (NSString *)textFromInviteCommand:(id<DKDInviteGroupCommand>)content
+                             sender:(id<MKMID>)commander {
     // get 'added' list
     NSArray<id<MKMID>> *addeds = MKMIDConvert([content objectForKey:@"added"]);
     // build message
@@ -73,7 +74,9 @@ NSString *DIMInviteGroupCommand_BuildText(id<DKDInviteGroupCommand> content, id<
     return text;
 }
 
-NSString *DIMExpelGroupCommand_BuildText(id<DKDExpelGroupCommand> content, id<MKMID> commander) {
+// private
+- (NSString *)textFromExpelCommand:(id<DKDExpelGroupCommand>)content
+                            sender:(id<MKMID>)commander {
     // get 'removed' list
     NSArray<id<MKMID>> *removeds = MKMIDConvert([content objectForKey:@"removed"]);
     NSMutableArray *mArr = [[NSMutableArray alloc] initWithCapacity:removeds.count];
@@ -87,14 +90,18 @@ NSString *DIMExpelGroupCommand_BuildText(id<DKDExpelGroupCommand> content, id<MK
     return text;
 }
 
-NSString *DIMQuitGroupCommand_BuildText(id<DKDQuitGroupCommand> content, id<MKMID> commander) {
+// private
+- (NSString *)textFromQuitCommand:(id<DKDQuitGroupCommand>)content
+                           sender:(id<MKMID>)commander {
     NSString *format = NSLocalizedString(@"%@ has quitted group chat.", nil);
     NSString *text = [NSString stringWithFormat:format, readable_name(commander)];
     [content setObject:text forKey:@"text"];
     return text;
 }
 
-NSString *DIMResetGroupCommand_BuildText(DIMResetGroupCommand *content, id<MKMID> commander) {
+// private
+- (NSString *)textFromResetCommand:(id<DKDResetGroupCommand>)content
+                            sender:(id<MKMID>)commander {
     NSString *format = NSLocalizedString(@"%@ has updated group members", nil);
     NSString *text = [NSString stringWithFormat:format, readable_name(commander)];
     
@@ -124,36 +131,46 @@ NSString *DIMResetGroupCommand_BuildText(DIMResetGroupCommand *content, id<MKMID
     return text;
 }
 
-NSString *DIMQueryGroupCommand_BuildText(DIMQueryGroupCommand *content, id<MKMID> commander) {
+// private
+- (NSString *)textFromQueryCommand:(id<DKDQueryGroupCommand>)content
+                            sender:(id<MKMID>)commander {
     NSString *format = NSLocalizedString(@"%@ was querying group info, responding...", nil);
     NSString *text = [NSString stringWithFormat:format, readable_name(commander)];
     [content setObject:text forKey:@"text"];
     return text;
 }
 
-NSString *DIMGroupCommand_BuildText(id<DKDGroupCommand> content, id<MKMID> commander) {
+// private
+- (NSString *)textFromGroupCommand:(id<DKDGroupCommand>)content
+                            sender:(id<MKMID>)commander {
     if ([content conformsToProtocol:@protocol(DKDInviteGroupCommand)]) {
-        return DIMInviteGroupCommand_BuildText((id<DKDInviteGroupCommand>)content, commander);
+        return [self textFromInviteCommand:(id<DKDInviteGroupCommand>)content
+                                    sender:commander];
     }
     if ([content conformsToProtocol:@protocol(DKDExpelGroupCommand)]) {
-        return DIMExpelGroupCommand_BuildText((id<DKDExpelGroupCommand>)content, commander);
+        return [self textFromExpelCommand:(id<DKDExpelGroupCommand>)content
+                                   sender:commander];
     }
     if ([content conformsToProtocol:@protocol(DKDQuitGroupCommand)]) {
-        return DIMQuitGroupCommand_BuildText((id<DKDQuitGroupCommand>)content, commander);
+        return [self textFromQuitCommand:(id<DKDQuitGroupCommand>)content
+                                  sender:commander];
     }
     if ([content isKindOfClass:[DIMResetGroupCommand class]]) {
-        return DIMResetGroupCommand_BuildText((DIMResetGroupCommand *)content, commander);
+        return [self textFromResetCommand:(id<DKDResetGroupCommand>)content
+                                   sender:commander];
     }
     if ([content isKindOfClass:[DIMQueryGroupCommand class]]) {
-        return DIMQueryGroupCommand_BuildText((DIMQueryGroupCommand *)content, commander);
+        return [self textFromQueryCommand:(id<DKDQueryGroupCommand>)content
+                                   sender:commander];
     }
-    assert(!content);
+    NSAssert(!content, @"group command error: %@", content);
     return nil;
 }
 
 #pragma mark System Commands
 
-NSString *DIMLoginCommand_BuildText(DIMLoginCommand *content, id<MKMID> commander) {
+- (NSString *)textFromLoginCommand:(id<DKDLoginCommand>)content
+                            sender:(id<MKMID>)commander {
     id<MKMID> ID = content.ID;
     NSDictionary *station = content.stationInfo;
     NSString *format = NSLocalizedString(@"%@ login: %@", nil);
@@ -162,21 +179,29 @@ NSString *DIMLoginCommand_BuildText(DIMLoginCommand *content, id<MKMID> commande
     return text;
 }
 
-NSString *DIMCommand_BuildText(id<DKDCommand> content, id<MKMID> commander) {
+#pragma mark -
+
+- (NSString *)textFromCommand:(id<DKDCommand>)content sender:(id<MKMID>)commander {
+    NSString *text = [content objectForKey:@"text"];
+    if ([text length] > 0) {
+        return text;
+    }
     if ([content isKindOfClass:[DIMGroupCommand class]]) {
-        return DIMGroupCommand_BuildText((id<DKDGroupCommand>)content, commander);
+        return [self textFromGroupCommand:(id<DKDGroupCommand>)content
+                                   sender:commander];
     }
     if ([content isKindOfClass:[DIMHistoryCommand class]]) {
         // TODO: process history command
     }
     if ([content isKindOfClass:[DIMLoginCommand class]]) {
-        return DIMLoginCommand_BuildText((DIMLoginCommand *)content, commander);
+        return [self textFromLoginCommand:(id<DKDLoginCommand>)content
+                                   sender:commander];
     }
     NSString *format = NSLocalizedString(@"Current version doesn't support this command: %@", nil);
     return [NSString stringWithFormat:format, [content cmd]];
 }
 
-NSString *DIMContent_BuildText(id<DKDContent> content) {
+- (NSString *)textFromContent:(id<DKDContent>)content {
     // Text
     if ([content isKindOfClass:[DIMTextContent class]]) {
         return [(DIMTextContent *)content text];
@@ -226,28 +251,17 @@ NSString *DIMContent_BuildText(id<DKDContent> content) {
     return text;
 }
 
-#pragma mark -
+@end
 
 @implementation DIMContent (Extension)
 
 - (nullable NSString *)messageWithSender:(id<MKMID>)sender {
-    NSString *text = [self objectForKey:@"text"];
-    if ([text length] > 0) {
-        return text;
+    DIMMessageBuilder *builder = [[DIMMessageBuilder alloc] init];
+    if ([self conformsToProtocol:@protocol(DKDCommand)]) {
+        return [builder textFromCommand:(id<DKDCommand>)self sender:sender];
+    } else {
+        return [builder textFromContent:self];
     }
-    return DIMContent_BuildText(self);
-}
-
-@end
-
-@implementation DIMCommand (Extension)
-
-- (nullable NSString *)messageWithSender:(id<MKMID>)sender {
-    NSString *text = [self objectForKey:@"text"];
-    if ([text length] > 0) {
-        return text;
-    }
-    return DIMCommand_BuildText(self, sender);
 }
 
 @end

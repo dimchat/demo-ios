@@ -39,15 +39,23 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMUserTable : DIMStorage
+@protocol DIMUserTable <DIMUserDBI>
 
-- (nullable NSArray<id<MKMID>> *)allUsers;
+@property(nonatomic, strong, nullable) id<MKMID> currentUser;
 
-- (BOOL)saveUsers:(NSArray<id<MKMID>> *)list;
+- (BOOL)addUser:(id<MKMID>)user;
 
-- (nullable NSArray<id<MKMID>> *)contactsOfUser:(id<MKMID>)user;
+- (BOOL)removeUser:(id<MKMID>)user;
 
-- (BOOL)saveContacts:(NSArray *)contacts user:(id<MKMID>)user;
+#pragma mark contacts
+
+- (BOOL)addContact:(id<MKMID>)contact user:(id<MKMID>)user;
+
+- (BOOL)removeContact:(id<MKMID>)contact user:(id<MKMID>)user;
+
+@end
+
+@interface DIMUserTable : DIMStorage <DIMUserTable>
 
 @end
 

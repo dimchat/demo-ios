@@ -28,35 +28,44 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DIMSocialNetworkDatabase.h
-//  DIMP
+//  DIMSharedDatabase.h
+//  Sechat
 //
 //  Created by Albert Moky on 2019/9/6.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMSDK/DIMSDK.h>
+#import "DIMMetaTable.h"
+#import "DIMDocumentTable.h"
+#import "DIMUserTable.h"
+//#import "DIMContactTable.h"
+#import "DIMGroupTable.h"
+//#import "DIMMsgKeyTable.h"
+//#import "DIMLoginTable.h"
+//#import "DIMProviderTable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMSocialNetworkDatabase : NSObject <MKMUserDataSource, MKMGroupDataSource>
+@interface DIMSharedDatabase : NSObject <DIMAccountDBI, DIMMessageDBI, DIMSessionDBI,
+                                         DIMUserTable, DIMGroupTable>
 
-// Address Name Service
-- (BOOL)saveANSRecord:(id<MKMID>)ID forName:(NSString *)name;
-- (id<MKMID>)ansRecordForName:(NSString *)name;
-- (NSArray<NSString *> *)namesWithANSRecord:(NSString *)ID;
+//@property(nonatomic, strong) id<DIMPrivateKeyTable> privateKeyTable;
 
-- (nullable NSArray<id<MKMID>> *)allUsers;
-- (BOOL)saveUsers:(NSArray<id<MKMID>> *)list;
-- (BOOL)saveUser:(id<MKMID>)user;
-- (BOOL)removeUser:(id<MKMID>)user;
+@property(nonatomic, strong) id<DIMMetaTable> metaTable;
 
-- (BOOL)savePrivateKey:(id<MKMPrivateKey>)key type:(NSString *)type forID:(id<MKMID>)ID;
-- (BOOL)saveMeta:(id<MKMMeta>)meta forID:(id<MKMID>)ID;
-- (BOOL)saveDocument:(id<MKMDocument>)doc;
+@property(nonatomic, strong) id<DIMDocumentTable> documentTable;
 
-- (BOOL)saveContacts:(NSArray *)contacts user:(id<MKMID>)user;
-- (BOOL)saveMembers:(NSArray *)members group:(id<MKMID>)group;
+@property(nonatomic, strong) id<DIMUserTable> userTable;
+
+//@property(nonatomic, strong) id<DIMContactTable> contactTable;
+
+@property(nonatomic, strong) id<DIMGroupTable> groupTable;
+
+//@property(nonatomic, strong) id<DIMMsgKeyTable> msgKeyTable;
+
+//@property(nonatomic, strong) id<DIMLoginTable> loginTable;
+
+//@property(nonatomic, strong) id<DIMProviderTable> providerTable;
 
 @end
 

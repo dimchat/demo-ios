@@ -39,13 +39,36 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMAddressNameTable : DIMStorage
+@protocol DIMAddressNameTable <NSObject>
 
-- (BOOL)saveRecord:(id<MKMID>)ID forName:(NSString *)name;
+/**
+ *  Get ID by short name
+ *
+ * @param alias - short name
+ * @return user ID
+ */
+- (id<MKMID>)recordForName:(NSString *)alias;
 
-- (id<MKMID>)recordForName:(NSString *)name;
+/**
+ *  Save ANS record
+ *
+ * @param ID - user ID
+ * @param alias - short name
+ * @return true on success
+ */
+- (BOOL)addRecord:(id<MKMID>)ID forName:(NSString *)alias;
 
-- (NSArray<NSString *> *)namesWithRecord:(NSString *)ID;
+/**
+ *  Remove ANS record
+ *
+ * @param alias - short name
+ * @return true on success
+ */
+- (BOOL)removeRecordForName:(NSString *)alias;
+
+@end
+
+@interface DIMAddressNameTable : DIMStorage <DIMAddressNameTable>
 
 @end
 

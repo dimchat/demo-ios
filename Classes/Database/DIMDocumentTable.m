@@ -28,7 +28,7 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DIMProfileTable.m
+//  DIMDocumentTable.m
 //  DIMP
 //
 //  Created by Albert Moky on 2019/9/6.
@@ -37,12 +37,12 @@
 
 #import <DIMSDK/DIMSDK.h>
 
-#import "DIMFacebook+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMConstants.h"
-#import "DIMProfileTable.h"
+#import "DIMDocumentTable.h"
 
-@interface DIMProfileTable () {
+@interface DIMDocumentTable () {
     
     NSMutableDictionary<id<MKMID>, id<MKMDocument>> *_caches;
     
@@ -51,7 +51,7 @@
 
 @end
 
-@implementation DIMProfileTable
+@implementation DIMDocumentTable
 
 - (instancetype)init {
     if (self = [super init]) {

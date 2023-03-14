@@ -35,11 +35,11 @@
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import <DIMSDK/DIMSDK.h>
+#import <DIMP/DIMP.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMSharedPacker : DIMMessagePacker
+@interface DIMSharedPacker : DIMClientMessagePacker
 
 @end
 

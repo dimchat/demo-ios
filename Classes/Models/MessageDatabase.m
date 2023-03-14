@@ -89,11 +89,6 @@ OKSingletonImplementations(MessageDatabase, sharedInstance)
     return removed;
 }
 
-- (BOOL)clearConversationAtIndex:(NSInteger)index {
-    id<MKMID> chatBox = [self conversationAtIndex:index];
-    return [self clearConversation:chatBox];
-}
-
 - (BOOL)clearConversation:(id<MKMID>)chatBox {
     BOOL cleared = [super clearConversation:chatBox];
     return cleared;

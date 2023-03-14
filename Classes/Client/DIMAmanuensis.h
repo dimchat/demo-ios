@@ -69,9 +69,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (DIMConversation *)conversationWithID:(id<MKMID>)ID;
 
-- (void)addConversation:(DIMConversation *)chatBox;
-- (void)removeConversation:(DIMConversation *)chatBox;
-
 @end
 
 @interface DIMAmanuensis (Message)
@@ -82,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param iMsg - instant message
  * @return YES on success
  */
-- (BOOL)saveMessage:(id<DKDInstantMessage>)iMsg;
+- (BOOL)saveInstantMessage:(id<DKDInstantMessage>)iMsg;
 
 /**
  *  Update message state with receipt

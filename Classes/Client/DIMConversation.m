@@ -95,15 +95,53 @@
     return @"Conversation";
 }
 
-- (nullable id<MKMDocument>)document {
-    return [_entity documentWithType:@"*"];
+#pragma mark - Read from data source
+
+- (NSDate *)getLastTime {
+    id<DKDInstantMessage> iMsg = [self lastMessage];
+    if (iMsg) {
+        return [iMsg time];
+    }
+    return nil;
 }
 
-#pragma mark - Read from data source
+- (id<DKDInstantMessage>)lastMessage {
+    return [_dataSource lastMessageInConversation:_entity.ID];
+}
+
+- (id<DKDInstantMessage>)lastVisibleMessage {
+    NSInteger count = [self numberOfMessage];
+    id<DKDInstantMessage> iMsg;
+    for (NSInteger index = count - 1; index >= 0; --index) {
+        iMsg = [self messageAtIndex:index];
+        switch (iMsg.type) {
+            case DKDContentType_Text:
+            case DKDContentType_File:
+            case DKDContentType_Image:
+            case DKDContentType_Audio:
+            case DKDContentType_Video:
+            case DKDContentType_Page:
+            case DKDContentType_Money:
+            case DKDContentType_Transfer:
+                // got it
+                return iMsg;
+                break;
+                
+            default:
+                break;
+        }
+    }
+    return nil;
+}
 
 - (NSInteger)numberOfMessage {
     NSAssert(_dataSource, @"set data source handler first");
     return [_dataSource numberOfMessagesInConversation:self.ID];
+}
+
+- (NSInteger)numberOfUnreadMessages {
+    NSAssert(_dataSource, @"set data source handler first");
+    return [_dataSource numberOfUnreadMessagesInConversation:self.ID];
 }
 
 - (id<DKDInstantMessage>)messageAtIndex:(NSInteger)index {
@@ -115,31 +153,22 @@
 
 - (BOOL)insertMessage:(id<DKDInstantMessage>)iMsg {
     NSAssert(_delegate, @"set delegate first");
-    BOOL result = [_delegate conversation:self.ID insertMessage:iMsg];
-    return result;
+    return [_delegate conversation:self.ID insertMessage:iMsg];
 }
 
 - (BOOL)removeMessage:(id<DKDInstantMessage>)iMsg {
     NSAssert(_delegate, @"set delegate first");
-    SEL selector = @selector(conversation:removeMessage:);
-    if (![_delegate respondsToSelector:selector]) {
-        NSAssert(false, @"delegate error");
-        return NO;
-    }
-    
-    BOOL result = [_delegate conversation:self.ID removeMessage:iMsg];
-    return result;
+    return [_delegate conversation:self.ID removeMessage:iMsg];
 }
 
 - (BOOL)withdrawMessage:(id<DKDInstantMessage>)iMsg {
     NSAssert(_delegate, @"set delegate first");
-    SEL selector = @selector(conversation:withdrawMessage:);
-    if (![_delegate respondsToSelector:selector]) {
-        NSAssert(false, @"delegate error");
-        return NO;
-    }
-    BOOL result = [_delegate conversation:self.ID withdrawMessage:iMsg];
-    return result;
+    return [_delegate conversation:self.ID withdrawMessage:iMsg];
+}
+
+- (BOOL)saveReceipt:(id<DKDInstantMessage>)iMsg {
+    NSAssert(_delegate, @"set delegate first");
+    return [_delegate conversation:self.ID saveReceipt:iMsg];
 }
 
 @end
