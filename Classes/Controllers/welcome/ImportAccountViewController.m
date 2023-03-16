@@ -68,7 +68,7 @@
     // 3. generate ID
     id<MKMID> ID = MKMIDGenerate(meta, MKMNetwork_Main, nil);
 
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     if (![client importUser:ID meta:meta privateKey:SK]) {
 
         [self showMessage:NSLocalizedString(@"Failed to import user.", nil)

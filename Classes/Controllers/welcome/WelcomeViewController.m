@@ -9,11 +9,15 @@
 #import "UIView+Extension.h"
 #import "UIButton+Extension.h"
 #import "UIViewController+Extension.h"
+
+#import "DIMGlobalVariable.h"
+
+#import "Client.h"
 #import "ImportAccountViewController.h"
 #import "RegisterViewController.h"
-#import "WelcomeViewController.h"
 #import "WebViewController.h"
-#import "Client.h"
+
+#import "WelcomeViewController.h"
 
 @interface WelcomeViewController ()
 
@@ -104,7 +108,7 @@
 
 -(void)didPressAgreementButton:(id)sender{
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     NSString *urlString = client.termsAPI;
     WebViewController *web = [[WebViewController alloc] init];
     web.url = [NSURL URLWithString:urlString];

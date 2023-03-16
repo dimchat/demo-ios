@@ -130,7 +130,7 @@
                 return ;
             }
             id<MKMGroup> group = DIMGroupWithID(_conversation.ID);
-            Client *client = [Client sharedInstance];
+            Client *client = [DIMGlobal terminal];
             id<MKMUser> user = client.currentUser;
             
             DIMSharedMessenger *messenger = [DIMGlobal messenger];
@@ -159,7 +159,7 @@
         }
     } else if(section == SECTION_FUNCTIONS){
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         id<MKMUser> user = client.currentUser;
         
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
@@ -208,7 +208,7 @@
             return 1;
         }
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         id<MKMUser> user = client.currentUser;
         DIMGroup *group = (DIMGroup *)DIMGroupWithID(_conversation.ID);
         if ([group isOwner:user.ID]) {
@@ -293,7 +293,7 @@
             cell.textLabel.text = NSLocalizedString(@"Report", @"title");
         } else {
             
-            Client *client = [Client sharedInstance];
+            Client *client = [DIMGlobal terminal];
             id<MKMUser> user = client.currentUser;
             
             SwitchCell *muteCell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
@@ -329,7 +329,7 @@
     
     if ([segue.identifier isEqualToString:@"reportSegue"]) {
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         id<MKMUser> user = client.currentUser;
         
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
@@ -360,7 +360,7 @@
 
 - (void)switchCell:(SwitchCell *)cell didChangeValue:(BOOL)on{
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     id<MKMUser> user = client.currentUser;
     
     NSArray *currentList = [[LocalDatabaseManager sharedInstance] muteListForUser:user.ID];

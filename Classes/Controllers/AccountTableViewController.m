@@ -13,6 +13,7 @@
 #import "DIMEntity+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "DIMConstants.h"
+#import "DIMGlobalVariable.h"
 
 #import "WebViewController.h"
 #import "Facebook+Profile.h"
@@ -73,7 +74,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     id<MKMDocument> profile = [notification.userInfo objectForKey:@"profile"];
-    id<MKMUser> user = [Client sharedInstance].currentUser;
+    id<MKMUser> user = [DIMGlobal facebook].currentUser;
     if ([profile.ID isEqual:user.ID]) {
         [self reloadData];
     }
@@ -83,7 +84,7 @@
     
     NSDictionary *userInfo = [o userInfo];
     id<MKMID> userID = [userInfo objectForKey:@"ID"];
-    id<MKMUser> user = [Client sharedInstance].currentUser;
+    id<MKMUser> user = [DIMGlobal facebook].currentUser;
     
     if([userID isEqual:user.ID]){
         [self reloadData];
@@ -92,7 +93,7 @@
 
 - (void)reloadData {
     [NSObject performBlockOnMainThread:^{
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         DIMUser *user = [client currentUser];
         
         CGRect avatarFrame = self.avatarImageView.frame;
@@ -136,7 +137,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(indexPath.section == 0){
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
         cell.contact = client.currentUser.ID;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -201,7 +202,7 @@
         
     } else if(indexPath.section == 1){
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         WebViewController *web = [[WebViewController alloc] init];
         web.hidesBottomBarWhenPushed = YES;
         
@@ -231,7 +232,7 @@
         
     } else if(indexPath.section == 2){
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         WebViewController *web = [[WebViewController alloc] init];
         web.hidesBottomBarWhenPushed = YES;
         

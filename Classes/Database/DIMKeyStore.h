@@ -39,7 +39,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMKeyStore : NSObject <DIMCipherKeyDelegate>
+@protocol DIMMsgKeyTable <DIMCipherKeyDelegate>
+
+@end
+
+@interface DIMKeyStore : NSObject <DIMMsgKeyTable>
 
 + (instancetype)sharedInstance;
 

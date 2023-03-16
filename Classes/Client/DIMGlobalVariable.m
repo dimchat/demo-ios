@@ -35,6 +35,8 @@
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
+#import "Client.h"
+
 #import "DIMGlobalVariable.h"
 
 @implementation DIMGlobalVariable
@@ -44,11 +46,14 @@ OKSingletonImplementations(DIMGlobalVariable, sharedInstance)
 - (instancetype)init {
     if (self = [super init]) {
         DIMSharedDatabase *db = [[DIMSharedDatabase alloc] init];
+        DIMSharedFacebook *facebook = [[DIMSharedFacebook alloc] initWithDatabase:db];
+        Client *client = [[Client alloc] initWithFacebook:facebook database:db];
         self.adb = db;
         self.mdb = db;
         self.sdb = db;
         self.database = db;
-        self.facebook = [[DIMSharedFacebook alloc] initWithDatabase:db];
+        self.facebook = facebook;
+        self.terminal = client;
         // load plugins
         [DIMSharedFacebook prepare];
         [DIMSharedMessenger prepare];

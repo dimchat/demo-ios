@@ -25,8 +25,6 @@
 
 @implementation Client
 
-OKSingletonImplementations(Client, sharedInstance)
-
 - (NSString *)displayName {
     NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
     NSString *name = [info valueForKey:@"CFBundleDisplayName"];
@@ -135,6 +133,8 @@ OKSingletonImplementations(Client, sharedInstance)
     id<MKMUser> user = [facebook currentUser];
     if (user) {
         [self loginWithID:user.ID];
+    } else {
+        NSLog(@"current user not found");
     }
 }
 

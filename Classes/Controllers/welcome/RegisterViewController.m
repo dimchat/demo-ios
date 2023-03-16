@@ -307,7 +307,7 @@
             return;
         }
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         DIMUser *user = (DIMUser *)[client currentUser];
         
         //New User add Moky as contact

@@ -15,6 +15,7 @@
 #import "DIMProfile+Extension.h"
 #import "DIMGlobalVariable.h"
 #import "DIMAmanuensis.h"
+#import "DIMGlobalVariable.h"
 
 #import "Client.h"
 
@@ -117,7 +118,7 @@
 
 -(void)loadData{
     
-    id<MKMUser> user = [Client sharedInstance].currentUser;
+    id<MKMUser> user = [DIMGlobal facebook].currentUser;
     if ([user.contacts containsObject:_contact]) {
         self.actionArray = @[NSLocalizedString(@"Chat", @"title")];
     }else{
@@ -156,7 +157,7 @@
     
     if([message isEqualToString:NSLocalizedString(@"Add To Contact", @"title")]){
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         DIMUser *user = (DIMUser *)[client currentUser];
         
         DIMUser *selectedUser = (DIMUser *)DIMUserWithID(self.contact);

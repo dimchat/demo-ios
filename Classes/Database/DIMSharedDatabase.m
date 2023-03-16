@@ -63,6 +63,7 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
         _documentTable = [[DIMDocumentTable alloc] init];
         _userTable     = [[DIMUserTable alloc] init];
         _groupTable    = [[DIMGroupTable alloc] init];
+        _msgKeyTable   = [DIMKeyStore sharedInstance];
     }
     return self;
 }
@@ -318,15 +319,14 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 - (nullable id<MKMSymmetricKey>)cipherKeyFrom:(id<MKMID>)sender
                                            to:(id<MKMID>)receiver
                                      generate:(BOOL)create {
-    // TODO: key store
-    return nil;
+    return [_msgKeyTable cipherKeyFrom:sender to:receiver generate:create];
 }
 
 // Override
 - (void)cacheCipherKey:(id<MKMSymmetricKey>)key
                   from:(id<MKMID>)sender
                     to:(id<MKMID>)receiver {
-    // TODO: key store
+    [_msgKeyTable cacheCipherKey:key from:sender to:receiver];
 }
 
 //

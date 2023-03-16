@@ -247,7 +247,7 @@
         NSUInteger i = 0;
         NSUInteger messageCount = [_conversation numberOfMessage];
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         id<MKMUser> user = client.currentUser;
         
         BOOL hasSentMessage = NO;
@@ -734,7 +734,7 @@
 - (NSString *)identifierForReusableCellAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = indexPath.row;
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     id<MKMUser> user = client.currentUser;
     
     id obj = [self messageAtIndex:row];
@@ -1050,7 +1050,7 @@
 
 -(void)didPressAgreementButton:(id)sender{
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     NSString *urlString = client.termsAPI;
     WebViewController *web = [[WebViewController alloc] init];
     web.url = [NSURL URLWithString:urlString];

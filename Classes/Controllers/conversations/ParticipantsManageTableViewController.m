@@ -53,7 +53,7 @@ static inline BOOL check_username(NSString *username) {
     
     [_logoImageView roundedCorner];
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     id<MKMUser> user = client.currentUser;
     
     // 1. group info
@@ -190,7 +190,7 @@ static inline BOOL check_username(NSString *username) {
 }
 
 - (BOOL)submitGroupInfo {
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     id<MKMUser> user = client.currentUser;
     id<MKMUserDataSource> dataSource = (id<MKMUserDataSource>)[user dataSource];
     id<MKMSignKey> signKey = [dataSource privateKeyForVisaSignature:user.ID];
@@ -423,7 +423,7 @@ static inline BOOL check_username(NSString *username) {
         cell.userInteractionEnabled = NO;
     } else if (section == 1) {
         // candidates
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         id<MKMUser> user = client.currentUser;
         id<MKMID> contact;
         contact = [_candidateList objectAtIndex:row];

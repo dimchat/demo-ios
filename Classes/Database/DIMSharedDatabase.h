@@ -41,6 +41,7 @@
 //#import "DIMContactTable.h"
 #import "DIMGroupTable.h"
 //#import "DIMMsgKeyTable.h"
+#import "DIMKeyStore.h"
 //#import "DIMLoginTable.h"
 //#import "DIMProviderTable.h"
 
@@ -61,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) id<DIMGroupTable> groupTable;
 
-//@property(nonatomic, strong) id<DIMMsgKeyTable> msgKeyTable;
+@property(nonatomic, strong) id<DIMMsgKeyTable> msgKeyTable;
 
 //@property(nonatomic, strong) id<DIMLoginTable> loginTable;
 

@@ -51,7 +51,7 @@
     }
     [mDict setObject:path forKey:@"ConfigFilePath"];
     
-    [[Client sharedInstance] didFinishLaunchingWithOptions:mDict];
+    [[DIMGlobal terminal] didFinishLaunchingWithOptions:mDict];
 
 //    [self addDefaultUser:@"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q"];
 //    [self addDefaultUser:@"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf"];
@@ -66,7 +66,7 @@
     self.window.rootViewController = self.tabbarController;
     [self.window makeKeyAndVisible];
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     id<MKMUser> user = client.currentUser;
     if (!user) {
         WelcomeViewController *vc = [[WelcomeViewController alloc] init];
@@ -231,13 +231,13 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    [[Client sharedInstance] didEnterBackground];
+    [[DIMGlobal terminal] didEnterBackground];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     
-    [[Client sharedInstance] willEnterForeground];
+    [[DIMGlobal terminal] willEnterForeground];
     [self updateBadge:nil];
     [self addObservers];
 }
@@ -249,7 +249,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
-    [[Client sharedInstance] willTerminate];
+    [[DIMGlobal terminal] willTerminate];
 }
 
 #pragma mark - APNs
@@ -258,15 +258,15 @@
     // APNs register success
 //    [JPUSHService registerDeviceToken:deviceToken];
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     [client setPushAlias];
     
-    //[[Client sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+    //[[DIMGlobal terminal] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     // APNs register failed
-    //[[Client sharedInstance] didFailToRegisterForRemoteNotificationsWithError:error];
+    //[[DIMGlobal terminal] didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 #pragma mark- JPUSHRegisterDelegate
@@ -309,7 +309,7 @@
 
 //- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 //    // APNs receive notification
-//    [[Client sharedInstance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+//    [[DIMGlobal terminal] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 //}
 
 #pragma mark - Convert old tables

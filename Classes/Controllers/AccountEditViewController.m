@@ -97,7 +97,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     DIMUser *user = (DIMUser *)[client currentUser];
     DIMVisa *profile = (DIMVisa *)[user visa];
     
@@ -125,7 +125,7 @@
 - (void)onAvatarUpdated:(NSNotification *)notification {
     
     DIMVisa *profile = [notification.userInfo objectForKey:@"profile"];
-    id<MKMUser> user = [Client sharedInstance].currentUser;
+    id<MKMUser> user = [DIMGlobal facebook].currentUser;
     if (![profile.ID isEqual:user.ID]) {
         // not my profile
         return ;
@@ -194,7 +194,7 @@
         NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
         
         DIMFacebook *facebook = [DIMGlobal facebook];
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         id<MKMUser> user = client.currentUser;
         id<MKMID> ID = user.ID;
         id<MKMVisa> visa = user.visa;
@@ -243,7 +243,7 @@
         return NO;
     }
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     id<MKMUser> user = client.currentUser;
     
     id<MKMVisa> visa = user.visa;
@@ -278,7 +278,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     id<MKMUser> user = client.currentUser;
     id<MKMID> ID = user.ID;
     
@@ -354,7 +354,7 @@
         NSInteger section = indexPath.section;
         NSInteger row = indexPath.row;
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         id<MKMUser> user = client.currentUser;
         
         if (section == 0) {
@@ -377,7 +377,7 @@
     NSInteger row = indexPath.row;
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     id<MKMUser> user = client.currentUser;
     
     if (section == 1) {

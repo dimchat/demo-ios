@@ -5,8 +5,11 @@
 //  Created by Albert Moky on 2019/2/1.
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
-#import "GuideCell.h"
+
+#import "DIMGlobalVariable.h"
 #import "Client.h"
+
+#import "GuideCell.h"
 
 @interface GuideCell()
 
@@ -64,7 +67,7 @@
     
     if(self.delegate != nil){
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         NSURL *url = [NSURL URLWithString:client.termsAPI];
         MessageCell *cell = (MessageCell *)self;
         [self.delegate messageCell:cell openUrl:url];

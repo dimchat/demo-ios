@@ -46,6 +46,13 @@
 
 OKSingletonImplementations(DIMConversationDatabase, sharedInstance)
 
+- (instancetype)init {
+    if (self = [super init]) {
+        self.messageTable = [[DIMMessageTable alloc] init];
+    }
+    return self;
+}
+
 - (NSArray<id<MKMID>> *)allConversations {
     return [_messageTable allConversations];
 }
@@ -155,15 +162,15 @@ OKSingletonImplementations(DIMConversationDatabase, sharedInstance)
 }
 
 - (BOOL)conversation:(id<MKMID>)chatBox removeMessage:(id<DKDInstantMessage>)iMsg {
-    return [self conversation:chatBox removeMessage:iMsg];
+    return [_messageTable conversation:chatBox removeMessage:iMsg];
 }
 
 - (BOOL)conversation:(id<MKMID>)chatBox withdrawMessage:(id<DKDInstantMessage>)iMsg {
-    return [self conversation:chatBox withdrawMessage:iMsg];
+    return [_messageTable conversation:chatBox withdrawMessage:iMsg];
 }
 
 - (BOOL)conversation:(id<MKMID>)chatBox saveReceipt:(id<DKDInstantMessage>)iMsg {
-    return [self conversation:chatBox saveReceipt:iMsg];
+    return [_messageTable conversation:chatBox saveReceipt:iMsg];
 }
 
 @end

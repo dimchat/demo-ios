@@ -156,7 +156,6 @@
 		E9AE7F1029BD7CA0008D9F33 /* DIMDefaultProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EED29BD7CA0008D9F33 /* DIMDefaultProcessor.m */; };
 		E9AE7F1129BD7CA0008D9F33 /* DIMMessageDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EF129BD7CA0008D9F33 /* DIMMessageDataSource.m */; };
 		E9AE7F1229BD7CA0008D9F33 /* DIMAmanuensis.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EF429BD7CA0008D9F33 /* DIMAmanuensis.m */; };
-		E9AE7F1329BD7CA0008D9F33 /* DIMKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EF629BD7CA0008D9F33 /* DIMKeyStore.m */; };
 		E9AE7F1529BD7CA0008D9F33 /* DIMSharedProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EFC29BD7CA0008D9F33 /* DIMSharedProcessor.m */; };
 		E9AE7F1629BD7CA0008D9F33 /* DIMStorageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EFF29BD7CA0008D9F33 /* DIMStorageCommand.m */; };
 		E9AE7F1729BD7CA0008D9F33 /* DIMSearchCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7F0029BD7CA0008D9F33 /* DIMSearchCommand.m */; };
@@ -171,6 +170,7 @@
 		E9DBAD0D29BEECA30077C513 /* DIMEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBAD0C29BEECA30077C513 /* DIMEmitter.m */; };
 		E9DBAD1029BF09B70077C513 /* DIMCompatible.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBAD0F29BF09B70077C513 /* DIMCompatible.m */; };
 		E9DBAD1629BF340C0077C513 /* DIMMessageBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBAD1529BF340C0077C513 /* DIMMessageBuilder.m */; };
+		E9DF2EBE29C161D5007854C3 /* DIMKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DF2EBA29C161D4007854C3 /* DIMKeyStore.m */; };
 		E9E106CA29C053910032D5F5 /* DIMSharedDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E106C929C053910032D5F5 /* DIMSharedDatabase.m */; };
 		E9E106D629C071610032D5F5 /* Client+Creation.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E106D529C071610032D5F5 /* Client+Creation.m */; };
 		E9E106D929C072280032D5F5 /* DIMSharedSession.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E106D829C072280032D5F5 /* DIMSharedSession.m */; };
@@ -389,7 +389,6 @@
 		E9AE7ECF29BD7C99008D9F33 /* DIMDocumentTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMDocumentTable.m; sourceTree = "<group>"; };
 		E9AE7ED029BD7C99008D9F33 /* DIMGroupTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMGroupTable.h; sourceTree = "<group>"; };
 		E9AE7EDB29BD7CA0008D9F33 /* DIMSharedMessenger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSharedMessenger.m; sourceTree = "<group>"; };
-		E9AE7EDD29BD7CA0008D9F33 /* DIMKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMKeyStore.h; sourceTree = "<group>"; };
 		E9AE7EDE29BD7CA0008D9F33 /* DIMConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMConversation.m; sourceTree = "<group>"; };
 		E9AE7EDF29BD7CA0008D9F33 /* DIMSharedFacebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSharedFacebook.m; sourceTree = "<group>"; };
 		E9AE7EE029BD7CA0008D9F33 /* DIMProcessorFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMProcessorFactory.m; sourceTree = "<group>"; };
@@ -411,7 +410,6 @@
 		E9AE7EF329BD7CA0008D9F33 /* DIMSharedProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSharedProcessor.h; sourceTree = "<group>"; };
 		E9AE7EF429BD7CA0008D9F33 /* DIMAmanuensis.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMAmanuensis.m; sourceTree = "<group>"; };
 		E9AE7EF529BD7CA0008D9F33 /* DIMConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMConversation.h; sourceTree = "<group>"; };
-		E9AE7EF629BD7CA0008D9F33 /* DIMKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMKeyStore.m; sourceTree = "<group>"; };
 		E9AE7EF829BD7CA0008D9F33 /* DIMSharedMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSharedMessenger.h; sourceTree = "<group>"; };
 		E9AE7EF929BD7CA0008D9F33 /* DIMConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMConstants.h; sourceTree = "<group>"; };
 		E9AE7EFA29BD7CA0008D9F33 /* DIMProcessorFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMProcessorFactory.h; sourceTree = "<group>"; };
@@ -444,6 +442,8 @@
 		E9DBAD0F29BF09B70077C513 /* DIMCompatible.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIMCompatible.m; sourceTree = "<group>"; };
 		E9DBAD1429BF340C0077C513 /* DIMMessageBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMessageBuilder.h; sourceTree = "<group>"; };
 		E9DBAD1529BF340C0077C513 /* DIMMessageBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMMessageBuilder.m; sourceTree = "<group>"; };
+		E9DF2EBA29C161D4007854C3 /* DIMKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMKeyStore.m; sourceTree = "<group>"; };
+		E9DF2EBD29C161D5007854C3 /* DIMKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMKeyStore.h; sourceTree = "<group>"; };
 		E9E106C829C053910032D5F5 /* DIMSharedDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMSharedDatabase.h; sourceTree = "<group>"; };
 		E9E106C929C053910032D5F5 /* DIMSharedDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSharedDatabase.m; sourceTree = "<group>"; };
 		E9E106CB29C06B700032D5F5 /* MarsGate.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MarsGate.xcodeproj; path = ../../../moky/StarGate/MarsGate/MarsGate.xcodeproj; sourceTree = "<group>"; };
@@ -832,6 +832,8 @@
 				E9AE7EC629BD7C99008D9F33 /* DIMGroupTable.m */,
 				E9AE7ECA29BD7C99008D9F33 /* DIMMessageTable.h */,
 				E9AE7EC129BD7C99008D9F33 /* DIMMessageTable.m */,
+				E9DF2EBD29C161D5007854C3 /* DIMKeyStore.h */,
+				E9DF2EBA29C161D4007854C3 /* DIMKeyStore.m */,
 				E9DBAD1429BF340C0077C513 /* DIMMessageBuilder.h */,
 				E9DBAD1529BF340C0077C513 /* DIMMessageBuilder.m */,
 				E9AE7EC229BD7C99008D9F33 /* DIMConversationDatabase.h */,
@@ -855,8 +857,6 @@
 				E9DBAD0629BEEAF80077C513 /* DIMGlobalVariable.m */,
 				E9DBAD0B29BEECA30077C513 /* DIMEmitter.h */,
 				E9DBAD0C29BEECA30077C513 /* DIMEmitter.m */,
-				E9AE7EDD29BD7CA0008D9F33 /* DIMKeyStore.h */,
-				E9AE7EF629BD7CA0008D9F33 /* DIMKeyStore.m */,
 				E9AE7EFB29BD7CA0008D9F33 /* DIMSharedFacebook.h */,
 				E9AE7EDF29BD7CA0008D9F33 /* DIMSharedFacebook.m */,
 				E9AE7EF829BD7CA0008D9F33 /* DIMSharedMessenger.h */,
@@ -1338,7 +1338,6 @@
 				E99A5CCA222E577900EE6C86 /* ContactCell.m in Sources */,
 				E99A5CC7222E576300EE6C86 /* ConversationCell.m in Sources */,
 				E979081B225A6F390024C830 /* UIStoryboard+Extension.m in Sources */,
-				E9AE7F1329BD7CA0008D9F33 /* DIMKeyStore.m in Sources */,
 				E9AE7F1629BD7CA0008D9F33 /* DIMStorageCommand.m in Sources */,
 				E9AE7F0A29BD7CA0008D9F33 /* DIMMuteCommandProcessor.m in Sources */,
 				E9AE7E9729BD7B69008D9F33 /* DIMEntity+Extension.m in Sources */,
@@ -1388,6 +1387,7 @@
 				E9AE7F1029BD7CA0008D9F33 /* DIMDefaultProcessor.m in Sources */,
 				E99A5CAF222D8B3400EE6C86 /* ConversationsTableViewController.m in Sources */,
 				E99A5CB1222D8B3400EE6C86 /* ParticipantsCollectionViewController.m in Sources */,
+				E9DF2EBE29C161D5007854C3 /* DIMKeyStore.m in Sources */,
 				E9AE7ED429BD7C99008D9F33 /* DIMUserTable.m in Sources */,
 				E99A5CCD222ECDBE00EE6C86 /* ParticipantCollectionCell.m in Sources */,
 				E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */,

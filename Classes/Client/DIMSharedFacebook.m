@@ -279,8 +279,7 @@ typedef NSMutableArray<id<MKMID>> UserList;
         }
     }
     if ([url length] == 0) {
-        id a = nil, b = nil;
-        return [[OKPair alloc] initWithFirst:a second:b];
+        return [[OKPair alloc] initWithFirst:nil second:nil];
     }
     // TODO: download avatar
 //    DIMFileServer *http = [DIMFileServer sharedInstance];

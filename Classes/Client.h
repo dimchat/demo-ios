@@ -18,8 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (readonly, nonatomic) NSString *displayName;
 
-+ (instancetype)sharedInstance;
-
 @end
 
 @interface Client (AppDelegate)

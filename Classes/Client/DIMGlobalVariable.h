@@ -62,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) DIMSharedFacebook *facebook;
 @property(nonatomic, strong) DIMSharedMessenger *messenger;
 
-@property(nonatomic, strong) DIMTerminal *terminal;
+@property(nonatomic, strong) __kindof DIMTerminal *terminal;
 
 @property(nonatomic, strong) DIMEmitter *emitter;
 

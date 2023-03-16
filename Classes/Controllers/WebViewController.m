@@ -6,6 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "DIMGlobalVariable.h"
 #import "Client.h"
 
 #import "WebViewController.h"
@@ -37,7 +38,7 @@
     
     _originalTitle = self.title;
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     self.webView.customUserAgent = client.userAgent;
     
     NSAssert(_url, @"entrance URL not set yet");

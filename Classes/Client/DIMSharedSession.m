@@ -37,15 +37,19 @@
 
 #import <MarsGate/MarsGate.h>
 
+#import "DIMConstants.h"
+
 #import "DIMSharedSession.h"
 
 @interface MarsChannel : NIOSocketChannel <STChannel, SGStarDelegate>
 
-@property(nonatomic, weak) MGMars *mars;
+@property(nonatomic, strong) MGMars *mars;
 
 @property(nonatomic, strong) id<NIOSocketAddress> remoteAddress;
 
 @property(nonatomic, strong) NSMutableArray<NSData *> *caches;  // received data
+
+@property(nonatomic, readonly) NSUInteger available;
 
 @end
 
@@ -58,6 +62,16 @@
         self.caches = [[NSMutableArray alloc] init];
     }
     return self;
+}
+
+- (NSUInteger)available {
+    @synchronized (self) {
+        if ([self.caches count] > 0) {
+            NSData *first = [self.caches firstObject];
+            return [first length];
+        }
+    }
+    return 0;
 }
 
 #pragma mark NIOAbstractInterruptibleChannel
@@ -122,6 +136,7 @@
         }
     }
     if (pack) {
+        NSLog(@"---- receiveWithBuffer: %lu byte(s), remote: %@", [pack length], _remoteAddress);
         [dst putData:pack];
         return _remoteAddress;
     }
@@ -136,6 +151,7 @@
     NSMutableData *data = [[NSMutableData alloc] initWithLength:len];
     [src getData:data];
     // send data
+    NSLog(@"---- sendWithBuffer: %lu byte(s) => %@", [data length], remote);
     [_mars send:data handler:self];
     return data.length;;
 }
@@ -151,6 +167,7 @@
         }
     }
     if (pack) {
+        NSLog(@"---- readWithBuffer: %lu byte(s)", [pack length]);
         [dst putData:pack];
     }
     return [pack length];
@@ -164,6 +181,7 @@
     NSMutableData *data = [[NSMutableData alloc] initWithLength:len];
     [src getData:data];
     // send data
+    NSLog(@"---- writeWithBuffer: %lu byte(s)", [data length]);
     [_mars send:data handler:self];
     return data.length;;
 }
@@ -182,10 +200,25 @@
 #pragma mark SGStarDelegate
 
 - (NSInteger)star:(id<SGStar>)star onReceive:(NSData *)responseData {
+    NSUInteger len = [responseData length];
+    if (len < 2) {
+        NSLog(@"received error data: %@", responseData);
+        return -1;
+    }
+    NSLog(@"star: onReceive: %lu byte(s)", len);
     @synchronized (self) {
         [_caches addObject:responseData];
     }
     return 0;
+}
+
+- (void)star:(id<SGStar>)star onConnectionStatusChanged:(SGStarStatus)status {
+    NSLog(@"star: onConnectionStatusChanged: %d", status);
+}
+
+- (void)star:(id<SGStar>)star onFinishSend:(NSData *)requestData
+   withError:(NSError *)error {
+    NSLog(@"star: onFinishSend: %lu byte(s), error: %@", [requestData length], error);
 }
 
 @end
@@ -194,11 +227,34 @@
 
 @interface MarsHub : STClientHub
 
-@property(nonatomic, strong) MGMars *mars;
+@property(atomic, weak) MarsChannel *channel;
 
 @end
 
 @implementation MarsHub
+
+- (instancetype)initWithConnectionDelegate:(id<STConnectionDelegate>)delegate {
+    if (self = [super initWithConnectionDelegate:delegate]) {
+        self.channel = nil;
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self selector:@selector(onSessionStateChanged:)
+                   name:kNotificationName_ServerStateChanged object:nil];
+    }
+    return self;
+}
+
+- (void)onSessionStateChanged:(NSNotification *)notification {
+    NSString *name = [notification name];
+    NSDictionary *info = notification.userInfo;
+    if ([name isEqualToString:kNotificationName_ServerStateChanged]) {
+        NSNumber *state = [info objectForKey:@"stateIndex"];
+        NSUInteger index = [state unsignedIntegerValue];
+        if (index == DIMSessionStateOrderError) {
+            NSLog(@">>> Network error!");
+            self.channel = nil;
+        }
+    }
+}
 
 - (NSDictionary *)launchOptions:(id<NIOSocketAddress>)remoteAddress {
     return @{
@@ -215,14 +271,23 @@
 
 - (id<STChannel>)createSocketChannelForRemoteAddress:(id<NIOSocketAddress>)remote
                                         localAddress:(id<NIOSocketAddress>)local {
+    MarsChannel *channel = self.channel;
+    if ([channel.remoteAddress isEqual:remote]) {
+        NSLog(@"reuse channel: %@ => %@", remote, channel);
+        return channel;
+    }
     NSLog(@"create channel: %@, %@", remote, local);
-    MarsChannel *channel = [[MarsChannel alloc] init];
+    channel = [[MarsChannel alloc] init];
     MGMars *mars = [[MGMars alloc] initWithMessageHandler:channel];
     channel.mars = mars;
     channel.remoteAddress = remote;
     [mars launchWithOptions:[self launchOptions:remote]];
-    self.mars = mars;
+    self.channel = channel;
     return channel;
+}
+
+- (NSUInteger)availableInChannel:(id<STChannel>)channel {
+    return [(MarsChannel *)channel available];
 }
 
 @end

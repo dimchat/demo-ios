@@ -90,7 +90,7 @@ static inline BOOL search(NSString *keywords) {
 
 - (void)viewWillDisappear:(BOOL)animated {
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     
     // 4. stop listening
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];

@@ -80,7 +80,7 @@
         NSDictionary *userInfo = notification.userInfo;
         id<MKMID> groupID = [userInfo objectForKey:@"group"];
         
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         id<MKMUser> user = client.currentUser;
         NSArray<id<MKMID>> *contacts = user.contacts;
         
@@ -105,7 +105,7 @@
 - (void)reloadData {
     _contactsTable = [[NSMutableDictionary alloc] init];
     
-    Client *client = [Client sharedInstance];
+    Client *client = [DIMGlobal terminal];
     id<MKMUser> user = client.currentUser;
     NSArray<id<MKMID>> *contacts = user.contacts;
     NSInteger count = [contacts count];
@@ -222,7 +222,7 @@
         id<MKMID> ID = [list objectAtIndex:row];
         
         DIMSharedFacebook *facebook = [DIMGlobal facebook];
-        Client *client = [Client sharedInstance];
+        Client *client = [DIMGlobal terminal];
         id<MKMUser> user = client.currentUser;
         [facebook removeContact:ID user:user.ID];
         
