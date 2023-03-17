@@ -41,7 +41,7 @@
 
 #import "DIMSharedSession.h"
 
-@interface MarsChannel : NIOSocketChannel <STChannel, SGStarDelegate>
+@interface MarsSocket : NIOSocketChannel <SGStarDelegate>
 
 @property(nonatomic, strong) MGMars *mars;
 
@@ -53,7 +53,7 @@
 
 @end
 
-@implementation MarsChannel
+@implementation MarsSocket
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -86,7 +86,7 @@
 #pragma mark NIOAbstractInterruptibleChannel
 
 - (BOOL)isOpen {
-    return [_mars status] > SGStarStatus_Init;
+    return self.mars;
 }
 
 - (BOOL)isAlive {
@@ -114,11 +114,11 @@
 
 - (BOOL)isBound {
     //NSAssert(false, @"override me!");
-    return [_mars status] > SGStarStatus_Init;
+    return [self.mars status] > SGStarStatus_Init;
 }
 
 - (BOOL)isConnected {
-    return [_mars status] == SGStarStatus_Connected;
+    return [self.mars status] == SGStarStatus_Connected;
 }
 
 - (nullable id<NIONetworkChannel>)bindLocalAddress:(id<NIOSocketAddress>)local {
@@ -178,7 +178,7 @@
     [src getData:data];
     // send data
     NSLog(@"---- sendWithBuffer: %lu byte(s) => %@", [data length], remote);
-    [_mars send:data handler:self];
+    [self.mars send:data handler:self];
     return data.length;;
 }
 
@@ -208,7 +208,7 @@
     [src getData:data];
     // send data
     NSLog(@"---- writeWithBuffer: %lu byte(s)", [data length]);
-    [_mars send:data handler:self];
+    [self.mars send:data handler:self];
     return data.length;;
 }
 
@@ -260,7 +260,32 @@
 
 @end
 
-#pragma mark -
+static inline MarsSocket *create_socket(id<NIOSocketAddress> remote,
+                                        id<NIOSocketAddress> local) {
+    MarsSocket *sock = [[MarsSocket alloc] init];
+    if (local) {
+        [sock bindLocalAddress:local];
+    }
+    [sock connectRemoteAddress:remote];
+    return sock;
+}
+
+#pragma mark Channel
+
+@interface MarsChannel : STStreamChannel
+
+@end
+
+@implementation MarsChannel
+
+// Override
+- (BOOL)isOpen {
+    return [self.socketChannel isOpen];
+}
+
+@end
+
+#pragma mark - Hub
 
 @interface MarsHub : STClientHub
 
@@ -309,6 +334,22 @@
     }
 }
 
+// Override
+- (NSUInteger)availableInChannel:(id<STChannel>)channel {
+    NIOSocketChannel *sock = [(STStreamChannel *)channel socketChannel];
+    return [(MarsSocket *)sock available];
+}
+
+// Override
+- (id<STChannel>)createChannelWithSocketChannel:(NIOSocketChannel *)sock
+                                  remoteAddress:(id<NIOSocketAddress>)remote
+                                   localAddress:(nullable id<NIOSocketAddress>)local {
+    return [[MarsChannel alloc] initWithSocket:sock
+                                 remoteAddress:remote
+                                  localAddress:local];
+}
+
+// Override
 - (id<STChannel>)createSocketChannelForRemoteAddress:(id<NIOSocketAddress>)remote
                                         localAddress:(id<NIOSocketAddress>)local {
     MarsChannel *channel = self.channel;
@@ -320,19 +361,17 @@
         // TODO: only one channel?
         [channel close];
     }
-    NSLog(@"create channel: %@, %@", remote, local);
-    channel = [[MarsChannel alloc] init];
-    if (local) {
-        [channel bindLocalAddress:local];
+    NSLog(@"create socket: %@, %@", remote, local);
+    MarsSocket *sock = create_socket(remote, local);
+    if (!local) {
+        local = [sock localAddress];
     }
-    NSAssert(remote, @"remote address empty");
-    [channel connectRemoteAddress:remote];
+    NSLog(@"create channel: %@, %@", remote, local);
+    channel = [self createChannelWithSocketChannel:sock
+                                     remoteAddress:remote
+                                      localAddress:local];
     self.channel = channel;
     return channel;
-}
-
-- (NSUInteger)availableInChannel:(id<STChannel>)channel {
-    return [(MarsChannel *)channel available];
 }
 
 @end
