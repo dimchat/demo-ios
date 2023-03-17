@@ -62,20 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)importUser:(id<MKMID>)ID meta:(id<MKMMeta>)meta privateKey:(id<MKMPrivateKey>)SK;
 
-- (__kindof id<MKMUser>)currentUser;
-
-- (NSArray<id<MKMUser>> *)users;
-
 @end
-
-#pragma mark - DOS
-
-NSString *document_directory(void);
-NSString *caches_directory(void);
-
-void make_dirs(NSString *dir);
-
-BOOL file_exists(NSString *path);
-BOOL remove_file(NSString *path);
 
 NS_ASSUME_NONNULL_END

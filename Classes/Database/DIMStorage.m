@@ -39,9 +39,55 @@
 
 @implementation DIMStorage
 
+- (NSString *)documentDirectory {
+    return [DIMStorage documentDirectory];
+}
+
+- (NSString *)cachesDirectory {
+    return [DIMStorage cachesDirectory];
+}
+
+- (nullable NSDictionary *)dictionaryWithContentsOfFile:(NSString *)path {
+    if (![DIMStorage fileExistsAtPath:path]) {
+        NSLog(@"file not found: %@", path);
+        return nil;
+    }
+    return [NSDictionary dictionaryWithContentsOfFile:path];
+}
+
+- (BOOL)dictionary:(NSDictionary *)dict writeToBinaryFile:(NSString *)path {
+    NSString *dir = [path stringByDeletingLastPathComponent];
+    if (![DIMStorage createDirectoryAtPath:dir]) {
+        NSAssert(false, @"failed to create directory: %@", dir);
+        return NO;
+    }
+    return [dict writeToBinaryFile:path];
+}
+
+- (nullable NSArray *)arrayWithContentsOfFile:(NSString *)path {
+    if (![DIMStorage fileExistsAtPath:path]) {
+        NSLog(@"file not found: %@", path);
+        return nil;
+    }
+    return [NSArray arrayWithContentsOfFile:path];
+}
+
+- (BOOL)array:(NSArray *)list writeToFile:(NSString *)path {
+    NSString *dir = [path stringByDeletingLastPathComponent];
+    if (![DIMStorage createDirectoryAtPath:dir]) {
+        NSAssert(false, @"failed to create directory: %@", dir);
+        return NO;
+    }
+    return [list writeToFile:path atomically:YES];
+}
+
+@end
+
+@implementation DIMStorage (Application)
+
 static NSString *s_documentDirectory = nil;
 
-- (NSString *)documentDirectory {
++ (NSString *)documentDirectory {
     OKSingletonDispatchOnce(^{
         if (s_documentDirectory == nil) {
             NSArray *paths;
@@ -55,7 +101,7 @@ static NSString *s_documentDirectory = nil;
 
 static NSString *s_cachesDirectory = nil;
 
-- (NSString *)cachesDirectory {
++ (NSString *)cachesDirectory {
     OKSingletonDispatchOnce(^{
         if (s_cachesDirectory == nil) {
             NSArray *paths;
@@ -67,7 +113,11 @@ static NSString *s_cachesDirectory = nil;
     return s_cachesDirectory;
 }
 
-- (BOOL)createDirectoryAtPath:(NSString *)directory {
+@end
+
+@implementation DIMStorage (FileManager)
+
++ (BOOL)createDirectoryAtPath:(NSString *)directory {
     // check base directory exists
     NSFileManager *fm = [NSFileManager defaultManager];
     BOOL isDir;
@@ -83,12 +133,12 @@ static NSString *s_cachesDirectory = nil;
                                error:&error];
 }
 
-- (BOOL)fileExistsAtPath:(NSString *)path {
++ (BOOL)fileExistsAtPath:(NSString *)path {
     NSFileManager *fm = [NSFileManager defaultManager];
     return [fm fileExistsAtPath:path];
 }
 
-- (BOOL)removeItemAtPath:(NSString *)path {
++ (BOOL)removeItemAtPath:(NSString *)path {
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:path]) {
         NSError *err = nil;
@@ -99,40 +149,6 @@ static NSString *s_cachesDirectory = nil;
         }
     }
     return YES;
-}
-
-- (nullable NSDictionary *)dictionaryWithContentsOfFile:(NSString *)path {
-    if (![self fileExistsAtPath:path]) {
-        // file not found
-        return nil;
-    }
-    return [NSDictionary dictionaryWithContentsOfFile:path];
-}
-
-- (BOOL)dictionary:(NSDictionary *)dict writeToBinaryFile:(NSString *)path {
-    NSString *dir = [path stringByDeletingLastPathComponent];
-    if (![self createDirectoryAtPath:dir]) {
-        NSAssert(false, @"failed to create directory: %@", dir);
-        return NO;
-    }
-    return [dict writeToBinaryFile:path];
-}
-
-- (nullable NSArray *)arrayWithContentsOfFile:(NSString *)path {
-    if (![self fileExistsAtPath:path]) {
-        // file not found
-        return nil;
-    }
-    return [NSArray arrayWithContentsOfFile:path];
-}
-
-- (BOOL)array:(NSArray *)list writeToFile:(NSString *)path {
-    NSString *dir = [path stringByDeletingLastPathComponent];
-    if (![self createDirectoryAtPath:dir]) {
-        NSAssert(false, @"failed to create directory: %@", dir);
-        return NO;
-    }
-    return [list writeToFile:path atomically:YES];
 }
 
 @end

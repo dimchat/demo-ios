@@ -76,17 +76,9 @@
     
     [_avatarImageView setImage:image];
     
-    if (MKMEntity_IsGroup(_contact.type)) {
-        DIMGroup *group = (DIMGroup *)DIMGroupWithID(_contact);
-        NSString *name = !group ? _contact.name : group.name;
-        self.nameLabel.text = name;
-        self.descLabel.text = [_contact string];
-    } else {
-        DIMUser *user = (DIMUser *)DIMUserWithID(_contact);
-        NSString *name = !user ? _contact.name : user.name;
-        self.nameLabel.text = name;
-        self.descLabel.text = [_contact string];
-    }
+    NSString *name = DIMNameForID(_contact);
+    self.nameLabel.text = name;
+    self.descLabel.text = [_contact string];
 }
 
 - (void)didAvatarUpdated:(NSNotification *)o {

@@ -35,7 +35,7 @@
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import <DIMP/DIMP.h>
+#import "DIMStorage.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface DIMKeyStore : NSObject <DIMMsgKeyTable>
+@interface DIMKeyStore : DIMStorage <DIMMsgKeyTable>
 
 + (instancetype)sharedInstance;
 

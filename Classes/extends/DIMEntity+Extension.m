@@ -39,23 +39,6 @@
 
 #import "DIMEntity+Extension.h"
 
-@implementation DIMEntity (Name)
-
-- (NSString *)name {
-    return DIMNameForID(self.ID);
-}
-
-@end
-
-@implementation DIMStation (Name)
-
-- (NSString *)name {
-    NSString *str = DIMNameForID(self.ID);
-    return [@"[MTA] " stringByAppendingString:str];
-}
-
-@end
-
 @implementation DIMUser (LocalUser)
 
 + (nullable instancetype)userWithConfigFile:(NSString *)config {
@@ -97,67 +80,6 @@
     }
     
     return user;
-}
-
-- (void)addContact:(id<MKMID>)contact {
-    [[DIMGlobal facebook] addContact:contact user:self.ID];
-}
-
-- (void)removeContact:(id<MKMID>)contact {
-    [[DIMGlobal facebook] removeContact:contact user:self.ID];
-}
-
-@end
-
-@implementation DIMGroup (Extension)
-
-- (NSArray<id<MKMID>> *)assistants {
-    NSArray *list = [DIMGlobal.facebook assistantsOfGroup:self.ID];
-    return [list mutableCopy];
-}
-
-- (BOOL)isFounder:(id<MKMID>)ID {
-    id<MKMID> founder = [self founder];
-    if (founder) {
-        return [founder isEqual:ID];
-    } else {
-        id<MKMMeta> meta = [self meta];
-        id<MKMMeta> uMeta = DIMMetaForID(ID);
-        id<MKMVerifyKey> PK = [uMeta key];
-        //NSAssert(PK, @"failed to get meta for ID: %@", ID);
-        return MKMMetaMatchKey(PK, meta);
-    }
-}
-
-- (BOOL)isOwner:(id<MKMID>)ID {
-    if (self.ID.type == MKMNetwork_Polylogue) {
-        return [self isFounder:ID];
-    }
-    // check owner
-    id<MKMID> owner = [self owner];
-    return [owner isEqual:ID];
-}
-
-- (BOOL)existsAssistant:(id<MKMID>)ID {
-    NSArray<id<MKMID>> *assistants = [self assistants];
-    return [assistants containsObject:ID];
-}
-
-- (BOOL)existsMember:(id<MKMID>)ID {
-    // check broadcast ID
-    if (MKMIDIsBroadcast(self.ID)) {
-        // anyone user is a member of the broadcast group 'everyone@everywhere'
-        return MKMIDIsUser(ID);
-    }
-    // check all member(s)
-    NSArray<id<MKMID>> *members = [self members];
-    for (id<MKMID> item in members) {
-        if ([item isEqual:ID]) {
-            return YES;
-        }
-    }
-    // check owner
-    return [self isOwner:ID];
 }
 
 @end

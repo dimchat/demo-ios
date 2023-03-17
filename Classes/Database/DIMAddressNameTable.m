@@ -74,7 +74,7 @@ typedef NSMutableDictionary<NSString *, id<MKMID>> CacheTableM;
  * @return "Documents/.dim/ans.plist"
  */
 - (NSString *)_ansFilePath {
-    NSString *dir = self.documentDirectory;
+    NSString *dir = [self documentDirectory];
     dir = [dir stringByAppendingPathComponent:@".dim"];
     return [dir stringByAppendingPathComponent:@"ans.plist"];
 }

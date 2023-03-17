@@ -262,14 +262,16 @@
 
 -(void)setPushAlias{
     
-    if(self.currentUser != nil){
-//        NSString *alias = self.currentUser.ID.address;
+//    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+//    id<MKMUser> user = [facebook currentUser];
+//    if (user != nil) {
+//        NSString *alias = user.ID.address;
 //        [JPUSHService setAlias:alias completion:^(NSInteger iResCode, NSString *iAlias, NSInteger seq) {
 //            NSLog(@"Response code %zd", iResCode);
 //            NSLog(@"Response code %@", iAlias);
 //            NSLog(@"Response code %zd", seq);
 //        } seq:0];
-    }
+//    }
 }
 
 @end
@@ -319,69 +321,14 @@
         return NO;
     }
     
+    NSArray<id<MKMUser>> *users = [facebook localUsers];
     id<MKMUser> user = DIMUserWithID(ID);
     [self loginWithID:ID];
     
-    BOOL saved = [facebook saveUserList:self.users withCurrentUser:user];
-    NSAssert(saved, @"failed to save users: %@, current user: %@", self.users, user);
+    BOOL saved = [facebook saveUserList:users withCurrentUser:user];
+    NSAssert(saved, @"failed to save users: %@, current user: %@", users, user);
     
     return saved;
 }
 
-- (id<MKMUser>)currentUser {
-    DIMSharedFacebook *facebook = [DIMGlobal facebook];
-    return [facebook currentUser];
-}
-
-- (NSArray<id<MKMUser>> *)users {
-    DIMSharedFacebook *facebook = [DIMGlobal facebook];
-    return [facebook localUsers];
-}
-
 @end
-
-#pragma mark - DOS
-
-NSString *document_directory(void) {
-    NSArray *paths;
-    paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
-                                                NSUserDomainMask, YES);
-    return paths.firstObject;
-}
-
-NSString *caches_directory(void) {
-    NSArray *paths;
-    paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
-                                                NSUserDomainMask, YES);
-    return paths.firstObject;
-}
-
-void make_dirs(NSString *dir) {
-    // check base directory exists
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if (![fm fileExistsAtPath:dir isDirectory:nil]) {
-        NSError *error = nil;
-        // make sure directory exists
-        [fm createDirectoryAtPath:dir withIntermediateDirectories:YES
-                       attributes:nil error:&error];
-        assert(!error);
-    }
-}
-
-BOOL file_exists(NSString *path) {
-    NSFileManager *fm = [NSFileManager defaultManager];
-    return [fm fileExistsAtPath:path];
-}
-
-BOOL remove_file(NSString *path) {
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:path]) {
-        NSError *err = nil;
-        [fm removeItemAtPath:path error:&err];
-        if (err) {
-            NSLog(@"failed to remove file: %@", err);
-            return NO;
-        }
-    }
-    return YES;
-}

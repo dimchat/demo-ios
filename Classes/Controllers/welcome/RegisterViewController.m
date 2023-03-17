@@ -308,15 +308,6 @@
         }
         
         Client *client = [DIMGlobal terminal];
-        DIMUser *user = (DIMUser *)[client currentUser];
-        
-        //New User add Moky as contact
-        NSString *itemString = @"baloo@4LA5FNbpxP38UresZVpfWroC2GVomDDZ7q";
-        [user addContact:MKMIDParse(itemString)];
-        
-        itemString = @"dim@4TM96qQmGx1UuGtwkdyJAXbZVXufFeT1Xf";
-        [user addContact:MKMIDParse(itemString)];
-        
         [client setPushAlias];
         
         [NSObject performBlockOnMainThread:^{

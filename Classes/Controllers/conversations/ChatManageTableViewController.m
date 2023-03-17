@@ -130,8 +130,8 @@
                 return ;
             }
             id<MKMGroup> group = DIMGroupWithID(_conversation.ID);
-            Client *client = [DIMGlobal terminal];
-            id<MKMUser> user = client.currentUser;
+            DIMSharedFacebook *facebook = [DIMGlobal facebook];
+            id<MKMUser> user = [facebook currentUser];
             
             DIMSharedMessenger *messenger = [DIMGlobal messenger];
             
@@ -159,8 +159,8 @@
         }
     } else if(section == SECTION_FUNCTIONS){
         
-        Client *client = [DIMGlobal terminal];
-        id<MKMUser> user = client.currentUser;
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
         
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
         NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
@@ -168,6 +168,8 @@
         if (MKMIDIsGroup(_conversation.ID)) {
             type = @"group";
         }
+
+        Client *client = [DIMGlobal terminal];
         NSString *api = client.reportAPI;
         api = [api stringByReplacingOccurrencesOfString:@"{sender}" withString:sender];
         api = [api stringByReplacingOccurrencesOfString:@"{ID}" withString:identifier];
@@ -207,11 +209,9 @@
         if (!MKMIDIsGroup(_conversation.ID)) {
             return 1;
         }
-        
-        Client *client = [DIMGlobal terminal];
-        id<MKMUser> user = client.currentUser;
-        DIMGroup *group = (DIMGroup *)DIMGroupWithID(_conversation.ID);
-        if ([group isOwner:user.ID]) {
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
+        if ([facebook isOwner:user.ID group:_conversation.ID]) {
             return 1;
         }
     }
@@ -293,8 +293,8 @@
             cell.textLabel.text = NSLocalizedString(@"Report", @"title");
         } else {
             
-            Client *client = [DIMGlobal terminal];
-            id<MKMUser> user = client.currentUser;
+            DIMSharedFacebook *facebook = [DIMGlobal facebook];
+            id<MKMUser> user = [facebook currentUser];
             
             SwitchCell *muteCell = [tableView dequeueReusableCellWithIdentifier:@"SwitchCell" forIndexPath:indexPath];
             muteCell.textLabel.textAlignment = NSTextAlignmentLeft;
@@ -329,8 +329,8 @@
     
     if ([segue.identifier isEqualToString:@"reportSegue"]) {
         
-        Client *client = [DIMGlobal terminal];
-        id<MKMUser> user = client.currentUser;
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
         
         NSString *sender = [[NSString alloc] initWithFormat:@"%@", user.ID];
         NSString *identifier = [[NSString alloc] initWithFormat:@"%@", _conversation.ID];
@@ -338,6 +338,7 @@
         if (MKMIDIsGroup(_conversation.ID)) {
             type = @"group";
         }
+        Client *client = [DIMGlobal terminal];
         NSString *api = client.reportAPI;
         api = [api stringByReplacingOccurrencesOfString:@"{sender}" withString:sender];
         api = [api stringByReplacingOccurrencesOfString:@"{ID}" withString:identifier];
@@ -360,8 +361,8 @@
 
 - (void)switchCell:(SwitchCell *)cell didChangeValue:(BOOL)on{
     
-    Client *client = [DIMGlobal terminal];
-    id<MKMUser> user = client.currentUser;
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<MKMUser> user = [facebook currentUser];
     
     NSArray *currentList = [[LocalDatabaseManager sharedInstance] muteListForUser:user.ID];
     NSMutableArray *newList = [[NSMutableArray alloc] initWithArray:currentList];

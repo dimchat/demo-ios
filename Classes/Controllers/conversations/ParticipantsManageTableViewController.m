@@ -53,8 +53,8 @@ static inline BOOL check_username(NSString *username) {
     
     [_logoImageView roundedCorner];
     
-    Client *client = [DIMGlobal terminal];
-    id<MKMUser> user = client.currentUser;
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<MKMUser> user = [facebook currentUser];
     
     // 1. group info
     if (MKMIDIsGroup(_conversation.ID)) {
@@ -65,7 +65,7 @@ static inline BOOL check_username(NSString *username) {
         _memberList = _group.members;
         
         // 1.1. logo
-        NSString *name = _group.name;
+        NSString *name = DIMNameForID(_conversation.ID);
         DIMBulletin *profile = (DIMBulletin *)[_group documentWithType:MKMDocument_Bulletin];
         UIImage *logoImage = [profile logoImageWithSize:_logoImageView.bounds.size];
         if (logoImage) {
@@ -77,10 +77,11 @@ static inline BOOL check_username(NSString *username) {
                 [_logoImageView setText:@"[Đ]"];
             }
         }
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
         
         // 1.2. name
         _nameTextField.text = name;
-        if (![_group isOwner:user.ID]) {
+        if (![facebook isOwner:user.ID group:_group.ID]) {
             _nameTextField.enabled = NO;
         }
         
@@ -190,8 +191,8 @@ static inline BOOL check_username(NSString *username) {
 }
 
 - (BOOL)submitGroupInfo {
-    Client *client = [DIMGlobal terminal];
-    id<MKMUser> user = client.currentUser;
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<MKMUser> user = [facebook currentUser];
     id<MKMUserDataSource> dataSource = (id<MKMUserDataSource>)[user dataSource];
     id<MKMSignKey> signKey = [dataSource privateKeyForVisaSignature:user.ID];
     NSAssert(signKey, @"failed to get visa sign key for user: %@", user.ID);
@@ -423,18 +424,21 @@ static inline BOOL check_username(NSString *username) {
         cell.userInteractionEnabled = NO;
     } else if (section == 1) {
         // candidates
-        Client *client = [DIMGlobal terminal];
-        id<MKMUser> user = client.currentUser;
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
         id<MKMID> contact;
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;
         
-        if (_group && ![_group isOwner:user.ID] && [_memberList containsObject:contact]) {
+        if (_group && ![facebook isOwner:user.ID group:_group.ID] &&
+            [_memberList containsObject:contact]) {
             // fixed
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             cell.userInteractionEnabled = NO;
-        } else if ([contact isEqual:_founder] || [_group isOwner:contact] || [contact isEqual:user.ID]) {
+        } else if ([contact isEqual:_founder] ||
+                   [facebook isOwner:contact group:_group.ID] ||
+                   [contact isEqual:user.ID]) {
             // fixed
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;

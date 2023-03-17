@@ -80,12 +80,11 @@
         NSDictionary *userInfo = notification.userInfo;
         id<MKMID> groupID = [userInfo objectForKey:@"group"];
         
-        Client *client = [DIMGlobal terminal];
-        id<MKMUser> user = client.currentUser;
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
         NSArray<id<MKMID>> *contacts = user.contacts;
         
         if(![contacts containsObject:groupID]){
-            DIMSharedFacebook *facebook = [DIMGlobal facebook];
             
             [facebook addContact:groupID user:user.ID];
             
@@ -105,8 +104,8 @@
 - (void)reloadData {
     _contactsTable = [[NSMutableDictionary alloc] init];
     
-    Client *client = [DIMGlobal terminal];
-    id<MKMUser> user = client.currentUser;
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<MKMUser> user = [facebook currentUser];
     NSArray<id<MKMID>> *contacts = user.contacts;
     NSInteger count = [contacts count];
     
@@ -133,7 +132,6 @@
         [mArray addObject:contact];
         
         if (MKMIDIsGroup(contact)){
-            DIMFacebook *facebook = [DIMGlobal facebook];
             NSArray *members = [facebook membersOfGroup:contact];
             
             if(members.count == 0){
@@ -222,8 +220,7 @@
         id<MKMID> ID = [list objectAtIndex:row];
         
         DIMSharedFacebook *facebook = [DIMGlobal facebook];
-        Client *client = [DIMGlobal terminal];
-        id<MKMUser> user = client.currentUser;
+        id<MKMUser> user = [facebook currentUser];
         [facebook removeContact:ID user:user.ID];
         
         //Post contacts to server

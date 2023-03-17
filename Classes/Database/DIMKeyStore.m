@@ -37,13 +37,6 @@
 
 #import "DIMKeyStore.h"
 
-static inline NSString *caches_directory(void) {
-    NSArray *paths;
-    paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory,
-                                                NSUserDomainMask, YES);
-    return paths.firstObject;
-}
-
 // receiver -> key
 typedef NSMutableDictionary<id<MKMID>, id<MKMSymmetricKey>> KeyTable;
 // sender -> map<receiver, key>
@@ -93,16 +86,15 @@ OKSingletonImplementations(DIMKeyStore, sharedInstance)
 
 - (BOOL)saveKeys:(NSDictionary *)keyMap {
     // "Library/Caches/keystore.plist"
-    NSString *dir = caches_directory();
+    NSString *dir = [self cachesDirectory];
     NSString *path = [dir stringByAppendingPathComponent:@"keystore.plist"];
     return [keyMap writeToBinaryFile:path];
 }
 
 - (nullable NSDictionary *)loadKeys {
-    NSString *dir = caches_directory();
+    NSString *dir = [self cachesDirectory];
     NSString *path = [dir stringByAppendingPathComponent:@"keystore.plist"];
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:path]) {
+    if ([DIMStorage fileExistsAtPath:path]) {
         return [NSDictionary dictionaryWithContentsOfFile:path];
     }
     return nil;

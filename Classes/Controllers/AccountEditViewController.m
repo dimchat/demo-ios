@@ -97,14 +97,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    Client *client = [DIMGlobal terminal];
-    DIMUser *user = (DIMUser *)[client currentUser];
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<MKMUser> user = [facebook currentUser];
     DIMVisa *profile = (DIMVisa *)[user visa];
     
     CGSize avatarSize = _avatarImageView.bounds.size;
     
     UIImage *image = [profile avatarImageWithSize:avatarSize];
-    NSString *nickname = user.name;
+    NSString *nickname = DIMNameForID(user.ID);
     
     _avatarImageView.image = image;
     _nicknameTextField.text = nickname;
@@ -193,9 +193,8 @@
         NSString *filename = [MKMHexEncode(MKMMD5Digest(data)) stringByAppendingPathExtension:@"jpeg"];
         NSLog(@"avatar data length: %lu, %lu", data.length, [image pngData].length);
         
-        DIMFacebook *facebook = [DIMGlobal facebook];
-        Client *client = [DIMGlobal terminal];
-        id<MKMUser> user = client.currentUser;
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
         id<MKMID> ID = user.ID;
         id<MKMVisa> visa = user.visa;
         if (!visa) {
@@ -243,8 +242,8 @@
         return NO;
     }
     
-    Client *client = [DIMGlobal terminal];
-    id<MKMUser> user = client.currentUser;
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<MKMUser> user = [facebook currentUser];
     
     id<MKMVisa> visa = user.visa;
     [visa setName:nickname];
@@ -278,8 +277,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    Client *client = [DIMGlobal terminal];
-    id<MKMUser> user = client.currentUser;
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<MKMUser> user = [facebook currentUser];
     id<MKMID> ID = user.ID;
     
     UITableViewCell *cell = nil;
@@ -354,8 +353,8 @@
         NSInteger section = indexPath.section;
         NSInteger row = indexPath.row;
         
-        Client *client = [DIMGlobal terminal];
-        id<MKMUser> user = client.currentUser;
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
         
         if (section == 0) {
 
@@ -377,8 +376,8 @@
     NSInteger row = indexPath.row;
     NSLog(@"section: %ld, row: %ld", (long)section, (long)row);
     
-    Client *client = [DIMGlobal terminal];
-    id<MKMUser> user = client.currentUser;
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<MKMUser> user = [facebook currentUser];
     
     if (section == 1) {
         // function

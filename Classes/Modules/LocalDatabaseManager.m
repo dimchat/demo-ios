@@ -14,7 +14,6 @@
 #import "DIMGlobalVariable.h"
 
 #import "LocalDatabaseManager.h"
-#import "FolderUtility.h"
 #import "FMDB.h"
 
 @interface LocalDatabaseManager()
@@ -45,10 +44,10 @@
     
     if(self = [super init]){
         
-        NSString *documentPath = [[FolderUtility sharedInstance] applicationDocumentsDirectory];
+        NSString *documentPath = [DIMStorage documentDirectory];
         documentPath = [documentPath stringByAppendingPathComponent:@".dim"];
         
-        [[FolderUtility sharedInstance] createFolder:documentPath];
+        [DIMStorage createDirectoryAtPath:documentPath];
         
         NSString *path = [documentPath stringByAppendingPathComponent:@"sechat.db"];
         NSLog(@"The database path is : %@", path);

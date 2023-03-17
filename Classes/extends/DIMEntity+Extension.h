@@ -39,32 +39,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMEntity (Name)
-
-@property (readonly, strong, nonatomic) NSString *name;
-
-@end
-
 @interface DIMUser (LocalUser)
 
 + (nullable instancetype)userWithConfigFile:(NSString *)config;
-
-- (void)addContact:(id<MKMID>)contact;
-- (void)removeContact:(id<MKMID>)contact;
-
-@end
-
-@interface DIMGroup (Extension)
-
-@property (readonly, copy, nonatomic) NSArray<id<MKMID>> *assistants;
-
-- (BOOL)isFounder:(id<MKMID>)ID;
-
-- (BOOL)isOwner:(id<MKMID>)ID;
-
-- (BOOL)existsAssistant:(id<MKMID>)ID;
-
-- (BOOL)existsMember:(id<MKMID>)ID;
 
 @end
 

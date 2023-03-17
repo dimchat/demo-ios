@@ -48,16 +48,4 @@
     [self setObject:@(state) forKey:@"state"];
 }
 
-- (NSString *)error {
-    return [self objectForKey:@"error"];
-}
-
-- (void)setError:(NSString *)error {
-    if (error) {
-        [self setObject:error forKey:@"error"];
-    } else {
-        [self removeObjectForKey:@"error"];
-    }
-}
-
 @end

@@ -135,7 +135,6 @@
     if (!rMsg) {
         NSAssert(false, @"failed to sign message: %@", sMsg);
         content.state = DIMMessageState_Error;
-        content.error = @"Encryption failed.";
         return nil;
     }
     BOOL ok = [self sendReliableMessage:rMsg priority:prior];

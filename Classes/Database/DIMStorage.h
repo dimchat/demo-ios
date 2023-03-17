@@ -44,15 +44,29 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, strong, nonatomic) NSString *documentDirectory;
 @property (readonly, strong, nonatomic) NSString *cachesDirectory;
 
-- (BOOL)createDirectoryAtPath:(NSString *)directory;
-- (BOOL)fileExistsAtPath:(NSString *)path;
-- (BOOL)removeItemAtPath:(NSString *)path;
-
 - (nullable NSDictionary *)dictionaryWithContentsOfFile:(NSString *)path;
 - (BOOL)dictionary:(NSDictionary *)dict writeToBinaryFile:(NSString *)path;
 
 - (nullable NSArray *)arrayWithContentsOfFile:(NSString *)path;
 - (BOOL)array:(NSArray *)list writeToFile:(NSString *)path;
+
+@end
+
+@interface DIMStorage (Application)
+
++ (NSString *)documentDirectory;
+
++ (NSString *)cachesDirectory;
+
+@end
+
+@interface DIMStorage (FileManager)
+
++ (BOOL)createDirectoryAtPath:(NSString *)directory;
+
++ (BOOL)fileExistsAtPath:(NSString *)path;
+
++ (BOOL)removeItemAtPath:(NSString *)path;
 
 @end
 

@@ -93,14 +93,14 @@
 
 - (void)reloadData {
     [NSObject performBlockOnMainThread:^{
-        Client *client = [DIMGlobal terminal];
-        DIMUser *user = [client currentUser];
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
         
         CGRect avatarFrame = self.avatarImageView.frame;
         DIMVisa *profile = (DIMVisa *)[user visa];
         UIImage *image = [profile avatarImageWithSize:avatarFrame.size];
         [self.avatarImageView setImage:image];
-        self.nameLabel.text = user.name;
+        self.nameLabel.text = DIMNameForID(user.ID);
         self.descLabel.text = (NSString *)user.ID;
         
         [self.tableView reloadData];
@@ -137,9 +137,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if(indexPath.section == 0){
-        Client *client = [DIMGlobal terminal];
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
         ContactCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ContactCell"];
-        cell.contact = client.currentUser.ID;
+        cell.contact = [facebook currentUser].ID;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }

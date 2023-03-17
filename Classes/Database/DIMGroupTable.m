@@ -201,7 +201,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
 - (BOOL)removeGroup:(id<MKMID>)group {
     NSString *path = [self _filePathWithID:group];
     NSLog(@"removing group: %@", group);
-    return [self removeItemAtPath:path];
+    return [DIMStorage removeItemAtPath:path];
 }
 
 @end

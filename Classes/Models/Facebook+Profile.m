@@ -6,13 +6,14 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
+#import "DIMStorage.h"
 #import "Client.h"
 
 #import "Facebook+Profile.h"
 
 static inline NSString *base_directory(id<MKMID> ID) {
     // base directory ("Documents/.mkm/{address}")
-    NSString *dir = document_directory();
+    NSString *dir = [DIMStorage documentDirectory];
     dir = [dir stringByAppendingPathComponent:@".mkm"];
     return [dir stringByAppendingPathComponent:[ID.address string]];
 }
@@ -28,9 +29,9 @@ static inline NSString *avatar_filepath(id<MKMID> ID, NSString * _Nullable filen
     NSString *dir = base_directory(ID);
     dir = [dir stringByAppendingPathComponent:@"avatars"];
     // check base directory exists
-    if (autoCreate && !file_exists(dir)) {
+    if (autoCreate && ![DIMStorage fileExistsAtPath:dir]) {
         // make sure directory exists
-        make_dirs(dir);
+        [DIMStorage createDirectoryAtPath:dir];
     }
     if (filename.length == 0) {
         filename = @"avatar.png";
@@ -95,7 +96,7 @@ NSString * const kNotificationName_AvatarUpdated = @"AvatarUpdated";
     NSString *filename = [url lastPathComponent];
     NSString *path = avatar_filepath(ID, filename, NO);
     
-    if (file_exists(path)) {
+    if ([DIMStorage fileExistsAtPath:path]) {
         return [UIImage imageWithContentsOfFile:path];
     }
     // download in background

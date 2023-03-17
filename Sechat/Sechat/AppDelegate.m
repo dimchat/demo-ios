@@ -17,7 +17,6 @@
 #import "AccountTableViewController.h"
 #import "WelcomeViewController.h"
 #import "LocalDatabaseManager.h"
-#import "FolderUtility.h"
 //#import "JPUSHService.h"
 
 #import "AppDelegate.h"
@@ -66,8 +65,8 @@
     self.window.rootViewController = self.tabbarController;
     [self.window makeKeyAndVisible];
     
-    Client *client = [DIMGlobal terminal];
-    id<MKMUser> user = client.currentUser;
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    id<MKMUser> user = [facebook currentUser];
     if (!user) {
         WelcomeViewController *vc = [[WelcomeViewController alloc] init];
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -335,7 +334,7 @@ static id<MKMID> DIMIDWithAddress(id<MKMAddress> address) {
     
     LocalDatabaseManager *sqliteManager = [LocalDatabaseManager sharedInstance];
     
-    NSString *dir = [[FolderUtility sharedInstance] applicationDocumentsDirectory];
+    NSString *dir = [DIMStorage documentDirectory];
     dir = [dir stringByAppendingPathComponent:@".dim"];
     
     NSFileManager *fm = [NSFileManager defaultManager];

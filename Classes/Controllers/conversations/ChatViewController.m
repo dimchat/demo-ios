@@ -35,7 +35,6 @@
 #import "ZoomInViewController.h"
 #import "LocalDatabaseManager.h"
 #import "ChatVoiceView.h"
-#import "FolderUtility.h"
 #import "EMAudioRecordHelper.h"
 #import "EMAudioPlayerHelper.h"
 
@@ -247,8 +246,8 @@
         NSUInteger i = 0;
         NSUInteger messageCount = [_conversation numberOfMessage];
         
-        Client *client = [DIMGlobal terminal];
-        id<MKMUser> user = client.currentUser;
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
         
         BOOL hasSentMessage = NO;
         while(i < messageCount){
@@ -734,9 +733,6 @@
 - (NSString *)identifierForReusableCellAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger row = indexPath.row;
     
-    Client *client = [DIMGlobal terminal];
-    id<MKMUser> user = client.currentUser;
-    
     id obj = [self messageAtIndex:row];
     
     NSString *identifier = @"receivedMsgCell";
@@ -744,6 +740,8 @@
     if([obj isKindOfClass:[NSDate class]]){
         identifier = @"timeCell";
     } else {
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        id<MKMUser> user = [facebook currentUser];
     
         id<DKDInstantMessage> iMsg = [self messageAtIndex:row];
         id<DKDContent> content = iMsg.content;
@@ -765,7 +763,7 @@
             // message from current user
             identifier = @"sentMsgCell";
         } else {
-            NSArray *users = client.users;
+            NSArray *users = [facebook localUsers];
             for (user in users) {
                 if ([user.ID isEqual:sender]) {
                     // message from my account
@@ -899,7 +897,7 @@
     NSLog(@"Voice Begin");
     
     NSString *recordFilename = [[NSUUID UUID] UUIDString];
-    NSString *documentPath = [[[FolderUtility sharedInstance] applicationDocumentsDirectory] stringByAppendingPathComponent:recordFilename];
+    NSString *documentPath = [[DIMStorage documentDirectory] stringByAppendingPathComponent:recordFilename];
     [[EMAudioRecordHelper sharedHelper] startRecordWithPath:documentPath completion:^(NSError * _Nonnull error) {
         
         if(error == nil){
@@ -921,7 +919,7 @@
         //Convert audio
         NSLog(@"Begin to convert audio file %@", aPath);
         NSString *mp4Filename = [[[NSUUID UUID] UUIDString] stringByAppendingString:@".mp4"];
-        NSString *outputPath = [[[FolderUtility sharedInstance] applicationDocumentsDirectory] stringByAppendingPathComponent:mp4Filename];
+        NSString *outputPath = [[DIMStorage documentDirectory] stringByAppendingPathComponent:mp4Filename];
         
         AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:aPath]];
         
@@ -956,7 +954,7 @@
     NSLog(@"Begin to send audio %@", audioPath);
     NSData *audioData = [[NSData alloc] initWithContentsOfFile:audioPath];
     NSString *filename = [MKMHexEncode(MKMMD5Digest(audioData)) stringByAppendingPathExtension:@"mp4"];
-    NSString *distPath = [[[FolderUtility sharedInstance] applicationDocumentsDirectory] stringByAppendingPathComponent:filename];
+    NSString *distPath = [[DIMStorage documentDirectory] stringByAppendingPathComponent:filename];
     
     NSLog(@"Dist path : %@", distPath);
     

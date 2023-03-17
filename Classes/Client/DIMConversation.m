@@ -36,6 +36,7 @@
 //
 
 #import "DIMEntity+Extension.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMConversation.h"
 
@@ -74,19 +75,17 @@
 }
 
 - (NSString *)name {
-    return _entity.name;
+    return DIMNameForID(_entity.ID);
 }
 
 - (NSString *)title {
     DIMConversationType type = self.type;
+    NSString *name = DIMNameForID(_entity.ID);
     if (type == DIMConversationPersonal) {
-        DIMUser *user = (DIMUser *)_entity;
-        NSString *name = user.name;
         // "xxx"
         return name;
     } else if (type == DIMConversationGroup) {
         DIMGroup *group = (DIMGroup *)_entity;
-        NSString *name = group.name;
         unsigned long count = group.members.count;
         // "yyy (123)"
         return [[NSString alloc] initWithFormat:@"%@ (%lu)", name, count];

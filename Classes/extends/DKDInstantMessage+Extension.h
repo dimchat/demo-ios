@@ -58,7 +58,6 @@ typedef NS_ENUM(UInt8, DIMMessageState) {
 @interface DIMContent (State)
 
 @property (nonatomic) DIMMessageState state;
-@property (strong , nonatomic, nullable) NSString *error;
 
 @end
 
