@@ -73,9 +73,12 @@
 - (DIMClientMessenger *)createMessengerWithFacebook:(DIMCommonFacebook *)barrack
                                             session:(DIMClientSession *)session {
     id<DIMMessageDBI> mdb = [DIMGlobal mdb];
-    return [[DIMSharedMessenger alloc] initWithFacebook:barrack
-                                                session:session
-                                               database:mdb];
+    DIMSharedMessenger *messenger;
+    messenger = [[DIMSharedMessenger alloc] initWithFacebook:barrack
+                                                     session:session
+                                                    database:mdb];
+    [DIMGlobal setMessenger:messenger];
+    return messenger;
 }
 
 @end

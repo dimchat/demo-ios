@@ -74,6 +74,15 @@
     return 0;
 }
 
+- (void)setMars:(MGMars *)mars {
+    MGMars *old = _mars;
+    if (old) {
+        NSLog(@"%@ terminating: %@", self, old);
+        [old terminate];
+    }
+    _mars = mars;
+}
+
 #pragma mark NIOAbstractInterruptibleChannel
 
 - (BOOL)isOpen {
@@ -85,7 +94,8 @@
 }
 
 - (void)close {
-    [_mars terminate];
+    NSLog(@"closing channel");
+    self.mars = nil;
 }
 
 #pragma mark NIOSelectableChannel
@@ -104,7 +114,7 @@
 
 - (BOOL)isBound {
     //NSAssert(false, @"override me!");
-    return NO;
+    return [_mars status] > SGStarStatus_Init;
 }
 
 - (BOOL)isConnected {
@@ -117,15 +127,32 @@
 }
 
 - (nullable id<NIONetworkChannel>)connectRemoteAddress:(id<NIOSocketAddress>)remote {
-    NSLog(@"connect remote: %@", remote);
+    NSLog(@"%@, create Mars to connect remote: %@", self, remote);
+    MGMars *mars = [[MGMars alloc] initWithMessageHandler:self];
+    [mars launchWithOptions:[self launchOptions:remote]];
+    self.mars = mars;
+    self.remoteAddress = remote;
     return self;
 }
 
 - (nullable id<NIOByteChannel>)disconnect {
-    [_mars terminate];
+    NSLog(@"disconnecting channel");
+    self.mars = nil;
     return self;
 }
 
+- (NSDictionary *)launchOptions:(id<NIOSocketAddress>)remoteAddress {
+    return @{
+        @"LongLinkAddress": @"dim.chat",
+        @"LongLinkPort": @(remoteAddress.port),
+        @"ShortLinkPort": @(remoteAddress.port),
+        @"NewDNS": @{
+            @"dim.chat": @[
+                remoteAddress.host,
+            ],
+        }
+    };
+}
 
 - (nullable id<NIOSocketAddress>)receiveWithBuffer:(NIOByteBuffer *)dst {
     NSData *pack = nil;
@@ -142,7 +169,6 @@
     }
     return nil;
 }
-
 
 - (NSInteger)sendWithBuffer:(NIOByteBuffer *)src remoteAddress:(id<NIOSocketAddress>)remote {
     // flip to read data
@@ -201,11 +227,13 @@
 
 - (NSInteger)star:(id<SGStar>)star onReceive:(NSData *)responseData {
     NSUInteger len = [responseData length];
-    if (len < 2) {
-        NSLog(@"received error data: %@", responseData);
-        return -1;
+    if (len <= 4) {
+        // TODO: respond 'PONG' when received 'PING'
+        NSLog(@"star: onReceive: [%@]", MKMUTF8Decode(responseData));
+        return 0;
+    } else {
+        NSLog(@"star: onReceive: %lu byte(s)", len);
     }
-    NSLog(@"star: onReceive: %lu byte(s)", len);
     @synchronized (self) {
         [_caches addObject:responseData];
     }
@@ -214,11 +242,20 @@
 
 - (void)star:(id<SGStar>)star onConnectionStatusChanged:(SGStarStatus)status {
     NSLog(@"star: onConnectionStatusChanged: %d", status);
+    if (status == SGStarStatus_Error) {
+        NSLog(@"connection error, closing...");
+        [self disconnect];
+    }
 }
 
 - (void)star:(id<SGStar>)star onFinishSend:(NSData *)requestData
    withError:(NSError *)error {
-    NSLog(@"star: onFinishSend: %lu byte(s), error: %@", [requestData length], error);
+    NSUInteger len = [requestData length];
+    if (len == 4) {
+        NSLog(@"star: onFinishSend: [%@], error: %@", MKMUTF8Decode(requestData), error);
+    } else {
+        NSLog(@"star: onFinishSend: %lu byte(s), error: %@", len, error);
+    }
 }
 
 @end
@@ -251,37 +288,45 @@
         NSUInteger index = [state unsignedIntegerValue];
         if (index == DIMSessionStateOrderError) {
             NSLog(@">>> Network error!");
-            self.channel = nil;
+            MarsChannel *sock = self.channel;
+            if (sock) {
+                NSLog(@"mars isOpen: %d", [sock isOpen]);
+                id<NIOSocketAddress> remote = [sock remoteAddress];
+                id<NIOSocketAddress> local = [sock localAddress];
+                id<STConnection> conn = [self connectionWithRemoteAddress:remote
+                                                             localAddress:local];
+                if ([conn isOpen]) {
+                    NSLog(@"closing connection: %@", conn);
+                    [conn close];
+                }
+                if ([sock isOpen]) {
+                    NSLog(@"closing mars: %@", sock);
+                    [sock close];
+                }
+                self.channel = nil;
+            }
         }
     }
-}
-
-- (NSDictionary *)launchOptions:(id<NIOSocketAddress>)remoteAddress {
-    return @{
-        @"LongLinkAddress": @"dim.chat",
-        @"LongLinkPort": @(remoteAddress.port),
-        @"ShortLinkPort": @(remoteAddress.port),
-        @"NewDNS": @{
-            @"dim.chat": @[
-                remoteAddress.host,
-            ],
-        }
-    };
 }
 
 - (id<STChannel>)createSocketChannelForRemoteAddress:(id<NIOSocketAddress>)remote
                                         localAddress:(id<NIOSocketAddress>)local {
     MarsChannel *channel = self.channel;
-    if ([channel.remoteAddress isEqual:remote]) {
-        NSLog(@"reuse channel: %@ => %@", remote, channel);
-        return channel;
+    if ([channel isOpen]) {
+        if ([channel.remoteAddress isEqual:remote]) {
+            NSLog(@"reuse channel: %@ => %@", remote, channel);
+            return channel;
+        }
+        // TODO: only one channel?
+        [channel close];
     }
     NSLog(@"create channel: %@, %@", remote, local);
     channel = [[MarsChannel alloc] init];
-    MGMars *mars = [[MGMars alloc] initWithMessageHandler:channel];
-    channel.mars = mars;
-    channel.remoteAddress = remote;
-    [mars launchWithOptions:[self launchOptions:remote]];
+    if (local) {
+        [channel bindLocalAddress:local];
+    }
+    NSAssert(remote, @"remote address empty");
+    [channel connectRemoteAddress:remote];
     self.channel = channel;
     return channel;
 }

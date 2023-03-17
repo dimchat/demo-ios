@@ -73,9 +73,9 @@
         UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
         nc.modalPresentationStyle = UIModalPresentationFullScreen;
         [self.tabbarController presentViewController:nc animated:NO completion:nil];
-    } else {
-        DIMSharedMessenger *messenger = [DIMGlobal messenger];
-        [messenger queryMuteList];
+//    } else {
+//        DIMSharedMessenger *messenger = [DIMGlobal messenger];
+//        [messenger queryMuteList];
     }
     
     [self updateBadge:nil];
