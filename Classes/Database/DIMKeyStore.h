@@ -35,7 +35,7 @@
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import "DIMStorage.h"
+#import <DIMP/DIMP.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

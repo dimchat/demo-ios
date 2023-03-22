@@ -157,7 +157,7 @@ OKSingletonImplementations(DIMAmanuensis, sharedInstance)
         }
         return YES;
     } else {
-        NSLog(@"target message not found for receipt: %@", receipt);
+        NSLog(@"target message not found for receipt from %@", iMsg.sender);
     }
     return [chatBox saveReceipt:iMsg];
 }

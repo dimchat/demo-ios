@@ -211,7 +211,8 @@
         }
         DIMSharedFacebook *facebook = [DIMGlobal facebook];
         id<MKMUser> user = [facebook currentUser];
-        if ([facebook isOwner:user.ID group:_conversation.ID]) {
+        DIMGroupManager *manager = [DIMGroupManager sharedInstance];
+        if ([manager isOwner:user.ID group:_conversation.ID]) {
             return 1;
         }
     }

@@ -139,7 +139,6 @@
 		E9AE7ED329BD7C99008D9F33 /* DIMAddressNameTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC429BD7C99008D9F33 /* DIMAddressNameTable.m */; };
 		E9AE7ED429BD7C99008D9F33 /* DIMUserTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC529BD7C99008D9F33 /* DIMUserTable.m */; };
 		E9AE7ED529BD7C99008D9F33 /* DIMGroupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC629BD7C99008D9F33 /* DIMGroupTable.m */; };
-		E9AE7ED629BD7C99008D9F33 /* DIMStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EC929BD7C99008D9F33 /* DIMStorage.m */; };
 		E9AE7ED729BD7C99008D9F33 /* DIMMetaTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7ECD29BD7C99008D9F33 /* DIMMetaTable.m */; };
 		E9AE7ED829BD7C99008D9F33 /* DIMConversationDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7ECE29BD7C99008D9F33 /* DIMConversationDatabase.m */; };
 		E9AE7ED929BD7C99008D9F33 /* DIMDocumentTable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7ECF29BD7C99008D9F33 /* DIMDocumentTable.m */; };
@@ -179,6 +178,7 @@
 		E9E824ED224CCFBB00A029F1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9E824EF224CCFBB00A029F1 /* Localizable.strings */; };
 		E9E82501224D198200A029F1 /* avatar-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E824FF224D198200A029F1 /* avatar-bg.png */; };
 		E9E8250F224F5BBD00A029F1 /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */; };
+		E9FE196629CA0B3400E27BE3 /* DIMFileTransfer.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FE196529CA0B3400E27BE3 /* DIMFileTransfer.m */; };
 		EFF99EA71DCACA97A0D182D7 /* Pods_Sechat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B02D69C702E8D9FB7473318 /* Pods_Sechat.framework */; };
 /* End PBXBuildFile section */
 
@@ -372,7 +372,6 @@
 		E9AE7EB329BD7C41008D9F33 /* LocalDatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalDatabaseManager.m; sourceTree = "<group>"; };
 		E9AE7EBB29BD7C55008D9F33 /* FolderUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderUtility.m; sourceTree = "<group>"; };
 		E9AE7EBC29BD7C55008D9F33 /* FolderUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderUtility.h; sourceTree = "<group>"; };
-		E9AE7EBF29BD7C99008D9F33 /* DIMStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMStorage.h; sourceTree = "<group>"; };
 		E9AE7EC129BD7C99008D9F33 /* DIMMessageTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMMessageTable.m; sourceTree = "<group>"; };
 		E9AE7EC229BD7C99008D9F33 /* DIMConversationDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMConversationDatabase.h; sourceTree = "<group>"; };
 		E9AE7EC329BD7C99008D9F33 /* DIMMetaTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMetaTable.h; sourceTree = "<group>"; };
@@ -380,7 +379,6 @@
 		E9AE7EC529BD7C99008D9F33 /* DIMUserTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMUserTable.m; sourceTree = "<group>"; };
 		E9AE7EC629BD7C99008D9F33 /* DIMGroupTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMGroupTable.m; sourceTree = "<group>"; };
 		E9AE7EC729BD7C99008D9F33 /* DIMDocumentTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMDocumentTable.h; sourceTree = "<group>"; };
-		E9AE7EC929BD7C99008D9F33 /* DIMStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMStorage.m; sourceTree = "<group>"; };
 		E9AE7ECA29BD7C99008D9F33 /* DIMMessageTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMessageTable.h; sourceTree = "<group>"; };
 		E9AE7ECB29BD7C99008D9F33 /* DIMUserTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMUserTable.h; sourceTree = "<group>"; };
 		E9AE7ECC29BD7C99008D9F33 /* DIMAddressNameTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMAddressNameTable.h; sourceTree = "<group>"; };
@@ -462,6 +460,8 @@
 		E9E824FF224D198200A029F1 /* avatar-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-bg.png"; sourceTree = "<group>"; };
 		E9E8250D224F5BBD00A029F1 /* UIButton+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extension.h"; sourceTree = "<group>"; };
 		E9E8250E224F5BBD00A029F1 /* UIButton+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extension.m"; sourceTree = "<group>"; };
+		E9FE196429CA0B3400E27BE3 /* DIMFileTransfer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIMFileTransfer.h; sourceTree = "<group>"; };
+		E9FE196529CA0B3400E27BE3 /* DIMFileTransfer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIMFileTransfer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -818,8 +818,6 @@
 		E9AE7EBE29BD7C99008D9F33 /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				E9AE7EBF29BD7C99008D9F33 /* DIMStorage.h */,
-				E9AE7EC929BD7C99008D9F33 /* DIMStorage.m */,
 				E9AE7ECC29BD7C99008D9F33 /* DIMAddressNameTable.h */,
 				E9AE7EC429BD7C99008D9F33 /* DIMAddressNameTable.m */,
 				E9AE7EC329BD7C99008D9F33 /* DIMMetaTable.h */,
@@ -855,6 +853,8 @@
 				E9AE7EE129BD7CA0008D9F33 /* DIMConstants.m */,
 				E9DBAD0529BEEAF80077C513 /* DIMGlobalVariable.h */,
 				E9DBAD0629BEEAF80077C513 /* DIMGlobalVariable.m */,
+				E9FE196429CA0B3400E27BE3 /* DIMFileTransfer.h */,
+				E9FE196529CA0B3400E27BE3 /* DIMFileTransfer.m */,
 				E9DBAD0B29BEECA30077C513 /* DIMEmitter.h */,
 				E9DBAD0C29BEECA30077C513 /* DIMEmitter.m */,
 				E9AE7EFB29BD7CA0008D9F33 /* DIMSharedFacebook.h */,
@@ -1306,6 +1306,7 @@
 				E97907732254A3970024C830 /* ImagePickerController.m in Sources */,
 				E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */,
 				E9AE7F0E29BD7CA0008D9F33 /* DIMStorageCommandProcessor.m in Sources */,
+				E9FE196629CA0B3400E27BE3 /* DIMFileTransfer.m in Sources */,
 				E9790817225A6E2C0024C830 /* ZoomInViewController.m in Sources */,
 				E9AE7EB929BD7C41008D9F33 /* LocalDatabaseManager.m in Sources */,
 				522EA28E2341953D00FC3BB8 /* BadgeView.m in Sources */,
@@ -1369,7 +1370,6 @@
 				52844B792362A6C7006B4C03 /* SwitchCell.m in Sources */,
 				524294A22334B7E600E8DA05 /* MessageCell.m in Sources */,
 				5242949C23347ED300E8DA05 /* TimeCell.m in Sources */,
-				E9AE7ED629BD7C99008D9F33 /* DIMStorage.m in Sources */,
 				5294D87824E6348500E83570 /* ChatVoiceView.m in Sources */,
 				E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */,
 				E9BBC3822242B21200E6ACDA /* NSString+Extension.m in Sources */,
