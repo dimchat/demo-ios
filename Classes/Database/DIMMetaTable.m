@@ -68,7 +68,7 @@
  * @return "Documents/.mkm/{address}/meta.plist"
  */
 - (NSString *)_filePathWithID:(id<MKMID>)ID {
-    NSString *dir = self.documentDirectory;
+    NSString *dir = [DIMStorage documentDirectory];
     dir = [dir stringByAppendingPathComponent:@".mkm"];
     dir = [dir stringByAppendingPathComponent:[ID.address string]];
     return [dir stringByAppendingPathComponent:@"meta.plist"];
@@ -80,7 +80,7 @@
     if (!meta) {
         // 2. try from local storage
         NSString *path = [self _filePathWithID:ID];
-        NSDictionary *dict = [self dictionaryWithContentsOfFile:path];
+        NSDictionary *dict = [DIMStorage dictionaryWithContentsOfFile:path];
         if (dict) {
             NSLog(@"meta from: %@", path);
             meta = MKMMetaParse(dict);
@@ -115,7 +115,18 @@
     // 2. save into local storage
     NSString *path = [self _filePathWithID:ID];
     NSLog(@"saving meta into: %@ -> %@", ID, path);
-    return [self dictionary:meta.dictionary writeToBinaryFile:path];
+    BOOL ok = [DIMStorage dictionary:meta.dictionary writeToBinaryFile:path];
+    if (ok) {
+        NSDictionary *info = @{
+            @"ID": [ID string],
+            @"meta": [meta dictionary],
+        };
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:kNotificationName_MetaSaved
+                          object:self
+                        userInfo:info];
+    }
+    return ok;
 }
 
 @end

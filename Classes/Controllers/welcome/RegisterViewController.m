@@ -15,6 +15,7 @@
 #import "DIMEntity+Extension.h"
 #import "DIMProfile+Extension.h"
 #import "DIMGlobalVariable.h"
+#import "DIMFileTransfer.h"
 
 #import "Facebook+Register.h"
 #import "Facebook+Profile.h"
@@ -211,7 +212,7 @@
         [facebook saveAvatar:self.imageData name:filename forID:ID];
         
         // upload to CDN
-        DIMFileServer *ftp = [DIMFileServer sharedInstance];
+        DIMFileTransfer *ftp = [DIMFileTransfer sharedInstance];
         NSURL *url = [ftp uploadAvatar:self.imageData filename:filename sender:ID];
         
         // got avatar URL

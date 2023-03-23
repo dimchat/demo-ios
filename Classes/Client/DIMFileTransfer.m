@@ -37,6 +37,8 @@
 
 #import <ObjectKey/ObjectKey.h>
 
+#import "DIMConstants.h"
+
 #import "DIMFileTransfer.h"
 
 static NSPredicate *s_pred = nil;
@@ -117,7 +119,7 @@ static const NSTimeInterval TEMPORARY_EXPIRES = 7 * 24 * 3600;
     // clean expired temporary files for upload/download
     NSTimeInterval now = OKGetCurrentTimeInterval();
     NSString *dir = [DIMStorage temporaryDirectory];
-//    [DIMStorage cleanup:dir expired:(now - TEMPORARY_EXPIRES)];
+    [DIMStorage cleanupDirectory:dir beforeTime:(now - TEMPORARY_EXPIRES)];
 }
 
 @end
@@ -142,45 +144,98 @@ OKSingletonImplementations(DIMFileTransfer, sharedInstance)
     return self;
 }
 
-//- (NSString *)avatarDirectory {
-//    if (!_avatarDirectory) {
-//        NSString *dir = [DIMStorage cachesDirectory];
-//        dir = [dir stringByAppendingPathComponent:@".mkm"];
-//        dir = [dir stringByAppendingPathComponent:@"avatar"];
-//        _avatarDirectory = dir;
-//    }
-//    return _avatarDirectory;
-//}
-//
-//- (NSString *)cachesDirectory {
-//    if (!_cachesDirectory) {
-//        NSString *dir = [DIMStorage cachesDirectory];
-//        dir = [dir stringByAppendingPathComponent:@".dkd"];
-//        dir = [dir stringByAppendingPathComponent:@"caches"];
-//        _cachesDirectory = dir;
-//    }
-//    return _cachesDirectory;
-//}
-//
-//- (NSString *)uploadDirectory {
-//    if (!_uploadDirectory) {
-//        NSString *dir = [DIMStorage cachesDirectory];
-//        dir = [dir stringByAppendingPathComponent:@".dkd"];
-//        dir = [dir stringByAppendingPathComponent:@"upload"];
-//        _uploadDirectory = dir;
-//    }
-//    return _uploadDirectory;
-//}
-//
-//- (NSString *)downloadDirectory {
-//    if (!_downloadDirectory) {
-//        NSString *dir = [DIMStorage cachesDirectory];
-//        dir = [dir stringByAppendingPathComponent:@".dkd"];
-//        dir = [dir stringByAppendingPathComponent:@"download"];
-//        _downloadDirectory = dir;
-//    }
-//    return _downloadDirectory;
-//}
+//-------- Upload Delegate
+
+// private
++ (NSMutableDictionary *)uploadInfo:(__kindof DIMUploadRequest *)req {
+    NSMutableDictionary *info;
+    if ([req isKindOfClass:[DIMUploadTask class]]) {
+        DIMUploadTask *task = (DIMUploadTask *)req;
+        info = [[NSMutableDictionary alloc] initWithCapacity:5];
+        [info setObject:req forKey:@"request"];
+        [info setObject:req.url forKey:@"api"];
+        [info setObject:req.name forKey:@"name"];
+        [info setObject:task.filename forKey:@"filename"];
+    } else {
+        info = [[NSMutableDictionary alloc] initWithCapacity:6];
+        [info setObject:req forKey:@"request"];
+        [info setObject:req.url forKey:@"api"];
+        [info setObject:req.path forKey:@"path"];
+        [info setObject:req.name forKey:@"name"];
+        [info setObject:req.sender forKey:@"sender"];
+    }
+    return info;
+}
+
+- (void)uploadTask:(__kindof DIMUploadRequest *)req onSuccess:(NSURL *)url {
+    NSLog(@"onSuccess: %@, url: %@", req, url);
+    NSMutableDictionary *info = [DIMFileTransfer uploadInfo:req];
+    [info setObject:@{@"url":url} forKey:@"response"];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kNotificationName_FileUploaded
+                      object:self
+                    userInfo:info];
+}
+
+- (void)uploadTask:(__kindof DIMUploadRequest *)req onFailed:(NSException *)error {
+    NSLog(@"onFailed: %@, error: %@", req, error);
+    NSMutableDictionary *info = [DIMFileTransfer uploadInfo:req];
+    [info setObject:error forKey:@"error"];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kNotificationName_FileUploadFailed
+                      object:self
+                    userInfo:info];
+}
+
+- (void)uploadTask:(__kindof DIMUploadRequest *)req onError:(NSError *)error {
+    NSLog(@"onError: %@, error: %@", req, error);
+    NSMutableDictionary *info = [DIMFileTransfer uploadInfo:req];
+    [info setObject:error forKey:@"error"];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kNotificationName_FileUploadFailed
+                      object:self
+                    userInfo:info];
+}
+
+//-------- Download Delegate
+
+- (void)downloadTask:(__kindof DIMDownloadRequest *)req onSuccess:(NSString *)path {
+    NSDictionary *info = @{
+        @"request": req,
+        @"url": req.url,
+        @"path": req.path,
+    };
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kNotificationName_FileDownloaded
+                      object:self
+                    userInfo:info];
+}
+
+- (void)downloadTask:(__kindof DIMDownloadRequest *)req onFailed:(NSException *)error {
+    NSDictionary *info = @{
+        @"request": req,
+        @"url": req.url,
+        @"path": req.path,
+        @"error": error,
+    };
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kNotificationName_FileDownloadFailed
+                      object:self
+                    userInfo:info];
+}
+
+- (void)downloadTask:(__kindof DIMDownloadRequest *)req onError:(NSError *)error {
+    NSDictionary *info = @{
+        @"request": req,
+        @"url": req.url,
+        @"path": req.path,
+        @"error": error,
+    };
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:kNotificationName_FileDownloadFailed
+                      object:self
+                    userInfo:info];
+}
 
 @end
 
@@ -203,8 +258,7 @@ OKSingletonImplementations(DIMFileTransfer, sharedInstance)
     }
 }
 
-+ (NSString *)filenameForRequest:(DIMUploadRequest *)req
-                        filename:(NSString *)origin {
++ (NSString *)filenameForRequest:(DIMUploadRequest *)req {
     if ([req isKindOfClass:[DIMUploadTask class]]) {
         return [(DIMUploadTask *)req filename];
     } else {
@@ -230,7 +284,7 @@ OKSingletonImplementations(DIMFileTransfer, sharedInstance)
         return nil;
     }
     // try download file from remote URL
-    NSString *tempPath = [self downloadEncryptedData:url delegate:self];
+    NSString *tempPath = [self downloadEncryptedData:url];
     if (!tempPath) {
         NSLog(@"not download yet: %@", url);
         return nil;
@@ -281,74 +335,51 @@ OKSingletonImplementations(DIMFileTransfer, sharedInstance)
 
 - (nullable NSURL *)uploadAvatar:(NSData *)image
                         filename:(NSString *)filename
-                          sender:(id<MKMID>)from
-                        delegate:(id<DIMUploadDelegate>)delegate {
+                          sender:(id<MKMID>)from {
     //filename = [filename lastPathComponent];
     filename = [DIMFileTransfer filenameForData:image filename:filename];
     NSString *path = [DIMStorage avatarPathWithFilename:filename];
-    return [self upload:image
-                   path:path
-                   name:FORM_AVATAR
-                 sender:from
-               delegate:delegate];
+    return [self upload:image path:path name:FORM_AVATAR sender:from];
 }
 
 - (nullable NSURL *)uploadEncryptedData:(NSData *)data
                                filename:(NSString *)filename
-                                 sender:(id<MKMID>)from
-                               delegate:(id<DIMUploadDelegate>)delegate {
+                                 sender:(id<MKMID>)from {
     //filename = [filename lastPathComponent];
     filename = [DIMFileTransfer filenameForData:data filename:filename];
     NSString *path = [DIMStorage uploadPathWithFilename:filename];
-    return [self upload:data
-                   path:path
-                   name:FORM_FILE
-                 sender:from
-               delegate:delegate];
+    return [self upload:data path:path name:FORM_FILE sender:from];
 }
 
 // private
 - (nullable NSURL *)upload:(NSData *)data
                       path:(NSString *)path
                       name:(const NSString*)var
-                    sender:(id<MKMID>)from
-                  delegate:(id<DIMUploadDelegate>)delegate {
+                    sender:(id<MKMID>)from {
     NSURL *url = [[NSURL alloc] initWithString:self.api];
     NSData *key = MKMHexDecode(self.secret);
-    if (!delegate) {
-        delegate = self;
-    }
     return [_http upload:url
                   secret:key
                     data:data
                     path:path
                     name:var
-                  sender:from
-                delegate:delegate];
+                  sender:from delegate:self];
 }
 
 @end
 
 @implementation DIMFileTransfer (Download)
 
-- (nullable NSString *)downloadAvatar:(NSURL *)url
-                             delegate:(id<DIMDownloadDelegate>)delegate {
+- (nullable NSString *)downloadAvatar:(NSURL *)url {
     NSString *filename = [DIMFileTransfer filenameForURL:url];
     NSString *path = [DIMStorage avatarPathWithFilename:filename];
-    if (!delegate) {
-        delegate = self;
-    }
-    return [_http download:url path:path delegate:delegate];
+    return [_http download:url path:path delegate:self];
 }
 
-- (nullable NSString *)downloadEncryptedData:(NSURL *)url
-                                    delegate:(id<DIMDownloadDelegate>)delegate {
+- (nullable NSString *)downloadEncryptedData:(NSURL *)url {
     NSString *filename = [DIMFileTransfer filenameForURL:url];
     NSString *path = [DIMStorage downloadPathWithFilename:filename];
-    if (!delegate) {
-        delegate = self;
-    }
-    return [_http download:url path:path delegate:delegate];
+    return [_http download:url path:path delegate:self];
 }
 
 // private

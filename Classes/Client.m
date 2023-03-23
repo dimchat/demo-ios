@@ -8,6 +8,7 @@
 
 #import "DIMConstants.h"
 #import "DIMGlobalVariable.h"
+#import "DIMFileTransfer.h"
 #import "DIMSharedFacebook.h"
 
 #import "Facebook+Profile.h"
@@ -120,11 +121,11 @@
     }
     
     // configure FTP server
-    DIMFileServer *ftp = [DIMFileServer sharedInstance];
-    ftp.userAgent = self.userAgent;
-    ftp.uploadAPI = self.uploadAPI;
-    ftp.downloadAPI = self.downloadAPI;
-    ftp.avatarAPI = self.avatarAPI;
+    DIMFileTransfer *ftp = [DIMFileTransfer sharedInstance];
+    //ftp.userAgent = self.userAgent;
+    ftp.api = self.uploadAPI;
+//    ftp.downloadAPI = self.downloadAPI;
+//    ftp.avatarAPI = self.avatarAPI;
     
     // connect server
     [self connectToHost:IP port:[port unsignedShortValue]];
@@ -282,13 +283,13 @@
     return @"https://sechat.dim.chat/{ID}/upload";
 }
 
-- (NSString *)downloadAPI {
-    return @"https://sechat.dim.chat/download/{ID}/{filename}";
-}
-
-- (NSString *)avatarAPI {
-    return @"https://sechat.dim.chat/avatar/{ID}/{filename}";
-}
+//- (NSString *)downloadAPI {
+//    return @"https://sechat.dim.chat/download/{ID}/{filename}";
+//}
+//
+//- (NSString *)avatarAPI {
+//    return @"https://sechat.dim.chat/avatar/{ID}/{filename}";
+//}
 
 - (NSString *)reportAPI {
     return @"https://sechat.dim.chat/report?type={type}&identifier={ID}&sender={sender}";

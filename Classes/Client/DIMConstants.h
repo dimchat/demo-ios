@@ -29,5 +29,7 @@ extern NSString * const kNotificationName_GroupMembersUpdated;
 
 extern NSString * const kNotificationName_FileUploaded;
 extern NSString * const kNotificationName_FileUploadFailed;
+extern NSString * const kNotificationName_FileDownloaded;
+extern NSString * const kNotificationName_FileDownloadFailed;
 
 NS_ASSUME_NONNULL_END

@@ -44,11 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
 // @"https://sechat.dim.chat/{ID}}/upload"
 @property (readonly, copy, nonatomic) NSString *uploadAPI;
 
-// @"https://sechat.dim.chat/download/{ID}/{filename}"
-@property (readonly, copy, nonatomic) NSString *downloadAPI;
-
-// @"https://sechat.dim.chat/avatar/{ID}/{filename}"
-@property (readonly, copy, nonatomic) NSString *avatarAPI;
+//// @"https://sechat.dim.chat/download/{ID}/{filename}"
+//@property (readonly, copy, nonatomic) NSString *downloadAPI;
+//
+//// @"https://sechat.dim.chat/avatar/{ID}/{filename}"
+//@property (readonly, copy, nonatomic) NSString *avatarAPI;
 
 // @"https://sechat.dim.chat/report?type={type}&identifier={ID}&sender={sender}"
 @property (readonly, copy, nonatomic) NSString *reportAPI;

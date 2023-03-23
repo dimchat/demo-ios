@@ -38,7 +38,6 @@
 #import "DIMGlobalVariable.h"
 
 #import "DIMMessageTable.h"
-#import "DIMConstants.h"
 
 #import "DIMConversationDatabase.h"
 
@@ -62,16 +61,7 @@ OKSingletonImplementations(DIMConversationDatabase, sharedInstance)
 }
 
 -(BOOL)markConversationMessageRead:(id<MKMID>)chatBox{
-    BOOL result = [_messageTable markConversationMessageRead:chatBox];
-    
-    if (result) {
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName:kNotificationName_ConversationUpdated
-                          object:self
-                        userInfo:@{@"ID": chatBox}];
-    }
-    
-    return result;
+    return [_messageTable markConversationMessageRead:chatBox];
 }
 
 #pragma mark DIMConversationDataSource
@@ -89,15 +79,7 @@ OKSingletonImplementations(DIMConversationDatabase, sharedInstance)
 }
 
 - (BOOL)removeConversation:(id<MKMID>)chatBox {
-    BOOL result = [_messageTable removeConversation:chatBox];
-    
-    if (result) {
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName:kNotificationName_MessageCleaned object:self
-                        userInfo:@{@"ID": chatBox}];
-    }
-    
-    return result;
+    return [_messageTable removeConversation:chatBox];
 }
 
 - (BOOL)clearConversation:(id<MKMID>)chatBox {
@@ -133,22 +115,7 @@ OKSingletonImplementations(DIMConversationDatabase, sharedInstance)
 #pragma mark DIMConversationDelegate
 
 - (BOOL)conversation:(id<MKMID>)chatBox insertMessage:(id<DKDInstantMessage>)iMsg {
-    
-    BOOL OK = [_messageTable conversation:chatBox insertMessage:iMsg];
-    
-    if (OK) {
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        
-        [nc postNotificationName:kNotificationName_ConversationUpdated
-                          object:self
-                        userInfo:@{@"ID": chatBox}];
-        
-        [nc postNotificationName:kNotificationName_MessageInserted
-                          object:self
-                        userInfo:@{@"Conversation": chatBox, @"Message": iMsg}];
-    }
-    
-    return OK;
+    return [_messageTable conversation:chatBox insertMessage:iMsg];
     
 //    NSArray<id<DKDInstantMessage>> *messages;
 //    messages = [_messageTable messagesInConversation:chatBox.ID];

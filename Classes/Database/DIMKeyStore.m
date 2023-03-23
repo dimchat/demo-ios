@@ -86,13 +86,13 @@ OKSingletonImplementations(DIMKeyStore, sharedInstance)
 
 - (BOOL)saveKeys:(NSDictionary *)keyMap {
     // "Library/Caches/keystore.plist"
-    NSString *dir = [self cachesDirectory];
+    NSString *dir = [DIMStorage cachesDirectory];
     NSString *path = [dir stringByAppendingPathComponent:@"keystore.plist"];
     return [keyMap writeToBinaryFile:path];
 }
 
 - (nullable NSDictionary *)loadKeys {
-    NSString *dir = [self cachesDirectory];
+    NSString *dir = [DIMStorage cachesDirectory];
     NSString *path = [dir stringByAppendingPathComponent:@"keystore.plist"];
     if ([DIMStorage fileExistsAtPath:path]) {
         return [NSDictionary dictionaryWithContentsOfFile:path];

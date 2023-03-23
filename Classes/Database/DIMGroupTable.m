@@ -80,7 +80,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
  * @return "Documents/.mkm/{address}/members.plist"
  */
 - (NSString *)_filePathWithID:(id<MKMID>)ID {
-    NSString *dir = self.documentDirectory;
+    NSString *dir = [DIMStorage documentDirectory];
     dir = [dir stringByAppendingPathComponent:@".mkm"];
     dir = [dir stringByAppendingPathComponent:ID.address.string];
     return [dir stringByAppendingPathComponent:@"members.plist"];
@@ -90,7 +90,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     NSMutableArray<id<MKMID>> *members = [_caches objectForKey:group];
     if (!members) {
         NSString *path = [self _filePathWithID:group];
-        NSArray *array = [self arrayWithContentsOfFile:path];
+        NSArray *array = [DIMStorage arrayWithContentsOfFile:path];
         members = convert_id_list(array);
         NSLog(@"loaded %lu member(s) from %@", members.count, path);
         // cache it
@@ -105,12 +105,12 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     
     NSString *path = [self _filePathWithID:group];
     NSLog(@"saving %lu member(s) into: %@", members.count, path);
-    BOOL result = [self array:revert_id_list(members) writeToFile:path];
+    BOOL result = [DIMStorage array:revert_id_list(members) writeToFile:path];
     if (result) {
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName:kNotificationName_GroupMembersUpdated
                           object:self
-                        userInfo:@{@"ID":group}];
+                        userInfo:@{@"group":group}];
     }
     return result;
 }

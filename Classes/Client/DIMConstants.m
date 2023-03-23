@@ -28,3 +28,5 @@ NSString * const kNotificationName_GroupMembersUpdated = @"DIM_GroupMembersUpdat
 
 NSString * const kNotificationName_FileUploaded        = @"DIM_FileUploaded";
 NSString * const kNotificationName_FileUploadFailed    = @"DIM_FileUploadFailed";
+NSString * const kNotificationName_FileDownloaded      = @"DIM_FileDownloaded";
+NSString * const kNotificationName_FileDownloadFailed  = @"DIM_FileDownloadFailed";

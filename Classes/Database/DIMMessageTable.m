@@ -37,7 +37,10 @@
 
 #import <DIMSDK/DIMSDK.h>
 
+#import "DIMConstants.h"
+
 #import "LocalDatabaseManager.h"
+
 #import "DIMMessageTable.h"
 
 typedef NSMutableArray<id<MKMID>> ConversationList;
@@ -131,6 +134,10 @@ typedef NSMutableDictionary<id<MKMID>, MessageList *> MessageTable;
 - (BOOL)removeConversation:(id<MKMID>)chatBox {
     if ([self.database deleteConversation:chatBox]) {
         [self deleteCacheForConversation:chatBox];
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:kNotificationName_MessageCleaned
+                          object:self
+                        userInfo:@{@"ID": chatBox}];
         return YES;
     } else {
         return NO;
@@ -175,6 +182,14 @@ typedef NSMutableDictionary<id<MKMID>, MessageList *> MessageTable;
         MessageList *messages = [self loadMessages:chatBox];
         NSAssert(messages, @"messages should not be nil here");
         [messages addObject:iMsg];
+        
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:kNotificationName_ConversationUpdated
+                          object:self
+                        userInfo:@{@"ID": chatBox}];
+        [nc postNotificationName:kNotificationName_MessageInserted
+                          object:self
+                        userInfo:@{@"Conversation": chatBox, @"Message": iMsg}];
         return YES;
     } else {
         return NO;
@@ -222,7 +237,14 @@ typedef NSMutableDictionary<id<MKMID>, MessageList *> MessageTable;
 }
 
 - (BOOL)markConversationMessageRead:(id<MKMID>)chatBox {
-    return [self.database markMessageRead:chatBox];
+    BOOL ok = [self.database markMessageRead:chatBox];
+    if (ok) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:kNotificationName_ConversationUpdated
+                          object:self
+                        userInfo:@{@"ID": chatBox}];
+    }
+    return ok;
 }
 
 @end

@@ -156,8 +156,8 @@
     
     if([message isEqualToString:NSLocalizedString(@"Add To Contact", @"title")]){
         
-        Client *client = [DIMGlobal terminal];
-        DIMUser *user = (DIMUser *)[client currentUser];
+        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        DIMUser *user = (DIMUser *)[facebook currentUser];
         
         DIMUser *selectedUser = (DIMUser *)DIMUserWithID(self.contact);
         NSString *name = DIMNameForID(!selectedUser ? _contact : selectedUser.ID);

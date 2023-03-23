@@ -39,7 +39,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DIMEmitter : FSMRunner
+@interface DIMEmitter : NSObject
 
 - (void)sendText:(NSString *)text receiver:(id<MKMID>)to;
 
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sendFileContentMessage:(id<DKDInstantMessage>)iMsg
                       password:(id<MKMSymmetricKey>)key;
 
-- (DIMEmitter *)start;
+- (void)purge;
 
 @end
 

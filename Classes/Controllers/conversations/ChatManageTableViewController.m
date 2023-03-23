@@ -147,7 +147,8 @@
                                   priority:STDeparturePriorityNormal];
                 }
                 // remove myself
-                [[DIMGlobal facebook] removeMember:user.ID group:group.ID];
+                DIMGroupManager *manager = [DIMGroupManager sharedInstance];
+                [manager removeMember:user.ID group:group.ID];
                 
                 // clear message in conversation
                 MessageDatabase *msgDB = [MessageDatabase sharedInstance];

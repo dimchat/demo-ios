@@ -17,8 +17,9 @@
 #import "UIViewController+Extension.h"
 
 #import "DKDInstantMessage+Extension.h"
-#import "DIMGlobalVariable.h"
 #import "DIMConstants.h"
+#import "DIMGlobalVariable.h"
+#import "DIMFileTransfer.h"
 
 #import "WebViewController.h"
 #import "ImagePickerController.h"
@@ -594,8 +595,6 @@
     // 1. build message content
     DIMContent *content = nil;
     if (image) {
-        DIMFileServer *ftp = [DIMFileServer sharedInstance];
-        
         CGSize maxSize = CGSizeMake(1024, 1024);
         CGSize imgSize = image.size;
         if (imgSize.width > maxSize.width || imgSize.height > maxSize.height) {
@@ -606,13 +605,13 @@
         // image file
         NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
         NSString *filename = [MKMHexEncode(MKMMD5Digest(data)) stringByAppendingPathExtension:@"jpeg"];
-        [ftp saveData:data filename:filename];
+        [DIMFileTransfer cacheFileData:data filename:filename];
         
         // thumbnail
         UIImage *thumbnail = [image thumbnail];
         NSData *small = [thumbnail jpegDataWithQuality:UIImage_JPEGCompressionQuality_Thumbnail];
         NSLog(@"thumbnail data length: %lu < %lu, %lu", small.length, data.length, [image pngData].length);
-        [ftp saveThumbnail:small filename:filename];
+        //[ftp saveThumbnail:small filename:filename];
         
         // add image data length & thumbnail into message content
         content = [[DIMImageContent alloc] initWithImageData:data filename:filename];
@@ -962,12 +961,12 @@
     NSError *error;
     [fm moveItemAtPath:audioPath toPath:distPath error:&error];
     
-    BOOL uploadSuccess = [[DIMFileServer sharedInstance] saveData:audioData filename:filename];
-    NSLog(@"Upload audio file %d", uploadSuccess);
+    BOOL ok = [DIMFileTransfer cacheFileData:audioData filename:filename];
+    NSLog(@"save audio file %d", ok);
 
     DIMAudioContent *content = [[DIMAudioContent alloc] initWithAudioData:audioData filename:filename];
     [content setObject:@(audioData.length) forKey:@"length"];
-    [content setObject:@(duration * 1000.0) forKey:@"duration"];
+    [content setObject:@(duration) forKey:@"duration"];
 
     if (MKMIDIsGroup(self.conversation.ID)) {
         content.group = self.conversation.ID;

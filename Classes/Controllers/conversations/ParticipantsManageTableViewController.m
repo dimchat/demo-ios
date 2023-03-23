@@ -77,11 +77,11 @@ static inline BOOL check_username(NSString *username) {
                 [_logoImageView setText:@"[Đ]"];
             }
         }
-        DIMSharedFacebook *facebook = [DIMGlobal facebook];
+        DIMGroupManager *manager = [DIMGroupManager sharedInstance];
         
         // 1.2. name
         _nameTextField.text = name;
-        if (![facebook isOwner:user.ID group:_group.ID]) {
+        if (![manager isOwner:user.ID group:_group.ID]) {
             _nameTextField.enabled = NO;
         }
         
@@ -430,14 +430,15 @@ static inline BOOL check_username(NSString *username) {
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;
         
-        if (_group && ![facebook isOwner:user.ID group:_group.ID] &&
+        DIMGroupManager *manager = [DIMGroupManager sharedInstance];
+        if (_group && ![manager isOwner:user.ID group:_group.ID] &&
             [_memberList containsObject:contact]) {
             // fixed
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             cell.userInteractionEnabled = NO;
         } else if ([contact isEqual:_founder] ||
-                   [facebook isOwner:contact group:_group.ID] ||
+                   [manager isOwner:contact group:_group.ID] ||
                    [contact isEqual:user.ID]) {
             // fixed
             [tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];

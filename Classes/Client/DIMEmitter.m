@@ -37,14 +37,32 @@
 
 #import "DIMConstants.h"
 #import "DIMGlobalVariable.h"
+#import "DIMFileTransfer.h"
 #import "DIMMessageDataSource.h"
 
 #import "DIMEmitter.h"
 
-@interface DIMEmitter ()
+static inline void save_instant_message(id<DKDInstantMessage> iMsg) {
+    DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
+    BOOL ok = [mds saveInstantMessage:iMsg];
+    assert(ok);
+}
 
-// filename => URL
-@property(nonatomic, strong) NSMutableDictionary<NSString *, NSURL *> *cdn;
+static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
+    NSLog(@"send insetant message (type: %d): %@ -> %@",
+          [iMsg.content type], [iMsg sender], [iMsg receiver]);
+    // send by shared messenger
+    DIMSharedMessenger *messenger = [DIMGlobal messenger];
+    [messenger sendInstantMessage:iMsg priority:STDeparturePriorityNormal];
+    // save instant message
+    save_instant_message(iMsg);
+}
+
+@interface DIMEmitter () {
+    
+    // filename => task
+    NSMutableDictionary<NSString *, id<DKDInstantMessage>> *_map;
+}
 
 @end
 
@@ -52,7 +70,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.cdn = [NSMutableDictionary dictionary];
+        _map = [[NSMutableDictionary alloc] init];
         
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self selector:@selector(onFileUploadSuccess:) name:kNotificationName_FileUploaded object:nil];
@@ -61,12 +79,111 @@
     return self;
 }
 
+// private
+- (DIMFileTransfer *)fileTransfer {
+    // TODO: get 'api' & 'secret' from comfiguration
+    return [DIMFileTransfer sharedInstance];
+}
+
+// private
+- (void)addTask:(id<DKDInstantMessage>)iMsg filename:(NSString *)filename {
+    @synchronized (_map) {
+        [_map setObject:iMsg forKey:filename];
+    }
+}
+
+// private
+- (nullable id<DKDInstantMessage>)popTask:(NSString *)filename {
+    @synchronized (_map) {
+        id<DKDInstantMessage> iMsg = [_map objectForKey:filename];
+        if (iMsg) {
+            [_map removeObjectForKey:filename];
+        }
+        return iMsg;
+    }
+}
+
+- (void)purge {
+    // TODO: remove expired messages in the map
+}
+
 - (void)onFileUploadSuccess:(NSNotification *)notification {
-    // TODO: send suspended message
+    NSDictionary *info = [notification userInfo];
+    DIMUploadRequest *req = [info objectForKey:@"request"];
+    NSDictionary *response = [info objectForKey:@"response"];
+    NSURL *url = [response objectForKey:@"url"];
+    NSLog(@"onFileUploadSuccess: %@, url: %@", req, url);
+
+    NSString *filename = [DIMFileTransfer filenameForRequest:req];
+    id<DKDInstantMessage> iMsg = [self popTask:filename];
+    if (!iMsg) {
+        NSLog(@"failed to get task: %@, url: %@", filename, url);
+        return;
+    }
+    NSLog(@"get task for file: %@, url: %@", filename, url);
+    // file data uploaded to FTP server, replace it with download URL
+    // and send the content to station
+    id<DKDFileContent> content = (id<DKDFileContent>)[iMsg content];
+    //content.fileData = nil;
+    [content setURL:url];
+    // try to send out
+    send_instant_message(iMsg);
 }
 
 - (void)onFileUploadFailed:(NSNotification *)notification {
-    // TODO: mark message failed
+    NSDictionary *info = [notification userInfo];
+    DIMUploadRequest *req = [info objectForKey:@"request"];
+    id error = [info objectForKey:@"error"];
+    NSLog(@"onFileUploadFailed: %@, error: %@", req, error);
+    
+    NSString *filename = [DIMFileTransfer filenameForRequest:req];
+    id<DKDInstantMessage> iMsg = [self popTask:filename];
+    if (!iMsg) {
+        NSLog(@"failed to get task: %@", filename);
+        return;
+    }
+    NSLog(@"get task for file: %@", filename);
+    // file data failed to upload, mark it error
+    info = @{
+        @"message": @"failed to upload file"
+    };
+    [iMsg setObject:info forKey:@"error"];
+    // try to save with error info
+    save_instant_message(iMsg);
+}
+
+- (void)sendFileContentMessage:(id<DKDInstantMessage>)iMsg
+                      password:(id<MKMSymmetricKey>)key {
+    id<DKDFileContent> content = (id<DKDFileContent>)[iMsg content];
+    // 1. save origin file data
+    NSData *data = [content fileData];
+    NSString *filename = [content filename];
+    BOOL ok = [DIMFileTransfer cacheFileData:data filename:filename];
+    if (!ok) {
+        NSLog(@"failed to save file data (%lu bytes): %@", data.length, filename);
+        return;
+    }
+    // 2. save instant message without file data
+    [content setFileData:nil];
+    save_instant_message(iMsg);
+    // 3. add upload task with encrypted data
+    NSData *encrypted = [key encrypt:data];
+    filename = [DIMFileTransfer filenameForData:encrypted filename:filename];
+    id<MKMID> sender = [iMsg sender];
+    NSURL *url = [self.fileTransfer uploadEncryptedData:encrypted
+                                               filename:filename
+                                                 sender:sender];
+    if (url) {
+        // already upload before, set URL and send out immediately
+        NSLog(@"uploaded filename: %@ -> %@ => %@",
+              content.filename, filename, url);
+        [content setURL:url];
+        send_instant_message(iMsg);
+    } else {
+        // add task for upload
+        [self addTask:iMsg filename:filename];
+        NSLog(@"waiting upload filename: %@ -> %@", content.filename, filename);
+    }
 }
 
 - (void)sendText:(NSString *)text receiver:(id<MKMID>)to {
@@ -119,76 +236,6 @@
     // save instant message
     DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
     [mds saveInstantMessage:result.first];
-}
-
-// private
-- (void)sendInstantMessage:(id<DKDInstantMessage>)iMsg {
-    NSLog(@"send insetant message (type: %d): %@ -> %@", iMsg.content.type, iMsg.sender, iMsg.receiver);
-    // send by shared messenger
-    DIMSharedMessenger *messenger = [DIMGlobal messenger];
-    [messenger sendInstantMessage:iMsg priority:STDeparturePriorityNormal];
-    // save instant message
-    DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
-    [mds saveInstantMessage:iMsg];
-}
-
-- (void)sendFileContentMessage:(id<DKDInstantMessage>)iMsg
-                      password:(id<MKMSymmetricKey>)key {
-    id<DKDFileContent> content = (id<DKDFileContent>)[iMsg content];
-    // 1. save origin file data
-    NSData *data = [content fileData];
-    NSString *filename = [content filename];
-    DIMFileServer *ftp = [DIMFileServer sharedInstance];
-    BOOL ok = [ftp saveData:data filename:filename];
-    if (!ok) {
-        NSLog(@"failed to save file data (%lu bytes): %@", data.length, filename);
-        return;
-    }
-    // 2. save instant message without file data
-    [content setFileData:nil];
-    DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
-    ok = [mds saveInstantMessage:iMsg];
-    if (!ok) {
-        NSLog(@"failed to save file message: %@ -> %@", iMsg.sender, iMsg.receiver);
-        return;
-    }
-    // 3. add upload task with encrypted data
-    NSData *encrypted = [key encrypt:data];
-    NSString *ext = [filename pathExtension];
-    filename = MKMHexEncode(MKMMD5Digest(encrypted));
-    if ([ext length] > 0) {
-        filename = [filename stringByAppendingPathExtension:ext];
-    }
-    // 4. check for same file
-    NSURL *url = [_cdn objectForKey:filename];
-    if (url) {
-        // already upload before, set URL and send out immediately
-        NSLog(@"sent filename: %@ -> %@ => %@", content.filename, filename, url);
-        [content setURL:url];
-        [self sendInstantMessage:iMsg];
-    } else {
-        // TODO: add task for upload
-    }
-}
-
-//
-//  Upload Task Queue
-//
-
-- (DIMEmitter *)start {
-    // TODO: start a background thread
-    return self;
-}
-
-// Override
-- (void)stop {
-    [super stop];
-}
-
-// Override
-- (BOOL)process {
-    // TODO: run upload tasks in queue
-    return NO;
 }
 
 @end

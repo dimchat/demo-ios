@@ -11,6 +11,7 @@
 #import "DIMProfile+Extension.h"
 #import "DIMInstantMessage+Extension.h"
 #import "DIMGlobalVariable.h"
+#import "DIMFileTransfer.h"
 #import "DIMMessageBuilder.h"
 
 #import "MessageCell.h"
@@ -154,21 +155,21 @@
                 [self.picImageView removeFromSuperview];
                 [self.contentView addSubview:self.audioButton];
                 
-//                NSInteger duration = [[self.message.content objectForKey:@"duration"] integerValue] / 1000.0;
+//                NSTimeInterval duration = [[content objectForKey:@"duration"] doubleValue];
 //
 //                if(duration <= 0){
                 
-                NSInteger duration = 0;
-                if(msg.audioData){
+                NSTimeInterval duration = 0;
+                if (msg.audioData) {
                     DIMAudioContent *content = (DIMAudioContent *)self.message.content;
-                    NSString *filename = content.filename;
-                    NSString *path = [[DIMFileServer sharedInstance] cachePathForFilename:filename];
+                    DIMFileTransfer *ftp = [DIMFileTransfer sharedInstance];
+                    NSString *path = [ftp pathForContent:content];
                     
                     AVAsset *asset = [AVAsset assetWithURL:[NSURL fileURLWithPath:path]];
                     duration = CMTimeGetSeconds(asset.duration);
                 }
                 
-                NSString *durationString = [NSString stringWithFormat:@"%zd''", duration];
+                NSString *durationString = [NSString stringWithFormat:@"%f''", duration];
                 [self.audioButton setTitle:durationString forState:UIControlStateNormal];
                 self.messageLabel.text = durationString;
             }
@@ -311,12 +312,14 @@
     [[UIPasteboard generalPasteboard] setString:self.messageLabel.text];
 }
 
--(void)didPressPlayAudioButton:(id)sender{
+- (void)didPressPlayAudioButton:(id)sender {
     
-    if(self.delegate != nil){
+    if (self.delegate != nil) {
         
-        NSString *filename = ((DIMFileContent *)self.message.content).filename;
-        NSString *path = [[DIMFileServer sharedInstance] cachePathForFilename:filename];
+        id<DKDFileContent> content = (id<DKDFileContent>)[self.message content];
+        
+        DIMFileTransfer *ftp = [DIMFileTransfer sharedInstance];
+        NSString *path = [ftp pathForContent:content];
         
         [self.delegate messageCell:self playAudio:path];
     }

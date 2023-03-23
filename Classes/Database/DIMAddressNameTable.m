@@ -74,7 +74,7 @@ typedef NSMutableDictionary<NSString *, id<MKMID>> CacheTableM;
  * @return "Documents/.dim/ans.plist"
  */
 - (NSString *)_ansFilePath {
-    NSString *dir = [self documentDirectory];
+    NSString *dir = [DIMStorage documentDirectory];
     dir = [dir stringByAppendingPathComponent:@".dim"];
     return [dir stringByAppendingPathComponent:@"ans.plist"];
 }
@@ -84,7 +84,7 @@ typedef NSMutableDictionary<NSString *, id<MKMID>> CacheTableM;
     id<MKMID> ID;
     NSString *path = [self _ansFilePath];
     NSLog(@"loading ANS records from: %@", path);
-    NSDictionary *dict = [self dictionaryWithContentsOfFile:path];
+    NSDictionary *dict = [DIMStorage dictionaryWithContentsOfFile:path];
     for (NSString *name in dict) {
         ID = MKMIDParse([dict objectForKey:name]);
         [caches setObject:ID forKey:name];
@@ -121,7 +121,7 @@ typedef NSMutableDictionary<NSString *, id<MKMID>> CacheTableM;
     // save
     NSString *path = [self _ansFilePath];
     NSLog(@"saving ANS records from: %@", path);
-    return [self dictionary:self.caches writeToBinaryFile:path];
+    return [DIMStorage dictionary:self.caches writeToBinaryFile:path];
 }
 
 - (BOOL)removeRecordForName:(NSString *)alias {

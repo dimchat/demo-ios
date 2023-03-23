@@ -48,12 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
 // upload key (hex)
 @property(nonatomic, strong) NSString *secret;
 
-//@property(nonatomic, readonly) NSString *avatarDirectory;  // "Library/Caches/.mkm/avatar"
-//@property(nonatomic, readonly) NSString *cachesDirectory;  // "Library/Caches/.dkd/caches"
-//
-//@property(nonatomic, readonly) NSString *uploadDirectory;    // "tmp/.dkd/upload"
-//@property(nonatomic, readonly) NSString *downloadDirectory;  // "tmp/.dkd/download"
-
 + (instancetype)sharedInstance;
 
 @end
@@ -63,8 +57,25 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)filenameForData:(NSData *)data
                      filename:(NSString *)origin;
 
-+ (NSString *)filenameForRequest:(DIMUploadRequest *)req
-                        filename:(NSString *)origin;
++ (NSString *)filenameForRequest:(DIMUploadRequest *)req;
+
+//
+//  Decryption process
+//  ~~~~~~~~~~~~~~~~~~
+//
+//  1. get 'filename' from file content and call 'getCacheFilePath(filename)',
+//     if not null, means this file is already downloaded an decrypted;
+//
+//  2. get 'URL' from file content and call 'downloadEncryptedFile(url)',
+//     if not null, means this file is already downloaded but not decrypted yet,
+//     this step will get a temporary path for encrypted data, continue step 3;
+//     if the return path is null, then let the delegate waiting for response;
+//
+//  3. get 'password' from file content and call 'decryptFileData(path, password)',
+//     this step will get the decrypted file data, you should save it to cache path
+//     by calling 'cacheFileData(data, filename)', notice that this filename is in
+//     hex format by hex(md5(data)), which is the same string with content.filename.
+//
 
 - (nullable NSString *)pathForContent:(id<DKDFileContent>)content;
 
@@ -97,13 +108,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @param image    - image data
  * @param filename - image filename ('avatar.jpg')
  * @param from     - user ID
- * @param delegate - callback
  * @return remote URL if same file uploaded before
  */
 - (nullable NSURL *)uploadAvatar:(NSData *)image
                         filename:(NSString *)filename
-                          sender:(id<MKMID>)from
-                        delegate:(id<DIMUploadDelegate>)delegate;
+                          sender:(id<MKMID>)from;
 
 /**
  *  Upload encrypted file data for user
@@ -111,13 +120,11 @@ NS_ASSUME_NONNULL_BEGIN
  * @param data     - encrypted data
  * @param filename - data file name ('voice.mp4')
  * @param from     - user ID
- * @param delegate - callback
  * @return remote URL if same file uploaded before
  */
 - (nullable NSURL *)uploadEncryptedData:(NSData *)data
                                filename:(NSString *)filename
-                                 sender:(id<MKMID>)from
-                               delegate:(id<DIMUploadDelegate>)delegate;
+                                 sender:(id<MKMID>)from;
 
 @end
 
@@ -127,21 +134,17 @@ NS_ASSUME_NONNULL_BEGIN
  *  Download avatar image file
  *
  * @param url      - avatar URL
- * @param delegate - callback
  * @return local path if same file downloaded before
  */
-- (nullable NSString *)downloadAvatar:(NSURL *)url
-                             delegate:(id<DIMDownloadDelegate>)delegate;
+- (nullable NSString *)downloadAvatar:(NSURL *)url;
 
 /**
  *  Download encrypted file data for user
  *
  * @param url      - relay URL
- * @param delegate - callback
  * @return temporary path if same file downloaded before
  */
-- (nullable NSString *)downloadEncryptedData:(NSURL *)url
-                                    delegate:(id<DIMDownloadDelegate>)delegate;
+- (nullable NSString *)downloadEncryptedData:(NSURL *)url;
 
 @end
 

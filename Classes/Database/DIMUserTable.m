@@ -82,7 +82,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
  * @return "Documents/.dim/users.plist"
  */
 - (NSString *)_usersFilePath {
-    NSString *dir = self.documentDirectory;
+    NSString *dir = [DIMStorage documentDirectory];
     dir = [dir stringByAppendingPathComponent:@".dim"];
     return [dir stringByAppendingPathComponent:@"users.plist"];
 }
@@ -90,7 +90,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
 - (NSMutableArray<id<MKMID>> *)_loadUsers {
     if (!_users) {
         NSString *path = [self _usersFilePath];
-        NSArray *array = [self arrayWithContentsOfFile:path];
+        NSArray *array = [DIMStorage arrayWithContentsOfFile:path];
         _users = convert_id_list(array);
         NSLog(@"loaded %lu user(s) from %@", _users.count, path);
     }
@@ -103,7 +103,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     // save into storage
     NSString *path = [self _usersFilePath];
     NSLog(@"saving %ld user(s) into %@", list.count, path);
-    return [self array:revert_id_list(list) writeToFile:path];
+    return [DIMStorage array:revert_id_list(list) writeToFile:path];
 }
 
 /**
@@ -113,7 +113,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
  * @return "Documents/.mkm/{address}/contacts.plist"
  */
 - (NSString *)_filePathWithID:(id<MKMID>)ID {
-    NSString *dir = self.documentDirectory;
+    NSString *dir = [DIMStorage documentDirectory];
     dir = [dir stringByAppendingPathComponent:@".mkm"];
     dir = [dir stringByAppendingPathComponent:[ID.address string]];
     return [dir stringByAppendingPathComponent:@"contacts.plist"];
@@ -123,7 +123,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     NSMutableArray<id<MKMID>> *contacts = [_caches objectForKey:user];
     if (!contacts) {
         NSString *path = [self _filePathWithID:user];
-        NSArray *array = [self arrayWithContentsOfFile:path];
+        NSArray *array = [DIMStorage arrayWithContentsOfFile:path];
         contacts = convert_id_list(array);
         NSLog(@"loaded %lu contact(s) from %@", contacts.count, path);
         // cache it
@@ -138,14 +138,14 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     
     NSString *path = [self _filePathWithID:user];
     NSLog(@"saving %lu contact(s) into %@", contacts.count, path);
-    BOOL result = [self array:revert_id_list(contacts) writeToFile:path];
-    if (result) {
+    BOOL ok = [DIMStorage array:revert_id_list(contacts) writeToFile:path];
+    if (ok) {
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName:kNotificationName_ContactsUpdated
                           object:self
-                        userInfo:@{@"ID":user}];
+                        userInfo:@{@"user":user}];
     }
-    return result;
+    return ok;
 }
 
 #pragma mark User DBI

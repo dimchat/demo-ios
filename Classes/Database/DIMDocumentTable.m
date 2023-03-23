@@ -69,7 +69,7 @@
  * @return "Documents/.mkm/{address}/profile.plist"
  */
 - (NSString *)_filePathWithID:(id<MKMID>)ID {
-    NSString *dir = self.documentDirectory;
+    NSString *dir = [DIMStorage documentDirectory];
     dir = [dir stringByAppendingPathComponent:@".mkm"];
     dir = [dir stringByAppendingPathComponent:ID.address.string];
     return [dir stringByAppendingPathComponent:@"profile.plist"];
@@ -81,7 +81,7 @@
     if (!doc) {
         // 2. try from database
         NSString *path = [self _filePathWithID:ID];
-        NSDictionary *dict = [self dictionaryWithContentsOfFile:path];
+        NSDictionary *dict = [DIMStorage dictionaryWithContentsOfFile:path];
         if (dict) {
             NSLog(@"document from: %@", path);
             NSString *data = [dict objectForKey:@"data"];
@@ -113,7 +113,15 @@
     // 2. save into database
     NSString *path = [self _filePathWithID:ID];
     NSLog(@"saving document into: %@ -> %@", ID, path);
-    return [self dictionary:doc.dictionary writeToBinaryFile:path];
+    BOOL ok = [DIMStorage dictionary:doc.dictionary writeToBinaryFile:path];
+    if (ok) {
+        NSDictionary *info = [doc dictionary];
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:kNotificationName_DocumentUpdated
+                          object:self
+                        userInfo:info];
+    }
+    return ok;
 }
 
 @end
