@@ -35,7 +35,7 @@
 //  Copyright © 2018 DIM Group. All rights reserved.
 //
 
-#import <DIMP/DIMP.h>
+#import <DIMClient/DIMClient.h>
 
 #import "DKDInstantMessage+Extension.h"
 #import "DIMGlobalVariable.h"

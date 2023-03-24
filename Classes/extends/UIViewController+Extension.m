@@ -6,7 +6,7 @@
 //  Copyright © 2019 DIM Group. All rights reserved.
 //
 
-#import <DIMP/DIMP.h>
+#import <DIMClient/DIMClient.h>
 
 #import "UIViewController+Extension.h"
 

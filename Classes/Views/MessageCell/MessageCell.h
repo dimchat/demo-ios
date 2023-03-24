@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <DIMP/DIMP.h>
+#import <DIMClient/DIMClient.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIApplication.h>
 #import <UserNotifications/UserNotifications.h>
-#import <DIMP/DIMP.h>
+#import <DIMClient/DIMClient.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
