@@ -4,14 +4,16 @@ Demo project of DIM Client, just for study purpose.
 
 Dependencies:
 
-- [DIM Client (demo-objc)](https://github.com/dimchat/demo-objc)
+- [<b>DIM Client</b> (demo-objc)](https://github.com/dimchat/demo-objc)
 	- [DIM SDK (sdk-objc)](https://github.com/dimchat/sdk-objc)
 		- [DIM Core (core-objc)](https://github.com/dimchat/core-objc)
 			- [Message Module (dkd-objc)](https://github.com/dimchat/dkd-objc)
 			- [Account Module (mkm-objc)](https://github.com/dimchat/mkm-objc)
-	- [Connection Module (moky/StarGate)](https://github.com/moky/StarGate)
-		- [Tencent/mars](https://github.com/Tencent/mars)
-	- [Finite State Machine](https://github.com/moky/FiniteStateMachine)
+	- [Star Trek](https://github.com/moky/StarTrek)
+		- [State Machine](https://github.com/moky/FiniteStateMachine)
+		- [Object Kits](https://github.com/moky/ObjectKey)
+- [<b>Network Module</b> (moky/StarGate)](https://github.com/moky/StarGate)
+	- [Tencent/mars](https://github.com/Tencent/mars)
 
 ## Getting started
 
@@ -27,21 +29,20 @@ git clone https://github.com/dimchat/demo-ios.git
 # requirements
 git clone https://github.com/dimchat/demo-objc.git
 
-git clone https://github.com/dimchat/sdk-objc.git
-git clone https://github.com/dimchat/core-objc.git
-git clone https://github.com/dimchat/dkd-objc.git
-git clone https://github.com/dimchat/mkm-objc.git
-
 cd ..; mkdir moky; cd moky/
 git clone https://github.com/moky/StarGate.git
-git clone https://github.com/moky/FiniteStateMachine.git
-
-cd ../dimchat/
 ```
 
 ### 1. Test in simulators
 
-Just open `dimchat/demo-ios/Sechat/Sechat.xcodeproj`
+```
+cd GitHub/dimchat/demo-ios/Sechat/
+
+# install requirements
+pod install --repo-update
+```
+
+after all pods installed, open `GitHub/dimchat/demo-ios/Sechat/Sechat.xcworkspace`
 
 ### 2. Test in iOS devices
 
@@ -57,8 +58,7 @@ git clone https://github.com/Tencent/mars.git
 * Edit building script `build_ios.py` to enable bitcode for iOS devices:
 
 ```
-cd GitHub/
-cd Tencent/mars/mars
+cd GitHub/Tencent/mars/mars
 
 vi build_ios.py
 #
@@ -74,4 +74,7 @@ python build_ios.py
 #
 ```
 
-then open `dimchat/demo-ios/Sechat/Sechat.xcodeproj`
+then open `GitHub/dimchat/demo-ios/Sechat/Sechat.xcworkspace`
+
+--
+<i>Edited by [Alber Moky](https://twitter.com/AlbertMoky) @ 2023-3-25</i>
