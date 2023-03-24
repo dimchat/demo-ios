@@ -329,6 +329,27 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
     [_msgKeyTable cacheCipherKey:key from:sender to:receiver];
 }
 
+// Override
+- (DIMReliableMessageResult *)reliableMessageForReceiver:(id<MKMID>)receiver
+                                                   range:(NSRange)range {
+    // TODO: get messages waiting to send out
+    return nil;
+}
+
+// Override
+- (BOOL)cacheReliableMessage:(id<DKDReliableMessage>)rMsg
+                 forReceiver:(id<MKMID>)receiver {
+    // TODO: cache message for sending out
+    return NO;
+}
+
+// Override
+- (BOOL)removeReliableMessage:(id<DKDReliableMessage>)rMsg
+                  forReceiver:(id<MKMID>)receiver {
+    // TODO: remove message sent
+    return NO;
+}
+
 //
 //  Session DBI
 //

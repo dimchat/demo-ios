@@ -2,15 +2,14 @@ platform :ios, '12.0'
 use_frameworks!
 
 target 'Sechat' do
-
-    pod 'DIMP', :path => '../../demo-objc/'  # '0.1.0'
+    pod 'DIMP', '0.1.0'
 
     pod 'JCore', '2.7.1'
     pod 'JPush', '3.2.4-noidfa'
 end
 
 target 'DIMTalk' do
-    pod 'DIMP', :path => '../../demo-objc/'  # '0.1.0'
+    pod 'DIMP', '0.1.0'
 
     pod 'JCore', '2.7.1'
     pod 'JPush', '3.2.4-noidfa'
