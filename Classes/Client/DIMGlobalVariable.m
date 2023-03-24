@@ -47,13 +47,13 @@ OKSingletonImplementations(DIMGlobalVariable, sharedInstance)
     if (self = [super init]) {
         DIMSharedDatabase *db = [[DIMSharedDatabase alloc] init];
         DIMSharedFacebook *facebook = [[DIMSharedFacebook alloc] initWithDatabase:db];
-        Client *client = [[Client alloc] initWithFacebook:facebook database:db];
         self.adb = db;
         self.mdb = db;
         self.sdb = db;
         self.database = db;
         self.facebook = facebook;
-        self.terminal = client;
+        self.emitter = [[DIMEmitter alloc] init];
+        self.terminal = [[Client alloc] initWithFacebook:facebook database:db];
         // load plugins
         [DIMSharedFacebook prepare];
         [DIMSharedMessenger prepare];

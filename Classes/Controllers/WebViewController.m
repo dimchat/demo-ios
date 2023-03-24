@@ -56,10 +56,11 @@
 
 - (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation {
     
-    NSString *string = webView.URL.absoluteString;
+    NSURL *url = [webView URL];
+    NSString *string = NSStringFromURL(url);
     if ([string hasPrefix:@"http://"]) {
         string = [@"https://" stringByAppendingString:[string substringFromIndex:7]];
-        NSURL *url = [NSURL URLWithString:string];
+        NSURL *url = NSURLFromString(string);
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         [webView loadRequest:request];
     }

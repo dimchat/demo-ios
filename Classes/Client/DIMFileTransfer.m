@@ -356,7 +356,7 @@ OKSingletonImplementations(DIMFileTransfer, sharedInstance)
                       path:(NSString *)path
                       name:(const NSString*)var
                     sender:(id<MKMID>)from {
-    NSURL *url = [[NSURL alloc] initWithString:self.api];
+    NSURL *url = NSURLFromString([self api]);
     NSData *key = MKMHexDecode(self.secret);
     return [_http upload:url
                   secret:key
@@ -384,7 +384,9 @@ OKSingletonImplementations(DIMFileTransfer, sharedInstance)
 
 // private
 + (NSString *)filenameForURL:(NSURL *)url {
-    NSString *urlString = [url absoluteString];
+    // cached filename for downloaded URL:
+    //      hex(md5(url)) + ext
+    NSString *urlString = NSStringFromURL(url);
     NSString *filename = [urlString lastPathComponent];
     NSData *data = MKMUTF8Encode(urlString);
     return [self filenameForData:data filename:filename];

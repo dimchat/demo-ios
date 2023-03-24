@@ -116,7 +116,7 @@ typedef NSMutableArray<id<MKMID>> UserList;
     NSString *path = nil;
     NSURL *url = nil;
     if ([urlString length] > 0) {
-        url = [[NSURL alloc] initWithString:urlString];
+        url = NSURLFromString(urlString);
         DIMFileTransfer *ftp = [DIMFileTransfer sharedInstance];
         // TODO: observe notification: 'FileUploadSuccess'
         path = [ftp downloadAvatar:url];

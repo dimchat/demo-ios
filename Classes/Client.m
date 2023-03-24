@@ -73,7 +73,7 @@
 #pragma mark FSM
 
 // Override
-- (void)machine:(DIMSessionStateMachine *)ctx exitState:(id<FSMState>)previous
+- (void)machine:(DIMSessionStateMachine *)ctx exitState:(id<SMState>)previous
            time:(NSTimeInterval)now {
     DIMSessionState *current = [ctx currentState];
     NSLog(@"session state changed: %@ => %@", previous, current);
@@ -280,7 +280,8 @@
 @implementation Client (API)
 
 - (NSString *)uploadAPI {
-    return @"https://sechat.dim.chat/{ID}/upload";
+    return @"http://106.52.25.169:8081/{ID}/upload?md5={MD5}&salt={SALT}";
+    //return @"https://sechat.dim.chat/{ID}/upload";
 }
 
 //- (NSString *)downloadAPI {

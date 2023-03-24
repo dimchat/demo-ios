@@ -109,9 +109,9 @@
 -(void)didPressAgreementButton:(id)sender{
     
     Client *client = [DIMGlobal terminal];
-    NSString *urlString = client.termsAPI;
+
     WebViewController *web = [[WebViewController alloc] init];
-    web.url = [NSURL URLWithString:urlString];
+    web.url = NSURLFromString([client termsAPI]);
     web.title = NSLocalizedString(@"Terms", nil);
     [self.navigationController pushViewController:web animated:YES];
 }

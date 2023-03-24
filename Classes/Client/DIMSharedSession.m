@@ -114,19 +114,22 @@
 
 - (BOOL)isBound {
     //NSAssert(false, @"override me!");
-    return [self.mars status] > SGStarStatus_Init;
+    // TODO: bound flag
+    return [self.mars status] >= SGStarStatus_Init;
 }
 
 - (BOOL)isConnected {
     return [self.mars status] == SGStarStatus_Connected;
 }
 
-- (nullable id<NIONetworkChannel>)bindLocalAddress:(id<NIOSocketAddress>)local {
+- (nullable id<NIONetworkChannel>)bindLocalAddress:(id<NIOSocketAddress>)local
+                                            throws:(NIOException **)error {
     NSLog(@"bind local: %@", local);
     return self;
 }
 
-- (nullable id<NIONetworkChannel>)connectRemoteAddress:(id<NIOSocketAddress>)remote {
+- (nullable id<NIONetworkChannel>)connectRemoteAddress:(id<NIOSocketAddress>)remote
+                                                throws:(NIOException **)error {
     NSLog(@"%@, create Mars to connect remote: %@", self, remote);
     MGMars *mars = [[MGMars alloc] initWithMessageHandler:self];
     [mars launchWithOptions:[self launchOptions:remote]];
@@ -154,7 +157,8 @@
     };
 }
 
-- (nullable id<NIOSocketAddress>)receiveWithBuffer:(NIOByteBuffer *)dst {
+- (nullable id<NIOSocketAddress>)receiveWithBuffer:(NIOByteBuffer *)dst
+                                            throws:(NIOException **)error {
     NSData *pack = nil;
     @synchronized (self) {
         if ([_caches count] > 0) {
@@ -170,7 +174,9 @@
     return nil;
 }
 
-- (NSInteger)sendWithBuffer:(NIOByteBuffer *)src remoteAddress:(id<NIOSocketAddress>)remote {
+- (NSInteger)sendWithBuffer:(NIOByteBuffer *)src
+              remoteAddress:(id<NIOSocketAddress>)remote
+                     throws:(NIOException **)error {
     // flip to read data
     [src flip];
     NSInteger len = src.remaining;
@@ -184,7 +190,7 @@
 
 
 // Override
-- (NSInteger)readWithBuffer:(NIOByteBuffer *)dst {
+- (NSInteger)readWithBuffer:(NIOByteBuffer *)dst throws:(NIOException **)error {
     NSData *pack = nil;
     @synchronized (self) {
         if ([_caches count] > 0) {
@@ -200,7 +206,7 @@
 }
 
 // Override
-- (NSInteger)writeWithBuffer:(NIOByteBuffer *)src {
+- (NSInteger)writeWithBuffer:(NIOByteBuffer *)src throws:(NIOException **)error {
     // flip to read data
     [src flip];
     NSInteger len = src.remaining;
@@ -264,9 +270,9 @@ static inline MarsSocket *create_socket(id<NIOSocketAddress> remote,
                                         id<NIOSocketAddress> local) {
     MarsSocket *sock = [[MarsSocket alloc] init];
     if (local) {
-        [sock bindLocalAddress:local];
+        [sock bindLocalAddress:local throws:nil];
     }
-    [sock connectRemoteAddress:remote];
+    [sock connectRemoteAddress:remote throws:nil];
     return sock;
 }
 
@@ -287,7 +293,7 @@ static inline MarsSocket *create_socket(id<NIOSocketAddress> remote,
 
 #pragma mark - Hub
 
-@interface MarsHub : STClientHub
+@interface MarsHub : STStreamClientHub
 
 @property(atomic, weak) MarsChannel *channel;
 
@@ -352,25 +358,29 @@ static inline MarsSocket *create_socket(id<NIOSocketAddress> remote,
 // Override
 - (id<STChannel>)createSocketChannelForRemoteAddress:(id<NIOSocketAddress>)remote
                                         localAddress:(id<NIOSocketAddress>)local {
-    MarsChannel *channel = self.channel;
-    if ([channel isOpen]) {
-        if ([channel.remoteAddress isEqual:remote]) {
-            NSLog(@"reuse channel: %@ => %@", remote, channel);
-            return channel;
+    MarsChannel *channel;
+    @synchronized (self) {
+        channel = self.channel;
+        if ([channel isOpen]) {
+            if ([channel.remoteAddress isEqual:remote]) {
+                NSLog(@"reuse channel: %@ => %@", remote, channel);
+                return channel;
+            }
+            // TODO: only one channel?
+            NSLog(@"close channel: %@", channel);
+            [channel close];
         }
-        // TODO: only one channel?
-        [channel close];
+        NSLog(@"create socket: %@, %@", remote, local);
+        MarsSocket *sock = create_socket(remote, local);
+        if (!local) {
+            local = [sock localAddress];
+        }
+        NSLog(@"create channel: %@, %@", remote, local);
+        channel = [self createChannelWithSocketChannel:sock
+                                         remoteAddress:remote
+                                          localAddress:local];
+        self.channel = channel;
     }
-    NSLog(@"create socket: %@, %@", remote, local);
-    MarsSocket *sock = create_socket(remote, local);
-    if (!local) {
-        local = [sock localAddress];
-    }
-    NSLog(@"create channel: %@, %@", remote, local);
-    channel = [self createChannelWithSocketChannel:sock
-                                     remoteAddress:remote
-                                      localAddress:local];
-    self.channel = channel;
     return channel;
 }
 

@@ -210,21 +210,19 @@
         
             if(indexPath.row == 0){
                 
-                NSString *urlString = client.termsAPI;
-                web.url = [NSURL URLWithString:urlString];
+                web.url = NSURLFromString([client termsAPI]);
                 web.title = NSLocalizedString(@"Terms", nil);
                 
             } else if(indexPath.row == 1){
                 
-                NSString *urlString = client.aboutAPI;
-                web.url = [NSURL URLWithString:urlString];
+                web.url = NSURLFromString([client aboutAPI]);
                 web.title = NSLocalizedString(@"About", nil);
             }
             
         } else {
             
             NSString *urlString = @"https://dim.candycandy.store";
-            web.url = [NSURL URLWithString:urlString];
+            web.url = NSURLFromString(urlString);
             web.title = NSLocalizedString(@"DIM", nil);
         }
         
@@ -238,14 +236,12 @@
         
         if(indexPath.row == 0){
                 
-            NSString *urlString = client.termsAPI;
-            web.url = [NSURL URLWithString:urlString];
+            web.url = NSURLFromString([client termsAPI]);
             web.title = NSLocalizedString(@"Terms", nil);
                 
         } else if(indexPath.row == 1){
                 
-            NSString *urlString = client.aboutAPI;
-            web.url = [NSURL URLWithString:urlString];
+            web.url = NSURLFromString([client aboutAPI]);
             web.title = NSLocalizedString(@"About", nil);
         }
         

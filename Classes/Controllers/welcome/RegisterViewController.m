@@ -216,7 +216,7 @@
         NSURL *url = [ftp uploadAvatar:self.imageData filename:filename sender:ID];
         
         // got avatar URL
-        visa.avatar = [url absoluteString];
+        visa.avatar = NSStringFromURL(url);
     }
     
     [visa setName:self.nickname];

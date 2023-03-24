@@ -68,7 +68,7 @@
     if(self.delegate != nil){
         
         Client *client = [DIMGlobal terminal];
-        NSURL *url = [NSURL URLWithString:client.termsAPI];
+        NSURL *url = NSURLFromString([client termsAPI]);
         MessageCell *cell = (MessageCell *)self;
         [self.delegate messageCell:cell openUrl:url];
     }

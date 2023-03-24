@@ -54,8 +54,6 @@ static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
     // send by shared messenger
     DIMSharedMessenger *messenger = [DIMGlobal messenger];
     [messenger sendInstantMessage:iMsg priority:STDeparturePriorityNormal];
-    // save instant message
-    save_instant_message(iMsg);
 }
 
 @interface DIMEmitter () {
@@ -148,15 +146,14 @@ static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
         @"message": @"failed to upload file"
     };
     [iMsg setObject:info forKey:@"error"];
-    // try to save with error info
-    save_instant_message(iMsg);
+    // TODO: update message with error info into database
 }
 
 - (void)sendFileContentMessage:(id<DKDInstantMessage>)iMsg
                       password:(id<MKMSymmetricKey>)key {
     id<DKDFileContent> content = (id<DKDFileContent>)[iMsg content];
     // 1. save origin file data
-    NSData *data = [content fileData];
+    NSData *data = [content data];
     NSString *filename = [content filename];
     BOOL ok = [DIMFileTransfer cacheFileData:data filename:filename];
     if (!ok) {
@@ -164,7 +161,7 @@ static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
         return;
     }
     // 2. save instant message without file data
-    [content setFileData:nil];
+    [content setData:nil];
     save_instant_message(iMsg);
     // 3. add upload task with encrypted data
     NSData *encrypted = [key encrypt:data];
@@ -197,8 +194,7 @@ static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
     NSString *filename = MKMHexEncode(MKMMD5Digest(jpeg));
     filename = [filename stringByAppendingPathExtension:@"jpeg"];
     id<DKDImageContent> content;
-    content = [[DIMImageContent alloc] initWithImageData:jpeg
-                                                filename:filename];
+    content = [[DIMImageContent alloc] initWithFilename:filename data:jpeg];
     // add image data length & thumbnail into message content
     [content setObject:@(length) forKey:@"length"];
     [content setThumbnail:small];
@@ -211,8 +207,7 @@ static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
     NSString *filename = MKMHexEncode(MKMMD5Digest(mp4));
     filename = [filename stringByAppendingPathExtension:@"mp4"];
     id<DKDAudioContent> content;
-    content = [[DIMAudioContent alloc] initWithAudioData:mp4
-                                                filename:filename];
+    content = [[DIMAudioContent alloc] initWithFilename:filename data:mp4];
     // add image data length & thumbnail into message content
     [content setObject:@(length) forKey:@"length"];
     [content setObject:@(ti) forKey:@"duration"];

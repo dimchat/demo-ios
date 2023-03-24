@@ -593,7 +593,6 @@
     id<MKMID> receiver = chatBox.ID;
     
     // 1. build message content
-    DIMContent *content = nil;
     if (image) {
         CGSize maxSize = CGSizeMake(1024, 1024);
         CGSize imgSize = image.size;
@@ -604,38 +603,15 @@
         
         // image file
         NSData *data = [image jpegDataWithQuality:UIImage_JPEGCompressionQuality_Photo];
-        NSString *filename = [MKMHexEncode(MKMMD5Digest(data)) stringByAppendingPathExtension:@"jpeg"];
-        [DIMFileTransfer cacheFileData:data filename:filename];
         
         // thumbnail
         UIImage *thumbnail = [image thumbnail];
         NSData *small = [thumbnail jpegDataWithQuality:UIImage_JPEGCompressionQuality_Thumbnail];
         NSLog(@"thumbnail data length: %lu < %lu, %lu", small.length, data.length, [image pngData].length);
-        //[ftp saveThumbnail:small filename:filename];
         
-        // add image data length & thumbnail into message content
-        content = [[DIMImageContent alloc] initWithImageData:data filename:filename];
-        [content setObject:@(data.length) forKey:@"length"];
-        [content setObject:MKMBase64Encode(small) forKey:@"thumbnail"];
+        DIMEmitter *emitter = [DIMGlobal emitter];
+        [emitter sendImage:data thumbnail:small receiver:receiver];
     }
-    
-    if (MKMIDIsGroup(receiver)) {
-        content.group = receiver;
-    }
-    
-    // 2. pack message and send out
-    DIMSharedMessenger *messenger = [DIMGlobal messenger];
-    if (![messenger sendContent:content
-                         sender:nil
-                       receiver:receiver
-                       priority:STDeparturePriorityNormal]) {
-        NSLog(@"send content failed: %@ -> %@", content, receiver);
-        NSString *message = NSLocalizedString(@"Failed to send this file.", nil);
-        NSString *title = NSLocalizedString(@"Error!", nil);
-        [self showMessage:message withTitle:title];
-        return;
-    }
-    content.state = DIMMessageState_Read;
 }
 
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls{
@@ -913,6 +889,8 @@
     NSLog(@"End to record");
     [self.voiceTipsView removeFromSuperview];
     
+    id<MKMID> receiver = [_conversation ID];
+    
     [[EMAudioRecordHelper sharedHelper] stopRecordWithCompletion:^(NSString * _Nonnull aPath, NSInteger aTimeLength) {
         
         //Convert audio
@@ -930,7 +908,11 @@
             
             if(session.status == AVAssetExportSessionStatusCompleted){
                 NSLog(@"AV Export success");
-                [self sendAudio:outputPath duration:CMTimeGetSeconds(asset.duration)];
+                NSData *data = [[NSData alloc] initWithContentsOfFile:outputPath];
+                DIMEmitter *emitter = [DIMGlobal emitter];
+                [emitter sendVoice:data
+                          duration:CMTimeGetSeconds(asset.duration)
+                          receiver:receiver];
             }
             
             if(session.status == AVAssetExportSessionStatusCancelled){
@@ -946,47 +928,6 @@
     
     NSLog(@"Recording cancelled");
     [[EMAudioRecordHelper sharedHelper] cancelRecord];
-}
-
--(void)sendAudio:(NSString *)audioPath duration:(NSInteger)duration{
-    
-    NSLog(@"Begin to send audio %@", audioPath);
-    NSData *audioData = [[NSData alloc] initWithContentsOfFile:audioPath];
-    NSString *filename = [MKMHexEncode(MKMMD5Digest(audioData)) stringByAppendingPathExtension:@"mp4"];
-    NSString *distPath = [[DIMStorage documentDirectory] stringByAppendingPathComponent:filename];
-    
-    NSLog(@"Dist path : %@", distPath);
-    
-    NSFileManager *fm = [NSFileManager defaultManager];
-    NSError *error;
-    [fm moveItemAtPath:audioPath toPath:distPath error:&error];
-    
-    BOOL ok = [DIMFileTransfer cacheFileData:audioData filename:filename];
-    NSLog(@"save audio file %d", ok);
-
-    DIMAudioContent *content = [[DIMAudioContent alloc] initWithAudioData:audioData filename:filename];
-    [content setObject:@(audioData.length) forKey:@"length"];
-    [content setObject:@(duration) forKey:@"duration"];
-
-    if (MKMIDIsGroup(self.conversation.ID)) {
-        content.group = self.conversation.ID;
-    }
-    
-    DIMSharedMessenger *messenger = [DIMGlobal messenger];
-    id<MKMID> receiver = _conversation.ID;
-    
-    // 2. pack message and send out
-    if (![messenger sendContent:content
-                         sender:nil
-                       receiver:receiver
-                       priority:STDeparturePriorityNormal]) {
-        NSLog(@"send content failed: %@ -> %@", content, receiver);
-        NSString *message = NSLocalizedString(@"Failed to send this audio.", nil);
-        NSString *title = NSLocalizedString(@"Error!", nil);
-        [self showMessage:message withTitle:title];
-        return;
-    }
-    content.state = DIMMessageState_Read;
 }
 
 #pragma mark - Navigation
@@ -1048,9 +989,9 @@
 -(void)didPressAgreementButton:(id)sender{
     
     Client *client = [DIMGlobal terminal];
-    NSString *urlString = client.termsAPI;
+    
     WebViewController *web = [[WebViewController alloc] init];
-    web.url = [NSURL URLWithString:urlString];
+    web.url = NSURLFromString([client termsAPI]);
     web.title = NSLocalizedString(@"Terms", nil);
     [self.navigationController pushViewController:web animated:YES];
 }

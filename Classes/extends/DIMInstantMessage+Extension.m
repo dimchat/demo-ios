@@ -19,7 +19,7 @@
         return nil;
     }
 
-    NSData *imageData = [content imageData];
+    NSData *imageData = [content data];
     if (!imageData) {
         DIMFileTransfer *ftp = [DIMFileTransfer sharedInstance];
         NSString *path = [ftp pathForContent:content];
@@ -61,7 +61,7 @@
         return nil;
     }
     
-    NSData *audioData = [content audioData];
+    NSData *audioData = [content data];
     if (!audioData) {
         DIMFileTransfer *ftp = [DIMFileTransfer sharedInstance];
         NSString *path = [ftp pathForContent:content];

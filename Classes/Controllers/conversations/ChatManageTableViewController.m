@@ -178,7 +178,7 @@
         NSLog(@"report to URL: %@", api);
         
         WebViewController *web = [[WebViewController alloc] init];
-        web.url = [NSURL URLWithString:api];
+        web.url = NSURLFromString(api);
         [self.navigationController pushViewController:web animated:YES];
     }
 }
@@ -348,7 +348,7 @@
         NSLog(@"report to URL: %@", api);
         
         WebViewController *web = [segue visibleDestinationViewController];
-        web.url = [NSURL URLWithString:api];
+        web.url = NSURLFromString(api);
         
     } else if ([segue.identifier isEqualToString:@"profileSegue"]) {
         
