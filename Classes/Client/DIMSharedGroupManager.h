@@ -44,8 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface DIMSharedGroupManager : NSObject <MKMGroupDataSource>
 
-@property (weak, nonatomic, nullable) DIMCommonFacebook *facebook;
-@property (weak, nonatomic, nullable) DIMCommonMessenger *messenger;
+@property (weak, nonatomic, readonly) DIMCommonFacebook *facebook;
+@property (weak, nonatomic, readonly) DIMCommonMessenger *messenger;
 
 @property (strong, nonatomic, readonly) DIMGroupDelegate *delegate;
 @property (strong, nonatomic, readonly) DIMGroupManager *manager;
@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)buildGroupName:(NSArray<id<MKMID>> *)members;
 
-- (id<MKMBulletin>)bulletinForGroup:(id<MKMID>)gid;
+//- (id<MKMBulletin>)bulletinForGroup:(id<MKMID>)gid;
 
 - (NSArray<id<MKMID>> *)administratorsForGroup:(id<MKMID>)gid;
 
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param members - new group members
  * @return true on success
  */
-- (id<MKMID>)createGroup:(NSArray<id<MKMID>> *)members;
+- (id<MKMID>)createGroupWithMembers:(NSArray<id<MKMID>> *)members;
 
 /**
  *  Update 'administrators' in bulletin document
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param newMembers - new member ID list
  * @return true on success
  */
-- (BOOL)resetGroupMembers:(NSArray<id<MKMID>> *)newMembers group:(id<MKMID>)gid;
+- (BOOL)resetMembers:(NSArray<id<MKMID>> *)newMembers group:(id<MKMID>)gid;
 
 /**
  *  Expel members from this group
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param expelMembers - members to be removed
  * @return true on success
  */
-- (BOOL)expelGroupMembers:(NSArray<id<MKMID>> *)expelMembers group:(id<MKMID>)gid;
+- (BOOL)expelMembers:(NSArray<id<MKMID>> *)expelMembers group:(id<MKMID>)gid;
 
 /**
  *  Invite new members to this group
@@ -104,7 +104,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param newMembers - new members ID list
  * @return true on success
  */
-- (BOOL)inviteGroupMembers:(NSArray<id<MKMID>> *)newMembers group:(id<MKMID>)gid;
+- (BOOL)inviteMembers:(NSArray<id<MKMID>> *)newMembers group:(id<MKMID>)gid;
 
 /**
  *  Quit from this group

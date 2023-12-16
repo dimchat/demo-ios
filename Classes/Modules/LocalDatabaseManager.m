@@ -238,7 +238,7 @@
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM messages WHERE conversation_id='%@' ORDER BY time", conversationID];
     FMResultSet *s = [self.db executeQuery:sql];
     
-    DIMMessenger *messenger = [DIMGlobal messenger];
+    //DIMMessenger *messenger = [DIMGlobal messenger];
     
     while ([s next]) {
         

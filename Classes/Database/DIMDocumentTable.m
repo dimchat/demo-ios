@@ -84,6 +84,12 @@
         NSDictionary *dict = [DIMStorage dictionaryWithContentsOfFile:path];
         if (dict) {
             NSLog(@"document from: %@", path);
+            if ([type length] == 0 || [type isEqualToString:@"*"]) {
+                type = [dict objectForKey:@"type"];
+                if ([type length] == 0) {
+                    type = @"*";
+                }
+            }
             NSString *data = [dict objectForKey:@"data"];
             NSString *signature = [dict objectForKey:@"signature"];
             id<MKMTransportableData> ted = MKMTransportableDataParse(signature);

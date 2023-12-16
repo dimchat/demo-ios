@@ -54,7 +54,7 @@
     if (user) {
         [session setID:user.ID];
     }
-    [session start];
+    [session startWithStateDelegate:self];
     return session;
 }
 

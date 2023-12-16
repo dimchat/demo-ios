@@ -211,7 +211,7 @@
         NSURL *url = [ftp uploadAvatar:data filename:filename sender:ID];
         
         // got avatar URL
-        visa.avatar = NSStringFromURL(url);
+        visa.avatar = MKMPortableNetworkFileParse(NSStringFromURL(url));
         
         id<MKMUserDataSource> dataSource = (id<MKMUserDataSource>)[user dataSource];
         id<MKMSignKey> SK = [dataSource privateKeyForVisaSignature:user.ID];

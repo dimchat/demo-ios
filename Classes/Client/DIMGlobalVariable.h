@@ -63,6 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, strong) id<DIMSessionDBI> sdb;
 @property(nonatomic, strong) DIMSharedDatabase *database;
 
+@property(nonatomic, strong) DIMClientArchivist *archivist;
 @property(nonatomic, strong) DIMSharedFacebook *facebook;
 @property(nonatomic, strong) DIMSharedMessenger *messenger;
 

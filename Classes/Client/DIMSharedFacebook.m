@@ -41,6 +41,8 @@
 #import "DIMAddressNameTable.h"
 #import "DIMUserTable.h"
 
+#import "DIMGlobalVariable.h"
+
 #import "DIMSharedFacebook.h"
 
 typedef NSMutableArray<id<MKMID>> UserList;
@@ -61,6 +63,11 @@ typedef NSMutableArray<id<MKMID>> UserList;
         _userContacts      = [[NSMutableDictionary alloc] init];
     }
     return self;
+}
+
+- (DIMArchivist *)archivist {
+    DIMGlobalVariable *shared = [DIMGlobalVariable sharedInstance];
+    return [shared archivist];
 }
 
 // Override

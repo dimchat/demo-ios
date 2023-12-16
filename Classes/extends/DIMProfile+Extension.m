@@ -23,13 +23,15 @@
     
     UIImage *image = nil;
     
-    NSString *avatar = self.avatar;
-    if (avatar) {
-        if ([avatar containsString:@"://"]) {
+    id<MKMPortableNetworkFile> avatar = [self avatar];
+    // TODO: encrypted file?
+    NSString *url = [avatar string];
+    if (url) {
+        if ([url containsString:@"://"]) {
             DIMSharedFacebook *facebook = [DIMGlobal facebook];
-            image = [facebook loadAvatarWithURL:avatar forID:self.ID];
+            image = [facebook loadAvatarWithURL:url forID:self.ID];
         } else {
-            image = [UIImage imageNamed:avatar];
+            image = [UIImage imageNamed:url];
         }
     }
     

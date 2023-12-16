@@ -39,6 +39,24 @@
 
 #import "DIMGlobalVariable.h"
 
+@interface SharedArchivist : DIMClientArchivist
+
+@end
+
+@implementation SharedArchivist
+
+- (DIMCommonFacebook *)facebook {
+    DIMGlobalVariable *shared = [DIMGlobalVariable sharedInstance];
+    return [shared facebook];
+}
+
+- (DIMCommonMessenger *)messenger {
+    DIMGlobalVariable *shared = [DIMGlobalVariable sharedInstance];
+    return [shared messenger];
+}
+
+@end
+
 @implementation DIMGlobalVariable
 
 OKSingletonImplementations(DIMGlobalVariable, sharedInstance)
@@ -46,11 +64,13 @@ OKSingletonImplementations(DIMGlobalVariable, sharedInstance)
 - (instancetype)init {
     if (self = [super init]) {
         DIMSharedDatabase *db = [[DIMSharedDatabase alloc] init];
+        DIMClientArchivist *archivist = [[SharedArchivist alloc] initWithDatabase:db];
         DIMSharedFacebook *facebook = [[DIMSharedFacebook alloc] init];
         self.adb = db;
         self.mdb = db;
         self.sdb = db;
         self.database = db;
+        self.archivist = archivist;
         self.facebook = facebook;
         self.emitter = [[DIMEmitter alloc] init];
         self.terminal = [[Client alloc] initWithFacebook:facebook database:db];

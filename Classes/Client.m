@@ -187,25 +187,28 @@
 //    [nc removeAllPendingNotificationRequests];
 }
 
-//- (void)didEnterBackground {
-//    [self reportOffline];
-//    [_currentStation pause];
-//}
-//
-//- (void)willEnterForeground {
-//    [_currentStation resume];
-//    [self reportOnline];
-//
-//    // clear icon badge
-//    UIApplication *app = [UIApplication sharedApplication];
-//    app.applicationIconBadgeNumber = 0;
-//    UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
-//    [nc removeAllPendingNotificationRequests];
-//}
-//
-//- (void)willTerminate {
-//    [_currentStation end];
-//}
+- (void)didEnterBackground {
+    DIMClientSession *session = [self session];
+    [self.messenger reportOffline:session.ID];
+    [session.station pause];
+}
+
+- (void)willEnterForeground {
+    DIMClientSession *session = [self session];
+    [session.station resume];
+    [self.messenger reportOnline:session.ID];
+
+    // clear icon badge
+    UIApplication *app = [UIApplication sharedApplication];
+    app.applicationIconBadgeNumber = 0;
+    UNUserNotificationCenter *nc = [UNUserNotificationCenter currentNotificationCenter];
+    [nc removeAllPendingNotificationRequests];
+}
+
+- (void)willTerminate {
+    DIMClientSession *session = [self session];
+    [session.station end];
+}
 
 #pragma mark - UNUserNotificationCenterDelegate
 
