@@ -269,7 +269,7 @@
             //Send profile command to audience
             id<MKMID> ID = user.ID;
             id<MKMVisa> visa = user.visa;
-            id<DKDContent> content = [[DIMDocumentCommand alloc] initWithID:ID document:visa];
+            id<DKDContent> content = DIMDocumentCommandResponse(ID, nil, visa);
             id<MKMID> receiverID = _conversation.ID;
             DIMSharedMessenger *messenger = [DIMGlobal messenger];
             [messenger sendContent:content
@@ -657,6 +657,11 @@
 }
 
 -(void)groupMessage{
+    
+    if (!_conversation) {
+        NSAssert(false, @"conversation empty!");
+        return;
+    }
     
     [_messageArray removeAllObjects];
     

@@ -47,7 +47,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)removeUser:(id<MKMID>)user;
 
-#pragma mark contacts
+@end
+
+@interface DIMUserTable : DIMStorage <DIMUserTable>
+
+@end
+
+#pragma mark -
+
+@protocol DIMContactTable <DIMContactDBI>
 
 - (BOOL)addContact:(id<MKMID>)contact user:(id<MKMID>)user;
 
@@ -55,8 +63,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface DIMUserTable : DIMStorage <DIMUserTable>
+@interface DIMContactTable : DIMStorage <DIMContactTable>
 
 @end
+
 
 NS_ASSUME_NONNULL_END

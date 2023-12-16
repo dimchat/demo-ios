@@ -79,14 +79,14 @@
 }
 
 - (NSInteger)start {
-    return [self integerForKey:@"start"];
+    return [self integerForKey:@"start" defaultValue:0];
 }
 - (void)setStart:(NSInteger)start {
     [self setObject:@(start) forKey:@"start"];
 }
 
 - (NSInteger)limit {
-    return [self integerForKey:@"limit"];
+    return [self integerForKey:@"limit" defaultValue:0];
 }
 - (void)setLimit:(NSInteger)limit {
     [self setObject:@(limit) forKey:@"limit"];

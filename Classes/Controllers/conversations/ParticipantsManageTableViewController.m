@@ -14,6 +14,8 @@
 #import "DIMProfile+Extension.h"
 #import "DIMGlobalVariable.h"
 
+#import "DIMSharedGroupManager.h"
+
 #import "Facebook+Profile.h"
 #import "Facebook+Register.h"
 #import "Client.h"
@@ -66,7 +68,7 @@ static inline BOOL check_username(NSString *username) {
         
         // 1.1. logo
         NSString *name = DIMNameForID(_conversation.ID);
-        DIMBulletin *profile = (DIMBulletin *)[_group documentWithType:MKMDocument_Bulletin];
+        DIMBulletin *profile = (DIMBulletin *)[_group bulletin];
         UIImage *logoImage = [profile logoImageWithSize:_logoImageView.bounds.size];
         if (logoImage) {
             [_logoImageView setImage:logoImage];
@@ -77,7 +79,7 @@ static inline BOOL check_username(NSString *username) {
                 [_logoImageView setText:@"[Đ]"];
             }
         }
-        DIMGroupManager *manager = [DIMGroupManager sharedInstance];
+        DIMSharedGroupManager *manager = [DIMSharedGroupManager sharedInstance];
         
         // 1.2. name
         _nameTextField.text = name;
@@ -430,7 +432,7 @@ static inline BOOL check_username(NSString *username) {
         contact = [_candidateList objectAtIndex:row];
         cell.participant = contact;
         
-        DIMGroupManager *manager = [DIMGroupManager sharedInstance];
+        DIMSharedGroupManager *manager = [DIMSharedGroupManager sharedInstance];
         if (_group && ![manager isOwner:user.ID group:_group.ID] &&
             [_memberList containsObject:contact]) {
             // fixed

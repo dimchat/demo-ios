@@ -46,7 +46,7 @@ OKSingletonImplementations(DIMGlobalVariable, sharedInstance)
 - (instancetype)init {
     if (self = [super init]) {
         DIMSharedDatabase *db = [[DIMSharedDatabase alloc] init];
-        DIMSharedFacebook *facebook = [[DIMSharedFacebook alloc] initWithDatabase:db];
+        DIMSharedFacebook *facebook = [[DIMSharedFacebook alloc] init];
         self.adb = db;
         self.mdb = db;
         self.sdb = db;

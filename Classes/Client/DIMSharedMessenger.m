@@ -35,7 +35,7 @@
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
-#import "DIMCompatible.h"
+#import "DIMGlobalVariable.h"
 
 #import "DIMSearchCommand.h"
 #import "DIMStorageCommand.h"
@@ -57,16 +57,16 @@
     return [session station];
 }
 
-// Override
-- (BOOL)queryDocumentForID:(id<MKMID>)ID {
-    BOOL ok = [super queryDocumentForID:ID];
-    if (ok) {
-        NSLog(@"querying document: %@", ID);
-    } else {
-        NSLog(@"document query not expired: %@", ID);
-    }
-    return ok;
-}
+//// Override
+//- (BOOL)queryDocumentForID:(id<MKMID>)ID {
+//    BOOL ok = [super queryDocumentForID:ID];
+//    if (ok) {
+//        NSLog(@"querying document: %@", ID);
+//    } else {
+//        NSLog(@"querying document not expired: %@", ID);
+//    }
+//    return ok;
+//}
 
 // Override
 - (void)suspendReliableMessage:(id<DKDReliableMessage>)rMsg
@@ -98,9 +98,9 @@
 }
 
 // Override
-- (nullable NSData *)message:(id<DKDInstantMessage>)iMsg
-            serializeContent:(id<DKDContent>)content
-                     withKey:(id<MKMSymmetricKey>)password {
+- (NSData *)message:(id<DKDInstantMessage>)iMsg
+   serializeContent:(id<DKDContent>)content
+            withKey:(id<MKMSymmetricKey>)password {
     if ([content conformsToProtocol:@protocol(DKDCommand)]) {
         content = [DIMCompatible fixCommand:(id<DKDCommand>)content];
     }
@@ -204,8 +204,7 @@
         NSLog(@"no contacts now");
         return NO;
     }
-    id<DKDCommand> cmd = [[DIMDocumentCommand alloc] initWithID:ID
-                                                       document:doc];
+    id<DKDCommand> cmd = DIMDocumentCommandResponse(ID, nil, doc);
     for (id<MKMID> item in contacts) {
         [self sendContent:cmd receiver:item priority:STDeparturePrioritySlower];
     }
@@ -224,10 +223,10 @@
     id<MKMUser> user = [self.facebook currentUser];
     NSAssert(user, @"current user empty");
     // 1. generate password
-    id<MKMSymmetricKey> password = MKMSymmetricKeyGenerate(MKMAlgorithmAES);
+    id<MKMSymmetricKey> password = MKMSymmetricKeyGenerate(MKMAlgorithm_AES);
     // 2. encrypt contacts list
     NSData *data = MKMUTF8Encode(MKMJSONEncode(MKMIDRevert(contacts)));
-    data = [password encrypt:data];
+    data = [password encrypt:data params:nil];  // FIXME: store 'IV'
     // 3. encrypt key
     NSData *key = MKMUTF8Encode(MKMJSONEncode(password.dictionary));
     key = [user encrypt:key];

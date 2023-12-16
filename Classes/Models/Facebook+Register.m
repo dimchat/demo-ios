@@ -36,8 +36,8 @@
     }
     
     // 2. check & save private key
-    id<MKMVerifyKey> PK = meta.key;
-    if ([PK isMatch:SK]) {
+    id<MKMVerifyKey> PK = [meta publicKey];
+    if ([PK matchSignKey:SK]) {
         if ([facebook savePrivateKey:SK
                             withType:DIMPrivateKeyType_Meta
                              forUser:ID]) {

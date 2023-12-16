@@ -97,7 +97,7 @@ OKSingletonImplementations(DIMMessageDataSource, sharedInstance)
         // process them now
         NSArray<id<DKDReliableMessage>> *responses;
         for (id<DKDReliableMessage> item in incomings) {
-            responses = [messenger processMessage:item];
+            responses = [messenger processReliableMessage:item];
             if ([responses count] == 0) {
                 continue;
             }

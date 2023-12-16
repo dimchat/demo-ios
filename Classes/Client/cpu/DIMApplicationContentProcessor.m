@@ -89,8 +89,8 @@
 id<DKDCustomizedContent> DIMAppContentCreate(NSString *app, NSString *mod, NSString *act) {
     return [[DIMCustomizedContent alloc] initWithType:DKDContentType_Application
                                           application:app
-                                               module:mod
-                                               action:act];
+                                           moduleName:mod
+                                           actionName:act];
 }
 
 #pragma mark - Application Customized Content Handler
@@ -102,17 +102,19 @@ id<DKDCustomizedContent> DIMAppContentCreate(NSString *app, NSString *mod, NSStr
                                   content:(id<DKDCustomizedContent>)customized
                                   message:(id<DKDReliableMessage>)rMsg {
     NSString *app = [customized application];
-    NSString *mod = [customized module];
-    NSString *text = [NSString stringWithFormat:@"Customized Content (app: %@, mod: %@, act: %@) not support yet!", app, mod, act];
-    return [self respondText:text withGroup:nil];
-}
-
-- (NSArray<id<DKDContent>> *)respondText:(NSString *)text withGroup:(nullable id<MKMID>)group {
-    DIMTextContent *res = [[DIMTextContent alloc] initWithText:text];
-    if (group) {
-        res.group = group;
-    }
-    return @[res];
+    NSString *mod = [customized moduleName];
+    NSDictionary *info = @{
+        @"template": @"Customized Content (app: %@, mod: %@, act: %@) not support yet!",
+        @"replacements": @{
+            @"app": app,
+            @"mod": mod,
+            @"act": act,
+        },
+    };
+    return [self respondReceipt:@"Content not support."
+                       envelope:rMsg.envelope
+                        content:customized
+                          extra:info];
 }
 
 @end

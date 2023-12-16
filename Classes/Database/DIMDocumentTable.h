@@ -41,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol DIMDocumentTable <DIMDocumentDBI>
 
+- (nullable id<MKMDocument>)documentForID:(id<MKMID>)ID withType:(nullable NSString *)type;
+
 @end
 
 @interface DIMDocumentTable : DIMStorage <DIMDocumentTable>

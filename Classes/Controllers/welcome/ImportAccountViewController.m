@@ -55,7 +55,7 @@
     }
 
     NSString *username = @"dim";
-    NSUInteger version = MKMMetaDefaultType;
+    NSUInteger version = MKMMetaType_Default;
     
     if ([returnValue objectForKey:@"version"] != nil) {
         version = [[returnValue objectForKey:@"version"] unsignedIntegerValue];

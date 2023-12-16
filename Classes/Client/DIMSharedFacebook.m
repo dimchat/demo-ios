@@ -55,8 +55,8 @@ typedef NSMutableArray<id<MKMID>> UserList;
 
 @implementation DIMSharedFacebook
 
-- (instancetype)initWithDatabase:(id<DIMAccountDBI>)db {
-    if (self = [super initWithDatabase:db]) {
+- (instancetype)init {
+    if (self = [super init]) {
         _allUsers          = nil;
         _userContacts      = [[NSMutableDictionary alloc] init];
     }
@@ -78,7 +78,7 @@ typedef NSMutableArray<id<MKMID>> UserList;
 
 // Override
 - (void)setCurrentUser:(id<MKMUser>)currentUser {
-    id<DIMUserTable> table = (id<DIMUserTable>)[self database];
+    id<DIMUserTable> table = (id<DIMUserTable>)[self.archivist database];
     [table setCurrentUser:currentUser.ID];
     // clear cache for reload
     [_allUsers removeAllObjects];
@@ -104,15 +104,17 @@ typedef NSMutableArray<id<MKMID>> UserList;
 @implementation DIMSharedFacebook (User)
 
 - (OKPair<NSString *, NSString *> *)avatarForUser:(id<MKMID>)user {
-    NSString *urlString = nil;
-    id<MKMDocument> doc = [self documentForID:user type:@"*"];
+    id<MKMPortableNetworkFile> avatar;
+    id<MKMDocument> doc = [self documentForID:user withType:@"*"];
     if (doc) {
         if ([doc conformsToProtocol:@protocol(MKMVisa)]) {
-            urlString = [(id<MKMVisa>)doc avatar];
+            avatar = [(id<MKMVisa>)doc avatar];
         } else {
-            urlString = [doc propertyForKey:@"avatar"];
+            avatar = MKMPortableNetworkFileParse([doc propertyForKey:@"avatar"]);
         }
     }
+    // TODO: encode data? encrypted file?
+    NSString *urlString = [avatar string];
     NSString *path = nil;
     NSURL *url = nil;
     if ([urlString length] > 0) {
@@ -127,12 +129,12 @@ typedef NSMutableArray<id<MKMID>> UserList;
 - (BOOL)savePrivateKey:(id<MKMPrivateKey>)SK
               withType:(NSString *)type
                forUser:(id<MKMID>)user {
-    id<DIMAccountDBI> db = [self database];
+    id<DIMAccountDBI> db = [self.archivist database];
     return [db savePrivateKey:SK withType:type forUser:user];
 }
 
 - (BOOL)addUser:(id<MKMID>)user {
-    id<DIMAccountDBI> db = [self database];
+    id<DIMAccountDBI> db = [self.archivist database];
     UserList *allUsers = (UserList *)[db localUsers];
     NSAssert(allUsers, @"allUsers would not be nil here");
     NSInteger pos = [allUsers indexOfObject:user];
@@ -151,7 +153,7 @@ typedef NSMutableArray<id<MKMID>> UserList;
 }
 
 - (BOOL)removeUser:(id<MKMID>)user {
-    id<DIMAccountDBI> db = [self database];
+    id<DIMAccountDBI> db = [self.archivist database];
     UserList *allUsers = (UserList *)[db localUsers];
     NSAssert(allUsers, @"allUsers would not be nil here");
     NSInteger pos = [allUsers indexOfObject:user];
@@ -170,7 +172,7 @@ typedef NSMutableArray<id<MKMID>> UserList;
 }
 
 - (BOOL)saveContacts:(NSArray<id<MKMID>> *)contacts user:(id<MKMID>)user {
-    id<DIMAccountDBI> db = [self database];
+    id<DIMAccountDBI> db = [self.archivist database];
     if ([db saveContacts:contacts user:user]) {
         // erase cache for reload
         [_userContacts removeObjectForKey:user];

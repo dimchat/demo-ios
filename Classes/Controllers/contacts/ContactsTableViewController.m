@@ -255,7 +255,7 @@
     
     id<MKMID> contact = selectedCell.contact;
     
-    if (MKMEntity_IsGroup(contact.type)) {
+    if (MKMEntityTypeIsGroup(contact.type)) {
         
         DIMConversation *convers = DIMConversationWithID(contact);
         ChatViewController *vc = [[ChatViewController alloc] init];

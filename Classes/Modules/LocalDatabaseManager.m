@@ -262,7 +262,6 @@
             NSAssert(false, @"message invalid: %@", messageDict);
             continue;
         }
-        msg.delegate = messenger;
         [messages addObject:msg];
     }
     
@@ -271,6 +270,11 @@
 
 -(BOOL)markMessageRead:(id<MKMID>)conversationID{
     
+    if (!conversationID) {
+        NSAssert(false, @"conversation empty!");
+        return NO;
+    }
+
     NSString *sql = [NSString stringWithFormat:@"UPDATE messages SET status=%d WHERE conversation_id='%@'", DIMMessageState_Read, conversationID];
     
     BOOL success = [self.db executeStatements:sql];

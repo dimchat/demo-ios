@@ -62,6 +62,7 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
         _metaTable     = [[DIMMetaTable alloc] init];
         _documentTable = [[DIMDocumentTable alloc] init];
         _userTable     = [[DIMUserTable alloc] init];
+        _contactTable  = [[DIMContactTable alloc] init];
         _groupTable    = [[DIMGroupTable alloc] init];
         _msgKeyTable   = [DIMKeyStore sharedInstance];
     }
@@ -84,12 +85,12 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 
 // Override
 - (NSArray<id<MKMID>> *)contactsOfUser:(id<MKMID>)user {
-    return [_userTable contactsOfUser:user];
+    return [_contactTable contactsOfUser:user];
 }
 
 // Override
 - (BOOL)saveContacts:(NSArray<id<MKMID>> *)contacts user:(id<MKMID>)user {
-    return [_userTable saveContacts:contacts user:user];
+    return [_contactTable saveContacts:contacts user:user];
 }
 
 // Override
@@ -114,7 +115,7 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 
 // Override
 - (BOOL)addContact:(id<MKMID>)contact user:(id<MKMID>)user {
-    BOOL OK = [_userTable addContact:contact user:user];
+    BOOL OK = [_contactTable addContact:contact user:user];
     if (OK) {
         // TODO: post notification 'ContactsUpdated'
     }
@@ -123,7 +124,7 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 
 // Override
 - (BOOL)removeContact:(id<MKMID>)contact user:(id<MKMID>)user {
-    BOOL OK = [_userTable removeContact:contact user:user];
+    BOOL OK = [_contactTable removeContact:contact user:user];
     if (OK) {
         // TODO: post notification 'ContactsUpdated'
     }
@@ -148,7 +149,7 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
         // if the user's public key matches with the group's meta,
         // it means this meta was generate by the user's private key
         meta = [self metaForID:member];
-        if (MKMMetaMatchKey(meta.key, gMeta)) {
+        if ([gMeta matchPublicKey:meta.publicKey]) {
             return member;
         }
     }
@@ -192,6 +193,17 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
     return [_groupTable saveAssistants:bots group:gid];
 }
 
+// Override
+- (NSArray<id<MKMID>> *)administratorsOfGroup:(id<MKMID>)group {
+    return [_groupTable administratorsOfGroup:group];
+}
+
+// Override
+- (BOOL)saveAdministrators:(NSArray<id<MKMID>> *)admins group:(id<MKMID>)gid {
+    return [_groupTable saveAdministrators:admins group:gid];
+}
+
+// Override
 - (BOOL)addMember:(id<MKMID>)member group:(id<MKMID>)group {
     BOOL OK = [_groupTable addMember:member group:group];
     if (OK) {
@@ -214,6 +226,37 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
         // TODO: post notification 'GroupRemoved'
     }
     return OK;
+}
+
+//
+//  Group History Table
+//
+
+// Override
+- (BOOL)saveGroupHistory:(id<DKDGroupCommand>)content
+             withMessage:(id<DKDReliableMessage>)rMsg
+                   group:(id<MKMID>)gid {
+    return NO;
+}
+
+// Override
+- (NSArray<DIMHistoryCmdMsg *> *)historiesOfGroup:(id<MKMID>)group {
+    return nil;
+}
+
+// Override
+- (DIMResetCmdMsg *)resetCommandMessageForGroup:(id<MKMID>)group {
+    return nil;
+}
+
+// Override
+- (BOOL)clearMemberHistoriesOfGroup:(id<MKMID>)group {
+    return NO;
+}
+
+// Override
+- (BOOL)clearAdminHistoriesOfGroup:(id<MKMID>)group {
+    return NO;
 }
 
 //
@@ -276,7 +319,7 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 // Override
 - (BOOL)saveMeta:(id<MKMMeta>)meta forID:(id<MKMID>)entity {
     BOOL OK;
-    if (MKMMetaMatchID(entity, meta)) {
+    if ([meta matchIdentifier:entity]) {
         OK = [_metaTable saveMeta:meta forID:entity];
     } else {
         NSAssert(false, @"meta not match: %@ => %@", entity, meta);
@@ -289,8 +332,13 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 }
 
 // Override
-- (id<MKMDocument>)documentForID:(id<MKMID>)entity type:(nullable NSString *)type {
-    return [_documentTable documentForID:entity type:type];
+- (id<MKMDocument>)documentForID:(id<MKMID>)entity withType:(nullable NSString *)type {
+    return [_documentTable documentForID:entity withType:type];
+}
+
+// Override
+- (NSArray<id<MKMDocument>> *)documentsForID:(id<MKMID>)entity {
+    return [_documentTable documentsForID:entity];
 }
 
 // Override
@@ -299,7 +347,7 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
     id<MKMMeta> meta = [self metaForID:ID];
     NSAssert(meta, @"meta not exists: %@", ID);
     BOOL OK;
-    if ([doc isValid] || [doc verify:meta.key]) {
+    if ([doc isValid] || [doc verify:meta.publicKey]) {
         OK = [_documentTable saveDocument:doc];
     } else {
         NSAssert(false, @"document error: %@", doc);
@@ -330,25 +378,35 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 }
 
 // Override
-- (DIMReliableMessageResult *)reliableMessageForReceiver:(id<MKMID>)receiver
-                                                   range:(NSRange)range {
-    // TODO: get messages waiting to send out
+- (NSDictionary *)cipherKeysForGroup:(id<MKMID>)gid from:(id<MKMID>)sender {
     return nil;
 }
 
 // Override
-- (BOOL)cacheReliableMessage:(id<DKDReliableMessage>)rMsg
-                 forReceiver:(id<MKMID>)receiver {
-    // TODO: cache message for sending out
+- (BOOL)saveCipherKeys:(NSDictionary *)keys forGroup:(id<MKMID>)gid from:(id<MKMID>)sender {
     return NO;
 }
 
-// Override
-- (BOOL)removeReliableMessage:(id<DKDReliableMessage>)rMsg
-                  forReceiver:(id<MKMID>)receiver {
-    // TODO: remove message sent
-    return NO;
-}
+//// Override
+//- (DIMReliableMessageResult *)reliableMessageForReceiver:(id<MKMID>)receiver
+//                                                   range:(NSRange)range {
+//    // TODO: get messages waiting to send out
+//    return nil;
+//}
+//
+//// Override
+//- (BOOL)cacheReliableMessage:(id<DKDReliableMessage>)rMsg
+//                 forReceiver:(id<MKMID>)receiver {
+//    // TODO: cache message for sending out
+//    return NO;
+//}
+//
+//// Override
+//- (BOOL)removeReliableMessage:(id<DKDReliableMessage>)rMsg
+//                  forReceiver:(id<MKMID>)receiver {
+//    // TODO: remove message sent
+//    return NO;
+//}
 
 //
 //  Session DBI
@@ -367,26 +425,66 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 }
 
 // Override
-- (NSSet<DIMStationParams *> *)neighborStations {
+- (NSArray<DIMProviderInfo *> *)allProviders {
     // TODO: provider table
     return nil;
 }
 
 // Override
-- (DIMStationParams *)stationWithHost:(NSString *)ip port:(NSUInteger)port {
-    // TODO: provider table
-    return nil;
-}
-
-// Override
-- (BOOL)addStationWithID:(id<MKMID>)ID host:(NSString *)ip port:(NSUInteger)port {
+- (BOOL)addProvider:(id<MKMID>)PID chosen:(NSInteger)order {
     // TODO: provider table
     return NO;
 }
 
 // Override
-- (BOOL)removeStationWithHost:(NSString *)ip port:(NSUInteger)port {
+- (BOOL)updateProvider:(id<MKMID>)PID chosen:(NSInteger)order {
     // TODO: provider table
+    return NO;
+}
+
+// Override
+- (BOOL)removeProvider:(id<MKMID>)PID {
+    // TODO: provider table
+    return NO;
+}
+
+// Override
+- (NSArray<DIMStationInfo *> *)allStations:(id<MKMID>)PID {
+    // TODO: station table
+    return nil;
+}
+
+// Override
+- (BOOL)addStation:(id<MKMID>)SID
+            chosen:(NSInteger)order
+              host:(NSString *)IP
+              port:(UInt16)port
+          provider:(id<MKMID>)PID {
+    // TODO: station table
+    return nil;
+}
+
+// Override
+- (BOOL)updateStation:(id<MKMID>)SID
+               chosen:(NSInteger)order
+                 host:(NSString *)IP
+                 port:(UInt16)port
+             provider:(id<MKMID>)PID {
+    // TODO: station table
+    return NO;
+}
+
+// Override
+- (BOOL)removeStationWithHost:(NSString *)IP
+                         port:(UInt16)port
+                     provider:(id<MKMID>)PID {
+    // TODO: station table
+    return NO;
+}
+
+// Override
+- (BOOL)removeAllStations:(id<MKMID>)PID {
+    // TODO: station table
     return NO;
 }
 

@@ -28,50 +28,19 @@
 // SOFTWARE.
 // =============================================================================
 //
-//  DIMGlobalVariable.h
+//  DIMSharedGroupManager.m
 //  Sechat
 //
-//  Created by Albert Moky on 2023/3/13.
+//  Created by Albert Moky on 2023/12/16.
 //  Copyright © 2023 DIM Group. All rights reserved.
 //
 
-#import "DIMSharedDatabase.h"
-#import "DIMSharedFacebook.h"
-#import "DIMSharedMessenger.h"
-#import "DIMEmitter.h"
+#import <ObjectKey/ObjectKey.h>
 
-NS_ASSUME_NONNULL_BEGIN
+#import "DIMSharedGroupManager.h"
 
-#define MKMIDIsUser(ID)          [(ID) isUser]
-#define MKMIDIsGroup(ID)         [(ID) isGroup]
-#define MKMIDIsBroadcast(ID)     [(ID) isBroadcast]
+@implementation DIMSharedGroupManager
 
-#define DIMGlobal                [DIMGlobalVariable sharedInstance]
-
-#define DIMNameForID(ID)         [[DIMGlobal facebook] nameForID:(ID)]
-#define DIMMetaForID(ID)         [[DIMGlobal facebook] metaForID:(ID)]
-#define DIMDocumentForID(ID, DT) [[DIMGlobal facebook] documentForID:(ID) withType:(DT)]
-#define DIMVisaForID(ID)         DIMDocumentForID(ID, MKMDocumentType_Visa)
-
-#define DIMUserWithID(ID)        [[DIMGlobal facebook] userWithID:(ID)]
-#define DIMGroupWithID(ID)       [[DIMGlobal facebook] groupWithID:(ID)]
-
-@interface DIMGlobalVariable : NSObject
-
-@property(nonatomic, strong) id<DIMAccountDBI> adb;
-@property(nonatomic, strong) id<DIMMessageDBI> mdb;
-@property(nonatomic, strong) id<DIMSessionDBI> sdb;
-@property(nonatomic, strong) DIMSharedDatabase *database;
-
-@property(nonatomic, strong) DIMSharedFacebook *facebook;
-@property(nonatomic, strong) DIMSharedMessenger *messenger;
-
-@property(nonatomic, strong) __kindof DIMTerminal *terminal;
-
-@property(nonatomic, strong) DIMEmitter *emitter;
-
-+ (instancetype)sharedInstance;
+OKSingletonImplementations(DIMSharedGroupManager, sharedInstance)
 
 @end
-
-NS_ASSUME_NONNULL_END

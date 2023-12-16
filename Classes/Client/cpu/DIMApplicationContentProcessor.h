@@ -57,8 +57,6 @@ id<DKDCustomizedContent> DIMAppContentCreate(NSString *app, NSString *mod, NSStr
 
 @interface DIMAppContentHandler : DIMTwinsHelper <DIMCustomizedContentHandler>
 
-- (NSArray<id<DKDContent>> *)respondText:(NSString *)text withGroup:(nullable id<MKMID>)group;
-
 @end
 
 /**

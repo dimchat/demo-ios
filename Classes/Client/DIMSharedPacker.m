@@ -38,7 +38,6 @@
 #import "DKDInstantMessage+Extension.h"
 #import "DIMMessageDataSource.h"
 #import "DIMGlobalVariable.h"
-#import "DIMCompatible.h"
 
 #import "DIMSharedPacker.h"
 
@@ -62,28 +61,28 @@
     return rMsg;
 }
 
-// Override
-- (id<DKDSecureMessage>)verifyMessage:(id<DKDReliableMessage>)rMsg {
-    id<MKMID> sender = rMsg.sender;
-    // [Meta Protocol]
-    id<MKMMeta> meta = rMsg.meta;
-    if (!meta) {
-        // get from local storage
-        meta = [self.facebook metaForID:sender];
-    } else if (!MKMMetaMatchID(sender, meta)) {
-        meta = nil;
-    }
-    if (!meta) {
-        // NOTICE: the application will query meta automatically
-        // save this message in a queue waiting sender's meta response
-        DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
-        [mds suspendReliableMessage:rMsg];
-        return nil;
-    }
-    
-    // make sure meta exists before verifying message
-    return [super verifyMessage:rMsg];
-}
+//// Override
+//- (id<DKDSecureMessage>)verifyMessage:(id<DKDReliableMessage>)rMsg {
+//    id<MKMID> sender = rMsg.sender;
+//    // [Meta Protocol]
+//    id<MKMMeta> meta = rMsg.meta;
+//    if (!meta) {
+//        // get from local storage
+//        meta = [self.facebook metaForID:sender];
+//    } else if (!MKMMetaMatchID(sender, meta)) {
+//        meta = nil;
+//    }
+//    if (!meta) {
+//        // NOTICE: the application will query meta automatically
+//        // save this message in a queue waiting sender's meta response
+//        DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
+//        [mds suspendReliableMessage:rMsg];
+//        return nil;
+//    }
+//    
+//    // make sure meta exists before verifying message
+//    return [super verifyMessage:rMsg];
+//}
 
 // Override
 - (nullable id<DKDSecureMessage>)encryptMessage:(id<DKDInstantMessage>)iMsg {

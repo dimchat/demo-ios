@@ -97,6 +97,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    DIMSharedFacebook *facebook = [DIMGlobal facebook];
+    [facebook documentsForID:_contact];
+    
     NSString *name = DIMNameForID(_contact);
     self.nicknameLabel.text = name;
     
@@ -186,6 +189,11 @@
     } else if([message isEqualToString:NSLocalizedString(@"Chat", @"title")]){
         
         DIMConversation *convers = DIMConversationWithID(self.contact);
+        if (!convers) {
+            NSLog(@"querying document for: %@", self.contact);
+            [self showMessage:@"Profile not found" withTitle:@"Waiting"];
+            return;
+        }
         ChatViewController *vc = [[ChatViewController alloc] init];
         vc.conversation = convers;
         [self.navigationController pushViewController:vc animated:YES];

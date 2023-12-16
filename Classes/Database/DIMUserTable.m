@@ -42,24 +42,7 @@
 #import "DIMConstants.h"
 #import "DIMUserTable.h"
 
-static inline NSMutableArray<id<MKMID>> *convert_id_list(NSArray *array) {
-    NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:array.count];
-    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        id<MKMID> ID = MKMIDParse(obj);
-        if (ID) {
-            [mArray addObject:ID];
-        }
-    }];
-    return mArray;
-}
-static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
-    return MKMIDRevert(array);
-}
-
 @interface DIMUserTable () {
-    
-    // uid => List<cid>
-    NSMutableDictionary<id<MKMID>, NSMutableArray<id<MKMID>> *> *_caches;
     
     NSMutableArray<id<MKMID>> *_users;
 }
@@ -70,7 +53,6 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
 
 - (instancetype)init {
     if (self = [super init]) {
-        _caches = [[NSMutableDictionary alloc] init];
         _users = nil;
     }
     return self;
@@ -91,7 +73,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     if (!_users) {
         NSString *path = [self _usersFilePath];
         NSArray *array = [DIMStorage arrayWithContentsOfFile:path];
-        _users = convert_id_list(array);
+        _users = (NSMutableArray *)MKMIDConvert(array);
         NSLog(@"loaded %lu user(s) from %@", _users.count, path);
     }
     return _users;
@@ -103,49 +85,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     // save into storage
     NSString *path = [self _usersFilePath];
     NSLog(@"saving %ld user(s) into %@", list.count, path);
-    return [DIMStorage array:revert_id_list(list) writeToFile:path];
-}
-
-/**
- *  Get contacts filepath in Documents Directory
- *
- * @param ID - user ID
- * @return "Documents/.mkm/{address}/contacts.plist"
- */
-- (NSString *)_filePathWithID:(id<MKMID>)ID {
-    NSString *dir = [DIMStorage documentDirectory];
-    dir = [dir stringByAppendingPathComponent:@".mkm"];
-    dir = [dir stringByAppendingPathComponent:[ID.address string]];
-    return [dir stringByAppendingPathComponent:@"contacts.plist"];
-}
-
-- (NSMutableArray<id<MKMID>> *)_loadContacts:(id<MKMID>)user {
-    NSMutableArray<id<MKMID>> *contacts = [_caches objectForKey:user];
-    if (!contacts) {
-        NSString *path = [self _filePathWithID:user];
-        NSArray *array = [DIMStorage arrayWithContentsOfFile:path];
-        contacts = convert_id_list(array);
-        NSLog(@"loaded %lu contact(s) from %@", contacts.count, path);
-        // cache it
-        [_caches setObject:contacts forKey:user];
-    }
-    return contacts;
-}
-
-- (BOOL)_saveContacts:(NSMutableArray<id<MKMID>> *)contacts user:(id<MKMID>)user {
-    // update cache
-    [_caches setObject:contacts forKey:user];
-    
-    NSString *path = [self _filePathWithID:user];
-    NSLog(@"saving %lu contact(s) into %@", contacts.count, path);
-    BOOL ok = [DIMStorage array:revert_id_list(contacts) writeToFile:path];
-    if (ok) {
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc postNotificationName:kNotificationName_ContactsUpdated
-                          object:self
-                        userInfo:@{@"user":user}];
-    }
-    return ok;
+    return [DIMStorage array:MKMIDRevert(list) writeToFile:path];
 }
 
 #pragma mark User DBI
@@ -166,23 +106,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     return [self _saveUsers:mArray];
 }
 
-// Override
-- (NSArray<id<MKMID>> *)contactsOfUser:(id<MKMID>)user {
-    return [self _loadContacts:user];
-}
-
-// Override
-- (BOOL)saveContacts:(NSArray<id<MKMID>> *)contacts user:(id<MKMID>)user {
-    NSMutableArray *mArray;
-    if ([contacts isKindOfClass:[NSMutableArray class]]) {
-        mArray = (NSMutableArray *)contacts;
-    } else {
-        mArray = [contacts mutableCopy];
-    }
-    return [self _saveContacts:mArray user:user];
-}
-
-#pragma mark -
+#pragma mark User Table
 
 - (id<MKMID>)currentUser {
     NSMutableArray<id<MKMID>> *allUsers = [self _loadUsers];
@@ -228,7 +152,88 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     return [self _saveUsers:allUsers];
 }
 
-#pragma mark contacts
+@end
+
+#pragma mark -
+
+@interface DIMContactTable () {
+    
+    // uid => List<cid>
+    NSMutableDictionary<id<MKMID>, NSMutableArray<id<MKMID>> *> *_caches;
+}
+
+@end
+
+@implementation DIMContactTable
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _caches = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
+
+/**
+ *  Get contacts filepath in Documents Directory
+ *
+ * @param ID - user ID
+ * @return "Documents/.mkm/{address}/contacts.plist"
+ */
+- (NSString *)_filePathWithID:(id<MKMID>)ID {
+    NSString *dir = [DIMStorage documentDirectory];
+    dir = [dir stringByAppendingPathComponent:@".mkm"];
+    dir = [dir stringByAppendingPathComponent:[ID.address string]];
+    return [dir stringByAppendingPathComponent:@"contacts.plist"];
+}
+
+- (NSMutableArray<id<MKMID>> *)_loadContacts:(id<MKMID>)user {
+    NSMutableArray<id<MKMID>> *contacts = [_caches objectForKey:user];
+    if (!contacts) {
+        NSString *path = [self _filePathWithID:user];
+        NSArray *array = [DIMStorage arrayWithContentsOfFile:path];
+        contacts = (NSMutableArray *)MKMIDConvert(array);
+        NSLog(@"loaded %lu contact(s) from %@", contacts.count, path);
+        // cache it
+        [_caches setObject:contacts forKey:user];
+    }
+    return contacts;
+}
+
+- (BOOL)_saveContacts:(NSMutableArray<id<MKMID>> *)contacts user:(id<MKMID>)user {
+    // update cache
+    [_caches setObject:contacts forKey:user];
+    
+    NSString *path = [self _filePathWithID:user];
+    NSLog(@"saving %lu contact(s) into %@", contacts.count, path);
+    BOOL ok = [DIMStorage array:MKMIDRevert(contacts) writeToFile:path];
+    if (ok) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:kNotificationName_ContactsUpdated
+                          object:self
+                        userInfo:@{@"user":user}];
+    }
+    return ok;
+}
+
+#pragma mark Contact DBI
+
+// Override
+- (NSArray<id<MKMID>> *)contactsOfUser:(id<MKMID>)user {
+    return [self _loadContacts:user];
+}
+
+// Override
+- (BOOL)saveContacts:(NSArray<id<MKMID>> *)contacts user:(id<MKMID>)user {
+    NSMutableArray *mArray;
+    if ([contacts isKindOfClass:[NSMutableArray class]]) {
+        mArray = (NSMutableArray *)contacts;
+    } else {
+        mArray = [contacts mutableCopy];
+    }
+    return [self _saveContacts:mArray user:user];
+}
+
+#pragma mark Contact Table
 
 - (BOOL)addContact:(id<MKMID>)contact user:(id<MKMID>)user {
     NSMutableArray<id<MKMID>> *allContacts = [self _loadContacts:user];

@@ -131,7 +131,7 @@ OKSingletonImplementations(DIMAmanuensis, sharedInstance)
 
 - (BOOL)saveReceipt:(id<DKDInstantMessage>)iMsg {
     id<DKDReceiptCommand> receipt = (id<DKDReceiptCommand>)[iMsg content];
-    id<DKDEnvelope> env = [receipt originEnvelope];
+    id<DKDEnvelope> env = [receipt originalEnvelope];
     if (!env) {
         env = [iMsg envelope];
     }
@@ -194,11 +194,40 @@ OKSingletonImplementations(DIMAmanuensis, sharedInstance)
     NSInteger count = [chatBox numberOfMessage];
     for (NSInteger index = count - 1; index >= 0; --index) {
         iMsg = [chatBox messageAtIndex:index];
-        if ([receipt matchMessage:iMsg]) {
+        if (receipt_match_message(receipt, iMsg)) {
             return iMsg;
         }
     }
     return nil;
+}
+
+static inline bool receipt_match_message(id<DKDReceiptCommand> receipt,
+                                         id<DKDInstantMessage> iMsg) {
+    // check envelope
+    id<DKDEnvelope> env1 = [receipt originalEnvelope];
+    id<DKDEnvelope> env2 = [iMsg envelope];
+    if (env1) {
+        if (![env1.sender isEqual:env2.sender]) {
+            return NO;
+        }
+        // TODO: check receiver?
+    }
+    // check sn
+    DKDSerialNumber sn1 = [receipt originalSerialNumber];
+    DKDSerialNumber sn2 = [iMsg.content serialNumber];
+    if (sn1 > 0) {
+        return sn1 == sn2;
+    }
+    
+    NSString *sig1 = [receipt originalSignature];
+    NSString *sig2 = [iMsg stringForKey:@"signature" defaultValue:nil];
+    if ([sig1 length] > 8) {
+        sig1 = [sig1 substringFromIndex:(sig1.length - 8)];
+    }
+    if ([sig2 length] > 8) {
+        sig2 = [sig2 substringFromIndex:(sig2.length - 8)];
+    }
+    return [sig1 isEqualToString:sig2];
 }
 
 @end

@@ -46,10 +46,11 @@
     return [[SCProcessorCreator alloc] initWithFacebook:self.facebook messenger:self.messenger];
 }
 
-- (NSArray<id<DKDInstantMessage>> *)processInstant:(id<DKDInstantMessage>)iMsg
-                                       withMessage:(id<DKDReliableMessage>)rMsg {
+- (NSArray<id<DKDInstantMessage>> *)processInstantMessage:(id<DKDInstantMessage>)iMsg
+                               withReliableMessageMessage:(id<DKDReliableMessage>)rMsg {
     // call super to process
-    NSArray<id<DKDInstantMessage>> *responses = [super processInstant:iMsg withMessage:rMsg];
+    NSArray<id<DKDInstantMessage>> *responses = [super processInstantMessage:iMsg
+                                                  withReliableMessageMessage:rMsg];
     // save instant/secret message
     DIMMessageDataSource *mds = [DIMMessageDataSource sharedInstance];
     if (![mds saveInstantMessage:iMsg]) {

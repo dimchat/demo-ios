@@ -138,6 +138,7 @@
             break;
                 
             case DKDContentType_Image: {
+                NSLog(@"image content: %@", content);
                 // show image
                 if (msg.image) {
                     self.picImageView.image = msg.image;

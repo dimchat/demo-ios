@@ -35,6 +35,8 @@
 //  Copyright © 2020 DIM Group. All rights reserved.
 //
 
+#import "DIMGlobalVariable.h"
+
 #import "DIMKeyStore.h"
 
 // receiver -> key
@@ -186,7 +188,7 @@ OKSingletonImplementations(DIMKeyStore, sharedInstance)
     // get key from cache
     id<MKMSymmetricKey> key = [self _cipherKeyFrom:sender to:receiver];
     if (!key && create) {
-        key = MKMSymmetricKeyGenerate(MKMAlgorithmAES);
+        key = MKMSymmetricKeyGenerate(MKMAlgorithm_AES);
         if (key) {
             [self _cacheCipherKey:key from:sender to:receiver];
         }

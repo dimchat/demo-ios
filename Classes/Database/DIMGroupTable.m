@@ -42,20 +42,6 @@
 #import "DIMConstants.h"
 #import "DIMGroupTable.h"
 
-static inline NSMutableArray<id<MKMID>> *convert_id_list(NSArray *array) {
-    NSMutableArray *mArray = [[NSMutableArray alloc] initWithCapacity:array.count];
-    [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        id<MKMID> ID = MKMIDParse(obj);
-        if (ID) {
-            [mArray addObject:ID];
-        }
-    }];
-    return mArray;
-}
-static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
-    return MKMIDRevert(array);
-}
-
 @interface DIMGroupTable () {
     
     // gid => List<mid>
@@ -91,7 +77,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     if (!members) {
         NSString *path = [self _filePathWithID:group];
         NSArray *array = [DIMStorage arrayWithContentsOfFile:path];
-        members = convert_id_list(array);
+        members = (NSMutableArray *)MKMIDConvert(array);
         NSLog(@"loaded %lu member(s) from %@", members.count, path);
         // cache it
         [_caches setObject:members forKey:group];
@@ -105,7 +91,7 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
     
     NSString *path = [self _filePathWithID:group];
     NSLog(@"saving %lu member(s) into: %@", members.count, path);
-    BOOL result = [DIMStorage array:revert_id_list(members) writeToFile:path];
+    BOOL result = [DIMStorage array:MKMIDRevert(members) writeToFile:path];
     if (result) {
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName:kNotificationName_GroupMembersUpdated
@@ -116,6 +102,18 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
 }
 
 #pragma mark Group DBI
+
+// Override
+- (nullable id<MKMID>)founderOfGroup:(id<MKMID>)group {
+    NSLog(@"implement for founder");
+    return nil;
+}
+
+// Override
+- (nullable id<MKMID>)ownerOfGroup:(id<MKMID>)group {
+    NSLog(@"implement for owner");
+    return nil;
+}
 
 // Override
 - (NSArray<id<MKMID>> *)membersOfGroup:(id<MKMID>)group {
@@ -129,8 +127,8 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
         for (NSUInteger index = 0; index < members.count; ++index) {
             ID = [members objectAtIndex:index];
             uMeta = DIMMetaForID(ID);
-            PK = [uMeta key];
-            if (MKMMetaMatchKey(PK, gMeta)) {
+            PK = [uMeta publicKey];
+            if ([gMeta matchPublicKey:PK]) {
                 if (index > 0) {
                     // move to front
                     [members removeObjectAtIndex:index];
@@ -155,22 +153,26 @@ static inline NSArray<NSString *> *revert_id_list(NSArray *array) {
 }
 
 // Override
-- (nullable id<MKMID>)founderOfGroup:(id<MKMID>)group {
-    return nil;
-}
-
-// Override
-- (nullable id<MKMID>)ownerOfGroup:(id<MKMID>)group {
-    return nil;
-}
-
-// Override
 - (NSArray<id<MKMID>> *)assistantsOfGroup:(id<MKMID>)group {
+    NSLog(@"implement for assistants");
     return nil;
 }
 
 // Override
 - (BOOL)saveAssistants:(NSArray<id<MKMID>> *)bots group:(id<MKMID>)gid {
+    NSLog(@"implement for save assistants");
+    return NO;
+}
+
+// Override
+- (NSArray<id<MKMID>> *)administratorsOfGroup:(id<MKMID>)group {
+    NSLog(@"implement for administrators");
+    return nil;
+}
+
+// Override
+- (BOOL)saveAdministrators:(NSArray<id<MKMID>> *)admins group:(id<MKMID>)gid {
+    NSLog(@"implement for save administrators");
     return NO;
 }
 

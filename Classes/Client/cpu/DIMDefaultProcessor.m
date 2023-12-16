@@ -73,7 +73,7 @@
         text = @"Web page received";
     } else {
         text = [NSString stringWithFormat:@"Content (type: %d) not support yet!", content.type];
-        return [self respondText:text withGroup:content.group];
+        return [super processContent:content withMessage:rMsg];
     }
     
     if (content.group) {
@@ -82,13 +82,10 @@
     }
     
     // response
-    NSString *signature = [rMsg stringForKey:@"signature"];
-    DIMReceiptCommand *res;
-    res = [[DIMReceiptCommand alloc] initWithText:text
-                                         envelope:rMsg.envelope
-                                               sn:content.serialNumber
-                                        signature:signature];
-    return [self respondContent:res];
+    return [self respondReceipt:text
+                       envelope:rMsg.envelope
+                        content:content
+                          extra:nil];
 }
 
 @end

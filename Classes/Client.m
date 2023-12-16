@@ -133,7 +133,7 @@
     // get user from database and login
     id<MKMUser> user = [facebook currentUser];
     if (user) {
-        [self loginWithID:user.ID];
+        [self loginUser:user.ID];
     } else {
         NSLog(@"current user not found");
     }
@@ -325,7 +325,7 @@
     
     NSArray<id<MKMUser>> *users = [facebook localUsers];
     id<MKMUser> user = DIMUserWithID(ID);
-    [self loginWithID:ID];
+    [self loginUser:ID];
     
     BOOL saved = [facebook saveUserList:users withCurrentUser:user];
     NSAssert(saved, @"failed to save users: %@, current user: %@", users, user);

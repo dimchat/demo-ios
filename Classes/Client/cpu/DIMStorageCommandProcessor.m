@@ -60,7 +60,7 @@
     id dict = MKMJSONDecode(MKMUTF8Decode(key));
     id<MKMSymmetricKey> password = MKMSymmetricKeyParse(dict);
     // decrypt data
-    data = [password decrypt:data];
+    data = [password decrypt:data params:nil];  // FIXME: load 'IV'
     NSAssert([data length] > 0, @"failed to decrypt contacts data with key: %@", password);
     NSArray *contacts = MKMJSONDecode(MKMUTF8Decode(data));
     NSAssert(contacts, @"failed to decrypt contacts");

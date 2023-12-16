@@ -164,7 +164,7 @@ static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
     [content setData:nil];
     save_instant_message(iMsg);
     // 3. add upload task with encrypted data
-    NSData *encrypted = [key encrypt:data];
+    NSData *encrypted = [key encrypt:data params:content.dictionary];
     filename = [DIMFileTransfer filenameForData:encrypted filename:filename];
     id<MKMID> sender = [iMsg sender];
     NSURL *url = [self.fileTransfer uploadEncryptedData:encrypted
@@ -193,8 +193,7 @@ static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
     NSAssert(length > 0, @"image data empty");
     NSString *filename = MKMHexEncode(MKMMD5Digest(jpeg));
     filename = [filename stringByAppendingPathExtension:@"jpeg"];
-    id<DKDImageContent> content;
-    content = [[DIMImageContent alloc] initWithFilename:filename data:jpeg];
+    id<DKDImageContent> content = DIMImageContentFromData(jpeg, filename);
     // add image data length & thumbnail into message content
     [content setObject:@(length) forKey:@"length"];
     [content setThumbnail:small];
@@ -206,8 +205,7 @@ static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
     NSAssert(length > 0, @"voice data empty");
     NSString *filename = MKMHexEncode(MKMMD5Digest(mp4));
     filename = [filename stringByAppendingPathExtension:@"mp4"];
-    id<DKDAudioContent> content;
-    content = [[DIMAudioContent alloc] initWithFilename:filename data:mp4];
+    id<DKDAudioContent> content = DIMAudioContentFromData(mp4, filename);
     // add image data length & thumbnail into message content
     [content setObject:@(length) forKey:@"length"];
     [content setObject:@(ti) forKey:@"duration"];

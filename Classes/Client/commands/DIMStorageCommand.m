@@ -161,7 +161,7 @@
         NSAssert(PW, @"password should not be empty");
         NSData *data = self.data;
         NSAssert([data length] > 0, @"data empty: %@", self);
-        _plaintext = [PW decrypt:data];
+        _plaintext = [PW decrypt:data params:self.dictionary];
     }
     return _plaintext;
 }
@@ -170,7 +170,7 @@
     if (!_password) {
         NSData *key = self.key;
         NSAssert([key length] > 0, @"key empty: %@", self);
-        key = [SK decrypt:key];
+        key = [SK decrypt:key params:self.dictionary];
         NSAssert([key length] > 0, @"failed to decrypt key data: %@ with private key: %@", self, SK);
         id dict = MKMJSONDecode(MKMUTF8Decode(key));
         _password = MKMSymmetricKeyParse(dict);

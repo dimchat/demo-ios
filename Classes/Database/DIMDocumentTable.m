@@ -57,7 +57,7 @@
     if (self = [super init]) {
         _caches = [[NSMutableDictionary alloc] init];
         
-        _empty = [[DIMDocument alloc] initWithID:MKMAnyone() type:MKMDocument_Profile];
+        _empty = [[DIMDocument alloc] initWithID:MKMAnyone() type:MKMDocumentType_Profile];
     }
     return self;
 }
@@ -75,7 +75,7 @@
     return [dir stringByAppendingPathComponent:@"profile.plist"];
 }
 
-- (nullable id<MKMDocument>)documentForID:(id<MKMID>)ID type:(nullable NSString *)type {
+- (nullable id<MKMDocument>)documentForID:(id<MKMID>)ID withType:(nullable NSString *)type {
     // 1. try from memory cache
     id<MKMDocument> doc = [_caches objectForKey:ID];
     if (!doc) {
@@ -86,7 +86,8 @@
             NSLog(@"document from: %@", path);
             NSString *data = [dict objectForKey:@"data"];
             NSString *signature = [dict objectForKey:@"signature"];
-            doc = MKMDocumentCreate(type, ID, data, signature);
+            id<MKMTransportableData> ted = MKMTransportableDataParse(signature);
+            doc = MKMDocumentCreate(type, ID, data, ted);
         }
         if (!doc) {
             // 2.1. place an empty meta for cache
@@ -100,6 +101,15 @@
         return nil;
     }
     return doc;
+}
+
+- (NSArray<id<MKMDocument>> *)documentsForID:(id<MKMID>)entity {
+    id<MKMDocument> doc = [self documentForID:entity withType:nil];
+    if (doc) {
+        return @[doc];
+    } else {
+        return nil;
+    }
 }
 
 - (BOOL)saveDocument:(id<MKMDocument>)doc {

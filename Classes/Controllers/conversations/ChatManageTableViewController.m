@@ -14,6 +14,8 @@
 #import "DIMEntity+Extension.h"
 #import "DIMGlobalVariable.h"
 
+#import "DIMSharedGroupManager.h"
+
 #import "Client.h"
 #import "MessageDatabase.h"
 #import "LocalDatabaseManager.h"
@@ -133,22 +135,11 @@
             DIMSharedFacebook *facebook = [DIMGlobal facebook];
             id<MKMUser> user = [facebook currentUser];
             
-            DIMSharedMessenger *messenger = [DIMGlobal messenger];
-            
             void (^handler)(UIAlertAction *);
             handler = ^(UIAlertAction *action) {
                 // send quit group command
-                id<DKDContent> content = [[DIMQuitGroupCommand alloc] initWithGroup:group.ID];
-                NSArray *members = group.members;
-                for (id<MKMID> member in members) {
-                    [messenger sendContent:content
-                                    sender:user.ID
-                                  receiver:member
-                                  priority:STDeparturePriorityNormal];
-                }
-                // remove myself
-                DIMGroupManager *manager = [DIMGroupManager sharedInstance];
-                [manager removeMember:user.ID group:group.ID];
+                DIMSharedGroupManager *manager = [DIMSharedGroupManager sharedInstance];
+                [manager quitGroup:group.ID];
                 
                 // clear message in conversation
                 MessageDatabase *msgDB = [MessageDatabase sharedInstance];
@@ -212,7 +203,7 @@
         }
         DIMSharedFacebook *facebook = [DIMGlobal facebook];
         id<MKMUser> user = [facebook currentUser];
-        DIMGroupManager *manager = [DIMGroupManager sharedInstance];
+        DIMSharedGroupManager *manager = [DIMSharedGroupManager sharedInstance];
         if ([manager isOwner:user.ID group:_conversation.ID]) {
             return 1;
         }

@@ -159,6 +159,7 @@
 		E9AE7F1629BD7CA0008D9F33 /* DIMStorageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7EFF29BD7CA0008D9F33 /* DIMStorageCommand.m */; };
 		E9AE7F1729BD7CA0008D9F33 /* DIMSearchCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7F0029BD7CA0008D9F33 /* DIMSearchCommand.m */; };
 		E9AE7F1829BD7CA0008D9F33 /* DIMSharedPacker.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AE7F0229BD7CA0008D9F33 /* DIMSharedPacker.m */; };
+		E9BB6C042B2D618E0038374C /* DIMSharedGroupManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB6C032B2D618E0038374C /* DIMSharedGroupManager.m */; };
 		E9BBC37E2242B21200E6ACDA /* UIViewController+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3742242B21200E6ACDA /* UIViewController+Extension.m */; };
 		E9BBC37F2242B21200E6ACDA /* UIImage+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3752242B21200E6ACDA /* UIImage+Extension.m */; };
 		E9BBC3802242B21200E6ACDA /* UIImageView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC3772242B21200E6ACDA /* UIImageView+Extension.m */; };
@@ -167,7 +168,6 @@
 		E9BBC3832242B21200E6ACDA /* UIStoryboardSegue+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BBC37C2242B21200E6ACDA /* UIStoryboardSegue+Extension.m */; };
 		E9DBAD0729BEEAF80077C513 /* DIMGlobalVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBAD0629BEEAF80077C513 /* DIMGlobalVariable.m */; };
 		E9DBAD0D29BEECA30077C513 /* DIMEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBAD0C29BEECA30077C513 /* DIMEmitter.m */; };
-		E9DBAD1029BF09B70077C513 /* DIMCompatible.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBAD0F29BF09B70077C513 /* DIMCompatible.m */; };
 		E9DBAD1629BF340C0077C513 /* DIMMessageBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBAD1529BF340C0077C513 /* DIMMessageBuilder.m */; };
 		E9DF2EBE29C161D5007854C3 /* DIMKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DF2EBA29C161D4007854C3 /* DIMKeyStore.m */; };
 		E9E106CA29C053910032D5F5 /* DIMSharedDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E106C929C053910032D5F5 /* DIMSharedDatabase.m */; };
@@ -420,6 +420,8 @@
 		E9AE7F0229BD7CA0008D9F33 /* DIMSharedPacker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMSharedPacker.m; sourceTree = "<group>"; };
 		E9AE7F0329BD7CA0008D9F33 /* DIMMessageDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMessageDataSource.h; sourceTree = "<group>"; };
 		E9AE7F0429BD7CA0008D9F33 /* DIMAmanuensis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMAmanuensis.h; sourceTree = "<group>"; };
+		E9BB6C022B2D618E0038374C /* DIMSharedGroupManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIMSharedGroupManager.h; sourceTree = "<group>"; };
+		E9BB6C032B2D618E0038374C /* DIMSharedGroupManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIMSharedGroupManager.m; sourceTree = "<group>"; };
 		E9BBC3712242B21200E6ACDA /* DIMProfile+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DIMProfile+Extension.h"; sourceTree = "<group>"; };
 		E9BBC3722242B21200E6ACDA /* UIImageView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Extension.h"; sourceTree = "<group>"; };
 		E9BBC3732242B21200E6ACDA /* NSString+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Extension.h"; sourceTree = "<group>"; };
@@ -436,8 +438,6 @@
 		E9DBAD0629BEEAF80077C513 /* DIMGlobalVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMGlobalVariable.m; sourceTree = "<group>"; };
 		E9DBAD0B29BEECA30077C513 /* DIMEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMEmitter.h; sourceTree = "<group>"; };
 		E9DBAD0C29BEECA30077C513 /* DIMEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMEmitter.m; sourceTree = "<group>"; };
-		E9DBAD0E29BF09B70077C513 /* DIMCompatible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIMCompatible.h; sourceTree = "<group>"; };
-		E9DBAD0F29BF09B70077C513 /* DIMCompatible.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIMCompatible.m; sourceTree = "<group>"; };
 		E9DBAD1429BF340C0077C513 /* DIMMessageBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIMMessageBuilder.h; sourceTree = "<group>"; };
 		E9DBAD1529BF340C0077C513 /* DIMMessageBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMMessageBuilder.m; sourceTree = "<group>"; };
 		E9DF2EBA29C161D4007854C3 /* DIMKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIMKeyStore.m; sourceTree = "<group>"; };
@@ -847,8 +847,6 @@
 			children = (
 				E9AE7EFD29BD7CA0008D9F33 /* commands */,
 				E9AE7EE229BD7CA0008D9F33 /* cpu */,
-				E9DBAD0E29BF09B70077C513 /* DIMCompatible.h */,
-				E9DBAD0F29BF09B70077C513 /* DIMCompatible.m */,
 				E9AE7EF929BD7CA0008D9F33 /* DIMConstants.h */,
 				E9AE7EE129BD7CA0008D9F33 /* DIMConstants.m */,
 				E9DBAD0529BEEAF80077C513 /* DIMGlobalVariable.h */,
@@ -859,6 +857,8 @@
 				E9DBAD0C29BEECA30077C513 /* DIMEmitter.m */,
 				E9AE7EFB29BD7CA0008D9F33 /* DIMSharedFacebook.h */,
 				E9AE7EDF29BD7CA0008D9F33 /* DIMSharedFacebook.m */,
+				E9BB6C022B2D618E0038374C /* DIMSharedGroupManager.h */,
+				E9BB6C032B2D618E0038374C /* DIMSharedGroupManager.m */,
 				E9AE7EF829BD7CA0008D9F33 /* DIMSharedMessenger.h */,
 				E9AE7EDB29BD7CA0008D9F33 /* DIMSharedMessenger.m */,
 				E9E106D729C072280032D5F5 /* DIMSharedSession.h */,
@@ -1330,6 +1330,7 @@
 				E92255D52222EC56006CADEA /* main.m in Sources */,
 				E922564A2222ED7C006CADEA /* Client.m in Sources */,
 				E9060E8B22677FE80000DA35 /* UIScrollView+Extension.m in Sources */,
+				E9BB6C042B2D618E0038374C /* DIMSharedGroupManager.m in Sources */,
 				5242949923347ED300E8DA05 /* SentMessageCell.m in Sources */,
 				5242949B23347ED300E8DA05 /* GuideCell.m in Sources */,
 				E9AE7EB529BD7C41008D9F33 /* FMDatabaseAdditions.m in Sources */,
@@ -1393,7 +1394,6 @@
 				E99A5CB0222D8B3400EE6C86 /* ChatViewController.m in Sources */,
 				E9790836225B666F0024C830 /* WebViewController.m in Sources */,
 				E9AE7F1529BD7CA0008D9F33 /* DIMSharedProcessor.m in Sources */,
-				E9DBAD1029BF09B70077C513 /* DIMCompatible.m in Sources */,
 				E99A5CAE222D8B3400EE6C86 /* ChatManageTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1653,7 +1653,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = 4UED9RKQF6;
+				DEVELOPMENT_TEAM = JUVC7SZJE7;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../demo-objc/Classes/extends/**",
@@ -1686,7 +1686,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
-				DEVELOPMENT_TEAM = 4UED9RKQF6;
+				DEVELOPMENT_TEAM = JUVC7SZJE7;
 				ENABLE_BITCODE = YES;
 				HEADER_SEARCH_PATHS = (
 					"../../demo-objc/Classes/extends/**",

@@ -58,9 +58,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic, strong) id<DIMUserTable> userTable;
 
-//@property(nonatomic, strong) id<DIMContactTable> contactTable;
+@property(nonatomic, strong) id<DIMContactTable> contactTable;
 
 @property(nonatomic, strong) id<DIMGroupTable> groupTable;
+
+//@property(nonatomic, strong) id<DIMGroupHistoryTable> historyTable;
 
 @property(nonatomic, strong) id<DIMMsgKeyTable> msgKeyTable;
 
