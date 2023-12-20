@@ -94,7 +94,7 @@
             [content objectForKey:@"URL"] == nil*/) {
             id<MKMID> sender = [iMsg sender];
             id<MKMID> receiver = [iMsg receiver];
-            key = [self.messenger cipherKeyFrom:sender to:receiver generate:YES];
+            key = [self.messenger cipherKeyWithSender:sender receiver:receiver generate:YES];
             NSAssert(key, @"failed to get msg key: %@ -> %@", sender, receiver);
             // call emitter to encrypt & upload file data before send out
             DIMEmitter *emitter = [DIMGlobal emitter];
@@ -108,7 +108,7 @@
     if (MKMIDIsGroup(receiver)) {
         // reuse group message keys
         id<MKMID> sender = iMsg.sender;
-        key = [self.messenger cipherKeyFrom:sender to:receiver generate:NO];
+        key = [self.messenger cipherKeyWithSender:sender receiver:receiver generate:NO];
         [key setObject:@(YES) forKey:@"reused"];
     }
     // TODO: reuse personal message key?
@@ -125,7 +125,7 @@
             [content objectForKey:@"URL"] != nil) {
             id<MKMID> sender = [iMsg sender];
             id<MKMID> receiver = [iMsg receiver];
-            key = [self.messenger cipherKeyFrom:sender to:receiver generate:NO];
+            key = [self.messenger cipherKeyWithSender:sender receiver:receiver generate:NO];
             NSAssert(key, @"failed to get password: %@ -> %@", sender, receiver);
             // keep password to decrypt data after downloaded
             [(id<DKDFileContent>)content setPassword:key];

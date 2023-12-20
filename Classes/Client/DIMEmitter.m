@@ -49,8 +49,7 @@ static inline void save_instant_message(id<DKDInstantMessage> iMsg) {
 }
 
 static inline void send_instant_message(id<DKDInstantMessage> iMsg) {
-    NSLog(@"send insetant message (type: %d): %@ -> %@",
-          [iMsg.content type], [iMsg sender], [iMsg receiver]);
+    NSLog(@"send insetant message (type: %d): %@ -> %@", iMsg.content.type, iMsg.sender, iMsg.receiver);
     // send by shared messenger
     DIMSharedMessenger *messenger = [DIMGlobal messenger];
     [messenger sendInstantMessage:iMsg priority:STDeparturePriorityNormal];

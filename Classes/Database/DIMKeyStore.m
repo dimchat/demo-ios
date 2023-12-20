@@ -179,9 +179,9 @@ OKSingletonImplementations(DIMKeyStore, sharedInstance)
 #pragma mark - DIMCipherKeyDelegate
 
 // NOTICE: override to check whether key expired for sending message
-- (nullable id<MKMSymmetricKey>)cipherKeyFrom:(id<MKMID>)sender
-                                           to:(id<MKMID>)receiver
-                                     generate:(BOOL)create {
+- (nullable id<MKMSymmetricKey>)cipherKeyWithSender:(id<MKMID>)sender
+                                           receiver:(id<MKMID>)receiver
+                                           generate:(BOOL)create {
     if (MKMIDIsBroadcast(receiver)) {
         return MKMSymmetricKeyGenerate(@"PLAIN");
     }
@@ -197,8 +197,8 @@ OKSingletonImplementations(DIMKeyStore, sharedInstance)
 }
 
 - (void)cacheCipherKey:(id<MKMSymmetricKey>)key
-                  from:(id<MKMID>)sender
-                    to:(id<MKMID>)receiver {
+            withSender:(id<MKMID>)sender
+              receiver:(id<MKMID>)receiver {
     if (MKMIDIsBroadcast(receiver)) {
         // broadcast message has no key
         return;

@@ -364,17 +364,17 @@ static inline id<MKMPrivateKey> private_load(NSString *type, id<MKMID> ID) {
 //
 
 // Override
-- (nullable id<MKMSymmetricKey>)cipherKeyFrom:(id<MKMID>)sender
-                                           to:(id<MKMID>)receiver
-                                     generate:(BOOL)create {
-    return [_msgKeyTable cipherKeyFrom:sender to:receiver generate:create];
+- (nullable id<MKMSymmetricKey>)cipherKeyWithSender:(id<MKMID>)sender
+                                           receiver:(id<MKMID>)receiver
+                                           generate:(BOOL)create {
+    return [_msgKeyTable cipherKeyWithSender:sender receiver:receiver generate:create];
 }
 
 // Override
 - (void)cacheCipherKey:(id<MKMSymmetricKey>)key
-                  from:(id<MKMID>)sender
-                    to:(id<MKMID>)receiver {
-    [_msgKeyTable cacheCipherKey:key from:sender to:receiver];
+            withSender:(id<MKMID>)sender
+              receiver:(id<MKMID>)receiver {
+    [_msgKeyTable cacheCipherKey:key withSender:sender receiver:receiver];
 }
 
 // Override

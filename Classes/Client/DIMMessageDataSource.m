@@ -161,7 +161,7 @@ OKSingletonImplementations(DIMMessageDataSource, sharedInstance)
         id<MKMID> me = iMsg.envelope.receiver;
         id<MKMID> group = content.group;
         DIMKeyStore *keyStore = [DIMKeyStore sharedInstance];
-        id<MKMSymmetricKey> key = [keyStore cipherKeyFrom:me to:group generate:NO];
+        id<MKMSymmetricKey> key = [keyStore cipherKeyWithSender:me receiver:group generate:NO];
         [key removeObjectForKey:@"reused"];
         NSLog(@"key (%@ => %@): %@", me, group, key);
     }
